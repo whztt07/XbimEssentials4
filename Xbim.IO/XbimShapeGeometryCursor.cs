@@ -229,7 +229,7 @@ namespace Xbim.IO
                 Api.JetAddColumn(sesid, tableid, colNameShapeData, columndef, null, 0, out columnid);
 
                 // The primary index is the geometry label.
-                string indexDef = string.Format("+{0}\0\0", colNameShapeLabel);
+                var indexDef = string.Format("+{0}\0\0", colNameShapeLabel);
                 Api.JetCreateIndex(sesid, tableid, geometryTablePrimaryIndex, CreateIndexGrbit.IndexPrimary|CreateIndexGrbit.IndexDisallowNull, indexDef, indexDef.Length, 100);
 
                 //create index by geometry hashes    
@@ -271,7 +271,7 @@ namespace Xbim.IO
 
         public int AddGeometry(IXbimShapeGeometryData shapeGeom)
         {
-            int mainId = 0;
+            var mainId = 0;
             
             using (var update = new Update(sesid, table, JET_prep.Insert))
             {
@@ -300,7 +300,7 @@ namespace Xbim.IO
             Api.MakeKey(sesid, table, geomLabel, MakeKeyGrbit.NewKey);
             if (Api.TrySeek(sesid, table, SeekGrbit.SeekEQ))
             {
-                int size = Api.RetrieveColumnAsInt32(sesid, table, _colIdCost).Value;         
+                var size = Api.RetrieveColumnAsInt32(sesid, table, _colIdCost).Value;         
                 using (var update = new Update(sesid, table, JET_prep.Replace))
                 {
                     Api.SetColumn(sesid, table, _colIdCost, refCount*size); //set the total cost in bytes of this shape
@@ -390,7 +390,7 @@ namespace Xbim.IO
             Api.MakeKey(sesid, table, shapeGeometryLabel, MakeKeyGrbit.NewKey);
             if (Api.TrySeek(sesid, table, SeekGrbit.SeekEQ))
             {
-                int refCount = Api.RetrieveColumnAsInt32(sesid, table, _colIdReferenceCount,RetrieveColumnGrbit.RetrieveFromIndex).Value;
+                var refCount = Api.RetrieveColumnAsInt32(sesid, table, _colIdReferenceCount,RetrieveColumnGrbit.RetrieveFromIndex).Value;
                 return refCount;
             }
             return 0;

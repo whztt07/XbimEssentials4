@@ -20,6 +20,7 @@ using Xbim.XbimExtensions.Interfaces;
 using Xbim.XbimExtensions;
 using System.Diagnostics;
 using Xbim.Common;
+using Xbim.Common.XbimExtensions;
 using Xbim.Ifc2x3.Kernel;
 
 #endregion
@@ -39,10 +40,6 @@ namespace Xbim.IO
     public class IfcMetaData
     {
         /// <summary>
-        /// Look up the numeric id of an Ifc Entity and return the string name in upper case
-        /// </summary>
-        private static Dictionary<short, string> _typeIdToTypeNameLookup = new Dictionary<short, string>();
-        /// <summary>
         /// Look up for the if of an Ifc entity that returns the IfcType
         /// </summary>
         private static Dictionary<short, IfcType> _typeIdToIfcTypeLookup = new Dictionary<short, IfcType>();
@@ -55,6 +52,10 @@ namespace Xbim.IO
         /// </summary>
         private static Dictionary<string, IfcType> _typeNameToIfcTypeLookup;
         /// <summary>
+        /// Look up the name of an ifc entity and return the IfcType
+        /// </summary>
+        private static Dictionary<string, IfcType> _entityNameToIfcTypeLookup;
+        /// <summary>
         /// Look up IfcTypes implementing an interface
         /// </summary>
         private static Dictionary<Type, List<IfcType>> _interfaceToIfcTypesLookup;
@@ -66,9 +67,10 @@ namespace Xbim.IO
                 ifcModule.GetTypes().Where(
                     t =>
                     typeof(IPersist).IsAssignableFrom(t) && t != typeof(IPersist) && !t.IsEnum && !t.IsAbstract &&
-                    t.IsPublic && !typeof(IExpressHeaderType).IsAssignableFrom(t));
+                    t.IsPublic && !typeof(IExpressHeaderType).IsAssignableFrom(t)).ToList();
 
-            _typeNameToIfcTypeLookup = new Dictionary<string, IfcType>(typesToProcess.Count());
+            _typeNameToIfcTypeLookup = new Dictionary<string, IfcType>(typesToProcess.Count);
+            _entityNameToIfcTypeLookup = new Dictionary<string, IfcType>(typesToProcess.Count);
             _typeToIfcTypeLookup = new IfcTypeDictionary();
             _interfaceToIfcTypesLookup = new Dictionary<Type, List<IfcType>>();
             try
@@ -89,6 +91,12 @@ namespace Xbim.IO
                     var typeLookup = typeToProcess.Name.ToUpperInvariant();
                     if (!_typeNameToIfcTypeLookup.ContainsKey(typeLookup))
                         _typeNameToIfcTypeLookup.Add(typeLookup, ifcTypeToProcess);
+
+                    if (typeof (IPersistEntity).IsAssignableFrom(typeToProcess))
+                    {
+                        _entityNameToIfcTypeLookup.Add(ifcTypeToProcess.ExpressName, ifcTypeToProcess);
+                        _typeIdToIfcTypeLookup.Add(ifcTypeToProcess.TypeId, ifcTypeToProcess);
+                    }
 
                     if (!_typeToIfcTypeLookup.Contains(ifcTypeToProcess))
                     {
@@ -121,19 +129,6 @@ namespace Xbim.IO
                 {
                     var ifcTypeIndex = (IndexedClass[])ifcType.Type.GetCustomAttributes(typeof(IndexedClass), true);
                     ifcType.IndexedClass = (ifcTypeIndex.GetLength(0) > 0);
-                }
-
-                foreach (var entityValue in Enum.GetValues(typeof(IfcEntityNameEnum)))
-                    _typeIdToTypeNameLookup.Add((short)entityValue, entityValue.ToString());
-
-                //add the Type Ids to each of the IfcTypes
-                foreach (var item in _typeIdToTypeNameLookup)
-                {
-                    // in case the code fails here make sure he class where the code breaks is marked public
-                    //
-                    var ifcType = _typeNameToIfcTypeLookup[item.Value];
-                    _typeIdToIfcTypeLookup.Add(item.Key, ifcType);
-                    ifcType.TypeId = item.Key;
                 }
             }
             catch (Exception e)
@@ -186,7 +181,7 @@ namespace Xbim.IO
         internal static void AddParent(IfcType child)
         {
             var baseParent = child.Type.BaseType;
-            if (typeof(object) == baseParent || typeof(ValueType) == baseParent)
+            if (baseParent == null || typeof(object) == baseParent || typeof(ValueType) == baseParent)
                 return;
             IfcType ifcParent;
             if (!_typeToIfcTypeLookup.Contains(baseParent))
@@ -211,14 +206,11 @@ namespace Xbim.IO
 
         public static IEnumerable<IfcType> Types()
         {
-            foreach (var item in _typeNameToIfcTypeLookup.Keys)
-            {
-                yield return _typeNameToIfcTypeLookup[item];
-            }
+            return _typeNameToIfcTypeLookup.Keys.Select(item => _typeNameToIfcTypeLookup[item]);
         }
 
         /// <summary>
-        /// Returns the IfcType with the specified name
+        /// Returns the IfcType with the specified name (name of type or express name)
         /// </summary>
         /// <param name="typeName">The name of the type in uppercase</param>
         /// <returns>The foud type (or Null if not found)</returns>
@@ -226,37 +218,33 @@ namespace Xbim.IO
         {
             if (_typeNameToIfcTypeLookup.ContainsKey(typeName))
                 return _typeNameToIfcTypeLookup[typeName];
+            if (_entityNameToIfcTypeLookup.ContainsKey(typeName))
+                return _typeNameToIfcTypeLookup[typeName];
             return null;
         }
 
         public static IEnumerable<IfcType> IfcTypesImplementing(Type type)
         {
-            if (_interfaceToIfcTypesLookup.ContainsKey(type))
-            {
-                foreach (var item in _interfaceToIfcTypesLookup[type])
-                    yield return item;
-            }
+            if (!_interfaceToIfcTypesLookup.ContainsKey(type)) yield break;
+            foreach (var item in _interfaceToIfcTypesLookup[type])
+                yield return item;
         }
 
         public static IEnumerable<Type> TypesImplementing(Type type)
         {
-            if (_interfaceToIfcTypesLookup.ContainsKey(type))
-            {
-                foreach (var item in _interfaceToIfcTypesLookup[type])
-                    yield return item.Type;
-            }
+            if (!_interfaceToIfcTypesLookup.ContainsKey(type)) yield break;
+            foreach (var item in _interfaceToIfcTypesLookup[type])
+                yield return item.Type;
         }
 
         public static IEnumerable<IfcType> TypesImplementing(string stringType)
         {
             var dictitem = _interfaceToIfcTypesLookup.Keys.FirstOrDefault(intf => String.Equals(intf.Name, stringType, StringComparison.InvariantCultureIgnoreCase));
-            if (dictitem != null)
+            if (dictitem == null) yield break;
+            foreach (var item in _interfaceToIfcTypesLookup[dictitem])
             {
-                foreach (var item in _interfaceToIfcTypesLookup[dictitem])
-	            {
-                    yield return item;
-	            }
-            }            
+                yield return item;
+            }
         }
 
         /// <summary>
@@ -305,6 +293,7 @@ namespace Xbim.IO
         {
             return _typeToIfcTypeLookup[entity.GetType()].TypeId;
         }
+
         /// <summary>
         /// Returns the Type of the Ifc Entity with typeId
         /// </summary>

@@ -49,7 +49,7 @@ namespace Xbim.IO
         {
             get
             {
-                return  _model.IfcProject.CreateFriendlyName(); 
+                return  _model.IfcProject.FriendlyName; 
             }
         }
 
@@ -57,7 +57,7 @@ namespace Xbim.IO
         {
             get
             {
-                IfcSite site =  _model.Instances.OfType<IfcSite>().FirstOrDefault();
+                var site =  _model.Instances.OfType<IfcSite>().FirstOrDefault();
                 if (site != null && site.SiteAddress != null)
                     return string.Join(",",site.SiteAddress.SummaryString());
                 return "";
@@ -71,19 +71,20 @@ namespace Xbim.IO
             }
         }
 
-        public double GrossFloorArea
-        {
-            get
-            {
-                double area = 0;
-                foreach (var building in _model.Instances.OfType<IfcBuilding>())
-                {
-                    IfcAreaMeasure? a = building.GetGrossFloorArea();
-                    if (a.HasValue) area += a.Value;
-                }
-                return area;
-            }
-        }
+        //TODO: Uncomment once this functionality is moved out from Xbim.IO
+        //public double GrossFloorArea
+        //{
+        //    get
+        //    {
+        //        double area = 0;
+        //        foreach (var building in _model.Instances.OfType<IfcBuilding>())
+        //        {
+        //            IfcAreaMeasure? a = building.GetGrossFloorArea();
+        //            if (a.HasValue) area += a.Value;
+        //        }
+        //        return area;
+        //    }
+        //}
 
         public long BuildingElementCount
         {

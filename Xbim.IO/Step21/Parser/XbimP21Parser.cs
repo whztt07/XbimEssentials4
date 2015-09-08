@@ -47,7 +47,7 @@ namespace Xbim.IO.Parser
         public XbimP21Parser(Stream strm)
             : base(strm)
         {
-            int entityApproxCount = 5000;
+            var entityApproxCount = 5000;
             if (strm.CanSeek)
             {
                 _streamSize = strm.Length;
@@ -78,7 +78,7 @@ namespace Xbim.IO.Parser
 
         internal override void EndParse()
         {
-            foreach (DeferredReference defRef in _deferredReferences)
+            foreach (var defRef in _deferredReferences)
             {
                 if (!TrySetObjectValue(defRef.HostEntity, defRef.ParameterIndex, defRef.ReferenceID))
                     Logger.WarnFormat("Entity #{0,-5} is referenced but could not be instantiated",
@@ -108,7 +108,7 @@ namespace Xbim.IO.Parser
 
         internal override void BeginList()
         {
-            Part21Entity p21 = _processStack.Peek();
+            var p21 = _processStack.Peek();
             if (p21.CurrentParamIndex == -1)
                 p21.CurrentParamIndex++; //first time in take the first argument
 
@@ -119,7 +119,7 @@ namespace Xbim.IO.Parser
         internal override void EndList()
         {
             _listNestLevel--;
-            Part21Entity p21 = _processStack.Peek();
+            var p21 = _processStack.Peek();
             p21.CurrentParamIndex++;
             //Console.WriteLine("EndList");
         }
@@ -139,9 +139,9 @@ namespace Xbim.IO.Parser
             _processStack.Push(_currentInstance);
             if (_streamSize != -1 && ProgressStatus != null)
             {
-                Scanner sc = (Scanner) this.Scanner;
+                var sc = (Scanner) this.Scanner;
                 double pos = sc.Buffer.Pos;
-                int newPercentage = Convert.ToInt32(pos/_streamSize*100.0);
+                var newPercentage = Convert.ToInt32(pos/_streamSize*100.0);
                 if (newPercentage > _percentageParsed)
                 {
                     _percentageParsed = newPercentage;
@@ -152,7 +152,7 @@ namespace Xbim.IO.Parser
 
         internal override void SetType(string entityTypeName)
         {
-            Scanner sc = (Scanner) this.Scanner;
+            var sc = (Scanner) this.Scanner;
 
             if (InHeader)
             {
@@ -163,7 +163,7 @@ namespace Xbim.IO.Parser
             }
             else
             {
-                Part21Entity p21 = _processStack.Peek();
+                var p21 = _processStack.Peek();
                 int[] reqProps;
                 p21.Entity = EntityCreate(entityTypeName, p21.EntityLabel, InHeader, out reqProps);
                 p21.RequiredParameters = reqProps;
@@ -172,7 +172,7 @@ namespace Xbim.IO.Parser
 
         internal override void EndEntity()
         {
-            Part21Entity p21 = _processStack.Pop();
+            var p21 = _processStack.Pop();
             //Debug.Assert(_processStack.Count == 0);
             _currentInstance = null;
             if (p21.Entity != null)
@@ -246,7 +246,7 @@ namespace Xbim.IO.Parser
 
         internal override void SetObjectValue(string value)
         {
-            int refID = Convert.ToInt32(value.TrimStart('#'));
+            var refID = Convert.ToInt32(value.TrimStart('#'));
             if (!TrySetObjectValue(_currentInstance.Entity, _currentInstance.CurrentParamIndex, refID))
             {
                 _deferredReferences.Add(new DeferredReference(_currentInstance.CurrentParamIndex,
@@ -274,10 +274,10 @@ namespace Xbim.IO.Parser
                 if (_errorCount > MaxErrorCount)
                     throw new Exception("Too many errors in file, parser execution terminated");
                 _errorCount++;
-                Part21Entity mainEntity = _processStack.Last();
+                var mainEntity = _processStack.Last();
                 if (mainEntity != null)
                 {
-                    IfcType ifcType = IfcMetaData.IfcType(mainEntity.Entity);
+                    var ifcType = IfcMetaData.IfcType(mainEntity.Entity);
                     Logger.ErrorFormat("Entity #{0,-5} {1}, error at parameter {2}-{3} value = {4}",
                                                mainEntity.EntityLabel, mainEntity.Entity.GetType().Name.ToUpper(),
                                                mainEntity.CurrentParamIndex + 1,
@@ -316,12 +316,12 @@ namespace Xbim.IO.Parser
                 if (_errorCount > MaxErrorCount)
                     throw new Exception("Too many errors in file, parser execution terminated");
                 _errorCount++;
-                Part21Entity mainEntity = _processStack.Last();
+                var mainEntity = _processStack.Last();
                 if (mainEntity != null)
                 {
-                    IfcType ifcType = IfcMetaData.IfcType(mainEntity.Entity);
+                    var ifcType = IfcMetaData.IfcType(mainEntity.Entity);
 
-                    string propertyName = mainEntity.CurrentParamIndex + 1 > ifcType.IfcProperties.Count ? "[UnknownProperty]" :
+                    var propertyName = mainEntity.CurrentParamIndex + 1 > ifcType.IfcProperties.Count ? "[UnknownProperty]" :
                         ifcType.IfcProperties[mainEntity.CurrentParamIndex + 1].PropertyInfo.Name;
 
                     Logger.ErrorFormat("Entity #{0,-5} {1}, error at parameter {2}-{3} value = {4}",
@@ -358,7 +358,7 @@ namespace Xbim.IO.Parser
                 if (_entities.TryGetValue(refID, out refEntity) && host != null)
                 {
                     _propertyValue.Init(refEntity);
-                    (host).IfcParse(paramIndex, _propertyValue);
+                    (host).Set(paramIndex, _propertyValue);
                     return true;
                 }
             }
@@ -367,8 +367,8 @@ namespace Xbim.IO.Parser
                 if (_errorCount > MaxErrorCount)
                     throw new Exception("Too many errors in file, parser execution terminated");
                 _errorCount++;
-                IfcType ifcType = IfcMetaData.IfcType(host);
-                string propertyName = paramIndex+1 > ifcType.IfcProperties.Count ? "[UnknownProperty]" :
+                var ifcType = IfcMetaData.IfcType(host);
+                var propertyName = paramIndex+1 > ifcType.IfcProperties.Count ? "[UnknownProperty]" :
                         ifcType.IfcProperties[paramIndex+1].PropertyInfo.Name;
                 Logger.ErrorFormat("Entity #{0,-5} {1}, error at parameter {2}-{3}",
                                            refID, ifcType.Type.Name.ToUpper(), paramIndex + 1,
@@ -394,7 +394,7 @@ namespace Xbim.IO.Parser
 
         public ParameterSetter ParameterSetter
         {
-            get { return (HostEntity).IfcParse; }
+            get { return (HostEntity).Set; }
         }
     }
 }

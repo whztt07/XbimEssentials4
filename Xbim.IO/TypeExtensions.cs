@@ -11,7 +11,7 @@ namespace Xbim.IO
                 return typeof(IfcLengthMeasure); //special case for coordinates
             if (genericType.IsGenericType || genericType.IsInterface)
             {
-                Type[] genericTypes = genericType.GetGenericArguments();
+                var genericTypes = genericType.GetGenericArguments();
                 if (genericTypes.GetUpperBound(0) >= 0)
                     return genericTypes[genericTypes.GetUpperBound(0)];
                 return null;

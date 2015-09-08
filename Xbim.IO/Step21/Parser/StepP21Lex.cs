@@ -112,7 +112,7 @@ namespace Xbim.IO.Parser
 
         private static int GetMaxParseToken()
         {
-            FieldInfo f = typeof (Tokens).GetField("maxParseToken");
+            var f = typeof (Tokens).GetField("maxParseToken");
             return (f == null ? int.MaxValue : (int) f.GetValue(null));
         }
 
@@ -1108,7 +1108,7 @@ namespace Xbim.IO.Parser
             // Now ensure that line counting is correct.
             lNum = tokLin;
             // And count the rest of the text.
-            for (int i = 0; i < n; i++) GetCode();
+            for (var i = 0; i < n; i++) GetCode();
             MarkEnd();
         }
 
@@ -1144,7 +1144,7 @@ namespace Xbim.IO.Parser
                 else
                 {
                     int ch;
-                    int count = 0;
+                    var count = 0;
                     buffer.Pos = tokPos;
                     do
                     {
@@ -1184,7 +1184,7 @@ namespace Xbim.IO.Parser
             {
                 int next; // next state to enter                   
 #if BACKUP
-                Result rslt = Result.noMatch;
+                var rslt = Result.noMatch;
 #endif
                 // BACKUP
 #if LEFTANCHORS
@@ -1773,7 +1773,7 @@ namespace Xbim.IO.Parser
             }
             for (;;)
             {
-                int len = line[ix].Length + 1;
+                var len = line[ix].Length + 1;
                 if (pos < lstart + len) break;
                 lstart += len;
                 ix++;
@@ -1788,10 +1788,10 @@ namespace Xbim.IO.Parser
             if (begin >= maxPos || limit <= begin) return "";
             int endIx, begIx, endLineStart, begLineStart;
             findIndex(begin, out begIx, out begLineStart);
-            int begCol = begin - begLineStart;
+            var begCol = begin - begLineStart;
             findIndex(limit, out endIx, out endLineStart);
-            int endCol = limit - endLineStart;
-            string s = line[begIx];
+            var endCol = limit - endLineStart;
+            var s = line[begIx];
             if (begIx == endIx)
             {
                 // the usual case, substring all on one line
@@ -1800,7 +1800,7 @@ namespace Xbim.IO.Parser
                            : s.Substring(begCol) + "\n";
             }
             // the string spans multiple lines, yuk!
-            StringBuilder sb = new StringBuilder();
+            var sb = new StringBuilder();
             if (begCol < s.Length)
                 sb.Append(s.Substring(begCol));
             for (;;)
@@ -1911,7 +1911,7 @@ namespace Xbim.IO.Parser
             {
                 if (limit > brkIx + 16) // Rotate blocks
                 {
-                    StringBuilder temp = bldr;
+                    var temp = bldr;
                     bldr = next;
                     next = temp;
                     next.Length = 0;
@@ -1930,14 +1930,14 @@ namespace Xbim.IO.Parser
         {
             get
             {
-                StreamReader rdr = NextBlk.Target as StreamReader;
+                var rdr = NextBlk.Target as StreamReader;
                 return (rdr == null ? "raw-bytes" : rdr.CurrentEncoding.BodyName);
             }
         }
 
         public BuildBuffer(Stream stream)
         {
-            FileStream fStrm = (stream as FileStream);
+            var fStrm = (stream as FileStream);
             if (fStrm != null) FileName = fStrm.Name;
             NextBlk = BlockReaderFactory.Raw(stream);
         }
@@ -1990,8 +1990,8 @@ namespace Xbim.IO.Parser
             else // Read from underlying stream
             {
                 // Experimental code, blocks of page size
-                char[] chrs = new char[4096];
-                int count = NextBlk(chrs, 0, 4096);
+                var chrs = new char[4096];
+                var count = NextBlk(chrs, 0, 4096);
                 if (count == 0)
                     return EndOfFile;
                 else
@@ -2027,10 +2027,10 @@ namespace Xbim.IO.Parser
         {
             return delegate(char[] block, int index, int number)
                        {
-                           byte[] b = new byte[number];
-                           int count = stream.Read(b, 0, number);
-                           int i = 0;
-                           int j = index;
+                           var b = new byte[number];
+                           var count = stream.Read(b, 0, number);
+                           var i = 0;
+                           var j = index;
                            for (; i < count; i++, j++)
                                block[j] = (char) b[i];
                            return count;
@@ -2098,7 +2098,7 @@ namespace Xbim.IO.Parser
     {
         public static int GetCodePage(string option)
         {
-            string command = option.ToUpperInvariant();
+            var command = option.ToUpperInvariant();
             if (command.StartsWith("CodePage:", StringComparison.OrdinalIgnoreCase))
                 command = command.Substring(9);
             try
@@ -2113,7 +2113,7 @@ namespace Xbim.IO.Parser
                     return int.Parse(command, CultureInfo.InvariantCulture);
                 else
                 {
-                    Encoding enc = Encoding.GetEncoding(command);
+                    var enc = Encoding.GetEncoding(command);
                     return enc.CodePage;
                 }
             }

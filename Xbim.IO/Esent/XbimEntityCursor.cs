@@ -102,7 +102,7 @@ namespace Xbim.IO
                 Api.JetAddColumn(sesid, tableid, colNameIsIndexedClass, columndef, null, 0, out columnid);
                 
                 //Primary Key index
-                string labelIndexDef = string.Format("+{0}\0\0", colNameEntityLabel);
+                var labelIndexDef = string.Format("+{0}\0\0", colNameEntityLabel);
                 Api.JetCreateIndex(sesid, tableid, entityTableLabelIndex, CreateIndexGrbit.IndexPrimary, labelIndexDef, labelIndexDef.Length,100);
                 Api.JetCloseTable(sesid, tableid);
                 transaction.Commit(CommitTransactionGrbit.LazyFlush);
@@ -155,7 +155,7 @@ namespace Xbim.IO
                 Api.JetAddColumn(sesid, tableid, colNameEntityLabel, columndef, null, 0, out columnid);
 
                 //Add the primary key, Entity Type, Index label and Entity Label 
-                string labelIndexDef = string.Format("+{0}\0{1}\0{2}\0\0", colNameIfcType, colNameSecondaryKey, colNameEntityLabel);
+                var labelIndexDef = string.Format("+{0}\0{1}\0{2}\0\0", colNameIfcType, colNameSecondaryKey, colNameEntityLabel);
                 Api.JetCreateIndex(sesid, tableid, entityTableLabelIndex, CreateIndexGrbit.IndexPrimary, labelIndexDef, labelIndexDef.Length, 100);
                 Api.JetCloseTable(sesid, tableid);
                 transaction.Commit(CommitTransactionGrbit.LazyFlush);
@@ -253,8 +253,8 @@ namespace Xbim.IO
 
         internal void WriteHeader(IStepFileHeader ifcFileHeader)
         {
-            MemoryStream ms = new MemoryStream(4096);
-            BinaryWriter bw = new BinaryWriter(ms);
+            var ms = new MemoryStream(4096);
+            var bw = new BinaryWriter(ms);
             ifcFileHeader.Write(bw);    
             if (Api.TryMoveFirst(sesid, globalsTable)) 
             {
@@ -272,10 +272,10 @@ namespace Xbim.IO
             
             if (Api.TryMoveFirst(sesid, globalsTable)) 
             {
-                byte[] hd = Api.RetrieveColumn(sesid, globalsTable, ifcHeaderColumn);
+                var hd = Api.RetrieveColumn(sesid, globalsTable, ifcHeaderColumn);
                 if (hd == null) return null;//there is nothing in at the moment
-                BinaryReader br = new BinaryReader(new MemoryStream(hd));
-                IfcFileHeader hdr = new IfcFileHeader(IfcFileHeader.HeaderCreationMode.LeaveEmpty);
+                var br = new BinaryReader(new MemoryStream(hd));
+                var hdr = new IfcFileHeader(IfcFileHeader.HeaderCreationMode.LeaveEmpty);
                 hdr.Read(br);
                 return hdr;
             }
@@ -288,12 +288,12 @@ namespace Xbim.IO
         /// Updates an entity, assumes a valid transaction is running
         /// </summary>
         /// <param name="toWrite"></param>
-        internal void UpdateEntity(IPersistEntity toWrite)
+        internal void UpdateEntity(IInstantiableEntity toWrite)
         {
-            MemoryStream ms = new MemoryStream();
-            BinaryWriter bw = new BinaryWriter(ms);
+            var ms = new MemoryStream();
+            var bw = new BinaryWriter(ms);
             toWrite.WriteEntity(bw);
-            IfcType ifcType = IfcMetaData.IfcType(toWrite);
+            var ifcType = IfcMetaData.IfcType(toWrite);
             UpdateEntity(toWrite.EntityLabel, ifcType.TypeId, ifcType.GetIndexedValues(toWrite), ms.ToArray(), ifcType.IndexedClass);
         }
 
@@ -331,7 +331,7 @@ namespace Xbim.IO
                 {
                     //set the main variables of label and type just ones
                     SetEntityIndexRowValues(typeId, -1, currentLabel);
-                    IEnumerable<int> uniqueKeys = indexKeys.Distinct();
+                    var uniqueKeys = indexKeys.Distinct();
                     //SRL need to make keys uint on the store
                     foreach (var key in uniqueKeys.Cast<int>())
                     {
@@ -360,12 +360,12 @@ namespace Xbim.IO
         /// Adds an entity, assumes a valid transaction is running
         /// </summary>
         /// <param name="toWrite"></param>
-        internal void AddEntity(IPersistEntity toWrite)
+        internal void AddEntity(IInstantiableEntity toWrite)
         {
-            MemoryStream ms = new MemoryStream();
-            BinaryWriter bw = new BinaryWriter(ms);
+            var ms = new MemoryStream();
+            var bw = new BinaryWriter(ms);
             toWrite.WriteEntity(bw);
-            IfcType ifcType = IfcMetaData.IfcType(toWrite);
+            var ifcType = IfcMetaData.IfcType(toWrite);
             AddEntity(toWrite.EntityLabel, ifcType.TypeId, ifcType.GetIndexedValues(toWrite), ms.ToArray(), ifcType.IndexedClass);
         }
         
@@ -405,7 +405,7 @@ namespace Xbim.IO
                 //now add in any extra index keys
                 if (indexKeys != null && indexKeys.Any())
                 {
-                    int transactionCounter = 0;
+                    var transactionCounter = 0;
                     //SRL need to upgrade store to uint
                     foreach (var key in indexKeys.Distinct())
                     {
@@ -440,9 +440,9 @@ namespace Xbim.IO
         internal XbimInstanceHandle AddEntity(Type type)
         {
             System.Diagnostics.Debug.Assert(typeof(IPersistEntity).IsAssignableFrom(type));
-            int highest = RetrieveHighestLabel();
-            IfcType ifcType = IfcMetaData.IfcType(type);
-            XbimInstanceHandle h = new XbimInstanceHandle(this.model, highest + 1, ifcType.TypeId);
+            var highest = RetrieveHighestLabel();
+            var ifcType = IfcMetaData.IfcType(type);
+            var h = new XbimInstanceHandle(this.model, highest + 1, ifcType.TypeId);
             AddEntity(h.EntityLabel, h.EntityTypeId, null, null, ifcType.IndexedClass);
             return h;
         }
@@ -529,8 +529,8 @@ namespace Xbim.IO
         /// <returns></returns>
         internal XbimInstanceHandle GetInstanceHandle()
         {
-            int? label = Api.RetrieveColumnAsInt32(sesid, table, _colIdEntityLabel);
-            short? typeId = Api.RetrieveColumnAsInt16(sesid, table, _colIdIfcType);
+            var label = Api.RetrieveColumnAsInt32(sesid, table, _colIdEntityLabel);
+            var typeId = Api.RetrieveColumnAsInt16(sesid, table, _colIdIfcType);
             return new XbimInstanceHandle(this.model, label.Value, typeId.Value);
             
         }
@@ -568,7 +568,7 @@ namespace Xbim.IO
         { 
             if (TryMoveLast())
             {
-                int? val = Api.RetrieveColumnAsInt32(sesid, table, _colIdEntityLabel, RetrieveColumnGrbit.RetrieveFromIndex);
+                var val = Api.RetrieveColumnAsInt32(sesid, table, _colIdEntityLabel, RetrieveColumnGrbit.RetrieveFromIndex);
                 if (val.HasValue) return val.Value;
             }
             return 0;
@@ -581,7 +581,7 @@ namespace Xbim.IO
         /// <returns></returns>
         public short GetIfcType()
         { 
-            short? typeId = Api.RetrieveColumnAsInt16(sesid, table, _colIdIfcType);
+            var typeId = Api.RetrieveColumnAsInt16(sesid, table, _colIdIfcType);
             if (typeId.HasValue) 
                 return typeId.Value;
             else
@@ -594,7 +594,7 @@ namespace Xbim.IO
         /// <returns></returns>
         public int GetLabel()
         {
-            int? label = Api.RetrieveColumnAsInt32(sesid, table, _colIdEntityLabel);
+            var label = Api.RetrieveColumnAsInt32(sesid, table, _colIdEntityLabel);
             if (label.HasValue)
                 return label.Value;
             else

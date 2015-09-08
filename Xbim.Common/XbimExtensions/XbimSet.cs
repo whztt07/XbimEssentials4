@@ -22,6 +22,7 @@ using Xbim.XbimExtensions.Transactions.Extensions;
 using Xbim.XbimExtensions.Interfaces;
 using System.Runtime.CompilerServices;
 using Xbim.Common;
+using Xbim.Common.XbimExtensions;
 using Xbim.Common.XbimExtensions.Interfaces;
 
 #endregion
@@ -29,7 +30,7 @@ using Xbim.Common.XbimExtensions.Interfaces;
 
 namespace Xbim.XbimExtensions
 {
-    [IfcPersistedEntityAttribute, Serializable]
+    [IfcPersistedEntity, Serializable]
     public class XbimSet<T> : ICollection<T>, IEnumerable<T>, ICollection, INotifyCollectionChanged,
                               INotifyPropertyChanged, IExpressEnumerable, IXbimNoNotifyCollection
     {

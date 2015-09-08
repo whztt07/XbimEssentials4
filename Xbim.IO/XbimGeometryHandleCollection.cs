@@ -26,7 +26,7 @@ namespace Xbim.IO
         /// <returns></returns>
         public IEnumerable<XbimSurfaceStyle> GetSurfaceStyles()
         {
-            HashSet<XbimSurfaceStyle> uniqueStyles = new HashSet<XbimSurfaceStyle>();
+            var uniqueStyles = new HashSet<XbimSurfaceStyle>();
             foreach (var item in this)
             {
                 uniqueStyles.Add(item.SurfaceStyle);
@@ -34,36 +34,27 @@ namespace Xbim.IO
             return uniqueStyles;
         }
 
-        [Obsolete("Function relocated to IGeomHandlesGrouping concrete classes for API grouping configuration.", false)]
-        public Dictionary<string, XbimGeometryHandleCollection> GroupByBuildingElementTypes()
-        {
-            GroupingAndStyling.TypeAndStyle t = new GroupingAndStyling.TypeAndStyle();
-            return t.GroupLayers(this);
-        }
-
         /// <summary>
         /// Returns all handles that are not of type to exclude
         /// </summary>
         /// <param name="exclude"></param>
         /// <returns></returns>
-        public IEnumerable<XbimGeometryHandle> Exclude(params IfcEntityNameEnum[] exclude)
+        public IEnumerable<XbimGeometryHandle> Exclude(params int[] exclude)
         {
-            HashSet<IfcEntityNameEnum> excludeSet = new HashSet<IfcEntityNameEnum>(exclude);
+            var excludeSet = new HashSet<int>(exclude);
             foreach (var ex in exclude)
             {
                 
-                IfcType ifcType = IfcMetaData.IfcType((short)ex);
+                var ifcType = IfcMetaData.IfcType((short)ex);
                 // bugfix here: loop did not use to include all implementations, but only first level down.
                 foreach (var sub in ifcType.NonAbstractSubTypes)
                 {
                     var ifcSub = IfcMetaData.IfcType(sub);
-                        excludeSet.Add(ifcSub.IfcTypeEnum);
+                        excludeSet.Add(ifcSub.TypeId);
                 }
             }
 
-            foreach (var h in this)
-                if (!excludeSet.Contains((IfcEntityNameEnum)h.IfcTypeId)) 
-                    yield return h;          
+            return this.Where(h => !excludeSet.Contains(h.IfcTypeId));          
         }
 
         /// <summary>
@@ -71,17 +62,16 @@ namespace Xbim.IO
         /// </summary>
         /// <param name="include"></param>
         /// <returns></returns>
-        public IEnumerable<XbimGeometryHandle> Include(params IfcEntityNameEnum[] include)
+        public IEnumerable<XbimGeometryHandle> Include(params int[] include)
         {
-            HashSet<IfcEntityNameEnum> includeSet = new HashSet<IfcEntityNameEnum>(include);
+            var includeSet = new HashSet<int>(include);
             foreach (var inc in include)
             {
-                IfcType ifcType = IfcMetaData.IfcType((short)inc);
+                var ifcType = IfcMetaData.IfcType((short)inc);
                 foreach (var sub in ifcType.IfcSubTypes)
-                    includeSet.Add(sub.IfcTypeEnum);
+                    includeSet.Add(sub.TypeId);
             }
-            foreach (var h in this)
-                if (includeSet.Contains((IfcEntityNameEnum)h.IfcTypeId)) yield return h;
+            return this.Where(h => includeSet.Contains(h.IfcTypeId));
 
         }
 
@@ -93,8 +83,7 @@ namespace Xbim.IO
         /// <param name="forStyle"></param>
         public IEnumerable<XbimGeometryHandle> GetGeometryHandles(XbimSurfaceStyle forStyle)
         {
-            foreach (var item in this.Where(gh => gh.SurfaceStyle.Equals(forStyle)))
-                yield return item;
+            return this.Where(gh => gh.SurfaceStyle.Equals(forStyle));
         }
 
         /// <summary>
@@ -103,8 +92,8 @@ namespace Xbim.IO
         /// <returns></returns>
         public XbimSurfaceStyleMap ToSurfaceStyleMap()
         {
-            XbimSurfaceStyleMap result = new XbimSurfaceStyleMap();
-            foreach (var style in this.GetSurfaceStyles())
+            var result = new XbimSurfaceStyleMap();
+            foreach (var style in GetSurfaceStyles())
             {
                 result.Add(style, new XbimGeometryHandleCollection());
             }

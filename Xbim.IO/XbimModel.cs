@@ -12,6 +12,7 @@ using Xbim.Common;
 using Xbim.Common.Exceptions;
 using System.Globalization;
 using Xbim.Common.Geometry;
+using Xbim.Common.XbimExtensions;
 using Xbim.Ifc2x3.ActorResource;
 using Xbim.Ifc2x3.ExternalReferenceResource;
 using Xbim.Ifc2x3.GeometryResource;
@@ -542,7 +543,7 @@ namespace Xbim.IO
 
         #endregion
 
-        public byte[] GetEntityBinaryData(IPersistEntity entity)
+        public byte[] GetEntityBinaryData(IInstantiableEntity entity)
         {
             if (entity.Activated) //we have it in memory but not written to store yet
             {
@@ -577,12 +578,12 @@ namespace Xbim.IO
             var errors = 0;
             foreach (var entity in instances)
             {
-                errors += Validate(entity, tw, validateLevel);
+                errors += Validate(entity as IInstantiableEntity, tw, validateLevel);
             }
             return errors;
         }
 
-        public int Validate(IEnumerable<IPersistEntity> entities, TextWriter tw, ValidationFlags validateLevel = ValidationFlags.Properties)
+        public int Validate(IEnumerable<IInstantiableEntity> entities, TextWriter tw, ValidationFlags validateLevel = ValidationFlags.Properties)
         {
             var errors = 0;
             foreach (var entity in entities)
@@ -592,7 +593,7 @@ namespace Xbim.IO
             return errors;
         }
 
-        public int Validate(IPersistEntity ent, TextWriter tw, ValidationFlags validateLevel = ValidationFlags.Properties)
+        public int Validate(IInstantiableEntity ent, TextWriter tw, ValidationFlags validateLevel = ValidationFlags.Properties)
         {
             var itw = new IndentedTextWriter(tw);
             if (validateLevel == ValidationFlags.None) return 0; //nothing to do
@@ -1027,26 +1028,6 @@ namespace Xbim.IO
             get { return cache == null ? null : Instances.OfType<IfcProduct>(); }
         }
 
-        IPersistEntity IModel.OwnerHistoryAddObject
-        {
-            get { return instances.OwnerHistoryAddObject; }
-        }
-
-        IPersistEntity IModel.OwnerHistoryModifyObject
-        {
-            get { return instances.OwnerHistoryModifyObject; }
-        }
-
-        IPersistEntity IModel.DefaultOwningApplication
-        {
-            get { return instances.DefaultOwningApplication; }
-        }
-
-        IPersistEntity IModel.DefaultOwningUser
-        {
-            get { return instances.DefaultOwningUser; }
-        }
-
         ~XbimModel()
         {
             Dispose(false);
@@ -1077,7 +1058,10 @@ namespace Xbim.IO
                 //unmanaged, mostly esent related
                 cache.Dispose();
             }
-                catch { }
+                catch
+                {
+                    // ignored
+                }
             }
             disposed = true;
         }
@@ -1110,10 +1094,10 @@ namespace Xbim.IO
         /// <returns></returns>
         public IEnumerable<XbimGeometryData> GetGeometryData(int productLabel, XbimGeometryType geomType)
         {
-            IPersist entity = cache.GetInstance(productLabel, false, true);
+            var entity = cache.GetInstance(productLabel, false, true);
             if (entity != null)
             {
-                foreach (var item in cache.GetGeometry(IfcMetaData.IfcTypeId(entity), productLabel, geomType))
+                foreach (var item in cache.GetGeometry(IfcMetaData.IfcTypeId(entity as IInstantiableEntity), productLabel, geomType))
                 {
                     yield return item;
                 }
@@ -1137,7 +1121,7 @@ namespace Xbim.IO
         public IEnumerable<XbimGeometryData> GetGeometryData(IfcProduct product, XbimGeometryType geomType)
         {
 
-            foreach (var item in cache.GetGeometry(IfcMetaData.IfcTypeId(product), product.EntityLabel, geomType))
+            foreach (var item in cache.GetGeometry(IfcMetaData.IfcTypeId(product as IInstantiableEntity), product.EntityLabel, geomType))
             {
                 yield return item;
             }

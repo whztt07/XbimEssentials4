@@ -19,6 +19,7 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using Xbim.Common;
+using Xbim.Common.XbimExtensions;
 using Xbim.XbimExtensions.Transactions.Extensions;
 using Xbim.XbimExtensions.Interfaces;
 using Xbim.Common.XbimExtensions.Interfaces;
@@ -27,7 +28,7 @@ using Xbim.Common.XbimExtensions.Interfaces;
 
 namespace Xbim.XbimExtensions
 {
-    [IfcPersistedEntityAttribute, Serializable]
+    [IfcPersistedEntity, Serializable]
     public class XbimListUnique<T> : XbimList<T>
     {
         internal XbimListUnique(IPersistEntity owner)
@@ -56,7 +57,7 @@ namespace Xbim.XbimExtensions
     ///   A set that supports list behaviour
     /// </summary>
     /// <typeparam name = "T"></typeparam>
-    [IfcPersistedEntityAttribute, Serializable]
+    [IfcPersistedEntity, Serializable]
     public class XbimListSet<T> : XbimList<T>
     {
         internal XbimListSet(IPersistEntity owner)
@@ -81,7 +82,7 @@ namespace Xbim.XbimExtensions
         }
     }
 
-    [IfcPersistedEntityAttribute, Serializable]
+    [IfcPersistedEntity, Serializable]
     public class XbimList<T> : IList, IList<T>, IEnumerable<T>, INotifyCollectionChanged, INotifyPropertyChanged,
                                IExpressEnumerable, IXbimNoNotifyCollection
     {

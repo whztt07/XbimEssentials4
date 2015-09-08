@@ -18,7 +18,6 @@ using System.Linq;
 using QUT.Gppg;
 using Xbim.Common;
 using Xbim.Common.Logging;
-using Xbim.IO.Step21;
 
 #endregion
 
@@ -29,7 +28,7 @@ namespace Xbim.IO.Parser
         private readonly ILogger Logger = LoggerFactory.GetLogger();
         public override void yyerror(string format, params object[] args)
         {
-            string errmsg = string.Format(format, args);
+            var errmsg = string.Format(format, args);
             Logger.ErrorFormat("Illegal character found at line {0}, column {1}\n{2}", this.yyline, this.yycol, errmsg);
         }
     }
@@ -90,7 +89,7 @@ namespace Xbim.IO.Parser
             get
             {
                 if (RequiredParameters == null || RequiredParameters.Contains(CurrentParamIndex))
-                    return (Entity).IfcParse;
+                    return (Entity).Set;
                 else
                     return ParameterEater;
             }
@@ -104,7 +103,7 @@ namespace Xbim.IO.Parser
         {
             if (genericType.IsGenericType || genericType.IsInterface)
             {
-                Type[] genericTypes = genericType.GetGenericArguments();
+                var genericTypes = genericType.GetGenericArguments();
                 if (genericTypes.GetUpperBound(0) >= 0)
                 {
                     return genericTypes[genericTypes.GetUpperBound(0)];

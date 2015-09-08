@@ -4,6 +4,9 @@ using System.Linq;
 using System.Collections;
 using System.Linq.Expressions;
 using Xbim.Common;
+using Xbim.Ifc2x3.ActorResource;
+using Xbim.Ifc2x3.Kernel;
+using Xbim.Ifc2x3.UtilityResource;
 
 namespace Xbim.IO
 {
@@ -148,7 +151,7 @@ namespace Xbim.IO
         /// <returns></returns>
         public IPersistEntity New(Type t)
         {
-            IPersistEntity entity = _cache.CreateNew(t);
+            var entity = _cache.CreateNew(t);
             
             return entity;
 
@@ -178,7 +181,7 @@ namespace Xbim.IO
 
         #region OwnerHistory Fields
         //todo: Implement default initialization of IfcRoot object in a different assembly
-        //public void IfcRootInit()
+        //public void IfcRootInit(Type t)
         //{
         //    if (typeof(IfcRoot).IsAssignableFrom(t))
         //    {
@@ -189,112 +192,112 @@ namespace Xbim.IO
         //            _ownerHistoryAddObject.OwningApplication = DefaultOwningApplication;
         //            _ownerHistoryAddObject.OwningUser = DefaultOwningUser;
         //        }
-        //
+
         //        ((IfcRoot)entity).OwnerHistory = _ownerHistoryAddObject;
-        //    }    
-        //}
-
-        //[NonSerialized]
-        //private IfcOwnerHistory _ownerHistoryDeleteObject;
-        //
-        //[NonSerialized]
-        //private IfcOwnerHistory _ownerHistoryAddObject;
-        //
-        //[NonSerialized]
-        //private IfcOwnerHistory _ownerHistoryModifyObject;
-        //
-        //[NonSerialized]
-        //private IfcPersonAndOrganization _defaultOwningUser;
-        //
-        //[NonSerialized]
-        //private IfcApplication _defaultOwningApplication;
-        //private XbimModel _xbimModel;
-        //
-        //internal IfcOwnerHistory OwnerHistoryModifyObject
-        //{
-        //    get
-        //    {
-        //        if (_ownerHistoryModifyObject == null)
-        //        {
-        //            _ownerHistoryModifyObject = this.New<IfcOwnerHistory>();
-        //            _ownerHistoryModifyObject.OwningUser = DefaultOwningUser;
-        //            _ownerHistoryModifyObject.OwningApplication = DefaultOwningApplication;
-        //            _ownerHistoryModifyObject.ChangeAction = IfcChangeActionEnum.MODIFIED;
-        //        }
-        //        return _ownerHistoryModifyObject;
         //    }
         //}
 
-        //internal IfcOwnerHistory OwnerHistoryAddObject
-        //{
-        //    get
-        //    {
-        //        if (_ownerHistoryAddObject == null)
-        //        {
-        //            _ownerHistoryAddObject = this.New<IfcOwnerHistory>();
-        //            _ownerHistoryAddObject.OwningUser = DefaultOwningUser;
-        //            _ownerHistoryAddObject.OwningApplication = DefaultOwningApplication;
-        //            _ownerHistoryAddObject.ChangeAction = IfcChangeActionEnum.ADDED;
-        //        }
-        //        return _ownerHistoryAddObject;
-        //    }
-        //    set //required for creation of COBie data from xls to a ifc new file
-        //    {
-        //        _ownerHistoryAddObject = value;
-        //    }
-        //}
+        [NonSerialized]
+        private IfcOwnerHistory _ownerHistoryDeleteObject;
 
-        //internal IfcOwnerHistory OwnerHistoryDeleteObject
-        //{
-        //    get
-        //    {
-        //        if (_ownerHistoryDeleteObject == null)
-        //        {
-        //            _ownerHistoryDeleteObject = this.New<IfcOwnerHistory>();
-        //            _ownerHistoryDeleteObject.OwningUser = DefaultOwningUser;
-        //            _ownerHistoryDeleteObject.OwningApplication = DefaultOwningApplication;
-        //            _ownerHistoryDeleteObject.ChangeAction = IfcChangeActionEnum.DELETED;
-        //        }
-        //        return _ownerHistoryDeleteObject;
-        //    }
-        //}
+        [NonSerialized]
+        private IfcOwnerHistory _ownerHistoryAddObject;
+
+        [NonSerialized]
+        private IfcOwnerHistory _ownerHistoryModifyObject;
+
+        [NonSerialized]
+        private IfcPersonAndOrganization _defaultOwningUser;
+
+        [NonSerialized]
+        private IfcApplication _defaultOwningApplication;
+
+        internal IfcOwnerHistory OwnerHistoryModifyObject
+        {
+            get
+            {
+                if (_ownerHistoryModifyObject == null)
+                {
+                    _ownerHistoryModifyObject = this.New<IfcOwnerHistory>();
+                    _ownerHistoryModifyObject.OwningUser = DefaultOwningUser;
+                    _ownerHistoryModifyObject.OwningApplication = DefaultOwningApplication;
+                    _ownerHistoryModifyObject.ChangeAction = IfcChangeActionEnum.MODIFIED;
+                }
+                return _ownerHistoryModifyObject;
+            }
+        }
+
+        internal IfcOwnerHistory OwnerHistoryAddObject
+        {
+            get
+            {
+                if (_ownerHistoryAddObject == null)
+                {
+                    _ownerHistoryAddObject = this.New<IfcOwnerHistory>();
+                    _ownerHistoryAddObject.OwningUser = DefaultOwningUser;
+                    _ownerHistoryAddObject.OwningApplication = DefaultOwningApplication;
+                    _ownerHistoryAddObject.ChangeAction = IfcChangeActionEnum.ADDED;
+                }
+                return _ownerHistoryAddObject;
+            }
+            set //required for creation of COBie data from xls to a ifc new file
+            {
+                _ownerHistoryAddObject = value;
+            }
+        }
+
+        internal IfcOwnerHistory OwnerHistoryDeleteObject
+        {
+            get
+            {
+                if (_ownerHistoryDeleteObject == null)
+                {
+                    _ownerHistoryDeleteObject = this.New<IfcOwnerHistory>();
+                    _ownerHistoryDeleteObject.OwningUser = DefaultOwningUser;
+                    _ownerHistoryDeleteObject.OwningApplication = DefaultOwningApplication;
+                    _ownerHistoryDeleteObject.ChangeAction = IfcChangeActionEnum.DELETED;
+                }
+                return _ownerHistoryDeleteObject;
+            }
+        }
 
 
 
-        //internal IfcApplication DefaultOwningApplication
-        //{
-        //    get
-        //    {
-        //        if (_defaultOwningApplication == null)
-        //        {
-        //            _defaultOwningApplication= New<IfcApplication>(a => a.ApplicationDeveloper = New<IfcOrganization>());
-        //        }
-        //        return _defaultOwningApplication; }
-        //}
+        internal IfcApplication DefaultOwningApplication
+        {
+            get
+            {
+                if (_defaultOwningApplication == null)
+                {
+                    _defaultOwningApplication = New<IfcApplication>(a => a.ApplicationDeveloper = New<IfcOrganization>());
+                }
+                return _defaultOwningApplication;
+            }
+        }
 
-        //internal IfcPersonAndOrganization DefaultOwningUser
-        //{
-        //    get
-        //    {
-        //        if (_defaultOwningUser == null)
-        //        {
-        //            var existing = this.OfType<IfcPersonAndOrganization>();
-        //            if (!existing.Any())
-        //            {
-        //                IfcPerson person = New<IfcPerson>();
-        //                IfcOrganization organization = New<IfcOrganization>();
-        //                _defaultOwningUser = New<IfcPersonAndOrganization>(po =>
-        //                {
-        //                    po.TheOrganization = organization;
-        //                    po.ThePerson = person;
-        //                });
-        //            }
-        //            else
-        //                _defaultOwningUser = existing.FirstOrDefault();
-        //        }
-        //        return _defaultOwningUser;
-        //    }
-        //}
+        internal IfcPersonAndOrganization DefaultOwningUser
+        {
+            get
+            {
+                if (_defaultOwningUser == null)
+                {
+                    var existing = this.OfType<IfcPersonAndOrganization>();
+                    if (!existing.Any())
+                    {
+                        var person = New<IfcPerson>();
+                        var organization = New<IfcOrganization>();
+                        _defaultOwningUser = New<IfcPersonAndOrganization>(po =>
+                        {
+                            po.TheOrganization = organization;
+                            po.ThePerson = person;
+                        });
+                    }
+                    else
+                        _defaultOwningUser = existing.FirstOrDefault();
+                }
+                return _defaultOwningUser;
+            }
+        }
         #endregion
 
         IEnumerator<IPersistEntity> IEnumerable<IPersistEntity>.GetEnumerator()

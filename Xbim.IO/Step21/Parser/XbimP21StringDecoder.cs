@@ -65,11 +65,11 @@ namespace Xbim.IO.Parser
 
         private void ParseCodeTable()
         {
-            string CodePageIds = "ABCDEFGHI";
+            var CodePageIds = "ABCDEFGHI";
             MovePast(CodeTableToken);
             if (eof || !HasLength(2)) throw new XbimP21EofException();
-            char CodePageChar = CurrentChar();
-            int iAddress = CodePageIds.IndexOf(CodePageChar);
+            var CodePageChar = CurrentChar();
+            var iAddress = CodePageIds.IndexOf(CodePageChar);
             if (iAddress == -1)
                 throw new XbimP21InvalidCharacterException(String.Format("Invalid codepage character '{0}'", CodePageChar));
             MoveNext();
@@ -96,8 +96,8 @@ namespace Xbim.IO.Parser
         {
             MovePast(UpperAsciiToken);
             if (eof) throw new XbimP21EofException();
-            byte val = (byte)(CurrentChar() + UpperAsciiShift);
-            byte[] upperAscii = new byte[] { val };
+            var val = (byte)(CurrentChar() + UpperAsciiShift);
+            var upperAscii = new byte[] { val };
             builder.Append(OneByteDecoder.GetChars(upperAscii));
             MoveNext();
         }
@@ -106,15 +106,15 @@ namespace Xbim.IO.Parser
         {
             MovePast(Hex8Token);
             if (eof || !HasLength(2)) throw new XbimP21EofException();
-            byte[] byteval = GetHexLength(2);
+            var byteval = GetHexLength(2);
             builder.Append(OneByteDecoder.GetChars(byteval));
         }
 
         private byte[] GetHexLength(int StringLenght)
         {
             StringLenght /= 2;
-            byte[] ret = new byte[StringLenght];
-            for (int i = 0; i < StringLenght; i++)
+            var ret = new byte[StringLenght];
+            for (var i = 0; i < StringLenght; i++)
             {
                 var hex = p21.Substring(iCurChar, 2);
                 try
@@ -135,7 +135,7 @@ namespace Xbim.IO.Parser
             Move(4); // move past token
             
             // prepare decoder
-            string EncodingName = "unicodeFFFE";
+            var EncodingName = "unicodeFFFE";
             if (stringLenght == 8)
                 EncodingName = "utf-32BE";
             var enc = Encoding.GetEncoding(EncodingName);
@@ -145,7 +145,7 @@ namespace Xbim.IO.Parser
             {
                 if (eof || !HasLength(stringLenght + LongHexEndToken.Length))  
                     throw new XbimP21EofException();
-                byte[] byteval = GetHexLength(stringLenght);
+                var byteval = GetHexLength(stringLenght);
                 builder.Append(enc.GetChars(byteval, 0, stringLenght / 2));
             } while (!At(LongHexEndToken));
             MovePast(LongHexEndToken);

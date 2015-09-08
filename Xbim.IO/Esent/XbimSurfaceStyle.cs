@@ -71,7 +71,7 @@ namespace Xbim.IO
             
             if (obj is XbimSurfaceStyle)
             {
-                XbimSurfaceStyle compareTo = (XbimSurfaceStyle) obj;
+                var compareTo = (XbimSurfaceStyle) obj;
                 if (IsIfcSurfaceStyle && styleId == compareTo.styleId) //if it is a surface style then this takes priority
                     return true;
                 else if (IsIfcSurfaceStyle)

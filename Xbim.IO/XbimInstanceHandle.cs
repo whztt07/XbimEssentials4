@@ -85,7 +85,7 @@ namespace Xbim.IO
         {
             Model = (XbimModel)entity.Model;
             this.EntityLabel = entity.EntityLabel;
-            this.EntityTypeId = IfcMetaData.IfcTypeId(entity);
+            this.EntityTypeId = IfcMetaData.IfcTypeId(entity as IInstantiableEntity);
         }
 
         public IPersistEntity GetEntity()

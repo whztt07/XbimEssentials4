@@ -96,7 +96,7 @@ namespace Xbim.IO
                     0,
                     out versionColumnid);
 
-                byte[] defaultValue = BitConverter.GetBytes(0);
+                var defaultValue = BitConverter.GetBytes(0);
 
                 Api.JetAddColumn(
                     sesid,

@@ -38,13 +38,13 @@ namespace Xbim.IO
 
         public int Open(string fileName)
         {
-            int errors = 0;
+            var errors = 0;
             _fileName = fileName;
             Stream str = null;
             try
             {
                 str = File.OpenRead(_fileName);
-                BinaryFormatter formatter = new BinaryFormatter();
+                var formatter = new BinaryFormatter();
                 _header = (XbimHeader) formatter.Deserialize(str);
                 str.Close();
             }
@@ -66,11 +66,11 @@ namespace Xbim.IO
                 Stream str = null;
                 try
                 {
-                    long pos = _header.Contents[contentName];
+                    var pos = _header.Contents[contentName];
                     str = File.OpenRead(_fileName);
-                    BinaryFormatter formatter = new BinaryFormatter();
+                    var formatter = new BinaryFormatter();
                     str.Seek(pos, SeekOrigin.Begin);
-                    T res = (T) formatter.Deserialize(str);
+                    var res = (T) formatter.Deserialize(str);
                     str.Close();
                     return res;
                 }

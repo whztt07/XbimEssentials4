@@ -31,12 +31,12 @@ namespace Xbim.IO
 
         public int Store(string fileName)
         {
-            int errors = 0;
+            var errors = 0;
             Stream str = null;
             try
             {
                 str = File.Open(fileName, FileMode.Create, FileAccess.Write);
-                BinaryFormatter formatter = new BinaryFormatter();
+                var formatter = new BinaryFormatter();
 
 
                 formatter.Serialize(str, _package.Header);

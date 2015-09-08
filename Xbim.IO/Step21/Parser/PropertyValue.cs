@@ -3,7 +3,6 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using Xbim.Common;
 using Xbim.Ifc2x3.MeasureResource;
-using Xbim.IO.Step21;
 
 namespace Xbim.IO.Parser
 {
@@ -23,7 +22,7 @@ namespace Xbim.IO.Parser
         private static string ConvertFromHex(Match m)
         {
             // Convert the number expressed in base-16 to an integer.
-            int value = Convert.ToInt32(m.Groups[1].Value, 16);
+            var value = Convert.ToInt32(m.Groups[1].Value, 16);
             // Get the character corresponding to the integral value.
             return Char.ConvertFromUtf32(value);
         }
@@ -94,9 +93,9 @@ namespace Xbim.IO.Parser
             get
             {
                 if (_stepParserType == StepParserType.Integer) return Convert.ToInt64(_strVal);
-                else
-                    throw new Exception(string.Format("Wrong parameter type, found {0}, expected {1}",
-                                                      _stepParserType.ToString(), "Integer"));
+
+                throw new Exception(string.Format("Wrong parameter type, found {0}, expected {1}",
+                    _stepParserType.ToString(), "Integer"));
             }
         }
 
@@ -138,10 +137,10 @@ namespace Xbim.IO.Parser
         {
             get
             {
-                string ret = _strVal.Substring(1, _strVal.Length - 2); //remove the quotes
+                var ret = _strVal.Substring(1, _strVal.Length - 2); //remove the quotes
                 if (ret.Contains('\\') || ret.Contains("'")) 
                 {
-                    XbimP21StringDecoder d = new XbimP21StringDecoder();
+                    var d = new XbimP21StringDecoder();
                     ret = d.Unescape(ret);
                 }
 

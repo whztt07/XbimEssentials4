@@ -9,7 +9,7 @@ namespace Xbim.IO
     {
         public static IEnumerable<XbimGeometryData> GeometryData(this  IfcProduct product, XbimGeometryType geomType)
         {
-            XbimModel model = product.Model as XbimModel;
+            var model = product.Model as XbimModel;
             if (model != null)
             {
                 foreach (var item in model.GetGeometryData(product, geomType))

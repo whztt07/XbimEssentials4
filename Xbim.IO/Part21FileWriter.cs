@@ -17,7 +17,6 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using Xbim.Common;
-using Xbim.Ifc2x3.MeasureResource;
 using Xbim.IO.Step21;
 
 #endregion
@@ -32,9 +31,9 @@ namespace Xbim.IO
         {
             _written = new HashSet<long>();
             output.Write(HeaderAsString(model.Header ?? new IfcFileHeader(IfcFileHeader.HeaderCreationMode.InitWithXbimDefaults)));
-            foreach (XbimInstanceHandle item in model.InstanceHandles /*.Types.OrderBy(t=>t.Name)*/)
+            foreach (var item in model.InstanceHandles /*.Types.OrderBy(t=>t.Name)*/)
             {
-                IPersistEntity entity = model.GetInstanceVolatile(item);
+                var entity = model.GetInstanceVolatile(item) as IInstantiableEntity;
                 entity.WriteEntity(output, map);
             }
 
@@ -45,12 +44,12 @@ namespace Xbim.IO
 
         private string HeaderAsString(IStepFileHeader header)
         {
-            StringBuilder headerStr = new StringBuilder();
+            var headerStr = new StringBuilder();
             headerStr.AppendLine("ISO-10303-21;");
             headerStr.AppendLine("HEADER;");
             //FILE_DESCRIPTION
             headerStr.Append("FILE_DESCRIPTION ((");
-            int i = 0;
+            var i = 0;
 
             if (header.FileDescription.Description.Count == 0)
             {
@@ -58,9 +57,9 @@ namespace Xbim.IO
             }
             else
             {
-                foreach (string item in header.FileDescription.Description)
+                foreach (var item in header.FileDescription.Description)
                 {
-                    headerStr.AppendFormat(@"{0}'{1}'", i == 0 ? "" : ",", IfcText.Escape(item));
+                    headerStr.AppendFormat(@"{0}'{1}'", i == 0 ? "" : ",", item.ToPart21());
                     i++;
                 }
             }
@@ -68,7 +67,7 @@ namespace Xbim.IO
             headerStr.AppendLine();
             //FileName
             headerStr.Append("FILE_NAME (");
-            headerStr.AppendFormat(@"'{0}'", (header.FileName !=null && header.FileName.Name!=null)? IfcText.Escape(header.FileName.Name):"");
+            headerStr.AppendFormat(@"'{0}'", (header.FileName !=null && header.FileName.Name!=null)? header.FileName.Name.ToPart21():"");
             headerStr.AppendFormat(@", '{0}'", header.FileName !=null? header.FileName.TimeStamp:"");
             headerStr.Append(", (");
             i = 0;
@@ -76,9 +75,9 @@ namespace Xbim.IO
                 headerStr.Append(@"''");
             else
             {
-                foreach (string item in header.FileName.AuthorName)
+                foreach (var item in header.FileName.AuthorName)
                 {
-                    headerStr.AppendFormat(@"{0}'{1}'", i == 0 ? "" : ",", IfcText.Escape(item));
+                    headerStr.AppendFormat(@"{0}'{1}'", i == 0 ? "" : ",", item.ToPart21());
                     i++;
                 }
             }
@@ -88,14 +87,14 @@ namespace Xbim.IO
                 headerStr.Append(@"''");
             else
             {
-                foreach (string item in header.FileName.Organization)
+                foreach (var item in header.FileName.Organization)
                 {
-                    headerStr.AppendFormat(@"{0}'{1}'", i == 0 ? "" : ",", IfcText.Escape(item));
+                    headerStr.AppendFormat(@"{0}'{1}'", i == 0 ? "" : ",", item.ToPart21());
                     i++;
                 }
             }
-            headerStr.AppendFormat(@"), '{0}', '{1}', '{2}');", IfcText.Escape(header.FileName.PreprocessorVersion), IfcText.Escape(header.FileName.OriginatingSystem),
-                                IfcText.Escape(header.FileName.AuthorizationName));
+            headerStr.AppendFormat(@"), '{0}', '{1}', '{2}');", header.FileName.PreprocessorVersion.ToPart21(), header.FileName.OriginatingSystem.ToPart21(),
+                                header.FileName.AuthorizationName.ToPart21());
             headerStr.AppendLine();
             //FileSchema
             headerStr.AppendFormat("FILE_SCHEMA (('{0}'));", header.FileSchema.Schemas.FirstOrDefault());

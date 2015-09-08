@@ -99,6 +99,7 @@
     <Compile Include="Step21\IStepFileName.cs" />
     <Compile Include="Step21\IStepFileSchema.cs" />
     <Compile Include="Esent\XbimDBAccess.cs" />
+    <Compile Include="StepTextHelper.cs" />
     <Compile Include="XbimFederatedModelInstances.cs" />
     <Compile Include="XbimGeometryHandle.cs" />
     <Compile Include="XbimGeometryHandleCollection.cs" />

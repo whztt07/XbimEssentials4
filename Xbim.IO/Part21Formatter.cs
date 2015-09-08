@@ -37,45 +37,41 @@ namespace Xbim.IO
 
             if (!String.IsNullOrEmpty(fmt) && fmt.ToUpper() == "R" && arg.GetType() == typeof(double))
             {
-                double dArg = (double)arg;
-                string result = dArg.ToString("R", CultureInfo.CreateSpecificCulture("en-US"));
+                var dArg = (double)arg;
+                var result = dArg.ToString("R", CultureInfo.CreateSpecificCulture("en-US"));
 
                 // if compiler flag, only then do the following 3 lines
-                string rDoubleStr = dArg.ToString("R", CultureInfo.CreateSpecificCulture("en-US"));
-                double fixedDbl = double.Parse(rDoubleStr, CultureInfo.CreateSpecificCulture("en-US"));
+                var rDoubleStr = dArg.ToString("R", CultureInfo.CreateSpecificCulture("en-US"));
+                var fixedDbl = double.Parse(rDoubleStr, CultureInfo.CreateSpecificCulture("en-US"));
                 result = fixedDbl.ToString("R", CultureInfo.CreateSpecificCulture("en-US"));
 
                 //decimal decArg = new Decimal(dArg);                                
                 // string result = decArg.ToString().ToUpper();
                 // string result = string.Format("{0:e22}", arg);
                 //string result = dArg.ToString("R", CultureInfo.CreateSpecificCulture("en-US"));
-                if (!result.Contains("."))
-                {
-                    if (result.Contains("E"))
-                        result = result.Replace("E", ".E");
-                    else
-                        result += ".";
-                }
+                if (result.Contains(".")) return result;
+
+                if (result.Contains("E"))
+                    result = result.Replace("E", ".E");
+                else
+                    result += ".";
 
                 return result;
             }
-            else if (!String.IsNullOrEmpty(fmt) && fmt.ToUpper() == "T") //TimeStamp
+            if (!String.IsNullOrEmpty(fmt) && fmt.ToUpper() == "T") //TimeStamp
             {
-                string result = arg.ToString().ToUpper();
-                DateTime? dt = arg as DateTime?;
+                var dt = arg as DateTime?;
                 if (dt.HasValue == false)
                     throw new ArgumentException("Only valid DateTime objects can be converted to Part21 Timestamp");
-                return IfcTimeStamp.ToTimeStamp(dt.Value).ToPart21;
+                return IfcTimeStamp.ToTimeStamp(dt.Value).ToString();
             }
-            else if (!String.IsNullOrEmpty(fmt) && fmt.ToUpper() == "G") //Guid
+            if (!String.IsNullOrEmpty(fmt) && fmt.ToUpper() == "G") //Guid
             {
-                string result = arg.ToString().ToUpper();
-                Guid guid = (Guid)arg;
+                var guid = (Guid)arg;
                 return string.Format(@"'{0}'", IfcGloballyUniqueId.AsPart21(guid));
             }
             // Return string representation of argument for any other formatting code
-            else
-                return string.Format(@"'{0}'", IfcText.Escape(arg.ToString()));
+            return string.Format(@"'{0}'", arg.ToString().ToPart21());
         }
     }
 }

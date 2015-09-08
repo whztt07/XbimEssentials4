@@ -6,12 +6,13 @@ using Xbim.XbimExtensions;
 using Xbim.Common.Exceptions;
 using System.Collections.Specialized;
 using Xbim.Common;
+using Xbim.Common.XbimExtensions;
 using Xbim.Ifc2x3.Kernel;
 using Xbim.Ifc2x3.MeasureResource;
 
 namespace Xbim.IO
 {
-    public static class IPersistEntityExtensions
+    public static class IInstantiableEntityExtensions
     {
        
 
@@ -22,7 +23,7 @@ namespace Xbim.IO
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
-        public static short IfcTypeId(this  IPersistEntity entity)
+        public static short IfcTypeId(this  IInstantiableEntity entity)
         {
             return IfcMetaData.IfcTypeId(entity);
         }
@@ -32,33 +33,33 @@ namespace Xbim.IO
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
-        public static IfcType IfcType(this  IPersistEntity entity)
+        public static IfcType IfcType(this  IInstantiableEntity entity)
         {
             return IfcMetaData.IfcType(entity);
         }
 
         public static StringCollection SummaryString(this IPersistEntity entity)
         {
-            StringCollection sc = new StringCollection();
+            var sc = new StringCollection();
             sc.Add("Entity\t = #" + entity.EntityLabel);
             if (entity is IfcRoot)
             {
-                IfcRoot root = entity as IfcRoot;
+                var root = entity as IfcRoot;
                 sc.Add("Guid\t = " + root.GlobalId);
                 sc.Add("Type\t = " + root.GetType().Name);
                 sc.Add("Name\t = " + (root.Name.HasValue ? root.Name.Value.ToString() : root.ToString()));
             }
             return sc;
         }
-       
 
-        internal static void WriteEntity(this IPersistEntity entity, TextWriter tw, byte[] propertyData)
+
+        internal static void WriteEntity(this IInstantiableEntity entity, TextWriter tw, byte[] propertyData)
         {
             tw.Write(string.Format("#{0}={1}", entity.EntityLabel, entity.GetType().Name.ToUpper()));
-            BinaryReader br = new BinaryReader(new MemoryStream(propertyData));
-            P21ParseAction action = (P21ParseAction)br.ReadByte();
-            bool comma = false; //the first property
-            XbimParserState parserState = new XbimParserState(entity);
+            var br = new BinaryReader(new MemoryStream(propertyData));
+            var action = (P21ParseAction)br.ReadByte();
+            var comma = false; //the first property
+            var parserState = new XbimParserState(entity);
             while (action != P21ParseAction.EndEntity)
             {
                 switch (action)
@@ -158,15 +159,15 @@ namespace Xbim.IO
         /// </summary>
         /// <param name="entityWriter">The TextWriter</param>
         /// <param name="entity">The entity to write</param>
-        internal static void WriteEntity(this IPersistEntity entity, TextWriter entityWriter, IDictionary<int, int> map = null)
+        internal static void WriteEntity(this IInstantiableEntity entity, TextWriter entityWriter, IDictionary<int, int> map = null)
         {
 
             if (map != null && map.Keys.Contains(entity.EntityLabel)) return; //if the entity is replaced in the map do not write it
             entityWriter.Write(string.Format("#{0}={1}(", entity.EntityLabel, entity.GetType().Name.ToUpper()));
-            IfcType ifcType = IfcMetaData.IfcType(entity);
-            bool first = true;
+            var ifcType = IfcMetaData.IfcType(entity);
+            var first = true;
             
-            foreach (IfcMetaProperty ifcProperty in ifcType.IfcProperties.Values)
+            foreach (var ifcProperty in ifcType.IfcProperties.Values)
             //only write out persistent attributes, ignore inverses
             {
                 if (ifcProperty.IfcAttribute.State == IfcAttributeState.DerivedOverride)
@@ -178,8 +179,8 @@ namespace Xbim.IO
                 }
                 else
                 {
-                    Type propType = ifcProperty.PropertyInfo.PropertyType;
-                    object propVal = ifcProperty.PropertyInfo.GetValue(entity, null);
+                    var propType = ifcProperty.PropertyInfo.PropertyType;
+                    var propVal = ifcProperty.PropertyInfo.GetValue(entity, null);
                     if (!first)
                         entityWriter.Write(',');
                     WriteProperty(propType, propVal, entityWriter, map);
@@ -208,7 +209,7 @@ namespace Xbim.IO
                 if (typeof(IExpressComplexType).IsAssignableFrom(propVal.GetType()))
                 {
                     entityWriter.Write('(');
-                    bool first = true;
+                    var first = true;
                     foreach (var compVal in ((IExpressComplexType)propVal).Properties)
                     {
                         if (!first)
@@ -220,7 +221,7 @@ namespace Xbim.IO
                 }
                 else if ((typeof(IExpressType).IsAssignableFrom(propVal.GetType())))
                 {
-                    IExpressType expressVal = (IExpressType)propVal;
+                    var expressVal = (IExpressType)propVal;
                     WriteValueType(expressVal.UnderlyingSystemType, expressVal.Value, entityWriter);
                 }
                 else // if (propVal.GetType().IsEnum)
@@ -232,7 +233,7 @@ namespace Xbim.IO
             else if (typeof(IExpressComplexType).IsAssignableFrom(propType))
             {
                 entityWriter.Write('(');
-                bool first = true;
+                var first = true;
                 foreach (var compVal in ((IExpressComplexType)propVal).Properties)
                 {
                     if (!first)
@@ -245,7 +246,7 @@ namespace Xbim.IO
             else if (typeof(IExpressType).IsAssignableFrom(propType))
             //value types with a single property (IfcLabel, IfcInteger)
             {
-                Type realType = propVal.GetType();
+                var realType = propVal.GetType();
                 if (realType != propType)
                 //we have a type but it is a select type use the actual value but write out explricitly
                 {
@@ -256,7 +257,7 @@ namespace Xbim.IO
                 }
                 else //need to write out underlying property value
                 {
-                    IExpressType expressVal = (IExpressType)propVal;
+                    var expressVal = (IExpressType)propVal;
                     WriteValueType(expressVal.UnderlyingSystemType, expressVal.Value, entityWriter);
                 }
             }
@@ -265,7 +266,7 @@ namespace Xbim.IO
             //only process lists that are real lists, see cartesianpoint
             {
                 entityWriter.Write('(');
-                bool first = true;
+                var first = true;
                 foreach (var item in ((IExpressEnumerable)propVal))
                 {
                     if (!first)
@@ -279,7 +280,7 @@ namespace Xbim.IO
             //all writable entities must support this interface and ExpressType have been handled so only entities left
             {
                 entityWriter.Write('#');
-                int label = ((IPersistEntity)propVal).EntityLabel;
+                var label = ((IPersistEntity)propVal).EntityLabel;
                 int mapLabel;
                 if(map!=null &&  map.TryGetValue(label, out mapLabel))
                     label = mapLabel;
@@ -326,7 +327,7 @@ namespace Xbim.IO
                 else
                 {
                     entityWriter.Write('\'');
-                    entityWriter.Write(IfcText.Escape((string)pVal));
+                    entityWriter.Write(((string)pVal).ToPart21());
                     entityWriter.Write('\'');
                 }
             }
@@ -336,7 +337,7 @@ namespace Xbim.IO
                 entityWriter.Write(string.Format(".{0}.", pVal.ToString().ToUpper()));
             else if (pInfoType == typeof(Boolean))
             {
-                bool b = false;
+                var b = false;
 
                 if (pVal != null)
                 {
@@ -355,7 +356,7 @@ namespace Xbim.IO
             }
             else if (pInfoType == typeof(bool?)) //convert  logical
             {
-                bool? b = (bool?)pVal;
+                var b = (bool?)pVal;
                 entityWriter.Write(!b.HasValue ? ".U." : string.Format(".{0}.", b.Value ? "T" : "F"));
             }
             else
@@ -367,21 +368,21 @@ namespace Xbim.IO
             return new XbimInstanceHandle(entity);
         }
 
-        public static void WriteEntity(this IPersistEntity entity, BinaryWriter entityWriter)
+        public static void WriteEntity(this IInstantiableEntity entity, BinaryWriter entityWriter)
         {
            
-            IfcType ifcType = IfcMetaData.IfcType(entity);
+            var ifcType = IfcMetaData.IfcType(entity);
            // entityWriter.Write(Convert.ToByte(P21ParseAction.NewEntity));
             entityWriter.Write(Convert.ToByte(P21ParseAction.BeginList));
-            foreach (IfcMetaProperty ifcProperty in ifcType.IfcProperties.Values)
+            foreach (var ifcProperty in ifcType.IfcProperties.Values)
             //only write out persistent attributes, ignore inverses
             {
                 if (ifcProperty.IfcAttribute.State == IfcAttributeState.DerivedOverride)
                     entityWriter.Write(Convert.ToByte(P21ParseAction.SetOverrideValue));
                 else
                 {
-                    Type propType = ifcProperty.PropertyInfo.PropertyType;
-                    object propVal = ifcProperty.PropertyInfo.GetValue(entity, null);
+                    var propType = ifcProperty.PropertyInfo.PropertyType;
+                    var propVal = ifcProperty.PropertyInfo.GetValue(entity, null);
                     WriteProperty(propType, propVal, entityWriter);
                 }
             }
@@ -406,7 +407,7 @@ namespace Xbim.IO
                 }
                 else if ((typeof(IExpressType).IsAssignableFrom(propVal.GetType())))
                 {
-                    IExpressType expressVal = (IExpressType)propVal;
+                    var expressVal = (IExpressType)propVal;
                     WriteValueType(expressVal.UnderlyingSystemType, expressVal.Value, entityWriter);
                 }
                 else
@@ -424,7 +425,7 @@ namespace Xbim.IO
             else if (typeof(IExpressType).IsAssignableFrom(propType))
             //value types with a single property (IfcLabel, IfcInteger)
             {
-                Type realType = propVal.GetType();
+                var realType = propVal.GetType();
                 if (realType != propType)
                 //we have a type but it is a select type use the actual value but write out explicitly
                 {
@@ -437,7 +438,7 @@ namespace Xbim.IO
                 }
                 else //need to write out underlying property value
                 {
-                    IExpressType expressVal = (IExpressType)propVal;
+                    var expressVal = (IExpressType)propVal;
                     WriteValueType(expressVal.UnderlyingSystemType, expressVal.Value, entityWriter);
                 }
             }
@@ -453,7 +454,7 @@ namespace Xbim.IO
             else if (typeof(IPersistEntity).IsAssignableFrom(propType))
             //all writable entities must support this interface and ExpressType have been handled so only entities left
             {
-                int val = ((IPersistEntity)propVal).EntityLabel;
+                var val = ((IPersistEntity)propVal).EntityLabel;
                 if (val <= UInt16.MaxValue)
                 {
                     entityWriter.Write((byte)P21ParseAction.SetObjectValueUInt16);
@@ -539,7 +540,7 @@ namespace Xbim.IO
                 entityWriter.Write(Convert.ToByte(P21ParseAction.SetEnumValue));
                 entityWriter.Write(pVal.ToString().ToUpper());
             }
-            else if (pInfoType == typeof(Boolean))
+            else if (pInfoType == typeof(bool))
             {
                 if (pVal == null) //we have a logical
                 {
@@ -570,7 +571,7 @@ namespace Xbim.IO
             }
             else if (pInfoType == typeof(bool?)) //convert  logical
             {
-                bool? b = (bool?)pVal;
+                var b = (bool?)pVal;
                 if (!b.HasValue)
                     entityWriter.Write(Convert.ToByte(P21ParseAction.SetNonDefinedValue));
                 else
@@ -589,12 +590,12 @@ namespace Xbim.IO
         /// <param name = "entityStream"></param>
         /// <param name = "entityWriter"></param>
         /// <param name = "item"></param>
-        private static int WriteEntityToSteam(MemoryStream entityStream, BinaryWriter entityWriter, IPersistEntity item)
+        private static int WriteEntityToSteam(MemoryStream entityStream, BinaryWriter entityWriter, IInstantiableEntity item)
         {
             entityWriter.Seek(0, SeekOrigin.Begin);
             entityWriter.Write((int)0);
             item.WriteEntity(entityWriter);
-            int len = Convert.ToInt32(entityStream.Position);
+            var len = Convert.ToInt32(entityStream.Position);
             entityWriter.Seek(0, SeekOrigin.Begin);
             entityWriter.Write(len);
             entityWriter.Seek(0, SeekOrigin.Begin);
@@ -611,11 +612,11 @@ namespace Xbim.IO
         /// <param name="br"></param>
         /// <param name="unCached">If true instances inside the properties are not added to the cache</param>
         /// <param name="fromCache"> If true the instance is read from the cache if not present it is created, used during parsing</param>
-        public static void ReadEntityProperties(this IPersistEntity entity, IfcPersistedInstanceCache cache, BinaryReader br, bool unCached = false,bool fromCache = false)
+        public static void ReadEntityProperties(this IInstantiableEntity entity, IfcPersistedInstanceCache cache, BinaryReader br, bool unCached = false, bool fromCache = false)
         {
-            P21ParseAction action = (P21ParseAction)br.ReadByte();
+            var action = (P21ParseAction)br.ReadByte();
 
-            XbimParserState parserState = new XbimParserState(entity);
+            var parserState = new XbimParserState(entity);
             while (action != P21ParseAction.EndEntity)
             {
                 switch (action)
@@ -658,7 +659,7 @@ namespace Xbim.IO
                         if (fromCache)
                         {
                             int label = br.ReadUInt16();
-                            IPersistEntity refEntity;
+                            IInstantiableEntity refEntity;
                             if (!parserState.InList && cache.Read.TryGetValue(label, out refEntity)) //if we are in a list then make a forward reference anyway to make sure we maintain list order
                                 parserState.SetObjectValue(refEntity);
                             else
@@ -673,8 +674,8 @@ namespace Xbim.IO
                     case P21ParseAction.SetObjectValueInt32:
                         if (fromCache)
                         {
-                            int label = br.ReadInt32();
-                            IPersistEntity refEntity;
+                            var label = br.ReadInt32();
+                            IInstantiableEntity refEntity;
                             if (!parserState.InList && cache.Read.TryGetValue(label, out refEntity)) //if we are in a list then make a forward reference anyway to make sure we maintain list order
                                 parserState.SetObjectValue(refEntity);
                             else

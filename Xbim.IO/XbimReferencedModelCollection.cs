@@ -38,7 +38,7 @@ namespace Xbim.IO
             if (index < Count)
                 removed = this[index];
             base.InsertItem(index, item);
-            NotifyCollectionChangedEventHandler collChanged = _collectionChanged;
+            var collChanged = _collectionChanged;
             if (collChanged != null)
             {
                 if (index == Count)
@@ -54,10 +54,10 @@ namespace Xbim.IO
 
         protected override void RemoveItem(int index)
         {
-            int oldCount = Count;
-            XbimReferencedModel removed = this[index];
+            var oldCount = Count;
+            var removed = this[index];
             base.RemoveItem(index);
-            NotifyCollectionChangedEventHandler collChanged = _collectionChanged;
+            var collChanged = _collectionChanged;
             if (collChanged != null)
                 collChanged(this,
                             new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, removed, index));
@@ -66,9 +66,9 @@ namespace Xbim.IO
 
         protected override void ClearItems()
         {
-            int oldCount = Count;
+            var oldCount = Count;
             base.ClearItems();
-            NotifyCollectionChangedEventHandler collChanged = _collectionChanged;
+            var collChanged = _collectionChanged;
             if (collChanged != null)
                 collChanged(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
             NotifyCountChanged(oldCount);
@@ -80,7 +80,7 @@ namespace Xbim.IO
             if (index < Count)
                 removed = this[index];
             base.SetItem(index, item);
-            NotifyCollectionChangedEventHandler collChanged = _collectionChanged;
+            var collChanged = _collectionChanged;
             if (collChanged != null)
                 collChanged(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, removed, index));
         }

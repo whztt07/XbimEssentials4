@@ -233,7 +233,7 @@ namespace Xbim.IO.Parser
 
         internal override void BeginList()
         {
-            Part21Entity p21 = _processStack.Peek();
+            var p21 = _processStack.Peek();
             if (p21.CurrentParamIndex == -1)
                 p21.CurrentParamIndex++; //first time in take the first argument
             _listNestLevel++;
@@ -245,7 +245,7 @@ namespace Xbim.IO.Parser
         internal override void EndList()
         {
             _listNestLevel--;
-            Part21Entity p21 = _processStack.Peek();
+            var p21 = _processStack.Peek();
             p21.CurrentParamIndex++;
             if (!InHeader)
                 _binaryWriter.Write((byte)P21ParseAction.EndList);
@@ -268,15 +268,15 @@ namespace Xbim.IO.Parser
             _entityCount++;
             _indexKeyValues.Clear();
             _currentLabel = Convert.ToInt32(entityLabel.TrimStart('#'));
-            MemoryStream data = _binaryWriter.BaseStream as MemoryStream;
+            var data = _binaryWriter.BaseStream as MemoryStream;
             data.SetLength(0);
 
           
             if (_streamSize != -1 && ProgressStatus != null)
             {
-                Scanner sc = (Scanner)this.Scanner;
+                var sc = (Scanner)this.Scanner;
                 double pos = sc.Buffer.Pos;
-                int newPercentage = Convert.ToInt32(pos / _streamSize * 100.0);
+                var newPercentage = Convert.ToInt32(pos / _streamSize * 100.0);
                 if (newPercentage > _percentageParsed)
                 {
                     _percentageParsed = newPercentage;
@@ -311,23 +311,23 @@ namespace Xbim.IO.Parser
             {
 
                 _currentType = entityTypeName;
-                IfcType ifcType = IfcMetaData.IfcType(_currentType);
+                var ifcType = IfcMetaData.IfcType(_currentType);
                 _indexKeys = ifcType.IndexedValues;
             }
         }
 
         internal override void EndEntity()
         {
-            Part21Entity p21 = _processStack.Pop();
+            var p21 = _processStack.Pop();
             Debug.Assert(_processStack.Count == 0);
             _currentInstance = null;
             if (_currentType != null)
             {
                 _binaryWriter.Write((byte)P21ParseAction.EndEntity);
-                IfcType ifcType = IfcMetaData.IfcType(_currentType);
-                MemoryStream data = _binaryWriter.BaseStream as MemoryStream;
-                byte[] bytes =  data.ToArray();
-                List<int> keys = new List<int>(_indexKeyValues);
+                var ifcType = IfcMetaData.IfcType(_currentType);
+                var data = _binaryWriter.BaseStream as MemoryStream;
+                var bytes =  data.ToArray();
+                var keys = new List<int>(_indexKeyValues);
                 toStore.Add(new Tuple<int, short, List<int>, byte[], bool>(_currentLabel, ifcType.TypeId, keys, bytes, ifcType.IndexedClass));
                 if (this.modelCache.IsCaching) toProcess.Add(new Tuple<int, Type, byte[]>(_currentLabel, ifcType.Type, bytes)); 
             }
@@ -404,10 +404,10 @@ namespace Xbim.IO.Parser
             else
             {
                 _binaryWriter.Write((byte)P21ParseAction.SetStringValue);
-                string ret = value.Substring(1, value.Length - 2); //remove the quotes
+                var ret = value.Substring(1, value.Length - 2); //remove the quotes
                 if (ret.Contains("\\") || ret.Contains("'")) //"''" added to remove extra ' added in IfcText Escape() method
                 {
-                    XbimP21StringDecoder d = new XbimP21StringDecoder();
+                    var d = new XbimP21StringDecoder();
                     ret = d.Unescape(ret, _codePageOverride);
                 }
                 _binaryWriter.Write(ret);
@@ -463,7 +463,7 @@ namespace Xbim.IO.Parser
 
         internal override void SetObjectValue(string value)
         {
-            int val = Convert.ToInt32(value.TrimStart('#'));
+            var val = Convert.ToInt32(value.TrimStart('#'));
 
             if (_indexKeys != null && _indexKeys.Contains(_currentInstance.CurrentParamIndex + 1)) //current param index is 0 based and ifcKey is 1 based
                 _indexKeyValues.Add(val);

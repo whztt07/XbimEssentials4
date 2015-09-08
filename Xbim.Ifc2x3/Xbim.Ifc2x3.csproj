@@ -39,12 +39,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="../Xbim.Common/Xbim.Common.csproj">
-      <Project>{8815c16e-c8fb-4e84-8802-ef0fb4b070e2}</Project>
-      <Name>Xbim.Common</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="ActorResource\IfcActorRole.cs" />
     <Compile Include="ActorResource\IfcActorSelect.cs" />
     <Compile Include="ActorResource\IfcAddress.cs" />
@@ -108,6 +102,11 @@
     <Compile Include="CostResource\IfcEnvironmentalImpactCategoryEnum.cs" />
     <Compile Include="CostResource\IfcEnvironmentalImpactValue.cs" />
     <Compile Include="CostResource\IfcReferencesValueDocument.cs" />
+    <Compile Include="XbimExtensions\IfcBuilding.cs" />
+    <Compile Include="XbimExtensions\IfcGloballyUniqueId.cs" />
+    <Compile Include="XbimExtensions\IfcReal.cs" />
+    <Compile Include="XbimExtensions\IfcRoot.cs" />
+    <Compile Include="XbimExtensions\IfcTimeStamp.cs" />
     <Compile Include="DateTimeResource\IfcAheadOrBehind.cs" />
     <Compile Include="DateTimeResource\IfcCalendarDate.cs" />
     <Compile Include="DateTimeResource\IfcCoordinatedUniversalTimeOffset.cs" />
@@ -1026,6 +1025,16 @@
     <Compile Include="UtilityResource\IfcStateEnum.cs" />
     <Compile Include="UtilityResource\IfcTable.cs" />
     <Compile Include="UtilityResource\IfcTableRow.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="../Xbim.Common/Xbim.Common.csproj">
+      <Project>{A34EF831-EA82-4A79-8C65-B5E1C6D9508D}</Project>
+      <Name>Xbim.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Xbim.Common\Xbim.Common.csproj">
+      <Project>{a34ef831-ea82-4a79-8c65-b5e1c6d9508d}</Project>
+      <Name>Xbim.Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

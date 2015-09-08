@@ -30,28 +30,28 @@ namespace Xbim.IO
 
     public class IfcXmlReader
     {
-        private static readonly Dictionary<string, StepParserType> primitives;
+        private static readonly Dictionary<string, StepParserType> Primitives;
         private readonly int _transactionBatchSize = 100;
-        private Dictionary<string, int> idMap;
-        private int lastId;
+        private Dictionary<string, int> _idMap;
+        private int _lastId;
         static IfcXmlReader()
         {
-            primitives = new Dictionary<string, StepParserType>();
-            primitives.Add("double-wrapper", StepParserType.Real);
-            primitives.Add("long-wrapper", StepParserType.Integer);
-            primitives.Add("string-wrapper", StepParserType.String);
-            primitives.Add("integer-wrapper", StepParserType.Integer);
-            primitives.Add("boolean-wrapper", StepParserType.Boolean);
-            primitives.Add("logical-wrapper", StepParserType.Boolean);
-            primitives.Add("decimal-wrapper", StepParserType.Real);
-            primitives.Add("hexBinary-wrapper", StepParserType.HexaDecimal);
-            primitives.Add("base64Binary-wrapper", StepParserType.Entity);
-            primitives.Add(typeof(double).Name, StepParserType.Real);
-            primitives.Add(typeof(long).Name, StepParserType.Integer);
-            primitives.Add(typeof(string).Name, StepParserType.String);
-            primitives.Add(typeof(int).Name, StepParserType.Integer);
-            primitives.Add(typeof(bool).Name, StepParserType.Boolean);
-            primitives.Add("Enum", StepParserType.Enum);
+            Primitives = new Dictionary<string, StepParserType>();
+            Primitives.Add("double-wrapper", StepParserType.Real);
+            Primitives.Add("long-wrapper", StepParserType.Integer);
+            Primitives.Add("string-wrapper", StepParserType.String);
+            Primitives.Add("integer-wrapper", StepParserType.Integer);
+            Primitives.Add("boolean-wrapper", StepParserType.Boolean);
+            Primitives.Add("logical-wrapper", StepParserType.Boolean);
+            Primitives.Add("decimal-wrapper", StepParserType.Real);
+            Primitives.Add("hexBinary-wrapper", StepParserType.HexaDecimal);
+            Primitives.Add("base64Binary-wrapper", StepParserType.Entity);
+            Primitives.Add(typeof(double).Name, StepParserType.Real);
+            Primitives.Add(typeof(long).Name, StepParserType.Integer);
+            Primitives.Add(typeof(string).Name, StepParserType.String);
+            Primitives.Add(typeof(int).Name, StepParserType.Integer);
+            Primitives.Add(typeof(bool).Name, StepParserType.Boolean);
+            Primitives.Add("Enum", StepParserType.Enum);
 
         }
 
@@ -73,9 +73,9 @@ namespace Xbim.IO
 
         private class XmlEntity : XmlNode
         {
-            public IPersistEntity Entity;
+            public IInstantiableEntity Entity;
 
-            public XmlEntity(XmlNode parent, IPersistEntity ent)
+            public XmlEntity(XmlNode parent, IInstantiableEntity ent)
                 : base(parent)
             {
                 Entity = ent;
@@ -137,14 +137,14 @@ namespace Xbim.IO
                     return;
                 var propVal = new PropertyValue();
                 propVal.Init(val, parserType);
-                ((XmlEntity)Parent).Entity.IfcParse(PropertyIndex - 1, propVal);
+                ((XmlEntity)Parent).Entity.Set(PropertyIndex - 1, propVal);
             }
 
             public void SetValue(object o)
             {
                 var propVal = new PropertyValue();
                 propVal.Init(o);
-                ((XmlEntity)Parent).Entity.IfcParse(PropertyIndex - 1, propVal);
+                ((XmlEntity)Parent).Entity.Set(PropertyIndex - 1, propVal);
             }
         }
 
@@ -157,11 +157,6 @@ namespace Xbim.IO
 
         private class XmlUosCollection : XmlCollectionProperty
         {
-            public XmlUosCollection()
-            {
-            }
-
-
             internal override void SetCollection(IModel model, XmlReader reader)
             {
 
@@ -236,17 +231,17 @@ namespace Xbim.IO
 
             if (id.HasValue && IsIfcEntity(elementName, out ifcType)) //we have an element which is an Ifc Entity
             {
-                IPersistEntity ent;
+                IInstantiableEntity ent;
                 if (!cache.Contains(id.Value))
                 {
                     // not been declared in a ref yet
                     // model.New creates an instance uisng type and id
-                    ent = cache.CreateNew(ifcType.Type, id.Value);
+                    ent = cache.CreateNew(ifcType.Type, id.Value) as IInstantiableEntity;
                    
                 }
                 else
                 {
-                    ent = cache.GetInstance(id.Value, false, true);
+                    ent = cache.GetInstance(id.Value, false, true) as IInstantiableEntity;
                 }
 
                 var xmlEnt = new XmlEntity(_currentNode, ent);
@@ -294,7 +289,7 @@ namespace Xbim.IO
             {
                 if (IsIfcProperty(elementName, out propIndex, out prop))
                 {
-                    var node = new XmlProperty(_currentNode, prop.PropertyInfo, propIndex); ;
+                    var node = new XmlProperty(_currentNode, prop.PropertyInfo, propIndex);
                     var propVal = new PropertyValue();
                     var t = node.Property.PropertyType;
 
@@ -308,7 +303,7 @@ namespace Xbim.IO
 
                         StepParserType pt;
                         if (et != null)
-                            pt = primitives[et.UnderlyingSystemType.Name];
+                            pt = Primitives[et.UnderlyingSystemType.Name];
                         else
                         {
                             if (t.IsEnum)
@@ -316,7 +311,7 @@ namespace Xbim.IO
                                 pt = StepParserType.Enum;
                             }
                             else
-                                pt = primitives[t.Name];
+                                pt = Primitives[t.Name];
                         }
 
                         if (pt.ToString().ToLower() == "string")
@@ -328,7 +323,7 @@ namespace Xbim.IO
                             else
                                 propVal.Init(input.Value, pt);
                         }
-                        ((XmlEntity)node.Parent).Entity.IfcParse(node.PropertyIndex - 1, propVal);
+                        ((XmlEntity)node.Parent).Entity.Set(node.PropertyIndex - 1, propVal);
                     }
 
                 }
@@ -412,7 +407,7 @@ namespace Xbim.IO
             var xmlEntity = _currentNode as XmlEntity;
             if (xmlEntity != null && !IfcMetaData.TryGetIfcType(elementName.ToUpper(), out ifcType))
             {
-                IfcType t = IfcMetaData.IfcType(xmlEntity.Entity);
+                var t = IfcMetaData.IfcType(xmlEntity.Entity);
 
                 foreach (var p in t.IfcProperties)
                 {
@@ -438,7 +433,7 @@ namespace Xbim.IO
 
         private bool IsPrimitiveType(string elementName, out StepParserType basicType)
         {
-            return primitives.TryGetValue(elementName, out basicType); //we have a primitive type
+            return Primitives.TryGetValue(elementName, out basicType); //we have a primitive type
 
         }
 
@@ -471,11 +466,11 @@ namespace Xbim.IO
             if (!string.IsNullOrEmpty(strId)) //must be a new instance or a reference to an existing one  
             {
                 int lookup;
-                if (!idMap.TryGetValue(strId, out lookup))
+                if (!_idMap.TryGetValue(strId, out lookup))
                 {
-                    ++lastId;
-                    nextId = lastId;
-                    idMap.Add(strId, nextId.Value);
+                    ++_lastId;
+                    nextId = _lastId;
+                    _idMap.Add(strId, nextId.Value);
                 }
                 else
                     nextId = lookup;
@@ -489,8 +484,8 @@ namespace Xbim.IO
             }
             else if (IsIfcEntity(input.LocalName, out ifcType) && !typeof(IExpressType).IsAssignableFrom(ifcType.Type)) //its a type with no identity, make one
             {
-                ++lastId;
-                nextId = lastId;
+                ++_lastId;
+                nextId = _lastId;
             }
             
             return nextId;
@@ -534,7 +529,7 @@ namespace Xbim.IO
                             IPersist ifcCollectionOwner = collectionOwner.Entity;
                             var pv = new PropertyValue();
                             pv.Init(node.Entity);
-                            ifcCollectionOwner.IfcParse(collection.PropertyIndex - 1, pv);
+                            ifcCollectionOwner.Set(collection.PropertyIndex - 1, pv);
                                                         
                         }
 
@@ -571,7 +566,7 @@ namespace Xbim.IO
                         }
                         else
                         {
-                            propNode.SetValue(expressNode.Value, primitives[expressNode.Type.Name]);
+                            propNode.SetValue(expressNode.Value, Primitives[expressNode.Type.Name]);
                         }
                     }
                     else if (_currentNode is XmlBasicType)
@@ -599,15 +594,15 @@ namespace Xbim.IO
 
                     var pt = StepParserType.Undefined;
                     if (et != null)
-                        pt = primitives[et.UnderlyingSystemType.Name];
+                        pt = Primitives[et.UnderlyingSystemType.Name];
                     else
                     {
                         if (t.IsEnum)
                         {
                             pt = StepParserType.Enum;
                         }
-                        else if (primitives.ContainsKey(t.Name))
-                            pt = primitives[t.Name];
+                        else if (Primitives.ContainsKey(t.Name))
+                            pt = Primitives[t.Name];
                     }
 
                     if (pt != StepParserType.Undefined)
@@ -622,7 +617,7 @@ namespace Xbim.IO
                                 propVal.Init(input.Value, pt);
                         }
 
-                        ((XmlEntity)node.Parent).Entity.IfcParse(node.PropertyIndex - 1, propVal);
+                        ((XmlEntity)node.Parent).Entity.Set(node.PropertyIndex - 1, propVal);
                     }
 
 
@@ -656,7 +651,7 @@ namespace Xbim.IO
                         {
                             var actualEntityValue = (IExpressType)(Activator.CreateInstance(actualEntityType));
                             //resolve the underlying type
-                            var parserType = primitives[actualEntityValue.UnderlyingSystemType.Name];
+                            var parserType = Primitives[actualEntityValue.UnderlyingSystemType.Name];
                             if (parserType == StepParserType.String)
                                 pv.Init("'" + expressNode.Value + "'", parserType);
                             else
@@ -672,7 +667,7 @@ namespace Xbim.IO
 
                         var collectionOwner = _currentNode.Parent.Parent as XmlEntity; //go to owner of collection
                         IPersist ifcCollectionOwner = collectionOwner.Entity;
-                        ifcCollectionOwner.IfcParse(collection.PropertyIndex - 1, pv);
+                        ifcCollectionOwner.Set(collection.PropertyIndex - 1, pv);
 
                     }
                     else if (_currentNode is XmlBasicType)
@@ -683,7 +678,7 @@ namespace Xbim.IO
                         IPersist ifcCollectionOwner = collectionOwner.Entity;
                         var pv = new PropertyValue();
                         pv.Init(basicNode.Value, basicNode.Type);
-                        ifcCollectionOwner.IfcParse(collection.PropertyIndex - 1, pv);
+                        ifcCollectionOwner.Set(collection.PropertyIndex - 1, pv);
                     }
 
 
@@ -758,7 +753,7 @@ namespace Xbim.IO
                                 if (et.GetType() == typeof(IfcLogical))
                                     parserType = StepParserType.Boolean;
                                 else
-                                    parserType = primitives[et.UnderlyingSystemType.Name];
+                                    parserType = Primitives[et.UnderlyingSystemType.Name];
                             }
                             else if (t.IsEnum)
                             {
@@ -766,14 +761,14 @@ namespace Xbim.IO
                             }
                             else 
                             {
-                                if (!primitives.TryGetValue(t.Name, out parserType))
+                                if (!Primitives.TryGetValue(t.Name, out parserType))
                                     parserType = StepParserType.Undefined;
                             }
 
                             if (parserType == StepParserType.String)
                             {
                                 propVal.Init("'" + input.Value + "'", parserType);
-                                ((XmlEntity)node.Parent).Entity.IfcParse(node.PropertyIndex - 1, propVal);
+                                ((XmlEntity)node.Parent).Entity.Set(node.PropertyIndex - 1, propVal);
                             }
                             else if (parserType != StepParserType.Undefined && !string.IsNullOrWhiteSpace(input.Value))
                             {
@@ -785,7 +780,7 @@ namespace Xbim.IO
                                 else
                                     propVal.Init(input.Value, parserType);
 
-                                ((XmlEntity)node.Parent).Entity.IfcParse(node.PropertyIndex - 1, propVal);
+                                ((XmlEntity)node.Parent).Entity.Set(node.PropertyIndex - 1, propVal);
                             }
 
                             
@@ -807,8 +802,8 @@ namespace Xbim.IO
         {
            
             // Read until end of file
-            idMap = new Dictionary<string, int>();
-            lastId = 0;
+            _idMap = new Dictionary<string, int>();
+            _lastId = 0;
             _entitiesParsed = 0;
             var foundHeader = false;
             var header = new IfcFileHeader(IfcFileHeader.HeaderCreationMode.LeaveEmpty);
@@ -926,7 +921,7 @@ namespace Xbim.IO
                                 {
                                     _entitiesParsed++;
                                     //now write the entity to the database
-                                    entityTable.AddEntity(toWrite);
+                                    entityTable.AddEntity(toWrite as IInstantiableEntity);
                                     if (_entitiesParsed % _transactionBatchSize == (_transactionBatchSize - 1))
                                     {
                                         transaction.Commit();

@@ -276,7 +276,7 @@ namespace QUT.Gppg
 #if TRACE_ACTIONS
                     Console.Error.WriteLine("Entering state {0} ", FsaState.number);
 #endif
-                int action = FsaState.defaultAction;
+                var action = FsaState.defaultAction;
 
                 if (FsaState.ParserTable != null)
                 {
@@ -358,7 +358,7 @@ namespace QUT.Gppg
 #if TRACE_ACTIONS
 				DisplayRule(ruleNumber);
 #endif
-            Rule rule = rules[ruleNumber];
+            var rule = rules[ruleNumber];
             //
             //  Default actions for unit productions.
             //
@@ -387,8 +387,8 @@ namespace QUT.Gppg
                     // Default action: $$ = $1;
                     CurrentSemanticValue = valueStack.TopElement();
                     //  Default action "@$ = @1.Merge(@N)" for location info.
-                    TSpan at1 = LocationStack[LocationStack.Depth - rule.RightHandSide.Length];
-                    TSpan atN = LocationStack[LocationStack.Depth - 1];
+                    var at1 = LocationStack[LocationStack.Depth - rule.RightHandSide.Length];
+                    var atN = LocationStack[LocationStack.Depth - 1];
                     CurrentLocationSpan =
                         ((at1 != null && atN != null) ? at1.Merge(atN) : default(TSpan));
                 }
@@ -396,7 +396,7 @@ namespace QUT.Gppg
 
             DoAction(ruleNumber);
 
-            for (int i = 0; i < rule.RightHandSide.Length; i++)
+            for (var i = 0; i < rule.RightHandSide.Length; i++)
             {
                 StateStack.Pop();
                 valueStack.Pop();
@@ -446,13 +446,13 @@ namespace QUT.Gppg
 
         private void ReportError()
         {
-            StringBuilder errorMsg = new StringBuilder();
+            var errorMsg = new StringBuilder();
             errorMsg.AppendFormat("Syntax error, unexpected {0}", TerminalToString(NextToken));
 
             if (FsaState.ParserTable.Count < 7)
             {
-                bool first = true;
-                foreach (int terminal in FsaState.ParserTable.Keys)
+                var first = true;
+                foreach (var terminal in FsaState.ParserTable.Keys)
                 {
                     if (first)
                         errorMsg.Append(", expecting ");
@@ -468,7 +468,7 @@ namespace QUT.Gppg
 
         private void ShiftErrorToken()
         {
-            int old_next = NextToken;
+            var old_next = NextToken;
             NextToken = errorToken;
 
             Shift(FsaState.ParserTable[NextToken]);
@@ -512,7 +512,7 @@ namespace QUT.Gppg
 
         private bool DiscardInvalidTokens()
         {
-            int action = FsaState.defaultAction;
+            var action = FsaState.defaultAction;
 
             if (FsaState.ParserTable != null)
             {
@@ -614,7 +614,7 @@ namespace QUT.Gppg
         private void DisplayStack()
         {
             Console.Error.Write("State now");
-            for (int i = 0; i < StateStack.Depth; i++)
+            for (var i = 0; i < StateStack.Depth; i++)
                 Console.Error.Write(" {0}", StateStack[i].number);
             Console.Error.WriteLine();
         }
@@ -630,7 +630,7 @@ namespace QUT.Gppg
             if (rule.RightHandSide.Length == 0)
                 Console.Error.Write("/* empty */ ");
             else
-                foreach (int symbol in rule.RightHandSide)
+                foreach (var symbol in rule.RightHandSide)
                     Console.Error.Write("{0} ", SymbolToString(symbol));
 
             Console.Error.WriteLine("-> {0}", SymbolToString(rule.LeftHandSide));
@@ -889,7 +889,7 @@ namespace QUT.Gppg
             : this(actions)
         {
             Goto = new Dictionary<int, int>();
-            for (int i = 0; i < goToList.Length; i += 2)
+            for (var i = 0; i < goToList.Length; i += 2)
                 Goto.Add(goToList[i], goToList[i + 1]);
         }
 
@@ -902,7 +902,7 @@ namespace QUT.Gppg
         public State(int[] actions)
         {
             ParserTable = new Dictionary<int, int>();
-            for (int i = 0; i < actions.Length; i += 2)
+            for (var i = 0; i < actions.Length; i += 2)
                 ParserTable.Add(actions[i], actions[i + 1]);
         }
 
@@ -924,7 +924,7 @@ namespace QUT.Gppg
             : this(defaultAction)
         {
             Goto = new Dictionary<int, int>();
-            for (int i = 0; i < goToList.Length; i += 2)
+            for (var i = 0; i < goToList.Length; i += 2)
                 Goto.Add(goToList[i], goToList[i + 1]);
         }
     }
@@ -997,7 +997,7 @@ namespace QUT.Gppg
         {
             if (tos >= array.Length)
             {
-                T[] newarray = new T[array.Length*2];
+                var newarray = new T[array.Length*2];
                 Array.Copy(array, newarray, tos);
                 array = newarray;
             }
@@ -1006,7 +1006,7 @@ namespace QUT.Gppg
 
         internal T Pop()
         {
-            T rslt = array[--tos];
+            var rslt = array[--tos];
             array[tos] = default(T);
             return rslt;
         }

@@ -192,7 +192,7 @@ namespace Xbim.IO.Parser
             AddState(94, new State(-12));
             AddState(95, new State(-13));
 
-            Rule[] rules = new Rule[61];
+            var rules = new Rule[61];
             rules[1] = new Rule(-3, new[] {-1, 63});
             rules[2] = new Rule(-2, new[] {32});
             rules[3] = new Rule(-2, new[] {-2, 32});

@@ -9,32 +9,32 @@ namespace Xbim.IO.Parser
     {
         public readonly int ReferenceEntityLabel;
         private readonly short ReferencingPropertyId;
-        private readonly IPersistEntity ReferencingEntity;
+        private readonly IInstantiableEntity ReferencingEntity;
 
         public IfcForwardReference(int referenceEntityLabel,
             short referencingProperty,
-            IPersistEntity referencingEntity)
+            IInstantiableEntity referencingEntity)
         {
             ReferenceEntityLabel = referenceEntityLabel;
             ReferencingPropertyId = referencingProperty;
             ReferencingEntity = referencingEntity;
         }
 
-        public bool Resolve(ConcurrentDictionary<int, IPersistEntity> references)
+        public bool Resolve(ConcurrentDictionary<int, IInstantiableEntity> references)
         {
-            IPersistEntity entity;
+            IInstantiableEntity entity;
             if (references.TryGetValue(ReferenceEntityLabel, out entity))
             {
-                PropertyValue pv = new PropertyValue();
+                var pv = new PropertyValue();
                 pv.Init(entity);
                 try
                 {
-                    ReferencingEntity.IfcParse(ReferencingPropertyId, pv);
+                    ReferencingEntity.Set(ReferencingPropertyId, pv);
                     return true;
                 }
                 catch (Exception)
                 {
-                    IfcType ifcType = IfcMetaData.IfcType(ReferencingEntity);
+                    var ifcType = IfcMetaData.IfcType(ReferencingEntity);
                     
                     XbimModel.Logger.ErrorFormat("Data Error. Cannot set the property = {0} of entity #{1} = {2} to entity #{3}, schema violation. Ignored", 
                         ifcType.IfcProperties[ReferencingPropertyId+1].PropertyInfo.Name, 

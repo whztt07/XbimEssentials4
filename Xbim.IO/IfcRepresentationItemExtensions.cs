@@ -13,14 +13,14 @@ namespace Xbim.IO
         /// <returns></returns>
         public static IfcSurfaceStyle SurfaceStyle(this IfcRepresentationItem repItem)
         {
-            IfcStyledItem styledItem = repItem.Model.Instances.Where<IfcStyledItem>(s => s.Item == repItem).FirstOrDefault();
+            var styledItem = repItem.Model.Instances.Where<IfcStyledItem>(s => s.Item == repItem).FirstOrDefault();
             if (styledItem != null)
             {
                 foreach (var presStyle in styledItem.Styles)
                 {
                     if (presStyle != null)
                     {
-                        IfcSurfaceStyle aSurfaceStyle = presStyle.Styles.OfType<IfcSurfaceStyle>().FirstOrDefault();
+                        var aSurfaceStyle = presStyle.Styles.OfType<IfcSurfaceStyle>().FirstOrDefault();
                         if (aSurfaceStyle != null) return aSurfaceStyle;
                     }
                     

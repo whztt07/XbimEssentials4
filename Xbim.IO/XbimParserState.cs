@@ -9,7 +9,7 @@ namespace Xbim.IO
     public class XbimParserState
     {
 
-        public XbimParserState(IPersistEntity entity)
+        public XbimParserState(IInstantiableEntity entity)
         {
             _currentInstance = new Part21Entity(entity);
             _processStack.Push(_currentInstance);
@@ -22,7 +22,7 @@ namespace Xbim.IO
 
         public void BeginList()
         {
-            Part21Entity p21 = _processStack.Peek();
+            var p21 = _processStack.Peek();
             if (p21.CurrentParamIndex == -1)
                 p21.CurrentParamIndex++; //first time in take the first argument
 
@@ -32,7 +32,7 @@ namespace Xbim.IO
         public void EndList()
         {
             _listNestLevel--;
-            Part21Entity p21 = _processStack.Peek();
+            var p21 = _processStack.Peek();
             p21.CurrentParamIndex++;
             //Console.WriteLine("EndList");
         }
@@ -45,7 +45,7 @@ namespace Xbim.IO
 
         internal void BeginNestedType(string typeName)
         {
-            IfcType ifcType = IfcMetaData.IfcType(typeName);
+            var ifcType = IfcMetaData.IfcType(typeName);
             _currentInstance = new Part21Entity((IPersist)Activator.CreateInstance(ifcType.Type));
             _processStack.Push(_currentInstance);
         }
@@ -132,7 +132,7 @@ namespace Xbim.IO
         {
             _propertyValue.Init(value);
             //CurrentInstance.SetPropertyValue(PropertyValue);
-            _currentInstance.Entity.IfcParse(_currentInstance.CurrentParamIndex, _propertyValue);
+            _currentInstance.Entity.Set(_currentInstance.CurrentParamIndex, _propertyValue);
             if (_listNestLevel == 0) _currentInstance.CurrentParamIndex++;
         }
 

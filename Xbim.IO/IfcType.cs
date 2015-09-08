@@ -9,7 +9,6 @@ namespace Xbim.IO
     public class IfcType
     {
         public Type Type;
-        public short TypeId;
         public SortedList<int, IfcMetaProperty> IfcProperties = new SortedList<int, IfcMetaProperty>();
         public List<IfcMetaProperty> IfcInverses = new List<IfcMetaProperty>();
         public IfcType IfcSuperType;
@@ -41,11 +40,33 @@ namespace Xbim.IO
             return Type.Name;
         }
 
-        public IfcEntityNameEnum IfcTypeEnum
+        public short TypeId
         {
             get
             {
-                return (IfcEntityNameEnum) Enum.Parse(typeof(IfcEntityNameEnum), Type.Name, true);
+                var entNameAttr = Type.GetCustomAttributes(typeof (EntityNameAttribute), false).FirstOrDefault();
+                if (entNameAttr == null) 
+#if DEBUG
+                    throw new Exception("Type ID not defined for type " + Type.Name);
+#else
+                    return -1;
+#endif
+                return (short)((EntityNameAttribute) entNameAttr).TypeId;
+            }
+        }
+
+        public string ExpressName
+        {
+            get
+            {
+                var entNameAttr = Type.GetCustomAttributes(typeof(EntityNameAttribute), false).FirstOrDefault();
+                if (entNameAttr == null)
+#if DEBUG
+                    throw new Exception("Type ID not defined for type " + Type.Name);
+#else
+                    return null;
+#endif
+                return ((EntityNameAttribute)entNameAttr).Name;
             }
         }
 
@@ -78,12 +99,13 @@ namespace Xbim.IO
             foreach (var prop in IndexedProperties)
             {
                 var o = prop.GetValue(ent, null);
-                if (null!=o && typeof(IPersistEntity).IsAssignableFrom(o.GetType()))
+                var entity = o as IPersistEntity;
+                if (entity != null)
                 {
-                    var h = ((IPersistEntity)o).EntityLabel;
+                    var h = entity.EntityLabel;
                     keys.Add(h); //normally there are only one or two keys so don't worry about performance of contains on a list
                 }
-                else if (null != o && typeof(IExpressEnumerable).IsAssignableFrom(o.GetType()))
+                else if (o is IExpressEnumerable)
                 {
                     foreach (var obj in (IExpressEnumerable)o)
                     {

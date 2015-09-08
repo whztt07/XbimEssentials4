@@ -17,6 +17,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Xml;
 using Xbim.Common;
+using Xbim.Common.XbimExtensions;
 using Xbim.Ifc2x3.GeometryResource;
 using Xbim.IO.Parser;
 using Xbim.IO.Step21;
@@ -153,8 +154,8 @@ namespace Xbim.IO
             //int nextId = _written.Count + 1;
             _written.Add(handle);
 
-            var entity = model.GetInstanceVolatile(handle); //load either the cache or a volatile version of the entity
-            IfcType ifcType = IfcMetaData.IfcType(entity);
+            var entity = model.GetInstanceVolatile(handle) as IInstantiableEntity; //load either the cache or a volatile version of the entity
+            var ifcType = IfcMetaData.IfcType(entity);
 
             output.WriteStartElement(ifcType.Type.Name);
             

@@ -324,7 +324,7 @@ namespace Xbim.IO
         /// <param name="transform"></param>
         public int AddInstance(int ctxtId, int shapeLabel, int styleLabel, short typeId, int productLabel, XbimGeometryRepresentationType repType, byte[] transform)
         {
-            int id = -1;
+            var id = -1;
             using (var update = new Update(sesid, table, JET_prep.Insert))
             {
                 _colValRepresentationContext.Value = ctxtId;

@@ -16,7 +16,7 @@ using System;
 
 #endregion
 
-namespace Xbim.XbimExtensions
+namespace Xbim.Common.XbimExtensions
 {
     /// <summary>
     ///   The scope of the IFC attribute
@@ -52,7 +52,7 @@ namespace Xbim.XbimExtensions
     /// <summary>
     /// Defines that this property can be used to create an identity for the object, but it is not on its own an identity for the object
     /// </summary>
-    [AttributeUsage(AttributeTargets.Property,Inherited=true, AllowMultiple = true)]
+    [AttributeUsage(AttributeTargets.Property, AllowMultiple = true)]
     public sealed class IdentityComponent : Attribute
     {
     }
@@ -60,28 +60,28 @@ namespace Xbim.XbimExtensions
     /// <summary>
     /// Defines that this property is an identity property of the obejct, typically a guid or key
     /// </summary>
-    [AttributeUsage(AttributeTargets.Property, Inherited = true, AllowMultiple = true)]
+    [AttributeUsage(AttributeTargets.Property, AllowMultiple = true)]
     public sealed class IdentityProperty : Attribute
     {
     }
 
-    [AttributeUsage(AttributeTargets.Property,Inherited=true, AllowMultiple = false)]
+    [AttributeUsage(AttributeTargets.Property)]
     public sealed class IndexedProperty : Attribute
     {
     }
 
-    [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
+    [AttributeUsage(AttributeTargets.Class)]
     public sealed class IfcPersistedEntityAttribute : Attribute
     {
     }
 
-    [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
+    [AttributeUsage(AttributeTargets.Class)]
     public sealed class IndexedClass : Attribute
     {
     }
 
 
-    [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
+    [AttributeUsage(AttributeTargets.Property)]
     public sealed class IfcAttribute : Attribute
     {
         private readonly IfcAttributeState _state;

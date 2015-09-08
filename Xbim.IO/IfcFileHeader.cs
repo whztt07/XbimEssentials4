@@ -57,7 +57,7 @@ namespace Xbim.IO
 
         #region ISupportIfcParser Members
 
-        public void IfcParse(int propIndex, IPropertyValue value)
+        public void Set(int propIndex, IPropertyValue value)
         {
             switch (propIndex)
             {
@@ -87,15 +87,15 @@ namespace Xbim.IO
         {
             this.MakeValid();
             binaryWriter.Write(Description.Count);
-            foreach (string desc in Description)
+            foreach (var desc in Description)
                 binaryWriter.Write(desc);
             binaryWriter.Write(ImplementationLevel);
         }
 
         internal void Read(BinaryReader binaryReader)
         {
-            int count = binaryReader.ReadInt32();
-            for (int i = 0; i < count; i++)
+            var count = binaryReader.ReadInt32();
+            for (var i = 0; i < count; i++)
             {
                 Description.Add(binaryReader.ReadString());
             }
@@ -169,7 +169,7 @@ namespace Xbim.IO
 
         public void SetTimeStampNow()
         {
-            DateTime now = DateTime.Now;
+            var now = DateTime.Now;
             TimeStamp = string.Format("{0:0000}-{1:00}-{2:00}T{3:00}:{4:00}:{5:00}", now.Year, now.Month, now.Day,
                                       now.Hour, now.Minute, now.Second);
         }
@@ -184,7 +184,7 @@ namespace Xbim.IO
 
         #region ISupportIfcParser Members
 
-        public void IfcParse(int propIndex, IPropertyValue value)
+        public void Set (int propIndex, IPropertyValue value)
         {
             switch (propIndex)
             {
@@ -233,16 +233,16 @@ namespace Xbim.IO
             binaryWriter.Write(Name ?? "");
             binaryWriter.Write(TimeStamp ?? "");
             binaryWriter.Write(AuthorName.Count);
-            foreach (string item in AuthorName)
+            foreach (var item in AuthorName)
                 binaryWriter.Write(item);
             binaryWriter.Write(Organization.Count);
-            foreach (string item in Organization)
+            foreach (var item in Organization)
                 binaryWriter.Write(item);
             binaryWriter.Write(PreprocessorVersion ?? "");
             binaryWriter.Write(OriginatingSystem ?? "");
             binaryWriter.Write(AuthorizationName ?? "");
             binaryWriter.Write(AuthorizationMailingAddress.Count);
-            foreach (string item in AuthorizationMailingAddress)
+            foreach (var item in AuthorizationMailingAddress)
                 binaryWriter.Write(item);
         }
 
@@ -250,13 +250,13 @@ namespace Xbim.IO
         {
             Name = binaryReader.ReadString();
             TimeStamp = binaryReader.ReadString();
-            int count = binaryReader.ReadInt32();
-            for (int i = 0; i < count; i++)
+            var count = binaryReader.ReadInt32();
+            for (var i = 0; i < count; i++)
             {
                 AuthorName.Add(binaryReader.ReadString());
             }
             count = binaryReader.ReadInt32();
-            for (int i = 0; i < count; i++)
+            for (var i = 0; i < count; i++)
             {
                 Organization.Add(binaryReader.ReadString());
             }
@@ -264,7 +264,7 @@ namespace Xbim.IO
             OriginatingSystem = binaryReader.ReadString();
             AuthorizationName = binaryReader.ReadString();
             count = binaryReader.ReadInt32();
-            for (int i = 0; i < count; i++)
+            for (var i = 0; i < count; i++)
             {
                 AuthorizationMailingAddress.Add(binaryReader.ReadString());
             }
@@ -394,7 +394,7 @@ namespace Xbim.IO
 
         #region ISupportIfcParser Members
 
-        public void IfcParse(int propIndex, IPropertyValue value)
+        public void Set(int propIndex, IPropertyValue value)
         {
             switch (propIndex)
             {
@@ -422,14 +422,14 @@ namespace Xbim.IO
             if (Schemas.Count == 0) //if no schema is defined the use IFC2x3 for now
                 Schemas.Add("IFC2X3");
             binaryWriter.Write(Schemas.Count);
-            foreach (string item in Schemas)
+            foreach (var item in Schemas)
                 binaryWriter.Write(item);
         }
 
         internal void Read(BinaryReader binaryReader)
         {
-            int count = binaryReader.ReadInt32();
-            for (int i = 0; i < count; i++)
+            var count = binaryReader.ReadInt32();
+            for (var i = 0; i < count; i++)
             {
                 Schemas.Add(binaryReader.ReadString());
             }

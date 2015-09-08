@@ -1200,7 +1200,11 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="../Xbim.Common/Xbim.Common.csproj">
-      <Project>{8815c16e-c8fb-4e84-8802-ef0fb4b070e2}</Project>
+      <Project>{A34EF831-EA82-4A79-8C65-B5E1C6D9508D}</Project>
+      <Name>Xbim.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Xbim.Common\Xbim.Common.csproj">
+      <Project>{a34ef831-ea82-4a79-8c65-b5e1c6d9508d}</Project>
       <Name>Xbim.Common</Name>
     </ProjectReference>
   </ItemGroup>

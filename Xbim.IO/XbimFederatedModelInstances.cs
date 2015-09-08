@@ -30,7 +30,7 @@ namespace Xbim.IO
         {
             currentEntityLabel = 0;
             currentModelIndex = 0;
-            XbimModel first = models.FirstOrDefault();
+            var first = models.FirstOrDefault();
             if (first != null)
             {
                 cache = first.Cache;
@@ -165,7 +165,7 @@ namespace Xbim.IO
         {
             get
             {
-                long total = _model.InstancesLocal.Count;
+                var total = _model.InstancesLocal.Count;
                 foreach (var refModel in _model.ReferencedModels)
                     total += refModel.Model.Instances.Count;
                 return total;
@@ -174,7 +174,7 @@ namespace Xbim.IO
 
         public long CountOf<T>() where T : IPersistEntity
         {
-            long total = _model.InstancesLocal.CountOf<T>();
+            var total = _model.InstancesLocal.CountOf<T>();
             foreach (var refModel in _model.ReferencedModels)
                 total += refModel.Model.Instances.CountOf<T>();
             return total;
@@ -188,7 +188,7 @@ namespace Xbim.IO
         /// <returns></returns>
         public IPersistEntity GetFromGeometryLabel(int geometryLabel)
         {
-            XbimGeometryHandle filledGeomData = _model.Cache.GetGeometryHandle(geometryLabel);
+            var filledGeomData = _model.Cache.GetGeometryHandle(geometryLabel);
             return _model.Cache.GetInstance(filledGeomData.ProductLabel, true, true);
         }
 
