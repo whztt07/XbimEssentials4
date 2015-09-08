@@ -1,0 +1,205 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{85856DF2-C8AB-4120-8A8D-AE05D2696B51}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Xbim.IO</RootNamespace>
+    <AssemblyName>Xbim.IO</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccProvider>SAK</SccProvider>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>XbimOpenSourceKeyFile.snk</AssemblyOriginatorKeyFile>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <SccAuxPath>SAK</SccAuxPath>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\Output\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\Output\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>..\Output\Release\Xbim.IO.XML</DocumentationFile>
+    <DebugSymbols>true</DebugSymbols>
+    <NoWarn>1591;1572;1573;1574</NoWarn>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Esent.Interop, Version=1.9.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\ManagedEsent.1.9.2.0\lib\net40\Esent.Interop.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="FileReferenceResolver.cs" />
+    <Compile Include="IfcFileHeader.cs" />
+    <Compile Include="IfcRepresentationItemExtensions.cs" />
+    <Compile Include="IXbimGeometryCreator.cs" />
+    <Compile Include="IXbimShapeBounds.cs" />
+    <Compile Include="IXbimShapeGeometryData.cs" />
+    <Compile Include="IXbimShapeInstanceData.cs" />
+    <Compile Include="Step21\IIfcPersistExtensions.cs" />
+    <Compile Include="Step21\IStepFileDescription.cs" />
+    <Compile Include="Step21\Parser\IfcForwardReference.cs" />
+    <Compile Include="Step21\Parser\XbimP21StringDecoder.cs" />
+    <Compile Include="Step21\IStepFileHeader.cs" />
+    <Compile Include="Step21\IStepFileName.cs" />
+    <Compile Include="Step21\IStepFileSchema.cs" />
+    <Compile Include="Esent\XbimDBAccess.cs" />
+    <Compile Include="XbimFederatedModelInstances.cs" />
+    <Compile Include="XbimGeometryHandle.cs" />
+    <Compile Include="XbimGeometryHandleCollection.cs" />
+    <Compile Include="XbimGeometrySort.cs" />
+    <Compile Include="XbimInstanceCollection.cs" />
+    <Compile Include="XbimInstanceHandle.cs" />
+    <Compile Include="IfcMetaData.cs" />
+    <Compile Include="IfcPersistedInstanceCache.cs" />
+    <Compile Include="IfcProductExtensions.cs" />
+    <Compile Include="IfcType.cs" />
+    <Compile Include="IfcTypeDictionary.cs" />
+    <Compile Include="IfcXmlReader.cs" />
+    <Compile Include="IfcXmlWriter.cs" />
+    <Compile Include="IPersistIfcEntityExtensions.cs" />
+    <Compile Include="Step21\Parser\IndexPropertyValue.cs" />
+    <Compile Include="Step21\Parser\IStepP21Parser.cs" />
+    <Compile Include="Step21\Parser\PropertyValue.cs" />
+    <Compile Include="Step21\Parser\XbimP21Indexer.cs" />
+    <Compile Include="Step21\Parser\XbimP21Parser.cs" />
+    <Compile Include="Step21\Parser\Parser.cs" />
+    <Compile Include="Step21\Parser\ShiftReduceParserCode.cs" />
+    <Compile Include="Step21\Parser\StepP21Entity.cs" />
+    <Compile Include="Step21\Parser\StepP21Lex.cs" />
+    <Compile Include="Step21\Parser\StepP21Parser.cs" />
+    <Compile Include="Part21FileWriter.cs" />
+    <Compile Include="Part21Formatter.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TypeExtensions.cs" />
+    <Compile Include="XbimCursor.cs" />
+    <Compile Include="Esent\XbimEntityCursor.cs" />
+    <Compile Include="Esent\XbimGeometryCursor.cs" />
+    <Compile Include="XbimInstanceHandleMap.cs" />
+    <Compile Include="XbimLazyDBTransaction.cs" />
+    <Compile Include="XbimModel.cs" />
+    <Compile Include="XbimInputStream.cs" />
+    <Compile Include="XbimModelSummary.cs" />
+    <Compile Include="XbimOutputStream.cs" />
+    <Compile Include="XbimPackage.cs" />
+    <Compile Include="XbimParserState.cs" />
+    <Compile Include="XbimReadOnlyDBTransaction.cs" />
+    <Compile Include="XbimReadTransaction.cs" />
+    <Compile Include="XbimReadWriteTransaction.cs" />
+    <Compile Include="XbimReferencedModel.cs" />
+    <Compile Include="XbimReferencedModelCollection.cs" />
+    <Compile Include="XbimShapeGeometry.cs" />
+    <Compile Include="XbimShapeGeometryCursor.cs" />
+    <Compile Include="XbimShapeInstance.cs" />
+    <Compile Include="XbimShapeInstanceCursor.cs" />
+    <Compile Include="XbimStorageType.cs" />
+    <Compile Include="Esent\XbimSurfaceStyle.cs" />
+    <Compile Include="Esent\XbimSurfaceStyleMap.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Step21\Parser\MAKEPARSER.BAT" />
+    <None Include="Step21\Parser\StepP21IndexerLex.lex" />
+    <None Include="Step21\Parser\StepP21Lex.lex" />
+    <None Include="Step21\Parser\StepP21Parser.y" />
+    <None Include="XbimOpenSourceKeyFile.snk" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Step21\Parser\gplex.exe" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Step21\Parser\gppg.exe" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Step21\Parser\Readme.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Xbim.Common\Xbim.Common.csproj">
+      <Project>{a34ef831-ea82-4a79-8c65-b5e1c6d9508d}</Project>
+      <Name>Xbim.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Xbim.Ifc2x3\Xbim.Ifc2x3.csproj">
+      <Project>{b6668419-d7a4-4736-b4d8-018756ccf134}</Project>
+      <Name>Xbim.Ifc2x3</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
