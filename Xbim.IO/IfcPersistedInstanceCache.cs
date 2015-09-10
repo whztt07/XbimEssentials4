@@ -1165,9 +1165,11 @@ namespace Xbim.IO
                             {
                                 if (activate && !entity.Activated) //activate if required and not already done
                                 {
-                                    var properties = entityTable.GetProperties();
-                                    entity.ReadEntityProperties(this, new BinaryReader(new MemoryStream(properties)));
-                                    entity.Bind(_model, ih.EntityLabel,true); // the attributes of this entity have been loaded 
+                                    entity.Activate(() =>
+                                    {
+                                        var properties = entityTable.GetProperties();
+                                        entity.ReadEntityProperties(this, new BinaryReader(new MemoryStream(properties)));
+                                    });
                                 }
                                 entityLabels.Add(entity.EntityLabel);
                                 yield return (TIfcType)entity;

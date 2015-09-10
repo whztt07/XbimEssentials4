@@ -13,6 +13,7 @@ using Xbim.Common.Exceptions;
 using System.Globalization;
 using Xbim.Common.Geometry;
 using Xbim.Common.XbimExtensions;
+using Xbim.Ifc2x3;
 using Xbim.Ifc2x3.ActorResource;
 using Xbim.Ifc2x3.ExternalReferenceResource;
 using Xbim.Ifc2x3.GeometryResource;
@@ -42,36 +43,30 @@ namespace Xbim.IO
 
         #region Model state fields
 
-        private IfcPersistedInstanceCache cache;
+        private readonly IfcPersistedInstanceCache _cache;
         internal IfcPersistedInstanceCache Cache
         {
-            get { return cache; }
+            get { return _cache; }
         }
         
         protected IStepFileHeader header;
-        private bool disposed = false;
+        private bool _disposed;
         private XbimModelFactors _modelFactors;
 
        
-        private XbimInstanceCollection instances;
-        private XbimEntityCursor editTransactionEntityCursor;
+        private readonly XbimInstanceCollection _instances;
+        private XbimEntityCursor _editTransactionEntityCursor;
         private bool _deleteOnClose;
         
-        const string refDocument = "XbimReferencedModel";
-        private XbimReferencedModelCollection _referencedModels = new XbimReferencedModelCollection();
-        private int _codePageOverrideForIfcFiles = -1;       
-        private short _userDefinedId;
-       
+        const string RefDocument = "XbimReferencedModel";
+        private readonly XbimReferencedModelCollection _referencedModels = new XbimReferencedModelCollection();
+        private int _codePageOverrideForIfcFiles = -1;
+
         /// <summary>
         /// An identifier that an application can use to identify this model uniquely
         /// </summary>
-        public short UserDefinedId
-        {
-            get { return _userDefinedId; }
-            set { _userDefinedId = value; }
-        }
+        public short UserDefinedId { get; set; }
 
-       
         #endregion
 
         //Object that manages geometry conversion etc
@@ -92,14 +87,14 @@ namespace Xbim.IO
 
         public XbimModel()
         {
-            cache = new IfcPersistedInstanceCache(this);
-            instances = new XbimInstanceCollection(this);
+            _cache = new IfcPersistedInstanceCache(this, new EntityFactory());
+            _instances = new XbimInstanceCollection(this);
             var r = new Random();
             UserDefinedId = (short)r.Next(short.MaxValue); // initialise value at random to reduce chance of duplicates
         }
         public string DatabaseName
         {
-            get { return cache.DatabaseName; }
+            get { return _cache.DatabaseName; }
         }
 
 
@@ -136,7 +131,7 @@ namespace Xbim.IO
         {
             get
             {
-                return instances;
+                return _instances;
             }
         }
 
@@ -176,53 +171,47 @@ namespace Xbim.IO
                             if (cbUnit != null)
                             {
                                 var mu = cbUnit.ConversionFactor;
-                                if (mu.UnitComponent is IfcSIUnit)
-                            siUnit = (IfcSIUnit) mu.UnitComponent;
+                                var component = mu.UnitComponent as IfcSIUnit;
+                                if (component != null)
+                            siUnit = component;
                         var et = ((IExpressType) mu.ValueComponent);
 
                         if (et.UnderlyingSystemType == typeof (double))
                             value *= (double) et.Value;
                         else if (et.UnderlyingSystemType == typeof (int))
-                            value *= (double) ((int) et.Value);
+                            value *= (int) et.Value;
                         else if (et.UnderlyingSystemType == typeof (long))
-                            value *= (double) ((long) et.Value);
+                            value *= (long) et.Value;
                             }
-                            if (siUnit != null)
+                            if (siUnit == null) continue;
+
+                            value *= siUnit.Power;
+                            switch (siUnit.UnitType)
                             {
-                                value *= siUnit.Power();
-                                switch (siUnit.UnitType)
-                                {
-                                    case IfcUnitEnum.LENGTHUNIT:
-                                        lengthToMetresConversionFactor = value;
-                                        break;
-                                    case IfcUnitEnum.PLANEANGLEUNIT:
-                                        angleToRadiansConversionFactor = value;
-                                        break;
-                                    default:
-                                        break;
-                                }
+                                case IfcUnitEnum.LENGTHUNIT:
+                                    lengthToMetresConversionFactor = value;
+                                    break;
+                                case IfcUnitEnum.PLANEANGLEUNIT:
+                                    angleToRadiansConversionFactor = value;
+                                    break;
                             }
                         }
             }
             var gcs =
-                this.Instances.OfType<IfcGeometricRepresentationContext>();
+                Instances.OfType<IfcGeometricRepresentationContext>();
             double? defaultPrecision = null;
             //get the Model precision if it is correctly defined
             foreach (var gc in gcs.Where(g => !(g is IfcGeometricRepresentationSubContext)))
             {
-                if (gc.ContextType.HasValue && string.Compare(gc.ContextType.Value, "model", true) == 0)
-                {
-                    if (gc.Precision.HasValue)
-                    {
-                        defaultPrecision = gc.Precision.Value;
-                        break;
-                    }
-                }
+                if (!gc.ContextType.HasValue || string.Compare(gc.ContextType.Value, "model", true) != 0) continue;
+                if (!gc.Precision.HasValue) continue;
+                defaultPrecision = gc.Precision.Value;
+                break;
             }
             //get the world coordinate system
             XbimMatrix3D? wcs=null;
             var context = Instances.OfType<IfcGeometricRepresentationContext>().FirstOrDefault(c => 
-                c.GetType() == typeof(IfcGeometricRepresentationContext) && String.Compare(c.ContextType, "model", true) == 0 || String.Compare(c.ContextType, "design", true) == 0); //allow for incorrect older models
+                c.GetType() == typeof(IfcGeometricRepresentationContext) && string.Compare(c.ContextType, "model", true) == 0 || string.Compare(c.ContextType, "design", true) == 0); //allow for incorrect older models
             if (context != null)
             {
                 _wcs = context.WorldCoordinateSystem;
@@ -260,7 +249,7 @@ namespace Xbim.IO
         /// <returns></returns>
         public XbimGeometryCursor GetGeometryTable()
         {
-            return cache.GetGeometryTable();
+            return _cache.GetGeometryTable();
         }
 
         /// <summary>
@@ -269,7 +258,7 @@ namespace Xbim.IO
         /// <param name="table"></param>
         public void FreeTable(XbimGeometryCursor table)
         {
-            cache.FreeTable(table);
+            _cache.FreeTable(table);
         }
 
         /// <summary>
@@ -278,7 +267,7 @@ namespace Xbim.IO
         /// <param name="table"></param>
         public void FreeTable(XbimEntityCursor table)
         {
-            cache.FreeTable(table);
+            _cache.FreeTable(table);
         }
         /// <summary>
         /// Returns the table to the cache for reuse
@@ -286,7 +275,7 @@ namespace Xbim.IO
         /// <param name="table"></param>
         public void FreeTable(XbimShapeGeometryCursor table)
         {
-            cache.FreeTable(table);
+            _cache.FreeTable(table);
         }
         /// <summary>
         /// Returns the table to the cache for reuse
@@ -294,7 +283,7 @@ namespace Xbim.IO
         /// <param name="table"></param>
         public void FreeTable(XbimShapeInstanceCursor table)
         {
-            cache.FreeTable(table);
+            _cache.FreeTable(table);
         }
         //Loads the property data of an entity, if it is not already loaded
         int IModel.Activate(IPersistEntity entity, bool write)
@@ -302,11 +291,11 @@ namespace Xbim.IO
             if (write) //we want to activate for reading
             {
                 //if (!Transaction.IsRollingBack)
-                cache.AddModified(entity);
+                _cache.AddModified(entity);
             }
             else //we want to read so load from db if necessary
             {
-                cache.Activate(entity);
+                _cache.Activate(entity);
             }
             return entity.EntityLabel;
         }
@@ -319,26 +308,26 @@ namespace Xbim.IO
 
         public XbimReadWriteTransaction BeginTransaction()
         {
-            return this.BeginTransaction(null);
+            return BeginTransaction(null);
         }
 
         public bool IsTransacting
         {
             get
             {
-                return editTransactionEntityCursor != null;
+                return _editTransactionEntityCursor != null;
             }
         }
 
         public XbimReadWriteTransaction BeginTransaction(string operationName)
         {
-            if (editTransactionEntityCursor != null) 
+            if (_editTransactionEntityCursor != null) 
                 throw new XbimException("Attempt to begin another transaction whilst one is already running");
             try
             {
-                editTransactionEntityCursor = cache.GetEntityTable();
-                cache.BeginCaching();
-                return new XbimReadWriteTransaction(this, editTransactionEntityCursor.BeginLazyTransaction());
+                _editTransactionEntityCursor = _cache.GetEntityTable();
+                _cache.BeginCaching();
+                return new XbimReadWriteTransaction(this, _editTransactionEntityCursor.BeginLazyTransaction());
             }
             catch (Exception e)
             {
@@ -353,7 +342,7 @@ namespace Xbim.IO
         {
             get
             {
-                return instances.OwnerHistoryModifyObject;
+                return _instances.OwnerHistoryModifyObject;
             }
         }
         
@@ -361,11 +350,11 @@ namespace Xbim.IO
         {
             get
             {
-                return instances.OwnerHistoryAddObject;
+                return _instances.OwnerHistoryAddObject;
             }
             set//required for creation of COBie data from xls to a ifc new file
             {
-                instances.OwnerHistoryAddObject = value;
+                _instances.OwnerHistoryAddObject = value;
             }
         }
 
@@ -373,7 +362,7 @@ namespace Xbim.IO
         {
             get
             {
-                return instances.OwnerHistoryDeleteObject;
+                return _instances.OwnerHistoryDeleteObject;
             }
         }
 
@@ -381,12 +370,12 @@ namespace Xbim.IO
 
         public IfcApplication DefaultOwningApplication
         {
-            get { return instances.DefaultOwningApplication; }
+            get { return _instances.DefaultOwningApplication; }
         }
 
         public IfcPersonAndOrganization DefaultOwningUser
         {
-            get { return instances.DefaultOwningUser; }
+            get { return _instances.DefaultOwningUser; }
         }
 
         /// <summary>
@@ -398,7 +387,7 @@ namespace Xbim.IO
         /// <param name="body"></param>
         public void ForEach<TSource>(IEnumerable<TSource> source, Action<TSource> body) where TSource : IPersistEntity
         {
-            cache.ForEach(source, body);
+            _cache.ForEach(source, body);
         }
 
 
@@ -413,7 +402,7 @@ namespace Xbim.IO
         /// <returns></returns>
         public void Delete(IPersistEntity instance)
         {
-            cache.Delete_Reversable(instance);
+            _cache.Delete_Reversable(instance);
         }
 
         /// <summary>
@@ -427,7 +416,7 @@ namespace Xbim.IO
         /// <returns></returns>
         internal IPersistEntity GetInstanceVolatile(int label)
         {
-            return cache.GetInstance(label, true, true);
+            return _cache.GetInstance(label, true, true);
         }
 
         /// <summary>
@@ -437,7 +426,7 @@ namespace Xbim.IO
         {
             get
             {
-                return cache.GeometriesCount();
+                return _cache.GeometriesCount();
             }
         }
 
@@ -448,6 +437,9 @@ namespace Xbim.IO
         /// /// <param name="xbimDbName">Name of the xbim file that will be created. 
         /// If null the contents are loaded into memory and are not persistent
         /// </param>
+        /// <param name="progDelegate"></param>
+        /// <param name="keepOpen"></param>
+        /// <param name="cacheEntities"></param>
         /// <returns></returns>
         public bool CreateFrom(string importFrom, string xbimDbName = null, ReportProgressDelegate progDelegate = null, bool keepOpen = false, bool cacheEntities = false)
         {
@@ -464,16 +456,16 @@ namespace Xbim.IO
             switch (toImportStorageType)
             {
                 case XbimStorageType.IFCXML:
-                    cache.ImportIfcXml(xbimDbName, importFrom, progDelegate, keepOpen, cacheEntities);
+                    _cache.ImportIfcXml(xbimDbName, importFrom, progDelegate, keepOpen, cacheEntities);
                     break;
                 case XbimStorageType.IFC:
-                    cache.ImportIfc(xbimDbName, importFrom, progDelegate, keepOpen, cacheEntities, _codePageOverrideForIfcFiles);
+                    _cache.ImportIfc(xbimDbName, importFrom, progDelegate, keepOpen, cacheEntities, _codePageOverrideForIfcFiles);
                     break;
                 case XbimStorageType.IFCZIP:
-                    cache.ImportIfcZip(xbimDbName, importFrom, progDelegate, keepOpen, cacheEntities, _codePageOverrideForIfcFiles);
+                    _cache.ImportIfcZip(xbimDbName, importFrom, progDelegate, keepOpen, cacheEntities, _codePageOverrideForIfcFiles);
                     break;
                 case XbimStorageType.XBIM:
-                    cache.ImportXbim(importFrom, progDelegate);
+                    _cache.ImportXbim(importFrom, progDelegate);
                     break;
                 case XbimStorageType.INVALID:
                 default:
@@ -482,7 +474,7 @@ namespace Xbim.IO
             if (keepOpen) 
             {
                 GetModelFactors();
-                this.LoadReferenceModels();
+                LoadReferenceModels();
             }
             return true;
         }
@@ -514,13 +506,14 @@ namespace Xbim.IO
 
         private void CreateDatabase(string tmpFileName)
         {
-            cache.CreateDatabase(tmpFileName);
+            _cache.CreateDatabase(tmpFileName);
         }
 
         /// <summary>
         ///  Creates and opens a new Xbim Database
         /// </summary>
         /// <param name="dbFileName">Name of the Xbim file</param>
+        /// <param name="access"></param>
         /// <returns></returns>
         static public XbimModel CreateModel(string dbFileName, XbimDBAccess access = XbimDBAccess.ReadWrite)
         {
@@ -554,7 +547,7 @@ namespace Xbim.IO
             }
             else //it is in a persisted cache but hasn't been loaded yet
             {
-                return cache.GetEntityBinaryData(entity);
+                return _cache.GetEntityBinaryData(entity);
             }
         }
 
@@ -575,74 +568,60 @@ namespace Xbim.IO
         /// <returns></returns>
         public int Validate(TextWriter tw, ValidationFlags validateLevel = ValidationFlags.Properties)
         {
-            var errors = 0;
-            foreach (var entity in instances)
-            {
-                errors += Validate(entity as IInstantiableEntity, tw, validateLevel);
-            }
-            return errors;
+            return _instances.Sum(entity => Validate(entity as IInstantiableEntity, tw, validateLevel));
         }
 
         public int Validate(IEnumerable<IInstantiableEntity> entities, TextWriter tw, ValidationFlags validateLevel = ValidationFlags.Properties)
         {
-            var errors = 0;
-            foreach (var entity in entities)
-            {
-                errors += Validate(entity, tw, validateLevel);
-            }
-            return errors;
+            return entities.Sum(entity => Validate(entity, tw, validateLevel));
         }
 
-        public int Validate(IInstantiableEntity ent, TextWriter tw, ValidationFlags validateLevel = ValidationFlags.Properties)
+        public int Validate(IPersistEntity ent, TextWriter tw, ValidationFlags validateLevel = ValidationFlags.Properties)
         {
             var itw = new IndentedTextWriter(tw);
             if (validateLevel == ValidationFlags.None) return 0; //nothing to do
-            IfcType ifcType = IfcMetaData.IfcType(ent);
+            var ifcType = IfcMetaData.IfcType(ent as IInstantiableEntity);
             var notIndented = true;
             var errors = 0;
             if (validateLevel == ValidationFlags.Properties || validateLevel == ValidationFlags.All)
             {
                 foreach (var ifcProp in ifcType.IfcProperties.Values)
                 {
-                    var err = GetIfcSchemaError(ent, ifcProp);
-                    if (!String.IsNullOrEmpty(err))
+                    var err = GetIfcSchemaError(ent as IInstantiableEntity, ifcProp);
+                    if (string.IsNullOrEmpty(err)) continue;
+                    if (notIndented)
                     {
-                        if (notIndented)
-                        {
-                            itw.WriteLine(string.Format("#{0} - {1}", ent.EntityLabel, ifcType.Type.Name));
-                            itw.Indent++;
-                            notIndented = false;
-                        }
-                        itw.WriteLine(err.Trim('\n'));
-                        errors++;
+                        itw.WriteLine("#{0} - {1}", ent.EntityLabel, ifcType.Type.Name);
+                        itw.Indent++;
+                        notIndented = false;
                     }
+                    itw.WriteLine(err.Trim('\n'));
+                    errors++;
                 }
             }
             if (validateLevel == ValidationFlags.Inverses || validateLevel == ValidationFlags.All)
             {
                 foreach (var ifcInv in ifcType.IfcInverses)
                 {
-                    var err = GetIfcSchemaError(ent, ifcInv);
-                    if (!String.IsNullOrEmpty(err))
+                    var err = GetIfcSchemaError(ent as IInstantiableEntity, ifcInv);
+                    if (string.IsNullOrEmpty(err)) continue;
+                    if (notIndented)
                     {
-                        if (notIndented)
-                        {
-                            itw.WriteLine(string.Format("#{0} - {1}", ent.EntityLabel, ifcType.Type.Name));
-                            itw.Indent++;
-                            notIndented = false;
-                        }
-                        itw.WriteLine(err.Trim('\n'));
-                        errors++;
+                        itw.WriteLine("#{0} - {1}", ent.EntityLabel, ifcType.Type.Name);
+                        itw.Indent++;
+                        notIndented = false;
                     }
+                    itw.WriteLine(err.Trim('\n'));
+                    errors++;
                 }
             }
 
             string str = ent.WhereRule();
-            if (!String.IsNullOrEmpty(str))
+            if (!string.IsNullOrEmpty(str))
             {
                 if (notIndented)
                 {
-                    itw.WriteLine(string.Format("#{0} - {1}", ent.EntityLabel, ifcType.Type.Name));
+                    itw.WriteLine("#{0} - {1}", ent.EntityLabel, ifcType.Type.Name);
                     itw.Indent++;
                     notIndented = false;
                 }
@@ -661,10 +640,11 @@ namespace Xbim.IO
             var propVal = prop.PropertyInfo.GetValue(instance, null);
             var propName = prop.PropertyInfo.Name;
 
-            if (propVal is IExpressType)
+            var expressType = propVal as IExpressType;
+            if (expressType != null)
             {
                 var err = "";
-                var val = ((IExpressType)propVal).ToPart21;
+                var val = expressType.ToPart21;
                 if (ifcAttr.State == IfcAttributeState.Mandatory && val == "$")
                     err += string.Format("{0}.{1} is not optional", instance.GetType().Name, propName);
                 err += ((IPersist)propVal).WhereRule();
@@ -749,7 +729,7 @@ namespace Xbim.IO
 
         public string WhereRule()
         {
-            if (this.IfcProject == null)
+            if (IfcProject == null)
                 return "WR1 Model: A Model must have a valid Project attribute";
             return "";
         }
@@ -767,14 +747,14 @@ namespace Xbim.IO
         public void Close()
         {
             var dbName = DatabaseName;
-            this._modelFactors = null;          
-            this.header = null;
+            _modelFactors = null;          
+            header = null;
             foreach (var refModel in _referencedModels)
                 refModel.Model.Dispose();
             _referencedModels.Clear();
-            if (editTransactionEntityCursor != null)
+            if (_editTransactionEntityCursor != null)
                 EndTransaction();
-            cache.Close();
+            _cache.Close();
             try //try and tidy up if required
             {
                 if (_deleteOnClose && File.Exists(dbName))
@@ -799,16 +779,16 @@ namespace Xbim.IO
         /// </summary>
         public void CacheStart()
         {
-            if (editTransactionEntityCursor == null) //if we are in a transaction caching is on anyway
-                 cache.CacheStart();
+            if (_editTransactionEntityCursor == null) //if we are in a transaction caching is on anyway
+                 _cache.CacheStart();
         }
         /// <summary>
         /// Clears all read data in the cache
         /// </summary>
         public void CacheClear()
         {
-            if (editTransactionEntityCursor == null) //if we are in a transaction do not clear
-                cache.CacheClear();
+            if (_editTransactionEntityCursor == null) //if we are in a transaction do not clear
+                _cache.CacheClear();
         }
 
         /// <summary>
@@ -816,8 +796,8 @@ namespace Xbim.IO
         /// </summary>
         public void CacheStop()
         {
-            if (editTransactionEntityCursor == null)  //if we are in a transaction do not stop
-                cache.CacheStop();
+            if (_editTransactionEntityCursor == null)  //if we are in a transaction do not stop
+                _cache.CacheStop();
         }
 
         /// <summary>
@@ -832,9 +812,9 @@ namespace Xbim.IO
             try
             {
                 Close();
-                cache.Open(fileName, accessMode); //opens the database
+                _cache.Open(fileName, accessMode); //opens the database
                 GetModelFactors();
-                this.LoadReferenceModels();
+                LoadReferenceModels();
                 return true;
             }
             catch (Exception e)
@@ -881,18 +861,18 @@ namespace Xbim.IO
                     else
                         throw new XbimException("Invalid file type ." + ext.ToUpper() + " in file " + outputFileName);
                 }
-                if (storageType.Value == XbimStorageType.XBIM && this.DatabaseName != null) //make a copy
+                if (storageType.Value == XbimStorageType.XBIM && DatabaseName != null) //make a copy
                 {
-                    var srcFile = this.DatabaseName;
+                    var srcFile = DatabaseName;
                     if(string.Compare(srcFile, outputFileName, true, CultureInfo.InvariantCulture) == 0)
                         throw new XbimException("Cannot save file to the same name, " + outputFileName);
                     var deleteOnClose = _deleteOnClose;
-                    var accessMode = cache.AccessMode;
+                    var accessMode = _cache.AccessMode;
                     try
                     {
                        
                         _deleteOnClose = false; //regardless we need to keep it to copy it
-                        this.Close(); 
+                        Close(); 
                         File.Copy(srcFile, outputFileName);
                         
                         if (deleteOnClose)
@@ -906,12 +886,12 @@ namespace Xbim.IO
                     }
                     finally
                     {
-                        Open(srcFile, accessMode, null);
+                        Open(srcFile, accessMode);
                     }
                 }
                 else
                 {
-                    cache.SaveAs(storageType.Value, outputFileName, progress, map);
+                    _cache.SaveAs(storageType.Value, outputFileName, progress, map);
                     return true;
                 }
             }
@@ -931,25 +911,22 @@ namespace Xbim.IO
                     var zs = zis.GetNextEntry();
                     while (zs != null)
                     {
-                        var filePath = Path.GetDirectoryName(zs.Name);
                         var fileName = Path.GetFileName(zs.Name);
-                        if (fileName.ToLower().EndsWith(".ifc"))
+                        if (fileName == null || !fileName.ToLower().EndsWith(".ifc")) continue;
+                        using (var fs = File.Create(fileName))
                         {
-                            using (var fs = File.Create(fileName))
+                            var i = 2048;
+                            var b = new byte[i];
+                            while (true)
                             {
-                                var i = 2048;
-                                var b = new byte[i];
-                                while (true)
-                                {
-                                    i = zis.Read(b, 0, b.Length);
-                                    if (i > 0)
-                                        fs.Write(b, 0, i);
-                                    else
-                                        break;
-                                }
+                                i = zis.Read(b, 0, b.Length);
+                                if (i > 0)
+                                    fs.Write(b, 0, i);
+                                else
+                                    break;
                             }
-                            return fileName;
                         }
+                        return fileName;
                     }
 
                 }
@@ -1010,14 +987,14 @@ namespace Xbim.IO
 
         public void Print()
         {
-            cache.Print();
+            _cache.Print();
         }
 
         public IfcProject IfcProject
         {
             get
             {
-                return cache == null ? null : InstancesLocal.OfType<IfcProject>().FirstOrDefault();
+                return _cache == null ? null : InstancesLocal.OfType<IfcProject>().FirstOrDefault();
             }
         }
         /// <summary>
@@ -1025,7 +1002,7 @@ namespace Xbim.IO
         /// </summary>
         public IEnumerable<IPersistEntity> IfcProducts
         {
-            get { return cache == null ? null : Instances.OfType<IfcProduct>(); }
+            get { return _cache == null ? null : Instances.OfType<IfcProduct>(); }
         }
 
         ~XbimModel()
@@ -1044,7 +1021,7 @@ namespace Xbim.IO
 
         protected void Dispose(bool disposing)
         {
-            if (!this.disposed)
+            if (!_disposed)
             {
                 try
                 {
@@ -1056,32 +1033,32 @@ namespace Xbim.IO
                     Close();
                 }
                 //unmanaged, mostly esent related
-                cache.Dispose();
+                _cache.Dispose();
             }
                 catch
                 {
                     // ignored
                 }
             }
-            disposed = true;
+            _disposed = true;
         }
 
         public void CheckMaps()
         {
             foreach (var mesh in GetGeometryData(XbimGeometryType.TriangulatedMesh))
             {
-                Debug.WriteLine(string.Format("{0}, hash = {1}", mesh.GeometryLabel, mesh.GeometryHash));
+                Debug.WriteLine("{0}, hash = {1}", mesh.GeometryLabel, mesh.GeometryHash);
             }
         }
 
         public XbimGeometryHandleCollection GetGeometryHandles(XbimGeometryType geomType=XbimGeometryType.TriangulatedMesh, XbimGeometrySort sortOrder=XbimGeometrySort.OrderByIfcSurfaceStyleThenIfcType)
         {
-            return cache.GetGeometryHandles(geomType,sortOrder);
+            return _cache.GetGeometryHandles(geomType,sortOrder);
         }
 
         public XbimGeometryHandle GetGeometryHandle(int geometryLabel)
         {
-            return cache.GetGeometryHandle(geometryLabel);
+            return _cache.GetGeometryHandle(geometryLabel);
         }
 
         /// <summary>
@@ -1094,10 +1071,10 @@ namespace Xbim.IO
         /// <returns></returns>
         public IEnumerable<XbimGeometryData> GetGeometryData(int productLabel, XbimGeometryType geomType)
         {
-            var entity = cache.GetInstance(productLabel, false, true);
+            var entity = _cache.GetInstance(productLabel, false, true);
             if (entity != null)
             {
-                foreach (var item in cache.GetGeometry(IfcMetaData.IfcTypeId(entity as IInstantiableEntity), productLabel, geomType))
+                foreach (var item in _cache.GetGeometry(IfcMetaData.IfcTypeId(entity as IInstantiableEntity), productLabel, geomType))
                 {
                     yield return item;
                 }
@@ -1120,11 +1097,7 @@ namespace Xbim.IO
 
         public IEnumerable<XbimGeometryData> GetGeometryData(IfcProduct product, XbimGeometryType geomType)
         {
-
-            foreach (var item in cache.GetGeometry(IfcMetaData.IfcTypeId(product as IInstantiableEntity), product.EntityLabel, geomType))
-            {
-                yield return item;
-            }
+            return _cache.GetGeometry(IfcMetaData.IfcTypeId(product as IInstantiableEntity), product.EntityLabel, geomType);
         }
 
         //public IDictionary<string, XbimViewDefinition> Views
@@ -1163,15 +1136,12 @@ namespace Xbim.IO
 
         public IEnumerable<XbimGeometryData> GetGeometryData(XbimGeometryType ofType)
         {
-            foreach (var shape in cache.GetGeometryData(ofType))
-            {
-                yield return shape;
-            }
+            return _cache.GetGeometryData(ofType);
         }
 
         internal XbimEntityCursor GetEntityTable()
         {
-            return cache.GetEntityTable();
+            return _cache.GetEntityTable();
         }
 
         internal void Compact(XbimModel targetModel)
@@ -1202,25 +1172,25 @@ namespace Xbim.IO
         /// <returns></returns>
         public T InsertCopy<T>(T toCopy, XbimInstanceHandleMap mappings, XbimReadWriteTransaction txn, bool includeInverses = false) where T : IPersistEntity
         {
-            return cache.InsertCopy<T>(toCopy, mappings, txn, includeInverses);
+            return _cache.InsertCopy<T>(toCopy, mappings, txn, includeInverses);
         }
 
         internal void EndTransaction()
         {
-            FreeTable(editTransactionEntityCursor); //release the cursor back to the pool
-            cache.EndCaching();
-            editTransactionEntityCursor = null;
+            FreeTable(_editTransactionEntityCursor); //release the cursor back to the pool
+            _cache.EndCaching();
+            _editTransactionEntityCursor = null;
         }
        
         internal void Flush()
         {
-            cache.Write(editTransactionEntityCursor);
+            _cache.Write(_editTransactionEntityCursor);
         }
 
         internal XbimEntityCursor GetTransactingCursor()
         {
-            Debug.Assert(editTransactionEntityCursor != null);
-            return editTransactionEntityCursor;
+            Debug.Assert(_editTransactionEntityCursor != null);
+            return _editTransactionEntityCursor;
         }
 
         #region Model Group functions
@@ -1289,7 +1259,7 @@ namespace Xbim.IO
                     docInfo.DocumentId = _referencedModels.NextIdentifer();
                     docInfo.Name = refModelPath;
                     docInfo.DocumentOwner = owner;
-                    docInfo.IntendedUse = refDocument;
+                    docInfo.IntendedUse = RefDocument;
                     retVal = new XbimReferencedModel(docInfo);
                     _referencedModels.Add(retVal);
                     txn.Commit();
@@ -1301,7 +1271,7 @@ namespace Xbim.IO
                 docInfo.DocumentId = _referencedModels.NextIdentifer();
                 docInfo.Name = refModelPath;
                 docInfo.DocumentOwner = owner;
-                docInfo.IntendedUse = refDocument;
+                docInfo.IntendedUse = RefDocument;
                 retVal = new XbimReferencedModel(docInfo);
                 _referencedModels.Add(retVal);
             }
@@ -1317,7 +1287,7 @@ namespace Xbim.IO
         /// <param name="throwReferenceModelExceptions"></param>
         private void LoadReferenceModels(bool throwReferenceModelExceptions = false)
         {
-            var docInfos = this.Instances.OfType<IfcDocumentInformation>().Where(d => d.IntendedUse == refDocument);
+            var docInfos = Instances.OfType<IfcDocumentInformation>().Where(d => d.IntendedUse == RefDocument);
             foreach (var docInfo in docInfos)
             {
                 if (throwReferenceModelExceptions)
@@ -1362,18 +1332,17 @@ namespace Xbim.IO
 
         public XbimGeometryData GetGeometryData(XbimGeometryHandle handle)
         {
-            return cache.GetGeometryData(handle);
+            return _cache.GetGeometryData(handle);
         }
 
         public XbimGeometryData GetGeometryData(int geomLabel)
         {
-            return cache.GetGeometryData(geomLabel);
+            return _cache.GetGeometryData(geomLabel);
         }
 
         public IEnumerable<XbimGeometryData> GetGeometryData(IEnumerable<XbimGeometryHandle> handles)
         {
-            foreach (var item in cache.GetGeometryData(handles))
-                yield return item;
+            return _cache.GetGeometryData(handles);
         }
 
         public void Initialise(string userName = "User 1", string organisationName = "Organisation X", string applicationName = "Application 1.0", string developerName = "Developer 1", string version = "2.0.1")
@@ -1408,7 +1377,7 @@ namespace Xbim.IO
         {
             get
             {
-                return _referencedModels.Any() || string.Compare(Path.GetExtension(cache.DatabaseName), ".xbimf", true) == 0;
+                return _referencedModels.Any() || string.Compare(Path.GetExtension(_cache.DatabaseName), ".xbimf", true) == 0;
             }
         }
 
@@ -1421,7 +1390,7 @@ namespace Xbim.IO
         {
             get
             {
-                foreach (var h in cache.InstanceHandles)
+                foreach (var h in _cache.InstanceHandles)
                     yield return h;
                 foreach (var refModel in ReferencedModels)
                     foreach (var h in refModel.Model.InstanceHandles)
@@ -1434,10 +1403,8 @@ namespace Xbim.IO
         /// </summary>
         public IEnumerable<XbimInstanceHandle> InstanceHandles 
         {
-            get
-            {
-                foreach (var h in cache.InstanceHandles)
-                    yield return h;
+            get {
+                return _cache.InstanceHandles;
             }
         }
 
@@ -1466,12 +1433,12 @@ namespace Xbim.IO
         
         public XbimShapeGeometryCursor GetShapeGeometryTable()
         {
-            return cache.GetShapeGeometryTable();
+            return _cache.GetShapeGeometryTable();
         }
 
         public XbimShapeInstanceCursor GetShapeInstanceTable()
         {
-            return cache.GetShapeInstanceTable();
+            return _cache.GetShapeInstanceTable();
         }
 
         /// <summary>
@@ -1480,22 +1447,22 @@ namespace Xbim.IO
         /// <returns></returns>
         public bool EnsureGeometryTables()
         {
-            return cache.EnsureGeometryTables();
+            return _cache.EnsureGeometryTables();
         }
 
         public bool DeleteGeometryCache()
         {
-            return cache.DeleteGeometry();
+            return _cache.DeleteGeometry();
         }
 
         public bool DatabaseHasGeometryTable()
         {
-            return cache.DatabaseHasGeometryTable();
+            return _cache.DatabaseHasGeometryTable();
         }
 
         public bool DatabaseHasInstanceTable()
         {
-            return cache.DatabaseHasInstanceTable();
+            return _cache.DatabaseHasInstanceTable();
         }
 
         public bool IsTransactional

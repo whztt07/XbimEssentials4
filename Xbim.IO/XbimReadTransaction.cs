@@ -10,13 +10,13 @@ namespace Xbim.IO
         /// <summary>
         /// to detect redundant calls
         /// </summary>
-        private bool disposed = false; 
+        private bool _disposed; 
         /// <summary>
         /// True if we are in a transaction.
         /// </summary>
-        protected bool inTransaction = false;
-        protected XbimModel model;
-        private XbimReadOnlyDBTransaction readTransaction;
+        protected bool InTransaction;
+        protected XbimModel Model;
+        private XbimReadOnlyDBTransaction _readTransaction;
 
         protected XbimReadTransaction()
         {
@@ -25,28 +25,28 @@ namespace Xbim.IO
 
         internal XbimReadTransaction(XbimModel theModel, XbimReadOnlyDBTransaction txn)
         {
-            model = theModel;
-            readTransaction = txn;
-            inTransaction = true;
+            Model = theModel;
+            _readTransaction = txn;
+            InTransaction = true;
         }
 
         protected virtual void Dispose(bool disposing)
         {
-            if (!disposed)
+            if (!_disposed)
             {
                 if (disposing)
                 {
                     try
                     {
-                        if (inTransaction) readTransaction.Dispose();
+                        if (InTransaction) _readTransaction.Dispose();
                     }
                     finally
                     {
-                        model.EndTransaction();
+                        Model.EndTransaction();
                     }                     
                     
                 }
-                disposed = true;
+                _disposed = true;
             }
         }
         public void Dispose()

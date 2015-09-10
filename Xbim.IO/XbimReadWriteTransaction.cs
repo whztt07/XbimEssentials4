@@ -9,7 +9,7 @@ namespace Xbim.IO
     /// </summary>
     public class XbimReadWriteTransaction : XbimReadTransaction
     {
-        private XbimLazyDBTransaction readWriteTransaction;
+        private XbimLazyDBTransaction _readWriteTransaction;
         private int _pulseCount;
         private int _transactionBatchSize;
 
@@ -24,9 +24,9 @@ namespace Xbim.IO
 
         internal XbimReadWriteTransaction(XbimModel theModel, XbimLazyDBTransaction txn)
         {
-            model = theModel;
-            readWriteTransaction = txn;
-            inTransaction = true;
+            Model = theModel;
+            _readWriteTransaction = txn;
+            InTransaction = true;
             _pulseCount = 0;
             _transactionBatchSize = 100;
         }
@@ -41,8 +41,8 @@ namespace Xbim.IO
             long remainder = _pulseCount % _transactionBatchSize;
             if (remainder == _transactionBatchSize - 1)
             {
-                this.Commit();
-                this.Begin();
+                Commit();
+                Begin();
             }
             return _pulseCount;
         }
@@ -50,12 +50,12 @@ namespace Xbim.IO
         {
             try
             {
-                model.Flush();
-                readWriteTransaction.Commit();
+                Model.Flush();
+                _readWriteTransaction.Commit();
             }
             finally
             {
-                inTransaction = false;
+                InTransaction = false;
             }
         }
 
@@ -63,11 +63,11 @@ namespace Xbim.IO
         {
             try
             {
-                readWriteTransaction.Begin();
+                _readWriteTransaction.Begin();
             }
             finally
             {
-                inTransaction = true;
+                InTransaction = true;
             }
         }
 
@@ -76,18 +76,18 @@ namespace Xbim.IO
         {
             try
             {
-                if (inTransaction) readWriteTransaction.Dispose();
+                if (InTransaction) _readWriteTransaction.Dispose();
             }
             finally
             {
-                inTransaction = false;
+                InTransaction = false;
                 base.Dispose(disposing);
             }
         }
 
         public IEnumerable<IPersistEntity> Modified()
         {
-            return model.Cache.Modified();
+            return Model.Cache.Modified();
         }
     }
 }

@@ -102,6 +102,11 @@
     <Compile Include="CostResource\IfcEnvironmentalImpactCategoryEnum.cs" />
     <Compile Include="CostResource\IfcEnvironmentalImpactValue.cs" />
     <Compile Include="CostResource\IfcReferencesValueDocument.cs" />
+    <Compile Include="GeometryResource\IfcAxis2Placement2DPartial.cs" />
+    <Compile Include="GeometryResource\IfcAxis2PlacementPartial.cs" />
+    <Compile Include="GeometryResource\IfcDirectionPartial.cs" />
+    <Compile Include="GeometryResource\IfcPlacementPartial.cs" />
+    <Compile Include="MeasureResource\IfcSIUnitExtension.cs" />
     <Compile Include="XbimExtensions\IfcBuilding.cs" />
     <Compile Include="XbimExtensions\IfcGloballyUniqueId.cs" />
     <Compile Include="XbimExtensions\IfcReal.cs" />
