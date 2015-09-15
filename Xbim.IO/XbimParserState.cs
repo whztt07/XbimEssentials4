@@ -132,7 +132,7 @@ namespace Xbim.IO
         {
             _propertyValue.Init(value);
             //CurrentInstance.SetPropertyValue(PropertyValue);
-            _currentInstance.Entity.Set(_currentInstance.CurrentParamIndex, _propertyValue);
+            _currentInstance.Entity.Parse(_currentInstance.CurrentParamIndex, _propertyValue);
             if (_listNestLevel == 0) _currentInstance.CurrentParamIndex++;
         }
 

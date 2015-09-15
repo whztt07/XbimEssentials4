@@ -48,8 +48,7 @@ namespace Xbim.IO
         {
             get { return _cache; }
         }
-        
-        protected IStepFileHeader header;
+
         private bool _disposed;
         private XbimModelFactors _modelFactors;
 
@@ -233,11 +232,13 @@ namespace Xbim.IO
                     .Where(trimmedCurve => trimmedCurve.MasterRepresentation == IfcTrimmingPreference.PARAMETER &&
                         trimmedCurve.BasisCurve is IfcConic))
                 {
-                    if (trimmedCurve.Trim1.Concat(trimmedCurve.Trim2).OfType<IfcParameterValue>().Select(trim => (double) trim.Value).Any(val => val > Math.PI*2))
-                    {
-                        angleToRadiansConversionFactor = Math.PI/180;
-                        break;
-                    }
+                    if (
+                        !trimmedCurve.Trim1.Concat(trimmedCurve.Trim2)
+                            .OfType<IfcParameterValue>()
+                            .Select(trim => (double) trim.Value)
+                            .Any(val => val > Math.PI*2)) continue;
+                    angleToRadiansConversionFactor = Math.PI/180;
+                    break;
                 }
             }
             _modelFactors = new XbimModelFactors(angleToRadiansConversionFactor, lengthToMetresConversionFactor,
@@ -445,7 +446,7 @@ namespace Xbim.IO
         {
             Close();
             _importFilePath = Path.GetFullPath(importFrom);
-            if (!Directory.Exists(Path.GetDirectoryName(_importFilePath)))
+            if (!Directory.Exists(Path.GetDirectoryName(_importFilePath) ?? ""))
                 throw new DirectoryNotFoundException(Path.GetDirectoryName(importFrom) + " directory was not found");
             if (!File.Exists(_importFilePath))
                 throw new FileNotFoundException(_importFilePath + " file was not found");
@@ -524,8 +525,10 @@ namespace Xbim.IO
                 var model = new XbimModel();
                 model.CreateDatabase(dbFileName); 
                 model.Open(dbFileName, access,null);
-                model.header = new IfcFileHeader(IfcFileHeader.HeaderCreationMode.InitWithXbimDefaults);
-                model.header.FileName.Name = dbFileName;
+                model.Header = new IfcFileHeader(IfcFileHeader.HeaderCreationMode.InitWithXbimDefaults)
+                {
+                    FileName = {Name = dbFileName}
+                };
                 return model;
             }
             catch (Exception e)
@@ -551,12 +554,7 @@ namespace Xbim.IO
             }
         }
 
-        public IStepFileHeader Header
-        {
-
-            get { return header; }
-            set { header = value; }
-        }
+        public IStepFileHeader Header {  get; set; }
 
         #region Validation
 
@@ -748,7 +746,7 @@ namespace Xbim.IO
         {
             var dbName = DatabaseName;
             _modelFactors = null;          
-            header = null;
+            Header = null;
             foreach (var refModel in _referencedModels)
                 refModel.Model.Dispose();
             _referencedModels.Clear();

@@ -358,7 +358,7 @@ namespace Xbim.IO.Parser
                 if (_entities.TryGetValue(refID, out refEntity) && host != null)
                 {
                     _propertyValue.Init(refEntity);
-                    (host).Set(paramIndex, _propertyValue);
+                    (host).Parse(paramIndex, _propertyValue);
                     return true;
                 }
             }
@@ -394,7 +394,7 @@ namespace Xbim.IO.Parser
 
         public ParameterSetter ParameterSetter
         {
-            get { return (HostEntity).Set; }
+            get { return (HostEntity).Parse; }
         }
     }
 }

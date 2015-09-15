@@ -57,7 +57,7 @@ namespace Xbim.IO
 
         #region ISupportIfcParser Members
 
-        public void Set(int propIndex, IPropertyValue value)
+        public void Parse(int propIndex, IPropertyValue value)
         {
             switch (propIndex)
             {
@@ -184,7 +184,7 @@ namespace Xbim.IO
 
         #region ISupportIfcParser Members
 
-        public void Set (int propIndex, IPropertyValue value)
+        public void Parse (int propIndex, IPropertyValue value)
         {
             switch (propIndex)
             {
@@ -216,10 +216,6 @@ namespace Xbim.IO
                     this.HandleUnexpectedAttribute(propIndex, value); break;
             }
         }
-
-        #endregion
-
-        #region ISupportIfcParser Members
 
         public string WhereRule()
         {
@@ -394,7 +390,7 @@ namespace Xbim.IO
 
         #region ISupportIfcParser Members
 
-        public void Set(int propIndex, IPropertyValue value)
+        public void Parse(int propIndex, IPropertyValue value)
         {
             switch (propIndex)
             {
@@ -405,10 +401,6 @@ namespace Xbim.IO
                     this.HandleUnexpectedAttribute(propIndex, value); break;
             }
         }
-
-        #endregion
-
-        #region ISupportIfcParser Members
 
         public string WhereRule()
         {

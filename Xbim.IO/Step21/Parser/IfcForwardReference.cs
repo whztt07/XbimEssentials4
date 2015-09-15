@@ -29,7 +29,7 @@ namespace Xbim.IO.Parser
                 pv.Init(entity);
                 try
                 {
-                    ReferencingEntity.Set(ReferencingPropertyId, pv);
+                    ReferencingEntity.Parse(ReferencingPropertyId, pv);
                     return true;
                 }
                 catch (Exception)

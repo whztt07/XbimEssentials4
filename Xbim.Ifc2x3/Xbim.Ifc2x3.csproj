@@ -29,6 +29,12 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>XbimIfc2x3Key.pfx</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -40,10 +46,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActorResource\IfcActorRole.cs" />
+    <Compile Include="ActorResource\IfcActorRolePartial.cs" />
     <Compile Include="ActorResource\IfcActorSelect.cs" />
     <Compile Include="ActorResource\IfcAddress.cs" />
     <Compile Include="ActorResource\IfcAddressTypeEnum.cs" />
     <Compile Include="ActorResource\IfcOrganization.cs" />
+    <Compile Include="ActorResource\IfcOrganizationPartial.cs" />
     <Compile Include="ActorResource\IfcOrganizationRelationship.cs" />
     <Compile Include="ActorResource\IfcPerson.cs" />
     <Compile Include="ActorResource\IfcPersonAndOrganization.cs" />
@@ -104,14 +112,17 @@
     <Compile Include="CostResource\IfcReferencesValueDocument.cs" />
     <Compile Include="GeometryResource\IfcAxis2Placement2DPartial.cs" />
     <Compile Include="GeometryResource\IfcAxis2PlacementPartial.cs" />
+    <Compile Include="GeometryResource\IfcCartesianPointPartial.cs" />
     <Compile Include="GeometryResource\IfcDirectionPartial.cs" />
     <Compile Include="GeometryResource\IfcPlacementPartial.cs" />
+    <Compile Include="Kernel\IfcObjectPartial.cs" />
+    <Compile Include="Kernel\IfcProjectPartial.cs" />
+    <Compile Include="Kernel\IfcTypeObjectPartial.cs" />
     <Compile Include="MeasureResource\IfcSIUnitExtension.cs" />
-    <Compile Include="XbimExtensions\IfcBuilding.cs" />
-    <Compile Include="XbimExtensions\IfcGloballyUniqueId.cs" />
-    <Compile Include="XbimExtensions\IfcReal.cs" />
-    <Compile Include="XbimExtensions\IfcRoot.cs" />
-    <Compile Include="XbimExtensions\IfcTimeStamp.cs" />
+    <Compile Include="UtilityResource\IfcGloballyUniqueIdPartial.cs" />
+    <Compile Include="MeasureResource\IfcRealPartial.cs" />
+    <Compile Include="Kernel\IfcRootPartial.cs" />
+    <Compile Include="MeasureResource\IfcTimeStampPartial.cs" />
     <Compile Include="DateTimeResource\IfcAheadOrBehind.cs" />
     <Compile Include="DateTimeResource\IfcCalendarDate.cs" />
     <Compile Include="DateTimeResource\IfcCoordinatedUniversalTimeOffset.cs" />
@@ -1040,6 +1051,9 @@
       <Project>{a34ef831-ea82-4a79-8c65-b5e1c6d9508d}</Project>
       <Name>Xbim.Common</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="XbimIfc2x3Key.pfx" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

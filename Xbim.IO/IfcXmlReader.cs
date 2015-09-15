@@ -19,13 +19,13 @@ using System.Xml;
 using Xbim.IO.Parser;
 using Xbim.Common;
 using Xbim.Ifc2x3.MeasureResource;
-using Xbim.IO.Step21;
 
 #endregion
 
 namespace Xbim.IO
 {
      
+    // ReSharper disable once InconsistentNaming
     public delegate void WriteXMLEntityEventHandler( IPersistEntity entity, int count);
 
     public class IfcXmlReader
@@ -36,22 +36,24 @@ namespace Xbim.IO
         private int _lastId;
         static IfcXmlReader()
         {
-            Primitives = new Dictionary<string, StepParserType>();
-            Primitives.Add("double-wrapper", StepParserType.Real);
-            Primitives.Add("long-wrapper", StepParserType.Integer);
-            Primitives.Add("string-wrapper", StepParserType.String);
-            Primitives.Add("integer-wrapper", StepParserType.Integer);
-            Primitives.Add("boolean-wrapper", StepParserType.Boolean);
-            Primitives.Add("logical-wrapper", StepParserType.Boolean);
-            Primitives.Add("decimal-wrapper", StepParserType.Real);
-            Primitives.Add("hexBinary-wrapper", StepParserType.HexaDecimal);
-            Primitives.Add("base64Binary-wrapper", StepParserType.Entity);
-            Primitives.Add(typeof(double).Name, StepParserType.Real);
-            Primitives.Add(typeof(long).Name, StepParserType.Integer);
-            Primitives.Add(typeof(string).Name, StepParserType.String);
-            Primitives.Add(typeof(int).Name, StepParserType.Integer);
-            Primitives.Add(typeof(bool).Name, StepParserType.Boolean);
-            Primitives.Add("Enum", StepParserType.Enum);
+            Primitives = new Dictionary<string, StepParserType>
+            {
+                {"double-wrapper", StepParserType.Real},
+                {"long-wrapper", StepParserType.Integer},
+                {"string-wrapper", StepParserType.String},
+                {"integer-wrapper", StepParserType.Integer},
+                {"boolean-wrapper", StepParserType.Boolean},
+                {"logical-wrapper", StepParserType.Boolean},
+                {"decimal-wrapper", StepParserType.Real},
+                {"hexBinary-wrapper", StepParserType.HexaDecimal},
+                {"base64Binary-wrapper", StepParserType.Entity},
+                {typeof (double).Name, StepParserType.Real},
+                {typeof (long).Name, StepParserType.Integer},
+                {typeof (string).Name, StepParserType.String},
+                {typeof (int).Name, StepParserType.Integer},
+                {typeof (bool).Name, StepParserType.Boolean},
+                {"Enum", StepParserType.Enum}
+            };
 
         }
 
@@ -63,7 +65,8 @@ namespace Xbim.IO
             {
 
             }
-            public XmlNode(XmlNode parent)
+
+            protected XmlNode(XmlNode parent)
             {
                 Parent = parent;
             }
@@ -84,12 +87,8 @@ namespace Xbim.IO
 
         private class XmlExpressType : XmlNode
         {
-            private string _value;
-            public string Value
-            {
-                get { return _value; }
-                set { _value = value; }
-            }
+            public string Value { get; set; }
+
             public readonly Type Type;
 
             public XmlExpressType(XmlNode parent, Type type)
@@ -137,14 +136,14 @@ namespace Xbim.IO
                     return;
                 var propVal = new PropertyValue();
                 propVal.Init(val, parserType);
-                ((XmlEntity)Parent).Entity.Set(PropertyIndex - 1, propVal);
+                ((XmlEntity)Parent).Entity.Parse(PropertyIndex - 1, propVal);
             }
 
             public void SetValue(object o)
             {
                 var propVal = new PropertyValue();
                 propVal.Init(o);
-                ((XmlEntity)Parent).Entity.Set(PropertyIndex - 1, propVal);
+                ((XmlEntity)Parent).Entity.Parse(PropertyIndex - 1, propVal);
             }
         }
 
@@ -323,7 +322,7 @@ namespace Xbim.IO
                             else
                                 propVal.Init(input.Value, pt);
                         }
-                        ((XmlEntity)node.Parent).Entity.Set(node.PropertyIndex - 1, propVal);
+                        ((XmlEntity)node.Parent).Entity.Parse(node.PropertyIndex - 1, propVal);
                     }
 
                 }
@@ -529,7 +528,7 @@ namespace Xbim.IO
                             IPersist ifcCollectionOwner = collectionOwner.Entity;
                             var pv = new PropertyValue();
                             pv.Init(node.Entity);
-                            ifcCollectionOwner.Set(collection.PropertyIndex - 1, pv);
+                            ifcCollectionOwner.Parse(collection.PropertyIndex - 1, pv);
                                                         
                         }
 
@@ -617,7 +616,7 @@ namespace Xbim.IO
                                 propVal.Init(input.Value, pt);
                         }
 
-                        ((XmlEntity)node.Parent).Entity.Set(node.PropertyIndex - 1, propVal);
+                        ((XmlEntity)node.Parent).Entity.Parse(node.PropertyIndex - 1, propVal);
                     }
 
 
@@ -667,7 +666,7 @@ namespace Xbim.IO
 
                         var collectionOwner = _currentNode.Parent.Parent as XmlEntity; //go to owner of collection
                         IPersist ifcCollectionOwner = collectionOwner.Entity;
-                        ifcCollectionOwner.Set(collection.PropertyIndex - 1, pv);
+                        ifcCollectionOwner.Parse(collection.PropertyIndex - 1, pv);
 
                     }
                     else if (_currentNode is XmlBasicType)
@@ -678,7 +677,7 @@ namespace Xbim.IO
                         IPersist ifcCollectionOwner = collectionOwner.Entity;
                         var pv = new PropertyValue();
                         pv.Init(basicNode.Value, basicNode.Type);
-                        ifcCollectionOwner.Set(collection.PropertyIndex - 1, pv);
+                        ifcCollectionOwner.Parse(collection.PropertyIndex - 1, pv);
                     }
 
 
@@ -701,8 +700,9 @@ namespace Xbim.IO
 
         public Type GetItemTypeFromGenericType(Type genericType)
         {
-            if (genericType == typeof(ICoordinateList))
-                return typeof(IfcLengthMeasure); //special case for coordinates
+            //TODO: Revise an impact. Martin Cerny has commented this out because it wasn't a generic solution. 
+            //if (genericType == typeof(ICoordinateList))
+            //    return typeof(IfcLengthMeasure); //special case for coordinates
             if (genericType.IsGenericType || genericType.IsInterface)
             {
                 var genericTypes = genericType.GetGenericArguments();
@@ -768,7 +768,7 @@ namespace Xbim.IO
                             if (parserType == StepParserType.String)
                             {
                                 propVal.Init("'" + input.Value + "'", parserType);
-                                ((XmlEntity)node.Parent).Entity.Set(node.PropertyIndex - 1, propVal);
+                                ((XmlEntity)node.Parent).Entity.Parse(node.PropertyIndex - 1, propVal);
                             }
                             else if (parserType != StepParserType.Undefined && !string.IsNullOrWhiteSpace(input.Value))
                             {
@@ -780,7 +780,7 @@ namespace Xbim.IO
                                 else
                                     propVal.Init(input.Value, parserType);
 
-                                ((XmlEntity)node.Parent).Entity.Set(node.PropertyIndex - 1, propVal);
+                                ((XmlEntity)node.Parent).Entity.Parse(node.PropertyIndex - 1, propVal);
                             }
 
                             
