@@ -23,6 +23,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Schemas", "Schemas", "{838B
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbim.Ifc2x3.Extensions", "Xbim.Ifc.Extensions\Xbim.Ifc2x3.Extensions.csproj", "{6DF47D23-8F4D-4069-A44B-BBDACD3F9AEA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbim.IO.ParserTests", "Xbim.IO.ParserTests\Xbim.IO.ParserTests.csproj", "{5E41F415-7127-45B9-BF78-D96EBEEC2DE3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -60,6 +62,10 @@ Global
 		{6DF47D23-8F4D-4069-A44B-BBDACD3F9AEA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6DF47D23-8F4D-4069-A44B-BBDACD3F9AEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6DF47D23-8F4D-4069-A44B-BBDACD3F9AEA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5E41F415-7127-45B9-BF78-D96EBEEC2DE3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5E41F415-7127-45B9-BF78-D96EBEEC2DE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5E41F415-7127-45B9-BF78-D96EBEEC2DE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5E41F415-7127-45B9-BF78-D96EBEEC2DE3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -69,5 +75,6 @@ Global
 		{A7F5D679-61E7-4807-A144-830692C097EF} = {F7645A99-C59A-4D76-95C9-A2247B54F314}
 		{63A3EFCF-5D43-4C27-8637-86CCD6033A1E} = {838BD483-B37D-46DF-9B4B-6659B71371CD}
 		{E13C5875-3365-40D3-8DBE-E864D3548491} = {838BD483-B37D-46DF-9B4B-6659B71371CD}
+		{5E41F415-7127-45B9-BF78-D96EBEEC2DE3} = {F7645A99-C59A-4D76-95C9-A2247B54F314}
 	EndGlobalSection
 EndGlobal

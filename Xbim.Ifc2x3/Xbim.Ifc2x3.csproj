@@ -115,6 +115,7 @@
     <Compile Include="GeometryResource\IfcCartesianPointPartial.cs" />
     <Compile Include="GeometryResource\IfcDirectionPartial.cs" />
     <Compile Include="GeometryResource\IfcPlacementPartial.cs" />
+    <Compile Include="ItemSet.cs" />
     <Compile Include="Kernel\IfcObjectPartial.cs" />
     <Compile Include="Kernel\IfcProjectPartial.cs" />
     <Compile Include="Kernel\IfcTypeObjectPartial.cs" />

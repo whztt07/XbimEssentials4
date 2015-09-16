@@ -1,6 +1,7 @@
 ﻿using Xbim.Ifc2x3.GeometryResource;
 using Xbim.Ifc2x3.MeasureResource;
 using Xbim.Ifc2x3.RepresentationResource;
+using System.Linq;
 
 namespace Xbim.Ifc2x3.Kernel
 {

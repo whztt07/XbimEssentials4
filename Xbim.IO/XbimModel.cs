@@ -294,7 +294,7 @@ namespace Xbim.IO
                 //if (!Transaction.IsRollingBack)
                 _cache.AddModified(entity);
             }
-            else //we want to read so load from db if necessary
+            //else //we want to read so load from db if necessary
             {
                 _cache.Activate(entity);
             }

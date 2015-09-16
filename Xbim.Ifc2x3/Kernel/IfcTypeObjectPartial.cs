@@ -11,7 +11,7 @@ namespace Xbim.Ifc2x3.Kernel
     {
         public void AddPropertySet(IfcPropertySetDefinition pSetDefinition)
         {
-            if (HasPropertySets == null) HasPropertySets = new ItemSet<IfcPropertySetDefinition>(Model);
+            if (HasPropertySets == null) HasPropertySets = new ItemSet<IfcPropertySetDefinition>(this);
             HasPropertySets.Add(pSetDefinition);
         }
     }

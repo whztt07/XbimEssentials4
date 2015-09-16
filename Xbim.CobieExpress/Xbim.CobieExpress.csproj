@@ -74,6 +74,7 @@
     <Compile Include="EntityFactory.cs" />
     <Compile Include="FloatValue.cs" />
     <Compile Include="IntegerValue.cs" />
+    <Compile Include="ItemSet.cs" />
     <Compile Include="SpatialDivision.cs" />
     <Compile Include="StringValue.cs" />
   </ItemGroup>

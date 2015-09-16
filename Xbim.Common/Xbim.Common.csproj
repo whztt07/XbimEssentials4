@@ -99,11 +99,11 @@
     <Compile Include="IEntityCollection.cs" />
     <Compile Include="IEntityFactory.cs" />
     <Compile Include="IInstantiableEntity.cs" />
+    <Compile Include="IItemSet.cs" />
     <Compile Include="IModel.cs" />
     <Compile Include="IPersistEntity.cs" />
     <Compile Include="IPersist.cs" />
     <Compile Include="IPropertyValue.cs" />
-    <Compile Include="ItemSet.cs" />
     <Compile Include="ITransaction.cs" />
     <Compile Include="Logging\Event.cs" />
     <Compile Include="Logging\EventLevel.cs" />
