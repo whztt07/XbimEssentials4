@@ -51,7 +51,7 @@ namespace Xbim.IO
 #else
                     return -1;
 #endif
-                return (short)((EntityNameAttribute) entNameAttr).TypeId;
+                return (short)((EntityNameAttribute) entNameAttr).EntityTypeId;
             }
         }
 

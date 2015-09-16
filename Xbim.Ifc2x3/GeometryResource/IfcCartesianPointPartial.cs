@@ -35,7 +35,7 @@ namespace Xbim.Ifc2x3.GeometryResource
             {
                 if (Coordinates.Count < 2)
                 {
-                    if (Coordinates.Count == 0) Coordinates.Add(0);
+                    if (Coordinates.Count == 0) Coordinates.Add(double.NaN);
                     Coordinates.Add(value);
                 }
                 else
@@ -53,8 +53,8 @@ namespace Xbim.Ifc2x3.GeometryResource
             {
                 if (Coordinates.Count < 3)
                 {
-                    if (Coordinates.Count == 0) Coordinates.Add(0);
-                    if (Coordinates.Count == 1) Coordinates.Add(0);
+                    if (Coordinates.Count == 0) Coordinates.Add(double.NaN);
+                    if (Coordinates.Count == 1) Coordinates.Add(double.NaN);
                     Coordinates.Add(value);
                 }
                 else

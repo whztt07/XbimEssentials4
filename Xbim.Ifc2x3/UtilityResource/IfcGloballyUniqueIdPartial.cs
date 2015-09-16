@@ -10,7 +10,7 @@ namespace Xbim.Ifc2x3.UtilityResource
         /// </summary>
         public IfcGloballyUniqueId(Guid gid)
         {
-            _theValue = ConvertToBase64(gid);
+            _value = ConvertToBase64(gid);
         }
 
         public static Guid ConvertFromBase64(string base64StrId)
@@ -130,7 +130,7 @@ namespace Xbim.Ifc2x3.UtilityResource
 
         public static implicit operator Guid(IfcGloballyUniqueId gid)
         {
-            return ConvertFromBase64(gid._theValue);
+            return ConvertFromBase64(gid._value);
         }
 
         private const string CConversionTable =

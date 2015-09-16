@@ -36,7 +36,7 @@ namespace Xbim.Ifc2x3.GeometryResource
             {
                 if (DirectionRatios.Count < 2)
                 {
-                    if (DirectionRatios.Count == 0) DirectionRatios.Add(0);
+                    if (DirectionRatios.Count == 0) DirectionRatios.Add(double.NaN);
                     DirectionRatios.Add(value);
                 }
                 else
@@ -54,8 +54,8 @@ namespace Xbim.Ifc2x3.GeometryResource
             {
                 if (DirectionRatios.Count < 3)
                 {
-                    if (DirectionRatios.Count == 0) DirectionRatios.Add(0);
-                    if (DirectionRatios.Count == 1) DirectionRatios.Add(0);
+                    if (DirectionRatios.Count == 0) DirectionRatios.Add(double.NaN);
+                    if (DirectionRatios.Count == 1) DirectionRatios.Add(double.NaN);
                     DirectionRatios.Add(value);
                 }
                 else
