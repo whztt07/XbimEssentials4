@@ -22,7 +22,8 @@ namespace Xbim.IO.ParserTests
             {
                 model.Open(dbName);
                 var project = model.IfcProject;
-                Debug.WriteLine(project.Name ?? "No project name defined.");
+                Assert.IsNotNull(project);
+                Assert.IsNotNull(project.Name);
             }
 
         }

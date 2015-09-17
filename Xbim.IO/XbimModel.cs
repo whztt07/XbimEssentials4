@@ -328,7 +328,7 @@ namespace Xbim.IO
             {
                 _editTransactionEntityCursor = _cache.GetEntityTable();
                 _cache.BeginCaching();
-                return new XbimReadWriteTransaction(this, _editTransactionEntityCursor.BeginLazyTransaction());
+                return new XbimReadWriteTransaction(this, _editTransactionEntityCursor.BeginLazyTransaction(), operationName);
             }
             catch (Exception e)
             {
@@ -1470,12 +1470,12 @@ namespace Xbim.IO
 
         ITransaction IModel.BeginTransaction(string name)
         {
-            throw new NotImplementedException();
+            return CurrentTransaction = BeginTransaction(name);
         }
 
         public ITransaction CurrentTransaction
         {
-            get { throw new NotImplementedException(); }
+            get; private set;
         }
     }
 }

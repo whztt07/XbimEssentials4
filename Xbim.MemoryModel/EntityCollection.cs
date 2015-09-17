@@ -110,22 +110,21 @@ namespace Xbim.MemoryModel
 
             if (_internal.ContainsKey(key))
             {
-                _internal[key].Add(entity);
-                if (!_model.IsTransactional) return;
+                Action undo = () => _internal[key].Remove(entity);
+                Action doAction = () => _internal[key].Add(entity);
+                doAction();
 
-                Action undo = () =>
-                {
-                    _internal[key].Remove(entity);
-                };
-                _model.CurrentTransaction.AddReversibleAction(undo);
+                if (!_model.IsTransactional) return;
+                _model.CurrentTransaction.AddReversibleAction(doAction, undo, entity);
             }
             else
             {
-                _internal.Add(key, new List<IPersistEntity>{ entity });
-                if (!_model.IsTransactional) return;
-
+                Action doAction = () => _internal.Add(key, new List<IPersistEntity> { entity });
                 Action undo = () => _internal.Remove(key);
-                _model.CurrentTransaction.AddReversibleAction(undo);
+                doAction();
+
+                if (!_model.IsTransactional) return;
+                _model.CurrentTransaction.AddReversibleAction(doAction, undo, entity);
             }
 
         }

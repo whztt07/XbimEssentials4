@@ -111,6 +111,7 @@
     <Compile Include="CostResource\IfcEnvironmentalImpactValue.cs" />
     <Compile Include="CostResource\IfcReferencesValueDocument.cs" />
     <Compile Include="GeometryResource\IfcAxis2Placement2DPartial.cs" />
+    <Compile Include="GeometryResource\IfcAxis2Placement3DPartial.cs" />
     <Compile Include="GeometryResource\IfcAxis2PlacementPartial.cs" />
     <Compile Include="GeometryResource\IfcCartesianPointPartial.cs" />
     <Compile Include="GeometryResource\IfcDirectionPartial.cs" />

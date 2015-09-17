@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using Xbim.Common;
 
@@ -7,7 +8,7 @@ namespace Xbim.IO
     /// <summary>
     /// A transaction allowing read and write operations on a model
     /// </summary>
-    public class XbimReadWriteTransaction : XbimReadTransaction
+    public class XbimReadWriteTransaction : XbimReadTransaction, ITransaction
     {
         private XbimLazyDBTransaction _readWriteTransaction;
         private int _pulseCount;
@@ -22,8 +23,11 @@ namespace Xbim.IO
             set { _transactionBatchSize = value; }
         }
 
-        internal XbimReadWriteTransaction(XbimModel theModel, XbimLazyDBTransaction txn)
+        public string Name { get; protected set; }
+
+        internal XbimReadWriteTransaction(XbimModel theModel, XbimLazyDBTransaction txn, string name = null)
         {
+            Name = name;
             Model = theModel;
             _readWriteTransaction = txn;
             InTransaction = true;
@@ -88,6 +92,30 @@ namespace Xbim.IO
         public IEnumerable<IPersistEntity> Modified()
         {
             return Model.Cache.Modified();
+        }
+
+        string ITransaction.Name
+        {
+            get { return Name; }
+        }
+
+        void ITransaction.Commit()
+        {
+            Commit();
+        }
+
+        void ITransaction.RollBack()
+        {
+            throw new NotSupportedException();
+        }
+
+        void ITransaction.AddReversibleAction(Action doAction, Action undoAction, IPersistEntity entity)
+        {
+        }
+
+        IEnumerable<IPersistEntity> ITransaction.Modified
+        {
+            get { return Modified(); }
         }
     }
 }

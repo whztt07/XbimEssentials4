@@ -1,11 +1,12 @@
 ﻿using System;
+using Xbim.Common;
 
 namespace Xbim.IO
 {
     /// <summary>
     /// A transaction allowing read only operations on a model
     /// </summary>
-    public class XbimReadTransaction : IDisposable
+    public class XbimReadTransaction : ITransaction
     {
         /// <summary>
         /// to detect redundant calls
@@ -32,26 +33,48 @@ namespace Xbim.IO
 
         protected virtual void Dispose(bool disposing)
         {
-            if (!_disposed)
+            if (_disposed) return;
+            if (disposing)
             {
-                if (disposing)
+                try
                 {
-                    try
-                    {
-                        if (InTransaction) _readTransaction.Dispose();
-                    }
-                    finally
-                    {
-                        Model.EndTransaction();
-                    }                     
-                    
+                    if (InTransaction) _readTransaction.Dispose();
                 }
-                _disposed = true;
+                finally
+                {
+                    Model.EndTransaction();
+                }                     
+                    
             }
+            _disposed = true;
         }
         public void Dispose()
         {
             Dispose(true);
+        }
+
+        string ITransaction.Name
+        {
+            get { return ""; }
+        }
+
+        void ITransaction.Commit()
+        {
+            throw new Exception("This is a read-only transaction so you can't commit anything.");
+        }
+
+        void ITransaction.RollBack()
+        {
+            throw new Exception("This is a read-only transaction so you can't commit anything.");
+        }
+
+        void ITransaction.AddReversibleAction(Action doAction, Action undoAction, IPersistEntity entity)
+        {
+        }
+
+        System.Collections.Generic.IEnumerable<IPersistEntity> ITransaction.Modified
+        {
+            get {yield break;}
         }
     }
 }

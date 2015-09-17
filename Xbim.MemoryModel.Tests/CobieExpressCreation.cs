@@ -18,7 +18,7 @@ namespace Xbim.MemoryModel.Tests
                 var facility = New<CobieFacility>(f =>
                 {
                     f.Name = "New facility";
-                    f.Created = model.Instances.New<CobieCreatedInfo>(ci => ci.CreatedOn = DateTime.Now);
+                    f.Created = New<CobieCreatedInfo>(ci => ci.CreatedOn = DateTime.Now);
                     f.LinearUnits = New<CobiePickValue>(pv => pv.Value = "Meters");
                     f.Attributes.Add(New<CobieAttribute>(c =>
                     {
@@ -36,9 +36,6 @@ namespace Xbim.MemoryModel.Tests
                         c.Name = "Boolean";
                     }));
                 });
-                var instance = ((IInstantiableEntity) facility);
-                var name = instance.GetValue("Name") as string;
-                DateTime date = facility.Created.CreatedOn;
                 txn.Commit();
             }
         }

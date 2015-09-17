@@ -11,7 +11,7 @@ namespace Xbim.Ifc2x3.Kernel
         {
             get
             {
-                return
+                return 
                     RepresentationContexts.
                         FirstOrDefault<IfcGeometricRepresentationContext>(r => r.ContextType == "Model");    
             }

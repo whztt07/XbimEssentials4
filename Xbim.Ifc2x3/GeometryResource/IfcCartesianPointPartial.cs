@@ -64,7 +64,7 @@ namespace Xbim.Ifc2x3.GeometryResource
 
         public void SetXY(double x, double y)
         {
-            Coordinates = new ItemSet<IfcLengthMeasure>(Model, new []
+            Coordinates = new ItemSet<IfcLengthMeasure>(this, new []
             {
                 new IfcLengthMeasure(x), 
                 new IfcLengthMeasure(y)
@@ -73,7 +73,7 @@ namespace Xbim.Ifc2x3.GeometryResource
 
         public void SetXYZ(double x, double y, double z)
         {
-            Coordinates = new ItemSet<IfcLengthMeasure>(Model, new[]
+            Coordinates = new ItemSet<IfcLengthMeasure>(this, new[]
             {
                 new IfcLengthMeasure(x), 
                 new IfcLengthMeasure(y),

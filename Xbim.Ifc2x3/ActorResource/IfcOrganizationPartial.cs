@@ -12,7 +12,7 @@ namespace Xbim.Ifc2x3.ActorResource
         public void AddRole(IfcActorRole newRole)
         {
             if (Roles == null)
-                Roles = new ItemSet<IfcActorRole>(Model);
+                Roles = new ItemSet<IfcActorRole>(this);
             Roles.Add(newRole);
         }
     }
