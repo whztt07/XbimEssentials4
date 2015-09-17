@@ -159,7 +159,7 @@ namespace Xbim.IO.Parser
                 int[] reqParams;
                 _currentInstance = new Part21Entity(EntityCreate(entityTypeName, null, InHeader, out reqParams));
                 _currentInstance.RequiredParameters = reqParams;
-                _processStack.Push(_currentInstance);
+                if(_currentInstance != null) _processStack.Push(_currentInstance);
             }
             else
             {

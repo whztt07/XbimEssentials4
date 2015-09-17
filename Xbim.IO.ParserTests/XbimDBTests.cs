@@ -15,6 +15,9 @@ namespace Xbim.IO.ParserTests
             using (var model = new XbimModel())
             {
                 model.CreateFrom("SampleHouse.ifc", dbName, null, true);
+                var project = model.IfcProject;
+                Assert.IsNotNull(project);
+                Assert.IsNotNull(project.Name);
                 model.Close();    
             }
 

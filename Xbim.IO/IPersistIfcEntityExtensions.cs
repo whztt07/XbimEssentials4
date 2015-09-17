@@ -368,7 +368,7 @@ namespace Xbim.IO
             return new XbimInstanceHandle(entity);
         }
 
-        public static void WriteEntity(this IInstantiableEntity entity, BinaryWriter entityWriter)
+        public static void WriteEntity(this IPersistEntity entity, BinaryWriter entityWriter)
         {
            
             var ifcType = IfcMetaData.IfcType(entity);
@@ -612,7 +612,7 @@ namespace Xbim.IO
         /// <param name="br"></param>
         /// <param name="unCached">If true instances inside the properties are not added to the cache</param>
         /// <param name="fromCache"> If true the instance is read from the cache if not present it is created, used during parsing</param>
-        public static void ReadEntityProperties(this IInstantiableEntity entity, IfcPersistedInstanceCache cache, BinaryReader br, bool unCached = false, bool fromCache = false)
+        public static void ReadEntityProperties(this IPersistEntity entity, IfcPersistedInstanceCache cache, BinaryReader br, bool unCached = false, bool fromCache = false)
         {
             var action = (P21ParseAction)br.ReadByte();
 
@@ -659,7 +659,7 @@ namespace Xbim.IO
                         if (fromCache)
                         {
                             int label = br.ReadUInt16();
-                            IInstantiableEntity refEntity;
+                            IPersistEntity refEntity;
                             if (!parserState.InList && cache.Read.TryGetValue(label, out refEntity)) //if we are in a list then make a forward reference anyway to make sure we maintain list order
                                 parserState.SetObjectValue(refEntity);
                             else
@@ -675,7 +675,7 @@ namespace Xbim.IO
                         if (fromCache)
                         {
                             var label = br.ReadInt32();
-                            IInstantiableEntity refEntity;
+                            IPersistEntity refEntity;
                             if (!parserState.InList && cache.Read.TryGetValue(label, out refEntity)) //if we are in a list then make a forward reference anyway to make sure we maintain list order
                                 parserState.SetObjectValue(refEntity);
                             else

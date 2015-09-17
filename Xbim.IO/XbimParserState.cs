@@ -9,7 +9,7 @@ namespace Xbim.IO
     public class XbimParserState
     {
 
-        public XbimParserState(IInstantiableEntity entity)
+        public XbimParserState(IPersistEntity entity)
         {
             _currentInstance = new Part21Entity(entity);
             _processStack.Push(_currentInstance);

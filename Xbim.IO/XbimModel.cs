@@ -524,7 +524,7 @@ namespace Xbim.IO
                     dbFileName += ".xBIM";
                 var model = new XbimModel();
                 model.CreateDatabase(dbFileName); 
-                model.Open(dbFileName, access,null);
+                model.Open(dbFileName, access);
                 model.Header = new IfcFileHeader(IfcFileHeader.HeaderCreationMode.InitWithXbimDefaults)
                 {
                     FileName = {Name = dbFileName}
@@ -1463,7 +1463,7 @@ namespace Xbim.IO
             return _cache.DatabaseHasInstanceTable();
         }
 
-        public bool IsTransactional
+        bool IModel.IsTransactional
         {
             get { return true; }
         }

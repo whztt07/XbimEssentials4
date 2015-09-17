@@ -2,23 +2,23 @@
 using System.Collections.Generic;
 using Xbim.Common;
 
-namespace Xbim.MemoryModel
+namespace Xbim.IO.Memory
 {
     public class Transaction<TFactory> : ITransaction where TFactory : IEntityFactory, new()
     {
-        private readonly Model<TFactory> _model;
+        private readonly MemoryModel<TFactory> _model;
         private readonly List<Action> _doActions = new List<Action>();
         private readonly List<Action> _undoActions = new List<Action>();
         private readonly HashSet<IPersistEntity> _modified = new HashSet<IPersistEntity>(); 
         private bool _closed;
 
-        public Transaction(Model<TFactory> model, string name)
+        public Transaction(MemoryModel<TFactory> model, string name)
         {
             Name = name;
             _model = model;
         }
 
-        public Transaction(Model<TFactory> model)
+        public Transaction(MemoryModel<TFactory> model)
         {
             _model = model;
         }

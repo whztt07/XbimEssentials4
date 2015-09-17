@@ -70,15 +70,15 @@ namespace Xbim.IO
        
         #endregion
         #region Cached data
-        private readonly ConcurrentDictionary<int, IInstantiableEntity> _read = new ConcurrentDictionary<int, IInstantiableEntity>();
+        private readonly ConcurrentDictionary<int, IPersistEntity> _read = new ConcurrentDictionary<int, IPersistEntity>();
 
-        internal ConcurrentDictionary<int, IInstantiableEntity> Read
+        internal ConcurrentDictionary<int, IPersistEntity> Read
         {
             get { return _read; }
            
         }
-        protected ConcurrentDictionary<int, IInstantiableEntity> ModifiedEntities = new ConcurrentDictionary<int, IInstantiableEntity>();
-        protected ConcurrentDictionary<int, IInstantiableEntity> CreatedNew = new ConcurrentDictionary<int, IInstantiableEntity>();
+        protected ConcurrentDictionary<int, IPersistEntity> ModifiedEntities = new ConcurrentDictionary<int, IPersistEntity>();
+        protected ConcurrentDictionary<int, IPersistEntity> CreatedNew = new ConcurrentDictionary<int, IPersistEntity>();
         private BlockingCollection<IfcForwardReference> _forwardReferences = new BlockingCollection<IfcForwardReference>();
 
         internal BlockingCollection<IfcForwardReference> ForwardReferences
@@ -934,7 +934,7 @@ namespace Xbim.IO
                 throw new XbimException("XbimModel.BeginTransaction must be called before editing a model");
             var cursor = _model.GetTransactingCursor();
             var h = cursor.AddEntity(t);
-            var entity = _factory.New(_model, t, h.EntityLabel, true);
+            var entity = _factory.New(_model, t, h.EntityLabel, true) as IPersistEntity;
             entity= _read.GetOrAdd(h.EntityLabel, entity);
             ModifiedEntities.TryAdd(h.EntityLabel, entity);
             CreatedNew.TryAdd(h.EntityLabel, entity);
@@ -951,7 +951,7 @@ namespace Xbim.IO
         /// <returns></returns>
         internal IPersistEntity CreateNew(Type type, int label)
         {
-            return _factory.New(_model, type, label, true);
+            return _factory.New(_model, type, label, true) ;
         }
      
 
@@ -1036,10 +1036,10 @@ namespace Xbim.IO
         /// <param name="loadProperties"></param>
         /// <param name="unCached"></param>
         /// <returns></returns>
-        public IInstantiableEntity GetInstance(int label, bool loadProperties = false, bool unCached = false)
+        public IPersistEntity GetInstance(int label, bool loadProperties = false, bool unCached = false)
         {
-           
-            IInstantiableEntity entity;
+
+            IPersistEntity entity;
             if (_caching && _read.TryGetValue(label, out entity))
                 return entity;
             return GetInstanceFromStore(label, loadProperties, unCached);
@@ -1056,8 +1056,8 @@ namespace Xbim.IO
         public IPersistEntity GetOrCreateInstanceFromCache(int label, Type type, byte[] properties)
         {
             Debug.Assert(_caching); //must be caching to call this
-           
-            IInstantiableEntity entity;
+
+            IPersistEntity entity;
             if (_read.TryGetValue(label, out entity)) return entity;
 
             if (type.IsAbstract)
@@ -1083,7 +1083,7 @@ namespace Xbim.IO
         /// <param name="loadProperties">if true the properties of the object are loaded  at the same time</param>
         /// <param name="unCached">if true the object is not cached, this is dangerous and can lead to object duplicates</param>
         /// <returns></returns>
-        private IInstantiableEntity GetInstanceFromStore(int entityLabel, bool loadProperties = false, bool unCached = false)
+        private IPersistEntity GetInstanceFromStore(int entityLabel, bool loadProperties = false, bool unCached = false)
         {
             var entityTable = GetEntityTable();
             try
@@ -1096,7 +1096,7 @@ namespace Xbim.IO
                         var currentIfcTypeId = entityTable.GetIfcType();
                         if (currentIfcTypeId == 0) // this should never happen (there's a test for it, but old xbim files might be incorrectly identified)
                             return null;
-                        IInstantiableEntity entity;
+                        IPersistEntity entity;
                         var entityType = IfcMetaData.GetType(currentIfcTypeId);
                         if (loadProperties)
                         {
@@ -1160,7 +1160,7 @@ namespace Xbim.IO
                         var ih = entityTable.GetInstanceHandle();
                         if (typeIds.Contains(ih.EntityTypeId))
                         {
-                            IInstantiableEntity entity;
+                            IPersistEntity entity;
                             if (_caching && _read.TryGetValue(ih.EntityLabel, out entity))
                             {
                                 if (activate && !entity.Activated) //activate if required and not already done
@@ -1253,7 +1253,7 @@ namespace Xbim.IO
                             {
                                 do
                                 {
-                                    IInstantiableEntity entity;
+                                    IPersistEntity entity;
                                     if (_caching && _read.TryGetValue(ih.EntityLabel, out entity))
                                     {
                                         if (activate && !entity.Activated) //activate if required and not already done

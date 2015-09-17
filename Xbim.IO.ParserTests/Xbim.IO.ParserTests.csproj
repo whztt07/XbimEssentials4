@@ -50,6 +50,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="LoadingIfc2x3.cs" />
     <Compile Include="XbimDBTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -288,7 +288,7 @@ namespace Xbim.IO
         /// Updates an entity, assumes a valid transaction is running
         /// </summary>
         /// <param name="toWrite"></param>
-        internal void UpdateEntity(IInstantiableEntity toWrite)
+        internal void UpdateEntity(IPersistEntity toWrite)
         {
             var ms = new MemoryStream();
             var bw = new BinaryWriter(ms);

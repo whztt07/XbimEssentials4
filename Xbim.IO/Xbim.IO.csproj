@@ -91,6 +91,9 @@
     <Compile Include="IXbimShapeBounds.cs" />
     <Compile Include="IXbimShapeGeometryData.cs" />
     <Compile Include="IXbimShapeInstanceData.cs" />
+    <Compile Include="Memory\EntityCollection.cs" />
+    <Compile Include="Memory\MemoryModel.cs" />
+    <Compile Include="Memory\Transaction.cs" />
     <Compile Include="Step21\IIfcPersistExtensions.cs" />
     <Compile Include="Step21\IStepFileDescription.cs" />
     <Compile Include="Step21\Parser\IfcForwardReference.cs" />

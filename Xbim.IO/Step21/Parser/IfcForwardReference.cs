@@ -9,20 +9,20 @@ namespace Xbim.IO.Parser
     {
         public readonly int ReferenceEntityLabel;
         private readonly short ReferencingPropertyId;
-        private readonly IInstantiableEntity ReferencingEntity;
+        private readonly IPersistEntity ReferencingEntity;
 
         public IfcForwardReference(int referenceEntityLabel,
             short referencingProperty,
-            IInstantiableEntity referencingEntity)
+            IPersistEntity referencingEntity)
         {
             ReferenceEntityLabel = referenceEntityLabel;
             ReferencingPropertyId = referencingProperty;
             ReferencingEntity = referencingEntity;
         }
 
-        public bool Resolve(ConcurrentDictionary<int, IInstantiableEntity> references)
+        public bool Resolve(ConcurrentDictionary<int, IPersistEntity> references)
         {
-            IInstantiableEntity entity;
+            IPersistEntity entity;
             if (references.TryGetValue(ReferenceEntityLabel, out entity))
             {
                 var pv = new PropertyValue();

@@ -4,21 +4,21 @@ using System.Linq;
 using System.Linq.Expressions;
 using Xbim.Common;
 
-namespace Xbim.MemoryModel
+namespace Xbim.IO.Memory
 {
     public class EntityCollection<TFactory> : IEntityCollection where TFactory : IEntityFactory, new()
     {
         private readonly IModel _model;
         private readonly Dictionary<Type, List<IPersistEntity>> _internal = new Dictionary<Type, List<IPersistEntity>>();
         private readonly Type[] _types;
-        private readonly TFactory _factory;
+        internal readonly TFactory Factory;
         private int _instanceCounter = 10000;
         public EntityCollection(IModel model)
         {
             _model = model;
             var mainType = typeof (IPersistEntity);
             _types = mainType.Assembly.GetTypes().Where(t => mainType.IsAssignableFrom(t)).ToArray();
-            _factory = new TFactory();
+            Factory = new TFactory();
         }
 
         public IEnumerable<T> Where<T>(Expression<Func<T, bool>> expr) where T : IPersistEntity
@@ -61,21 +61,21 @@ namespace Xbim.MemoryModel
 
         public IPersistEntity New(Type t)
         {
-            var entity = _factory.New(_model, t, _instanceCounter++, true);
+            var entity = Factory.New(_model, t, _instanceCounter++, true);
             AddReversible(entity);
             return entity;
         }
 
         public T New<T>(Action<T> initPropertiesFunc) where T : IInstantiableEntity
         {
-            var entity = _factory.New(_model, initPropertiesFunc, _instanceCounter++, true);
+            var entity = Factory.New(_model, initPropertiesFunc, _instanceCounter++, true);
             AddReversible(entity);
             return entity;
         }
 
         public T New<T>() where T : IInstantiableEntity
         {
-            var entity = _factory.New<T>(_model, _instanceCounter++, true);
+            var entity = Factory.New<T>(_model, _instanceCounter++, true);
             AddReversible(entity);
             return entity;
         }
@@ -101,6 +101,19 @@ namespace Xbim.MemoryModel
             var resultTypes = _internal.Keys.Where(t => queryType.IsAssignableFrom(t));
             return
                 resultTypes.SelectMany(type => _internal[type], (type, entity) => (T)entity).Count();
+        }
+
+        internal void InternalAdd(IPersistEntity entity)
+        {
+            var key = entity.GetType();
+            if (_internal.ContainsKey(key))
+            {
+                _internal[key].Add(entity);
+            }
+            else
+            {
+                _internal.Add(key, new List<IPersistEntity> { entity });
+            }
         }
 
         private void AddReversible(IPersistEntity entity)

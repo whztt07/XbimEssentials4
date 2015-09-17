@@ -5,6 +5,7 @@ using Xbim.Ifc2x3.Kernel;
 using Xbim.Ifc2x3.MeasureResource;
 using Xbim.Ifc2x3.PropertyResource;
 using Xbim.Ifc2x3.SharedBldgElements;
+using Xbim.IO.Memory;
 
 namespace Xbim.MemoryModel.Tests
 {
@@ -14,7 +15,7 @@ namespace Xbim.MemoryModel.Tests
         [TestMethod]
         public void BasicInstances()
         {
-            var model = new Model<EntityFactory>();
+            var model = new MemoryModel<EntityFactory>();
             using (var txn = model.BeginTransaction("Example"))
             {
                 var wall = model.Instances.New<IfcWall>(w =>

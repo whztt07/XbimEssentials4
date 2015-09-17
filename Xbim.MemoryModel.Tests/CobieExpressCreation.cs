@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Xbim.CobieExpress;
 using Xbim.Common;
+using Xbim.IO.Memory;
 
 namespace Xbim.MemoryModel.Tests
 {
@@ -11,7 +12,7 @@ namespace Xbim.MemoryModel.Tests
         [TestMethod]
         public void CreateSimpleModel()
         {
-            var model = new Model<EntityFactory>();
+            var model = new MemoryModel<EntityFactory>();
             _model = model;
             using (var txn = model.BeginTransaction("Model creation"))
             {
