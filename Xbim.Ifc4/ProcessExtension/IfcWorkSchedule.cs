@@ -32,7 +32,7 @@ namespace Xbim.Ifc4.ProcessExtension
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(13, EntityAttributeState.Optional)]
+		[EntityAttributee(13, EntityAttributeState.Optional)]
 		public IfcWorkScheduleTypeEnum? @PredefinedType 
 		{ 
 			get 

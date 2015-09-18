@@ -58,7 +58,7 @@ namespace Xbim.Ifc2x3.PresentationAppearanceResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(0, EntityAttributeState.Optional)]
+		[EntityAttributee(0, EntityAttributeState.Optional)]
 		public IfcSizeSelect @TextIndent 
 		{ 
 			get 
@@ -75,7 +75,7 @@ namespace Xbim.Ifc2x3.PresentationAppearanceResource
 			} 
 		}
 	
-		[EntityAttribute(1, EntityAttributeState.Optional)]
+		[EntityAttributee(1, EntityAttributeState.Optional)]
 		public IfcTextAlignment? @TextAlign 
 		{ 
 			get 
@@ -92,7 +92,7 @@ namespace Xbim.Ifc2x3.PresentationAppearanceResource
 			} 
 		}
 	
-		[EntityAttribute(2, EntityAttributeState.Optional)]
+		[EntityAttributee(2, EntityAttributeState.Optional)]
 		public IfcTextDecoration? @TextDecoration 
 		{ 
 			get 
@@ -109,7 +109,7 @@ namespace Xbim.Ifc2x3.PresentationAppearanceResource
 			} 
 		}
 	
-		[EntityAttribute(3, EntityAttributeState.Optional)]
+		[EntityAttributee(3, EntityAttributeState.Optional)]
 		public IfcSizeSelect @LetterSpacing 
 		{ 
 			get 
@@ -126,7 +126,7 @@ namespace Xbim.Ifc2x3.PresentationAppearanceResource
 			} 
 		}
 	
-		[EntityAttribute(4, EntityAttributeState.Optional)]
+		[EntityAttributee(4, EntityAttributeState.Optional)]
 		public IfcSizeSelect @WordSpacing 
 		{ 
 			get 
@@ -143,7 +143,7 @@ namespace Xbim.Ifc2x3.PresentationAppearanceResource
 			} 
 		}
 	
-		[EntityAttribute(5, EntityAttributeState.Optional)]
+		[EntityAttributee(5, EntityAttributeState.Optional)]
 		public IfcTextTransformation? @TextTransform 
 		{ 
 			get 
@@ -160,7 +160,7 @@ namespace Xbim.Ifc2x3.PresentationAppearanceResource
 			} 
 		}
 	
-		[EntityAttribute(6, EntityAttributeState.Optional)]
+		[EntityAttributee(6, EntityAttributeState.Optional)]
 		public IfcSizeSelect @LineHeight 
 		{ 
 			get 

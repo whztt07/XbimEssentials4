@@ -31,7 +31,7 @@ namespace Xbim.Ifc4.Kernel
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(5, EntityAttributeState.Mandatory)]
+		[EntityAttributee(5, EntityAttributeState.Mandatory)]
 		public IfcDocumentSelect @RelatingDocument 
 		{ 
 			get 

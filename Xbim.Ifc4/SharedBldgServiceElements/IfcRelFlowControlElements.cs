@@ -33,7 +33,7 @@ namespace Xbim.Ifc4.SharedBldgServiceElements
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(4, EntityAttributeState.Mandatory)]
+		[EntityAttributee(4, EntityAttributeState.Mandatory)]
 		public ItemSet<IfcDistributionControlElement> @RelatedControlElements 
 		{ 
 			get 
@@ -50,7 +50,7 @@ namespace Xbim.Ifc4.SharedBldgServiceElements
 			} 
 		}
 	
-		[EntityAttribute(5, EntityAttributeState.Mandatory)]
+		[EntityAttributee(5, EntityAttributeState.Mandatory)]
 		public IfcDistributionFlowElement @RelatingFlowElement 
 		{ 
 			get 

@@ -36,7 +36,7 @@ namespace Xbim.Ifc4.ArchitectureDomain
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(4, EntityAttributeState.Optional)]
+		[EntityAttributee(4, EntityAttributeState.Optional)]
 		public IfcPositiveLengthMeasure? @PanelDepth 
 		{ 
 			get 
@@ -53,7 +53,7 @@ namespace Xbim.Ifc4.ArchitectureDomain
 			} 
 		}
 	
-		[EntityAttribute(5, EntityAttributeState.Mandatory)]
+		[EntityAttributee(5, EntityAttributeState.Mandatory)]
 		public IfcDoorPanelOperationEnum @PanelOperation 
 		{ 
 			get 
@@ -70,7 +70,7 @@ namespace Xbim.Ifc4.ArchitectureDomain
 			} 
 		}
 	
-		[EntityAttribute(6, EntityAttributeState.Optional)]
+		[EntityAttributee(6, EntityAttributeState.Optional)]
 		public IfcNormalisedRatioMeasure? @PanelWidth 
 		{ 
 			get 
@@ -87,7 +87,7 @@ namespace Xbim.Ifc4.ArchitectureDomain
 			} 
 		}
 	
-		[EntityAttribute(7, EntityAttributeState.Mandatory)]
+		[EntityAttributee(7, EntityAttributeState.Mandatory)]
 		public IfcDoorPanelPositionEnum @PanelPosition 
 		{ 
 			get 
@@ -104,7 +104,7 @@ namespace Xbim.Ifc4.ArchitectureDomain
 			} 
 		}
 	
-		[EntityAttribute(8, EntityAttributeState.Optional)]
+		[EntityAttributee(8, EntityAttributeState.Optional)]
 		public IfcShapeAspect @ShapeAspectStyle 
 		{ 
 			get 

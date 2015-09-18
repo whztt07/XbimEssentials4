@@ -60,7 +60,7 @@ namespace Xbim.Ifc2x3.ActorResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(0, EntityAttributeState.Optional)]
+		[EntityAttributee(0, EntityAttributeState.Optional)]
 		public IfcIdentifier? @Id 
 		{ 
 			get 
@@ -77,7 +77,7 @@ namespace Xbim.Ifc2x3.ActorResource
 			} 
 		}
 	
-		[EntityAttribute(1, EntityAttributeState.Mandatory)]
+		[EntityAttributee(1, EntityAttributeState.Mandatory)]
 		public IfcLabel @Name 
 		{ 
 			get 
@@ -94,7 +94,7 @@ namespace Xbim.Ifc2x3.ActorResource
 			} 
 		}
 	
-		[EntityAttribute(2, EntityAttributeState.Optional)]
+		[EntityAttributee(2, EntityAttributeState.Optional)]
 		public IfcText? @Description 
 		{ 
 			get 
@@ -111,7 +111,7 @@ namespace Xbim.Ifc2x3.ActorResource
 			} 
 		}
 	
-		[EntityAttribute(3, EntityAttributeState.Optional)]
+		[EntityAttributee(3, EntityAttributeState.Optional)]
 		public ItemSet<IfcActorRole> @Roles 
 		{ 
 			get 
@@ -128,7 +128,7 @@ namespace Xbim.Ifc2x3.ActorResource
 			} 
 		}
 	
-		[EntityAttribute(4, EntityAttributeState.Optional)]
+		[EntityAttributee(4, EntityAttributeState.Optional)]
 		public ItemSet<IfcAddress> @Addresses 
 		{ 
 			get 

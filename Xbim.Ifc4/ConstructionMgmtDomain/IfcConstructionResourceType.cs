@@ -32,7 +32,7 @@ namespace Xbim.Ifc4.ConstructionMgmtDomain
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(9, EntityAttributeState.Optional)]
+		[EntityAttributee(9, EntityAttributeState.Optional)]
 		public ItemSet<IfcAppliedValue> @BaseCosts 
 		{ 
 			get 
@@ -49,7 +49,7 @@ namespace Xbim.Ifc4.ConstructionMgmtDomain
 			} 
 		}
 	
-		[EntityAttribute(10, EntityAttributeState.Optional)]
+		[EntityAttributee(10, EntityAttributeState.Optional)]
 		public IfcPhysicalQuantity @BaseQuantity 
 		{ 
 			get 

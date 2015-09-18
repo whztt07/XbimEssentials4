@@ -30,7 +30,7 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(3, EntityAttributeState.Optional)]
+		[EntityAttributee(3, EntityAttributeState.Optional)]
 		public ItemSet<ItemSet<long>> @TexCoordIndex 
 		{ 
 			get 

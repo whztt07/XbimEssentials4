@@ -31,7 +31,7 @@ namespace Xbim.Ifc4.ExternalReferenceResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(2, EntityAttributeState.Mandatory)]
+		[EntityAttributee(2, EntityAttributeState.Mandatory)]
 		public IfcExternalReference @RelatingReference 
 		{ 
 			get 
@@ -48,7 +48,7 @@ namespace Xbim.Ifc4.ExternalReferenceResource
 			} 
 		}
 	
-		[EntityAttribute(3, EntityAttributeState.Mandatory)]
+		[EntityAttributee(3, EntityAttributeState.Mandatory)]
 		public ItemSet<IfcResourceObjectSelect> @RelatedResourceObjects 
 		{ 
 			get 

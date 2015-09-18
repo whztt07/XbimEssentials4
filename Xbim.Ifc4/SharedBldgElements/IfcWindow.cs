@@ -37,7 +37,7 @@ namespace Xbim.Ifc4.SharedBldgElements
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(8, EntityAttributeState.Optional)]
+		[EntityAttributee(8, EntityAttributeState.Optional)]
 		public IfcPositiveLengthMeasure? @OverallHeight 
 		{ 
 			get 
@@ -54,7 +54,7 @@ namespace Xbim.Ifc4.SharedBldgElements
 			} 
 		}
 	
-		[EntityAttribute(9, EntityAttributeState.Optional)]
+		[EntityAttributee(9, EntityAttributeState.Optional)]
 		public IfcPositiveLengthMeasure? @OverallWidth 
 		{ 
 			get 
@@ -71,7 +71,7 @@ namespace Xbim.Ifc4.SharedBldgElements
 			} 
 		}
 	
-		[EntityAttribute(10, EntityAttributeState.Optional)]
+		[EntityAttributee(10, EntityAttributeState.Optional)]
 		public IfcWindowTypeEnum? @PredefinedType 
 		{ 
 			get 
@@ -88,7 +88,7 @@ namespace Xbim.Ifc4.SharedBldgElements
 			} 
 		}
 	
-		[EntityAttribute(11, EntityAttributeState.Optional)]
+		[EntityAttributee(11, EntityAttributeState.Optional)]
 		public IfcWindowTypePartitioningEnum? @PartitioningType 
 		{ 
 			get 
@@ -105,7 +105,7 @@ namespace Xbim.Ifc4.SharedBldgElements
 			} 
 		}
 	
-		[EntityAttribute(12, EntityAttributeState.Optional)]
+		[EntityAttributee(12, EntityAttributeState.Optional)]
 		public IfcLabel? @UserDefinedPartitioningType 
 		{ 
 			get 

@@ -29,7 +29,7 @@ namespace Xbim.Ifc2x3.GeometricModelResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(2, EntityAttributeState.Mandatory)]
+		[EntityAttributee(2, EntityAttributeState.Mandatory)]
 		public IfcBoundingBox @Enclosure 
 		{ 
 			get 

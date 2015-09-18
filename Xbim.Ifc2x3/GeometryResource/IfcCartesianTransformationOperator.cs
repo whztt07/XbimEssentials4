@@ -30,7 +30,7 @@ namespace Xbim.Ifc2x3.GeometryResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(0, EntityAttributeState.Optional)]
+		[EntityAttributee(0, EntityAttributeState.Optional)]
 		public IfcDirection @Axis1 
 		{ 
 			get 
@@ -47,7 +47,7 @@ namespace Xbim.Ifc2x3.GeometryResource
 			} 
 		}
 	
-		[EntityAttribute(1, EntityAttributeState.Optional)]
+		[EntityAttributee(1, EntityAttributeState.Optional)]
 		public IfcDirection @Axis2 
 		{ 
 			get 
@@ -64,7 +64,7 @@ namespace Xbim.Ifc2x3.GeometryResource
 			} 
 		}
 	
-		[EntityAttribute(2, EntityAttributeState.Mandatory)]
+		[EntityAttributee(2, EntityAttributeState.Mandatory)]
 		public IfcCartesianPoint @LocalOrigin 
 		{ 
 			get 
@@ -81,7 +81,7 @@ namespace Xbim.Ifc2x3.GeometryResource
 			} 
 		}
 	
-		[EntityAttribute(3, EntityAttributeState.Optional)]
+		[EntityAttributee(3, EntityAttributeState.Optional)]
 		public double? @Scale 
 		{ 
 			get 

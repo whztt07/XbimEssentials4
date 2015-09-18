@@ -33,7 +33,7 @@ namespace Xbim.Ifc2x3.FacilitiesMgmtDomain
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(5, EntityAttributeState.Mandatory)]
+		[EntityAttributee(5, EntityAttributeState.Mandatory)]
 		public IfcConditionCriterionSelect @Criterion 
 		{ 
 			get 
@@ -50,7 +50,7 @@ namespace Xbim.Ifc2x3.FacilitiesMgmtDomain
 			} 
 		}
 	
-		[EntityAttribute(6, EntityAttributeState.Mandatory)]
+		[EntityAttributee(6, EntityAttributeState.Mandatory)]
 		public IfcDateTimeSelect @CriterionDateTime 
 		{ 
 			get 

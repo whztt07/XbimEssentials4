@@ -33,7 +33,7 @@ namespace Xbim.Ifc2x3.PresentationAppearanceResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(0, EntityAttributeState.Optional)]
+		[EntityAttributee(0, EntityAttributeState.Optional)]
 		public IfcRepresentationItem @Item 
 		{ 
 			get 
@@ -50,7 +50,7 @@ namespace Xbim.Ifc2x3.PresentationAppearanceResource
 			} 
 		}
 	
-		[EntityAttribute(1, EntityAttributeState.Mandatory)]
+		[EntityAttributee(1, EntityAttributeState.Mandatory)]
 		public ItemSet<IfcPresentationStyleAssignment> @Styles 
 		{ 
 			get 
@@ -67,7 +67,7 @@ namespace Xbim.Ifc2x3.PresentationAppearanceResource
 			} 
 		}
 	
-		[EntityAttribute(2, EntityAttributeState.Optional)]
+		[EntityAttributee(2, EntityAttributeState.Optional)]
 		public IfcLabel? @Name 
 		{ 
 			get 

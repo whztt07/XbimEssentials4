@@ -40,7 +40,7 @@ namespace Xbim.Ifc4.SharedFacilitiesElements
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(5, EntityAttributeState.Optional)]
+		[EntityAttributee(5, EntityAttributeState.Optional)]
 		public IfcInventoryTypeEnum? @PredefinedType 
 		{ 
 			get 
@@ -57,7 +57,7 @@ namespace Xbim.Ifc4.SharedFacilitiesElements
 			} 
 		}
 	
-		[EntityAttribute(6, EntityAttributeState.Optional)]
+		[EntityAttributee(6, EntityAttributeState.Optional)]
 		public IfcActorSelect @Jurisdiction 
 		{ 
 			get 
@@ -74,7 +74,7 @@ namespace Xbim.Ifc4.SharedFacilitiesElements
 			} 
 		}
 	
-		[EntityAttribute(7, EntityAttributeState.Optional)]
+		[EntityAttributee(7, EntityAttributeState.Optional)]
 		public ItemSet<IfcPerson> @ResponsiblePersons 
 		{ 
 			get 
@@ -91,7 +91,7 @@ namespace Xbim.Ifc4.SharedFacilitiesElements
 			} 
 		}
 	
-		[EntityAttribute(8, EntityAttributeState.Optional)]
+		[EntityAttributee(8, EntityAttributeState.Optional)]
 		public IfcDate? @LastUpdateDate 
 		{ 
 			get 
@@ -108,7 +108,7 @@ namespace Xbim.Ifc4.SharedFacilitiesElements
 			} 
 		}
 	
-		[EntityAttribute(9, EntityAttributeState.Optional)]
+		[EntityAttributee(9, EntityAttributeState.Optional)]
 		public IfcCostValue @CurrentValue 
 		{ 
 			get 
@@ -125,7 +125,7 @@ namespace Xbim.Ifc4.SharedFacilitiesElements
 			} 
 		}
 	
-		[EntityAttribute(10, EntityAttributeState.Optional)]
+		[EntityAttributee(10, EntityAttributeState.Optional)]
 		public IfcCostValue @OriginalValue 
 		{ 
 			get 

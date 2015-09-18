@@ -33,7 +33,7 @@ namespace Xbim.Ifc2x3.SharedMgmtElements
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(5, EntityAttributeState.Mandatory)]
+		[EntityAttributee(5, EntityAttributeState.Mandatory)]
 		public IfcIdentifier @ID 
 		{ 
 			get 
@@ -50,7 +50,7 @@ namespace Xbim.Ifc2x3.SharedMgmtElements
 			} 
 		}
 	
-		[EntityAttribute(6, EntityAttributeState.Mandatory)]
+		[EntityAttributee(6, EntityAttributeState.Mandatory)]
 		public IfcProjectOrderTypeEnum @PredefinedType 
 		{ 
 			get 
@@ -67,7 +67,7 @@ namespace Xbim.Ifc2x3.SharedMgmtElements
 			} 
 		}
 	
-		[EntityAttribute(7, EntityAttributeState.Optional)]
+		[EntityAttributee(7, EntityAttributeState.Optional)]
 		public IfcLabel? @Status 
 		{ 
 			get 

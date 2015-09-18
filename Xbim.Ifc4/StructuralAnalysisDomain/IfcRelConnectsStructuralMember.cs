@@ -38,7 +38,7 @@ namespace Xbim.Ifc4.StructuralAnalysisDomain
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(4, EntityAttributeState.Mandatory)]
+		[EntityAttributee(4, EntityAttributeState.Mandatory)]
 		public IfcStructuralMember @RelatingStructuralMember 
 		{ 
 			get 
@@ -55,7 +55,7 @@ namespace Xbim.Ifc4.StructuralAnalysisDomain
 			} 
 		}
 	
-		[EntityAttribute(5, EntityAttributeState.Mandatory)]
+		[EntityAttributee(5, EntityAttributeState.Mandatory)]
 		public IfcStructuralConnection @RelatedStructuralConnection 
 		{ 
 			get 
@@ -72,7 +72,7 @@ namespace Xbim.Ifc4.StructuralAnalysisDomain
 			} 
 		}
 	
-		[EntityAttribute(6, EntityAttributeState.Optional)]
+		[EntityAttributee(6, EntityAttributeState.Optional)]
 		public IfcBoundaryCondition @AppliedCondition 
 		{ 
 			get 
@@ -89,7 +89,7 @@ namespace Xbim.Ifc4.StructuralAnalysisDomain
 			} 
 		}
 	
-		[EntityAttribute(7, EntityAttributeState.Optional)]
+		[EntityAttributee(7, EntityAttributeState.Optional)]
 		public IfcStructuralConnectionCondition @AdditionalConditions 
 		{ 
 			get 
@@ -106,7 +106,7 @@ namespace Xbim.Ifc4.StructuralAnalysisDomain
 			} 
 		}
 	
-		[EntityAttribute(8, EntityAttributeState.Optional)]
+		[EntityAttributee(8, EntityAttributeState.Optional)]
 		public IfcLengthMeasure? @SupportedLength 
 		{ 
 			get 
@@ -123,7 +123,7 @@ namespace Xbim.Ifc4.StructuralAnalysisDomain
 			} 
 		}
 	
-		[EntityAttribute(9, EntityAttributeState.Optional)]
+		[EntityAttributee(9, EntityAttributeState.Optional)]
 		public IfcAxis2Placement3D @ConditionCoordinateSystem 
 		{ 
 			get 

@@ -36,7 +36,7 @@ namespace Xbim.Ifc2x3.ProductExtension
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(4, EntityAttributeState.Mandatory)]
+		[EntityAttributee(4, EntityAttributeState.Mandatory)]
 		public IfcSpace @RelatingSpace 
 		{ 
 			get 
@@ -53,7 +53,7 @@ namespace Xbim.Ifc2x3.ProductExtension
 			} 
 		}
 	
-		[EntityAttribute(5, EntityAttributeState.Optional)]
+		[EntityAttributee(5, EntityAttributeState.Optional)]
 		public IfcElement @RelatedBuildingElement 
 		{ 
 			get 
@@ -70,7 +70,7 @@ namespace Xbim.Ifc2x3.ProductExtension
 			} 
 		}
 	
-		[EntityAttribute(6, EntityAttributeState.Optional)]
+		[EntityAttributee(6, EntityAttributeState.Optional)]
 		public IfcConnectionGeometry @ConnectionGeometry 
 		{ 
 			get 
@@ -87,7 +87,7 @@ namespace Xbim.Ifc2x3.ProductExtension
 			} 
 		}
 	
-		[EntityAttribute(7, EntityAttributeState.Mandatory)]
+		[EntityAttributee(7, EntityAttributeState.Mandatory)]
 		public IfcPhysicalOrVirtualEnum @PhysicalOrVirtualBoundary 
 		{ 
 			get 
@@ -104,7 +104,7 @@ namespace Xbim.Ifc2x3.ProductExtension
 			} 
 		}
 	
-		[EntityAttribute(8, EntityAttributeState.Mandatory)]
+		[EntityAttributee(8, EntityAttributeState.Mandatory)]
 		public IfcInternalOrExternalEnum @InternalOrExternalBoundary 
 		{ 
 			get 

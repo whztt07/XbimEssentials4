@@ -57,7 +57,7 @@ namespace Xbim.Ifc2x3.DateTimeResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(0, EntityAttributeState.Mandatory)]
+		[EntityAttributee(0, EntityAttributeState.Mandatory)]
 		public IfcHourInDay @HourComponent 
 		{ 
 			get 
@@ -74,7 +74,7 @@ namespace Xbim.Ifc2x3.DateTimeResource
 			} 
 		}
 	
-		[EntityAttribute(1, EntityAttributeState.Optional)]
+		[EntityAttributee(1, EntityAttributeState.Optional)]
 		public IfcMinuteInHour? @MinuteComponent 
 		{ 
 			get 
@@ -91,7 +91,7 @@ namespace Xbim.Ifc2x3.DateTimeResource
 			} 
 		}
 	
-		[EntityAttribute(2, EntityAttributeState.Optional)]
+		[EntityAttributee(2, EntityAttributeState.Optional)]
 		public IfcSecondInMinute? @SecondComponent 
 		{ 
 			get 
@@ -108,7 +108,7 @@ namespace Xbim.Ifc2x3.DateTimeResource
 			} 
 		}
 	
-		[EntityAttribute(3, EntityAttributeState.Optional)]
+		[EntityAttributee(3, EntityAttributeState.Optional)]
 		public IfcCoordinatedUniversalTimeOffset @Zone 
 		{ 
 			get 
@@ -125,7 +125,7 @@ namespace Xbim.Ifc2x3.DateTimeResource
 			} 
 		}
 	
-		[EntityAttribute(4, EntityAttributeState.Optional)]
+		[EntityAttributee(4, EntityAttributeState.Optional)]
 		public IfcDaylightSavingHour? @DaylightSavingOffset 
 		{ 
 			get 

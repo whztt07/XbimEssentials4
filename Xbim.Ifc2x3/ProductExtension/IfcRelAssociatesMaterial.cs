@@ -32,7 +32,7 @@ namespace Xbim.Ifc2x3.ProductExtension
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(5, EntityAttributeState.Mandatory)]
+		[EntityAttributee(5, EntityAttributeState.Mandatory)]
 		public IfcMaterialSelect @RelatingMaterial 
 		{ 
 			get 

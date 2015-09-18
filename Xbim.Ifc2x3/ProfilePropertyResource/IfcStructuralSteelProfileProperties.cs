@@ -33,7 +33,7 @@ namespace Xbim.Ifc2x3.ProfilePropertyResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(23, EntityAttributeState.Optional)]
+		[EntityAttributee(23, EntityAttributeState.Optional)]
 		public IfcAreaMeasure? @ShearAreaZ 
 		{ 
 			get 
@@ -50,7 +50,7 @@ namespace Xbim.Ifc2x3.ProfilePropertyResource
 			} 
 		}
 	
-		[EntityAttribute(24, EntityAttributeState.Optional)]
+		[EntityAttributee(24, EntityAttributeState.Optional)]
 		public IfcAreaMeasure? @ShearAreaY 
 		{ 
 			get 
@@ -67,7 +67,7 @@ namespace Xbim.Ifc2x3.ProfilePropertyResource
 			} 
 		}
 	
-		[EntityAttribute(25, EntityAttributeState.Optional)]
+		[EntityAttributee(25, EntityAttributeState.Optional)]
 		public IfcPositiveRatioMeasure? @PlasticShapeFactorY 
 		{ 
 			get 
@@ -84,7 +84,7 @@ namespace Xbim.Ifc2x3.ProfilePropertyResource
 			} 
 		}
 	
-		[EntityAttribute(26, EntityAttributeState.Optional)]
+		[EntityAttributee(26, EntityAttributeState.Optional)]
 		public IfcPositiveRatioMeasure? @PlasticShapeFactorZ 
 		{ 
 			get 

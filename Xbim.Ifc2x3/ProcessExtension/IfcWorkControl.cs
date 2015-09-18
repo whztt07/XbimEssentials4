@@ -41,7 +41,7 @@ namespace Xbim.Ifc2x3.ProcessExtension
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(5, EntityAttributeState.Mandatory)]
+		[EntityAttributee(5, EntityAttributeState.Mandatory)]
 		public IfcIdentifier @Identifier 
 		{ 
 			get 
@@ -58,7 +58,7 @@ namespace Xbim.Ifc2x3.ProcessExtension
 			} 
 		}
 	
-		[EntityAttribute(6, EntityAttributeState.Mandatory)]
+		[EntityAttributee(6, EntityAttributeState.Mandatory)]
 		public IfcDateTimeSelect @CreationDate 
 		{ 
 			get 
@@ -75,7 +75,7 @@ namespace Xbim.Ifc2x3.ProcessExtension
 			} 
 		}
 	
-		[EntityAttribute(7, EntityAttributeState.Optional)]
+		[EntityAttributee(7, EntityAttributeState.Optional)]
 		public ItemSet<IfcPerson> @Creators 
 		{ 
 			get 
@@ -92,7 +92,7 @@ namespace Xbim.Ifc2x3.ProcessExtension
 			} 
 		}
 	
-		[EntityAttribute(8, EntityAttributeState.Optional)]
+		[EntityAttributee(8, EntityAttributeState.Optional)]
 		public IfcLabel? @Purpose 
 		{ 
 			get 
@@ -109,7 +109,7 @@ namespace Xbim.Ifc2x3.ProcessExtension
 			} 
 		}
 	
-		[EntityAttribute(9, EntityAttributeState.Optional)]
+		[EntityAttributee(9, EntityAttributeState.Optional)]
 		public IfcTimeMeasure? @Duration 
 		{ 
 			get 
@@ -126,7 +126,7 @@ namespace Xbim.Ifc2x3.ProcessExtension
 			} 
 		}
 	
-		[EntityAttribute(10, EntityAttributeState.Optional)]
+		[EntityAttributee(10, EntityAttributeState.Optional)]
 		public IfcTimeMeasure? @TotalFloat 
 		{ 
 			get 
@@ -143,7 +143,7 @@ namespace Xbim.Ifc2x3.ProcessExtension
 			} 
 		}
 	
-		[EntityAttribute(11, EntityAttributeState.Mandatory)]
+		[EntityAttributee(11, EntityAttributeState.Mandatory)]
 		public IfcDateTimeSelect @StartTime 
 		{ 
 			get 
@@ -160,7 +160,7 @@ namespace Xbim.Ifc2x3.ProcessExtension
 			} 
 		}
 	
-		[EntityAttribute(12, EntityAttributeState.Optional)]
+		[EntityAttributee(12, EntityAttributeState.Optional)]
 		public IfcDateTimeSelect @FinishTime 
 		{ 
 			get 
@@ -177,7 +177,7 @@ namespace Xbim.Ifc2x3.ProcessExtension
 			} 
 		}
 	
-		[EntityAttribute(13, EntityAttributeState.Optional)]
+		[EntityAttributee(13, EntityAttributeState.Optional)]
 		public IfcWorkControlTypeEnum? @WorkControlType 
 		{ 
 			get 
@@ -194,7 +194,7 @@ namespace Xbim.Ifc2x3.ProcessExtension
 			} 
 		}
 	
-		[EntityAttribute(14, EntityAttributeState.Optional)]
+		[EntityAttributee(14, EntityAttributeState.Optional)]
 		public IfcLabel? @UserDefinedControlType 
 		{ 
 			get 

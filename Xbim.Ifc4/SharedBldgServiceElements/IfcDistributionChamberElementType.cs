@@ -32,7 +32,7 @@ namespace Xbim.Ifc4.SharedBldgServiceElements
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(9, EntityAttributeState.Mandatory)]
+		[EntityAttributee(9, EntityAttributeState.Mandatory)]
 		public IfcDistributionChamberElementTypeEnum @PredefinedType 
 		{ 
 			get 

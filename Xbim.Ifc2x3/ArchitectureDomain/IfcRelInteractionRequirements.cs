@@ -36,7 +36,7 @@ namespace Xbim.Ifc2x3.ArchitectureDomain
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(4, EntityAttributeState.Optional)]
+		[EntityAttributee(4, EntityAttributeState.Optional)]
 		public IfcCountMeasure? @DailyInteraction 
 		{ 
 			get 
@@ -53,7 +53,7 @@ namespace Xbim.Ifc2x3.ArchitectureDomain
 			} 
 		}
 	
-		[EntityAttribute(5, EntityAttributeState.Optional)]
+		[EntityAttributee(5, EntityAttributeState.Optional)]
 		public IfcNormalisedRatioMeasure? @ImportanceRating 
 		{ 
 			get 
@@ -70,7 +70,7 @@ namespace Xbim.Ifc2x3.ArchitectureDomain
 			} 
 		}
 	
-		[EntityAttribute(6, EntityAttributeState.Optional)]
+		[EntityAttributee(6, EntityAttributeState.Optional)]
 		public IfcSpatialStructureElement @LocationOfInteraction 
 		{ 
 			get 
@@ -87,7 +87,7 @@ namespace Xbim.Ifc2x3.ArchitectureDomain
 			} 
 		}
 	
-		[EntityAttribute(7, EntityAttributeState.Mandatory)]
+		[EntityAttributee(7, EntityAttributeState.Mandatory)]
 		public IfcSpaceProgram @RelatedSpaceProgram 
 		{ 
 			get 
@@ -104,7 +104,7 @@ namespace Xbim.Ifc2x3.ArchitectureDomain
 			} 
 		}
 	
-		[EntityAttribute(8, EntityAttributeState.Mandatory)]
+		[EntityAttributee(8, EntityAttributeState.Mandatory)]
 		public IfcSpaceProgram @RelatingSpaceProgram 
 		{ 
 			get 

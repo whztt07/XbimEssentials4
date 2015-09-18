@@ -33,7 +33,7 @@ namespace Xbim.Ifc4.ProcessExtension
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(9, EntityAttributeState.Mandatory)]
+		[EntityAttributee(9, EntityAttributeState.Mandatory)]
 		public IfcEventTypeEnum @PredefinedType 
 		{ 
 			get 
@@ -50,7 +50,7 @@ namespace Xbim.Ifc4.ProcessExtension
 			} 
 		}
 	
-		[EntityAttribute(10, EntityAttributeState.Mandatory)]
+		[EntityAttributee(10, EntityAttributeState.Mandatory)]
 		public IfcEventTriggerTypeEnum @EventTriggerType 
 		{ 
 			get 
@@ -67,7 +67,7 @@ namespace Xbim.Ifc4.ProcessExtension
 			} 
 		}
 	
-		[EntityAttribute(11, EntityAttributeState.Optional)]
+		[EntityAttributee(11, EntityAttributeState.Optional)]
 		public IfcLabel? @UserDefinedEventTriggerType 
 		{ 
 			get 

@@ -34,7 +34,7 @@ namespace Xbim.Ifc2x3.SharedFacilitiesElements
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(4, EntityAttributeState.Mandatory)]
+		[EntityAttributee(4, EntityAttributeState.Mandatory)]
 		public IfcServiceLifeFactorTypeEnum @PredefinedType 
 		{ 
 			get 
@@ -51,7 +51,7 @@ namespace Xbim.Ifc2x3.SharedFacilitiesElements
 			} 
 		}
 	
-		[EntityAttribute(5, EntityAttributeState.Optional)]
+		[EntityAttributee(5, EntityAttributeState.Optional)]
 		public IfcMeasureValue @UpperValue 
 		{ 
 			get 
@@ -68,7 +68,7 @@ namespace Xbim.Ifc2x3.SharedFacilitiesElements
 			} 
 		}
 	
-		[EntityAttribute(6, EntityAttributeState.Mandatory)]
+		[EntityAttributee(6, EntityAttributeState.Mandatory)]
 		public IfcMeasureValue @MostUsedValue 
 		{ 
 			get 
@@ -85,7 +85,7 @@ namespace Xbim.Ifc2x3.SharedFacilitiesElements
 			} 
 		}
 	
-		[EntityAttribute(7, EntityAttributeState.Optional)]
+		[EntityAttributee(7, EntityAttributeState.Optional)]
 		public IfcMeasureValue @LowerValue 
 		{ 
 			get 

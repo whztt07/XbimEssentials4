@@ -34,7 +34,7 @@ namespace Xbim.Ifc4.SharedComponentElements
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(8, EntityAttributeState.Optional)]
+		[EntityAttributee(8, EntityAttributeState.Optional)]
 		public IfcPositiveLengthMeasure? @NominalDiameter 
 		{ 
 			get 
@@ -51,7 +51,7 @@ namespace Xbim.Ifc4.SharedComponentElements
 			} 
 		}
 	
-		[EntityAttribute(9, EntityAttributeState.Optional)]
+		[EntityAttributee(9, EntityAttributeState.Optional)]
 		public IfcPositiveLengthMeasure? @NominalLength 
 		{ 
 			get 
@@ -68,7 +68,7 @@ namespace Xbim.Ifc4.SharedComponentElements
 			} 
 		}
 	
-		[EntityAttribute(10, EntityAttributeState.Optional)]
+		[EntityAttributee(10, EntityAttributeState.Optional)]
 		public IfcMechanicalFastenerTypeEnum? @PredefinedType 
 		{ 
 			get 

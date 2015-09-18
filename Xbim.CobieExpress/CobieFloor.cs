@@ -30,7 +30,7 @@ namespace Xbim.CobieExpress
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(11, EntityAttributeState.Optional)]
+		[EntityAttributee(11, EntityAttributeState.Optional)]
 		public double? @Elevation 
 		{ 
 			get 
@@ -47,7 +47,7 @@ namespace Xbim.CobieExpress
 			} 
 		}
 	
-		[EntityAttribute(12, EntityAttributeState.Optional)]
+		[EntityAttributee(12, EntityAttributeState.Optional)]
 		public double? @Height 
 		{ 
 			get 
@@ -64,7 +64,7 @@ namespace Xbim.CobieExpress
 			} 
 		}
 	
-		[EntityAttribute(13, EntityAttributeState.Mandatory)]
+		[EntityAttributee(13, EntityAttributeState.Mandatory)]
 		public CobieFacility @Facility 
 		{ 
 			get 

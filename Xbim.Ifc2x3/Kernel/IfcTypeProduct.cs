@@ -33,7 +33,7 @@ namespace Xbim.Ifc2x3.Kernel
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(6, EntityAttributeState.Optional)]
+		[EntityAttributee(6, EntityAttributeState.Optional)]
 		public ItemSet<IfcRepresentationMap> @RepresentationMaps 
 		{ 
 			get 
@@ -50,7 +50,7 @@ namespace Xbim.Ifc2x3.Kernel
 			} 
 		}
 	
-		[EntityAttribute(7, EntityAttributeState.Optional)]
+		[EntityAttributee(7, EntityAttributeState.Optional)]
 		public IfcLabel? @Tag 
 		{ 
 			get 

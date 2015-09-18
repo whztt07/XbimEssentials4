@@ -34,7 +34,7 @@ namespace Xbim.Ifc2x3.PresentationAppearanceResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(4, EntityAttributeState.Mandatory)]
+		[EntityAttributee(4, EntityAttributeState.Mandatory)]
 		public IfcInteger @Width 
 		{ 
 			get 
@@ -51,7 +51,7 @@ namespace Xbim.Ifc2x3.PresentationAppearanceResource
 			} 
 		}
 	
-		[EntityAttribute(5, EntityAttributeState.Mandatory)]
+		[EntityAttributee(5, EntityAttributeState.Mandatory)]
 		public IfcInteger @Height 
 		{ 
 			get 
@@ -68,7 +68,7 @@ namespace Xbim.Ifc2x3.PresentationAppearanceResource
 			} 
 		}
 	
-		[EntityAttribute(6, EntityAttributeState.Mandatory)]
+		[EntityAttributee(6, EntityAttributeState.Mandatory)]
 		public IfcInteger @ColourComponents 
 		{ 
 			get 
@@ -85,7 +85,7 @@ namespace Xbim.Ifc2x3.PresentationAppearanceResource
 			} 
 		}
 	
-		[EntityAttribute(7, EntityAttributeState.Mandatory)]
+		[EntityAttributee(7, EntityAttributeState.Mandatory)]
 		public ItemSet<long> @Pixel 
 		{ 
 			get 

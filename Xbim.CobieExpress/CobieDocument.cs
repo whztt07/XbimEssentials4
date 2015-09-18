@@ -34,7 +34,7 @@ namespace Xbim.CobieExpress
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(5, EntityAttributeState.Mandatory)]
+		[EntityAttributee(5, EntityAttributeState.Mandatory)]
 		public string @Name 
 		{ 
 			get 
@@ -51,7 +51,7 @@ namespace Xbim.CobieExpress
 			} 
 		}
 	
-		[EntityAttribute(6, EntityAttributeState.Optional)]
+		[EntityAttributee(6, EntityAttributeState.Optional)]
 		public string @Description 
 		{ 
 			get 
@@ -68,7 +68,7 @@ namespace Xbim.CobieExpress
 			} 
 		}
 	
-		[EntityAttribute(7, EntityAttributeState.Mandatory)]
+		[EntityAttributee(7, EntityAttributeState.Mandatory)]
 		public CobiePickValue @DocumentType 
 		{ 
 			get 
@@ -85,7 +85,7 @@ namespace Xbim.CobieExpress
 			} 
 		}
 	
-		[EntityAttribute(8, EntityAttributeState.Mandatory)]
+		[EntityAttributee(8, EntityAttributeState.Mandatory)]
 		public CobiePickValue @ApprovalBy 
 		{ 
 			get 
@@ -102,7 +102,7 @@ namespace Xbim.CobieExpress
 			} 
 		}
 	
-		[EntityAttribute(9, EntityAttributeState.Mandatory)]
+		[EntityAttributee(9, EntityAttributeState.Mandatory)]
 		public CobiePickValue @Stage 
 		{ 
 			get 
@@ -119,7 +119,7 @@ namespace Xbim.CobieExpress
 			} 
 		}
 	
-		[EntityAttribute(10, EntityAttributeState.Mandatory)]
+		[EntityAttributee(10, EntityAttributeState.Mandatory)]
 		public string @URL 
 		{ 
 			get 
@@ -136,7 +136,7 @@ namespace Xbim.CobieExpress
 			} 
 		}
 	
-		[EntityAttribute(11, EntityAttributeState.Optional)]
+		[EntityAttributee(11, EntityAttributeState.Optional)]
 		public string @Reference 
 		{ 
 			get 

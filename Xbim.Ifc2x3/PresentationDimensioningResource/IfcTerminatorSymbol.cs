@@ -32,7 +32,7 @@ namespace Xbim.Ifc2x3.PresentationDimensioningResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(3, EntityAttributeState.Mandatory)]
+		[EntityAttributee(3, EntityAttributeState.Mandatory)]
 		public IfcAnnotationCurveOccurrence @AnnotatedCurve 
 		{ 
 			get 

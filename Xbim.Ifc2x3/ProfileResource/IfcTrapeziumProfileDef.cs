@@ -33,7 +33,7 @@ namespace Xbim.Ifc2x3.ProfileResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(3, EntityAttributeState.Mandatory)]
+		[EntityAttributee(3, EntityAttributeState.Mandatory)]
 		public IfcPositiveLengthMeasure @BottomXDim 
 		{ 
 			get 
@@ -50,7 +50,7 @@ namespace Xbim.Ifc2x3.ProfileResource
 			} 
 		}
 	
-		[EntityAttribute(4, EntityAttributeState.Mandatory)]
+		[EntityAttributee(4, EntityAttributeState.Mandatory)]
 		public IfcPositiveLengthMeasure @TopXDim 
 		{ 
 			get 
@@ -67,7 +67,7 @@ namespace Xbim.Ifc2x3.ProfileResource
 			} 
 		}
 	
-		[EntityAttribute(5, EntityAttributeState.Mandatory)]
+		[EntityAttributee(5, EntityAttributeState.Mandatory)]
 		public IfcPositiveLengthMeasure @YDim 
 		{ 
 			get 
@@ -84,7 +84,7 @@ namespace Xbim.Ifc2x3.ProfileResource
 			} 
 		}
 	
-		[EntityAttribute(6, EntityAttributeState.Mandatory)]
+		[EntityAttributee(6, EntityAttributeState.Mandatory)]
 		public IfcLengthMeasure @TopXOffset 
 		{ 
 			get 

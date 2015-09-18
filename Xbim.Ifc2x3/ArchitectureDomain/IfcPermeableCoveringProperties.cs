@@ -37,7 +37,7 @@ namespace Xbim.Ifc2x3.ArchitectureDomain
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(4, EntityAttributeState.Mandatory)]
+		[EntityAttributee(4, EntityAttributeState.Mandatory)]
 		public IfcPermeableCoveringOperationEnum @OperationType 
 		{ 
 			get 
@@ -54,7 +54,7 @@ namespace Xbim.Ifc2x3.ArchitectureDomain
 			} 
 		}
 	
-		[EntityAttribute(5, EntityAttributeState.Mandatory)]
+		[EntityAttributee(5, EntityAttributeState.Mandatory)]
 		public IfcWindowPanelPositionEnum @PanelPosition 
 		{ 
 			get 
@@ -71,7 +71,7 @@ namespace Xbim.Ifc2x3.ArchitectureDomain
 			} 
 		}
 	
-		[EntityAttribute(6, EntityAttributeState.Optional)]
+		[EntityAttributee(6, EntityAttributeState.Optional)]
 		public IfcPositiveLengthMeasure? @FrameDepth 
 		{ 
 			get 
@@ -88,7 +88,7 @@ namespace Xbim.Ifc2x3.ArchitectureDomain
 			} 
 		}
 	
-		[EntityAttribute(7, EntityAttributeState.Optional)]
+		[EntityAttributee(7, EntityAttributeState.Optional)]
 		public IfcPositiveLengthMeasure? @FrameThickness 
 		{ 
 			get 
@@ -105,7 +105,7 @@ namespace Xbim.Ifc2x3.ArchitectureDomain
 			} 
 		}
 	
-		[EntityAttribute(8, EntityAttributeState.Optional)]
+		[EntityAttributee(8, EntityAttributeState.Optional)]
 		public IfcShapeAspect @ShapeAspectStyle 
 		{ 
 			get 

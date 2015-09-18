@@ -29,7 +29,7 @@ namespace Xbim.Ifc2x3.StructuralLoadResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(7, EntityAttributeState.Optional)]
+		[EntityAttributee(7, EntityAttributeState.Optional)]
 		public IfcWarpingMomentMeasure? @WarpingMoment 
 		{ 
 			get 

@@ -31,7 +31,7 @@ namespace Xbim.Ifc2x3.PropertyResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(2, EntityAttributeState.Mandatory)]
+		[EntityAttributee(2, EntityAttributeState.Mandatory)]
 		public IfcIdentifier @UsageName 
 		{ 
 			get 
@@ -48,7 +48,7 @@ namespace Xbim.Ifc2x3.PropertyResource
 			} 
 		}
 	
-		[EntityAttribute(3, EntityAttributeState.Mandatory)]
+		[EntityAttributee(3, EntityAttributeState.Mandatory)]
 		public ItemSet<IfcProperty> @HasProperties 
 		{ 
 			get 

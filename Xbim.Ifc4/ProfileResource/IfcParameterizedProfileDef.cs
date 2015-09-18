@@ -28,7 +28,7 @@ namespace Xbim.Ifc4.ProfileResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(2, EntityAttributeState.Optional)]
+		[EntityAttributee(2, EntityAttributeState.Optional)]
 		public IfcAxis2Placement2D @Position 
 		{ 
 			get 

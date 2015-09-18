@@ -37,7 +37,7 @@ namespace Xbim.Ifc4.SharedBldgElements
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(8, EntityAttributeState.Optional)]
+		[EntityAttributee(8, EntityAttributeState.Optional)]
 		public long? @NumberOfRiser 
 		{ 
 			get 
@@ -54,7 +54,7 @@ namespace Xbim.Ifc4.SharedBldgElements
 			} 
 		}
 	
-		[EntityAttribute(9, EntityAttributeState.Optional)]
+		[EntityAttributee(9, EntityAttributeState.Optional)]
 		public long? @NumberOfTreads 
 		{ 
 			get 
@@ -71,7 +71,7 @@ namespace Xbim.Ifc4.SharedBldgElements
 			} 
 		}
 	
-		[EntityAttribute(10, EntityAttributeState.Optional)]
+		[EntityAttributee(10, EntityAttributeState.Optional)]
 		public IfcPositiveLengthMeasure? @RiserHeight 
 		{ 
 			get 
@@ -88,7 +88,7 @@ namespace Xbim.Ifc4.SharedBldgElements
 			} 
 		}
 	
-		[EntityAttribute(11, EntityAttributeState.Optional)]
+		[EntityAttributee(11, EntityAttributeState.Optional)]
 		public IfcPositiveLengthMeasure? @TreadLength 
 		{ 
 			get 
@@ -105,7 +105,7 @@ namespace Xbim.Ifc4.SharedBldgElements
 			} 
 		}
 	
-		[EntityAttribute(12, EntityAttributeState.Optional)]
+		[EntityAttributee(12, EntityAttributeState.Optional)]
 		public IfcStairFlightTypeEnum? @PredefinedType 
 		{ 
 			get 

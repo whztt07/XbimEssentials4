@@ -34,7 +34,7 @@ namespace Xbim.Ifc2x3.ProfilePropertyResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(2, EntityAttributeState.Optional)]
+		[EntityAttributee(2, EntityAttributeState.Optional)]
 		public IfcPositiveLengthMeasure? @Thickness 
 		{ 
 			get 
@@ -51,7 +51,7 @@ namespace Xbim.Ifc2x3.ProfilePropertyResource
 			} 
 		}
 	
-		[EntityAttribute(3, EntityAttributeState.Optional)]
+		[EntityAttributee(3, EntityAttributeState.Optional)]
 		public IfcPositiveLengthMeasure? @RibHeight 
 		{ 
 			get 
@@ -68,7 +68,7 @@ namespace Xbim.Ifc2x3.ProfilePropertyResource
 			} 
 		}
 	
-		[EntityAttribute(4, EntityAttributeState.Optional)]
+		[EntityAttributee(4, EntityAttributeState.Optional)]
 		public IfcPositiveLengthMeasure? @RibWidth 
 		{ 
 			get 
@@ -85,7 +85,7 @@ namespace Xbim.Ifc2x3.ProfilePropertyResource
 			} 
 		}
 	
-		[EntityAttribute(5, EntityAttributeState.Optional)]
+		[EntityAttributee(5, EntityAttributeState.Optional)]
 		public IfcPositiveLengthMeasure? @RibSpacing 
 		{ 
 			get 
@@ -102,7 +102,7 @@ namespace Xbim.Ifc2x3.ProfilePropertyResource
 			} 
 		}
 	
-		[EntityAttribute(6, EntityAttributeState.Mandatory)]
+		[EntityAttributee(6, EntityAttributeState.Mandatory)]
 		public IfcRibPlateDirectionEnum @Direction 
 		{ 
 			get 

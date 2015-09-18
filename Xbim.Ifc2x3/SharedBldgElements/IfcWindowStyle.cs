@@ -35,7 +35,7 @@ namespace Xbim.Ifc2x3.SharedBldgElements
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(8, EntityAttributeState.Mandatory)]
+		[EntityAttributee(8, EntityAttributeState.Mandatory)]
 		public IfcWindowStyleConstructionEnum @ConstructionType 
 		{ 
 			get 
@@ -52,7 +52,7 @@ namespace Xbim.Ifc2x3.SharedBldgElements
 			} 
 		}
 	
-		[EntityAttribute(9, EntityAttributeState.Mandatory)]
+		[EntityAttributee(9, EntityAttributeState.Mandatory)]
 		public IfcWindowStyleOperationEnum @OperationType 
 		{ 
 			get 
@@ -69,7 +69,7 @@ namespace Xbim.Ifc2x3.SharedBldgElements
 			} 
 		}
 	
-		[EntityAttribute(10, EntityAttributeState.Mandatory)]
+		[EntityAttributee(10, EntityAttributeState.Mandatory)]
 		public bool @ParameterTakesPrecedence 
 		{ 
 			get 
@@ -86,7 +86,7 @@ namespace Xbim.Ifc2x3.SharedBldgElements
 			} 
 		}
 	
-		[EntityAttribute(11, EntityAttributeState.Mandatory)]
+		[EntityAttributee(11, EntityAttributeState.Mandatory)]
 		public bool @Sizeable 
 		{ 
 			get 

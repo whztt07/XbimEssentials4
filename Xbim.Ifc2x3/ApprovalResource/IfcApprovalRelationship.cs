@@ -56,7 +56,7 @@ namespace Xbim.Ifc2x3.ApprovalResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(0, EntityAttributeState.Mandatory)]
+		[EntityAttributee(0, EntityAttributeState.Mandatory)]
 		public IfcApproval @RelatedApproval 
 		{ 
 			get 
@@ -73,7 +73,7 @@ namespace Xbim.Ifc2x3.ApprovalResource
 			} 
 		}
 	
-		[EntityAttribute(1, EntityAttributeState.Mandatory)]
+		[EntityAttributee(1, EntityAttributeState.Mandatory)]
 		public IfcApproval @RelatingApproval 
 		{ 
 			get 
@@ -90,7 +90,7 @@ namespace Xbim.Ifc2x3.ApprovalResource
 			} 
 		}
 	
-		[EntityAttribute(2, EntityAttributeState.Optional)]
+		[EntityAttributee(2, EntityAttributeState.Optional)]
 		public IfcText? @Description 
 		{ 
 			get 
@@ -107,7 +107,7 @@ namespace Xbim.Ifc2x3.ApprovalResource
 			} 
 		}
 	
-		[EntityAttribute(3, EntityAttributeState.Mandatory)]
+		[EntityAttributee(3, EntityAttributeState.Mandatory)]
 		public IfcLabel @Name 
 		{ 
 			get 

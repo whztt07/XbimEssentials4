@@ -29,7 +29,7 @@ namespace Xbim.Ifc4.TopologyResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(2, EntityAttributeState.Mandatory)]
+		[EntityAttributee(2, EntityAttributeState.Mandatory)]
 		public IfcEdge @EdgeElement 
 		{ 
 			get 
@@ -46,7 +46,7 @@ namespace Xbim.Ifc4.TopologyResource
 			} 
 		}
 	
-		[EntityAttribute(3, EntityAttributeState.Mandatory)]
+		[EntityAttributee(3, EntityAttributeState.Mandatory)]
 		public bool @Orientation 
 		{ 
 			get 

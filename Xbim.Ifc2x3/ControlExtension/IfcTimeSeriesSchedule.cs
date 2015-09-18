@@ -36,7 +36,7 @@ namespace Xbim.Ifc2x3.ControlExtension
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(5, EntityAttributeState.Optional)]
+		[EntityAttributee(5, EntityAttributeState.Optional)]
 		public ItemSet<IfcDateTimeSelect> @ApplicableDates 
 		{ 
 			get 
@@ -53,7 +53,7 @@ namespace Xbim.Ifc2x3.ControlExtension
 			} 
 		}
 	
-		[EntityAttribute(6, EntityAttributeState.Mandatory)]
+		[EntityAttributee(6, EntityAttributeState.Mandatory)]
 		public IfcTimeSeriesScheduleTypeEnum @TimeSeriesScheduleType 
 		{ 
 			get 
@@ -70,7 +70,7 @@ namespace Xbim.Ifc2x3.ControlExtension
 			} 
 		}
 	
-		[EntityAttribute(7, EntityAttributeState.Mandatory)]
+		[EntityAttributee(7, EntityAttributeState.Mandatory)]
 		public IfcTimeSeries @TimeSeries 
 		{ 
 			get 

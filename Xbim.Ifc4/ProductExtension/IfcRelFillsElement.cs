@@ -32,7 +32,7 @@ namespace Xbim.Ifc4.ProductExtension
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(4, EntityAttributeState.Mandatory)]
+		[EntityAttributee(4, EntityAttributeState.Mandatory)]
 		public IfcOpeningElement @RelatingOpeningElement 
 		{ 
 			get 
@@ -49,7 +49,7 @@ namespace Xbim.Ifc4.ProductExtension
 			} 
 		}
 	
-		[EntityAttribute(5, EntityAttributeState.Mandatory)]
+		[EntityAttributee(5, EntityAttributeState.Mandatory)]
 		public IfcElement @RelatedBuildingElement 
 		{ 
 			get 

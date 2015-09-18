@@ -34,7 +34,7 @@ namespace Xbim.Ifc4.StructuralElementsDomain
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(4, EntityAttributeState.Optional)]
+		[EntityAttributee(4, EntityAttributeState.Optional)]
 		public IfcLabel? @DefinitionType 
 		{ 
 			get 
@@ -51,7 +51,7 @@ namespace Xbim.Ifc4.StructuralElementsDomain
 			} 
 		}
 	
-		[EntityAttribute(5, EntityAttributeState.Mandatory)]
+		[EntityAttributee(5, EntityAttributeState.Mandatory)]
 		public ItemSet<IfcSectionReinforcementProperties> @ReinforcementSectionDefinitions 
 		{ 
 			get 

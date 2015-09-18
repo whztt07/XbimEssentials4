@@ -32,7 +32,7 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(1, EntityAttributeState.Optional)]
+		[EntityAttributee(1, EntityAttributeState.Optional)]
 		public IfcCurveFontOrScaledCurveFontSelect @CurveFont 
 		{ 
 			get 
@@ -49,7 +49,7 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
 			} 
 		}
 	
-		[EntityAttribute(2, EntityAttributeState.Optional)]
+		[EntityAttributee(2, EntityAttributeState.Optional)]
 		public IfcSizeSelect @CurveWidth 
 		{ 
 			get 
@@ -66,7 +66,7 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
 			} 
 		}
 	
-		[EntityAttribute(3, EntityAttributeState.Optional)]
+		[EntityAttributee(3, EntityAttributeState.Optional)]
 		public IfcColour @CurveColour 
 		{ 
 			get 
@@ -83,7 +83,7 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
 			} 
 		}
 	
-		[EntityAttribute(4, EntityAttributeState.Optional)]
+		[EntityAttributee(4, EntityAttributeState.Optional)]
 		public bool? @ModelOrDraughting 
 		{ 
 			get 

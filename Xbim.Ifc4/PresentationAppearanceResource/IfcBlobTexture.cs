@@ -31,7 +31,7 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(5, EntityAttributeState.Mandatory)]
+		[EntityAttributee(5, EntityAttributeState.Mandatory)]
 		public IfcIdentifier @RasterFormat 
 		{ 
 			get 
@@ -48,7 +48,7 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
 			} 
 		}
 	
-		[EntityAttribute(6, EntityAttributeState.Mandatory)]
+		[EntityAttributee(6, EntityAttributeState.Mandatory)]
 		public long @RasterCode 
 		{ 
 			get 

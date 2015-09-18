@@ -58,7 +58,7 @@ namespace Xbim.Ifc2x3.MeasureResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(0, EntityAttributeState.Mandatory)]
+		[EntityAttributee(0, EntityAttributeState.Mandatory)]
 		public long @LengthExponent 
 		{ 
 			get 
@@ -75,7 +75,7 @@ namespace Xbim.Ifc2x3.MeasureResource
 			} 
 		}
 	
-		[EntityAttribute(1, EntityAttributeState.Mandatory)]
+		[EntityAttributee(1, EntityAttributeState.Mandatory)]
 		public long @MassExponent 
 		{ 
 			get 
@@ -92,7 +92,7 @@ namespace Xbim.Ifc2x3.MeasureResource
 			} 
 		}
 	
-		[EntityAttribute(2, EntityAttributeState.Mandatory)]
+		[EntityAttributee(2, EntityAttributeState.Mandatory)]
 		public long @TimeExponent 
 		{ 
 			get 
@@ -109,7 +109,7 @@ namespace Xbim.Ifc2x3.MeasureResource
 			} 
 		}
 	
-		[EntityAttribute(3, EntityAttributeState.Mandatory)]
+		[EntityAttributee(3, EntityAttributeState.Mandatory)]
 		public long @ElectricCurrentExponent 
 		{ 
 			get 
@@ -126,7 +126,7 @@ namespace Xbim.Ifc2x3.MeasureResource
 			} 
 		}
 	
-		[EntityAttribute(4, EntityAttributeState.Mandatory)]
+		[EntityAttributee(4, EntityAttributeState.Mandatory)]
 		public long @ThermodynamicTemperatureExponent 
 		{ 
 			get 
@@ -143,7 +143,7 @@ namespace Xbim.Ifc2x3.MeasureResource
 			} 
 		}
 	
-		[EntityAttribute(5, EntityAttributeState.Mandatory)]
+		[EntityAttributee(5, EntityAttributeState.Mandatory)]
 		public long @AmountOfSubstanceExponent 
 		{ 
 			get 
@@ -160,7 +160,7 @@ namespace Xbim.Ifc2x3.MeasureResource
 			} 
 		}
 	
-		[EntityAttribute(6, EntityAttributeState.Mandatory)]
+		[EntityAttributee(6, EntityAttributeState.Mandatory)]
 		public long @LuminousIntensityExponent 
 		{ 
 			get 

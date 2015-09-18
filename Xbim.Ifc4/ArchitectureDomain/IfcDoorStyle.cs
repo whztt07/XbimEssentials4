@@ -35,7 +35,7 @@ namespace Xbim.Ifc4.ArchitectureDomain
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(8, EntityAttributeState.Mandatory)]
+		[EntityAttributee(8, EntityAttributeState.Mandatory)]
 		public IfcDoorStyleOperationEnum @OperationType 
 		{ 
 			get 
@@ -52,7 +52,7 @@ namespace Xbim.Ifc4.ArchitectureDomain
 			} 
 		}
 	
-		[EntityAttribute(9, EntityAttributeState.Mandatory)]
+		[EntityAttributee(9, EntityAttributeState.Mandatory)]
 		public IfcDoorStyleConstructionEnum @ConstructionType 
 		{ 
 			get 
@@ -69,7 +69,7 @@ namespace Xbim.Ifc4.ArchitectureDomain
 			} 
 		}
 	
-		[EntityAttribute(10, EntityAttributeState.Mandatory)]
+		[EntityAttributee(10, EntityAttributeState.Mandatory)]
 		public bool @ParameterTakesPrecedence 
 		{ 
 			get 
@@ -86,7 +86,7 @@ namespace Xbim.Ifc4.ArchitectureDomain
 			} 
 		}
 	
-		[EntityAttribute(11, EntityAttributeState.Mandatory)]
+		[EntityAttributee(11, EntityAttributeState.Mandatory)]
 		public bool @Sizeable 
 		{ 
 			get 

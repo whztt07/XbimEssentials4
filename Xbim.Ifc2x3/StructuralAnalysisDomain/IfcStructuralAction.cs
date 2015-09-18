@@ -28,7 +28,7 @@ namespace Xbim.Ifc2x3.StructuralAnalysisDomain
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(9, EntityAttributeState.Mandatory)]
+		[EntityAttributee(9, EntityAttributeState.Mandatory)]
 		public bool @DestabilizingLoad 
 		{ 
 			get 
@@ -45,7 +45,7 @@ namespace Xbim.Ifc2x3.StructuralAnalysisDomain
 			} 
 		}
 	
-		[EntityAttribute(10, EntityAttributeState.Optional)]
+		[EntityAttributee(10, EntityAttributeState.Optional)]
 		public IfcStructuralReaction @CausedBy 
 		{ 
 			get 

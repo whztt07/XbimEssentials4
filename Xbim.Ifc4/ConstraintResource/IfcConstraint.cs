@@ -62,7 +62,7 @@ namespace Xbim.Ifc4.ConstraintResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(0, EntityAttributeState.Mandatory)]
+		[EntityAttributee(0, EntityAttributeState.Mandatory)]
 		public IfcLabel @Name 
 		{ 
 			get 
@@ -79,7 +79,7 @@ namespace Xbim.Ifc4.ConstraintResource
 			} 
 		}
 	
-		[EntityAttribute(1, EntityAttributeState.Optional)]
+		[EntityAttributee(1, EntityAttributeState.Optional)]
 		public IfcText? @Description 
 		{ 
 			get 
@@ -96,7 +96,7 @@ namespace Xbim.Ifc4.ConstraintResource
 			} 
 		}
 	
-		[EntityAttribute(2, EntityAttributeState.Mandatory)]
+		[EntityAttributee(2, EntityAttributeState.Mandatory)]
 		public IfcConstraintEnum @ConstraintGrade 
 		{ 
 			get 
@@ -113,7 +113,7 @@ namespace Xbim.Ifc4.ConstraintResource
 			} 
 		}
 	
-		[EntityAttribute(3, EntityAttributeState.Optional)]
+		[EntityAttributee(3, EntityAttributeState.Optional)]
 		public IfcLabel? @ConstraintSource 
 		{ 
 			get 
@@ -130,7 +130,7 @@ namespace Xbim.Ifc4.ConstraintResource
 			} 
 		}
 	
-		[EntityAttribute(4, EntityAttributeState.Optional)]
+		[EntityAttributee(4, EntityAttributeState.Optional)]
 		public IfcActorSelect @CreatingActor 
 		{ 
 			get 
@@ -147,7 +147,7 @@ namespace Xbim.Ifc4.ConstraintResource
 			} 
 		}
 	
-		[EntityAttribute(5, EntityAttributeState.Optional)]
+		[EntityAttributee(5, EntityAttributeState.Optional)]
 		public IfcDateTime? @CreationTime 
 		{ 
 			get 
@@ -164,7 +164,7 @@ namespace Xbim.Ifc4.ConstraintResource
 			} 
 		}
 	
-		[EntityAttribute(6, EntityAttributeState.Optional)]
+		[EntityAttributee(6, EntityAttributeState.Optional)]
 		public IfcLabel? @UserDefinedGrade 
 		{ 
 			get 

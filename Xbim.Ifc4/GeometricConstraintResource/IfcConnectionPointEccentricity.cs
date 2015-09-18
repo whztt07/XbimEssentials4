@@ -31,7 +31,7 @@ namespace Xbim.Ifc4.GeometricConstraintResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(2, EntityAttributeState.Optional)]
+		[EntityAttributee(2, EntityAttributeState.Optional)]
 		public IfcLengthMeasure? @EccentricityInX 
 		{ 
 			get 
@@ -48,7 +48,7 @@ namespace Xbim.Ifc4.GeometricConstraintResource
 			} 
 		}
 	
-		[EntityAttribute(3, EntityAttributeState.Optional)]
+		[EntityAttributee(3, EntityAttributeState.Optional)]
 		public IfcLengthMeasure? @EccentricityInY 
 		{ 
 			get 
@@ -65,7 +65,7 @@ namespace Xbim.Ifc4.GeometricConstraintResource
 			} 
 		}
 	
-		[EntityAttribute(4, EntityAttributeState.Optional)]
+		[EntityAttributee(4, EntityAttributeState.Optional)]
 		public IfcLengthMeasure? @EccentricityInZ 
 		{ 
 			get 

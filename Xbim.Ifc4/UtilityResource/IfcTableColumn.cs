@@ -58,7 +58,7 @@ namespace Xbim.Ifc4.UtilityResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(0, EntityAttributeState.Optional)]
+		[EntityAttributee(0, EntityAttributeState.Optional)]
 		public IfcIdentifier? @Identifier 
 		{ 
 			get 
@@ -75,7 +75,7 @@ namespace Xbim.Ifc4.UtilityResource
 			} 
 		}
 	
-		[EntityAttribute(1, EntityAttributeState.Optional)]
+		[EntityAttributee(1, EntityAttributeState.Optional)]
 		public IfcLabel? @Name 
 		{ 
 			get 
@@ -92,7 +92,7 @@ namespace Xbim.Ifc4.UtilityResource
 			} 
 		}
 	
-		[EntityAttribute(2, EntityAttributeState.Optional)]
+		[EntityAttributee(2, EntityAttributeState.Optional)]
 		public IfcText? @Description 
 		{ 
 			get 
@@ -109,7 +109,7 @@ namespace Xbim.Ifc4.UtilityResource
 			} 
 		}
 	
-		[EntityAttribute(3, EntityAttributeState.Optional)]
+		[EntityAttributee(3, EntityAttributeState.Optional)]
 		public IfcUnit @Unit 
 		{ 
 			get 
@@ -126,7 +126,7 @@ namespace Xbim.Ifc4.UtilityResource
 			} 
 		}
 	
-		[EntityAttribute(4, EntityAttributeState.Optional)]
+		[EntityAttributee(4, EntityAttributeState.Optional)]
 		public IfcReference @ReferencePath 
 		{ 
 			get 

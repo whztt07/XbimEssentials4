@@ -36,7 +36,7 @@ namespace Xbim.Ifc4.PresentationOrganizationResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(4, EntityAttributeState.Mandatory)]
+		[EntityAttributee(4, EntityAttributeState.Mandatory)]
 		public IfcAxis2Placement3D @Position 
 		{ 
 			get 
@@ -53,7 +53,7 @@ namespace Xbim.Ifc4.PresentationOrganizationResource
 			} 
 		}
 	
-		[EntityAttribute(5, EntityAttributeState.Optional)]
+		[EntityAttributee(5, EntityAttributeState.Optional)]
 		public IfcColourRgb @ColourAppearance 
 		{ 
 			get 
@@ -70,7 +70,7 @@ namespace Xbim.Ifc4.PresentationOrganizationResource
 			} 
 		}
 	
-		[EntityAttribute(6, EntityAttributeState.Mandatory)]
+		[EntityAttributee(6, EntityAttributeState.Mandatory)]
 		public IfcThermodynamicTemperatureMeasure @ColourTemperature 
 		{ 
 			get 
@@ -87,7 +87,7 @@ namespace Xbim.Ifc4.PresentationOrganizationResource
 			} 
 		}
 	
-		[EntityAttribute(7, EntityAttributeState.Mandatory)]
+		[EntityAttributee(7, EntityAttributeState.Mandatory)]
 		public IfcLuminousFluxMeasure @LuminousFlux 
 		{ 
 			get 
@@ -104,7 +104,7 @@ namespace Xbim.Ifc4.PresentationOrganizationResource
 			} 
 		}
 	
-		[EntityAttribute(8, EntityAttributeState.Mandatory)]
+		[EntityAttributee(8, EntityAttributeState.Mandatory)]
 		public IfcLightEmissionSourceEnum @LightEmissionSource 
 		{ 
 			get 
@@ -121,7 +121,7 @@ namespace Xbim.Ifc4.PresentationOrganizationResource
 			} 
 		}
 	
-		[EntityAttribute(9, EntityAttributeState.Mandatory)]
+		[EntityAttributee(9, EntityAttributeState.Mandatory)]
 		public IfcLightDistributionDataSourceSelect @LightDistributionDataSource 
 		{ 
 			get 

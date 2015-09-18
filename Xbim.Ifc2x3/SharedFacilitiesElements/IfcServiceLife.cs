@@ -32,7 +32,7 @@ namespace Xbim.Ifc2x3.SharedFacilitiesElements
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(5, EntityAttributeState.Mandatory)]
+		[EntityAttributee(5, EntityAttributeState.Mandatory)]
 		public IfcServiceLifeTypeEnum @ServiceLifeType 
 		{ 
 			get 
@@ -49,7 +49,7 @@ namespace Xbim.Ifc2x3.SharedFacilitiesElements
 			} 
 		}
 	
-		[EntityAttribute(6, EntityAttributeState.Mandatory)]
+		[EntityAttributee(6, EntityAttributeState.Mandatory)]
 		public IfcTimeMeasure @ServiceLifeDuration 
 		{ 
 			get 

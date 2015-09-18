@@ -56,7 +56,7 @@ namespace Xbim.Ifc2x3.MaterialResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(0, EntityAttributeState.Optional)]
+		[EntityAttributee(0, EntityAttributeState.Optional)]
 		public IfcMaterial @Material 
 		{ 
 			get 
@@ -73,7 +73,7 @@ namespace Xbim.Ifc2x3.MaterialResource
 			} 
 		}
 	
-		[EntityAttribute(1, EntityAttributeState.Mandatory)]
+		[EntityAttributee(1, EntityAttributeState.Mandatory)]
 		public IfcPositiveLengthMeasure @LayerThickness 
 		{ 
 			get 
@@ -90,7 +90,7 @@ namespace Xbim.Ifc2x3.MaterialResource
 			} 
 		}
 	
-		[EntityAttribute(2, EntityAttributeState.Optional)]
+		[EntityAttributee(2, EntityAttributeState.Optional)]
 		public IfcLogical? @IsVentilated 
 		{ 
 			get 

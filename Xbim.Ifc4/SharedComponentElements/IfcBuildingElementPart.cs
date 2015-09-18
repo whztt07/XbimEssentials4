@@ -32,7 +32,7 @@ namespace Xbim.Ifc4.SharedComponentElements
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(8, EntityAttributeState.Optional)]
+		[EntityAttributee(8, EntityAttributeState.Optional)]
 		public IfcBuildingElementPartTypeEnum? @PredefinedType 
 		{ 
 			get 

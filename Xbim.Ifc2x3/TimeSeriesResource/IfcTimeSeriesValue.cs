@@ -54,7 +54,7 @@ namespace Xbim.Ifc2x3.TimeSeriesResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(0, EntityAttributeState.Mandatory)]
+		[EntityAttributee(0, EntityAttributeState.Mandatory)]
 		public ItemSet<IfcValue> @ListValues 
 		{ 
 			get 

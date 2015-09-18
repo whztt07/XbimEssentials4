@@ -32,7 +32,7 @@ namespace Xbim.Ifc2x3.StructuralAnalysisDomain
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(7, EntityAttributeState.Mandatory)]
+		[EntityAttributee(7, EntityAttributeState.Mandatory)]
 		public IfcStructuralCurveTypeEnum @PredefinedType 
 		{ 
 			get 

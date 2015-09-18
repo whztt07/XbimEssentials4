@@ -36,7 +36,7 @@ namespace Xbim.Ifc4.ProductExtension
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(4, EntityAttributeState.Mandatory)]
+		[EntityAttributee(4, EntityAttributeState.Mandatory)]
 		public IfcElement @RelatingElement 
 		{ 
 			get 
@@ -53,7 +53,7 @@ namespace Xbim.Ifc4.ProductExtension
 			} 
 		}
 	
-		[EntityAttribute(5, EntityAttributeState.Mandatory)]
+		[EntityAttributee(5, EntityAttributeState.Mandatory)]
 		public IfcElement @RelatedElement 
 		{ 
 			get 
@@ -70,7 +70,7 @@ namespace Xbim.Ifc4.ProductExtension
 			} 
 		}
 	
-		[EntityAttribute(6, EntityAttributeState.Optional)]
+		[EntityAttributee(6, EntityAttributeState.Optional)]
 		public IfcConnectionGeometry @InterferenceGeometry 
 		{ 
 			get 
@@ -87,7 +87,7 @@ namespace Xbim.Ifc4.ProductExtension
 			} 
 		}
 	
-		[EntityAttribute(7, EntityAttributeState.Optional)]
+		[EntityAttributee(7, EntityAttributeState.Optional)]
 		public IfcIdentifier? @InterferenceType 
 		{ 
 			get 
@@ -104,7 +104,7 @@ namespace Xbim.Ifc4.ProductExtension
 			} 
 		}
 	
-		[EntityAttribute(8, EntityAttributeState.Mandatory)]
+		[EntityAttributee(8, EntityAttributeState.Mandatory)]
 		public bool? @ImpliedOrder 
 		{ 
 			get 

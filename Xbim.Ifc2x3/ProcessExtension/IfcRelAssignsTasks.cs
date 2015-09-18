@@ -31,7 +31,7 @@ namespace Xbim.Ifc2x3.ProcessExtension
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(7, EntityAttributeState.Optional)]
+		[EntityAttributee(7, EntityAttributeState.Optional)]
 		public IfcScheduleTimeControl @TimeForTask 
 		{ 
 			get 

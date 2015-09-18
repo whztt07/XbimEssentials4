@@ -13,18 +13,19 @@
 #region Directives
 
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
 using System.Globalization;
+using System.IO;
 using System.Threading.Tasks;
-using System.Collections.Concurrent;
 using Xbim.Common;
-using Xbim.IO.Step21;
+using Xbim.IO.Parser;
+using Xbim.IO.Step21.Parser;
 
 #endregion
 
-namespace Xbim.IO.Parser
+namespace Xbim.IO.Step21
 {
    
 

@@ -29,7 +29,7 @@ namespace Xbim.Ifc4.DateTimeResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(20, EntityAttributeState.Mandatory)]
+		[EntityAttributee(20, EntityAttributeState.Mandatory)]
 		public IfcRecurrencePattern @Recurrance 
 		{ 
 			get 

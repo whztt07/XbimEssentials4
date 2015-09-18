@@ -36,7 +36,7 @@ namespace Xbim.Ifc4.ProcessExtension
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(4, EntityAttributeState.Mandatory)]
+		[EntityAttributee(4, EntityAttributeState.Mandatory)]
 		public IfcProcess @RelatingProcess 
 		{ 
 			get 
@@ -53,7 +53,7 @@ namespace Xbim.Ifc4.ProcessExtension
 			} 
 		}
 	
-		[EntityAttribute(5, EntityAttributeState.Mandatory)]
+		[EntityAttributee(5, EntityAttributeState.Mandatory)]
 		public IfcProcess @RelatedProcess 
 		{ 
 			get 
@@ -70,7 +70,7 @@ namespace Xbim.Ifc4.ProcessExtension
 			} 
 		}
 	
-		[EntityAttribute(6, EntityAttributeState.Optional)]
+		[EntityAttributee(6, EntityAttributeState.Optional)]
 		public IfcLagTime @TimeLag 
 		{ 
 			get 
@@ -87,7 +87,7 @@ namespace Xbim.Ifc4.ProcessExtension
 			} 
 		}
 	
-		[EntityAttribute(7, EntityAttributeState.Optional)]
+		[EntityAttributee(7, EntityAttributeState.Optional)]
 		public IfcSequenceEnum? @SequenceType 
 		{ 
 			get 
@@ -104,7 +104,7 @@ namespace Xbim.Ifc4.ProcessExtension
 			} 
 		}
 	
-		[EntityAttribute(8, EntityAttributeState.Optional)]
+		[EntityAttributee(8, EntityAttributeState.Optional)]
 		public IfcLabel? @UserDefinedSequenceType 
 		{ 
 			get 

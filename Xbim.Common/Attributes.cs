@@ -25,22 +25,16 @@ namespace Xbim.Common
     }
 
 	[AttributeUsage(AttributeTargets.Property)]
-    public sealed class EntityAttributeAttribute : Attribute
+    public sealed class EntityAttributeeAttribute : Attribute
     {
         public int Index { get; private set; }
         public EntityAttributeState State { get; private set; }
 
-        public EntityAttributeAttribute(int index, EntityAttributeState state)
+        public EntityAttributeeAttribute(int index, EntityAttributeState state)
         {
             Index = index;
             State = state;
         }
 
-    }
-
-    public enum EntityAttributeState
-    {
-        Optional,
-        Mandatory
     }
 }

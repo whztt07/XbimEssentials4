@@ -35,7 +35,7 @@ namespace Xbim.Ifc2x3.PresentationResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(1, EntityAttributeState.Optional)]
+		[EntityAttributee(1, EntityAttributeState.Optional)]
 		public ItemSet<IfcTextFontName> @FontFamily 
 		{ 
 			get 
@@ -52,7 +52,7 @@ namespace Xbim.Ifc2x3.PresentationResource
 			} 
 		}
 	
-		[EntityAttribute(2, EntityAttributeState.Optional)]
+		[EntityAttributee(2, EntityAttributeState.Optional)]
 		public IfcFontStyle? @FontStyle 
 		{ 
 			get 
@@ -69,7 +69,7 @@ namespace Xbim.Ifc2x3.PresentationResource
 			} 
 		}
 	
-		[EntityAttribute(3, EntityAttributeState.Optional)]
+		[EntityAttributee(3, EntityAttributeState.Optional)]
 		public IfcFontVariant? @FontVariant 
 		{ 
 			get 
@@ -86,7 +86,7 @@ namespace Xbim.Ifc2x3.PresentationResource
 			} 
 		}
 	
-		[EntityAttribute(4, EntityAttributeState.Optional)]
+		[EntityAttributee(4, EntityAttributeState.Optional)]
 		public IfcFontWeight? @FontWeight 
 		{ 
 			get 
@@ -103,7 +103,7 @@ namespace Xbim.Ifc2x3.PresentationResource
 			} 
 		}
 	
-		[EntityAttribute(5, EntityAttributeState.Mandatory)]
+		[EntityAttributee(5, EntityAttributeState.Mandatory)]
 		public IfcSizeSelect @FontSize 
 		{ 
 			get 

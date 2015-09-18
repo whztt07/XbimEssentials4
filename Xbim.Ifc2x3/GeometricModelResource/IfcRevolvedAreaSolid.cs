@@ -32,7 +32,7 @@ namespace Xbim.Ifc2x3.GeometricModelResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(2, EntityAttributeState.Mandatory)]
+		[EntityAttributee(2, EntityAttributeState.Mandatory)]
 		public IfcAxis1Placement @Axis 
 		{ 
 			get 
@@ -49,7 +49,7 @@ namespace Xbim.Ifc2x3.GeometricModelResource
 			} 
 		}
 	
-		[EntityAttribute(3, EntityAttributeState.Mandatory)]
+		[EntityAttributee(3, EntityAttributeState.Mandatory)]
 		public IfcPlaneAngleMeasure @Angle 
 		{ 
 			get 

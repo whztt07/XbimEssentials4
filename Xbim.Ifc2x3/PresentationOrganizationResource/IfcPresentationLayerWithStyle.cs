@@ -34,7 +34,7 @@ namespace Xbim.Ifc2x3.PresentationOrganizationResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(4, EntityAttributeState.Mandatory)]
+		[EntityAttributee(4, EntityAttributeState.Mandatory)]
 		public bool? @LayerOn 
 		{ 
 			get 
@@ -51,7 +51,7 @@ namespace Xbim.Ifc2x3.PresentationOrganizationResource
 			} 
 		}
 	
-		[EntityAttribute(5, EntityAttributeState.Mandatory)]
+		[EntityAttributee(5, EntityAttributeState.Mandatory)]
 		public bool? @LayerFrozen 
 		{ 
 			get 
@@ -68,7 +68,7 @@ namespace Xbim.Ifc2x3.PresentationOrganizationResource
 			} 
 		}
 	
-		[EntityAttribute(6, EntityAttributeState.Mandatory)]
+		[EntityAttributee(6, EntityAttributeState.Mandatory)]
 		public bool? @LayerBlocked 
 		{ 
 			get 
@@ -85,7 +85,7 @@ namespace Xbim.Ifc2x3.PresentationOrganizationResource
 			} 
 		}
 	
-		[EntityAttribute(7, EntityAttributeState.Mandatory)]
+		[EntityAttributee(7, EntityAttributeState.Mandatory)]
 		public ItemSet<IfcPresentationStyleSelect> @LayerStyles 
 		{ 
 			get 

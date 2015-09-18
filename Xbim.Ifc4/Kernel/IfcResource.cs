@@ -30,7 +30,7 @@ namespace Xbim.Ifc4.Kernel
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(5, EntityAttributeState.Optional)]
+		[EntityAttributee(5, EntityAttributeState.Optional)]
 		public IfcIdentifier? @Identification 
 		{ 
 			get 
@@ -47,7 +47,7 @@ namespace Xbim.Ifc4.Kernel
 			} 
 		}
 	
-		[EntityAttribute(6, EntityAttributeState.Optional)]
+		[EntityAttributee(6, EntityAttributeState.Optional)]
 		public IfcText? @LongDescription 
 		{ 
 			get 

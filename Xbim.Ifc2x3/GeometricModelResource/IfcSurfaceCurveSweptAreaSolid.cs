@@ -34,7 +34,7 @@ namespace Xbim.Ifc2x3.GeometricModelResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(2, EntityAttributeState.Mandatory)]
+		[EntityAttributee(2, EntityAttributeState.Mandatory)]
 		public IfcCurve @Directrix 
 		{ 
 			get 
@@ -51,7 +51,7 @@ namespace Xbim.Ifc2x3.GeometricModelResource
 			} 
 		}
 	
-		[EntityAttribute(3, EntityAttributeState.Mandatory)]
+		[EntityAttributee(3, EntityAttributeState.Mandatory)]
 		public IfcParameterValue @StartParam 
 		{ 
 			get 
@@ -68,7 +68,7 @@ namespace Xbim.Ifc2x3.GeometricModelResource
 			} 
 		}
 	
-		[EntityAttribute(4, EntityAttributeState.Mandatory)]
+		[EntityAttributee(4, EntityAttributeState.Mandatory)]
 		public IfcParameterValue @EndParam 
 		{ 
 			get 
@@ -85,7 +85,7 @@ namespace Xbim.Ifc2x3.GeometricModelResource
 			} 
 		}
 	
-		[EntityAttribute(5, EntityAttributeState.Mandatory)]
+		[EntityAttributee(5, EntityAttributeState.Mandatory)]
 		public IfcSurface @ReferenceSurface 
 		{ 
 			get 

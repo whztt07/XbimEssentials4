@@ -54,7 +54,7 @@ namespace Xbim.Ifc4.RepresentationResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(0, EntityAttributeState.Optional)]
+		[EntityAttributee(0, EntityAttributeState.Optional)]
 		public IfcLabel? @ContextIdentifier 
 		{ 
 			get 
@@ -71,7 +71,7 @@ namespace Xbim.Ifc4.RepresentationResource
 			} 
 		}
 	
-		[EntityAttribute(1, EntityAttributeState.Optional)]
+		[EntityAttributee(1, EntityAttributeState.Optional)]
 		public IfcLabel? @ContextType 
 		{ 
 			get 

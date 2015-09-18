@@ -37,7 +37,7 @@ namespace Xbim.Ifc4.ProcessExtension
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(7, EntityAttributeState.Optional)]
+		[EntityAttributee(7, EntityAttributeState.Optional)]
 		public IfcLabel? @Status 
 		{ 
 			get 
@@ -54,7 +54,7 @@ namespace Xbim.Ifc4.ProcessExtension
 			} 
 		}
 	
-		[EntityAttribute(8, EntityAttributeState.Optional)]
+		[EntityAttributee(8, EntityAttributeState.Optional)]
 		public IfcLabel? @WorkMethod 
 		{ 
 			get 
@@ -71,7 +71,7 @@ namespace Xbim.Ifc4.ProcessExtension
 			} 
 		}
 	
-		[EntityAttribute(9, EntityAttributeState.Mandatory)]
+		[EntityAttributee(9, EntityAttributeState.Mandatory)]
 		public bool @IsMilestone 
 		{ 
 			get 
@@ -88,7 +88,7 @@ namespace Xbim.Ifc4.ProcessExtension
 			} 
 		}
 	
-		[EntityAttribute(10, EntityAttributeState.Optional)]
+		[EntityAttributee(10, EntityAttributeState.Optional)]
 		public long? @Priority 
 		{ 
 			get 
@@ -105,7 +105,7 @@ namespace Xbim.Ifc4.ProcessExtension
 			} 
 		}
 	
-		[EntityAttribute(11, EntityAttributeState.Optional)]
+		[EntityAttributee(11, EntityAttributeState.Optional)]
 		public IfcTaskTime @TaskTime 
 		{ 
 			get 
@@ -122,7 +122,7 @@ namespace Xbim.Ifc4.ProcessExtension
 			} 
 		}
 	
-		[EntityAttribute(12, EntityAttributeState.Optional)]
+		[EntityAttributee(12, EntityAttributeState.Optional)]
 		public IfcTaskTypeEnum? @PredefinedType 
 		{ 
 			get 

@@ -33,7 +33,7 @@ namespace Xbim.Ifc4.ControlExtension
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(5, EntityAttributeState.Optional)]
+		[EntityAttributee(5, EntityAttributeState.Optional)]
 		public IfcLabel? @Intent 
 		{ 
 			get 
@@ -50,7 +50,7 @@ namespace Xbim.Ifc4.ControlExtension
 			} 
 		}
 	
-		[EntityAttribute(6, EntityAttributeState.Mandatory)]
+		[EntityAttributee(6, EntityAttributeState.Mandatory)]
 		public IfcConstraint @RelatingConstraint 
 		{ 
 			get 

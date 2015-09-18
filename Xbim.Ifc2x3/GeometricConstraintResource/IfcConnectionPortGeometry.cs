@@ -32,7 +32,7 @@ namespace Xbim.Ifc2x3.GeometricConstraintResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(0, EntityAttributeState.Mandatory)]
+		[EntityAttributee(0, EntityAttributeState.Mandatory)]
 		public IfcAxis2Placement @LocationAtRelatingElement 
 		{ 
 			get 
@@ -49,7 +49,7 @@ namespace Xbim.Ifc2x3.GeometricConstraintResource
 			} 
 		}
 	
-		[EntityAttribute(1, EntityAttributeState.Optional)]
+		[EntityAttributee(1, EntityAttributeState.Optional)]
 		public IfcAxis2Placement @LocationAtRelatedElement 
 		{ 
 			get 
@@ -66,7 +66,7 @@ namespace Xbim.Ifc2x3.GeometricConstraintResource
 			} 
 		}
 	
-		[EntityAttribute(2, EntityAttributeState.Mandatory)]
+		[EntityAttributee(2, EntityAttributeState.Mandatory)]
 		public IfcProfileDef @ProfileOfPort 
 		{ 
 			get 

@@ -56,7 +56,7 @@ namespace Xbim.Ifc4.Kernel
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(0, EntityAttributeState.Mandatory)]
+		[EntityAttributee(0, EntityAttributeState.Mandatory)]
 		public IfcGloballyUniqueId @GlobalId 
 		{ 
 			get 
@@ -73,7 +73,7 @@ namespace Xbim.Ifc4.Kernel
 			} 
 		}
 	
-		[EntityAttribute(1, EntityAttributeState.Optional)]
+		[EntityAttributee(1, EntityAttributeState.Optional)]
 		public IfcOwnerHistory @OwnerHistory 
 		{ 
 			get 
@@ -90,7 +90,7 @@ namespace Xbim.Ifc4.Kernel
 			} 
 		}
 	
-		[EntityAttribute(2, EntityAttributeState.Optional)]
+		[EntityAttributee(2, EntityAttributeState.Optional)]
 		public IfcLabel? @Name 
 		{ 
 			get 
@@ -107,7 +107,7 @@ namespace Xbim.Ifc4.Kernel
 			} 
 		}
 	
-		[EntityAttribute(3, EntityAttributeState.Optional)]
+		[EntityAttributee(3, EntityAttributeState.Optional)]
 		public IfcText? @Description 
 		{ 
 			get 

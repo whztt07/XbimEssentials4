@@ -37,7 +37,7 @@ namespace Xbim.Ifc2x3.SharedBldgServiceElements
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(6, EntityAttributeState.Optional)]
+		[EntityAttributee(6, EntityAttributeState.Optional)]
 		public IfcElectricCurrentEnum? @ElectricCurrentType 
 		{ 
 			get 
@@ -54,7 +54,7 @@ namespace Xbim.Ifc2x3.SharedBldgServiceElements
 			} 
 		}
 	
-		[EntityAttribute(7, EntityAttributeState.Mandatory)]
+		[EntityAttributee(7, EntityAttributeState.Mandatory)]
 		public IfcElectricVoltageMeasure @InputVoltage 
 		{ 
 			get 
@@ -71,7 +71,7 @@ namespace Xbim.Ifc2x3.SharedBldgServiceElements
 			} 
 		}
 	
-		[EntityAttribute(8, EntityAttributeState.Mandatory)]
+		[EntityAttributee(8, EntityAttributeState.Mandatory)]
 		public IfcFrequencyMeasure @InputFrequency 
 		{ 
 			get 
@@ -88,7 +88,7 @@ namespace Xbim.Ifc2x3.SharedBldgServiceElements
 			} 
 		}
 	
-		[EntityAttribute(9, EntityAttributeState.Optional)]
+		[EntityAttributee(9, EntityAttributeState.Optional)]
 		public IfcElectricCurrentMeasure? @FullLoadCurrent 
 		{ 
 			get 
@@ -105,7 +105,7 @@ namespace Xbim.Ifc2x3.SharedBldgServiceElements
 			} 
 		}
 	
-		[EntityAttribute(10, EntityAttributeState.Optional)]
+		[EntityAttributee(10, EntityAttributeState.Optional)]
 		public IfcElectricCurrentMeasure? @MinimumCircuitCurrent 
 		{ 
 			get 
@@ -122,7 +122,7 @@ namespace Xbim.Ifc2x3.SharedBldgServiceElements
 			} 
 		}
 	
-		[EntityAttribute(11, EntityAttributeState.Optional)]
+		[EntityAttributee(11, EntityAttributeState.Optional)]
 		public IfcPowerMeasure? @MaximumPowerInput 
 		{ 
 			get 
@@ -139,7 +139,7 @@ namespace Xbim.Ifc2x3.SharedBldgServiceElements
 			} 
 		}
 	
-		[EntityAttribute(12, EntityAttributeState.Optional)]
+		[EntityAttributee(12, EntityAttributeState.Optional)]
 		public IfcPowerMeasure? @RatedPowerInput 
 		{ 
 			get 
@@ -156,7 +156,7 @@ namespace Xbim.Ifc2x3.SharedBldgServiceElements
 			} 
 		}
 	
-		[EntityAttribute(13, EntityAttributeState.Mandatory)]
+		[EntityAttributee(13, EntityAttributeState.Mandatory)]
 		public long @InputPhase 
 		{ 
 			get 

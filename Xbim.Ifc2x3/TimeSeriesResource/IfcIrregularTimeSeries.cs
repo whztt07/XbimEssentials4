@@ -31,7 +31,7 @@ namespace Xbim.Ifc2x3.TimeSeriesResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(8, EntityAttributeState.Mandatory)]
+		[EntityAttributee(8, EntityAttributeState.Mandatory)]
 		public ItemSet<IfcIrregularTimeSeriesValue> @Values 
 		{ 
 			get 

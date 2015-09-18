@@ -54,7 +54,7 @@ namespace Xbim.Ifc4.PresentationOrganizationResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(0, EntityAttributeState.Mandatory)]
+		[EntityAttributee(0, EntityAttributeState.Mandatory)]
 		public IfcLightDistributionCurveEnum @LightDistributionCurve 
 		{ 
 			get 
@@ -71,7 +71,7 @@ namespace Xbim.Ifc4.PresentationOrganizationResource
 			} 
 		}
 	
-		[EntityAttribute(1, EntityAttributeState.Mandatory)]
+		[EntityAttributee(1, EntityAttributeState.Mandatory)]
 		public ItemSet<IfcLightDistributionData> @DistributionData 
 		{ 
 			get 

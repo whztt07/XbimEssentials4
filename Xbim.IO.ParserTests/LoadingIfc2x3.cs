@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Diagnostics;
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Xbim.Ifc2x3;
 using Xbim.Ifc2x3.Kernel;
@@ -15,7 +16,11 @@ namespace Xbim.IO.ParserTests
         public void LoadingTest()
         {
             var model = new MemoryModel<EntityFactory>();
+            var watch = new Stopwatch();
+            watch.Start();
             model.Open("SampleHouse.ifc");
+            watch.Stop();
+            Debug.WriteLine("It took {0}ms to load the file.", watch.ElapsedMilliseconds);
 
             var project = model.Instances.OfType<IfcProject>().FirstOrDefault();
             Assert.IsNotNull(project);

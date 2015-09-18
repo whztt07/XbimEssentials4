@@ -32,7 +32,7 @@ namespace Xbim.Ifc4.DateTimeResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(3, EntityAttributeState.Optional)]
+		[EntityAttributee(3, EntityAttributeState.Optional)]
 		public IfcDateTime? @ActualDate 
 		{ 
 			get 
@@ -49,7 +49,7 @@ namespace Xbim.Ifc4.DateTimeResource
 			} 
 		}
 	
-		[EntityAttribute(4, EntityAttributeState.Optional)]
+		[EntityAttributee(4, EntityAttributeState.Optional)]
 		public IfcDateTime? @EarlyDate 
 		{ 
 			get 
@@ -66,7 +66,7 @@ namespace Xbim.Ifc4.DateTimeResource
 			} 
 		}
 	
-		[EntityAttribute(5, EntityAttributeState.Optional)]
+		[EntityAttributee(5, EntityAttributeState.Optional)]
 		public IfcDateTime? @LateDate 
 		{ 
 			get 
@@ -83,7 +83,7 @@ namespace Xbim.Ifc4.DateTimeResource
 			} 
 		}
 	
-		[EntityAttribute(6, EntityAttributeState.Optional)]
+		[EntityAttributee(6, EntityAttributeState.Optional)]
 		public IfcDateTime? @ScheduleDate 
 		{ 
 			get 

@@ -32,7 +32,7 @@ namespace Xbim.Ifc2x3.ConstructionMgmtDomain
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(9, EntityAttributeState.Optional)]
+		[EntityAttributee(9, EntityAttributeState.Optional)]
 		public IfcActorSelect @SubContractor 
 		{ 
 			get 
@@ -49,7 +49,7 @@ namespace Xbim.Ifc2x3.ConstructionMgmtDomain
 			} 
 		}
 	
-		[EntityAttribute(10, EntityAttributeState.Optional)]
+		[EntityAttributee(10, EntityAttributeState.Optional)]
 		public IfcText? @JobDescription 
 		{ 
 			get 

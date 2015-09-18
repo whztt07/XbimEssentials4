@@ -54,7 +54,7 @@ namespace Xbim.Ifc2x3.QuantityResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(0, EntityAttributeState.Mandatory)]
+		[EntityAttributee(0, EntityAttributeState.Mandatory)]
 		public IfcLabel @Name 
 		{ 
 			get 
@@ -71,7 +71,7 @@ namespace Xbim.Ifc2x3.QuantityResource
 			} 
 		}
 	
-		[EntityAttribute(1, EntityAttributeState.Optional)]
+		[EntityAttributee(1, EntityAttributeState.Optional)]
 		public IfcText? @Description 
 		{ 
 			get 

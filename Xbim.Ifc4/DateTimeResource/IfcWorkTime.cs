@@ -31,7 +31,7 @@ namespace Xbim.Ifc4.DateTimeResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(3, EntityAttributeState.Optional)]
+		[EntityAttributee(3, EntityAttributeState.Optional)]
 		public IfcRecurrencePattern @RecurrencePattern 
 		{ 
 			get 
@@ -48,7 +48,7 @@ namespace Xbim.Ifc4.DateTimeResource
 			} 
 		}
 	
-		[EntityAttribute(4, EntityAttributeState.Optional)]
+		[EntityAttributee(4, EntityAttributeState.Optional)]
 		public IfcDate? @Start 
 		{ 
 			get 
@@ -65,7 +65,7 @@ namespace Xbim.Ifc4.DateTimeResource
 			} 
 		}
 	
-		[EntityAttribute(5, EntityAttributeState.Optional)]
+		[EntityAttributee(5, EntityAttributeState.Optional)]
 		public IfcDate? @Finish 
 		{ 
 			get 

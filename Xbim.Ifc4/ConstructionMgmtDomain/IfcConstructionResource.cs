@@ -34,7 +34,7 @@ namespace Xbim.Ifc4.ConstructionMgmtDomain
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(7, EntityAttributeState.Optional)]
+		[EntityAttributee(7, EntityAttributeState.Optional)]
 		public IfcResourceTime @Usage 
 		{ 
 			get 
@@ -51,7 +51,7 @@ namespace Xbim.Ifc4.ConstructionMgmtDomain
 			} 
 		}
 	
-		[EntityAttribute(8, EntityAttributeState.Optional)]
+		[EntityAttributee(8, EntityAttributeState.Optional)]
 		public ItemSet<IfcAppliedValue> @BaseCosts 
 		{ 
 			get 
@@ -68,7 +68,7 @@ namespace Xbim.Ifc4.ConstructionMgmtDomain
 			} 
 		}
 	
-		[EntityAttribute(9, EntityAttributeState.Optional)]
+		[EntityAttributee(9, EntityAttributeState.Optional)]
 		public IfcPhysicalQuantity @BaseQuantity 
 		{ 
 			get 

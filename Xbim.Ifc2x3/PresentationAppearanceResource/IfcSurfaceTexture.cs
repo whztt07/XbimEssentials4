@@ -55,7 +55,7 @@ namespace Xbim.Ifc2x3.PresentationAppearanceResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(0, EntityAttributeState.Mandatory)]
+		[EntityAttributee(0, EntityAttributeState.Mandatory)]
 		public bool @RepeatS 
 		{ 
 			get 
@@ -72,7 +72,7 @@ namespace Xbim.Ifc2x3.PresentationAppearanceResource
 			} 
 		}
 	
-		[EntityAttribute(1, EntityAttributeState.Mandatory)]
+		[EntityAttributee(1, EntityAttributeState.Mandatory)]
 		public bool @RepeatT 
 		{ 
 			get 
@@ -89,7 +89,7 @@ namespace Xbim.Ifc2x3.PresentationAppearanceResource
 			} 
 		}
 	
-		[EntityAttribute(2, EntityAttributeState.Mandatory)]
+		[EntityAttributee(2, EntityAttributeState.Mandatory)]
 		public IfcSurfaceTextureEnum @TextureType 
 		{ 
 			get 
@@ -106,7 +106,7 @@ namespace Xbim.Ifc2x3.PresentationAppearanceResource
 			} 
 		}
 	
-		[EntityAttribute(3, EntityAttributeState.Optional)]
+		[EntityAttributee(3, EntityAttributeState.Optional)]
 		public IfcCartesianTransformationOperator2D @TextureTransform 
 		{ 
 			get 

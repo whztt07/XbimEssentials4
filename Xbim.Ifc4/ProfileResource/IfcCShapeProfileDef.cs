@@ -34,7 +34,7 @@ namespace Xbim.Ifc4.ProfileResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(3, EntityAttributeState.Mandatory)]
+		[EntityAttributee(3, EntityAttributeState.Mandatory)]
 		public IfcPositiveLengthMeasure @Depth 
 		{ 
 			get 
@@ -51,7 +51,7 @@ namespace Xbim.Ifc4.ProfileResource
 			} 
 		}
 	
-		[EntityAttribute(4, EntityAttributeState.Mandatory)]
+		[EntityAttributee(4, EntityAttributeState.Mandatory)]
 		public IfcPositiveLengthMeasure @Width 
 		{ 
 			get 
@@ -68,7 +68,7 @@ namespace Xbim.Ifc4.ProfileResource
 			} 
 		}
 	
-		[EntityAttribute(5, EntityAttributeState.Mandatory)]
+		[EntityAttributee(5, EntityAttributeState.Mandatory)]
 		public IfcPositiveLengthMeasure @WallThickness 
 		{ 
 			get 
@@ -85,7 +85,7 @@ namespace Xbim.Ifc4.ProfileResource
 			} 
 		}
 	
-		[EntityAttribute(6, EntityAttributeState.Mandatory)]
+		[EntityAttributee(6, EntityAttributeState.Mandatory)]
 		public IfcPositiveLengthMeasure @Girth 
 		{ 
 			get 
@@ -102,7 +102,7 @@ namespace Xbim.Ifc4.ProfileResource
 			} 
 		}
 	
-		[EntityAttribute(7, EntityAttributeState.Optional)]
+		[EntityAttributee(7, EntityAttributeState.Optional)]
 		public IfcNonNegativeLengthMeasure? @InternalFilletRadius 
 		{ 
 			get 

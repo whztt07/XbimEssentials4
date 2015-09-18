@@ -34,7 +34,7 @@ namespace Xbim.Ifc4.SharedBldgElements
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(4, EntityAttributeState.Mandatory)]
+		[EntityAttributee(4, EntityAttributeState.Mandatory)]
 		public IfcSpace @RelatingSpace 
 		{ 
 			get 
@@ -51,7 +51,7 @@ namespace Xbim.Ifc4.SharedBldgElements
 			} 
 		}
 	
-		[EntityAttribute(5, EntityAttributeState.Mandatory)]
+		[EntityAttributee(5, EntityAttributeState.Mandatory)]
 		public ItemSet<IfcCovering> @RelatedCoverings 
 		{ 
 			get 

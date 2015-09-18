@@ -30,7 +30,7 @@ namespace Xbim.Ifc4.GeometryResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(0, EntityAttributeState.Mandatory)]
+		[EntityAttributee(0, EntityAttributeState.Mandatory)]
 		public IfcTransitionCode @Transition 
 		{ 
 			get 
@@ -47,7 +47,7 @@ namespace Xbim.Ifc4.GeometryResource
 			} 
 		}
 	
-		[EntityAttribute(1, EntityAttributeState.Mandatory)]
+		[EntityAttributee(1, EntityAttributeState.Mandatory)]
 		public bool @SameSense 
 		{ 
 			get 
@@ -64,7 +64,7 @@ namespace Xbim.Ifc4.GeometryResource
 			} 
 		}
 	
-		[EntityAttribute(2, EntityAttributeState.Mandatory)]
+		[EntityAttributee(2, EntityAttributeState.Mandatory)]
 		public IfcCurve @ParentCurve 
 		{ 
 			get 

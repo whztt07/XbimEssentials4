@@ -33,7 +33,7 @@ namespace Xbim.Ifc4.PlumbingFireProtectionDomain
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(8, EntityAttributeState.Optional)]
+		[EntityAttributee(8, EntityAttributeState.Optional)]
 		public IfcStackTerminalTypeEnum? @PredefinedType 
 		{ 
 			get 

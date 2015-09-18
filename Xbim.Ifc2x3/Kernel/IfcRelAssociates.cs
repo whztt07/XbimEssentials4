@@ -31,7 +31,7 @@ namespace Xbim.Ifc2x3.Kernel
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(4, EntityAttributeState.Mandatory)]
+		[EntityAttributee(4, EntityAttributeState.Mandatory)]
 		public ItemSet<IfcRoot> @RelatedObjects 
 		{ 
 			get 

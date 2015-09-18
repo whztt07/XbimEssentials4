@@ -30,7 +30,7 @@ namespace Xbim.Ifc4.QuantityResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(3, EntityAttributeState.Mandatory)]
+		[EntityAttributee(3, EntityAttributeState.Mandatory)]
 		public IfcMassMeasure @WeightValue 
 		{ 
 			get 
@@ -47,7 +47,7 @@ namespace Xbim.Ifc4.QuantityResource
 			} 
 		}
 	
-		[EntityAttribute(4, EntityAttributeState.Optional)]
+		[EntityAttributee(4, EntityAttributeState.Optional)]
 		public IfcLabel? @Formula 
 		{ 
 			get 

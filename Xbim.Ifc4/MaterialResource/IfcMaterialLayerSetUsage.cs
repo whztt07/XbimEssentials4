@@ -33,7 +33,7 @@ namespace Xbim.Ifc4.MaterialResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(0, EntityAttributeState.Mandatory)]
+		[EntityAttributee(0, EntityAttributeState.Mandatory)]
 		public IfcMaterialLayerSet @ForLayerSet 
 		{ 
 			get 
@@ -50,7 +50,7 @@ namespace Xbim.Ifc4.MaterialResource
 			} 
 		}
 	
-		[EntityAttribute(1, EntityAttributeState.Mandatory)]
+		[EntityAttributee(1, EntityAttributeState.Mandatory)]
 		public IfcLayerSetDirectionEnum @LayerSetDirection 
 		{ 
 			get 
@@ -67,7 +67,7 @@ namespace Xbim.Ifc4.MaterialResource
 			} 
 		}
 	
-		[EntityAttribute(2, EntityAttributeState.Mandatory)]
+		[EntityAttributee(2, EntityAttributeState.Mandatory)]
 		public IfcDirectionSenseEnum @DirectionSense 
 		{ 
 			get 
@@ -84,7 +84,7 @@ namespace Xbim.Ifc4.MaterialResource
 			} 
 		}
 	
-		[EntityAttribute(3, EntityAttributeState.Mandatory)]
+		[EntityAttributee(3, EntityAttributeState.Mandatory)]
 		public IfcLengthMeasure @OffsetFromReferenceLine 
 		{ 
 			get 
@@ -101,7 +101,7 @@ namespace Xbim.Ifc4.MaterialResource
 			} 
 		}
 	
-		[EntityAttribute(4, EntityAttributeState.Optional)]
+		[EntityAttributee(4, EntityAttributeState.Optional)]
 		public IfcPositiveLengthMeasure? @ReferenceExtent 
 		{ 
 			get 

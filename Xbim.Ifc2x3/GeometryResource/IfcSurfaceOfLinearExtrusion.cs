@@ -31,7 +31,7 @@ namespace Xbim.Ifc2x3.GeometryResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(2, EntityAttributeState.Mandatory)]
+		[EntityAttributee(2, EntityAttributeState.Mandatory)]
 		public IfcDirection @ExtrudedDirection 
 		{ 
 			get 
@@ -48,7 +48,7 @@ namespace Xbim.Ifc2x3.GeometryResource
 			} 
 		}
 	
-		[EntityAttribute(3, EntityAttributeState.Mandatory)]
+		[EntityAttributee(3, EntityAttributeState.Mandatory)]
 		public IfcLengthMeasure @Depth 
 		{ 
 			get 

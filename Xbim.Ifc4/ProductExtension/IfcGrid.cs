@@ -39,7 +39,7 @@ namespace Xbim.Ifc4.ProductExtension
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(7, EntityAttributeState.Mandatory)]
+		[EntityAttributee(7, EntityAttributeState.Mandatory)]
 		public ItemSet<IfcGridAxis> @UAxes 
 		{ 
 			get 
@@ -56,7 +56,7 @@ namespace Xbim.Ifc4.ProductExtension
 			} 
 		}
 	
-		[EntityAttribute(8, EntityAttributeState.Mandatory)]
+		[EntityAttributee(8, EntityAttributeState.Mandatory)]
 		public ItemSet<IfcGridAxis> @VAxes 
 		{ 
 			get 
@@ -73,7 +73,7 @@ namespace Xbim.Ifc4.ProductExtension
 			} 
 		}
 	
-		[EntityAttribute(9, EntityAttributeState.Optional)]
+		[EntityAttributee(9, EntityAttributeState.Optional)]
 		public ItemSet<IfcGridAxis> @WAxes 
 		{ 
 			get 
@@ -90,7 +90,7 @@ namespace Xbim.Ifc4.ProductExtension
 			} 
 		}
 	
-		[EntityAttribute(10, EntityAttributeState.Optional)]
+		[EntityAttributee(10, EntityAttributeState.Optional)]
 		public IfcGridTypeEnum? @PredefinedType 
 		{ 
 			get 

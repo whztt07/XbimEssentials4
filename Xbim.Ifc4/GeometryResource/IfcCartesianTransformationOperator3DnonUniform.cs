@@ -29,7 +29,7 @@ namespace Xbim.Ifc4.GeometryResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(5, EntityAttributeState.Optional)]
+		[EntityAttributee(5, EntityAttributeState.Optional)]
 		public double? @Scale2 
 		{ 
 			get 
@@ -46,7 +46,7 @@ namespace Xbim.Ifc4.GeometryResource
 			} 
 		}
 	
-		[EntityAttribute(6, EntityAttributeState.Optional)]
+		[EntityAttributee(6, EntityAttributeState.Optional)]
 		public double? @Scale3 
 		{ 
 			get 

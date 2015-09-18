@@ -59,7 +59,7 @@ namespace Xbim.Ifc4.ConstraintResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(0, EntityAttributeState.Optional)]
+		[EntityAttributee(0, EntityAttributeState.Optional)]
 		public IfcIdentifier? @TypeIdentifier 
 		{ 
 			get 
@@ -76,7 +76,7 @@ namespace Xbim.Ifc4.ConstraintResource
 			} 
 		}
 	
-		[EntityAttribute(1, EntityAttributeState.Optional)]
+		[EntityAttributee(1, EntityAttributeState.Optional)]
 		public IfcIdentifier? @AttributeIdentifier 
 		{ 
 			get 
@@ -93,7 +93,7 @@ namespace Xbim.Ifc4.ConstraintResource
 			} 
 		}
 	
-		[EntityAttribute(2, EntityAttributeState.Optional)]
+		[EntityAttributee(2, EntityAttributeState.Optional)]
 		public IfcLabel? @InstanceName 
 		{ 
 			get 
@@ -110,7 +110,7 @@ namespace Xbim.Ifc4.ConstraintResource
 			} 
 		}
 	
-		[EntityAttribute(3, EntityAttributeState.Optional)]
+		[EntityAttributee(3, EntityAttributeState.Optional)]
 		public ItemSet<long> @ListPositions 
 		{ 
 			get 
@@ -127,7 +127,7 @@ namespace Xbim.Ifc4.ConstraintResource
 			} 
 		}
 	
-		[EntityAttribute(4, EntityAttributeState.Optional)]
+		[EntityAttributee(4, EntityAttributeState.Optional)]
 		public IfcReference @InnerReference 
 		{ 
 			get 

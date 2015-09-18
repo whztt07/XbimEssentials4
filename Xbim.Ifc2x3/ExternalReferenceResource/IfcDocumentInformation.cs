@@ -73,7 +73,7 @@ namespace Xbim.Ifc2x3.ExternalReferenceResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(0, EntityAttributeState.Mandatory)]
+		[EntityAttributee(0, EntityAttributeState.Mandatory)]
 		public IfcIdentifier @DocumentId 
 		{ 
 			get 
@@ -90,7 +90,7 @@ namespace Xbim.Ifc2x3.ExternalReferenceResource
 			} 
 		}
 	
-		[EntityAttribute(1, EntityAttributeState.Mandatory)]
+		[EntityAttributee(1, EntityAttributeState.Mandatory)]
 		public IfcLabel @Name 
 		{ 
 			get 
@@ -107,7 +107,7 @@ namespace Xbim.Ifc2x3.ExternalReferenceResource
 			} 
 		}
 	
-		[EntityAttribute(2, EntityAttributeState.Optional)]
+		[EntityAttributee(2, EntityAttributeState.Optional)]
 		public IfcText? @Description 
 		{ 
 			get 
@@ -124,7 +124,7 @@ namespace Xbim.Ifc2x3.ExternalReferenceResource
 			} 
 		}
 	
-		[EntityAttribute(3, EntityAttributeState.Optional)]
+		[EntityAttributee(3, EntityAttributeState.Optional)]
 		public ItemSet<IfcDocumentReference> @DocumentReferences 
 		{ 
 			get 
@@ -141,7 +141,7 @@ namespace Xbim.Ifc2x3.ExternalReferenceResource
 			} 
 		}
 	
-		[EntityAttribute(4, EntityAttributeState.Optional)]
+		[EntityAttributee(4, EntityAttributeState.Optional)]
 		public IfcText? @Purpose 
 		{ 
 			get 
@@ -158,7 +158,7 @@ namespace Xbim.Ifc2x3.ExternalReferenceResource
 			} 
 		}
 	
-		[EntityAttribute(5, EntityAttributeState.Optional)]
+		[EntityAttributee(5, EntityAttributeState.Optional)]
 		public IfcText? @IntendedUse 
 		{ 
 			get 
@@ -175,7 +175,7 @@ namespace Xbim.Ifc2x3.ExternalReferenceResource
 			} 
 		}
 	
-		[EntityAttribute(6, EntityAttributeState.Optional)]
+		[EntityAttributee(6, EntityAttributeState.Optional)]
 		public IfcText? @Scope 
 		{ 
 			get 
@@ -192,7 +192,7 @@ namespace Xbim.Ifc2x3.ExternalReferenceResource
 			} 
 		}
 	
-		[EntityAttribute(7, EntityAttributeState.Optional)]
+		[EntityAttributee(7, EntityAttributeState.Optional)]
 		public IfcLabel? @Revision 
 		{ 
 			get 
@@ -209,7 +209,7 @@ namespace Xbim.Ifc2x3.ExternalReferenceResource
 			} 
 		}
 	
-		[EntityAttribute(8, EntityAttributeState.Optional)]
+		[EntityAttributee(8, EntityAttributeState.Optional)]
 		public IfcActorSelect @DocumentOwner 
 		{ 
 			get 
@@ -226,7 +226,7 @@ namespace Xbim.Ifc2x3.ExternalReferenceResource
 			} 
 		}
 	
-		[EntityAttribute(9, EntityAttributeState.Optional)]
+		[EntityAttributee(9, EntityAttributeState.Optional)]
 		public ItemSet<IfcActorSelect> @Editors 
 		{ 
 			get 
@@ -243,7 +243,7 @@ namespace Xbim.Ifc2x3.ExternalReferenceResource
 			} 
 		}
 	
-		[EntityAttribute(10, EntityAttributeState.Optional)]
+		[EntityAttributee(10, EntityAttributeState.Optional)]
 		public IfcDateAndTime @CreationTime 
 		{ 
 			get 
@@ -260,7 +260,7 @@ namespace Xbim.Ifc2x3.ExternalReferenceResource
 			} 
 		}
 	
-		[EntityAttribute(11, EntityAttributeState.Optional)]
+		[EntityAttributee(11, EntityAttributeState.Optional)]
 		public IfcDateAndTime @LastRevisionTime 
 		{ 
 			get 
@@ -277,7 +277,7 @@ namespace Xbim.Ifc2x3.ExternalReferenceResource
 			} 
 		}
 	
-		[EntityAttribute(12, EntityAttributeState.Optional)]
+		[EntityAttributee(12, EntityAttributeState.Optional)]
 		public IfcDocumentElectronicFormat @ElectronicFormat 
 		{ 
 			get 
@@ -294,7 +294,7 @@ namespace Xbim.Ifc2x3.ExternalReferenceResource
 			} 
 		}
 	
-		[EntityAttribute(13, EntityAttributeState.Optional)]
+		[EntityAttributee(13, EntityAttributeState.Optional)]
 		public IfcCalendarDate @ValidFrom 
 		{ 
 			get 
@@ -311,7 +311,7 @@ namespace Xbim.Ifc2x3.ExternalReferenceResource
 			} 
 		}
 	
-		[EntityAttribute(14, EntityAttributeState.Optional)]
+		[EntityAttributee(14, EntityAttributeState.Optional)]
 		public IfcCalendarDate @ValidUntil 
 		{ 
 			get 
@@ -328,7 +328,7 @@ namespace Xbim.Ifc2x3.ExternalReferenceResource
 			} 
 		}
 	
-		[EntityAttribute(15, EntityAttributeState.Optional)]
+		[EntityAttributee(15, EntityAttributeState.Optional)]
 		public IfcDocumentConfidentialityEnum? @Confidentiality 
 		{ 
 			get 
@@ -345,7 +345,7 @@ namespace Xbim.Ifc2x3.ExternalReferenceResource
 			} 
 		}
 	
-		[EntityAttribute(16, EntityAttributeState.Optional)]
+		[EntityAttributee(16, EntityAttributeState.Optional)]
 		public IfcDocumentStatusEnum? @Status 
 		{ 
 			get 

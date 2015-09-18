@@ -32,7 +32,7 @@ namespace Xbim.Ifc2x3.GeometricModelResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(1, EntityAttributeState.Mandatory)]
+		[EntityAttributee(1, EntityAttributeState.Mandatory)]
 		public IfcPositiveLengthMeasure @XLength 
 		{ 
 			get 
@@ -49,7 +49,7 @@ namespace Xbim.Ifc2x3.GeometricModelResource
 			} 
 		}
 	
-		[EntityAttribute(2, EntityAttributeState.Mandatory)]
+		[EntityAttributee(2, EntityAttributeState.Mandatory)]
 		public IfcPositiveLengthMeasure @YLength 
 		{ 
 			get 
@@ -66,7 +66,7 @@ namespace Xbim.Ifc2x3.GeometricModelResource
 			} 
 		}
 	
-		[EntityAttribute(3, EntityAttributeState.Mandatory)]
+		[EntityAttributee(3, EntityAttributeState.Mandatory)]
 		public IfcPositiveLengthMeasure @Height 
 		{ 
 			get 

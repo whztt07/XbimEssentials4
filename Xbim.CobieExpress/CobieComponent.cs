@@ -37,7 +37,7 @@ namespace Xbim.CobieExpress
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(11, EntityAttributeState.Mandatory)]
+		[EntityAttributee(11, EntityAttributeState.Mandatory)]
 		public string @SerialNumber 
 		{ 
 			get 
@@ -54,7 +54,7 @@ namespace Xbim.CobieExpress
 			} 
 		}
 	
-		[EntityAttribute(12, EntityAttributeState.Mandatory)]
+		[EntityAttributee(12, EntityAttributeState.Mandatory)]
 		public DateTimeValue @InstallationDate 
 		{ 
 			get 
@@ -71,7 +71,7 @@ namespace Xbim.CobieExpress
 			} 
 		}
 	
-		[EntityAttribute(13, EntityAttributeState.Mandatory)]
+		[EntityAttributee(13, EntityAttributeState.Mandatory)]
 		public DateTimeValue @WarrantyStartDate 
 		{ 
 			get 
@@ -88,7 +88,7 @@ namespace Xbim.CobieExpress
 			} 
 		}
 	
-		[EntityAttribute(14, EntityAttributeState.Optional)]
+		[EntityAttributee(14, EntityAttributeState.Optional)]
 		public string @TagNumber 
 		{ 
 			get 
@@ -105,7 +105,7 @@ namespace Xbim.CobieExpress
 			} 
 		}
 	
-		[EntityAttribute(15, EntityAttributeState.Optional)]
+		[EntityAttributee(15, EntityAttributeState.Optional)]
 		public string @BarCode 
 		{ 
 			get 
@@ -122,7 +122,7 @@ namespace Xbim.CobieExpress
 			} 
 		}
 	
-		[EntityAttribute(16, EntityAttributeState.Optional)]
+		[EntityAttributee(16, EntityAttributeState.Optional)]
 		public string @AssetIdentifier 
 		{ 
 			get 
@@ -139,7 +139,7 @@ namespace Xbim.CobieExpress
 			} 
 		}
 	
-		[EntityAttribute(17, EntityAttributeState.Mandatory)]
+		[EntityAttributee(17, EntityAttributeState.Mandatory)]
 		public CobieType @Type 
 		{ 
 			get 
@@ -156,7 +156,7 @@ namespace Xbim.CobieExpress
 			} 
 		}
 	
-		[EntityAttribute(18, EntityAttributeState.Mandatory)]
+		[EntityAttributee(18, EntityAttributeState.Mandatory)]
 		public CobieSpace @Space 
 		{ 
 			get 
@@ -173,7 +173,7 @@ namespace Xbim.CobieExpress
 			} 
 		}
 	
-		[EntityAttribute(19, EntityAttributeState.Mandatory)]
+		[EntityAttributee(19, EntityAttributeState.Mandatory)]
 		public ItemSet<CobieComponent> @AssemblyOf 
 		{ 
 			get 

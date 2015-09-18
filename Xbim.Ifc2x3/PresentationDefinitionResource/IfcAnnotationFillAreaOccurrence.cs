@@ -33,7 +33,7 @@ namespace Xbim.Ifc2x3.PresentationDefinitionResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(3, EntityAttributeState.Optional)]
+		[EntityAttributee(3, EntityAttributeState.Optional)]
 		public IfcPoint @FillStyleTarget 
 		{ 
 			get 
@@ -50,7 +50,7 @@ namespace Xbim.Ifc2x3.PresentationDefinitionResource
 			} 
 		}
 	
-		[EntityAttribute(4, EntityAttributeState.Optional)]
+		[EntityAttributee(4, EntityAttributeState.Optional)]
 		public IfcGlobalOrLocalEnum? @GlobalOrLocal 
 		{ 
 			get 

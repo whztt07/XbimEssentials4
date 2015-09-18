@@ -28,7 +28,7 @@ namespace Xbim.Ifc2x3.StructuralElementsDomain
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(8, EntityAttributeState.Optional)]
+		[EntityAttributee(8, EntityAttributeState.Optional)]
 		public IfcLabel? @SteelGrade 
 		{ 
 			get 

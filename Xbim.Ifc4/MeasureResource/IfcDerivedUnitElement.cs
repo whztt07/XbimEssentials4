@@ -53,7 +53,7 @@ namespace Xbim.Ifc4.MeasureResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(0, EntityAttributeState.Mandatory)]
+		[EntityAttributee(0, EntityAttributeState.Mandatory)]
 		public IfcNamedUnit @Unit 
 		{ 
 			get 
@@ -70,7 +70,7 @@ namespace Xbim.Ifc4.MeasureResource
 			} 
 		}
 	
-		[EntityAttribute(1, EntityAttributeState.Mandatory)]
+		[EntityAttributee(1, EntityAttributeState.Mandatory)]
 		public long @Exponent 
 		{ 
 			get 

@@ -45,7 +45,7 @@ namespace Xbim.Ifc2x3.ProfilePropertyResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(7, EntityAttributeState.Optional)]
+		[EntityAttributee(7, EntityAttributeState.Optional)]
 		public IfcMomentOfInertiaMeasure? @TorsionalConstantX 
 		{ 
 			get 
@@ -62,7 +62,7 @@ namespace Xbim.Ifc2x3.ProfilePropertyResource
 			} 
 		}
 	
-		[EntityAttribute(8, EntityAttributeState.Optional)]
+		[EntityAttributee(8, EntityAttributeState.Optional)]
 		public IfcMomentOfInertiaMeasure? @MomentOfInertiaYZ 
 		{ 
 			get 
@@ -79,7 +79,7 @@ namespace Xbim.Ifc2x3.ProfilePropertyResource
 			} 
 		}
 	
-		[EntityAttribute(9, EntityAttributeState.Optional)]
+		[EntityAttributee(9, EntityAttributeState.Optional)]
 		public IfcMomentOfInertiaMeasure? @MomentOfInertiaY 
 		{ 
 			get 
@@ -96,7 +96,7 @@ namespace Xbim.Ifc2x3.ProfilePropertyResource
 			} 
 		}
 	
-		[EntityAttribute(10, EntityAttributeState.Optional)]
+		[EntityAttributee(10, EntityAttributeState.Optional)]
 		public IfcMomentOfInertiaMeasure? @MomentOfInertiaZ 
 		{ 
 			get 
@@ -113,7 +113,7 @@ namespace Xbim.Ifc2x3.ProfilePropertyResource
 			} 
 		}
 	
-		[EntityAttribute(11, EntityAttributeState.Optional)]
+		[EntityAttributee(11, EntityAttributeState.Optional)]
 		public IfcWarpingConstantMeasure? @WarpingConstant 
 		{ 
 			get 
@@ -130,7 +130,7 @@ namespace Xbim.Ifc2x3.ProfilePropertyResource
 			} 
 		}
 	
-		[EntityAttribute(12, EntityAttributeState.Optional)]
+		[EntityAttributee(12, EntityAttributeState.Optional)]
 		public IfcLengthMeasure? @ShearCentreZ 
 		{ 
 			get 
@@ -147,7 +147,7 @@ namespace Xbim.Ifc2x3.ProfilePropertyResource
 			} 
 		}
 	
-		[EntityAttribute(13, EntityAttributeState.Optional)]
+		[EntityAttributee(13, EntityAttributeState.Optional)]
 		public IfcLengthMeasure? @ShearCentreY 
 		{ 
 			get 
@@ -164,7 +164,7 @@ namespace Xbim.Ifc2x3.ProfilePropertyResource
 			} 
 		}
 	
-		[EntityAttribute(14, EntityAttributeState.Optional)]
+		[EntityAttributee(14, EntityAttributeState.Optional)]
 		public IfcAreaMeasure? @ShearDeformationAreaZ 
 		{ 
 			get 
@@ -181,7 +181,7 @@ namespace Xbim.Ifc2x3.ProfilePropertyResource
 			} 
 		}
 	
-		[EntityAttribute(15, EntityAttributeState.Optional)]
+		[EntityAttributee(15, EntityAttributeState.Optional)]
 		public IfcAreaMeasure? @ShearDeformationAreaY 
 		{ 
 			get 
@@ -198,7 +198,7 @@ namespace Xbim.Ifc2x3.ProfilePropertyResource
 			} 
 		}
 	
-		[EntityAttribute(16, EntityAttributeState.Optional)]
+		[EntityAttributee(16, EntityAttributeState.Optional)]
 		public IfcSectionModulusMeasure? @MaximumSectionModulusY 
 		{ 
 			get 
@@ -215,7 +215,7 @@ namespace Xbim.Ifc2x3.ProfilePropertyResource
 			} 
 		}
 	
-		[EntityAttribute(17, EntityAttributeState.Optional)]
+		[EntityAttributee(17, EntityAttributeState.Optional)]
 		public IfcSectionModulusMeasure? @MinimumSectionModulusY 
 		{ 
 			get 
@@ -232,7 +232,7 @@ namespace Xbim.Ifc2x3.ProfilePropertyResource
 			} 
 		}
 	
-		[EntityAttribute(18, EntityAttributeState.Optional)]
+		[EntityAttributee(18, EntityAttributeState.Optional)]
 		public IfcSectionModulusMeasure? @MaximumSectionModulusZ 
 		{ 
 			get 
@@ -249,7 +249,7 @@ namespace Xbim.Ifc2x3.ProfilePropertyResource
 			} 
 		}
 	
-		[EntityAttribute(19, EntityAttributeState.Optional)]
+		[EntityAttributee(19, EntityAttributeState.Optional)]
 		public IfcSectionModulusMeasure? @MinimumSectionModulusZ 
 		{ 
 			get 
@@ -266,7 +266,7 @@ namespace Xbim.Ifc2x3.ProfilePropertyResource
 			} 
 		}
 	
-		[EntityAttribute(20, EntityAttributeState.Optional)]
+		[EntityAttributee(20, EntityAttributeState.Optional)]
 		public IfcSectionModulusMeasure? @TorsionalSectionModulus 
 		{ 
 			get 
@@ -283,7 +283,7 @@ namespace Xbim.Ifc2x3.ProfilePropertyResource
 			} 
 		}
 	
-		[EntityAttribute(21, EntityAttributeState.Optional)]
+		[EntityAttributee(21, EntityAttributeState.Optional)]
 		public IfcLengthMeasure? @CentreOfGravityInX 
 		{ 
 			get 
@@ -300,7 +300,7 @@ namespace Xbim.Ifc2x3.ProfilePropertyResource
 			} 
 		}
 	
-		[EntityAttribute(22, EntityAttributeState.Optional)]
+		[EntityAttributee(22, EntityAttributeState.Optional)]
 		public IfcLengthMeasure? @CentreOfGravityInY 
 		{ 
 			get 

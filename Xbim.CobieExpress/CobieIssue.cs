@@ -37,7 +37,7 @@ namespace Xbim.CobieExpress
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(5, EntityAttributeState.Mandatory)]
+		[EntityAttributee(5, EntityAttributeState.Mandatory)]
 		public string @Name 
 		{ 
 			get 
@@ -54,7 +54,7 @@ namespace Xbim.CobieExpress
 			} 
 		}
 	
-		[EntityAttribute(6, EntityAttributeState.Mandatory)]
+		[EntityAttributee(6, EntityAttributeState.Mandatory)]
 		public string @Description 
 		{ 
 			get 
@@ -71,7 +71,7 @@ namespace Xbim.CobieExpress
 			} 
 		}
 	
-		[EntityAttribute(7, EntityAttributeState.Mandatory)]
+		[EntityAttributee(7, EntityAttributeState.Mandatory)]
 		public CobiePickValue @IssueType 
 		{ 
 			get 
@@ -88,7 +88,7 @@ namespace Xbim.CobieExpress
 			} 
 		}
 	
-		[EntityAttribute(8, EntityAttributeState.Mandatory)]
+		[EntityAttributee(8, EntityAttributeState.Mandatory)]
 		public CobiePickValue @Risk 
 		{ 
 			get 
@@ -105,7 +105,7 @@ namespace Xbim.CobieExpress
 			} 
 		}
 	
-		[EntityAttribute(9, EntityAttributeState.Mandatory)]
+		[EntityAttributee(9, EntityAttributeState.Mandatory)]
 		public CobiePickValue @Chance 
 		{ 
 			get 
@@ -122,7 +122,7 @@ namespace Xbim.CobieExpress
 			} 
 		}
 	
-		[EntityAttribute(10, EntityAttributeState.Mandatory)]
+		[EntityAttributee(10, EntityAttributeState.Mandatory)]
 		public CobiePickValue @Impact 
 		{ 
 			get 
@@ -139,7 +139,7 @@ namespace Xbim.CobieExpress
 			} 
 		}
 	
-		[EntityAttribute(11, EntityAttributeState.Mandatory)]
+		[EntityAttributee(11, EntityAttributeState.Mandatory)]
 		public CobieContact @Owner 
 		{ 
 			get 
@@ -156,7 +156,7 @@ namespace Xbim.CobieExpress
 			} 
 		}
 	
-		[EntityAttribute(12, EntityAttributeState.Mandatory)]
+		[EntityAttributee(12, EntityAttributeState.Mandatory)]
 		public string @Mitigation 
 		{ 
 			get 
@@ -173,7 +173,7 @@ namespace Xbim.CobieExpress
 			} 
 		}
 	
-		[EntityAttribute(13, EntityAttributeState.Mandatory)]
+		[EntityAttributee(13, EntityAttributeState.Mandatory)]
 		public CobieAsset @Causing 
 		{ 
 			get 
@@ -190,7 +190,7 @@ namespace Xbim.CobieExpress
 			} 
 		}
 	
-		[EntityAttribute(14, EntityAttributeState.Mandatory)]
+		[EntityAttributee(14, EntityAttributeState.Mandatory)]
 		public CobieAsset @Affected 
 		{ 
 			get 

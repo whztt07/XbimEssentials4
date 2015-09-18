@@ -33,7 +33,7 @@ namespace Xbim.Ifc2x3.ConstraintResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(7, EntityAttributeState.Mandatory)]
+		[EntityAttributee(7, EntityAttributeState.Mandatory)]
 		public IfcBenchmarkEnum @Benchmark 
 		{ 
 			get 
@@ -50,7 +50,7 @@ namespace Xbim.Ifc2x3.ConstraintResource
 			} 
 		}
 	
-		[EntityAttribute(8, EntityAttributeState.Optional)]
+		[EntityAttributee(8, EntityAttributeState.Optional)]
 		public IfcLabel? @ValueSource 
 		{ 
 			get 
@@ -67,7 +67,7 @@ namespace Xbim.Ifc2x3.ConstraintResource
 			} 
 		}
 	
-		[EntityAttribute(9, EntityAttributeState.Mandatory)]
+		[EntityAttributee(9, EntityAttributeState.Mandatory)]
 		public IfcMetricValueSelect @DataValue 
 		{ 
 			get 

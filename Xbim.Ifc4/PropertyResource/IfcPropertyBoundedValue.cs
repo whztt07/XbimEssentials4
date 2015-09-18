@@ -32,7 +32,7 @@ namespace Xbim.Ifc4.PropertyResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(2, EntityAttributeState.Optional)]
+		[EntityAttributee(2, EntityAttributeState.Optional)]
 		public IfcValue @UpperBoundValue 
 		{ 
 			get 
@@ -49,7 +49,7 @@ namespace Xbim.Ifc4.PropertyResource
 			} 
 		}
 	
-		[EntityAttribute(3, EntityAttributeState.Optional)]
+		[EntityAttributee(3, EntityAttributeState.Optional)]
 		public IfcValue @LowerBoundValue 
 		{ 
 			get 
@@ -66,7 +66,7 @@ namespace Xbim.Ifc4.PropertyResource
 			} 
 		}
 	
-		[EntityAttribute(4, EntityAttributeState.Optional)]
+		[EntityAttributee(4, EntityAttributeState.Optional)]
 		public IfcUnit @Unit 
 		{ 
 			get 
@@ -83,7 +83,7 @@ namespace Xbim.Ifc4.PropertyResource
 			} 
 		}
 	
-		[EntityAttribute(5, EntityAttributeState.Optional)]
+		[EntityAttributee(5, EntityAttributeState.Optional)]
 		public IfcValue @SetPointValue 
 		{ 
 			get 

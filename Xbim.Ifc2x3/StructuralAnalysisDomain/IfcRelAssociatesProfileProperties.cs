@@ -35,7 +35,7 @@ namespace Xbim.Ifc2x3.StructuralAnalysisDomain
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(5, EntityAttributeState.Mandatory)]
+		[EntityAttributee(5, EntityAttributeState.Mandatory)]
 		public IfcProfileProperties @RelatingProfileProperties 
 		{ 
 			get 
@@ -52,7 +52,7 @@ namespace Xbim.Ifc2x3.StructuralAnalysisDomain
 			} 
 		}
 	
-		[EntityAttribute(6, EntityAttributeState.Optional)]
+		[EntityAttributee(6, EntityAttributeState.Optional)]
 		public IfcShapeAspect @ProfileSectionLocation 
 		{ 
 			get 
@@ -69,7 +69,7 @@ namespace Xbim.Ifc2x3.StructuralAnalysisDomain
 			} 
 		}
 	
-		[EntityAttribute(7, EntityAttributeState.Optional)]
+		[EntityAttributee(7, EntityAttributeState.Optional)]
 		public IfcOrientationSelect @ProfileOrientation 
 		{ 
 			get 

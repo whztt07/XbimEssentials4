@@ -36,7 +36,7 @@ namespace Xbim.Ifc4.PropertyResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(2, EntityAttributeState.Optional)]
+		[EntityAttributee(2, EntityAttributeState.Optional)]
 		public ItemSet<IfcValue> @DefiningValues 
 		{ 
 			get 
@@ -53,7 +53,7 @@ namespace Xbim.Ifc4.PropertyResource
 			} 
 		}
 	
-		[EntityAttribute(3, EntityAttributeState.Optional)]
+		[EntityAttributee(3, EntityAttributeState.Optional)]
 		public ItemSet<IfcValue> @DefinedValues 
 		{ 
 			get 
@@ -70,7 +70,7 @@ namespace Xbim.Ifc4.PropertyResource
 			} 
 		}
 	
-		[EntityAttribute(4, EntityAttributeState.Optional)]
+		[EntityAttributee(4, EntityAttributeState.Optional)]
 		public IfcText? @Expression 
 		{ 
 			get 
@@ -87,7 +87,7 @@ namespace Xbim.Ifc4.PropertyResource
 			} 
 		}
 	
-		[EntityAttribute(5, EntityAttributeState.Optional)]
+		[EntityAttributee(5, EntityAttributeState.Optional)]
 		public IfcUnit @DefiningUnit 
 		{ 
 			get 
@@ -104,7 +104,7 @@ namespace Xbim.Ifc4.PropertyResource
 			} 
 		}
 	
-		[EntityAttribute(6, EntityAttributeState.Optional)]
+		[EntityAttributee(6, EntityAttributeState.Optional)]
 		public IfcUnit @DefinedUnit 
 		{ 
 			get 
@@ -121,7 +121,7 @@ namespace Xbim.Ifc4.PropertyResource
 			} 
 		}
 	
-		[EntityAttribute(7, EntityAttributeState.Optional)]
+		[EntityAttributee(7, EntityAttributeState.Optional)]
 		public IfcCurveInterpolationEnum? @CurveInterpolation 
 		{ 
 			get 

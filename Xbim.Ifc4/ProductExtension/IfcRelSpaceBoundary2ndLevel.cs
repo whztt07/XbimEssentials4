@@ -31,7 +31,7 @@ namespace Xbim.Ifc4.ProductExtension
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(10, EntityAttributeState.Optional)]
+		[EntityAttributee(10, EntityAttributeState.Optional)]
 		public IfcRelSpaceBoundary2ndLevel @CorrespondingBoundary 
 		{ 
 			get 

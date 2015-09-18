@@ -60,7 +60,7 @@ namespace Xbim.Ifc2x3.ApprovalResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(0, EntityAttributeState.Optional)]
+		[EntityAttributee(0, EntityAttributeState.Optional)]
 		public IfcText? @Description 
 		{ 
 			get 
@@ -77,7 +77,7 @@ namespace Xbim.Ifc2x3.ApprovalResource
 			} 
 		}
 	
-		[EntityAttribute(1, EntityAttributeState.Mandatory)]
+		[EntityAttributee(1, EntityAttributeState.Mandatory)]
 		public IfcDateTimeSelect @ApprovalDateTime 
 		{ 
 			get 
@@ -94,7 +94,7 @@ namespace Xbim.Ifc2x3.ApprovalResource
 			} 
 		}
 	
-		[EntityAttribute(2, EntityAttributeState.Optional)]
+		[EntityAttributee(2, EntityAttributeState.Optional)]
 		public IfcLabel? @ApprovalStatus 
 		{ 
 			get 
@@ -111,7 +111,7 @@ namespace Xbim.Ifc2x3.ApprovalResource
 			} 
 		}
 	
-		[EntityAttribute(3, EntityAttributeState.Optional)]
+		[EntityAttributee(3, EntityAttributeState.Optional)]
 		public IfcLabel? @ApprovalLevel 
 		{ 
 			get 
@@ -128,7 +128,7 @@ namespace Xbim.Ifc2x3.ApprovalResource
 			} 
 		}
 	
-		[EntityAttribute(4, EntityAttributeState.Optional)]
+		[EntityAttributee(4, EntityAttributeState.Optional)]
 		public IfcText? @ApprovalQualifier 
 		{ 
 			get 
@@ -145,7 +145,7 @@ namespace Xbim.Ifc2x3.ApprovalResource
 			} 
 		}
 	
-		[EntityAttribute(5, EntityAttributeState.Mandatory)]
+		[EntityAttributee(5, EntityAttributeState.Mandatory)]
 		public IfcLabel @Name 
 		{ 
 			get 
@@ -162,7 +162,7 @@ namespace Xbim.Ifc2x3.ApprovalResource
 			} 
 		}
 	
-		[EntityAttribute(6, EntityAttributeState.Mandatory)]
+		[EntityAttributee(6, EntityAttributeState.Mandatory)]
 		public IfcIdentifier @Identifier 
 		{ 
 			get 

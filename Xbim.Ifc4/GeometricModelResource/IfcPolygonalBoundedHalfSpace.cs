@@ -30,7 +30,7 @@ namespace Xbim.Ifc4.GeometricModelResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(2, EntityAttributeState.Mandatory)]
+		[EntityAttributee(2, EntityAttributeState.Mandatory)]
 		public IfcAxis2Placement3D @Position 
 		{ 
 			get 
@@ -47,7 +47,7 @@ namespace Xbim.Ifc4.GeometricModelResource
 			} 
 		}
 	
-		[EntityAttribute(3, EntityAttributeState.Mandatory)]
+		[EntityAttributee(3, EntityAttributeState.Mandatory)]
 		public IfcBoundedCurve @PolygonalBoundary 
 		{ 
 			get 

@@ -32,7 +32,7 @@ namespace Xbim.Ifc2x3.TimeSeriesResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(8, EntityAttributeState.Mandatory)]
+		[EntityAttributee(8, EntityAttributeState.Mandatory)]
 		public IfcTimeMeasure @TimeStep 
 		{ 
 			get 
@@ -49,7 +49,7 @@ namespace Xbim.Ifc2x3.TimeSeriesResource
 			} 
 		}
 	
-		[EntityAttribute(9, EntityAttributeState.Mandatory)]
+		[EntityAttributee(9, EntityAttributeState.Mandatory)]
 		public ItemSet<IfcTimeSeriesValue> @Values 
 		{ 
 			get 

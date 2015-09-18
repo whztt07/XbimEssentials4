@@ -32,7 +32,7 @@ namespace Xbim.Ifc4.ProcessExtension
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(9, EntityAttributeState.Mandatory)]
+		[EntityAttributee(9, EntityAttributeState.Mandatory)]
 		public IfcTaskTypeEnum @PredefinedType 
 		{ 
 			get 
@@ -49,7 +49,7 @@ namespace Xbim.Ifc4.ProcessExtension
 			} 
 		}
 	
-		[EntityAttribute(10, EntityAttributeState.Optional)]
+		[EntityAttributee(10, EntityAttributeState.Optional)]
 		public IfcLabel? @WorkMethod 
 		{ 
 			get 

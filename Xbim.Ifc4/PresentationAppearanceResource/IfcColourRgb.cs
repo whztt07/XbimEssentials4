@@ -31,7 +31,7 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(1, EntityAttributeState.Mandatory)]
+		[EntityAttributee(1, EntityAttributeState.Mandatory)]
 		public IfcNormalisedRatioMeasure @Red 
 		{ 
 			get 
@@ -48,7 +48,7 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
 			} 
 		}
 	
-		[EntityAttribute(2, EntityAttributeState.Mandatory)]
+		[EntityAttributee(2, EntityAttributeState.Mandatory)]
 		public IfcNormalisedRatioMeasure @Green 
 		{ 
 			get 
@@ -65,7 +65,7 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
 			} 
 		}
 	
-		[EntityAttribute(3, EntityAttributeState.Mandatory)]
+		[EntityAttributee(3, EntityAttributeState.Mandatory)]
 		public IfcNormalisedRatioMeasure @Blue 
 		{ 
 			get 

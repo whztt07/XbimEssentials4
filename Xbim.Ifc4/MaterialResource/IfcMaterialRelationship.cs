@@ -33,7 +33,7 @@ namespace Xbim.Ifc4.MaterialResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(2, EntityAttributeState.Mandatory)]
+		[EntityAttributee(2, EntityAttributeState.Mandatory)]
 		public IfcMaterial @RelatingMaterial 
 		{ 
 			get 
@@ -50,7 +50,7 @@ namespace Xbim.Ifc4.MaterialResource
 			} 
 		}
 	
-		[EntityAttribute(3, EntityAttributeState.Mandatory)]
+		[EntityAttributee(3, EntityAttributeState.Mandatory)]
 		public ItemSet<IfcMaterial> @RelatedMaterials 
 		{ 
 			get 
@@ -67,7 +67,7 @@ namespace Xbim.Ifc4.MaterialResource
 			} 
 		}
 	
-		[EntityAttribute(4, EntityAttributeState.Optional)]
+		[EntityAttributee(4, EntityAttributeState.Optional)]
 		public IfcLabel? @Expression 
 		{ 
 			get 

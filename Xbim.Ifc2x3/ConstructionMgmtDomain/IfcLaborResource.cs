@@ -30,7 +30,7 @@ namespace Xbim.Ifc2x3.ConstructionMgmtDomain
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(9, EntityAttributeState.Optional)]
+		[EntityAttributee(9, EntityAttributeState.Optional)]
 		public IfcText? @SkillSet 
 		{ 
 			get 

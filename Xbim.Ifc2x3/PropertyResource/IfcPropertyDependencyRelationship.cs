@@ -57,7 +57,7 @@ namespace Xbim.Ifc2x3.PropertyResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(0, EntityAttributeState.Mandatory)]
+		[EntityAttributee(0, EntityAttributeState.Mandatory)]
 		public IfcProperty @DependingProperty 
 		{ 
 			get 
@@ -74,7 +74,7 @@ namespace Xbim.Ifc2x3.PropertyResource
 			} 
 		}
 	
-		[EntityAttribute(1, EntityAttributeState.Mandatory)]
+		[EntityAttributee(1, EntityAttributeState.Mandatory)]
 		public IfcProperty @DependantProperty 
 		{ 
 			get 
@@ -91,7 +91,7 @@ namespace Xbim.Ifc2x3.PropertyResource
 			} 
 		}
 	
-		[EntityAttribute(2, EntityAttributeState.Optional)]
+		[EntityAttributee(2, EntityAttributeState.Optional)]
 		public IfcLabel? @Name 
 		{ 
 			get 
@@ -108,7 +108,7 @@ namespace Xbim.Ifc2x3.PropertyResource
 			} 
 		}
 	
-		[EntityAttribute(3, EntityAttributeState.Optional)]
+		[EntityAttributee(3, EntityAttributeState.Optional)]
 		public IfcText? @Description 
 		{ 
 			get 
@@ -125,7 +125,7 @@ namespace Xbim.Ifc2x3.PropertyResource
 			} 
 		}
 	
-		[EntityAttribute(4, EntityAttributeState.Optional)]
+		[EntityAttributee(4, EntityAttributeState.Optional)]
 		public IfcText? @Expression 
 		{ 
 			get 

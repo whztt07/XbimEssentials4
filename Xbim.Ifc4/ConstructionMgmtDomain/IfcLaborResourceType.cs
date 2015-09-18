@@ -33,7 +33,7 @@ namespace Xbim.Ifc4.ConstructionMgmtDomain
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(11, EntityAttributeState.Mandatory)]
+		[EntityAttributee(11, EntityAttributeState.Mandatory)]
 		public IfcLaborResourceTypeEnum @PredefinedType 
 		{ 
 			get 

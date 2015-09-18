@@ -57,7 +57,7 @@ namespace Xbim.Ifc4.UtilityResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(0, EntityAttributeState.Mandatory)]
+		[EntityAttributee(0, EntityAttributeState.Mandatory)]
 		public IfcOrganization @ApplicationDeveloper 
 		{ 
 			get 
@@ -74,7 +74,7 @@ namespace Xbim.Ifc4.UtilityResource
 			} 
 		}
 	
-		[EntityAttribute(1, EntityAttributeState.Mandatory)]
+		[EntityAttributee(1, EntityAttributeState.Mandatory)]
 		public IfcLabel @Version 
 		{ 
 			get 
@@ -91,7 +91,7 @@ namespace Xbim.Ifc4.UtilityResource
 			} 
 		}
 	
-		[EntityAttribute(2, EntityAttributeState.Mandatory)]
+		[EntityAttributee(2, EntityAttributeState.Mandatory)]
 		public IfcLabel @ApplicationFullName 
 		{ 
 			get 
@@ -108,7 +108,7 @@ namespace Xbim.Ifc4.UtilityResource
 			} 
 		}
 	
-		[EntityAttribute(3, EntityAttributeState.Mandatory)]
+		[EntityAttributee(3, EntityAttributeState.Mandatory)]
 		public IfcIdentifier @ApplicationIdentifier 
 		{ 
 			get 

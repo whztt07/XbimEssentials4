@@ -36,7 +36,7 @@ namespace Xbim.Ifc4.SharedBldgElements
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(9, EntityAttributeState.Mandatory)]
+		[EntityAttributee(9, EntityAttributeState.Mandatory)]
 		public IfcWindowTypeEnum @PredefinedType 
 		{ 
 			get 
@@ -53,7 +53,7 @@ namespace Xbim.Ifc4.SharedBldgElements
 			} 
 		}
 	
-		[EntityAttribute(10, EntityAttributeState.Mandatory)]
+		[EntityAttributee(10, EntityAttributeState.Mandatory)]
 		public IfcWindowTypePartitioningEnum @PartitioningType 
 		{ 
 			get 
@@ -70,7 +70,7 @@ namespace Xbim.Ifc4.SharedBldgElements
 			} 
 		}
 	
-		[EntityAttribute(11, EntityAttributeState.Optional)]
+		[EntityAttributee(11, EntityAttributeState.Optional)]
 		public bool? @ParameterTakesPrecedence 
 		{ 
 			get 
@@ -87,7 +87,7 @@ namespace Xbim.Ifc4.SharedBldgElements
 			} 
 		}
 	
-		[EntityAttribute(12, EntityAttributeState.Optional)]
+		[EntityAttributee(12, EntityAttributeState.Optional)]
 		public IfcLabel? @UserDefinedPartitioningType 
 		{ 
 			get 

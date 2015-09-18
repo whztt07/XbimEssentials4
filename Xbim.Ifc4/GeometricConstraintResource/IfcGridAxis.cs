@@ -57,7 +57,7 @@ namespace Xbim.Ifc4.GeometricConstraintResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(0, EntityAttributeState.Optional)]
+		[EntityAttributee(0, EntityAttributeState.Optional)]
 		public IfcLabel? @AxisTag 
 		{ 
 			get 
@@ -74,7 +74,7 @@ namespace Xbim.Ifc4.GeometricConstraintResource
 			} 
 		}
 	
-		[EntityAttribute(1, EntityAttributeState.Mandatory)]
+		[EntityAttributee(1, EntityAttributeState.Mandatory)]
 		public IfcCurve @AxisCurve 
 		{ 
 			get 
@@ -91,7 +91,7 @@ namespace Xbim.Ifc4.GeometricConstraintResource
 			} 
 		}
 	
-		[EntityAttribute(2, EntityAttributeState.Mandatory)]
+		[EntityAttributee(2, EntityAttributeState.Mandatory)]
 		public IfcBoolean @SameSense 
 		{ 
 			get 

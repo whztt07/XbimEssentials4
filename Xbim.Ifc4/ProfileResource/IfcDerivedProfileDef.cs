@@ -32,7 +32,7 @@ namespace Xbim.Ifc4.ProfileResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(2, EntityAttributeState.Mandatory)]
+		[EntityAttributee(2, EntityAttributeState.Mandatory)]
 		public IfcProfileDef @ParentProfile 
 		{ 
 			get 
@@ -49,7 +49,7 @@ namespace Xbim.Ifc4.ProfileResource
 			} 
 		}
 	
-		[EntityAttribute(3, EntityAttributeState.Mandatory)]
+		[EntityAttributee(3, EntityAttributeState.Mandatory)]
 		public IfcCartesianTransformationOperator2D @Operator 
 		{ 
 			get 
@@ -66,7 +66,7 @@ namespace Xbim.Ifc4.ProfileResource
 			} 
 		}
 	
-		[EntityAttribute(4, EntityAttributeState.Optional)]
+		[EntityAttributee(4, EntityAttributeState.Optional)]
 		public IfcLabel? @Label 
 		{ 
 			get 

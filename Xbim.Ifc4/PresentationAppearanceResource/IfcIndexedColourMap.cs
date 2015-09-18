@@ -34,7 +34,7 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(0, EntityAttributeState.Mandatory)]
+		[EntityAttributee(0, EntityAttributeState.Mandatory)]
 		public IfcTessellatedFaceSet @MappedTo 
 		{ 
 			get 
@@ -51,7 +51,7 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
 			} 
 		}
 	
-		[EntityAttribute(1, EntityAttributeState.Optional)]
+		[EntityAttributee(1, EntityAttributeState.Optional)]
 		public IfcSurfaceStyleShading @Overrides 
 		{ 
 			get 
@@ -68,7 +68,7 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
 			} 
 		}
 	
-		[EntityAttribute(2, EntityAttributeState.Mandatory)]
+		[EntityAttributee(2, EntityAttributeState.Mandatory)]
 		public IfcColourRgbList @Colours 
 		{ 
 			get 
@@ -85,7 +85,7 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
 			} 
 		}
 	
-		[EntityAttribute(3, EntityAttributeState.Mandatory)]
+		[EntityAttributee(3, EntityAttributeState.Mandatory)]
 		public ItemSet<long> @ColourIndex 
 		{ 
 			get 

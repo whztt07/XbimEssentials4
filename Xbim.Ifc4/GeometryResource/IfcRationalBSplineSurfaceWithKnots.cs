@@ -30,7 +30,7 @@ namespace Xbim.Ifc4.GeometryResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(12, EntityAttributeState.Mandatory)]
+		[EntityAttributee(12, EntityAttributeState.Mandatory)]
 		public ItemSet<ItemSet<double>> @WeightsData 
 		{ 
 			get 

@@ -55,7 +55,7 @@ namespace Xbim.Ifc2x3.ProfilePropertyResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(0, EntityAttributeState.Mandatory)]
+		[EntityAttributee(0, EntityAttributeState.Mandatory)]
 		public IfcSectionTypeEnum @SectionType 
 		{ 
 			get 
@@ -72,7 +72,7 @@ namespace Xbim.Ifc2x3.ProfilePropertyResource
 			} 
 		}
 	
-		[EntityAttribute(1, EntityAttributeState.Mandatory)]
+		[EntityAttributee(1, EntityAttributeState.Mandatory)]
 		public IfcProfileDef @StartProfile 
 		{ 
 			get 
@@ -89,7 +89,7 @@ namespace Xbim.Ifc2x3.ProfilePropertyResource
 			} 
 		}
 	
-		[EntityAttribute(2, EntityAttributeState.Optional)]
+		[EntityAttributee(2, EntityAttributeState.Optional)]
 		public IfcProfileDef @EndProfile 
 		{ 
 			get 

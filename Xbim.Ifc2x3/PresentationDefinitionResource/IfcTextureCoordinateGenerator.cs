@@ -31,7 +31,7 @@ namespace Xbim.Ifc2x3.PresentationDefinitionResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(0, EntityAttributeState.Mandatory)]
+		[EntityAttributee(0, EntityAttributeState.Mandatory)]
 		public IfcLabel @Mode 
 		{ 
 			get 
@@ -48,7 +48,7 @@ namespace Xbim.Ifc2x3.PresentationDefinitionResource
 			} 
 		}
 	
-		[EntityAttribute(1, EntityAttributeState.Mandatory)]
+		[EntityAttributee(1, EntityAttributeState.Mandatory)]
 		public ItemSet<IfcSimpleValue> @Parameter 
 		{ 
 			get 

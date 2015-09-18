@@ -31,7 +31,7 @@ namespace Xbim.Ifc2x3.PresentationDefinitionResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(3, EntityAttributeState.Mandatory)]
+		[EntityAttributee(3, EntityAttributeState.Mandatory)]
 		public IfcPlanarExtent @Extent 
 		{ 
 			get 
@@ -48,7 +48,7 @@ namespace Xbim.Ifc2x3.PresentationDefinitionResource
 			} 
 		}
 	
-		[EntityAttribute(4, EntityAttributeState.Mandatory)]
+		[EntityAttributee(4, EntityAttributeState.Mandatory)]
 		public IfcBoxAlignment @BoxAlignment 
 		{ 
 			get 

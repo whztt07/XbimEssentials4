@@ -97,7 +97,7 @@
     <Compile Include="Step21\IIfcPersistExtensions.cs" />
     <Compile Include="Step21\IStepFileDescription.cs" />
     <Compile Include="Step21\Parser\IfcForwardReference.cs" />
-    <Compile Include="Step21\Parser\XbimP21StringDecoder.cs" />
+    <Compile Include="Step21\XbimP21StringDecoder.cs" />
     <Compile Include="Step21\IStepFileHeader.cs" />
     <Compile Include="Step21\IStepFileName.cs" />
     <Compile Include="Step21\IStepFileSchema.cs" />
@@ -120,8 +120,8 @@
     <Compile Include="Step21\Parser\IndexPropertyValue.cs" />
     <Compile Include="Step21\Parser\IStepP21Parser.cs" />
     <Compile Include="Step21\Parser\PropertyValue.cs" />
-    <Compile Include="Step21\Parser\XbimP21Indexer.cs" />
-    <Compile Include="Step21\Parser\XbimP21Parser.cs" />
+    <Compile Include="Step21\XbimP21Indexer.cs" />
+    <Compile Include="Step21\XbimP21Parser.cs" />
     <Compile Include="Step21\Parser\Parser.cs" />
     <Compile Include="Step21\Parser\ShiftReduceParserCode.cs" />
     <Compile Include="Step21\Parser\StepP21Entity.cs" />

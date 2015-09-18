@@ -32,7 +32,7 @@ namespace Xbim.Ifc4.ApprovalResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(2, EntityAttributeState.Mandatory)]
+		[EntityAttributee(2, EntityAttributeState.Mandatory)]
 		public IfcApproval @RelatingApproval 
 		{ 
 			get 
@@ -49,7 +49,7 @@ namespace Xbim.Ifc4.ApprovalResource
 			} 
 		}
 	
-		[EntityAttribute(3, EntityAttributeState.Mandatory)]
+		[EntityAttributee(3, EntityAttributeState.Mandatory)]
 		public ItemSet<IfcApproval> @RelatedApprovals 
 		{ 
 			get 

@@ -37,7 +37,7 @@ namespace Xbim.Ifc2x3.StructuralElementsDomain
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(9, EntityAttributeState.Mandatory)]
+		[EntityAttributee(9, EntityAttributeState.Mandatory)]
 		public IfcPositiveLengthMeasure @NominalDiameter 
 		{ 
 			get 
@@ -54,7 +54,7 @@ namespace Xbim.Ifc2x3.StructuralElementsDomain
 			} 
 		}
 	
-		[EntityAttribute(10, EntityAttributeState.Mandatory)]
+		[EntityAttributee(10, EntityAttributeState.Mandatory)]
 		public IfcAreaMeasure @CrossSectionArea 
 		{ 
 			get 
@@ -71,7 +71,7 @@ namespace Xbim.Ifc2x3.StructuralElementsDomain
 			} 
 		}
 	
-		[EntityAttribute(11, EntityAttributeState.Optional)]
+		[EntityAttributee(11, EntityAttributeState.Optional)]
 		public IfcPositiveLengthMeasure? @BarLength 
 		{ 
 			get 
@@ -88,7 +88,7 @@ namespace Xbim.Ifc2x3.StructuralElementsDomain
 			} 
 		}
 	
-		[EntityAttribute(12, EntityAttributeState.Mandatory)]
+		[EntityAttributee(12, EntityAttributeState.Mandatory)]
 		public IfcReinforcingBarRoleEnum @BarRole 
 		{ 
 			get 
@@ -105,7 +105,7 @@ namespace Xbim.Ifc2x3.StructuralElementsDomain
 			} 
 		}
 	
-		[EntityAttribute(13, EntityAttributeState.Optional)]
+		[EntityAttributee(13, EntityAttributeState.Optional)]
 		public IfcReinforcingBarSurfaceEnum? @BarSurface 
 		{ 
 			get 

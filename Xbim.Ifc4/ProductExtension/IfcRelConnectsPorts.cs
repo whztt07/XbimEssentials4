@@ -33,7 +33,7 @@ namespace Xbim.Ifc4.ProductExtension
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(4, EntityAttributeState.Mandatory)]
+		[EntityAttributee(4, EntityAttributeState.Mandatory)]
 		public IfcPort @RelatingPort 
 		{ 
 			get 
@@ -50,7 +50,7 @@ namespace Xbim.Ifc4.ProductExtension
 			} 
 		}
 	
-		[EntityAttribute(5, EntityAttributeState.Mandatory)]
+		[EntityAttributee(5, EntityAttributeState.Mandatory)]
 		public IfcPort @RelatedPort 
 		{ 
 			get 
@@ -67,7 +67,7 @@ namespace Xbim.Ifc4.ProductExtension
 			} 
 		}
 	
-		[EntityAttribute(6, EntityAttributeState.Optional)]
+		[EntityAttributee(6, EntityAttributeState.Optional)]
 		public IfcElement @RealizingElement 
 		{ 
 			get 

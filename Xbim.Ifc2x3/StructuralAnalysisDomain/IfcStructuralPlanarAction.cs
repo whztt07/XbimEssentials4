@@ -33,7 +33,7 @@ namespace Xbim.Ifc2x3.StructuralAnalysisDomain
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(11, EntityAttributeState.Mandatory)]
+		[EntityAttributee(11, EntityAttributeState.Mandatory)]
 		public IfcProjectedOrTrueLengthEnum @ProjectedOrTrue 
 		{ 
 			get 

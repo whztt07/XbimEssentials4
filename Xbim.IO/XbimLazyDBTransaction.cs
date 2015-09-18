@@ -6,17 +6,18 @@ namespace Xbim.IO
     /// <summary>
     /// Used for wrapping a Database Lazy Transaction, if commit is not called the Dispose function rolls back the transaction
     /// </summary>
+    // ReSharper disable once InconsistentNaming
     public struct  XbimLazyDBTransaction : IDisposable
     {
             /// <summary>
             /// The session that has the transaction.
             /// </summary>
-            private readonly JET_SESID sesid;
+            private readonly JET_SESID _sesid;
 
             /// <summary>
             /// True if we are in a transaction.
             /// </summary>
-            private bool inTransaction;
+            private bool _inTransaction;
 
             /// <summary>
             /// Initializes a new instance of the <see cref="XbimLazyDBTransaction"/> struct.
@@ -26,9 +27,9 @@ namespace Xbim.IO
             /// </param>
             public XbimLazyDBTransaction(JET_SESID sesid)
             {
-                this.sesid = sesid;
-                Api.JetBeginTransaction(this.sesid);
-                this.inTransaction = true;
+                _sesid = sesid;
+                Api.JetBeginTransaction(_sesid);
+                _inTransaction = true;
             }
 
             /// <summary>
@@ -36,14 +37,23 @@ namespace Xbim.IO
             /// </summary>
             public void Commit()
             {
-                Api.JetCommitTransaction(this.sesid, CommitTransactionGrbit.LazyFlush);
-                this.inTransaction = false;
+                Api.JetCommitTransaction(_sesid, CommitTransactionGrbit.LazyFlush);
+                _inTransaction = false;
+            }
+
+            /// <summary>
+            /// Commit the transaction.
+            /// </summary>
+            public void RollBack()
+            {
+                Api.JetRollback(_sesid, RollbackTransactionGrbit.None);
+                _inTransaction = false;
             }
 
             public void Begin()
             {
-                Api.JetBeginTransaction(this.sesid);
-                this.inTransaction = true;
+                Api.JetBeginTransaction(_sesid);
+                _inTransaction = true;
             }
 
 
@@ -52,9 +62,9 @@ namespace Xbim.IO
             /// </summary>
             public void Dispose()
             {
-                if (this.inTransaction)
+                if (_inTransaction)
                 {
-                    Api.JetRollback(this.sesid, RollbackTransactionGrbit.None);
+                    Api.JetRollback(_sesid, RollbackTransactionGrbit.None);
                 }
             }
 

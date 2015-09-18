@@ -30,7 +30,7 @@ namespace Xbim.Ifc2x3.PresentationDefinitionResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(0, EntityAttributeState.Mandatory)]
+		[EntityAttributee(0, EntityAttributeState.Mandatory)]
 		public IfcGeometricRepresentationItem @Item 
 		{ 
 			get 
@@ -47,7 +47,7 @@ namespace Xbim.Ifc2x3.PresentationDefinitionResource
 			} 
 		}
 	
-		[EntityAttribute(1, EntityAttributeState.Optional)]
+		[EntityAttributee(1, EntityAttributeState.Optional)]
 		public IfcTextureCoordinate @TextureCoordinates 
 		{ 
 			get 

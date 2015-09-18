@@ -31,7 +31,7 @@ namespace Xbim.Ifc2x3.ProductExtension
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(7, EntityAttributeState.Optional)]
+		[EntityAttributee(7, EntityAttributeState.Optional)]
 		public IfcLabel? @LongName 
 		{ 
 			get 
@@ -48,7 +48,7 @@ namespace Xbim.Ifc2x3.ProductExtension
 			} 
 		}
 	
-		[EntityAttribute(8, EntityAttributeState.Mandatory)]
+		[EntityAttributee(8, EntityAttributeState.Mandatory)]
 		public IfcElementCompositionEnum @CompositionType 
 		{ 
 			get 

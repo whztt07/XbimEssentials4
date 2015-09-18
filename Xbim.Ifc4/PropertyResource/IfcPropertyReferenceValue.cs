@@ -30,7 +30,7 @@ namespace Xbim.Ifc4.PropertyResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(2, EntityAttributeState.Optional)]
+		[EntityAttributee(2, EntityAttributeState.Optional)]
 		public IfcText? @UsageName 
 		{ 
 			get 
@@ -47,7 +47,7 @@ namespace Xbim.Ifc4.PropertyResource
 			} 
 		}
 	
-		[EntityAttribute(3, EntityAttributeState.Optional)]
+		[EntityAttributee(3, EntityAttributeState.Optional)]
 		public IfcObjectReferenceSelect @PropertyReference 
 		{ 
 			get 

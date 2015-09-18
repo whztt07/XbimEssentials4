@@ -65,7 +65,7 @@ namespace Xbim.Ifc4.ApprovalResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(0, EntityAttributeState.Optional)]
+		[EntityAttributee(0, EntityAttributeState.Optional)]
 		public IfcIdentifier? @Identifier 
 		{ 
 			get 
@@ -82,7 +82,7 @@ namespace Xbim.Ifc4.ApprovalResource
 			} 
 		}
 	
-		[EntityAttribute(1, EntityAttributeState.Optional)]
+		[EntityAttributee(1, EntityAttributeState.Optional)]
 		public IfcLabel? @Name 
 		{ 
 			get 
@@ -99,7 +99,7 @@ namespace Xbim.Ifc4.ApprovalResource
 			} 
 		}
 	
-		[EntityAttribute(2, EntityAttributeState.Optional)]
+		[EntityAttributee(2, EntityAttributeState.Optional)]
 		public IfcText? @Description 
 		{ 
 			get 
@@ -116,7 +116,7 @@ namespace Xbim.Ifc4.ApprovalResource
 			} 
 		}
 	
-		[EntityAttribute(3, EntityAttributeState.Optional)]
+		[EntityAttributee(3, EntityAttributeState.Optional)]
 		public IfcDateTime? @TimeOfApproval 
 		{ 
 			get 
@@ -133,7 +133,7 @@ namespace Xbim.Ifc4.ApprovalResource
 			} 
 		}
 	
-		[EntityAttribute(4, EntityAttributeState.Optional)]
+		[EntityAttributee(4, EntityAttributeState.Optional)]
 		public IfcLabel? @Status 
 		{ 
 			get 
@@ -150,7 +150,7 @@ namespace Xbim.Ifc4.ApprovalResource
 			} 
 		}
 	
-		[EntityAttribute(5, EntityAttributeState.Optional)]
+		[EntityAttributee(5, EntityAttributeState.Optional)]
 		public IfcLabel? @Level 
 		{ 
 			get 
@@ -167,7 +167,7 @@ namespace Xbim.Ifc4.ApprovalResource
 			} 
 		}
 	
-		[EntityAttribute(6, EntityAttributeState.Optional)]
+		[EntityAttributee(6, EntityAttributeState.Optional)]
 		public IfcText? @Qualifier 
 		{ 
 			get 
@@ -184,7 +184,7 @@ namespace Xbim.Ifc4.ApprovalResource
 			} 
 		}
 	
-		[EntityAttribute(7, EntityAttributeState.Optional)]
+		[EntityAttributee(7, EntityAttributeState.Optional)]
 		public IfcActorSelect @RequestingApproval 
 		{ 
 			get 
@@ -201,7 +201,7 @@ namespace Xbim.Ifc4.ApprovalResource
 			} 
 		}
 	
-		[EntityAttribute(8, EntityAttributeState.Optional)]
+		[EntityAttributee(8, EntityAttributeState.Optional)]
 		public IfcActorSelect @GivingApproval 
 		{ 
 			get 

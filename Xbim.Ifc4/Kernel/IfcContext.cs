@@ -35,7 +35,7 @@ namespace Xbim.Ifc4.Kernel
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(4, EntityAttributeState.Optional)]
+		[EntityAttributee(4, EntityAttributeState.Optional)]
 		public IfcLabel? @ObjectType 
 		{ 
 			get 
@@ -52,7 +52,7 @@ namespace Xbim.Ifc4.Kernel
 			} 
 		}
 	
-		[EntityAttribute(5, EntityAttributeState.Optional)]
+		[EntityAttributee(5, EntityAttributeState.Optional)]
 		public IfcLabel? @LongName 
 		{ 
 			get 
@@ -69,7 +69,7 @@ namespace Xbim.Ifc4.Kernel
 			} 
 		}
 	
-		[EntityAttribute(6, EntityAttributeState.Optional)]
+		[EntityAttributee(6, EntityAttributeState.Optional)]
 		public IfcLabel? @Phase 
 		{ 
 			get 
@@ -86,7 +86,7 @@ namespace Xbim.Ifc4.Kernel
 			} 
 		}
 	
-		[EntityAttribute(7, EntityAttributeState.Optional)]
+		[EntityAttributee(7, EntityAttributeState.Optional)]
 		public ItemSet<IfcRepresentationContext> @RepresentationContexts 
 		{ 
 			get 
@@ -103,7 +103,7 @@ namespace Xbim.Ifc4.Kernel
 			} 
 		}
 	
-		[EntityAttribute(8, EntityAttributeState.Optional)]
+		[EntityAttributee(8, EntityAttributeState.Optional)]
 		public IfcUnitAssignment @UnitsInContext 
 		{ 
 			get 

@@ -58,7 +58,7 @@ namespace Xbim.Ifc2x3.CostResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(0, EntityAttributeState.Mandatory)]
+		[EntityAttributee(0, EntityAttributeState.Mandatory)]
 		public IfcDocumentSelect @ReferencedDocument 
 		{ 
 			get 
@@ -75,7 +75,7 @@ namespace Xbim.Ifc2x3.CostResource
 			} 
 		}
 	
-		[EntityAttribute(1, EntityAttributeState.Mandatory)]
+		[EntityAttributee(1, EntityAttributeState.Mandatory)]
 		public ItemSet<IfcAppliedValue> @ReferencingValues 
 		{ 
 			get 
@@ -92,7 +92,7 @@ namespace Xbim.Ifc2x3.CostResource
 			} 
 		}
 	
-		[EntityAttribute(2, EntityAttributeState.Optional)]
+		[EntityAttributee(2, EntityAttributeState.Optional)]
 		public IfcLabel? @Name 
 		{ 
 			get 
@@ -109,7 +109,7 @@ namespace Xbim.Ifc2x3.CostResource
 			} 
 		}
 	
-		[EntityAttribute(3, EntityAttributeState.Optional)]
+		[EntityAttributee(3, EntityAttributeState.Optional)]
 		public IfcText? @Description 
 		{ 
 			get 

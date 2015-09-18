@@ -35,7 +35,7 @@ namespace Xbim.Ifc2x3.MaterialPropertyResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(6, EntityAttributeState.Optional)]
+		[EntityAttributee(6, EntityAttributeState.Optional)]
 		public IfcPressureMeasure? @CompressiveStrength 
 		{ 
 			get 
@@ -52,7 +52,7 @@ namespace Xbim.Ifc2x3.MaterialPropertyResource
 			} 
 		}
 	
-		[EntityAttribute(7, EntityAttributeState.Optional)]
+		[EntityAttributee(7, EntityAttributeState.Optional)]
 		public IfcPositiveLengthMeasure? @MaxAggregateSize 
 		{ 
 			get 
@@ -69,7 +69,7 @@ namespace Xbim.Ifc2x3.MaterialPropertyResource
 			} 
 		}
 	
-		[EntityAttribute(8, EntityAttributeState.Optional)]
+		[EntityAttributee(8, EntityAttributeState.Optional)]
 		public IfcText? @AdmixturesDescription 
 		{ 
 			get 
@@ -86,7 +86,7 @@ namespace Xbim.Ifc2x3.MaterialPropertyResource
 			} 
 		}
 	
-		[EntityAttribute(9, EntityAttributeState.Optional)]
+		[EntityAttributee(9, EntityAttributeState.Optional)]
 		public IfcText? @Workability 
 		{ 
 			get 
@@ -103,7 +103,7 @@ namespace Xbim.Ifc2x3.MaterialPropertyResource
 			} 
 		}
 	
-		[EntityAttribute(10, EntityAttributeState.Optional)]
+		[EntityAttributee(10, EntityAttributeState.Optional)]
 		public IfcNormalisedRatioMeasure? @ProtectivePoreRatio 
 		{ 
 			get 
@@ -120,7 +120,7 @@ namespace Xbim.Ifc2x3.MaterialPropertyResource
 			} 
 		}
 	
-		[EntityAttribute(11, EntityAttributeState.Optional)]
+		[EntityAttributee(11, EntityAttributeState.Optional)]
 		public IfcText? @WaterImpermeability 
 		{ 
 			get 

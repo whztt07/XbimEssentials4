@@ -32,7 +32,7 @@ namespace Xbim.Ifc2x3.PresentationDimensioningResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(4, EntityAttributeState.Mandatory)]
+		[EntityAttributee(4, EntityAttributeState.Mandatory)]
 		public IfcDimensionExtentUsage @Role 
 		{ 
 			get 

@@ -31,7 +31,7 @@ namespace Xbim.Ifc4.ProfileResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(2, EntityAttributeState.Mandatory)]
+		[EntityAttributee(2, EntityAttributeState.Mandatory)]
 		public ItemSet<IfcProfileDef> @Profiles 
 		{ 
 			get 
@@ -48,7 +48,7 @@ namespace Xbim.Ifc4.ProfileResource
 			} 
 		}
 	
-		[EntityAttribute(3, EntityAttributeState.Optional)]
+		[EntityAttributee(3, EntityAttributeState.Optional)]
 		public IfcLabel? @Label 
 		{ 
 			get 

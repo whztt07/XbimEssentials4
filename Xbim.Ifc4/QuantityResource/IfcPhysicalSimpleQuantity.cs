@@ -28,7 +28,7 @@ namespace Xbim.Ifc4.QuantityResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(2, EntityAttributeState.Optional)]
+		[EntityAttributee(2, EntityAttributeState.Optional)]
 		public IfcNamedUnit @Unit 
 		{ 
 			get 

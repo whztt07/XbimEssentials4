@@ -35,7 +35,7 @@ namespace Xbim.Ifc4.ConstraintResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(7, EntityAttributeState.Optional)]
+		[EntityAttributee(7, EntityAttributeState.Optional)]
 		public ItemSet<IfcConstraint> @BenchmarkValues 
 		{ 
 			get 
@@ -52,7 +52,7 @@ namespace Xbim.Ifc4.ConstraintResource
 			} 
 		}
 	
-		[EntityAttribute(8, EntityAttributeState.Optional)]
+		[EntityAttributee(8, EntityAttributeState.Optional)]
 		public IfcLogicalOperatorEnum? @LogicalAggregator 
 		{ 
 			get 
@@ -69,7 +69,7 @@ namespace Xbim.Ifc4.ConstraintResource
 			} 
 		}
 	
-		[EntityAttribute(9, EntityAttributeState.Mandatory)]
+		[EntityAttributee(9, EntityAttributeState.Mandatory)]
 		public IfcObjectiveEnum @ObjectiveQualifier 
 		{ 
 			get 
@@ -86,7 +86,7 @@ namespace Xbim.Ifc4.ConstraintResource
 			} 
 		}
 	
-		[EntityAttribute(10, EntityAttributeState.Optional)]
+		[EntityAttributee(10, EntityAttributeState.Optional)]
 		public IfcLabel? @UserDefinedQualifier 
 		{ 
 			get 

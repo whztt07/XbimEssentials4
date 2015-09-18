@@ -32,7 +32,7 @@ namespace Xbim.Ifc4.SharedBldgServiceElements
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(5, EntityAttributeState.Optional)]
+		[EntityAttributee(5, EntityAttributeState.Optional)]
 		public IfcLabel? @LongName 
 		{ 
 			get 
@@ -49,7 +49,7 @@ namespace Xbim.Ifc4.SharedBldgServiceElements
 			} 
 		}
 	
-		[EntityAttribute(6, EntityAttributeState.Optional)]
+		[EntityAttributee(6, EntityAttributeState.Optional)]
 		public IfcDistributionSystemEnum? @PredefinedType 
 		{ 
 			get 

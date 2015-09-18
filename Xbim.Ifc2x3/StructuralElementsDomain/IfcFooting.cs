@@ -33,7 +33,7 @@ namespace Xbim.Ifc2x3.StructuralElementsDomain
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(8, EntityAttributeState.Mandatory)]
+		[EntityAttributee(8, EntityAttributeState.Mandatory)]
 		public IfcFootingTypeEnum @PredefinedType 
 		{ 
 			get 

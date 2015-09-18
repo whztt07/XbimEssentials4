@@ -19,6 +19,7 @@ using System.Xml;
 using Xbim.IO.Parser;
 using Xbim.Common;
 using Xbim.Ifc2x3.MeasureResource;
+using Xbim.IO.Step21.Parser;
 
 #endregion
 

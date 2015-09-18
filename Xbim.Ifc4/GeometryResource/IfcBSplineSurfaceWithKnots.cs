@@ -37,7 +37,7 @@ namespace Xbim.Ifc4.GeometryResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(7, EntityAttributeState.Mandatory)]
+		[EntityAttributee(7, EntityAttributeState.Mandatory)]
 		public ItemSet<long> @UMultiplicities 
 		{ 
 			get 
@@ -54,7 +54,7 @@ namespace Xbim.Ifc4.GeometryResource
 			} 
 		}
 	
-		[EntityAttribute(8, EntityAttributeState.Mandatory)]
+		[EntityAttributee(8, EntityAttributeState.Mandatory)]
 		public ItemSet<long> @VMultiplicities 
 		{ 
 			get 
@@ -71,7 +71,7 @@ namespace Xbim.Ifc4.GeometryResource
 			} 
 		}
 	
-		[EntityAttribute(9, EntityAttributeState.Mandatory)]
+		[EntityAttributee(9, EntityAttributeState.Mandatory)]
 		public ItemSet<IfcParameterValue> @UKnots 
 		{ 
 			get 
@@ -88,7 +88,7 @@ namespace Xbim.Ifc4.GeometryResource
 			} 
 		}
 	
-		[EntityAttribute(10, EntityAttributeState.Mandatory)]
+		[EntityAttributee(10, EntityAttributeState.Mandatory)]
 		public ItemSet<IfcParameterValue> @VKnots 
 		{ 
 			get 
@@ -105,7 +105,7 @@ namespace Xbim.Ifc4.GeometryResource
 			} 
 		}
 	
-		[EntityAttribute(11, EntityAttributeState.Mandatory)]
+		[EntityAttributee(11, EntityAttributeState.Mandatory)]
 		public IfcKnotType @KnotSpec 
 		{ 
 			get 

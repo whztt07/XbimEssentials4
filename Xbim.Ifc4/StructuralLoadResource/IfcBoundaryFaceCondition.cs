@@ -31,7 +31,7 @@ namespace Xbim.Ifc4.StructuralLoadResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(1, EntityAttributeState.Optional)]
+		[EntityAttributee(1, EntityAttributeState.Optional)]
 		public IfcModulusOfSubgradeReactionSelect @TranslationalStiffnessByAreaX 
 		{ 
 			get 
@@ -48,7 +48,7 @@ namespace Xbim.Ifc4.StructuralLoadResource
 			} 
 		}
 	
-		[EntityAttribute(2, EntityAttributeState.Optional)]
+		[EntityAttributee(2, EntityAttributeState.Optional)]
 		public IfcModulusOfSubgradeReactionSelect @TranslationalStiffnessByAreaY 
 		{ 
 			get 
@@ -65,7 +65,7 @@ namespace Xbim.Ifc4.StructuralLoadResource
 			} 
 		}
 	
-		[EntityAttribute(3, EntityAttributeState.Optional)]
+		[EntityAttributee(3, EntityAttributeState.Optional)]
 		public IfcModulusOfSubgradeReactionSelect @TranslationalStiffnessByAreaZ 
 		{ 
 			get 

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 
-namespace Xbim.IO.Parser
+namespace Xbim.IO.Step21
 {
     public class XbimP21StringDecoder
     {

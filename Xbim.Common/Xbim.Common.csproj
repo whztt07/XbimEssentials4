@@ -118,7 +118,7 @@
     <Compile Include="ReportProgressDelegate.cs" />
     <Compile Include="StepParserType.cs" />
     <Compile Include="XbimExtensions\BinaryReaderExtensions.cs" />
-    <Compile Include="XbimExtensions\IfcAttribute.cs" />
+    <Compile Include="IfcAttribute.cs" />
     <Compile Include="XbimExtensions\Interfaces\IBoundary.cs" />
     <Compile Include="XbimExtensions\Interfaces\IFace.cs" />
     <Compile Include="XbimExtensions\Interfaces\IFaceBasedModel.cs" />
@@ -155,16 +155,12 @@
     <Compile Include="XbimExtensions\Transactions\Transaction.cs" />
     <Compile Include="XbimExtensions\Transactions\UndoRedoSession.cs" />
     <Compile Include="XbimExtensions\ValidationFlags.cs" />
-    <Compile Include="XbimExtensions\XbimArray.cs" />
     <Compile Include="XbimExtensions\XbimGeometryData.cs" />
     <Compile Include="XbimExtensions\XbimIndexedCollection.cs" />
     <Compile Include="XbimExtensions\XbimIndexedCollectionExtensions.cs" />
     <Compile Include="XbimExtensions\XbimIPersistEntityCollection.cs" />
-    <Compile Include="XbimExtensions\XbimList.cs" />
-    <Compile Include="XbimExtensions\XbimListProxy.cs" />
     <Compile Include="XbimExtensions\XbimPropertyDescriptor.cs" />
     <Compile Include="XbimExtensions\XbimRepresentationType.cs" />
-    <Compile Include="XbimExtensions\XbimSet.cs" />
     <Compile Include="XbimModelFactors.cs" />
   </ItemGroup>
   <ItemGroup>

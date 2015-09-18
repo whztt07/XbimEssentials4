@@ -36,7 +36,7 @@ namespace Xbim.Ifc2x3.ArchitectureDomain
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(5, EntityAttributeState.Mandatory)]
+		[EntityAttributee(5, EntityAttributeState.Mandatory)]
 		public IfcIdentifier @SpaceProgramIdentifier 
 		{ 
 			get 
@@ -53,7 +53,7 @@ namespace Xbim.Ifc2x3.ArchitectureDomain
 			} 
 		}
 	
-		[EntityAttribute(6, EntityAttributeState.Optional)]
+		[EntityAttributee(6, EntityAttributeState.Optional)]
 		public IfcAreaMeasure? @MaxRequiredArea 
 		{ 
 			get 
@@ -70,7 +70,7 @@ namespace Xbim.Ifc2x3.ArchitectureDomain
 			} 
 		}
 	
-		[EntityAttribute(7, EntityAttributeState.Optional)]
+		[EntityAttributee(7, EntityAttributeState.Optional)]
 		public IfcAreaMeasure? @MinRequiredArea 
 		{ 
 			get 
@@ -87,7 +87,7 @@ namespace Xbim.Ifc2x3.ArchitectureDomain
 			} 
 		}
 	
-		[EntityAttribute(8, EntityAttributeState.Optional)]
+		[EntityAttributee(8, EntityAttributeState.Optional)]
 		public IfcSpatialStructureElement @RequestedLocation 
 		{ 
 			get 
@@ -104,7 +104,7 @@ namespace Xbim.Ifc2x3.ArchitectureDomain
 			} 
 		}
 	
-		[EntityAttribute(9, EntityAttributeState.Mandatory)]
+		[EntityAttributee(9, EntityAttributeState.Mandatory)]
 		public IfcAreaMeasure @StandardRequiredArea 
 		{ 
 			get 

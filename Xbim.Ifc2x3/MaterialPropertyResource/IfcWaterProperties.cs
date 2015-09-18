@@ -36,7 +36,7 @@ namespace Xbim.Ifc2x3.MaterialPropertyResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(1, EntityAttributeState.Optional)]
+		[EntityAttributee(1, EntityAttributeState.Optional)]
 		public bool? @IsPotable 
 		{ 
 			get 
@@ -53,7 +53,7 @@ namespace Xbim.Ifc2x3.MaterialPropertyResource
 			} 
 		}
 	
-		[EntityAttribute(2, EntityAttributeState.Optional)]
+		[EntityAttributee(2, EntityAttributeState.Optional)]
 		public IfcIonConcentrationMeasure? @Hardness 
 		{ 
 			get 
@@ -70,7 +70,7 @@ namespace Xbim.Ifc2x3.MaterialPropertyResource
 			} 
 		}
 	
-		[EntityAttribute(3, EntityAttributeState.Optional)]
+		[EntityAttributee(3, EntityAttributeState.Optional)]
 		public IfcIonConcentrationMeasure? @AlkalinityConcentration 
 		{ 
 			get 
@@ -87,7 +87,7 @@ namespace Xbim.Ifc2x3.MaterialPropertyResource
 			} 
 		}
 	
-		[EntityAttribute(4, EntityAttributeState.Optional)]
+		[EntityAttributee(4, EntityAttributeState.Optional)]
 		public IfcIonConcentrationMeasure? @AcidityConcentration 
 		{ 
 			get 
@@ -104,7 +104,7 @@ namespace Xbim.Ifc2x3.MaterialPropertyResource
 			} 
 		}
 	
-		[EntityAttribute(5, EntityAttributeState.Optional)]
+		[EntityAttributee(5, EntityAttributeState.Optional)]
 		public IfcNormalisedRatioMeasure? @ImpuritiesContent 
 		{ 
 			get 
@@ -121,7 +121,7 @@ namespace Xbim.Ifc2x3.MaterialPropertyResource
 			} 
 		}
 	
-		[EntityAttribute(6, EntityAttributeState.Optional)]
+		[EntityAttributee(6, EntityAttributeState.Optional)]
 		public IfcPHMeasure? @PHLevel 
 		{ 
 			get 
@@ -138,7 +138,7 @@ namespace Xbim.Ifc2x3.MaterialPropertyResource
 			} 
 		}
 	
-		[EntityAttribute(7, EntityAttributeState.Optional)]
+		[EntityAttributee(7, EntityAttributeState.Optional)]
 		public IfcNormalisedRatioMeasure? @DissolvedSolidsContent 
 		{ 
 			get 

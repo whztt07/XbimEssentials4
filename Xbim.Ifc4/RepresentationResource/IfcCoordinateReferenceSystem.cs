@@ -55,7 +55,7 @@ namespace Xbim.Ifc4.RepresentationResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(0, EntityAttributeState.Optional)]
+		[EntityAttributee(0, EntityAttributeState.Optional)]
 		public IfcLabel? @Name 
 		{ 
 			get 
@@ -72,7 +72,7 @@ namespace Xbim.Ifc4.RepresentationResource
 			} 
 		}
 	
-		[EntityAttribute(1, EntityAttributeState.Optional)]
+		[EntityAttributee(1, EntityAttributeState.Optional)]
 		public IfcText? @Description 
 		{ 
 			get 
@@ -89,7 +89,7 @@ namespace Xbim.Ifc4.RepresentationResource
 			} 
 		}
 	
-		[EntityAttribute(2, EntityAttributeState.Mandatory)]
+		[EntityAttributee(2, EntityAttributeState.Mandatory)]
 		public IfcIdentifier @GeodeticDatum 
 		{ 
 			get 
@@ -106,7 +106,7 @@ namespace Xbim.Ifc4.RepresentationResource
 			} 
 		}
 	
-		[EntityAttribute(3, EntityAttributeState.Optional)]
+		[EntityAttributee(3, EntityAttributeState.Optional)]
 		public IfcIdentifier? @VerticalDatum 
 		{ 
 			get 

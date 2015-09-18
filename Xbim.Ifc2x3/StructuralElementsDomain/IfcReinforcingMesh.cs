@@ -39,7 +39,7 @@ namespace Xbim.Ifc2x3.StructuralElementsDomain
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(9, EntityAttributeState.Optional)]
+		[EntityAttributee(9, EntityAttributeState.Optional)]
 		public IfcPositiveLengthMeasure? @MeshLength 
 		{ 
 			get 
@@ -56,7 +56,7 @@ namespace Xbim.Ifc2x3.StructuralElementsDomain
 			} 
 		}
 	
-		[EntityAttribute(10, EntityAttributeState.Optional)]
+		[EntityAttributee(10, EntityAttributeState.Optional)]
 		public IfcPositiveLengthMeasure? @MeshWidth 
 		{ 
 			get 
@@ -73,7 +73,7 @@ namespace Xbim.Ifc2x3.StructuralElementsDomain
 			} 
 		}
 	
-		[EntityAttribute(11, EntityAttributeState.Mandatory)]
+		[EntityAttributee(11, EntityAttributeState.Mandatory)]
 		public IfcPositiveLengthMeasure @LongitudinalBarNominalDiameter 
 		{ 
 			get 
@@ -90,7 +90,7 @@ namespace Xbim.Ifc2x3.StructuralElementsDomain
 			} 
 		}
 	
-		[EntityAttribute(12, EntityAttributeState.Mandatory)]
+		[EntityAttributee(12, EntityAttributeState.Mandatory)]
 		public IfcPositiveLengthMeasure @TransverseBarNominalDiameter 
 		{ 
 			get 
@@ -107,7 +107,7 @@ namespace Xbim.Ifc2x3.StructuralElementsDomain
 			} 
 		}
 	
-		[EntityAttribute(13, EntityAttributeState.Mandatory)]
+		[EntityAttributee(13, EntityAttributeState.Mandatory)]
 		public IfcAreaMeasure @LongitudinalBarCrossSectionArea 
 		{ 
 			get 
@@ -124,7 +124,7 @@ namespace Xbim.Ifc2x3.StructuralElementsDomain
 			} 
 		}
 	
-		[EntityAttribute(14, EntityAttributeState.Mandatory)]
+		[EntityAttributee(14, EntityAttributeState.Mandatory)]
 		public IfcAreaMeasure @TransverseBarCrossSectionArea 
 		{ 
 			get 
@@ -141,7 +141,7 @@ namespace Xbim.Ifc2x3.StructuralElementsDomain
 			} 
 		}
 	
-		[EntityAttribute(15, EntityAttributeState.Mandatory)]
+		[EntityAttributee(15, EntityAttributeState.Mandatory)]
 		public IfcPositiveLengthMeasure @LongitudinalBarSpacing 
 		{ 
 			get 
@@ -158,7 +158,7 @@ namespace Xbim.Ifc2x3.StructuralElementsDomain
 			} 
 		}
 	
-		[EntityAttribute(16, EntityAttributeState.Mandatory)]
+		[EntityAttributee(16, EntityAttributeState.Mandatory)]
 		public IfcPositiveLengthMeasure @TransverseBarSpacing 
 		{ 
 			get 

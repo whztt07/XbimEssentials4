@@ -30,7 +30,7 @@ namespace Xbim.Ifc4.GeometricConstraintResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(0, EntityAttributeState.Optional)]
+		[EntityAttributee(0, EntityAttributeState.Optional)]
 		public IfcObjectPlacement @PlacementRelTo 
 		{ 
 			get 
@@ -47,7 +47,7 @@ namespace Xbim.Ifc4.GeometricConstraintResource
 			} 
 		}
 	
-		[EntityAttribute(1, EntityAttributeState.Mandatory)]
+		[EntityAttributee(1, EntityAttributeState.Mandatory)]
 		public IfcAxis2Placement @RelativePlacement 
 		{ 
 			get 

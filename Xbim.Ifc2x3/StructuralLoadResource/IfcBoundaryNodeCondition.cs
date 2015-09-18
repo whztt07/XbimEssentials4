@@ -34,7 +34,7 @@ namespace Xbim.Ifc2x3.StructuralLoadResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(1, EntityAttributeState.Optional)]
+		[EntityAttributee(1, EntityAttributeState.Optional)]
 		public IfcLinearStiffnessMeasure? @LinearStiffnessX 
 		{ 
 			get 
@@ -51,7 +51,7 @@ namespace Xbim.Ifc2x3.StructuralLoadResource
 			} 
 		}
 	
-		[EntityAttribute(2, EntityAttributeState.Optional)]
+		[EntityAttributee(2, EntityAttributeState.Optional)]
 		public IfcLinearStiffnessMeasure? @LinearStiffnessY 
 		{ 
 			get 
@@ -68,7 +68,7 @@ namespace Xbim.Ifc2x3.StructuralLoadResource
 			} 
 		}
 	
-		[EntityAttribute(3, EntityAttributeState.Optional)]
+		[EntityAttributee(3, EntityAttributeState.Optional)]
 		public IfcLinearStiffnessMeasure? @LinearStiffnessZ 
 		{ 
 			get 
@@ -85,7 +85,7 @@ namespace Xbim.Ifc2x3.StructuralLoadResource
 			} 
 		}
 	
-		[EntityAttribute(4, EntityAttributeState.Optional)]
+		[EntityAttributee(4, EntityAttributeState.Optional)]
 		public IfcRotationalStiffnessMeasure? @RotationalStiffnessX 
 		{ 
 			get 
@@ -102,7 +102,7 @@ namespace Xbim.Ifc2x3.StructuralLoadResource
 			} 
 		}
 	
-		[EntityAttribute(5, EntityAttributeState.Optional)]
+		[EntityAttributee(5, EntityAttributeState.Optional)]
 		public IfcRotationalStiffnessMeasure? @RotationalStiffnessY 
 		{ 
 			get 
@@ -119,7 +119,7 @@ namespace Xbim.Ifc2x3.StructuralLoadResource
 			} 
 		}
 	
-		[EntityAttribute(6, EntityAttributeState.Optional)]
+		[EntityAttributee(6, EntityAttributeState.Optional)]
 		public IfcRotationalStiffnessMeasure? @RotationalStiffnessZ 
 		{ 
 			get 

@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 using Xbim.Common;
 using Xbim.Ifc2x3.MeasureResource;
 
-namespace Xbim.IO.Parser
+namespace Xbim.IO.Step21.Parser
 {
     public struct PropertyValue : IPropertyValue
     {

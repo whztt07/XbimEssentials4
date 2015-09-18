@@ -55,7 +55,7 @@ namespace Xbim.Ifc2x3.UtilityResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(0, EntityAttributeState.Mandatory)]
+		[EntityAttributee(0, EntityAttributeState.Mandatory)]
 		public string @Name 
 		{ 
 			get 
@@ -72,7 +72,7 @@ namespace Xbim.Ifc2x3.UtilityResource
 			} 
 		}
 	
-		[EntityAttribute(1, EntityAttributeState.Mandatory)]
+		[EntityAttributee(1, EntityAttributeState.Mandatory)]
 		public ItemSet<IfcTableRow> @Rows 
 		{ 
 			get 

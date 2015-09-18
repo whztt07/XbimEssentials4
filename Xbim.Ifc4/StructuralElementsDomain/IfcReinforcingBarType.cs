@@ -40,7 +40,7 @@ namespace Xbim.Ifc4.StructuralElementsDomain
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(9, EntityAttributeState.Mandatory)]
+		[EntityAttributee(9, EntityAttributeState.Mandatory)]
 		public IfcReinforcingBarTypeEnum @PredefinedType 
 		{ 
 			get 
@@ -57,7 +57,7 @@ namespace Xbim.Ifc4.StructuralElementsDomain
 			} 
 		}
 	
-		[EntityAttribute(10, EntityAttributeState.Optional)]
+		[EntityAttributee(10, EntityAttributeState.Optional)]
 		public IfcPositiveLengthMeasure? @NominalDiameter 
 		{ 
 			get 
@@ -74,7 +74,7 @@ namespace Xbim.Ifc4.StructuralElementsDomain
 			} 
 		}
 	
-		[EntityAttribute(11, EntityAttributeState.Optional)]
+		[EntityAttributee(11, EntityAttributeState.Optional)]
 		public IfcAreaMeasure? @CrossSectionArea 
 		{ 
 			get 
@@ -91,7 +91,7 @@ namespace Xbim.Ifc4.StructuralElementsDomain
 			} 
 		}
 	
-		[EntityAttribute(12, EntityAttributeState.Optional)]
+		[EntityAttributee(12, EntityAttributeState.Optional)]
 		public IfcPositiveLengthMeasure? @BarLength 
 		{ 
 			get 
@@ -108,7 +108,7 @@ namespace Xbim.Ifc4.StructuralElementsDomain
 			} 
 		}
 	
-		[EntityAttribute(13, EntityAttributeState.Optional)]
+		[EntityAttributee(13, EntityAttributeState.Optional)]
 		public IfcReinforcingBarSurfaceEnum? @BarSurface 
 		{ 
 			get 
@@ -125,7 +125,7 @@ namespace Xbim.Ifc4.StructuralElementsDomain
 			} 
 		}
 	
-		[EntityAttribute(14, EntityAttributeState.Optional)]
+		[EntityAttributee(14, EntityAttributeState.Optional)]
 		public IfcLabel? @BendingShapeCode 
 		{ 
 			get 
@@ -142,7 +142,7 @@ namespace Xbim.Ifc4.StructuralElementsDomain
 			} 
 		}
 	
-		[EntityAttribute(15, EntityAttributeState.Optional)]
+		[EntityAttributee(15, EntityAttributeState.Optional)]
 		public ItemSet<IfcBendingParameterSelect> @BendingParameters 
 		{ 
 			get 

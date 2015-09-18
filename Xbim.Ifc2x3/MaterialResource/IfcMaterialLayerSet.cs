@@ -55,7 +55,7 @@ namespace Xbim.Ifc2x3.MaterialResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(0, EntityAttributeState.Mandatory)]
+		[EntityAttributee(0, EntityAttributeState.Mandatory)]
 		public ItemSet<IfcMaterialLayer> @MaterialLayers 
 		{ 
 			get 
@@ -72,7 +72,7 @@ namespace Xbim.Ifc2x3.MaterialResource
 			} 
 		}
 	
-		[EntityAttribute(1, EntityAttributeState.Optional)]
+		[EntityAttributee(1, EntityAttributeState.Optional)]
 		public IfcLabel? @LayerSetName 
 		{ 
 			get 

@@ -37,7 +37,7 @@ namespace Xbim.Ifc4.ProductExtension
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(9, EntityAttributeState.Optional)]
+		[EntityAttributee(9, EntityAttributeState.Optional)]
 		public IfcCompoundPlaneAngleMeasure? @RefLatitude 
 		{ 
 			get 
@@ -54,7 +54,7 @@ namespace Xbim.Ifc4.ProductExtension
 			} 
 		}
 	
-		[EntityAttribute(10, EntityAttributeState.Optional)]
+		[EntityAttributee(10, EntityAttributeState.Optional)]
 		public IfcCompoundPlaneAngleMeasure? @RefLongitude 
 		{ 
 			get 
@@ -71,7 +71,7 @@ namespace Xbim.Ifc4.ProductExtension
 			} 
 		}
 	
-		[EntityAttribute(11, EntityAttributeState.Optional)]
+		[EntityAttributee(11, EntityAttributeState.Optional)]
 		public IfcLengthMeasure? @RefElevation 
 		{ 
 			get 
@@ -88,7 +88,7 @@ namespace Xbim.Ifc4.ProductExtension
 			} 
 		}
 	
-		[EntityAttribute(12, EntityAttributeState.Optional)]
+		[EntityAttributee(12, EntityAttributeState.Optional)]
 		public IfcLabel? @LandTitleNumber 
 		{ 
 			get 
@@ -105,7 +105,7 @@ namespace Xbim.Ifc4.ProductExtension
 			} 
 		}
 	
-		[EntityAttribute(13, EntityAttributeState.Optional)]
+		[EntityAttributee(13, EntityAttributeState.Optional)]
 		public IfcPostalAddress @SiteAddress 
 		{ 
 			get 

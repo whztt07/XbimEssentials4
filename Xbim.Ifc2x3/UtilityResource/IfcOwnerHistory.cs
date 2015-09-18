@@ -61,7 +61,7 @@ namespace Xbim.Ifc2x3.UtilityResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(0, EntityAttributeState.Mandatory)]
+		[EntityAttributee(0, EntityAttributeState.Mandatory)]
 		public IfcPersonAndOrganization @OwningUser 
 		{ 
 			get 
@@ -78,7 +78,7 @@ namespace Xbim.Ifc2x3.UtilityResource
 			} 
 		}
 	
-		[EntityAttribute(1, EntityAttributeState.Mandatory)]
+		[EntityAttributee(1, EntityAttributeState.Mandatory)]
 		public IfcApplication @OwningApplication 
 		{ 
 			get 
@@ -95,7 +95,7 @@ namespace Xbim.Ifc2x3.UtilityResource
 			} 
 		}
 	
-		[EntityAttribute(2, EntityAttributeState.Optional)]
+		[EntityAttributee(2, EntityAttributeState.Optional)]
 		public IfcStateEnum? @State 
 		{ 
 			get 
@@ -112,7 +112,7 @@ namespace Xbim.Ifc2x3.UtilityResource
 			} 
 		}
 	
-		[EntityAttribute(3, EntityAttributeState.Mandatory)]
+		[EntityAttributee(3, EntityAttributeState.Mandatory)]
 		public IfcChangeActionEnum @ChangeAction 
 		{ 
 			get 
@@ -129,7 +129,7 @@ namespace Xbim.Ifc2x3.UtilityResource
 			} 
 		}
 	
-		[EntityAttribute(4, EntityAttributeState.Optional)]
+		[EntityAttributee(4, EntityAttributeState.Optional)]
 		public IfcTimeStamp? @LastModifiedDate 
 		{ 
 			get 
@@ -146,7 +146,7 @@ namespace Xbim.Ifc2x3.UtilityResource
 			} 
 		}
 	
-		[EntityAttribute(5, EntityAttributeState.Optional)]
+		[EntityAttributee(5, EntityAttributeState.Optional)]
 		public IfcPersonAndOrganization @LastModifyingUser 
 		{ 
 			get 
@@ -163,7 +163,7 @@ namespace Xbim.Ifc2x3.UtilityResource
 			} 
 		}
 	
-		[EntityAttribute(6, EntityAttributeState.Optional)]
+		[EntityAttributee(6, EntityAttributeState.Optional)]
 		public IfcApplication @LastModifyingApplication 
 		{ 
 			get 
@@ -180,7 +180,7 @@ namespace Xbim.Ifc2x3.UtilityResource
 			} 
 		}
 	
-		[EntityAttribute(7, EntityAttributeState.Mandatory)]
+		[EntityAttributee(7, EntityAttributeState.Mandatory)]
 		public IfcTimeStamp @CreationDate 
 		{ 
 			get 

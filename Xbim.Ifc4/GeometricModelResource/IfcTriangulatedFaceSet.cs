@@ -32,7 +32,7 @@ namespace Xbim.Ifc4.GeometricModelResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(3, EntityAttributeState.Mandatory)]
+		[EntityAttributee(3, EntityAttributeState.Mandatory)]
 		public ItemSet<ItemSet<long>> @CoordIndex 
 		{ 
 			get 
@@ -49,7 +49,7 @@ namespace Xbim.Ifc4.GeometricModelResource
 			} 
 		}
 	
-		[EntityAttribute(4, EntityAttributeState.Optional)]
+		[EntityAttributee(4, EntityAttributeState.Optional)]
 		public ItemSet<ItemSet<long>> @NormalIndex 
 		{ 
 			get 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading;
 using Xbim.Common;
+using Xbim.Common.Exceptions;
 
 namespace Xbim.IO
 {
@@ -56,6 +57,7 @@ namespace Xbim.IO
             {
                 Model.Flush();
                 _readWriteTransaction.Commit();
+                Model.CurrentTransaction = null;
             }
             finally
             {
@@ -80,7 +82,12 @@ namespace Xbim.IO
         {
             try
             {
-                if (InTransaction) _readWriteTransaction.Dispose();
+                if (InTransaction)
+                {
+                    ((ITransaction)this).RollBack();
+                    _readWriteTransaction.Dispose();
+                }
+                _undoActions.Clear();
             }
             finally
             {
@@ -106,11 +113,27 @@ namespace Xbim.IO
 
         void ITransaction.RollBack()
         {
-            throw new NotSupportedException();
+            try
+            {
+                foreach (var action in _undoActions)
+                {
+                    action();
+                }
+                if (InTransaction) _readWriteTransaction.RollBack();
+                InTransaction = false;
+                Model.CurrentTransaction = null;
+            }
+            catch (Exception e)
+            {
+                throw new XbimException("It wasn't possible to roll back transaction '" + Name + "'. Model is inconsistent now.", e);
+            }
         }
 
+        private readonly List<Action> _undoActions = new List<Action>(); 
+        
         void ITransaction.AddReversibleAction(Action doAction, Action undoAction, IPersistEntity entity)
         {
+            _undoActions.Add(undoAction);
         }
 
         IEnumerable<IPersistEntity> ITransaction.Modified

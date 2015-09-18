@@ -30,7 +30,7 @@ namespace Xbim.Ifc4.GeometricModelResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(0, EntityAttributeState.Mandatory)]
+		[EntityAttributee(0, EntityAttributeState.Mandatory)]
 		public IfcSurface @BaseSurface 
 		{ 
 			get 
@@ -47,7 +47,7 @@ namespace Xbim.Ifc4.GeometricModelResource
 			} 
 		}
 	
-		[EntityAttribute(1, EntityAttributeState.Mandatory)]
+		[EntityAttributee(1, EntityAttributeState.Mandatory)]
 		public bool @AgreementFlag 
 		{ 
 			get 

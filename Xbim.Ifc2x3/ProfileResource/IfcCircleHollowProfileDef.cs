@@ -30,7 +30,7 @@ namespace Xbim.Ifc2x3.ProfileResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(4, EntityAttributeState.Mandatory)]
+		[EntityAttributee(4, EntityAttributeState.Mandatory)]
 		public IfcPositiveLengthMeasure @WallThickness 
 		{ 
 			get 

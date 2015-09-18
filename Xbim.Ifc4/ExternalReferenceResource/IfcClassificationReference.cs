@@ -32,7 +32,7 @@ namespace Xbim.Ifc4.ExternalReferenceResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(3, EntityAttributeState.Optional)]
+		[EntityAttributee(3, EntityAttributeState.Optional)]
 		public IfcClassificationReferenceSelect @ReferencedSource 
 		{ 
 			get 
@@ -49,7 +49,7 @@ namespace Xbim.Ifc4.ExternalReferenceResource
 			} 
 		}
 	
-		[EntityAttribute(4, EntityAttributeState.Optional)]
+		[EntityAttributee(4, EntityAttributeState.Optional)]
 		public IfcText? @Description 
 		{ 
 			get 
@@ -66,7 +66,7 @@ namespace Xbim.Ifc4.ExternalReferenceResource
 			} 
 		}
 	
-		[EntityAttribute(5, EntityAttributeState.Optional)]
+		[EntityAttributee(5, EntityAttributeState.Optional)]
 		public IfcIdentifier? @Sort 
 		{ 
 			get 

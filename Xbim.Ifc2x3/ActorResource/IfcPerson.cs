@@ -66,7 +66,7 @@ namespace Xbim.Ifc2x3.ActorResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(0, EntityAttributeState.Optional)]
+		[EntityAttributee(0, EntityAttributeState.Optional)]
 		public IfcIdentifier? @Id 
 		{ 
 			get 
@@ -83,7 +83,7 @@ namespace Xbim.Ifc2x3.ActorResource
 			} 
 		}
 	
-		[EntityAttribute(1, EntityAttributeState.Optional)]
+		[EntityAttributee(1, EntityAttributeState.Optional)]
 		public IfcLabel? @FamilyName 
 		{ 
 			get 
@@ -100,7 +100,7 @@ namespace Xbim.Ifc2x3.ActorResource
 			} 
 		}
 	
-		[EntityAttribute(2, EntityAttributeState.Optional)]
+		[EntityAttributee(2, EntityAttributeState.Optional)]
 		public IfcLabel? @GivenName 
 		{ 
 			get 
@@ -117,7 +117,7 @@ namespace Xbim.Ifc2x3.ActorResource
 			} 
 		}
 	
-		[EntityAttribute(3, EntityAttributeState.Optional)]
+		[EntityAttributee(3, EntityAttributeState.Optional)]
 		public ItemSet<IfcLabel> @MiddleNames 
 		{ 
 			get 
@@ -134,7 +134,7 @@ namespace Xbim.Ifc2x3.ActorResource
 			} 
 		}
 	
-		[EntityAttribute(4, EntityAttributeState.Optional)]
+		[EntityAttributee(4, EntityAttributeState.Optional)]
 		public ItemSet<IfcLabel> @PrefixTitles 
 		{ 
 			get 
@@ -151,7 +151,7 @@ namespace Xbim.Ifc2x3.ActorResource
 			} 
 		}
 	
-		[EntityAttribute(5, EntityAttributeState.Optional)]
+		[EntityAttributee(5, EntityAttributeState.Optional)]
 		public ItemSet<IfcLabel> @SuffixTitles 
 		{ 
 			get 
@@ -168,7 +168,7 @@ namespace Xbim.Ifc2x3.ActorResource
 			} 
 		}
 	
-		[EntityAttribute(6, EntityAttributeState.Optional)]
+		[EntityAttributee(6, EntityAttributeState.Optional)]
 		public ItemSet<IfcActorRole> @Roles 
 		{ 
 			get 
@@ -185,7 +185,7 @@ namespace Xbim.Ifc2x3.ActorResource
 			} 
 		}
 	
-		[EntityAttribute(7, EntityAttributeState.Optional)]
+		[EntityAttributee(7, EntityAttributeState.Optional)]
 		public ItemSet<IfcAddress> @Addresses 
 		{ 
 			get 

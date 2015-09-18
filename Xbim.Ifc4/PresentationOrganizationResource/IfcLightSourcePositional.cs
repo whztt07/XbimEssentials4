@@ -35,7 +35,7 @@ namespace Xbim.Ifc4.PresentationOrganizationResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(4, EntityAttributeState.Mandatory)]
+		[EntityAttributee(4, EntityAttributeState.Mandatory)]
 		public IfcCartesianPoint @Position 
 		{ 
 			get 
@@ -52,7 +52,7 @@ namespace Xbim.Ifc4.PresentationOrganizationResource
 			} 
 		}
 	
-		[EntityAttribute(5, EntityAttributeState.Mandatory)]
+		[EntityAttributee(5, EntityAttributeState.Mandatory)]
 		public IfcPositiveLengthMeasure @Radius 
 		{ 
 			get 
@@ -69,7 +69,7 @@ namespace Xbim.Ifc4.PresentationOrganizationResource
 			} 
 		}
 	
-		[EntityAttribute(6, EntityAttributeState.Mandatory)]
+		[EntityAttributee(6, EntityAttributeState.Mandatory)]
 		public IfcReal @ConstantAttenuation 
 		{ 
 			get 
@@ -86,7 +86,7 @@ namespace Xbim.Ifc4.PresentationOrganizationResource
 			} 
 		}
 	
-		[EntityAttribute(7, EntityAttributeState.Mandatory)]
+		[EntityAttributee(7, EntityAttributeState.Mandatory)]
 		public IfcReal @DistanceAttenuation 
 		{ 
 			get 
@@ -103,7 +103,7 @@ namespace Xbim.Ifc4.PresentationOrganizationResource
 			} 
 		}
 	
-		[EntityAttribute(8, EntityAttributeState.Mandatory)]
+		[EntityAttributee(8, EntityAttributeState.Mandatory)]
 		public IfcReal @QuadricAttenuation 
 		{ 
 			get 

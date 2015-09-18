@@ -32,7 +32,7 @@ namespace Xbim.Ifc4.Kernel
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(4, EntityAttributeState.Mandatory)]
+		[EntityAttributee(4, EntityAttributeState.Mandatory)]
 		public ItemSet<IfcPropertySetDefinition> @RelatedPropertySets 
 		{ 
 			get 
@@ -49,7 +49,7 @@ namespace Xbim.Ifc4.Kernel
 			} 
 		}
 	
-		[EntityAttribute(5, EntityAttributeState.Mandatory)]
+		[EntityAttributee(5, EntityAttributeState.Mandatory)]
 		public IfcPropertySetTemplate @RelatingTemplate 
 		{ 
 			get 

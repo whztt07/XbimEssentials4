@@ -35,7 +35,7 @@ namespace Xbim.CobieExpress
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(11, EntityAttributeState.Mandatory)]
+		[EntityAttributee(11, EntityAttributeState.Mandatory)]
 		public CobiePickValue @LinearUnits 
 		{ 
 			get 
@@ -52,7 +52,7 @@ namespace Xbim.CobieExpress
 			} 
 		}
 	
-		[EntityAttribute(12, EntityAttributeState.Mandatory)]
+		[EntityAttributee(12, EntityAttributeState.Mandatory)]
 		public CobiePickValue @AreaUnits 
 		{ 
 			get 
@@ -69,7 +69,7 @@ namespace Xbim.CobieExpress
 			} 
 		}
 	
-		[EntityAttribute(13, EntityAttributeState.Mandatory)]
+		[EntityAttributee(13, EntityAttributeState.Mandatory)]
 		public CobiePickValue @VolumeUnits 
 		{ 
 			get 
@@ -86,7 +86,7 @@ namespace Xbim.CobieExpress
 			} 
 		}
 	
-		[EntityAttribute(14, EntityAttributeState.Mandatory)]
+		[EntityAttributee(14, EntityAttributeState.Mandatory)]
 		public CobiePickValue @CurrencyUnit 
 		{ 
 			get 
@@ -103,7 +103,7 @@ namespace Xbim.CobieExpress
 			} 
 		}
 	
-		[EntityAttribute(15, EntityAttributeState.Mandatory)]
+		[EntityAttributee(15, EntityAttributeState.Mandatory)]
 		public string @AreaMeasurement 
 		{ 
 			get 
@@ -120,7 +120,7 @@ namespace Xbim.CobieExpress
 			} 
 		}
 	
-		[EntityAttribute(16, EntityAttributeState.Mandatory)]
+		[EntityAttributee(16, EntityAttributeState.Mandatory)]
 		public CobieProject @Project 
 		{ 
 			get 
@@ -137,7 +137,7 @@ namespace Xbim.CobieExpress
 			} 
 		}
 	
-		[EntityAttribute(17, EntityAttributeState.Mandatory)]
+		[EntityAttributee(17, EntityAttributeState.Mandatory)]
 		public CobieSite @Site 
 		{ 
 			get 
@@ -154,7 +154,7 @@ namespace Xbim.CobieExpress
 			} 
 		}
 	
-		[EntityAttribute(18, EntityAttributeState.Optional)]
+		[EntityAttributee(18, EntityAttributeState.Optional)]
 		public CobiePhase @Phase 
 		{ 
 			get 

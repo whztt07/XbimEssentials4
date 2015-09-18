@@ -32,7 +32,7 @@ namespace Xbim.Ifc2x3.SharedFacilitiesElements
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(6, EntityAttributeState.Mandatory)]
+		[EntityAttributee(6, EntityAttributeState.Mandatory)]
 		public IfcOccupantTypeEnum @PredefinedType 
 		{ 
 			get 

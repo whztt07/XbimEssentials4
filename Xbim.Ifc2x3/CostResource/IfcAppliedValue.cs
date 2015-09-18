@@ -60,7 +60,7 @@ namespace Xbim.Ifc2x3.CostResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(0, EntityAttributeState.Optional)]
+		[EntityAttributee(0, EntityAttributeState.Optional)]
 		public IfcLabel? @Name 
 		{ 
 			get 
@@ -77,7 +77,7 @@ namespace Xbim.Ifc2x3.CostResource
 			} 
 		}
 	
-		[EntityAttribute(1, EntityAttributeState.Optional)]
+		[EntityAttributee(1, EntityAttributeState.Optional)]
 		public IfcText? @Description 
 		{ 
 			get 
@@ -94,7 +94,7 @@ namespace Xbim.Ifc2x3.CostResource
 			} 
 		}
 	
-		[EntityAttribute(2, EntityAttributeState.Optional)]
+		[EntityAttributee(2, EntityAttributeState.Optional)]
 		public IfcAppliedValueSelect @AppliedValue 
 		{ 
 			get 
@@ -111,7 +111,7 @@ namespace Xbim.Ifc2x3.CostResource
 			} 
 		}
 	
-		[EntityAttribute(3, EntityAttributeState.Optional)]
+		[EntityAttributee(3, EntityAttributeState.Optional)]
 		public IfcMeasureWithUnit @UnitBasis 
 		{ 
 			get 
@@ -128,7 +128,7 @@ namespace Xbim.Ifc2x3.CostResource
 			} 
 		}
 	
-		[EntityAttribute(4, EntityAttributeState.Optional)]
+		[EntityAttributee(4, EntityAttributeState.Optional)]
 		public IfcDateTimeSelect @ApplicableDate 
 		{ 
 			get 
@@ -145,7 +145,7 @@ namespace Xbim.Ifc2x3.CostResource
 			} 
 		}
 	
-		[EntityAttribute(5, EntityAttributeState.Optional)]
+		[EntityAttributee(5, EntityAttributeState.Optional)]
 		public IfcDateTimeSelect @FixedUntilDate 
 		{ 
 			get 

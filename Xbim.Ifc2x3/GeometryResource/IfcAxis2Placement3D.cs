@@ -29,7 +29,7 @@ namespace Xbim.Ifc2x3.GeometryResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(1, EntityAttributeState.Optional)]
+		[EntityAttributee(1, EntityAttributeState.Optional)]
 		public IfcDirection @Axis 
 		{ 
 			get 
@@ -46,7 +46,7 @@ namespace Xbim.Ifc2x3.GeometryResource
 			} 
 		}
 	
-		[EntityAttribute(2, EntityAttributeState.Optional)]
+		[EntityAttributee(2, EntityAttributeState.Optional)]
 		public IfcDirection @RefDirection 
 		{ 
 			get 

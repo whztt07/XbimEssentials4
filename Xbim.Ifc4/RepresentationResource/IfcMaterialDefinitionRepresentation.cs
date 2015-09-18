@@ -30,7 +30,7 @@ namespace Xbim.Ifc4.RepresentationResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(3, EntityAttributeState.Mandatory)]
+		[EntityAttributee(3, EntityAttributeState.Mandatory)]
 		public IfcMaterial @RepresentedMaterial 
 		{ 
 			get 

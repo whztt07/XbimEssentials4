@@ -31,7 +31,7 @@ namespace Xbim.Ifc4.TopologyResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(1, EntityAttributeState.Mandatory)]
+		[EntityAttributee(1, EntityAttributeState.Mandatory)]
 		public IfcSurface @FaceSurface 
 		{ 
 			get 
@@ -48,7 +48,7 @@ namespace Xbim.Ifc4.TopologyResource
 			} 
 		}
 	
-		[EntityAttribute(2, EntityAttributeState.Mandatory)]
+		[EntityAttributee(2, EntityAttributeState.Mandatory)]
 		public bool @SameSense 
 		{ 
 			get 

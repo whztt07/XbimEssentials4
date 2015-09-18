@@ -30,7 +30,7 @@ namespace Xbim.Ifc2x3.ProfileResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(3, EntityAttributeState.Mandatory)]
+		[EntityAttributee(3, EntityAttributeState.Mandatory)]
 		public IfcPositiveLengthMeasure @Radius 
 		{ 
 			get 

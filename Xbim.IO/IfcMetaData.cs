@@ -30,7 +30,7 @@ namespace Xbim.IO
     public class IfcMetaProperty
     {
         public PropertyInfo PropertyInfo;
-        public IfcAttribute IfcAttribute;
+        public EntityAttributeAttribute EntityAttributeAttribute;
     }
 
     /// <summary>
@@ -152,19 +152,19 @@ namespace Xbim.IO
             {
                 var attributeIdx = -1;
                 var ifcAttributes =
-                    (IfcAttribute[])propInfo.GetCustomAttributes(typeof(IfcAttribute), false);
+                    (EntityAttributeAttribute[])propInfo.GetCustomAttributes(typeof(EntityAttributeAttribute), false);
                 if (ifcAttributes.GetLength(0) > 0) //we have an ifc property
                 {
                     if (ifcAttributes[0].Order > 0)
                     {
                         // SUPPORT: if the code breaks here there's a problem with the order attribut in a class property
                         ifcType.IfcProperties.Add(ifcAttributes[0].Order,
-                                                    new IfcMetaProperty { PropertyInfo = propInfo, IfcAttribute = ifcAttributes[0] });
+                                                    new IfcMetaProperty { PropertyInfo = propInfo, EntityAttributeAttribute = ifcAttributes[0] });
                         attributeIdx = ifcAttributes[0].Order;                     
                     }
 
                     else
-                        ifcType.IfcInverses.Add(new IfcMetaProperty { PropertyInfo = propInfo, IfcAttribute = ifcAttributes[0] });
+                        ifcType.IfcInverses.Add(new IfcMetaProperty { PropertyInfo = propInfo, EntityAttributeAttribute = ifcAttributes[0] });
                 }
                 var ifcIndexes =
                     (IndexedProperty[])propInfo.GetCustomAttributes(typeof(IndexedProperty), false);

@@ -29,7 +29,7 @@ namespace Xbim.Ifc4.GeometricConstraintResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(0, EntityAttributeState.Mandatory)]
+		[EntityAttributee(0, EntityAttributeState.Mandatory)]
 		public IfcPointOrVertexPoint @PointOnRelatingElement 
 		{ 
 			get 
@@ -46,7 +46,7 @@ namespace Xbim.Ifc4.GeometricConstraintResource
 			} 
 		}
 	
-		[EntityAttribute(1, EntityAttributeState.Optional)]
+		[EntityAttributee(1, EntityAttributeState.Optional)]
 		public IfcPointOrVertexPoint @PointOnRelatedElement 
 		{ 
 			get 

@@ -58,7 +58,7 @@ namespace Xbim.Ifc4.RepresentationResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(0, EntityAttributeState.Mandatory)]
+		[EntityAttributee(0, EntityAttributeState.Mandatory)]
 		public ItemSet<IfcShapeModel> @ShapeRepresentations 
 		{ 
 			get 
@@ -75,7 +75,7 @@ namespace Xbim.Ifc4.RepresentationResource
 			} 
 		}
 	
-		[EntityAttribute(1, EntityAttributeState.Optional)]
+		[EntityAttributee(1, EntityAttributeState.Optional)]
 		public IfcLabel? @Name 
 		{ 
 			get 
@@ -92,7 +92,7 @@ namespace Xbim.Ifc4.RepresentationResource
 			} 
 		}
 	
-		[EntityAttribute(2, EntityAttributeState.Optional)]
+		[EntityAttributee(2, EntityAttributeState.Optional)]
 		public IfcText? @Description 
 		{ 
 			get 
@@ -109,7 +109,7 @@ namespace Xbim.Ifc4.RepresentationResource
 			} 
 		}
 	
-		[EntityAttribute(3, EntityAttributeState.Mandatory)]
+		[EntityAttributee(3, EntityAttributeState.Mandatory)]
 		public bool? @ProductDefinitional 
 		{ 
 			get 
@@ -126,7 +126,7 @@ namespace Xbim.Ifc4.RepresentationResource
 			} 
 		}
 	
-		[EntityAttribute(4, EntityAttributeState.Optional)]
+		[EntityAttributee(4, EntityAttributeState.Optional)]
 		public IfcProductRepresentationSelect @PartOfProductDefinitionShape 
 		{ 
 			get 

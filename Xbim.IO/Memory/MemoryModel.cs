@@ -1,8 +1,7 @@
 ﻿using System;
 using System.IO;
-using System.Runtime.Remoting.Messaging;
 using Xbim.Common;
-using Xbim.IO.Parser;
+using Xbim.IO.Step21;
 
 namespace Xbim.IO.Memory
 {
@@ -34,17 +33,41 @@ namespace Xbim.IO.Memory
             return txn;
         }
 
-        public bool IsTransactional
+        public virtual bool IsTransactional
         {
             get { return true; }
         }
 
+        /// <summary>
+        /// Weak reference allows garbage collector to collect transaction once it goes out of the scope
+        /// even if it is still referenced from model. This is important for the cases where the transaction
+        /// is both not commited and not rolled back either.
+        /// </summary>
+        private WeakReference _transactionReference; 
+
         public ITransaction CurrentTransaction
         {
-            get; internal set; 
+            get
+            {
+                if (_transactionReference == null || !_transactionReference.IsAlive)
+                    return null;
+                return _transactionReference.Target as ITransaction;
+            }
+            internal set
+            {
+                if (value == null)
+                {
+                    _transactionReference = null;
+                    return;
+                }
+                if (_transactionReference == null)
+                    _transactionReference = new WeakReference(value);
+                else
+                    _transactionReference.Target = value;
+            } 
         }
 
-        public void Open(Stream stream)
+        public virtual void Open(Stream stream)
         {
             var parser = new XbimP21Parser(stream);
             parser.EntityCreate += (string name, long? label, bool header, out int[] ints) =>
@@ -57,14 +80,14 @@ namespace Xbim.IO.Memory
                 if (label == null) 
                     return _instances.Factory.New(name);
                 
-                var ent = _instances.Factory.New(this, name, (int)(label ?? 0), true);
+                var ent = _instances.Factory.New(this, name, (int) label, true);
                 _instances.InternalAdd(ent);
                 return ent;
             };
             parser.Parse();
         }
 
-        public void Open(string file)
+        public virtual void Open(string file)
         {
             using (var stream = File.OpenRead(file))
             {

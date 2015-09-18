@@ -42,7 +42,7 @@ namespace Xbim.Ifc4.SharedFacilitiesElements
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(5, EntityAttributeState.Optional)]
+		[EntityAttributee(5, EntityAttributeState.Optional)]
 		public IfcIdentifier? @Identification 
 		{ 
 			get 
@@ -59,7 +59,7 @@ namespace Xbim.Ifc4.SharedFacilitiesElements
 			} 
 		}
 	
-		[EntityAttribute(6, EntityAttributeState.Optional)]
+		[EntityAttributee(6, EntityAttributeState.Optional)]
 		public IfcCostValue @OriginalValue 
 		{ 
 			get 
@@ -76,7 +76,7 @@ namespace Xbim.Ifc4.SharedFacilitiesElements
 			} 
 		}
 	
-		[EntityAttribute(7, EntityAttributeState.Optional)]
+		[EntityAttributee(7, EntityAttributeState.Optional)]
 		public IfcCostValue @CurrentValue 
 		{ 
 			get 
@@ -93,7 +93,7 @@ namespace Xbim.Ifc4.SharedFacilitiesElements
 			} 
 		}
 	
-		[EntityAttribute(8, EntityAttributeState.Optional)]
+		[EntityAttributee(8, EntityAttributeState.Optional)]
 		public IfcCostValue @TotalReplacementCost 
 		{ 
 			get 
@@ -110,7 +110,7 @@ namespace Xbim.Ifc4.SharedFacilitiesElements
 			} 
 		}
 	
-		[EntityAttribute(9, EntityAttributeState.Optional)]
+		[EntityAttributee(9, EntityAttributeState.Optional)]
 		public IfcActorSelect @Owner 
 		{ 
 			get 
@@ -127,7 +127,7 @@ namespace Xbim.Ifc4.SharedFacilitiesElements
 			} 
 		}
 	
-		[EntityAttribute(10, EntityAttributeState.Optional)]
+		[EntityAttributee(10, EntityAttributeState.Optional)]
 		public IfcActorSelect @User 
 		{ 
 			get 
@@ -144,7 +144,7 @@ namespace Xbim.Ifc4.SharedFacilitiesElements
 			} 
 		}
 	
-		[EntityAttribute(11, EntityAttributeState.Optional)]
+		[EntityAttributee(11, EntityAttributeState.Optional)]
 		public IfcPerson @ResponsiblePerson 
 		{ 
 			get 
@@ -161,7 +161,7 @@ namespace Xbim.Ifc4.SharedFacilitiesElements
 			} 
 		}
 	
-		[EntityAttribute(12, EntityAttributeState.Optional)]
+		[EntityAttributee(12, EntityAttributeState.Optional)]
 		public IfcDate? @IncorporationDate 
 		{ 
 			get 
@@ -178,7 +178,7 @@ namespace Xbim.Ifc4.SharedFacilitiesElements
 			} 
 		}
 	
-		[EntityAttribute(13, EntityAttributeState.Optional)]
+		[EntityAttributee(13, EntityAttributeState.Optional)]
 		public IfcCostValue @DepreciatedValue 
 		{ 
 			get 

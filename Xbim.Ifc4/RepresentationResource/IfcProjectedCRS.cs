@@ -31,7 +31,7 @@ namespace Xbim.Ifc4.RepresentationResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(4, EntityAttributeState.Optional)]
+		[EntityAttributee(4, EntityAttributeState.Optional)]
 		public IfcIdentifier? @MapProjection 
 		{ 
 			get 
@@ -48,7 +48,7 @@ namespace Xbim.Ifc4.RepresentationResource
 			} 
 		}
 	
-		[EntityAttribute(5, EntityAttributeState.Optional)]
+		[EntityAttributee(5, EntityAttributeState.Optional)]
 		public IfcIdentifier? @MapZone 
 		{ 
 			get 
@@ -65,7 +65,7 @@ namespace Xbim.Ifc4.RepresentationResource
 			} 
 		}
 	
-		[EntityAttribute(6, EntityAttributeState.Optional)]
+		[EntityAttributee(6, EntityAttributeState.Optional)]
 		public IfcNamedUnit @MapUnit 
 		{ 
 			get 

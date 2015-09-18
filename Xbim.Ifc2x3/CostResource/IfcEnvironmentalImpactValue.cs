@@ -32,7 +32,7 @@ namespace Xbim.Ifc2x3.CostResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(6, EntityAttributeState.Mandatory)]
+		[EntityAttributee(6, EntityAttributeState.Mandatory)]
 		public IfcLabel @ImpactType 
 		{ 
 			get 
@@ -49,7 +49,7 @@ namespace Xbim.Ifc2x3.CostResource
 			} 
 		}
 	
-		[EntityAttribute(7, EntityAttributeState.Mandatory)]
+		[EntityAttributee(7, EntityAttributeState.Mandatory)]
 		public IfcEnvironmentalImpactCategoryEnum @Category 
 		{ 
 			get 
@@ -66,7 +66,7 @@ namespace Xbim.Ifc2x3.CostResource
 			} 
 		}
 	
-		[EntityAttribute(8, EntityAttributeState.Optional)]
+		[EntityAttributee(8, EntityAttributeState.Optional)]
 		public IfcLabel? @UserDefinedCategory 
 		{ 
 			get 

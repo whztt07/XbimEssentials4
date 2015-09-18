@@ -34,7 +34,7 @@ namespace Xbim.Ifc4.StructuralElementsDomain
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(8, EntityAttributeState.Optional)]
+		[EntityAttributee(8, EntityAttributeState.Optional)]
 		public IfcPileTypeEnum? @PredefinedType 
 		{ 
 			get 
@@ -51,7 +51,7 @@ namespace Xbim.Ifc4.StructuralElementsDomain
 			} 
 		}
 	
-		[EntityAttribute(9, EntityAttributeState.Optional)]
+		[EntityAttributee(9, EntityAttributeState.Optional)]
 		public IfcPileConstructionEnum? @ConstructionType 
 		{ 
 			get 

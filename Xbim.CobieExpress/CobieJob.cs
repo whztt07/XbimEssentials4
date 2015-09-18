@@ -41,7 +41,7 @@ namespace Xbim.CobieExpress
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(5, EntityAttributeState.Mandatory)]
+		[EntityAttributee(5, EntityAttributeState.Mandatory)]
 		public string @TaskNumber 
 		{ 
 			get 
@@ -58,7 +58,7 @@ namespace Xbim.CobieExpress
 			} 
 		}
 	
-		[EntityAttribute(6, EntityAttributeState.Mandatory)]
+		[EntityAttributee(6, EntityAttributeState.Mandatory)]
 		public string @Name 
 		{ 
 			get 
@@ -75,7 +75,7 @@ namespace Xbim.CobieExpress
 			} 
 		}
 	
-		[EntityAttribute(7, EntityAttributeState.Mandatory)]
+		[EntityAttributee(7, EntityAttributeState.Mandatory)]
 		public string @Description 
 		{ 
 			get 
@@ -92,7 +92,7 @@ namespace Xbim.CobieExpress
 			} 
 		}
 	
-		[EntityAttribute(8, EntityAttributeState.Mandatory)]
+		[EntityAttributee(8, EntityAttributeState.Mandatory)]
 		public CobiePickValue @JobType 
 		{ 
 			get 
@@ -109,7 +109,7 @@ namespace Xbim.CobieExpress
 			} 
 		}
 	
-		[EntityAttribute(9, EntityAttributeState.Mandatory)]
+		[EntityAttributee(9, EntityAttributeState.Mandatory)]
 		public CobiePickValue @JobStatusType 
 		{ 
 			get 
@@ -126,7 +126,7 @@ namespace Xbim.CobieExpress
 			} 
 		}
 	
-		[EntityAttribute(10, EntityAttributeState.Mandatory)]
+		[EntityAttributee(10, EntityAttributeState.Mandatory)]
 		public double @Duration 
 		{ 
 			get 
@@ -143,7 +143,7 @@ namespace Xbim.CobieExpress
 			} 
 		}
 	
-		[EntityAttribute(11, EntityAttributeState.Mandatory)]
+		[EntityAttributee(11, EntityAttributeState.Mandatory)]
 		public CobiePickValue @DurationUnit 
 		{ 
 			get 
@@ -160,7 +160,7 @@ namespace Xbim.CobieExpress
 			} 
 		}
 	
-		[EntityAttribute(12, EntityAttributeState.Mandatory)]
+		[EntityAttributee(12, EntityAttributeState.Mandatory)]
 		public double @Start 
 		{ 
 			get 
@@ -177,7 +177,7 @@ namespace Xbim.CobieExpress
 			} 
 		}
 	
-		[EntityAttribute(13, EntityAttributeState.Mandatory)]
+		[EntityAttributee(13, EntityAttributeState.Mandatory)]
 		public CobiePickValue @StartUnit 
 		{ 
 			get 
@@ -194,7 +194,7 @@ namespace Xbim.CobieExpress
 			} 
 		}
 	
-		[EntityAttribute(14, EntityAttributeState.Mandatory)]
+		[EntityAttributee(14, EntityAttributeState.Mandatory)]
 		public double @Frequency 
 		{ 
 			get 
@@ -211,7 +211,7 @@ namespace Xbim.CobieExpress
 			} 
 		}
 	
-		[EntityAttribute(15, EntityAttributeState.Mandatory)]
+		[EntityAttributee(15, EntityAttributeState.Mandatory)]
 		public CobiePickValue @FrequencyUnit 
 		{ 
 			get 
@@ -228,7 +228,7 @@ namespace Xbim.CobieExpress
 			} 
 		}
 	
-		[EntityAttribute(16, EntityAttributeState.Mandatory)]
+		[EntityAttributee(16, EntityAttributeState.Mandatory)]
 		public CobieJob @Priors 
 		{ 
 			get 
@@ -245,7 +245,7 @@ namespace Xbim.CobieExpress
 			} 
 		}
 	
-		[EntityAttribute(17, EntityAttributeState.Mandatory)]
+		[EntityAttributee(17, EntityAttributeState.Mandatory)]
 		public ItemSet<CobieResource> @Resources 
 		{ 
 			get 

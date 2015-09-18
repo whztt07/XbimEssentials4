@@ -34,7 +34,7 @@ namespace Xbim.Ifc4.StructuralLoadResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(1, EntityAttributeState.Optional)]
+		[EntityAttributee(1, EntityAttributeState.Optional)]
 		public IfcLinearForceMeasure? @LinearForceX 
 		{ 
 			get 
@@ -51,7 +51,7 @@ namespace Xbim.Ifc4.StructuralLoadResource
 			} 
 		}
 	
-		[EntityAttribute(2, EntityAttributeState.Optional)]
+		[EntityAttributee(2, EntityAttributeState.Optional)]
 		public IfcLinearForceMeasure? @LinearForceY 
 		{ 
 			get 
@@ -68,7 +68,7 @@ namespace Xbim.Ifc4.StructuralLoadResource
 			} 
 		}
 	
-		[EntityAttribute(3, EntityAttributeState.Optional)]
+		[EntityAttributee(3, EntityAttributeState.Optional)]
 		public IfcLinearForceMeasure? @LinearForceZ 
 		{ 
 			get 
@@ -85,7 +85,7 @@ namespace Xbim.Ifc4.StructuralLoadResource
 			} 
 		}
 	
-		[EntityAttribute(4, EntityAttributeState.Optional)]
+		[EntityAttributee(4, EntityAttributeState.Optional)]
 		public IfcLinearMomentMeasure? @LinearMomentX 
 		{ 
 			get 
@@ -102,7 +102,7 @@ namespace Xbim.Ifc4.StructuralLoadResource
 			} 
 		}
 	
-		[EntityAttribute(5, EntityAttributeState.Optional)]
+		[EntityAttributee(5, EntityAttributeState.Optional)]
 		public IfcLinearMomentMeasure? @LinearMomentY 
 		{ 
 			get 
@@ -119,7 +119,7 @@ namespace Xbim.Ifc4.StructuralLoadResource
 			} 
 		}
 	
-		[EntityAttribute(6, EntityAttributeState.Optional)]
+		[EntityAttributee(6, EntityAttributeState.Optional)]
 		public IfcLinearMomentMeasure? @LinearMomentZ 
 		{ 
 			get 

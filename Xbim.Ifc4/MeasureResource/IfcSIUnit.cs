@@ -29,7 +29,7 @@ namespace Xbim.Ifc4.MeasureResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(2, EntityAttributeState.Optional)]
+		[EntityAttributee(2, EntityAttributeState.Optional)]
 		public IfcSIPrefix? @Prefix 
 		{ 
 			get 
@@ -46,7 +46,7 @@ namespace Xbim.Ifc4.MeasureResource
 			} 
 		}
 	
-		[EntityAttribute(3, EntityAttributeState.Mandatory)]
+		[EntityAttributee(3, EntityAttributeState.Mandatory)]
 		public IfcSIUnitName @Name 
 		{ 
 			get 

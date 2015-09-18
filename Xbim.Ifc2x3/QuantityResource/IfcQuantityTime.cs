@@ -29,7 +29,7 @@ namespace Xbim.Ifc2x3.QuantityResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(3, EntityAttributeState.Mandatory)]
+		[EntityAttributee(3, EntityAttributeState.Mandatory)]
 		public IfcTimeMeasure @TimeValue 
 		{ 
 			get 

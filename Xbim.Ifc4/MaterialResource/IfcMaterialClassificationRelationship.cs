@@ -55,7 +55,7 @@ namespace Xbim.Ifc4.MaterialResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(0, EntityAttributeState.Mandatory)]
+		[EntityAttributee(0, EntityAttributeState.Mandatory)]
 		public ItemSet<IfcClassificationSelect> @MaterialClassifications 
 		{ 
 			get 
@@ -72,7 +72,7 @@ namespace Xbim.Ifc4.MaterialResource
 			} 
 		}
 	
-		[EntityAttribute(1, EntityAttributeState.Mandatory)]
+		[EntityAttributee(1, EntityAttributeState.Mandatory)]
 		public IfcMaterial @ClassifiedMaterial 
 		{ 
 			get 

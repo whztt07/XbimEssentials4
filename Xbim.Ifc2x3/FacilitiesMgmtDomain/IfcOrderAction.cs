@@ -31,7 +31,7 @@ namespace Xbim.Ifc2x3.FacilitiesMgmtDomain
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(10, EntityAttributeState.Mandatory)]
+		[EntityAttributee(10, EntityAttributeState.Mandatory)]
 		public IfcIdentifier @ActionID 
 		{ 
 			get 

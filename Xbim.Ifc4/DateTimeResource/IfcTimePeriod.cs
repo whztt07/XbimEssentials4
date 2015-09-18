@@ -53,7 +53,7 @@ namespace Xbim.Ifc4.DateTimeResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(0, EntityAttributeState.Mandatory)]
+		[EntityAttributee(0, EntityAttributeState.Mandatory)]
 		public IfcTime @StartTime 
 		{ 
 			get 
@@ -70,7 +70,7 @@ namespace Xbim.Ifc4.DateTimeResource
 			} 
 		}
 	
-		[EntityAttribute(1, EntityAttributeState.Mandatory)]
+		[EntityAttributee(1, EntityAttributeState.Mandatory)]
 		public IfcTime @EndTime 
 		{ 
 			get 

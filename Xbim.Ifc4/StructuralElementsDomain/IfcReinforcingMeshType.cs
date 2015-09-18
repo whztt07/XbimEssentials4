@@ -43,7 +43,7 @@ namespace Xbim.Ifc4.StructuralElementsDomain
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(9, EntityAttributeState.Mandatory)]
+		[EntityAttributee(9, EntityAttributeState.Mandatory)]
 		public IfcReinforcingMeshTypeEnum @PredefinedType 
 		{ 
 			get 
@@ -60,7 +60,7 @@ namespace Xbim.Ifc4.StructuralElementsDomain
 			} 
 		}
 	
-		[EntityAttribute(10, EntityAttributeState.Optional)]
+		[EntityAttributee(10, EntityAttributeState.Optional)]
 		public IfcPositiveLengthMeasure? @MeshLength 
 		{ 
 			get 
@@ -77,7 +77,7 @@ namespace Xbim.Ifc4.StructuralElementsDomain
 			} 
 		}
 	
-		[EntityAttribute(11, EntityAttributeState.Optional)]
+		[EntityAttributee(11, EntityAttributeState.Optional)]
 		public IfcPositiveLengthMeasure? @MeshWidth 
 		{ 
 			get 
@@ -94,7 +94,7 @@ namespace Xbim.Ifc4.StructuralElementsDomain
 			} 
 		}
 	
-		[EntityAttribute(12, EntityAttributeState.Optional)]
+		[EntityAttributee(12, EntityAttributeState.Optional)]
 		public IfcPositiveLengthMeasure? @LongitudinalBarNominalDiameter 
 		{ 
 			get 
@@ -111,7 +111,7 @@ namespace Xbim.Ifc4.StructuralElementsDomain
 			} 
 		}
 	
-		[EntityAttribute(13, EntityAttributeState.Optional)]
+		[EntityAttributee(13, EntityAttributeState.Optional)]
 		public IfcPositiveLengthMeasure? @TransverseBarNominalDiameter 
 		{ 
 			get 
@@ -128,7 +128,7 @@ namespace Xbim.Ifc4.StructuralElementsDomain
 			} 
 		}
 	
-		[EntityAttribute(14, EntityAttributeState.Optional)]
+		[EntityAttributee(14, EntityAttributeState.Optional)]
 		public IfcAreaMeasure? @LongitudinalBarCrossSectionArea 
 		{ 
 			get 
@@ -145,7 +145,7 @@ namespace Xbim.Ifc4.StructuralElementsDomain
 			} 
 		}
 	
-		[EntityAttribute(15, EntityAttributeState.Optional)]
+		[EntityAttributee(15, EntityAttributeState.Optional)]
 		public IfcAreaMeasure? @TransverseBarCrossSectionArea 
 		{ 
 			get 
@@ -162,7 +162,7 @@ namespace Xbim.Ifc4.StructuralElementsDomain
 			} 
 		}
 	
-		[EntityAttribute(16, EntityAttributeState.Optional)]
+		[EntityAttributee(16, EntityAttributeState.Optional)]
 		public IfcPositiveLengthMeasure? @LongitudinalBarSpacing 
 		{ 
 			get 
@@ -179,7 +179,7 @@ namespace Xbim.Ifc4.StructuralElementsDomain
 			} 
 		}
 	
-		[EntityAttribute(17, EntityAttributeState.Optional)]
+		[EntityAttributee(17, EntityAttributeState.Optional)]
 		public IfcPositiveLengthMeasure? @TransverseBarSpacing 
 		{ 
 			get 
@@ -196,7 +196,7 @@ namespace Xbim.Ifc4.StructuralElementsDomain
 			} 
 		}
 	
-		[EntityAttribute(18, EntityAttributeState.Optional)]
+		[EntityAttributee(18, EntityAttributeState.Optional)]
 		public IfcLabel? @BendingShapeCode 
 		{ 
 			get 
@@ -213,7 +213,7 @@ namespace Xbim.Ifc4.StructuralElementsDomain
 			} 
 		}
 	
-		[EntityAttribute(19, EntityAttributeState.Optional)]
+		[EntityAttributee(19, EntityAttributeState.Optional)]
 		public ItemSet<IfcBendingParameterSelect> @BendingParameters 
 		{ 
 			get 

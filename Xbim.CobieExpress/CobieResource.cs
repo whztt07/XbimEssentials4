@@ -30,7 +30,7 @@ namespace Xbim.CobieExpress
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(5, EntityAttributeState.Mandatory)]
+		[EntityAttributee(5, EntityAttributeState.Mandatory)]
 		public string @Name 
 		{ 
 			get 
@@ -47,7 +47,7 @@ namespace Xbim.CobieExpress
 			} 
 		}
 	
-		[EntityAttribute(6, EntityAttributeState.Optional)]
+		[EntityAttributee(6, EntityAttributeState.Optional)]
 		public string @Description 
 		{ 
 			get 
@@ -64,7 +64,7 @@ namespace Xbim.CobieExpress
 			} 
 		}
 	
-		[EntityAttribute(7, EntityAttributeState.Mandatory)]
+		[EntityAttributee(7, EntityAttributeState.Mandatory)]
 		public CobiePickValue @ResourceType 
 		{ 
 			get 

@@ -30,7 +30,7 @@ namespace Xbim.Ifc4.GeometricModelResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(0, EntityAttributeState.Mandatory)]
+		[EntityAttributee(0, EntityAttributeState.Mandatory)]
 		public IfcProfileDef @SweptArea 
 		{ 
 			get 
@@ -47,7 +47,7 @@ namespace Xbim.Ifc4.GeometricModelResource
 			} 
 		}
 	
-		[EntityAttribute(1, EntityAttributeState.Optional)]
+		[EntityAttributee(1, EntityAttributeState.Optional)]
 		public IfcAxis2Placement3D @Position 
 		{ 
 			get 

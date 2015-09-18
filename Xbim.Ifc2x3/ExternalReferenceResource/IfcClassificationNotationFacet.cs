@@ -53,7 +53,7 @@ namespace Xbim.Ifc2x3.ExternalReferenceResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(0, EntityAttributeState.Mandatory)]
+		[EntityAttributee(0, EntityAttributeState.Mandatory)]
 		public IfcLabel @NotationValue 
 		{ 
 			get 

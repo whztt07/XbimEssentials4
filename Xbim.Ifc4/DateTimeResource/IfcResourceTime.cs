@@ -43,7 +43,7 @@ namespace Xbim.Ifc4.DateTimeResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(3, EntityAttributeState.Optional)]
+		[EntityAttributee(3, EntityAttributeState.Optional)]
 		public IfcDuration? @ScheduleWork 
 		{ 
 			get 
@@ -60,7 +60,7 @@ namespace Xbim.Ifc4.DateTimeResource
 			} 
 		}
 	
-		[EntityAttribute(4, EntityAttributeState.Optional)]
+		[EntityAttributee(4, EntityAttributeState.Optional)]
 		public IfcPositiveRatioMeasure? @ScheduleUsage 
 		{ 
 			get 
@@ -77,7 +77,7 @@ namespace Xbim.Ifc4.DateTimeResource
 			} 
 		}
 	
-		[EntityAttribute(5, EntityAttributeState.Optional)]
+		[EntityAttributee(5, EntityAttributeState.Optional)]
 		public IfcDateTime? @ScheduleStart 
 		{ 
 			get 
@@ -94,7 +94,7 @@ namespace Xbim.Ifc4.DateTimeResource
 			} 
 		}
 	
-		[EntityAttribute(6, EntityAttributeState.Optional)]
+		[EntityAttributee(6, EntityAttributeState.Optional)]
 		public IfcDateTime? @ScheduleFinish 
 		{ 
 			get 
@@ -111,7 +111,7 @@ namespace Xbim.Ifc4.DateTimeResource
 			} 
 		}
 	
-		[EntityAttribute(7, EntityAttributeState.Optional)]
+		[EntityAttributee(7, EntityAttributeState.Optional)]
 		public IfcLabel? @ScheduleContour 
 		{ 
 			get 
@@ -128,7 +128,7 @@ namespace Xbim.Ifc4.DateTimeResource
 			} 
 		}
 	
-		[EntityAttribute(8, EntityAttributeState.Optional)]
+		[EntityAttributee(8, EntityAttributeState.Optional)]
 		public IfcDuration? @LevelingDelay 
 		{ 
 			get 
@@ -145,7 +145,7 @@ namespace Xbim.Ifc4.DateTimeResource
 			} 
 		}
 	
-		[EntityAttribute(9, EntityAttributeState.Optional)]
+		[EntityAttributee(9, EntityAttributeState.Optional)]
 		public bool? @IsOverAllocated 
 		{ 
 			get 
@@ -162,7 +162,7 @@ namespace Xbim.Ifc4.DateTimeResource
 			} 
 		}
 	
-		[EntityAttribute(10, EntityAttributeState.Optional)]
+		[EntityAttributee(10, EntityAttributeState.Optional)]
 		public IfcDateTime? @StatusTime 
 		{ 
 			get 
@@ -179,7 +179,7 @@ namespace Xbim.Ifc4.DateTimeResource
 			} 
 		}
 	
-		[EntityAttribute(11, EntityAttributeState.Optional)]
+		[EntityAttributee(11, EntityAttributeState.Optional)]
 		public IfcDuration? @ActualWork 
 		{ 
 			get 
@@ -196,7 +196,7 @@ namespace Xbim.Ifc4.DateTimeResource
 			} 
 		}
 	
-		[EntityAttribute(12, EntityAttributeState.Optional)]
+		[EntityAttributee(12, EntityAttributeState.Optional)]
 		public IfcPositiveRatioMeasure? @ActualUsage 
 		{ 
 			get 
@@ -213,7 +213,7 @@ namespace Xbim.Ifc4.DateTimeResource
 			} 
 		}
 	
-		[EntityAttribute(13, EntityAttributeState.Optional)]
+		[EntityAttributee(13, EntityAttributeState.Optional)]
 		public IfcDateTime? @ActualStart 
 		{ 
 			get 
@@ -230,7 +230,7 @@ namespace Xbim.Ifc4.DateTimeResource
 			} 
 		}
 	
-		[EntityAttribute(14, EntityAttributeState.Optional)]
+		[EntityAttributee(14, EntityAttributeState.Optional)]
 		public IfcDateTime? @ActualFinish 
 		{ 
 			get 
@@ -247,7 +247,7 @@ namespace Xbim.Ifc4.DateTimeResource
 			} 
 		}
 	
-		[EntityAttribute(15, EntityAttributeState.Optional)]
+		[EntityAttributee(15, EntityAttributeState.Optional)]
 		public IfcDuration? @RemainingWork 
 		{ 
 			get 
@@ -264,7 +264,7 @@ namespace Xbim.Ifc4.DateTimeResource
 			} 
 		}
 	
-		[EntityAttribute(16, EntityAttributeState.Optional)]
+		[EntityAttributee(16, EntityAttributeState.Optional)]
 		public IfcPositiveRatioMeasure? @RemainingUsage 
 		{ 
 			get 
@@ -281,7 +281,7 @@ namespace Xbim.Ifc4.DateTimeResource
 			} 
 		}
 	
-		[EntityAttribute(17, EntityAttributeState.Optional)]
+		[EntityAttributee(17, EntityAttributeState.Optional)]
 		public IfcPositiveRatioMeasure? @Completion 
 		{ 
 			get 

@@ -33,7 +33,7 @@ namespace Xbim.Ifc4.StructuralAnalysisDomain
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(7, EntityAttributeState.Mandatory)]
+		[EntityAttributee(7, EntityAttributeState.Mandatory)]
 		public IfcStructuralSurfaceMemberTypeEnum @PredefinedType 
 		{ 
 			get 
@@ -50,7 +50,7 @@ namespace Xbim.Ifc4.StructuralAnalysisDomain
 			} 
 		}
 	
-		[EntityAttribute(8, EntityAttributeState.Optional)]
+		[EntityAttributee(8, EntityAttributeState.Optional)]
 		public IfcPositiveLengthMeasure? @Thickness 
 		{ 
 			get 

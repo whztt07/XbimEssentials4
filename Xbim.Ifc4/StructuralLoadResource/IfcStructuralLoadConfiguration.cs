@@ -32,7 +32,7 @@ namespace Xbim.Ifc4.StructuralLoadResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(1, EntityAttributeState.Mandatory)]
+		[EntityAttributee(1, EntityAttributeState.Mandatory)]
 		public ItemSet<IfcStructuralLoadOrResult> @Values 
 		{ 
 			get 
@@ -49,7 +49,7 @@ namespace Xbim.Ifc4.StructuralLoadResource
 			} 
 		}
 	
-		[EntityAttribute(2, EntityAttributeState.Optional)]
+		[EntityAttributee(2, EntityAttributeState.Optional)]
 		public ItemSet<ItemSet<IfcLengthMeasure>> @Locations 
 		{ 
 			get 

@@ -35,7 +35,7 @@ namespace Xbim.Ifc4.CostResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(2, EntityAttributeState.Mandatory)]
+		[EntityAttributee(2, EntityAttributeState.Mandatory)]
 		public IfcMonetaryUnit @RelatingMonetaryUnit 
 		{ 
 			get 
@@ -52,7 +52,7 @@ namespace Xbim.Ifc4.CostResource
 			} 
 		}
 	
-		[EntityAttribute(3, EntityAttributeState.Mandatory)]
+		[EntityAttributee(3, EntityAttributeState.Mandatory)]
 		public IfcMonetaryUnit @RelatedMonetaryUnit 
 		{ 
 			get 
@@ -69,7 +69,7 @@ namespace Xbim.Ifc4.CostResource
 			} 
 		}
 	
-		[EntityAttribute(4, EntityAttributeState.Mandatory)]
+		[EntityAttributee(4, EntityAttributeState.Mandatory)]
 		public IfcPositiveRatioMeasure @ExchangeRate 
 		{ 
 			get 
@@ -86,7 +86,7 @@ namespace Xbim.Ifc4.CostResource
 			} 
 		}
 	
-		[EntityAttribute(5, EntityAttributeState.Optional)]
+		[EntityAttributee(5, EntityAttributeState.Optional)]
 		public IfcDateTime? @RateDateTime 
 		{ 
 			get 
@@ -103,7 +103,7 @@ namespace Xbim.Ifc4.CostResource
 			} 
 		}
 	
-		[EntityAttribute(6, EntityAttributeState.Optional)]
+		[EntityAttributee(6, EntityAttributeState.Optional)]
 		public IfcLibraryInformation @RateSource 
 		{ 
 			get 

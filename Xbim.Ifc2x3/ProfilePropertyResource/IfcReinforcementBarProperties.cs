@@ -58,7 +58,7 @@ namespace Xbim.Ifc2x3.ProfilePropertyResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(0, EntityAttributeState.Mandatory)]
+		[EntityAttributee(0, EntityAttributeState.Mandatory)]
 		public IfcAreaMeasure @TotalCrossSectionArea 
 		{ 
 			get 
@@ -75,7 +75,7 @@ namespace Xbim.Ifc2x3.ProfilePropertyResource
 			} 
 		}
 	
-		[EntityAttribute(1, EntityAttributeState.Mandatory)]
+		[EntityAttributee(1, EntityAttributeState.Mandatory)]
 		public IfcLabel @SteelGrade 
 		{ 
 			get 
@@ -92,7 +92,7 @@ namespace Xbim.Ifc2x3.ProfilePropertyResource
 			} 
 		}
 	
-		[EntityAttribute(2, EntityAttributeState.Optional)]
+		[EntityAttributee(2, EntityAttributeState.Optional)]
 		public IfcReinforcingBarSurfaceEnum? @BarSurface 
 		{ 
 			get 
@@ -109,7 +109,7 @@ namespace Xbim.Ifc2x3.ProfilePropertyResource
 			} 
 		}
 	
-		[EntityAttribute(3, EntityAttributeState.Optional)]
+		[EntityAttributee(3, EntityAttributeState.Optional)]
 		public IfcLengthMeasure? @EffectiveDepth 
 		{ 
 			get 
@@ -126,7 +126,7 @@ namespace Xbim.Ifc2x3.ProfilePropertyResource
 			} 
 		}
 	
-		[EntityAttribute(4, EntityAttributeState.Optional)]
+		[EntityAttributee(4, EntityAttributeState.Optional)]
 		public IfcPositiveLengthMeasure? @NominalBarDiameter 
 		{ 
 			get 
@@ -143,7 +143,7 @@ namespace Xbim.Ifc2x3.ProfilePropertyResource
 			} 
 		}
 	
-		[EntityAttribute(5, EntityAttributeState.Optional)]
+		[EntityAttributee(5, EntityAttributeState.Optional)]
 		public IfcCountMeasure? @BarCount 
 		{ 
 			get 

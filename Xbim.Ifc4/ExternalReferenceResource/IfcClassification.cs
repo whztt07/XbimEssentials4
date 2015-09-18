@@ -38,7 +38,7 @@ namespace Xbim.Ifc4.ExternalReferenceResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(0, EntityAttributeState.Optional)]
+		[EntityAttributee(0, EntityAttributeState.Optional)]
 		public IfcLabel? @Source 
 		{ 
 			get 
@@ -55,7 +55,7 @@ namespace Xbim.Ifc4.ExternalReferenceResource
 			} 
 		}
 	
-		[EntityAttribute(1, EntityAttributeState.Optional)]
+		[EntityAttributee(1, EntityAttributeState.Optional)]
 		public IfcLabel? @Edition 
 		{ 
 			get 
@@ -72,7 +72,7 @@ namespace Xbim.Ifc4.ExternalReferenceResource
 			} 
 		}
 	
-		[EntityAttribute(2, EntityAttributeState.Optional)]
+		[EntityAttributee(2, EntityAttributeState.Optional)]
 		public IfcDate? @EditionDate 
 		{ 
 			get 
@@ -89,7 +89,7 @@ namespace Xbim.Ifc4.ExternalReferenceResource
 			} 
 		}
 	
-		[EntityAttribute(3, EntityAttributeState.Mandatory)]
+		[EntityAttributee(3, EntityAttributeState.Mandatory)]
 		public IfcLabel @Name 
 		{ 
 			get 
@@ -106,7 +106,7 @@ namespace Xbim.Ifc4.ExternalReferenceResource
 			} 
 		}
 	
-		[EntityAttribute(4, EntityAttributeState.Optional)]
+		[EntityAttributee(4, EntityAttributeState.Optional)]
 		public IfcText? @Description 
 		{ 
 			get 
@@ -123,7 +123,7 @@ namespace Xbim.Ifc4.ExternalReferenceResource
 			} 
 		}
 	
-		[EntityAttribute(5, EntityAttributeState.Optional)]
+		[EntityAttributee(5, EntityAttributeState.Optional)]
 		public IfcURIReference? @Location 
 		{ 
 			get 
@@ -140,7 +140,7 @@ namespace Xbim.Ifc4.ExternalReferenceResource
 			} 
 		}
 	
-		[EntityAttribute(6, EntityAttributeState.Optional)]
+		[EntityAttributee(6, EntityAttributeState.Optional)]
 		public ItemSet<IfcIdentifier> @ReferenceTokens 
 		{ 
 			get 

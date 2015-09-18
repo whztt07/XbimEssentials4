@@ -33,7 +33,7 @@ namespace Xbim.Ifc4.QuantityResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(2, EntityAttributeState.Mandatory)]
+		[EntityAttributee(2, EntityAttributeState.Mandatory)]
 		public ItemSet<IfcPhysicalQuantity> @HasQuantities 
 		{ 
 			get 
@@ -50,7 +50,7 @@ namespace Xbim.Ifc4.QuantityResource
 			} 
 		}
 	
-		[EntityAttribute(3, EntityAttributeState.Mandatory)]
+		[EntityAttributee(3, EntityAttributeState.Mandatory)]
 		public IfcLabel @Discrimination 
 		{ 
 			get 
@@ -67,7 +67,7 @@ namespace Xbim.Ifc4.QuantityResource
 			} 
 		}
 	
-		[EntityAttribute(4, EntityAttributeState.Optional)]
+		[EntityAttributee(4, EntityAttributeState.Optional)]
 		public IfcLabel? @Quality 
 		{ 
 			get 
@@ -84,7 +84,7 @@ namespace Xbim.Ifc4.QuantityResource
 			} 
 		}
 	
-		[EntityAttribute(5, EntityAttributeState.Optional)]
+		[EntityAttributee(5, EntityAttributeState.Optional)]
 		public IfcLabel? @Usage 
 		{ 
 			get 

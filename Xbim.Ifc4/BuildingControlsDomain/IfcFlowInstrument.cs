@@ -33,7 +33,7 @@ namespace Xbim.Ifc4.BuildingControlsDomain
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(8, EntityAttributeState.Optional)]
+		[EntityAttributee(8, EntityAttributeState.Optional)]
 		public IfcFlowInstrumentTypeEnum? @PredefinedType 
 		{ 
 			get 

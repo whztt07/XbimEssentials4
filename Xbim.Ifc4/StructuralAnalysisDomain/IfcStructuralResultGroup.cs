@@ -33,7 +33,7 @@ namespace Xbim.Ifc4.StructuralAnalysisDomain
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(5, EntityAttributeState.Mandatory)]
+		[EntityAttributee(5, EntityAttributeState.Mandatory)]
 		public IfcAnalysisTheoryTypeEnum @TheoryType 
 		{ 
 			get 
@@ -50,7 +50,7 @@ namespace Xbim.Ifc4.StructuralAnalysisDomain
 			} 
 		}
 	
-		[EntityAttribute(6, EntityAttributeState.Optional)]
+		[EntityAttributee(6, EntityAttributeState.Optional)]
 		public IfcStructuralLoadGroup @ResultForLoadGroup 
 		{ 
 			get 
@@ -67,7 +67,7 @@ namespace Xbim.Ifc4.StructuralAnalysisDomain
 			} 
 		}
 	
-		[EntityAttribute(7, EntityAttributeState.Mandatory)]
+		[EntityAttributee(7, EntityAttributeState.Mandatory)]
 		public bool @IsLinear 
 		{ 
 			get 

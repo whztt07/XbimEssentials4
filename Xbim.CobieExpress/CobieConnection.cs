@@ -35,7 +35,7 @@ namespace Xbim.CobieExpress
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(5, EntityAttributeState.Mandatory)]
+		[EntityAttributee(5, EntityAttributeState.Mandatory)]
 		public string @Name 
 		{ 
 			get 
@@ -52,7 +52,7 @@ namespace Xbim.CobieExpress
 			} 
 		}
 	
-		[EntityAttribute(6, EntityAttributeState.Optional)]
+		[EntityAttributee(6, EntityAttributeState.Optional)]
 		public string @Description 
 		{ 
 			get 
@@ -69,7 +69,7 @@ namespace Xbim.CobieExpress
 			} 
 		}
 	
-		[EntityAttribute(7, EntityAttributeState.Mandatory)]
+		[EntityAttributee(7, EntityAttributeState.Mandatory)]
 		public CobiePickValue @ConnectionType 
 		{ 
 			get 
@@ -86,7 +86,7 @@ namespace Xbim.CobieExpress
 			} 
 		}
 	
-		[EntityAttribute(8, EntityAttributeState.Mandatory)]
+		[EntityAttributee(8, EntityAttributeState.Mandatory)]
 		public CobieComponent @ComponentA 
 		{ 
 			get 
@@ -103,7 +103,7 @@ namespace Xbim.CobieExpress
 			} 
 		}
 	
-		[EntityAttribute(9, EntityAttributeState.Mandatory)]
+		[EntityAttributee(9, EntityAttributeState.Mandatory)]
 		public CobieComponent @ComponentB 
 		{ 
 			get 
@@ -120,7 +120,7 @@ namespace Xbim.CobieExpress
 			} 
 		}
 	
-		[EntityAttribute(10, EntityAttributeState.Optional)]
+		[EntityAttributee(10, EntityAttributeState.Optional)]
 		public CobieComponent @RealizingComponent 
 		{ 
 			get 
@@ -137,7 +137,7 @@ namespace Xbim.CobieExpress
 			} 
 		}
 	
-		[EntityAttribute(11, EntityAttributeState.Optional)]
+		[EntityAttributee(11, EntityAttributeState.Optional)]
 		public string @PortNameA 
 		{ 
 			get 
@@ -154,7 +154,7 @@ namespace Xbim.CobieExpress
 			} 
 		}
 	
-		[EntityAttribute(12, EntityAttributeState.Optional)]
+		[EntityAttributee(12, EntityAttributeState.Optional)]
 		public string @PortNameB 
 		{ 
 			get 

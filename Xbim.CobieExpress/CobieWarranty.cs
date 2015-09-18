@@ -57,7 +57,7 @@ namespace Xbim.CobieExpress
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(0, EntityAttributeState.Optional)]
+		[EntityAttributee(0, EntityAttributeState.Optional)]
 		public string @Description 
 		{ 
 			get 
@@ -74,7 +74,7 @@ namespace Xbim.CobieExpress
 			} 
 		}
 	
-		[EntityAttribute(1, EntityAttributeState.Mandatory)]
+		[EntityAttributee(1, EntityAttributeState.Mandatory)]
 		public CobieContact @GuarantorParts 
 		{ 
 			get 
@@ -91,7 +91,7 @@ namespace Xbim.CobieExpress
 			} 
 		}
 	
-		[EntityAttribute(2, EntityAttributeState.Mandatory)]
+		[EntityAttributee(2, EntityAttributeState.Mandatory)]
 		public double @DurationParts 
 		{ 
 			get 
@@ -108,7 +108,7 @@ namespace Xbim.CobieExpress
 			} 
 		}
 	
-		[EntityAttribute(3, EntityAttributeState.Mandatory)]
+		[EntityAttributee(3, EntityAttributeState.Mandatory)]
 		public CobieContact @GuarantorLabor 
 		{ 
 			get 
@@ -125,7 +125,7 @@ namespace Xbim.CobieExpress
 			} 
 		}
 	
-		[EntityAttribute(4, EntityAttributeState.Mandatory)]
+		[EntityAttributee(4, EntityAttributeState.Mandatory)]
 		public double @DurationLabor 
 		{ 
 			get 
@@ -142,7 +142,7 @@ namespace Xbim.CobieExpress
 			} 
 		}
 	
-		[EntityAttribute(5, EntityAttributeState.Mandatory)]
+		[EntityAttributee(5, EntityAttributeState.Mandatory)]
 		public CobiePickValue @DurationUnit 
 		{ 
 			get 

@@ -41,7 +41,7 @@ namespace Xbim.Ifc2x3.ProfileResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(3, EntityAttributeState.Mandatory)]
+		[EntityAttributee(3, EntityAttributeState.Mandatory)]
 		public IfcPositiveLengthMeasure @OverallHeight 
 		{ 
 			get 
@@ -58,7 +58,7 @@ namespace Xbim.Ifc2x3.ProfileResource
 			} 
 		}
 	
-		[EntityAttribute(4, EntityAttributeState.Mandatory)]
+		[EntityAttributee(4, EntityAttributeState.Mandatory)]
 		public IfcPositiveLengthMeasure @BaseWidth2 
 		{ 
 			get 
@@ -75,7 +75,7 @@ namespace Xbim.Ifc2x3.ProfileResource
 			} 
 		}
 	
-		[EntityAttribute(5, EntityAttributeState.Optional)]
+		[EntityAttributee(5, EntityAttributeState.Optional)]
 		public IfcPositiveLengthMeasure? @Radius 
 		{ 
 			get 
@@ -92,7 +92,7 @@ namespace Xbim.Ifc2x3.ProfileResource
 			} 
 		}
 	
-		[EntityAttribute(6, EntityAttributeState.Mandatory)]
+		[EntityAttributee(6, EntityAttributeState.Mandatory)]
 		public IfcPositiveLengthMeasure @HeadWidth 
 		{ 
 			get 
@@ -109,7 +109,7 @@ namespace Xbim.Ifc2x3.ProfileResource
 			} 
 		}
 	
-		[EntityAttribute(7, EntityAttributeState.Mandatory)]
+		[EntityAttributee(7, EntityAttributeState.Mandatory)]
 		public IfcPositiveLengthMeasure @HeadDepth2 
 		{ 
 			get 
@@ -126,7 +126,7 @@ namespace Xbim.Ifc2x3.ProfileResource
 			} 
 		}
 	
-		[EntityAttribute(8, EntityAttributeState.Mandatory)]
+		[EntityAttributee(8, EntityAttributeState.Mandatory)]
 		public IfcPositiveLengthMeasure @HeadDepth3 
 		{ 
 			get 
@@ -143,7 +143,7 @@ namespace Xbim.Ifc2x3.ProfileResource
 			} 
 		}
 	
-		[EntityAttribute(9, EntityAttributeState.Mandatory)]
+		[EntityAttributee(9, EntityAttributeState.Mandatory)]
 		public IfcPositiveLengthMeasure @WebThickness 
 		{ 
 			get 
@@ -160,7 +160,7 @@ namespace Xbim.Ifc2x3.ProfileResource
 			} 
 		}
 	
-		[EntityAttribute(10, EntityAttributeState.Mandatory)]
+		[EntityAttributee(10, EntityAttributeState.Mandatory)]
 		public IfcPositiveLengthMeasure @BaseWidth4 
 		{ 
 			get 
@@ -177,7 +177,7 @@ namespace Xbim.Ifc2x3.ProfileResource
 			} 
 		}
 	
-		[EntityAttribute(11, EntityAttributeState.Mandatory)]
+		[EntityAttributee(11, EntityAttributeState.Mandatory)]
 		public IfcPositiveLengthMeasure @BaseDepth1 
 		{ 
 			get 
@@ -194,7 +194,7 @@ namespace Xbim.Ifc2x3.ProfileResource
 			} 
 		}
 	
-		[EntityAttribute(12, EntityAttributeState.Mandatory)]
+		[EntityAttributee(12, EntityAttributeState.Mandatory)]
 		public IfcPositiveLengthMeasure @BaseDepth2 
 		{ 
 			get 
@@ -211,7 +211,7 @@ namespace Xbim.Ifc2x3.ProfileResource
 			} 
 		}
 	
-		[EntityAttribute(13, EntityAttributeState.Mandatory)]
+		[EntityAttributee(13, EntityAttributeState.Mandatory)]
 		public IfcPositiveLengthMeasure @BaseDepth3 
 		{ 
 			get 
@@ -228,7 +228,7 @@ namespace Xbim.Ifc2x3.ProfileResource
 			} 
 		}
 	
-		[EntityAttribute(14, EntityAttributeState.Optional)]
+		[EntityAttributee(14, EntityAttributeState.Optional)]
 		public IfcPositiveLengthMeasure? @CentreOfGravityInY 
 		{ 
 			get 

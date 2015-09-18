@@ -55,7 +55,7 @@ namespace Xbim.Ifc2x3.DateTimeResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(0, EntityAttributeState.Mandatory)]
+		[EntityAttributee(0, EntityAttributeState.Mandatory)]
 		public IfcDayInMonthNumber @DayComponent 
 		{ 
 			get 
@@ -72,7 +72,7 @@ namespace Xbim.Ifc2x3.DateTimeResource
 			} 
 		}
 	
-		[EntityAttribute(1, EntityAttributeState.Mandatory)]
+		[EntityAttributee(1, EntityAttributeState.Mandatory)]
 		public IfcMonthInYearNumber @MonthComponent 
 		{ 
 			get 
@@ -89,7 +89,7 @@ namespace Xbim.Ifc2x3.DateTimeResource
 			} 
 		}
 	
-		[EntityAttribute(2, EntityAttributeState.Mandatory)]
+		[EntityAttributee(2, EntityAttributeState.Mandatory)]
 		public IfcYearNumber @YearComponent 
 		{ 
 			get 

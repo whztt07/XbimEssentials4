@@ -29,7 +29,7 @@ namespace Xbim.Ifc2x3.ExternalReferenceResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(3, EntityAttributeState.Optional)]
+		[EntityAttributee(3, EntityAttributeState.Optional)]
 		public IfcClassification @ReferencedSource 
 		{ 
 			get 

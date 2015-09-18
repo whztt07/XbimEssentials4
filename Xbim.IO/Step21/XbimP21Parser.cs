@@ -18,11 +18,12 @@ using System.IO;
 using System.Linq;
 using Xbim.Common;
 using Xbim.Common.Logging;
-using Xbim.IO.Step21;
+using Xbim.IO.Parser;
+using Xbim.IO.Step21.Parser;
 
 #endregion
 
-namespace Xbim.IO.Parser
+namespace Xbim.IO.Step21
 {
     public class XbimP21Parser : P21Parser
     {

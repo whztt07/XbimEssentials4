@@ -32,7 +32,7 @@ namespace Xbim.Ifc4.ActorResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(2, EntityAttributeState.Mandatory)]
+		[EntityAttributee(2, EntityAttributeState.Mandatory)]
 		public IfcOrganization @RelatingOrganization 
 		{ 
 			get 
@@ -49,7 +49,7 @@ namespace Xbim.Ifc4.ActorResource
 			} 
 		}
 	
-		[EntityAttribute(3, EntityAttributeState.Mandatory)]
+		[EntityAttributee(3, EntityAttributeState.Mandatory)]
 		public ItemSet<IfcOrganization> @RelatedOrganizations 
 		{ 
 			get 

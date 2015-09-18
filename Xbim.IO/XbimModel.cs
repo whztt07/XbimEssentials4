@@ -328,7 +328,9 @@ namespace Xbim.IO
             {
                 _editTransactionEntityCursor = _cache.GetEntityTable();
                 _cache.BeginCaching();
-                return new XbimReadWriteTransaction(this, _editTransactionEntityCursor.BeginLazyTransaction(), operationName);
+                var txn = new XbimReadWriteTransaction(this, _editTransactionEntityCursor.BeginLazyTransaction(), operationName);
+                CurrentTransaction = txn;
+                return txn;
             }
             catch (Exception e)
             {
@@ -634,7 +636,7 @@ namespace Xbim.IO
         {
             //IfcAttribute ifcAttr, object instance, object propVal, string propName
 
-            var ifcAttr = prop.IfcAttribute;
+            var ifcAttr = prop.EntityAttributeAttribute;
             var propVal = prop.PropertyInfo.GetValue(instance, null);
             var propName = prop.PropertyInfo.Name;
 
@@ -643,19 +645,19 @@ namespace Xbim.IO
             {
                 var err = "";
                 var val = expressType.ToPart21;
-                if (ifcAttr.State == IfcAttributeState.Mandatory && val == "$")
+                if (ifcAttr.State == EntityAttributeState.Mandatory && val == "$")
                     err += string.Format("{0}.{1} is not optional", instance.GetType().Name, propName);
                 err += ((IPersist)propVal).WhereRule();
                 if (!string.IsNullOrEmpty(err)) return err;
             }
 
-            if (ifcAttr.State == IfcAttributeState.Mandatory && propVal == null)
+            if (ifcAttr.State == EntityAttributeState.Mandatory && propVal == null)
                 return string.Format("{0}.{1} is not optional", instance.GetType().Name, propName);
-            if (ifcAttr.State == IfcAttributeState.Optional && propVal == null)
+            if (ifcAttr.State == EntityAttributeState.Optional && propVal == null)
                 //if it is null and optional then it is ok
                 return null;
-            if (ifcAttr.IfcType == IfcAttributeType.Set || ifcAttr.IfcType == IfcAttributeType.List ||
-                ifcAttr.IfcType == IfcAttributeType.ListUnique)
+            if (ifcAttr.EntityType == EntityAttributeType.Set || ifcAttr.EntityType == EntityAttributeType.List ||
+                ifcAttr.EntityType == EntityAttributeType.ListUnique)
             {
                 if (ifcAttr.MinCardinality < 1 && ifcAttr.MaxCardinality < 0) //we don't care how many so don't check
                     return null;
@@ -1470,12 +1472,36 @@ namespace Xbim.IO
 
         ITransaction IModel.BeginTransaction(string name)
         {
-            return CurrentTransaction = BeginTransaction(name);
+            return BeginTransaction(name);
         }
+
+        /// <summary>
+        /// Weak reference allows garbage collector to collect transaction once it goes out of the scope
+        /// even if it is still referenced from model. This is important for the cases where the transaction
+        /// is both not commited and not rolled back either.
+        /// </summary>
+        private WeakReference _transactionReference;
 
         public ITransaction CurrentTransaction
         {
-            get; private set;
+            get
+            {
+                if (_transactionReference == null || !_transactionReference.IsAlive)
+                    return null;
+                return _transactionReference.Target as ITransaction;
+            }
+            internal set
+            {
+                if (value == null)
+                {
+                    _transactionReference = null;
+                    return;
+                }
+                if (_transactionReference == null)
+                    _transactionReference = new WeakReference(value);
+                else
+                    _transactionReference.Target = value;
+            }
         }
     }
 }

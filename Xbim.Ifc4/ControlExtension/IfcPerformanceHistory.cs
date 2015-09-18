@@ -32,7 +32,7 @@ namespace Xbim.Ifc4.ControlExtension
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(6, EntityAttributeState.Mandatory)]
+		[EntityAttributee(6, EntityAttributeState.Mandatory)]
 		public IfcLabel @LifeCyclePhase 
 		{ 
 			get 
@@ -49,7 +49,7 @@ namespace Xbim.Ifc4.ControlExtension
 			} 
 		}
 	
-		[EntityAttribute(7, EntityAttributeState.Optional)]
+		[EntityAttributee(7, EntityAttributeState.Optional)]
 		public IfcPerformanceHistoryTypeEnum? @PredefinedType 
 		{ 
 			get 

@@ -177,25 +177,25 @@ namespace Xbim.IO
             
             foreach (var ifcProperty in toWrite) //only write out persistent attributes, ignore inverses
             {
-                if (ifcProperty.IfcAttribute.State != IfcAttributeState.DerivedOverride)
+                if (ifcProperty.EntityAttributeAttribute.State != EntityAttributeState.DerivedOverride)
                 {
                     var propType = ifcProperty.PropertyInfo.PropertyType;
                     var propVal = ifcProperty.PropertyInfo.GetValue(entity, null);
 
                     WriteProperty(model, ifcProperty.PropertyInfo.Name, propType, propVal, entity, output, -1,
-                                  ifcProperty.IfcAttribute);
+                                  ifcProperty.EntityAttributeAttribute);
                 }
             }
             output.WriteEndElement();
         }
 
         private void WriteProperty(XbimModel model, string propName, Type propType, object propVal, object entity, XmlWriter output,
-                                   int pos, IfcAttribute attr)
+                                   int pos, EntityAttributeAttribute attr)
         {
             if (propVal == null)
             //null or a value type that maybe null, need to write out sets and lists if they are mandatroy but empty
             {
-                if (typeof(IExpressEnumerable).IsAssignableFrom(propType) && attr.State == IfcAttributeState.Mandatory
+                if (typeof(IExpressEnumerable).IsAssignableFrom(propType) && attr.State == EntityAttributeState.Mandatory
                     && !typeof(IfcCartesianPoint).IsAssignableFrom(propType)
                     && !typeof(IfcDirection).IsAssignableFrom(propType))
                 //special case as these two classes are optimised

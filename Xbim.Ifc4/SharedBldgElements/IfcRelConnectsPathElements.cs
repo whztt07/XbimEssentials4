@@ -37,7 +37,7 @@ namespace Xbim.Ifc4.SharedBldgElements
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(7, EntityAttributeState.Mandatory)]
+		[EntityAttributee(7, EntityAttributeState.Mandatory)]
 		public ItemSet<double> @RelatingPriorities 
 		{ 
 			get 
@@ -54,7 +54,7 @@ namespace Xbim.Ifc4.SharedBldgElements
 			} 
 		}
 	
-		[EntityAttribute(8, EntityAttributeState.Mandatory)]
+		[EntityAttributee(8, EntityAttributeState.Mandatory)]
 		public ItemSet<double> @RelatedPriorities 
 		{ 
 			get 
@@ -71,7 +71,7 @@ namespace Xbim.Ifc4.SharedBldgElements
 			} 
 		}
 	
-		[EntityAttribute(9, EntityAttributeState.Mandatory)]
+		[EntityAttributee(9, EntityAttributeState.Mandatory)]
 		public IfcConnectionTypeEnum @RelatedConnectionType 
 		{ 
 			get 
@@ -88,7 +88,7 @@ namespace Xbim.Ifc4.SharedBldgElements
 			} 
 		}
 	
-		[EntityAttribute(10, EntityAttributeState.Mandatory)]
+		[EntityAttributee(10, EntityAttributeState.Mandatory)]
 		public IfcConnectionTypeEnum @RelatingConnectionType 
 		{ 
 			get 

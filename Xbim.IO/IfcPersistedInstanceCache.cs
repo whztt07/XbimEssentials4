@@ -17,6 +17,7 @@ using System.Collections.Concurrent;
 using Xbim.Common;
 using Xbim.Ifc2x3.GeometryResource;
 using Xbim.Ifc2x3.Kernel;
+using Xbim.IO.Step21;
 using XbimGeometry.Interfaces;
 
 
@@ -1759,7 +1760,7 @@ namespace Xbim.IO
             _read.TryAdd(copyHandle.EntityLabel, theCopy);
             CreatedNew.TryAdd(copyHandle.EntityLabel, theCopy);
             var rt = theCopy as IfcRoot;
-            var props = ifcType.IfcProperties.Values.Where(p => !p.IfcAttribute.IsDerivedOverride);
+            var props = ifcType.IfcProperties.Values.Where(p => !p.EntityAttributeAttribute.IsDerivedOverride);
             if (includeInverses)
                 props = props.Union(ifcType.IfcInverses);
             if (rt != null) rt.OwnerHistory = _model.OwnerHistoryAddObject;
@@ -1770,7 +1771,7 @@ namespace Xbim.IO
                 var value = prop.PropertyInfo.GetValue(toCopy, null);
                 if (value != null)
                 {
-                    var isInverse = (prop.IfcAttribute.Order == -1); //don't try and set the values for inverses
+                    var isInverse = (prop.EntityAttributeAttribute.Order == -1); //don't try and set the values for inverses
                     var theType = value.GetType();
                     //if it is an express type or a value type, set the value
                     if (theType.IsValueType || typeof(IExpressType).IsAssignableFrom(theType))

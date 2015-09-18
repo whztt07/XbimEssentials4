@@ -34,7 +34,7 @@ namespace Xbim.Ifc4.StructuralAnalysisDomain
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(10, EntityAttributeState.Optional)]
+		[EntityAttributee(10, EntityAttributeState.Optional)]
 		public IfcProjectedOrTrueLengthEnum? @ProjectedOrTrue 
 		{ 
 			get 
@@ -51,7 +51,7 @@ namespace Xbim.Ifc4.StructuralAnalysisDomain
 			} 
 		}
 	
-		[EntityAttribute(11, EntityAttributeState.Mandatory)]
+		[EntityAttributee(11, EntityAttributeState.Mandatory)]
 		public IfcStructuralCurveActivityTypeEnum @PredefinedType 
 		{ 
 			get 

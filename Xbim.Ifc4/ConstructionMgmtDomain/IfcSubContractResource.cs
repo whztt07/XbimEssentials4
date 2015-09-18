@@ -33,7 +33,7 @@ namespace Xbim.Ifc4.ConstructionMgmtDomain
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(10, EntityAttributeState.Optional)]
+		[EntityAttributee(10, EntityAttributeState.Optional)]
 		public IfcSubContractResourceTypeEnum? @PredefinedType 
 		{ 
 			get 

@@ -34,7 +34,7 @@ namespace Xbim.Ifc2x3.ElectricalDomain
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(8, EntityAttributeState.Mandatory)]
+		[EntityAttributee(8, EntityAttributeState.Mandatory)]
 		public IfcElectricDistributionPointFunctionEnum @DistributionPointFunction 
 		{ 
 			get 
@@ -51,7 +51,7 @@ namespace Xbim.Ifc2x3.ElectricalDomain
 			} 
 		}
 	
-		[EntityAttribute(9, EntityAttributeState.Optional)]
+		[EntityAttributee(9, EntityAttributeState.Optional)]
 		public IfcLabel? @UserDefinedFunction 
 		{ 
 			get 

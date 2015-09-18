@@ -42,7 +42,7 @@ namespace Xbim.Ifc2x3.SharedFacilitiesElements
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(5, EntityAttributeState.Mandatory)]
+		[EntityAttributee(5, EntityAttributeState.Mandatory)]
 		public IfcIdentifier @AssetID 
 		{ 
 			get 
@@ -59,7 +59,7 @@ namespace Xbim.Ifc2x3.SharedFacilitiesElements
 			} 
 		}
 	
-		[EntityAttribute(6, EntityAttributeState.Mandatory)]
+		[EntityAttributee(6, EntityAttributeState.Mandatory)]
 		public IfcCostValue @OriginalValue 
 		{ 
 			get 
@@ -76,7 +76,7 @@ namespace Xbim.Ifc2x3.SharedFacilitiesElements
 			} 
 		}
 	
-		[EntityAttribute(7, EntityAttributeState.Mandatory)]
+		[EntityAttributee(7, EntityAttributeState.Mandatory)]
 		public IfcCostValue @CurrentValue 
 		{ 
 			get 
@@ -93,7 +93,7 @@ namespace Xbim.Ifc2x3.SharedFacilitiesElements
 			} 
 		}
 	
-		[EntityAttribute(8, EntityAttributeState.Mandatory)]
+		[EntityAttributee(8, EntityAttributeState.Mandatory)]
 		public IfcCostValue @TotalReplacementCost 
 		{ 
 			get 
@@ -110,7 +110,7 @@ namespace Xbim.Ifc2x3.SharedFacilitiesElements
 			} 
 		}
 	
-		[EntityAttribute(9, EntityAttributeState.Mandatory)]
+		[EntityAttributee(9, EntityAttributeState.Mandatory)]
 		public IfcActorSelect @Owner 
 		{ 
 			get 
@@ -127,7 +127,7 @@ namespace Xbim.Ifc2x3.SharedFacilitiesElements
 			} 
 		}
 	
-		[EntityAttribute(10, EntityAttributeState.Mandatory)]
+		[EntityAttributee(10, EntityAttributeState.Mandatory)]
 		public IfcActorSelect @User 
 		{ 
 			get 
@@ -144,7 +144,7 @@ namespace Xbim.Ifc2x3.SharedFacilitiesElements
 			} 
 		}
 	
-		[EntityAttribute(11, EntityAttributeState.Mandatory)]
+		[EntityAttributee(11, EntityAttributeState.Mandatory)]
 		public IfcPerson @ResponsiblePerson 
 		{ 
 			get 
@@ -161,7 +161,7 @@ namespace Xbim.Ifc2x3.SharedFacilitiesElements
 			} 
 		}
 	
-		[EntityAttribute(12, EntityAttributeState.Mandatory)]
+		[EntityAttributee(12, EntityAttributeState.Mandatory)]
 		public IfcCalendarDate @IncorporationDate 
 		{ 
 			get 
@@ -178,7 +178,7 @@ namespace Xbim.Ifc2x3.SharedFacilitiesElements
 			} 
 		}
 	
-		[EntityAttribute(13, EntityAttributeState.Mandatory)]
+		[EntityAttributee(13, EntityAttributeState.Mandatory)]
 		public IfcCostValue @DepreciatedValue 
 		{ 
 			get 

@@ -29,7 +29,7 @@ namespace Xbim.Ifc2x3.Kernel
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(4, EntityAttributeState.Mandatory)]
+		[EntityAttributee(4, EntityAttributeState.Mandatory)]
 		public ItemSet<IfcObjectDefinition> @RelatedObjects 
 		{ 
 			get 
@@ -46,7 +46,7 @@ namespace Xbim.Ifc2x3.Kernel
 			} 
 		}
 	
-		[EntityAttribute(5, EntityAttributeState.Optional)]
+		[EntityAttributee(5, EntityAttributeState.Optional)]
 		public IfcObjectTypeEnum? @RelatedObjectsType 
 		{ 
 			get 

@@ -32,7 +32,7 @@ namespace Xbim.Ifc4.Kernel
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(4, EntityAttributeState.Optional)]
+		[EntityAttributee(4, EntityAttributeState.Optional)]
 		public IfcIdentifier? @ApplicableOccurrence 
 		{ 
 			get 
@@ -49,7 +49,7 @@ namespace Xbim.Ifc4.Kernel
 			} 
 		}
 	
-		[EntityAttribute(5, EntityAttributeState.Optional)]
+		[EntityAttributee(5, EntityAttributeState.Optional)]
 		public ItemSet<IfcPropertySetDefinition> @HasPropertySets 
 		{ 
 			get 

@@ -32,7 +32,7 @@ namespace Xbim.Ifc2x3.SharedMgmtElements
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(5, EntityAttributeState.Mandatory)]
+		[EntityAttributee(5, EntityAttributeState.Mandatory)]
 		public IfcAppliedValue @RelatingAppliedValue 
 		{ 
 			get 

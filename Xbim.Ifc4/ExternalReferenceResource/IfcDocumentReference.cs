@@ -31,7 +31,7 @@ namespace Xbim.Ifc4.ExternalReferenceResource
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(3, EntityAttributeState.Optional)]
+		[EntityAttributee(3, EntityAttributeState.Optional)]
 		public IfcText? @Description 
 		{ 
 			get 
@@ -48,7 +48,7 @@ namespace Xbim.Ifc4.ExternalReferenceResource
 			} 
 		}
 	
-		[EntityAttribute(4, EntityAttributeState.Optional)]
+		[EntityAttributee(4, EntityAttributeState.Optional)]
 		public IfcDocumentInformation @ReferencedDocument 
 		{ 
 			get 

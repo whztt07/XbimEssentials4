@@ -41,7 +41,7 @@ namespace Xbim.CobieExpress
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(5, EntityAttributeState.Mandatory)]
+		[EntityAttributee(5, EntityAttributeState.Mandatory)]
 		public string @Email 
 		{ 
 			get 
@@ -58,7 +58,7 @@ namespace Xbim.CobieExpress
 			} 
 		}
 	
-		[EntityAttribute(6, EntityAttributeState.Mandatory)]
+		[EntityAttributee(6, EntityAttributeState.Mandatory)]
 		public CobiePickValue @Category 
 		{ 
 			get 
@@ -75,7 +75,7 @@ namespace Xbim.CobieExpress
 			} 
 		}
 	
-		[EntityAttribute(7, EntityAttributeState.Mandatory)]
+		[EntityAttributee(7, EntityAttributeState.Mandatory)]
 		public string @Company 
 		{ 
 			get 
@@ -92,7 +92,7 @@ namespace Xbim.CobieExpress
 			} 
 		}
 	
-		[EntityAttribute(8, EntityAttributeState.Mandatory)]
+		[EntityAttributee(8, EntityAttributeState.Mandatory)]
 		public string @Phone 
 		{ 
 			get 
@@ -109,7 +109,7 @@ namespace Xbim.CobieExpress
 			} 
 		}
 	
-		[EntityAttribute(9, EntityAttributeState.Optional)]
+		[EntityAttributee(9, EntityAttributeState.Optional)]
 		public string @Department 
 		{ 
 			get 
@@ -126,7 +126,7 @@ namespace Xbim.CobieExpress
 			} 
 		}
 	
-		[EntityAttribute(10, EntityAttributeState.Optional)]
+		[EntityAttributee(10, EntityAttributeState.Optional)]
 		public string @OrganizationCode 
 		{ 
 			get 
@@ -143,7 +143,7 @@ namespace Xbim.CobieExpress
 			} 
 		}
 	
-		[EntityAttribute(11, EntityAttributeState.Optional)]
+		[EntityAttributee(11, EntityAttributeState.Optional)]
 		public string @GivenName 
 		{ 
 			get 
@@ -160,7 +160,7 @@ namespace Xbim.CobieExpress
 			} 
 		}
 	
-		[EntityAttribute(12, EntityAttributeState.Optional)]
+		[EntityAttributee(12, EntityAttributeState.Optional)]
 		public string @FamilyName 
 		{ 
 			get 
@@ -177,7 +177,7 @@ namespace Xbim.CobieExpress
 			} 
 		}
 	
-		[EntityAttribute(13, EntityAttributeState.Optional)]
+		[EntityAttributee(13, EntityAttributeState.Optional)]
 		public string @Street 
 		{ 
 			get 
@@ -194,7 +194,7 @@ namespace Xbim.CobieExpress
 			} 
 		}
 	
-		[EntityAttribute(14, EntityAttributeState.Optional)]
+		[EntityAttributee(14, EntityAttributeState.Optional)]
 		public string @PostalBox 
 		{ 
 			get 
@@ -211,7 +211,7 @@ namespace Xbim.CobieExpress
 			} 
 		}
 	
-		[EntityAttribute(15, EntityAttributeState.Optional)]
+		[EntityAttributee(15, EntityAttributeState.Optional)]
 		public string @Town 
 		{ 
 			get 
@@ -228,7 +228,7 @@ namespace Xbim.CobieExpress
 			} 
 		}
 	
-		[EntityAttribute(16, EntityAttributeState.Optional)]
+		[EntityAttributee(16, EntityAttributeState.Optional)]
 		public string @StateRegion 
 		{ 
 			get 
@@ -245,7 +245,7 @@ namespace Xbim.CobieExpress
 			} 
 		}
 	
-		[EntityAttribute(17, EntityAttributeState.Optional)]
+		[EntityAttributee(17, EntityAttributeState.Optional)]
 		public string @PostalCode 
 		{ 
 			get 
@@ -262,7 +262,7 @@ namespace Xbim.CobieExpress
 			} 
 		}
 	
-		[EntityAttribute(18, EntityAttributeState.Optional)]
+		[EntityAttributee(18, EntityAttributeState.Optional)]
 		public string @Country 
 		{ 
 			get 

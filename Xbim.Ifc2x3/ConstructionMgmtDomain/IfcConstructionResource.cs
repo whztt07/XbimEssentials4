@@ -32,7 +32,7 @@ namespace Xbim.Ifc2x3.ConstructionMgmtDomain
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(5, EntityAttributeState.Optional)]
+		[EntityAttributee(5, EntityAttributeState.Optional)]
 		public IfcIdentifier? @ResourceIdentifier 
 		{ 
 			get 
@@ -49,7 +49,7 @@ namespace Xbim.Ifc2x3.ConstructionMgmtDomain
 			} 
 		}
 	
-		[EntityAttribute(6, EntityAttributeState.Optional)]
+		[EntityAttributee(6, EntityAttributeState.Optional)]
 		public IfcLabel? @ResourceGroup 
 		{ 
 			get 
@@ -66,7 +66,7 @@ namespace Xbim.Ifc2x3.ConstructionMgmtDomain
 			} 
 		}
 	
-		[EntityAttribute(7, EntityAttributeState.Optional)]
+		[EntityAttributee(7, EntityAttributeState.Optional)]
 		public IfcResourceConsumptionEnum? @ResourceConsumption 
 		{ 
 			get 
@@ -83,7 +83,7 @@ namespace Xbim.Ifc2x3.ConstructionMgmtDomain
 			} 
 		}
 	
-		[EntityAttribute(8, EntityAttributeState.Optional)]
+		[EntityAttributee(8, EntityAttributeState.Optional)]
 		public IfcMeasureWithUnit @BaseQuantity 
 		{ 
 			get 

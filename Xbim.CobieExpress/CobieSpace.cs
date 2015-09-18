@@ -32,7 +32,7 @@ namespace Xbim.CobieExpress
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(11, EntityAttributeState.Optional)]
+		[EntityAttributee(11, EntityAttributeState.Optional)]
 		public string @RoomTag 
 		{ 
 			get 
@@ -49,7 +49,7 @@ namespace Xbim.CobieExpress
 			} 
 		}
 	
-		[EntityAttribute(12, EntityAttributeState.Optional)]
+		[EntityAttributee(12, EntityAttributeState.Optional)]
 		public double? @UsableHeight 
 		{ 
 			get 
@@ -66,7 +66,7 @@ namespace Xbim.CobieExpress
 			} 
 		}
 	
-		[EntityAttribute(13, EntityAttributeState.Optional)]
+		[EntityAttributee(13, EntityAttributeState.Optional)]
 		public double? @GrossArea 
 		{ 
 			get 
@@ -83,7 +83,7 @@ namespace Xbim.CobieExpress
 			} 
 		}
 	
-		[EntityAttribute(14, EntityAttributeState.Optional)]
+		[EntityAttributee(14, EntityAttributeState.Optional)]
 		public double? @NetArea 
 		{ 
 			get 
@@ -100,7 +100,7 @@ namespace Xbim.CobieExpress
 			} 
 		}
 	
-		[EntityAttribute(15, EntityAttributeState.Mandatory)]
+		[EntityAttributee(15, EntityAttributeState.Mandatory)]
 		public CobieFloor @Floor 
 		{ 
 			get 

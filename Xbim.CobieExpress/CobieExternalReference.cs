@@ -55,7 +55,7 @@ namespace Xbim.CobieExpress
 		#endregion
 	
 		#region Explicit attribute properties
-		[EntityAttribute(0, EntityAttributeState.Mandatory)]
+		[EntityAttributee(0, EntityAttributeState.Mandatory)]
 		public CobieCreatedInfo @Created 
 		{ 
 			get 
@@ -72,7 +72,7 @@ namespace Xbim.CobieExpress
 			} 
 		}
 	
-		[EntityAttribute(1, EntityAttributeState.Optional)]
+		[EntityAttributee(1, EntityAttributeState.Optional)]
 		public CobieExternalSystem @ExternalSystem 
 		{ 
 			get 
@@ -89,7 +89,7 @@ namespace Xbim.CobieExpress
 			} 
 		}
 	
-		[EntityAttribute(2, EntityAttributeState.Optional)]
+		[EntityAttributee(2, EntityAttributeState.Optional)]
 		public string @ExternalObject 
 		{ 
 			get 
@@ -106,7 +106,7 @@ namespace Xbim.CobieExpress
 			} 
 		}
 	
-		[EntityAttribute(3, EntityAttributeState.Optional)]
+		[EntityAttributee(3, EntityAttributeState.Optional)]
 		public string @ExternalId 
 		{ 
 			get 
@@ -123,7 +123,7 @@ namespace Xbim.CobieExpress
 			} 
 		}
 	
-		[EntityAttribute(4, EntityAttributeState.Mandatory)]
+		[EntityAttributee(4, EntityAttributeState.Mandatory)]
 		public long @LocalId 
 		{ 
 			get 
