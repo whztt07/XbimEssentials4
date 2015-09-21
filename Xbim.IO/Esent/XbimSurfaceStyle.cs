@@ -1,6 +1,6 @@
 ﻿using Xbim.Ifc2x3.PresentationAppearanceResource;
 
-namespace Xbim.IO
+namespace Xbim.IO.Esent
 {
     /// <summary>
     /// Represents a material used to render a surface of a geometry
@@ -46,9 +46,9 @@ namespace Xbim.IO
             if (IsIfcSurfaceStyle) return (IfcSurfaceStyle)model.Instances[styleId]; else return null;
         }
 
-        public IfcType IfcType
+        public ExpressType ExpressType
         {
-            get { return IfcMetaData.IfcType(ifcTypeId); }
+            get { return ExpressMetaData.IfcType(ifcTypeId); }
            
         }
 

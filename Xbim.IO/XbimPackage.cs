@@ -15,6 +15,7 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using Xbim.Common.Step21;
 using Xbim.IO.Parser;
 
 
@@ -25,9 +26,9 @@ namespace Xbim.IO
     [Serializable]
     internal class XbimHeader
     {
-        public FileDescription File_Descriptor = new FileDescription("2;1");
+        public StepFileDescription StepFileDescriptor = new StepFileDescription("2;1");
 
-        public FileName File_Name = new FileName(DateTime.Now)
+        public StepFileName StepFileName = new StepFileName(DateTime.Now)
                                         {
                                             PreprocessorVersion =
                                                 string.Format("Xbim.Ifc File Processor version {0}",
@@ -39,7 +40,7 @@ namespace Xbim.IO
                                                                   ()),
                                         };
 
-        public FileSchema File_Schema = new FileSchema("IFC2X3");
+        public StepFileSchema StepFileSchema = new StepFileSchema("IFC2X3");
 
         public Dictionary<string, long> Contents = new Dictionary<string, long>();
 

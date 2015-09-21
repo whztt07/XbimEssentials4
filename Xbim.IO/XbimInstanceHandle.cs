@@ -39,15 +39,15 @@ namespace Xbim.IO
         {
             get
             {
-                return IfcMetaData.GetType(EntityTypeId);
+                return ExpressMetaData.GetType(EntityTypeId);
             }
         }
 
-        public IfcType EntityIfcType
+        public ExpressType EntityExpressType
         {
             get
             {
-                return  IfcMetaData.IfcType(EntityTypeId);
+                return  ExpressMetaData.IfcType(EntityTypeId);
             }
         }
         
@@ -71,7 +71,7 @@ namespace Xbim.IO
         {
             Model = model;
             EntityLabel = entityLabel;
-            EntityTypeId = IfcMetaData.IfcTypeId(type);
+            EntityTypeId = ExpressMetaData.IfcTypeId(type);
         }
 
         public XbimInstanceHandle(XbimModel model, int? label, short? type)
@@ -85,7 +85,7 @@ namespace Xbim.IO
         {
             Model = (XbimModel)entity.Model;
             this.EntityLabel = entity.EntityLabel;
-            this.EntityTypeId = IfcMetaData.IfcTypeId(entity as IInstantiableEntity);
+            this.EntityTypeId = ExpressMetaData.IfcTypeId(entity as IInstantiableEntity);
         }
 
         public IPersistEntity GetEntity()
@@ -93,9 +93,9 @@ namespace Xbim.IO
             return Model.Instances[EntityLabel];
         }
        
-        internal IfcType IfcType()
+        internal ExpressType IfcType()
         {
-            return IfcMetaData.IfcType(EntityTypeId);
+            return ExpressMetaData.IfcType(EntityTypeId);
         }
 
 

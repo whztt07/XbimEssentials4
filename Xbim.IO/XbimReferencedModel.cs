@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using Xbim.Common.Exceptions;
 using Xbim.Ifc2x3.ExternalReferenceResource;
+using Xbim.IO.Esent;
 
 namespace Xbim.IO
 {
@@ -27,7 +28,7 @@ namespace Xbim.IO
                 throw new XbimException("Reference model not found:" + documentInformation.Name);
             }
             Model = new XbimModel();
-            if (!Model.Open(documentInformation.Name, XbimDBAccess.Read))
+            if (!Model.Open(documentInformation.Name))
             {
                 throw new XbimException("Unable to open reference model: " + documentInformation.Name);
             }
@@ -64,7 +65,7 @@ namespace Xbim.IO
         {
             get
             {
-                var organization = DocumentInformation.DocumentOwner as Xbim.Ifc2x3.ActorResource.IfcOrganization;
+                var organization = DocumentInformation.DocumentOwner as Ifc2x3.ActorResource.IfcOrganization;
                 if (organization != null)
                     return organization.Name;
                 return null;
@@ -76,7 +77,7 @@ namespace Xbim.IO
         {
             get
             {
-                var organization = DocumentInformation.DocumentOwner as Xbim.Ifc2x3.ActorResource.IfcOrganization;
+                var organization = DocumentInformation.DocumentOwner as Ifc2x3.ActorResource.IfcOrganization;
                 if (organization != null)
                 {
                     var role = organization.Roles.FirstOrDefault();

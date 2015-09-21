@@ -121,6 +121,7 @@
     <Compile Include="Kernel\IfcProjectPartial.cs" />
     <Compile Include="Kernel\IfcTypeObjectPartial.cs" />
     <Compile Include="MeasureResource\IfcSIUnitExtension.cs" />
+    <Compile Include="OptionalItemSet.cs" />
     <Compile Include="UtilityResource\IfcGloballyUniqueIdPartial.cs" />
     <Compile Include="MeasureResource\IfcRealPartial.cs" />
     <Compile Include="Kernel\IfcRootPartial.cs" />

@@ -1,5 +1,6 @@
 ﻿using Microsoft.Isam.Esent.Interop;
 using Xbim.Common.Geometry;
+using Xbim.IO.Esent;
 
 namespace Xbim.IO
 {
@@ -60,9 +61,9 @@ namespace Xbim.IO
         public XbimShapeInstanceCursor(XbimModel model, string database, OpenDatabaseGrbit mode)
             : base(model, database, mode)
         {
-            Api.JetOpenTable(this.sesid, this.dbId, InstanceTableName, null, 0, mode == OpenDatabaseGrbit.ReadOnly ? OpenTableGrbit.ReadOnly :
+            Api.JetOpenTable(this.Sesid, this.DbId, InstanceTableName, null, 0, mode == OpenDatabaseGrbit.ReadOnly ? OpenTableGrbit.ReadOnly :
                                                                                 mode == OpenDatabaseGrbit.Exclusive ? OpenTableGrbit.DenyWrite : OpenTableGrbit.None,
-                                                                                out this.table);
+                                                                                out this.Table);
             InitColumns();
         }
         #endregion
@@ -154,15 +155,15 @@ namespace Xbim.IO
         private void InitColumns()
         {
 
-            _colIdInstanceLabel = Api.GetTableColumnid(sesid, table, colNameInstanceLabel);
-            _colIdIfcTypeId = Api.GetTableColumnid(sesid, table, colNameIfcTypeId);
-            _colIdIfcProductLabel = Api.GetTableColumnid(sesid, table, colNameIfcProductLabel);     
-            _colIdStyleLabel = Api.GetTableColumnid(sesid, table, colNameStyleLabel);
-            _colIdShapeLabel = Api.GetTableColumnid(sesid, table, colNameShapeLabel);
-            _colIdRepresentationContext = Api.GetTableColumnid(sesid, table, colNameRepresentationContext);
-            _colIdRepType = Api.GetTableColumnid(sesid, table, colNameRepType);
-            _colIdTransformation = Api.GetTableColumnid(sesid, table, colNameTransformation);
-            _colIdBoundingBox = Api.GetTableColumnid(sesid, table, colNameBoundingBox);
+            _colIdInstanceLabel = Api.GetTableColumnid(Sesid, Table, colNameInstanceLabel);
+            _colIdIfcTypeId = Api.GetTableColumnid(Sesid, Table, colNameIfcTypeId);
+            _colIdIfcProductLabel = Api.GetTableColumnid(Sesid, Table, colNameIfcProductLabel);     
+            _colIdStyleLabel = Api.GetTableColumnid(Sesid, Table, colNameStyleLabel);
+            _colIdShapeLabel = Api.GetTableColumnid(Sesid, Table, colNameShapeLabel);
+            _colIdRepresentationContext = Api.GetTableColumnid(Sesid, Table, colNameRepresentationContext);
+            _colIdRepType = Api.GetTableColumnid(Sesid, Table, colNameRepType);
+            _colIdTransformation = Api.GetTableColumnid(Sesid, Table, colNameTransformation);
+            _colIdBoundingBox = Api.GetTableColumnid(Sesid, Table, colNameBoundingBox);
 
             _colValInstanceLabel = new Int32ColumnValue { Columnid = _colIdInstanceLabel };
             _colValIfcTypeId = new Int16ColumnValue { Columnid = _colIdIfcTypeId };
@@ -274,7 +275,7 @@ namespace Xbim.IO
         /// <returns>The number of items in the database.</returns>
         override internal int RetrieveCount()
         {
-            return (int)Api.RetrieveColumnAsInt32(this.sesid, this.globalsTable, this.geometryCountColumn);
+            return (int)Api.RetrieveColumnAsInt32(this.Sesid, this.GlobalsTable, this.GeometryCountColumn);
         }
 
         /// <summary>
@@ -284,13 +285,13 @@ namespace Xbim.IO
         /// <param name="delta">The delta to apply to the count.</param>
         override protected void UpdateCount(int delta)
         {
-            Api.EscrowUpdate(this.sesid, this.globalsTable, this.geometryCountColumn, delta);
+            Api.EscrowUpdate(this.Sesid, this.GlobalsTable, this.GeometryCountColumn, delta);
         }
         #endregion
 
         public int AddInstance(IXbimShapeInstanceData instanceData)
         {
-            using (var update = new Update(sesid, table, JET_prep.Insert))
+            using (var update = new Update(Sesid, Table, JET_prep.Insert))
             {
                 _colValRepresentationContext.Value = instanceData.RepresentationContext;
                 _colValIfcProductLabel.Value = instanceData.IfcProductLabel;
@@ -300,8 +301,8 @@ namespace Xbim.IO
                 _colValRepType.Value = instanceData.RepresentationType;
                 _colValTransformation.Value = instanceData.Transformation;
                 _colValBoundingBox.Value = instanceData.BoundingBox;
-                Api.SetColumns(sesid, table, _colValues);
-                var columnAsInt32 = Api.RetrieveColumnAsInt32(sesid, table, _colIdInstanceLabel, RetrieveColumnGrbit.RetrieveCopy);
+                Api.SetColumns(Sesid, Table, _colValues);
+                var columnAsInt32 = Api.RetrieveColumnAsInt32(Sesid, Table, _colIdInstanceLabel, RetrieveColumnGrbit.RetrieveCopy);
                 if (columnAsInt32 !=
                     null)
                     instanceData.InstanceLabel = columnAsInt32.Value;
@@ -325,7 +326,7 @@ namespace Xbim.IO
         public int AddInstance(int ctxtId, int shapeLabel, int styleLabel, short typeId, int productLabel, XbimGeometryRepresentationType repType, byte[] transform)
         {
             var id = -1;
-            using (var update = new Update(sesid, table, JET_prep.Insert))
+            using (var update = new Update(Sesid, Table, JET_prep.Insert))
             {
                 _colValRepresentationContext.Value = ctxtId;
                 _colValIfcProductLabel.Value = productLabel;
@@ -334,8 +335,8 @@ namespace Xbim.IO
                 _colValStyleLabel.Value = styleLabel;
                 _colValRepType.Value = (byte) repType;
                 _colValTransformation.Value = transform;
-                Api.SetColumns(sesid, table, _colValues);
-                id = Api.RetrieveColumnAsInt32(sesid, table, _colIdInstanceLabel, RetrieveColumnGrbit.RetrieveCopy).Value;
+                Api.SetColumns(Sesid, Table, _colValues);
+                id = Api.RetrieveColumnAsInt32(Sesid, Table, _colIdInstanceLabel, RetrieveColumnGrbit.RetrieveCopy).Value;
                 update.Save();
                 UpdateCount(1);
 
@@ -345,9 +346,9 @@ namespace Xbim.IO
 
         private void GetShapeInstanceData(IXbimShapeInstanceData si)
         {
-            Api.RetrieveColumns(sesid, table, _colValues);
+            Api.RetrieveColumns(Sesid, Table, _colValues);
             si.RepresentationContext = _colValRepresentationContext.Value.Value;
-            si.InstanceLabel = Api.RetrieveColumnAsInt32(sesid, table, _colIdInstanceLabel).Value;
+            si.InstanceLabel = Api.RetrieveColumnAsInt32(Sesid, Table, _colIdInstanceLabel).Value;
             si.IfcTypeId = _colValIfcTypeId.Value.Value;
             si.IfcProductLabel = _colValIfcProductLabel.Value.Value;
             si.StyleLabel = _colValStyleLabel.Value.Value;
@@ -366,12 +367,12 @@ namespace Xbim.IO
        /// <returns></returns>
         public bool TrySeekShapeInstance(int context, ref IXbimShapeInstanceData si)
         {
-            Api.JetSetCurrentIndex(sesid, table, instanceTablePrimaryIndex);
-            Api.MakeKey(sesid, table, context, MakeKeyGrbit.NewKey);
-            if (Api.TrySeek(sesid, table, SeekGrbit.SeekGE))
+            Api.JetSetCurrentIndex(Sesid, Table, instanceTablePrimaryIndex);
+            Api.MakeKey(Sesid, Table, context, MakeKeyGrbit.NewKey);
+            if (Api.TrySeek(Sesid, Table, SeekGrbit.SeekGE))
             {
-                Api.MakeKey(sesid, table, context, MakeKeyGrbit.NewKey | MakeKeyGrbit.FullColumnEndLimit);
-                if (Api.TrySetIndexRange(sesid, table, SetIndexRangeGrbit.RangeUpperLimit | SetIndexRangeGrbit.RangeInclusive))
+                Api.MakeKey(Sesid, Table, context, MakeKeyGrbit.NewKey | MakeKeyGrbit.FullColumnEndLimit);
+                if (Api.TrySetIndexRange(Sesid, Table, SetIndexRangeGrbit.RangeUpperLimit | SetIndexRangeGrbit.RangeInclusive))
                 {
                     GetShapeInstanceData(si);
                     return true;
@@ -387,7 +388,7 @@ namespace Xbim.IO
         /// <returns></returns>
         public bool TryMoveNextShapeInstance(ref IXbimShapeInstanceData si)
         {
-            if (Api.TryMoveNext(this.sesid, this.table))
+            if (Api.TryMoveNext(this.Sesid, this.Table))
             {
                 GetShapeInstanceData(si);
                 return true;
@@ -404,12 +405,12 @@ namespace Xbim.IO
         /// <returns></returns>
         public bool TrySeekShapeInstanceOfProduct(int product, ref IXbimShapeInstanceData si)
         {
-            Api.JetSetCurrentIndex(sesid, table, productIndex);
-            Api.MakeKey(sesid, table, product, MakeKeyGrbit.NewKey);
-            if (Api.TrySeek(sesid, table, SeekGrbit.SeekGE))
+            Api.JetSetCurrentIndex(Sesid, Table, productIndex);
+            Api.MakeKey(Sesid, Table, product, MakeKeyGrbit.NewKey);
+            if (Api.TrySeek(Sesid, Table, SeekGrbit.SeekGE))
             {
-                Api.MakeKey(sesid, table, product, MakeKeyGrbit.NewKey | MakeKeyGrbit.FullColumnEndLimit);
-                if (Api.TrySetIndexRange(sesid, table, SetIndexRangeGrbit.RangeUpperLimit | SetIndexRangeGrbit.RangeInclusive))
+                Api.MakeKey(Sesid, Table, product, MakeKeyGrbit.NewKey | MakeKeyGrbit.FullColumnEndLimit);
+                if (Api.TrySetIndexRange(Sesid, Table, SetIndexRangeGrbit.RangeUpperLimit | SetIndexRangeGrbit.RangeInclusive))
                 {
                     GetShapeInstanceData(si);
                     return true;
@@ -426,12 +427,12 @@ namespace Xbim.IO
         /// <returns></returns>
         public bool TrySeekShapeInstanceOfProduct(int product)
         {
-            Api.JetSetCurrentIndex(sesid, table, productIndex);
-            Api.MakeKey(sesid, table, product, MakeKeyGrbit.NewKey);
-            if (Api.TrySeek(sesid, table, SeekGrbit.SeekGE))
+            Api.JetSetCurrentIndex(Sesid, Table, productIndex);
+            Api.MakeKey(Sesid, Table, product, MakeKeyGrbit.NewKey);
+            if (Api.TrySeek(Sesid, Table, SeekGrbit.SeekGE))
             {
-                Api.MakeKey(sesid, table, product, MakeKeyGrbit.NewKey | MakeKeyGrbit.FullColumnEndLimit);
-                if (Api.TrySetIndexRange(sesid, table, SetIndexRangeGrbit.RangeUpperLimit | SetIndexRangeGrbit.RangeInclusive))
+                Api.MakeKey(Sesid, Table, product, MakeKeyGrbit.NewKey | MakeKeyGrbit.FullColumnEndLimit);
+                if (Api.TrySetIndexRange(Sesid, Table, SetIndexRangeGrbit.RangeUpperLimit | SetIndexRangeGrbit.RangeInclusive))
                 {
                     return true;
                 }
@@ -449,12 +450,12 @@ namespace Xbim.IO
         /// <returns></returns>
         public bool TrySeekShapeInstanceOfGeometry(int shapeGeometryLabel, ref IXbimShapeInstanceData si)
         {
-            Api.JetSetCurrentIndex(sesid, table, geometryShapeIndex);
-            Api.MakeKey(sesid, table, shapeGeometryLabel, MakeKeyGrbit.NewKey);
-            if (Api.TrySeek(sesid, table, SeekGrbit.SeekGE))
+            Api.JetSetCurrentIndex(Sesid, Table, geometryShapeIndex);
+            Api.MakeKey(Sesid, Table, shapeGeometryLabel, MakeKeyGrbit.NewKey);
+            if (Api.TrySeek(Sesid, Table, SeekGrbit.SeekGE))
             {
-                Api.MakeKey(sesid, table, shapeGeometryLabel, MakeKeyGrbit.NewKey | MakeKeyGrbit.FullColumnEndLimit);
-                if (Api.TrySetIndexRange(sesid, table, SetIndexRangeGrbit.RangeUpperLimit | SetIndexRangeGrbit.RangeInclusive))
+                Api.MakeKey(Sesid, Table, shapeGeometryLabel, MakeKeyGrbit.NewKey | MakeKeyGrbit.FullColumnEndLimit);
+                if (Api.TrySetIndexRange(Sesid, Table, SetIndexRangeGrbit.RangeUpperLimit | SetIndexRangeGrbit.RangeInclusive))
                 {
                     GetShapeInstanceData(si);
                     return true;
@@ -472,15 +473,15 @@ namespace Xbim.IO
         /// <returns></returns>
         public bool TryMoveFirstSurfaceStyle(int context, out int surfaceStyle, out short productType)
         {
-            Api.JetSetCurrentIndex(sesid, table, instanceTablePrimaryIndex);
-            Api.MakeKey(sesid, table, context, MakeKeyGrbit.NewKey);
-            if (Api.TrySeek(sesid, table, SeekGrbit.SeekGE))
+            Api.JetSetCurrentIndex(Sesid, Table, instanceTablePrimaryIndex);
+            Api.MakeKey(Sesid, Table, context, MakeKeyGrbit.NewKey);
+            if (Api.TrySeek(Sesid, Table, SeekGrbit.SeekGE))
             {
-                Api.MakeKey(sesid, table, context, MakeKeyGrbit.NewKey | MakeKeyGrbit.FullColumnEndLimit);
-                if (Api.TrySetIndexRange(sesid, table, SetIndexRangeGrbit.RangeUpperLimit | SetIndexRangeGrbit.RangeInclusive))
+                Api.MakeKey(Sesid, Table, context, MakeKeyGrbit.NewKey | MakeKeyGrbit.FullColumnEndLimit);
+                if (Api.TrySetIndexRange(Sesid, Table, SetIndexRangeGrbit.RangeUpperLimit | SetIndexRangeGrbit.RangeInclusive))
                 {
-                    surfaceStyle = Api.RetrieveColumnAsInt32(sesid, table, _colIdStyleLabel,RetrieveColumnGrbit.RetrieveFromIndex).Value;
-                    productType = Api.RetrieveColumnAsInt16(sesid, table, _colIdIfcTypeId, RetrieveColumnGrbit.RetrieveFromIndex).Value; 
+                    surfaceStyle = Api.RetrieveColumnAsInt32(Sesid, Table, _colIdStyleLabel,RetrieveColumnGrbit.RetrieveFromIndex).Value;
+                    productType = Api.RetrieveColumnAsInt16(Sesid, Table, _colIdIfcTypeId, RetrieveColumnGrbit.RetrieveFromIndex).Value; 
                     return true;
                 }
             }
@@ -496,10 +497,10 @@ namespace Xbim.IO
         /// <returns></returns>
         public bool TryMoveNextSurfaceStyle(out int surfaceStyle, out short productType)
         {
-            if (Api.TryMoveNext(this.sesid, this.table))
+            if (Api.TryMoveNext(this.Sesid, this.Table))
             {
-                surfaceStyle = Api.RetrieveColumnAsInt32(sesid, table, _colIdStyleLabel, RetrieveColumnGrbit.RetrieveFromIndex).Value;
-                productType = Api.RetrieveColumnAsInt16(sesid, table, _colIdIfcTypeId, RetrieveColumnGrbit.RetrieveFromIndex).Value; 
+                surfaceStyle = Api.RetrieveColumnAsInt32(Sesid, Table, _colIdStyleLabel, RetrieveColumnGrbit.RetrieveFromIndex).Value;
+                productType = Api.RetrieveColumnAsInt16(Sesid, Table, _colIdIfcTypeId, RetrieveColumnGrbit.RetrieveFromIndex).Value; 
                 return true;
             }
             surfaceStyle = -1;
@@ -518,8 +519,8 @@ namespace Xbim.IO
             //skip over the rest with this style
             do
             {
-                if (Api.TryMoveNext(sesid, table))
-                    nextStyle = Api.RetrieveColumnAsInt32(sesid, table, _colIdStyleLabel, RetrieveColumnGrbit.RetrieveFromIndex);     
+                if (Api.TryMoveNext(Sesid, Table))
+                    nextStyle = Api.RetrieveColumnAsInt32(Sesid, Table, _colIdStyleLabel, RetrieveColumnGrbit.RetrieveFromIndex);     
                 else
                     nextStyle = null;
             }
@@ -535,25 +536,25 @@ namespace Xbim.IO
         /// <returns></returns>
         public bool TryMoveFirstProductType(int context, out short productType)
         {
-            Api.JetSetCurrentIndex(sesid, table, instanceTablePrimaryIndex);
-            Api.MakeKey(sesid, table, context, MakeKeyGrbit.NewKey);
-            if (Api.TrySeek(sesid, table, SeekGrbit.SeekGE))
+            Api.JetSetCurrentIndex(Sesid, Table, instanceTablePrimaryIndex);
+            Api.MakeKey(Sesid, Table, context, MakeKeyGrbit.NewKey);
+            if (Api.TrySeek(Sesid, Table, SeekGrbit.SeekGE))
             {
-                Api.MakeKey(sesid, table, context, MakeKeyGrbit.NewKey | MakeKeyGrbit.FullColumnEndLimit);
-                if (Api.TrySetIndexRange(sesid, table, SetIndexRangeGrbit.RangeUpperLimit | SetIndexRangeGrbit.RangeInclusive))
+                Api.MakeKey(Sesid, Table, context, MakeKeyGrbit.NewKey | MakeKeyGrbit.FullColumnEndLimit);
+                if (Api.TrySetIndexRange(Sesid, Table, SetIndexRangeGrbit.RangeUpperLimit | SetIndexRangeGrbit.RangeInclusive))
                 {
-                    productType = Api.RetrieveColumnAsInt16(sesid, table, _colIdIfcTypeId, RetrieveColumnGrbit.RetrieveFromIndex).Value;
+                    productType = Api.RetrieveColumnAsInt16(Sesid, Table, _colIdIfcTypeId, RetrieveColumnGrbit.RetrieveFromIndex).Value;
                     short? nextProductType;
                     //skip over the rest with this style
                     do
                     {
-                        if (Api.TryMoveNext(sesid, table))
-                            nextProductType = Api.RetrieveColumnAsInt16(sesid, table, _colIdStyleLabel, RetrieveColumnGrbit.RetrieveFromIndex);
+                        if (Api.TryMoveNext(Sesid, Table))
+                            nextProductType = Api.RetrieveColumnAsInt16(Sesid, Table, _colIdStyleLabel, RetrieveColumnGrbit.RetrieveFromIndex);
                         else
                             nextProductType = null;
                     }
                     while (nextProductType.HasValue && nextProductType.Value == productType);
-                    Api.TryMovePrevious(sesid, table); //go back to last valid index
+                    Api.TryMovePrevious(Sesid, Table); //go back to last valid index
                     return true;
                 }
             }
@@ -569,21 +570,21 @@ namespace Xbim.IO
         /// <returns></returns>
         public bool TryMoveNextProductType(out short productType)
         {
-            if (Api.TryMoveNext(this.sesid, this.table))
+            if (Api.TryMoveNext(this.Sesid, this.Table))
             {
                 
-                productType = Api.RetrieveColumnAsInt16(sesid, table, _colIdIfcTypeId, RetrieveColumnGrbit.RetrieveFromIndex).Value;
+                productType = Api.RetrieveColumnAsInt16(Sesid, Table, _colIdIfcTypeId, RetrieveColumnGrbit.RetrieveFromIndex).Value;
                 short? nextProductType;
                 //skip over the rest with this style
                 do
                 {
-                    if (Api.TryMoveNext(sesid, table))
-                        nextProductType = Api.RetrieveColumnAsInt16(sesid, table, _colIdStyleLabel, RetrieveColumnGrbit.RetrieveFromIndex);
+                    if (Api.TryMoveNext(Sesid, Table))
+                        nextProductType = Api.RetrieveColumnAsInt16(Sesid, Table, _colIdStyleLabel, RetrieveColumnGrbit.RetrieveFromIndex);
                     else
                         nextProductType = null;
                 }
                 while (nextProductType.HasValue && nextProductType.Value == productType);
-                Api.TryMovePrevious(sesid, table); //go back to last valid index
+                Api.TryMovePrevious(Sesid, Table); //go back to last valid index
                 return true;
             }
             productType = 0;
@@ -594,12 +595,12 @@ namespace Xbim.IO
 
         public bool TrySeekProductType(short productType, ref IXbimShapeInstanceData shapeInstance)
         {
-            Api.JetSetCurrentIndex(sesid, table, productTypeIndex);
-            Api.MakeKey(sesid, table, productType, MakeKeyGrbit.NewKey);
-            if (Api.TrySeek(sesid, table, SeekGrbit.SeekGE))
+            Api.JetSetCurrentIndex(Sesid, Table, productTypeIndex);
+            Api.MakeKey(Sesid, Table, productType, MakeKeyGrbit.NewKey);
+            if (Api.TrySeek(Sesid, Table, SeekGrbit.SeekGE))
             {
-                Api.MakeKey(sesid, table, productType, MakeKeyGrbit.NewKey | MakeKeyGrbit.FullColumnEndLimit);
-                if (Api.TrySetIndexRange(sesid, table, SetIndexRangeGrbit.RangeUpperLimit | SetIndexRangeGrbit.RangeInclusive))
+                Api.MakeKey(Sesid, Table, productType, MakeKeyGrbit.NewKey | MakeKeyGrbit.FullColumnEndLimit);
+                if (Api.TrySetIndexRange(Sesid, Table, SetIndexRangeGrbit.RangeUpperLimit | SetIndexRangeGrbit.RangeInclusive))
                 {
                     GetShapeInstanceData(shapeInstance);
                     return true;
@@ -611,14 +612,14 @@ namespace Xbim.IO
 
         public bool TrySeekSurfaceStyle(int context, int surfaceStyle, ref IXbimShapeInstanceData shapeInstance)
         {
-            Api.JetSetCurrentIndex(sesid, table, instanceTablePrimaryIndex);
-            Api.MakeKey(sesid, table, context, MakeKeyGrbit.NewKey);
-            Api.MakeKey(sesid, table, surfaceStyle, MakeKeyGrbit.None);
-            if (Api.TrySeek(sesid, table, SeekGrbit.SeekGE))
+            Api.JetSetCurrentIndex(Sesid, Table, instanceTablePrimaryIndex);
+            Api.MakeKey(Sesid, Table, context, MakeKeyGrbit.NewKey);
+            Api.MakeKey(Sesid, Table, surfaceStyle, MakeKeyGrbit.None);
+            if (Api.TrySeek(Sesid, Table, SeekGrbit.SeekGE))
             {
-                Api.MakeKey(sesid, table, context, MakeKeyGrbit.NewKey );
-                Api.MakeKey(sesid, table, surfaceStyle, MakeKeyGrbit.FullColumnEndLimit);
-                if (Api.TrySetIndexRange(sesid, table, SetIndexRangeGrbit.RangeUpperLimit | SetIndexRangeGrbit.RangeInclusive))
+                Api.MakeKey(Sesid, Table, context, MakeKeyGrbit.NewKey );
+                Api.MakeKey(Sesid, Table, surfaceStyle, MakeKeyGrbit.FullColumnEndLimit);
+                if (Api.TrySetIndexRange(Sesid, Table, SetIndexRangeGrbit.RangeUpperLimit | SetIndexRangeGrbit.RangeInclusive))
                 {
                     GetShapeInstanceData(shapeInstance);
                     return true;

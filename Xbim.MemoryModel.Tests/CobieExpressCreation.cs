@@ -16,7 +16,7 @@ namespace Xbim.MemoryModel.Tests
             _model = model;
             using (var txn = model.BeginTransaction("Model creation"))
             {
-                var facility = New<CobieFacility>(f =>
+                New<CobieFacility>(f =>
                 {
                     f.Name = "New facility";
                     f.Created = New<CobieCreatedInfo>(ci => ci.CreatedOn = DateTime.Now);
@@ -39,6 +39,8 @@ namespace Xbim.MemoryModel.Tests
                 });
                 txn.Commit();
             }
+
+            model.Save("sample.cobie");
         }
 
         private IModel _model;

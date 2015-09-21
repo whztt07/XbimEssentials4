@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Xbim.IO.Esent;
 
 namespace Xbim.IO
 {
@@ -45,11 +46,11 @@ namespace Xbim.IO
             foreach (var ex in exclude)
             {
                 
-                var ifcType = IfcMetaData.IfcType((short)ex);
+                var ifcType = ExpressMetaData.IfcType((short)ex);
                 // bugfix here: loop did not use to include all implementations, but only first level down.
                 foreach (var sub in ifcType.NonAbstractSubTypes)
                 {
-                    var ifcSub = IfcMetaData.IfcType(sub);
+                    var ifcSub = ExpressMetaData.IfcType(sub);
                         excludeSet.Add(ifcSub.TypeId);
                 }
             }
@@ -67,8 +68,8 @@ namespace Xbim.IO
             var includeSet = new HashSet<int>(include);
             foreach (var inc in include)
             {
-                var ifcType = IfcMetaData.IfcType((short)inc);
-                foreach (var sub in ifcType.IfcSubTypes)
+                var ifcType = ExpressMetaData.IfcType((short)inc);
+                foreach (var sub in ifcType.SubTypes)
                     includeSet.Add(sub.TypeId);
             }
             return this.Where(h => includeSet.Contains(h.IfcTypeId));

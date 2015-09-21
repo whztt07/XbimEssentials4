@@ -64,21 +64,17 @@ namespace Xbim.Ifc2x3.GeometryResource
 
         public void SetXY(double x, double y)
         {
-            Coordinates = new ItemSet<IfcLengthMeasure>(this, new []
-            {
-                new IfcLengthMeasure(x), 
-                new IfcLengthMeasure(y)
-            });
+            Coordinates.Clear();
+            Coordinates.Add(x);
+            Coordinates.Add(y);
         }
 
         public void SetXYZ(double x, double y, double z)
         {
-            Coordinates = new ItemSet<IfcLengthMeasure>(this, new[]
-            {
-                new IfcLengthMeasure(x), 
-                new IfcLengthMeasure(y),
-                new IfcLengthMeasure(z)
-            });
+            Coordinates.Clear();
+            Coordinates.Add(x);
+            Coordinates.Add(y);
+            Coordinates.Add(z);
         }
     }
 }

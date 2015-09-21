@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using Xbim.Common;
+using Xbim.Common.Step21;
 using Xbim.IO.Step21;
 
 namespace Xbim.IO.Memory
@@ -11,6 +13,8 @@ namespace Xbim.IO.Memory
         public MemoryModel()
         {
             _instances = new EntityCollection<TFactory>(this);
+            Header = new StepFileHeader(StepFileHeader.HeaderCreationMode.LeaveEmpty);
+            Header.FileSchema.Schemas.AddRange(_instances.Factory.SchemasIds);
         }
 
         public IEntityCollection Instances
@@ -32,6 +36,8 @@ namespace Xbim.IO.Memory
             CurrentTransaction = txn;
             return txn;
         }
+
+        public IStepFileHeader Header { get; private set; }
 
         public virtual bool IsTransactional
         {
@@ -75,8 +81,20 @@ namespace Xbim.IO.Memory
                 //allow all attributes to be parsed
                 ints = null;
 
-                if (header) 
-                    return null;
+                if (header)
+                {
+                    switch (name)
+                    {
+                        case "FILE_DESCRIPTION":
+                            return Header.FileDescription;
+                        case "FILE_NAME":
+                            return Header.FileName;
+                        case "FILE_SCHEMA":
+                            return Header.FileSchema;
+                        default:
+                            return null;
+                    }
+                }
                 if (label == null) 
                     return _instances.Factory.New(name);
                 
@@ -94,6 +112,30 @@ namespace Xbim.IO.Memory
                 Open(stream);
                 stream.Close();
             }
+        }
+
+        public virtual void Save(string path)
+        {
+            using (var file = File.Create(path))
+            {
+                Save(file);
+                file.Close();
+            }
+        }
+
+        public virtual void Save(Stream stream)
+        {
+            using (var writer = new StreamWriter(stream))
+            {
+                Save(writer);
+                writer.Close();
+            }
+        }
+
+        public virtual void Save(TextWriter writer)
+        {
+            var part21Writer = new Part21FileWriter();
+            part21Writer.Write(this, writer, new Dictionary<int, int>());
         }
     }
 }

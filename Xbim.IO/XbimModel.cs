@@ -12,6 +12,7 @@ using Xbim.Common;
 using Xbim.Common.Exceptions;
 using System.Globalization;
 using Xbim.Common.Geometry;
+using Xbim.Common.Step21;
 using Xbim.Common.XbimExtensions;
 using Xbim.Ifc2x3;
 using Xbim.Ifc2x3.ActorResource;
@@ -21,6 +22,7 @@ using Xbim.Ifc2x3.Kernel;
 using Xbim.Ifc2x3.MeasureResource;
 using Xbim.Ifc2x3.RepresentationResource;
 using Xbim.Ifc2x3.UtilityResource;
+using Xbim.IO.Esent;
 using Xbim.IO.Step21;
 using XbimGeometry.Interfaces;
 
@@ -43,8 +45,8 @@ namespace Xbim.IO
 
         #region Model state fields
 
-        private readonly IfcPersistedInstanceCache _cache;
-        internal IfcPersistedInstanceCache Cache
+        private readonly PersistedEntityInstanceCache _cache;
+        internal PersistedEntityInstanceCache Cache
         {
             get { return _cache; }
         }
@@ -86,7 +88,7 @@ namespace Xbim.IO
 
         public XbimModel()
         {
-            _cache = new IfcPersistedInstanceCache(this, new EntityFactory());
+            _cache = new PersistedEntityInstanceCache(this, new EntityFactory());
             _instances = new XbimInstanceCollection(this);
             var r = new Random();
             UserDefinedId = (short)r.Next(short.MaxValue); // initialise value at random to reduce chance of duplicates
@@ -109,7 +111,7 @@ namespace Xbim.IO
         {
             get
             {
-                return IfcPersistedInstanceCache.ModelOpenCount;
+                return PersistedEntityInstanceCache.ModelOpenCount;
             }
         }
 
@@ -496,7 +498,7 @@ namespace Xbim.IO
                 var model = new XbimModel();
                 model.CreateDatabase(tmpFileName);  
                 model.Open(tmpFileName, XbimDBAccess.ReadWrite, true);
-                model.Header = new IfcFileHeader(IfcFileHeader.HeaderCreationMode.InitWithXbimDefaults);
+                model.Header = new StepFileHeader(StepFileHeader.HeaderCreationMode.InitWithXbimDefaults);
                 return model;
             }
             catch (Exception e)
@@ -527,7 +529,7 @@ namespace Xbim.IO
                 var model = new XbimModel();
                 model.CreateDatabase(dbFileName); 
                 model.Open(dbFileName, access);
-                model.Header = new IfcFileHeader(IfcFileHeader.HeaderCreationMode.InitWithXbimDefaults)
+                model.Header = new StepFileHeader(StepFileHeader.HeaderCreationMode.InitWithXbimDefaults)
                 {
                     FileName = {Name = dbFileName}
                 };
@@ -580,12 +582,12 @@ namespace Xbim.IO
         {
             var itw = new IndentedTextWriter(tw);
             if (validateLevel == ValidationFlags.None) return 0; //nothing to do
-            var ifcType = IfcMetaData.IfcType(ent as IInstantiableEntity);
+            var ifcType = ExpressMetaData.IfcType(ent as IInstantiableEntity);
             var notIndented = true;
             var errors = 0;
             if (validateLevel == ValidationFlags.Properties || validateLevel == ValidationFlags.All)
             {
-                foreach (var ifcProp in ifcType.IfcProperties.Values)
+                foreach (var ifcProp in ifcType.Properties.Values)
                 {
                     var err = GetIfcSchemaError(ent as IInstantiableEntity, ifcProp);
                     if (string.IsNullOrEmpty(err)) continue;
@@ -601,7 +603,7 @@ namespace Xbim.IO
             }
             if (validateLevel == ValidationFlags.Inverses || validateLevel == ValidationFlags.All)
             {
-                foreach (var ifcInv in ifcType.IfcInverses)
+                foreach (var ifcInv in ifcType.Inverses)
                 {
                     var err = GetIfcSchemaError(ent as IInstantiableEntity, ifcInv);
                     if (string.IsNullOrEmpty(err)) continue;
@@ -632,7 +634,7 @@ namespace Xbim.IO
             return errors;
         }
 
-        private static string GetIfcSchemaError(IPersist instance, IfcMetaProperty prop)
+        private static string GetIfcSchemaError(IPersist instance, ExpressMetaProperty prop)
         {
             //IfcAttribute ifcAttr, object instance, object propVal, string propName
 
@@ -708,11 +710,11 @@ namespace Xbim.IO
                 switch (className)
                 {
                     case "FILE_DESCRIPTION":
-                        return new FileDescription("");
+                        return new StepFileDescription("");
                     case "FILE_NAME":
-                        return new FileName();
+                        return new StepFileName();
                     case "FILE_SCHEMA":
-                        return new FileSchema();
+                        return new StepFileSchema();
                     default:
                         throw new ArgumentException(string.Format("Invalid Header entity type {0}", className));
                 }
@@ -965,7 +967,7 @@ namespace Xbim.IO
         {
             try
             {
-                var ifcType = IfcMetaData.IfcType(ifcEntityName);
+                var ifcType = ExpressMetaData.IfcType(ifcEntityName);
                 return CreateInstance(ifcType.Type, label);
             }
             catch (Exception e)
@@ -1074,7 +1076,7 @@ namespace Xbim.IO
             var entity = _cache.GetInstance(productLabel, false, true);
             if (entity != null)
             {
-                foreach (var item in _cache.GetGeometry(IfcMetaData.IfcTypeId(entity as IInstantiableEntity), productLabel, geomType))
+                foreach (var item in _cache.GetGeometry(ExpressMetaData.IfcTypeId(entity as IInstantiableEntity), productLabel, geomType))
                 {
                     yield return item;
                 }
@@ -1097,7 +1099,7 @@ namespace Xbim.IO
 
         public IEnumerable<XbimGeometryData> GetGeometryData(IfcProduct product, XbimGeometryType geomType)
         {
-            return _cache.GetGeometry(IfcMetaData.IfcTypeId(product as IInstantiableEntity), product.EntityLabel, geomType);
+            return _cache.GetGeometry(ExpressMetaData.IfcTypeId(product as IInstantiableEntity), product.EntityLabel, geomType);
         }
 
         //public IDictionary<string, XbimViewDefinition> Views

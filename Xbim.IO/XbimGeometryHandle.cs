@@ -1,4 +1,5 @@
-﻿using XbimGeometry.Interfaces;
+﻿using Xbim.IO.Esent;
+using XbimGeometry.Interfaces;
 
 namespace Xbim.IO
 {

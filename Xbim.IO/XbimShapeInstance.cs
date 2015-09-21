@@ -259,7 +259,7 @@ namespace Xbim.IO
         public override string ToString()
         {
 
-            return string.Format("{0},{1},{2},{3},{4},{5},{6},{7}",  _instanceLabel,_styleLabel, IfcMetaData.GetType(_ifcTypeId).Name, _shapeLabel,_ifcProductLabel,  _representationContext, _representationType, _transformation.ToString());
+            return string.Format("{0},{1},{2},{3},{4},{5},{6},{7}",  _instanceLabel,_styleLabel, ExpressMetaData.GetType(_ifcTypeId).Name, _shapeLabel,_ifcProductLabel,  _representationContext, _representationType, _transformation.ToString());
         }
 
        

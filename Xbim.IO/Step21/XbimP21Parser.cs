@@ -278,11 +278,11 @@ namespace Xbim.IO.Step21
                 var mainEntity = _processStack.Last();
                 if (mainEntity != null)
                 {
-                    var ifcType = IfcMetaData.IfcType(mainEntity.Entity);
+                    var ifcType = ExpressMetaData.IfcType(mainEntity.Entity);
                     Logger.ErrorFormat("Entity #{0,-5} {1}, error at parameter {2}-{3} value = {4}",
                                                mainEntity.EntityLabel, mainEntity.Entity.GetType().Name.ToUpper(),
                                                mainEntity.CurrentParamIndex + 1,
-                                               ifcType.IfcProperties[mainEntity.CurrentParamIndex + 1].PropertyInfo.Name,
+                                               ifcType.Properties[mainEntity.CurrentParamIndex + 1].PropertyInfo.Name,
                                                value);
                 }
                 else
@@ -320,10 +320,10 @@ namespace Xbim.IO.Step21
                 var mainEntity = _processStack.Last();
                 if (mainEntity != null)
                 {
-                    var ifcType = IfcMetaData.IfcType(mainEntity.Entity);
+                    var ifcType = ExpressMetaData.IfcType(mainEntity.Entity);
 
-                    var propertyName = mainEntity.CurrentParamIndex + 1 > ifcType.IfcProperties.Count ? "[UnknownProperty]" :
-                        ifcType.IfcProperties[mainEntity.CurrentParamIndex + 1].PropertyInfo.Name;
+                    var propertyName = mainEntity.CurrentParamIndex + 1 > ifcType.Properties.Count ? "[UnknownProperty]" :
+                        ifcType.Properties[mainEntity.CurrentParamIndex + 1].PropertyInfo.Name;
 
                     Logger.ErrorFormat("Entity #{0,-5} {1}, error at parameter {2}-{3} value = {4}",
                                                mainEntity.EntityLabel, 
@@ -368,9 +368,9 @@ namespace Xbim.IO.Step21
                 if (_errorCount > MaxErrorCount)
                     throw new Exception("Too many errors in file, parser execution terminated");
                 _errorCount++;
-                var ifcType = IfcMetaData.IfcType(host);
-                var propertyName = paramIndex+1 > ifcType.IfcProperties.Count ? "[UnknownProperty]" :
-                        ifcType.IfcProperties[paramIndex+1].PropertyInfo.Name;
+                var ifcType = ExpressMetaData.IfcType(host);
+                var propertyName = paramIndex+1 > ifcType.Properties.Count ? "[UnknownProperty]" :
+                        ifcType.Properties[paramIndex+1].PropertyInfo.Name;
                 Logger.ErrorFormat("Entity #{0,-5} {1}, error at parameter {2}-{3}",
                                            refID, ifcType.Type.Name.ToUpper(), paramIndex + 1,
                                            propertyName);

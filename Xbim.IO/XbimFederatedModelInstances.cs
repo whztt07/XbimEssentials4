@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Collections;
 using Xbim.Common;
+using Xbim.IO.Esent;
 
 namespace Xbim.IO
 {
@@ -11,7 +12,7 @@ namespace Xbim.IO
     {
         private List<XbimModel> models;
         int currentModelIndex = 0;
-        private IfcPersistedInstanceCache cache;
+        private PersistedEntityInstanceCache cache;
         private XbimEntityCursor cursor;
         private int currentEntityLabel;
 

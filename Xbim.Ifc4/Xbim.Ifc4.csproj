@@ -664,6 +664,7 @@
     <Compile Include="MeasureResource\IfcVolumetricFlowRateMeasure.cs" />
     <Compile Include="MeasureResource\IfcWarpingConstantMeasure.cs" />
     <Compile Include="MeasureResource\IfcWarpingMomentMeasure.cs" />
+    <Compile Include="OptionalItemSet.cs" />
     <Compile Include="PlumbingFireProtectionDomain\IfcFireSuppressionTerminal.cs" />
     <Compile Include="PlumbingFireProtectionDomain\IfcFireSuppressionTerminalType.cs" />
     <Compile Include="PlumbingFireProtectionDomain\IfcFireSuppressionTerminalTypeEnum.cs" />

@@ -1,4 +1,4 @@
-﻿namespace Xbim.IO
+﻿namespace Xbim.IO.Esent
 {
     public enum XbimDBAccess
     {

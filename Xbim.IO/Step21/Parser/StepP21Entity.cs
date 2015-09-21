@@ -16,14 +16,14 @@ using System.Collections.Generic;
 
 #endregion
 
-namespace Xbim.IO.Parser
+namespace Xbim.IO.Step21.Parser
 {
     public class StepP21Entity
     {
         private int _id;
         private string _name;
         private string _parameters;
-        private object _ifcInstance;
+        private object _instance;
         private int _parseIndex;
         private readonly List<object> _propValues = new List<object>();
 
@@ -68,10 +68,10 @@ namespace Xbim.IO.Parser
         /// <summary>
         ///   The Ifc Model Instance
         /// </summary>
-        public object IfcInstance
+        public object Instance
         {
-            get { return _ifcInstance; }
-            set { _ifcInstance = value; }
+            get { return _instance; }
+            set { _instance = value; }
         }
 
         // override object.Equals
