@@ -18,7 +18,6 @@ using System.Linq;
 using System.Reflection;
 using System.Diagnostics;
 using Xbim.Common;
-using Xbim.Ifc2x3.Kernel;
 
 #endregion
 
@@ -31,45 +30,58 @@ namespace Xbim.IO
     }
 
     /// <summary>
-    ///   A collection of IPersistEntity instances, optimised for IFC models
+    ///   A collection of IPersistEntity instances, optimised for EXPRESS models
     /// </summary>
     [Serializable]
     public class ExpressMetaData
     {
         /// <summary>
-        /// Look up for the if of an Ifc entity that returns the IfcType
+        /// Look up for the if of an entity that returns the ExpresType
         /// </summary>
-        private static readonly Dictionary<short, ExpressType> TypeIdToExpressTypeLookup = new Dictionary<short, ExpressType>();
+        private readonly Dictionary<short, ExpressType> _typeIdToExpressTypeLookup;
         /// <summary>
-        /// Look up the entity Type and return the IfcType
+        /// Look up the entity Type and return the ExpressType
         /// </summary>
-        private static readonly ExpressTypeDictionary TypeToExpressTypeLookup;
+        private readonly ExpressTypeDictionary _typeToExpressTypeLookup;
         /// <summary>
-        /// Look up the name of an ifc entity and return the IfcType
+        /// Look up the name of an entity and return the ExpressType
         /// </summary>
-        private static readonly Dictionary<string, ExpressType> TypeNameToExpressTypeLookup;
+        private readonly Dictionary<string, ExpressType> _typeNameToExpressTypeLookup;
         /// <summary>
-        /// Look up the name of an ifc entity and return the IfcType
+        /// Look up the name of an entity and return the ExpressType
         /// </summary>
-        private static readonly Dictionary<string, ExpressType> EntityNameToExpressTypeLookup;
+        private readonly Dictionary<string, ExpressType> _persistNameToExpressTypeLookup;
         /// <summary>
-        /// Look up IfcTypes implementing an interface
+        /// Look up ExpressTypes implementing an interface
         /// </summary>
-        private static readonly Dictionary<Type, List<ExpressType>> InterfaceToExpressTypesLookup;
+        private readonly Dictionary<Type, List<ExpressType>> _interfaceToExpressTypesLookup;
 
-        static ExpressMetaData()
+        private static readonly Dictionary<Module, ExpressMetaData> Cache = new Dictionary<Module, ExpressMetaData>();
+
+        private static ExpressMetaData GetMetadata(Module module)
         {
-            var module = typeof(IfcActor).Module;
+            if (Cache.ContainsKey(module))
+                return Cache[module];
+
+            var metadata = new ExpressMetaData(module);
+            Cache.Add(module, metadata);
+            return metadata;
+        }
+
+        private ExpressMetaData(Module module)
+        {
             var typesToProcess =
                 module.GetTypes().Where(
                     t =>
                     typeof(IPersist).IsAssignableFrom(t) && t != typeof(IPersist) && !t.IsEnum && !t.IsAbstract &&
                     t.IsPublic && !typeof(IExpressHeaderType).IsAssignableFrom(t)).ToList();
 
-            TypeNameToExpressTypeLookup = new Dictionary<string, ExpressType>(typesToProcess.Count);
-            EntityNameToExpressTypeLookup = new Dictionary<string, ExpressType>(typesToProcess.Count);
-            TypeToExpressTypeLookup = new ExpressTypeDictionary();
-            InterfaceToExpressTypesLookup = new Dictionary<Type, List<ExpressType>>();
+            _typeIdToExpressTypeLookup = new Dictionary<short, ExpressType>(typesToProcess.Count);
+            _typeNameToExpressTypeLookup = new Dictionary<string, ExpressType>(typesToProcess.Count);
+            _persistNameToExpressTypeLookup = new Dictionary<string, ExpressType>(typesToProcess.Count);
+            _typeToExpressTypeLookup = new ExpressTypeDictionary();
+            _interfaceToExpressTypesLookup = new Dictionary<Type, List<ExpressType>>();
+
             try
             {
                 // System.Diagnostics.Debug.Write(typesToProcess.Count());
@@ -77,27 +89,27 @@ namespace Xbim.IO
                 {
                     // Debug.WriteLine(typeToProcess.ToString());
                     ExpressType expressTypeToProcess;
-                    if (TypeToExpressTypeLookup.Contains(typeToProcess))
-                        expressTypeToProcess = TypeToExpressTypeLookup[typeToProcess];
+                    if (_typeToExpressTypeLookup.Contains(typeToProcess))
+                        expressTypeToProcess = _typeToExpressTypeLookup[typeToProcess];
                     else
                     {
-                        var ifcTypeIndex = (IndexedClass[])typeToProcess.GetCustomAttributes(typeof(IndexedClass), true);
-                        expressTypeToProcess = new ExpressType { Type = typeToProcess, IndexedClass = (ifcTypeIndex.GetLength(0) > 0) };
+                        var isIndexed = typeToProcess.GetCustomAttributes(typeof(IndexedClass), true).Any();
+                        expressTypeToProcess = new ExpressType { Type = typeToProcess, IndexedClass = isIndexed };
                     }
 
                     var typeLookup = typeToProcess.Name.ToUpperInvariant();
-                    if (!TypeNameToExpressTypeLookup.ContainsKey(typeLookup))
-                        TypeNameToExpressTypeLookup.Add(typeLookup, expressTypeToProcess);
+                    if (!_typeNameToExpressTypeLookup.ContainsKey(typeLookup))
+                        _typeNameToExpressTypeLookup.Add(typeLookup, expressTypeToProcess);
 
                     if (typeof (IPersistEntity).IsAssignableFrom(typeToProcess))
                     {
-                        EntityNameToExpressTypeLookup.Add(expressTypeToProcess.ExpressName, expressTypeToProcess);
-                        TypeIdToExpressTypeLookup.Add(expressTypeToProcess.TypeId, expressTypeToProcess);
+                        _persistNameToExpressTypeLookup.Add(expressTypeToProcess.ExpressName, expressTypeToProcess);
+                        _typeIdToExpressTypeLookup.Add(expressTypeToProcess.TypeId, expressTypeToProcess);
                     }
 
-                    if (!TypeToExpressTypeLookup.Contains(expressTypeToProcess))
+                    if (!_typeToExpressTypeLookup.Contains(expressTypeToProcess))
                     {
-                        TypeToExpressTypeLookup.Add(expressTypeToProcess);
+                        _typeToExpressTypeLookup.Add(expressTypeToProcess);
                         AddParent(expressTypeToProcess);
                         AddProperties(expressTypeToProcess);
                     }
@@ -108,37 +120,24 @@ namespace Xbim.IO
                     {
                         if (!interfaceFound.Namespace.StartsWith("Xbim"))
                             continue;
-                        if (interfaceFound.Name == "IfcMaterialSelect")
-                        {
-                        }
-                        if (!InterfaceToExpressTypesLookup.ContainsKey(interfaceFound))
+                        if (!_interfaceToExpressTypesLookup.ContainsKey(interfaceFound))
                         {
                             // add to dictionary
-                            InterfaceToExpressTypesLookup.Add(interfaceFound, new List<ExpressType>());
+                            _interfaceToExpressTypesLookup.Add(interfaceFound, new List<ExpressType>());
                         }
-                        InterfaceToExpressTypesLookup[interfaceFound].Add(expressTypeToProcess);
+                        _interfaceToExpressTypesLookup[interfaceFound].Add(expressTypeToProcess);
                     }
                 }
 
                 // add the index property to abstract types
                 //
-                foreach (var ifcType in TypeToExpressTypeLookup.Where(t => t.Type.IsAbstract))
-                {
-                    var ifcTypeIndex = (IndexedClass[])ifcType.Type.GetCustomAttributes(typeof(IndexedClass), true);
-                    ifcType.IndexedClass = (ifcTypeIndex.GetLength(0) > 0);
-                }
+                foreach (var type in _typeToExpressTypeLookup.Where(t => t.Type.IsAbstract))
+                    type.IndexedClass = type.Type.GetCustomAttributes(typeof(IndexedClass), true).Any();
             }
             catch (Exception e)
             {
-                throw new Exception("Error reading Ifc Entity Meta Data", e);
+                throw new Exception("Error reading Entity Meta Data", e);
             }
-            //foreach (var item in TypeNameToIfcTypeLookup)
-            //{
-            //    if (!item.Value.Type.IsAbstract && !item.Value.Type.IsValueType && !typeof(Xbim.Ifc2x3.GeometryResource.IfcRepresentationItem).IsAssignableFrom( item.Value.Type))
-            //    {
-            //        if (!item.Value.IndexedClass) Debug.WriteLine(item.Key + " = " + item.Value.IndexedClass);
-            //    }
-            //}
         }
 
         internal static void AddProperties(ExpressType expressType)
@@ -148,45 +147,44 @@ namespace Xbim.IO
             foreach (var propInfo in properties)
             {
                 var attributeIdx = -1;
-                var ifcAttributes =
-                    (EntityAttributeAttribute[])propInfo.GetCustomAttributes(typeof(EntityAttributeAttribute), false);
-                if (ifcAttributes.GetLength(0) > 0) //we have an ifc property
+                var attribute =
+                    ((EntityAttributeAttribute[])propInfo.GetCustomAttributes(typeof(EntityAttributeAttribute), false)).FirstOrDefault();
+                if (attribute != null) //we have an entity property
                 {
-                    if (ifcAttributes[0].Order > 0)
+                    if (attribute.Order > 0)
                     {
                         // SUPPORT: if the code breaks here there's a problem with the order attribut in a class property
-                        expressType.Properties.Add(ifcAttributes[0].Order,
-                                                    new ExpressMetaProperty { PropertyInfo = propInfo, EntityAttributeAttribute = ifcAttributes[0] });
-                        attributeIdx = ifcAttributes[0].Order;                     
+                        expressType.Properties.Add(attribute.Order,
+                                                    new ExpressMetaProperty { PropertyInfo = propInfo, EntityAttributeAttribute = attribute });
+                        attributeIdx = attribute.Order;                     
                     }
-
                     else
-                        expressType.Inverses.Add(new ExpressMetaProperty { PropertyInfo = propInfo, EntityAttributeAttribute = ifcAttributes[0] });
+                        expressType.Inverses.Add(new ExpressMetaProperty { PropertyInfo = propInfo, EntityAttributeAttribute = attribute });
                 }
-                var ifcIndexes =
-                    (IndexedProperty[])propInfo.GetCustomAttributes(typeof(IndexedProperty), false);
-                if (ifcIndexes.GetLength(0) > 0) //we have an index
+                var isIndexed =
+                    propInfo.GetCustomAttributes(typeof(IndexedProperty), false).Any();
+                if (isIndexed) //we have an index
                 {
                     Debug.Assert(typeof(IPersistEntity).IsAssignableFrom(propInfo.PropertyType)
-                        || typeof(IEnumerable<IPersistEntity>).IsAssignableFrom(propInfo.PropertyType)); //only handles to IPersistIfcEntitiess or collecctions of IPersistIfcEntities are indexable
+                        || typeof(IEnumerable<IPersistEntity>).IsAssignableFrom(propInfo.PropertyType)); //only handles to IPersistEntitiess or collecctions of IPersistEntities are indexable
                     expressType.AddIndexedAttribute(propInfo, attributeIdx);
                 }
             }
         }
 
 
-        internal static void AddParent(ExpressType child)
+        internal void AddParent(ExpressType child)
         {
             var baseParent = child.Type.BaseType;
             if (baseParent == null || typeof(object) == baseParent || typeof(ValueType) == baseParent)
                 return;
             ExpressType expressParent;
-            if (!TypeToExpressTypeLookup.Contains(baseParent))
+            if (!_typeToExpressTypeLookup.Contains(baseParent))
             {
-                TypeToExpressTypeLookup.Add(expressParent = new ExpressType { Type = baseParent });
+                _typeToExpressTypeLookup.Add(expressParent = new ExpressType { Type = baseParent });
                 var typeLookup = baseParent.Name.ToUpper();
-                if (!TypeNameToExpressTypeLookup.ContainsKey(typeLookup))
-                    TypeNameToExpressTypeLookup.Add(typeLookup, expressParent);
+                if (!_typeNameToExpressTypeLookup.ContainsKey(typeLookup))
+                    _typeNameToExpressTypeLookup.Add(typeLookup, expressParent);
                 expressParent.SubTypes.Add(child);
                 child.SuperType = expressParent;
                 AddParent(expressParent);
@@ -194,155 +192,218 @@ namespace Xbim.IO
             }
             else
             {
-                expressParent = TypeToExpressTypeLookup[baseParent];
+                expressParent = _typeToExpressTypeLookup[baseParent];
                 child.SuperType = expressParent;
                 if (!expressParent.SubTypes.Contains(child))
                     expressParent.SubTypes.Add(child);
             }
         }
 
-        public static IEnumerable<ExpressType> Types()
+        public IEnumerable<ExpressType> Types()
         {
-            return TypeNameToExpressTypeLookup.Keys.Select(item => TypeNameToExpressTypeLookup[item]);
+            return _typeNameToExpressTypeLookup.Keys.Select(item => _typeNameToExpressTypeLookup[item]);
         }
 
         /// <summary>
-        /// Returns the IfcType with the specified name (name of type or express name)
+        /// Returns the ExpressType with the specified name (name of type or express name)
         /// </summary>
         /// <param name="typeName">The name of the type in uppercase</param>
         /// <returns>The foud type (or Null if not found)</returns>
-        public static ExpressType IfcType(string typeName)
+        public static ExpressType ExpressType<T>(string typeName) where T: IEntityFactory
         {
-            if (TypeNameToExpressTypeLookup.ContainsKey(typeName))
-                return TypeNameToExpressTypeLookup[typeName];
-            if (EntityNameToExpressTypeLookup.ContainsKey(typeName))
-                return TypeNameToExpressTypeLookup[typeName];
+            var module = typeof (T).Module;
+            return ExpressType(typeName, module);
+        }
+
+        public static ExpressType ExpressType(string typeName, Module module)
+        {
+            var metadata = GetMetadata(module);
+
+            if (metadata._typeNameToExpressTypeLookup.ContainsKey(typeName))
+                return metadata._typeNameToExpressTypeLookup[typeName];
+            if (metadata._persistNameToExpressTypeLookup.ContainsKey(typeName))
+                return metadata._typeNameToExpressTypeLookup[typeName];
             return null;
         }
 
-        public static IEnumerable<ExpressType> IfcTypesImplementing(Type type)
+        public static IEnumerable<ExpressType> ExpressTypesImplementing(Type type)
         {
-            if (!InterfaceToExpressTypesLookup.ContainsKey(type)) yield break;
-            foreach (var item in InterfaceToExpressTypesLookup[type])
+            var module = type.Module;
+            var metadata = GetMetadata(module);
+
+            if (!metadata._interfaceToExpressTypesLookup.ContainsKey(type)) yield break;
+            foreach (var item in metadata._interfaceToExpressTypesLookup[type])
                 yield return item;
         }
 
         public static IEnumerable<Type> TypesImplementing(Type type)
         {
-            if (!InterfaceToExpressTypesLookup.ContainsKey(type)) yield break;
-            foreach (var item in InterfaceToExpressTypesLookup[type])
+            var module = type.Module;
+            var metadata = GetMetadata(module);
+
+            if (!metadata._interfaceToExpressTypesLookup.ContainsKey(type)) yield break;
+            foreach (var item in metadata._interfaceToExpressTypesLookup[type])
                 yield return item.Type;
         }
 
-        public static IEnumerable<ExpressType> TypesImplementing(string stringType)
+        public static IEnumerable<ExpressType> TypesImplementing<T>(string stringType) where T: IEntityFactory
         {
-            var dictitem = InterfaceToExpressTypesLookup.Keys.FirstOrDefault(intf => String.Equals(intf.Name, stringType, StringComparison.InvariantCultureIgnoreCase));
+            var module = typeof(T).Module;
+            return TypesImplementing(stringType, module);
+        }
+
+        public static IEnumerable<ExpressType> TypesImplementing(string stringType, Module module)
+        {
+            var metadata = GetMetadata(module);
+
+            var dictitem = metadata._interfaceToExpressTypesLookup.Keys.FirstOrDefault(intf => string.Equals(intf.Name, stringType, StringComparison.InvariantCultureIgnoreCase));
             if (dictitem == null) yield break;
-            foreach (var item in InterfaceToExpressTypesLookup[dictitem])
+            foreach (var item in metadata._interfaceToExpressTypesLookup[dictitem])
             {
                 yield return item;
             }
         }
 
         /// <summary>
-        /// Returns the IfcType with the specified type
+        /// Returns the ExpressType with the specified type
         /// </summary>
         /// <param name="type">The type</param>
         /// <returns>The foud type (or Null if not found)</returns>
-        public static ExpressType IfcType(Type type)
+        public static ExpressType ExpressType(Type type)
         {
-            if (TypeToExpressTypeLookup.Contains(type))
-                return TypeToExpressTypeLookup[type];
-            return
+            var module = type.Module;
+            var metadata = GetMetadata(module);
+
+            return metadata._typeToExpressTypeLookup.Contains(type) ? 
+                metadata._typeToExpressTypeLookup[type] : 
                 null;
         }
 
         /// <summary>
-        /// returns the IfcType corresponding to the TypeId
+        /// returns the ExpressType corresponding to the TypeId
         /// </summary>
         /// <param name="typeId"></param>
         /// <returns></returns>
-        public static ExpressType IfcType(short typeId)
+        public static ExpressType ExpressType<T>(short typeId) where T: IEntityFactory
         {
-            return TypeIdToExpressTypeLookup[typeId];
+            var module = typeof(T).Module;
+            return ExpressType(typeId, module);
+        }
+
+        public static ExpressType ExpressType(short typeId, Module module)
+        {
+            var metadata = GetMetadata(module);
+
+            return metadata._typeIdToExpressTypeLookup[typeId];
         }
 
         /// <summary>
-        /// returns the ifc type id of the type, if the type is not an ifc entity and excpetion will be thrown
+        /// returns the express type id of the type, if the type is not an entity and excpetion will be thrown
         /// </summary>
         /// <param name="type"></param>
         /// <returns></returns>
-        public static short IfcTypeId(Type type)
+        public static short ExpressTypeId(Type type)
         {
-            return TypeToExpressTypeLookup[type].TypeId;
+            var module = type.Module;
+            var metadata = GetMetadata(module);
+
+            return metadata._typeToExpressTypeLookup[type].TypeId;
         }
         /// <summary>
-        /// Returns the ifc typeId for the named type
+        /// Returns the typeId for the named type
         /// </summary>
         /// <param name="typeName">the name of the type, this is in uppercase</param>
         /// <returns></returns>
-        public static short IfcTypeId(string typeName)
+        public static short ExpressTypeId<T>(string typeName) where T:IEntityFactory
         {
-            return TypeNameToExpressTypeLookup[typeName].TypeId;
+            var module = typeof(T).Module;
+            return ExpressTypeId(typeName, module);
         }
 
-        public static short IfcTypeId(IPersist entity)
+        public static short ExpressTypeId(string typeName, Module module)
         {
-            return TypeToExpressTypeLookup[entity.GetType()].TypeId;
+            var metadata = GetMetadata(module);
+            return metadata._typeNameToExpressTypeLookup[typeName].TypeId;
+        }
+
+        public static short ExpressTypeId(IPersist entity)
+        {
+            var module = entity.GetType().Module;
+            var metadata = GetMetadata(module);
+
+            return metadata._typeToExpressTypeLookup[entity.GetType()].TypeId;
         }
 
         /// <summary>
-        /// Returns the Type of the Ifc Entity with typeId
+        /// Returns the Type of the Entity with typeId
         /// </summary>
         /// <param name="typeId"></param>
         /// <returns></returns>
-        public static Type GetType(short typeId)
+        public static Type GetType<T>(short typeId) where T : IEntityFactory
         {
-            return IfcType(typeId).Type;
+            return ExpressType<T>(typeId).Type;
+        }
+
+        public static Type GetType(short typeId, Module module)
+        {
+            return ExpressType(typeId, module).Type;
         }
 
         /// <summary>
-        /// Returns the IfcType of the specified entity
+        /// Returns the ExpressType of the specified entity
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
-        public static ExpressType IfcType(IPersist entity)
+        public static ExpressType ExpressType(IPersist entity)
         {
-            return TypeToExpressTypeLookup[entity.GetType()];
+            var module = entity.GetType().Module;
+            var metadata = GetMetadata(module);
+
+            return metadata._typeToExpressTypeLookup[entity.GetType()];
         }
 
 
         /// <summary>
-        /// Trys to get the specified Ifc Type with the typeName, if the ifcType does not exist false is returned
+        /// Trys to get the specified Type with the typeName, if the ExpressType does not exist false is returned
         /// </summary>
         /// <param name="typeName"></param>
         /// <param name="expressType"></param>
         /// <returns></returns>
-        public static bool TryGetExpressType(string typeName, out ExpressType expressType)
+        public static bool TryGetExpressType<T>(string typeName, out ExpressType expressType) where T: IEntityFactory
         {
-            return TypeNameToExpressTypeLookup.TryGetValue(typeName, out expressType);
+            var module = typeof(T).Module;
+            return TryGetExpressType(typeName, out expressType, module);
+        }
+
+        public static bool TryGetExpressType(string typeName, out ExpressType expressType, Module module)
+        {
+            var metadata = GetMetadata(module);
+            return metadata._typeNameToExpressTypeLookup.TryGetValue(typeName, out expressType);
         }
 
         /// <summary>
         /// Returns true if the named entities attribute is indexed
         /// </summary>
-        /// <param name="entityTypeName">the name of the Ifc Entity</param>
+        /// <param name="entityTypeName">the name of the Entity</param>
         /// <param name="attributeIndex">the index offset of the attribute to check, nb this is a 1 based index</param>
         /// <returns></returns>
-        public static bool IsIndexedIfcAttribute(string entityTypeName, int attributeIndex)
+        public static bool IsIndexedEntityAttribute<T>(string entityTypeName, int attributeIndex) where T : IEntityFactory
         {
-            var ifcType = IfcType(entityTypeName);
-            return ifcType.IsIndexedIfcAttribute(attributeIndex);
+            var type = ExpressType<T>(entityTypeName);
+            return type.IsIndexedAttribute(attributeIndex);
         }
 
-        public static void Load()
+        public static bool IsIndexedEntityAttribute(string entityTypeName, int attributeIndex, Module module)
         {
-            foreach (var item in TypeNameToExpressTypeLookup.Values)
+            var type = ExpressType(entityTypeName, module);
+            return type.IsIndexedAttribute(attributeIndex);
+        }
+
+        public void Load()
+        {
+            foreach (var l in _typeNameToExpressTypeLookup.Values.Select(item => item.NonAbstractSubTypes))
             {
-                var l = item.NonAbstractSubTypes;
             }
         }
-
-        
     }
 }

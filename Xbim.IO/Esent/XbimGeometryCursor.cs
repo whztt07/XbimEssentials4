@@ -391,7 +391,7 @@ namespace Xbim.IO.Esent
 
         private XbimGeometryHandleCollection GetGeometryHandlesById(XbimGeometryType geomType)
         {
-            var result = new XbimGeometryHandleCollection();
+            var result = new XbimGeometryHandleCollection(Model.SchemaModule);
             Api.JetSetCurrentIndex(Sesid, Table, GeometryTablePrimaryIndex);
 
             Api.MakeKey(Sesid, Table, (byte)geomType, MakeKeyGrbit.NewKey);
@@ -408,7 +408,7 @@ namespace Xbim.IO.Esent
                         var geomId = Api.RetrieveColumnAsInt32(Sesid, Table, _colIdGeometryLabel);
                         var hashId = Api.RetrieveColumnAsInt32(Sesid, Table, _colIdGeometryHash);
                         //srl note casting to UINT, needs to be resolved at database level
-                        result.Add(new XbimGeometryHandle(geomId.Value, geomType, product.Value, ifcType.Value, style.Value, hashId.Value));
+                        result.Add(new XbimGeometryHandle(geomId.Value, geomType, product.Value, ifcType.Value, style.Value, hashId.Value, Model.SchemaModule));
                     } while (Api.TryMoveNext(Sesid, Table));
                 }
 
@@ -418,7 +418,7 @@ namespace Xbim.IO.Esent
 
         private XbimGeometryHandleCollection GetGeometryHandlesByIfcType(XbimGeometryType geomType)
         {
-            var result = new XbimGeometryHandleCollection();
+            var result = new XbimGeometryHandleCollection(Model.SchemaModule);
             Api.JetSetCurrentIndex(Sesid, Table, GeometryTableGeomTypeIndex);
 
             Api.MakeKey(Sesid, Table, (byte)geomType, MakeKeyGrbit.NewKey);
@@ -434,7 +434,7 @@ namespace Xbim.IO.Esent
                         var product = Api.RetrieveColumnAsInt32(Sesid, Table, _colIdProductLabel, RetrieveColumnGrbit.RetrieveFromIndex);
                         var geomId = Api.RetrieveColumnAsInt32(Sesid, Table, _colIdGeometryLabel, RetrieveColumnGrbit.RetrieveFromIndex);
                         //srl note casting to UINT, needs to be resolved at database level
-                        result.Add(new XbimGeometryHandle(geomId.Value, geomType, product.Value, ifcType.Value, style.Value, geomId.Value));
+                        result.Add(new XbimGeometryHandle(geomId.Value, geomType, product.Value, ifcType.Value, style.Value, geomId.Value, Model.SchemaModule));
                     } while (Api.TryMoveNext(Sesid, Table));
                 }
 
@@ -444,7 +444,7 @@ namespace Xbim.IO.Esent
 
         private XbimGeometryHandleCollection GetGeometryHandlesBySurfaceStyle(XbimGeometryType geomType)
         {
-            var result = new XbimGeometryHandleCollection();
+            var result = new XbimGeometryHandleCollection(Model.SchemaModule);
             Api.JetSetCurrentIndex(Sesid, Table, GeometryTableStyleIndex);
             Api.MakeKey(Sesid, Table, (byte)geomType, MakeKeyGrbit.NewKey);
             if (Api.TrySeek(Sesid, Table, SeekGrbit.SeekGE))
@@ -458,7 +458,7 @@ namespace Xbim.IO.Esent
                         var ifcType = Api.RetrieveColumnAsInt16(Sesid, Table, _colIdProductIfcTypeId, RetrieveColumnGrbit.RetrieveFromIndex);
                         var product = Api.RetrieveColumnAsInt32(Sesid, Table, _colIdProductLabel, RetrieveColumnGrbit.RetrieveFromIndex);
                         var geomId = Api.RetrieveColumnAsInt32(Sesid, Table, _colIdGeometryLabel, RetrieveColumnGrbit.RetrieveFromIndex);
-                        result.Add(new XbimGeometryHandle(geomId.Value, geomType, product.Value, ifcType.Value, style.Value));
+                        result.Add(new XbimGeometryHandle(geomId.Value, geomType, product.Value, ifcType.Value, style.Value, Model.SchemaModule));
                     } while (Api.TryMoveNext(Sesid, Table));
                 }
 
@@ -482,7 +482,7 @@ namespace Xbim.IO.Esent
                 var geomType = Api.RetrieveColumnAsByte(Sesid, Table, _colIdGeomType);
                 var geomHash = Api.RetrieveColumnAsInt32(Sesid, Table, _colIdGeometryHash);
                
-                return new XbimGeometryHandle(geometryLabel, (XbimGeometryType)geomType.Value, product.Value, ifcType.Value, style.Value, geomHash.Value);
+                return new XbimGeometryHandle(geometryLabel, (XbimGeometryType)geomType.Value, product.Value, ifcType.Value, style.Value, geomHash.Value, Model.SchemaModule);
             }
             return new XbimGeometryHandle();
         }

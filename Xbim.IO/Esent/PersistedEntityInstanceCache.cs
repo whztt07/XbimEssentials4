@@ -816,12 +816,12 @@ namespace Xbim.IO.Esent
         private long CountOf(Type theType)
         {
             var entityLabels = new HashSet<int>();
-            var ifcType = ExpressMetaData.IfcType(theType);
+            var ifcType = ExpressMetaData.ExpressType(theType);
             var entityTable = GetEntityTable();
             var typeIds = new HashSet<short>();
             //get all the type ids we are going to check for
             foreach (var t in ifcType.NonAbstractSubTypes)
-                typeIds.Add(ExpressMetaData.IfcTypeId(t));
+                typeIds.Add(ExpressMetaData.ExpressTypeId(t));
             try
             {
 
@@ -865,13 +865,13 @@ namespace Xbim.IO.Esent
 
         public bool Any<TIfcType>() where TIfcType : IPersistEntity
         {
-            var ifcType = ExpressMetaData.IfcType(typeof(TIfcType));
+            var ifcType = ExpressMetaData.ExpressType(typeof(TIfcType));
             var entityTable = GetEntityTable();
             try
             {
                 foreach (var t in ifcType.NonAbstractSubTypes)
                 {
-                    var typeId = ExpressMetaData.IfcTypeId(t);
+                    var typeId = ExpressMetaData.ExpressTypeId(t);
                     XbimInstanceHandle ih;
                     if (!entityTable.TrySeekEntityType(typeId,out ih))
                         return true;
@@ -1005,13 +1005,13 @@ namespace Xbim.IO.Esent
         public IEnumerable<XbimInstanceHandle> InstanceHandlesOfType<TIfcType>()
         {
             var reqType = typeof(TIfcType);
-            var ifcType = ExpressMetaData.IfcType(reqType);
+            var ifcType = ExpressMetaData.ExpressType(reqType);
             var entityTable = GetEntityTable();
             try
             {
                 foreach (var t in ifcType.NonAbstractSubTypes)
                 {
-                    var typeId = ExpressMetaData.IfcTypeId(t);
+                    var typeId = ExpressMetaData.ExpressTypeId(t);
                     XbimInstanceHandle ih;
                     if (entityTable.TrySeekEntityType(typeId, out ih))
                     {
@@ -1099,7 +1099,7 @@ namespace Xbim.IO.Esent
                         if (currentIfcTypeId == 0) // this should never happen (there's a test for it, but old xbim files might be incorrectly identified)
                             return null;
                         IPersistEntity entity;
-                        var entityType = ExpressMetaData.GetType(currentIfcTypeId);
+                        var entityType = ExpressMetaData.GetType(currentIfcTypeId, Model.SchemaModule);
                         if (loadProperties)
                         {
                             var properties = entityTable.GetProperties();
@@ -1153,7 +1153,7 @@ namespace Xbim.IO.Esent
                 //get all the type ids we are going to check for
                 var typeIds = new HashSet<short>();
                 foreach (var t in expressType.NonAbstractSubTypes)
-                    typeIds.Add(ExpressMetaData.IfcTypeId(t));
+                    typeIds.Add(ExpressMetaData.ExpressTypeId(t));
                 using (entityTable.BeginReadOnlyTransaction())
                 {
                     entityTable.MoveBeforeFirst();
@@ -1228,7 +1228,7 @@ namespace Xbim.IO.Esent
             int indexKeyAsInt;
             if (indexKey.HasValue) indexKeyAsInt = indexKey.Value; //this is lossy and needs to be fixed if we get large databases
             else indexKeyAsInt = -1;
-            var searchingIfcType = overrideType ?? ExpressMetaData.IfcType(typeof(TIfcType));
+            var searchingIfcType = overrideType ?? ExpressMetaData.ExpressType(typeof(TIfcType));
             
             // when searching for Interface types SearchingIfcType is null
             //
@@ -1249,7 +1249,7 @@ namespace Xbim.IO.Esent
                     {
                         foreach (var t in typesToSearch)
                         {
-                            var typeId = ExpressMetaData.IfcTypeId(t);
+                            var typeId = ExpressMetaData.ExpressTypeId(t);
                             XbimInstanceHandle ih;
                             if (entityTable.TrySeekEntityType(typeId, out ih, indexKeyAsInt) && entityTable.TrySeekEntityLabel(ih.EntityLabel)) //we have the first instance
                             {
@@ -1589,7 +1589,7 @@ namespace Xbim.IO.Esent
         {
             var indexFound = false;
             var type = typeof(T);
-            var ifcType = ExpressMetaData.IfcType(type);
+            var ifcType = ExpressMetaData.ExpressType(type);
            
             var predicate = expr.Compile();
             if (ifcType.HasIndexedAttribute) //we can use a secondary index to look up
@@ -1744,7 +1744,7 @@ namespace Xbim.IO.Esent
                 return (T)v;
             }
             txn.Pulse();
-            var ifcType = ExpressMetaData.IfcType(toCopy as IInstantiableEntity);
+            var ifcType = ExpressMetaData.ExpressType(toCopy);
             copyHandle = InsertNew(ifcType.Type);
             mappings.Add(toCopyHandle, copyHandle);
             if (typeof(IfcCartesianPoint) == ifcType.Type || typeof(IfcDirection) == ifcType.Type)//special cases for cartesian point and direction for efficiency
@@ -2011,12 +2011,12 @@ namespace Xbim.IO.Esent
         internal IEnumerable<IPersistEntity> OfType(string stringType, bool activate)
         {
 
-            var ot = ExpressMetaData.IfcType(stringType.ToUpper());
+            var ot = ExpressMetaData.ExpressType(stringType.ToUpper(), Model.SchemaModule);
             if (ot == null)
             {
                 // it could be that we're searching for an interface
                 //
-                var implementingTypes = ExpressMetaData.TypesImplementing(stringType);
+                var implementingTypes = ExpressMetaData.TypesImplementing(stringType, Model.SchemaModule);
                 foreach (var implementingType in implementingTypes)
                 {
                     foreach (var item in OfType<IPersistEntity>(activate: activate, overrideType: implementingType))

@@ -154,7 +154,7 @@ namespace Xbim.IO.Xml
             _written.Add(handle);
 
             var entity = model.GetInstanceVolatile(handle) as IInstantiableEntity; //load either the cache or a volatile version of the entity
-            var ifcType = ExpressMetaData.IfcType(entity);
+            var ifcType = ExpressMetaData.ExpressType(entity);
 
             output.WriteStartElement(ifcType.Type.Name);
             

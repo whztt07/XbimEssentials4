@@ -78,9 +78,9 @@ namespace Xbim.IO.Xml
 
         private class XmlEntity : XmlNode
         {
-            public IInstantiableEntity Entity;
+            public readonly IPersistEntity Entity;
 
-            public XmlEntity(XmlNode parent, IInstantiableEntity ent)
+            public XmlEntity(XmlNode parent, IPersistEntity ent)
                 : base(parent)
             {
                 Entity = ent;
@@ -221,7 +221,7 @@ namespace Xbim.IO.Xml
         {
             var elementName = input.LocalName;
             bool isRefType;
-            var id = GetId(input, out isRefType);
+            var id = GetId(input, out isRefType, cache.Model.SchemaModule);
            
             ExpressType expressType;
             
@@ -230,19 +230,19 @@ namespace Xbim.IO.Xml
             int propIndex;
 
 
-            if (id.HasValue && IsIfcEntity(elementName, out expressType)) //we have an element which is an Ifc Entity
+            if (id.HasValue && IsIfcEntity(elementName, out expressType, cache.Model.SchemaModule)) //we have an element which is an Ifc Entity
             {
-                IInstantiableEntity ent;
+                IPersistEntity ent;
                 if (!cache.Contains(id.Value))
                 {
                     // not been declared in a ref yet
                     // model.New creates an instance uisng type and id
-                    ent = cache.CreateNew(expressType.Type, id.Value) as IInstantiableEntity;
+                    ent = cache.CreateNew(expressType.Type, id.Value);
                    
                 }
                 else
                 {
-                    ent = cache.GetInstance(id.Value, false, true) as IInstantiableEntity;
+                    ent = cache.GetInstance(id.Value, false, true);
                 }
 
                 var xmlEnt = new XmlEntity(_currentNode, ent);
@@ -288,7 +288,7 @@ namespace Xbim.IO.Xml
             }
             else if (input.IsEmptyElement)
             {
-                if (IsIfcProperty(elementName, out propIndex, out prop))
+                if (IsIfcProperty(elementName, out propIndex, out prop, cache.Model.SchemaModule))
                 {
                     var node = new XmlProperty(_currentNode, prop.PropertyInfo, propIndex);
                     var propVal = new PropertyValue();
@@ -328,7 +328,7 @@ namespace Xbim.IO.Xml
                     }
 
                 }
-                else if (IsIfcType(elementName, out expressType))
+                else if (IsIfcType(elementName, out expressType, cache.Model.SchemaModule))
                 {
                     IPersist ent;
                     var param = new object[1];
@@ -340,7 +340,7 @@ namespace Xbim.IO.Xml
 
                 return;
             }
-            else if (!id.HasValue && IsIfcProperty(elementName, out propIndex, out prop)) //we have an element which is a property
+            else if (!id.HasValue && IsIfcProperty(elementName, out propIndex, out prop, cache.Model.SchemaModule)) //we have an element which is a property
             {
 
                 var cType = input.GetAttribute(_cTypeAttribute);
@@ -378,7 +378,7 @@ namespace Xbim.IO.Xml
                     if (!input.IsEmptyElement) _currentNode = n;
                 }
             }
-            else if (!id.HasValue && IsIfcType(elementName, out expressType)) // we have an Ifc ExpressType
+            else if (!id.HasValue && IsIfcType(elementName, out expressType, cache.Model.SchemaModule)) // we have an Ifc ExpressType
             {
 
 
@@ -402,13 +402,13 @@ namespace Xbim.IO.Xml
                 throw new Exception("Illegal XML element tag");
         }
 
-        private bool IsIfcProperty(string elementName, out int index, out ExpressMetaProperty prop)
+        private bool IsIfcProperty(string elementName, out int index, out ExpressMetaProperty prop, Module module)
         {
             ExpressType expressType;
             var xmlEntity = _currentNode as XmlEntity;
-            if (xmlEntity != null && !ExpressMetaData.TryGetExpressType(elementName.ToUpper(), out expressType))
+            if (xmlEntity != null && !ExpressMetaData.TryGetExpressType(elementName.ToUpper(), out expressType, module))
             {
-                var t = ExpressMetaData.IfcType(xmlEntity.Entity);
+                var t = ExpressMetaData.ExpressType(xmlEntity.Entity);
 
                 foreach (var p in t.Properties)
                 {
@@ -438,22 +438,22 @@ namespace Xbim.IO.Xml
 
         }
 
-        private bool IsIfcType(string elementName, out ExpressType expressType)
+        private bool IsIfcType(string elementName, out ExpressType expressType, Module module)
         {
-            var ok = ExpressMetaData.TryGetExpressType(elementName.ToUpper(), out expressType);
+            var ok = ExpressMetaData.TryGetExpressType(elementName.ToUpper(), out expressType, module);
             if (!ok)
             {
 
                 if (elementName.Contains("-wrapper") && elementName.StartsWith(_expressNamespace) == false) // we have an inline type definition
                 {
                     var inputName = elementName.Substring(0, elementName.LastIndexOf("-"));
-                    ok = ExpressMetaData.TryGetExpressType(inputName.ToUpper(), out expressType);
+                    ok = ExpressMetaData.TryGetExpressType(inputName.ToUpper(), out expressType, module);
                 }
             }
             return ok && typeof(IExpressType).IsAssignableFrom(expressType.Type);
         }
 
-        private int? GetId(XmlReader input, out bool isRefType)
+        private int? GetId(XmlReader input, out bool isRefType, Module module)
         {
             isRefType = false;
             int? nextId = null;
@@ -483,7 +483,7 @@ namespace Xbim.IO.Xml
                 //return Convert.ToInt32(match.Value);
                 
             }
-            else if (IsIfcEntity(input.LocalName, out expressType) && !typeof(IExpressType).IsAssignableFrom(expressType.Type)) //its a type with no identity, make one
+            else if (IsIfcEntity(input.LocalName, out expressType, module) && !typeof(IExpressType).IsAssignableFrom(expressType.Type)) //its a type with no identity, make one
             {
                 ++_lastId;
                 nextId = _lastId;
@@ -492,13 +492,13 @@ namespace Xbim.IO.Xml
             return nextId;
         }
 
-        private bool IsIfcEntity(string elementName, out ExpressType expressType)
+        private bool IsIfcEntity(string elementName, out ExpressType expressType, Module module)
         {
 
-            return ExpressMetaData.TryGetExpressType(elementName.ToUpper(), out expressType);
+            return ExpressMetaData.TryGetExpressType(elementName.ToUpper(), out expressType, module);
         }
 
-        private void EndElement(XmlReader input, XmlNodeType prevInputType, string prevInputName, out IPersistEntity writeEntity)
+        private void EndElement(XmlReader input, XmlNodeType prevInputType, string prevInputName, out IPersistEntity writeEntity, Module module)
         {
             try
             {
@@ -554,7 +554,7 @@ namespace Xbim.IO.Xml
                         {
                             //propNode.SetValue(expressNode);
                             ExpressType expressType;
-                            if (IsIfcType(input.LocalName, out expressType))
+                            if (IsIfcType(input.LocalName, out expressType, module))
                             //we have an IPersistIfc
                             {
                                 IPersist ent;
@@ -918,7 +918,7 @@ namespace Xbim.IO.Xml
                             case XmlNodeType.EndElement:
                                 IPersistEntity toWrite;
                                 //if toWrite has a value we have completed an Ifc Entity
-                                EndElement(input, prevInputType, prevInputName, out toWrite);
+                                EndElement(input, prevInputType, prevInputName, out toWrite, entityInstanceCache.Model.SchemaModule);
                                 if (toWrite != null)
                                 {
                                     _entitiesParsed++;

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
 using Xbim.Common;
 using Xbim.IO.Parser;
 
@@ -12,11 +13,13 @@ namespace Xbim.IO.Esent
         {
             _currentInstance = new Part21Entity(entity);
             _processStack.Push(_currentInstance);
+            _schemaModule = entity.GetType().Module;
         }
 
         private readonly Stack<Part21Entity> _processStack = new Stack<Part21Entity>();
         private int _listNestLevel = -1;
         private Part21Entity _currentInstance;
+        private readonly Module _schemaModule;
         private readonly IndexPropertyValue _propertyValue = new IndexPropertyValue();
 
         public void BeginList()
@@ -44,8 +47,8 @@ namespace Xbim.IO.Esent
 
         internal void BeginNestedType(string typeName)
         {
-            var ifcType = ExpressMetaData.IfcType(typeName);
-            _currentInstance = new Part21Entity((IPersist)Activator.CreateInstance(ifcType.Type));
+            var type = ExpressMetaData.ExpressType(typeName, _schemaModule);
+            _currentInstance = new Part21Entity((IPersist)Activator.CreateInstance(type.Type));
             _processStack.Push(_currentInstance);
         }
 
@@ -144,7 +147,7 @@ namespace Xbim.IO.Esent
         {
             get
             {
-                return ExpressMetaData.IfcType(_currentInstance.Entity).Properties[_currentInstance.CurrentParamIndex+1];
+                return ExpressMetaData.ExpressType(_currentInstance.Entity).Properties[_currentInstance.CurrentParamIndex+1];
             }
         }
         internal short CurrentPropertyId

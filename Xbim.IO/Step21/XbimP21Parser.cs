@@ -278,7 +278,7 @@ namespace Xbim.IO.Step21
                 var mainEntity = _processStack.Last();
                 if (mainEntity != null)
                 {
-                    var ifcType = ExpressMetaData.IfcType(mainEntity.Entity);
+                    var ifcType = ExpressMetaData.ExpressType(mainEntity.Entity);
                     Logger.ErrorFormat("Entity #{0,-5} {1}, error at parameter {2}-{3} value = {4}",
                                                mainEntity.EntityLabel, mainEntity.Entity.GetType().Name.ToUpper(),
                                                mainEntity.CurrentParamIndex + 1,
@@ -320,7 +320,7 @@ namespace Xbim.IO.Step21
                 var mainEntity = _processStack.Last();
                 if (mainEntity != null)
                 {
-                    var ifcType = ExpressMetaData.IfcType(mainEntity.Entity);
+                    var ifcType = ExpressMetaData.ExpressType(mainEntity.Entity);
 
                     var propertyName = mainEntity.CurrentParamIndex + 1 > ifcType.Properties.Count ? "[UnknownProperty]" :
                         ifcType.Properties[mainEntity.CurrentParamIndex + 1].PropertyInfo.Name;
@@ -368,7 +368,7 @@ namespace Xbim.IO.Step21
                 if (_errorCount > MaxErrorCount)
                     throw new Exception("Too many errors in file, parser execution terminated");
                 _errorCount++;
-                var ifcType = ExpressMetaData.IfcType(host);
+                var ifcType = ExpressMetaData.ExpressType(host);
                 var propertyName = paramIndex+1 > ifcType.Properties.Count ? "[UnknownProperty]" :
                         ifcType.Properties[paramIndex+1].PropertyInfo.Name;
                 Logger.ErrorFormat("Entity #{0,-5} {1}, error at parameter {2}-{3}",

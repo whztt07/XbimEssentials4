@@ -119,7 +119,7 @@ namespace Xbim.IO
 
         internal List<int> IndexedValues { get; private set; }
 
-        private void AddNonAbstractTypes(ExpressType expressType, List<Type> nonAbstractTypes)
+        private static void AddNonAbstractTypes(ExpressType expressType, List<Type> nonAbstractTypes)
         {
             if (!expressType.Type.IsAbstract) //this is a concrete type so add it
                 nonAbstractTypes.Add(expressType.Type);
@@ -133,7 +133,7 @@ namespace Xbim.IO
         /// </summary>
         /// <param name="attributeIndex"></param>
         /// <returns></returns>
-        public bool IsIndexedIfcAttribute(int attributeIndex)
+        public bool IsIndexedAttribute(int attributeIndex)
         {
             return IndexedValues != null && IndexedValues.Contains(attributeIndex);
         }

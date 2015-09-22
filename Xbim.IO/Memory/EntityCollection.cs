@@ -12,7 +12,7 @@ namespace Xbim.IO.Memory
         private readonly Dictionary<Type, List<IPersistEntity>> _internal = new Dictionary<Type, List<IPersistEntity>>();
         private readonly Type[] _types;
         internal readonly TFactory Factory;
-        private int _instanceCounter = 10000;
+        internal int NextLabel = 1;
         public EntityCollection(IModel model)
         {
             _model = model;
@@ -61,21 +61,21 @@ namespace Xbim.IO.Memory
 
         public IPersistEntity New(Type t)
         {
-            var entity = Factory.New(_model, t, _instanceCounter++, true);
+            var entity = Factory.New(_model, t, NextLabel++, true);
             AddReversible(entity);
             return entity;
         }
 
         public T New<T>(Action<T> initPropertiesFunc) where T : IInstantiableEntity
         {
-            var entity = Factory.New(_model, initPropertiesFunc, _instanceCounter++, true);
+            var entity = Factory.New(_model, initPropertiesFunc, NextLabel++, true);
             AddReversible(entity);
             return entity;
         }
 
         public T New<T>() where T : IInstantiableEntity
         {
-            var entity = Factory.New<T>(_model, _instanceCounter++, true);
+            var entity = Factory.New<T>(_model, NextLabel++, true);
             AddReversible(entity);
             return entity;
         }

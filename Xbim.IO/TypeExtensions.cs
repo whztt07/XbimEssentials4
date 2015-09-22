@@ -23,7 +23,7 @@ namespace Xbim.IO
 
         internal static short? IfcTypeId(this Type type)
         {
-            return ExpressMetaData.IfcTypeId(type);
+            return ExpressMetaData.ExpressTypeId(type);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using Xbim.Common;
 
 namespace Xbim.IO
@@ -39,7 +40,7 @@ namespace Xbim.IO
         {
             get
             {
-                return ExpressMetaData.GetType(EntityTypeId);
+                return ExpressMetaData.GetType(EntityTypeId, Model.SchemaModule);
             }
         }
 
@@ -47,7 +48,7 @@ namespace Xbim.IO
         {
             get
             {
-                return  ExpressMetaData.IfcType(EntityTypeId);
+                return ExpressMetaData.ExpressType(EntityTypeId, Model.SchemaModule);
             }
         }
         
@@ -71,7 +72,7 @@ namespace Xbim.IO
         {
             Model = model;
             EntityLabel = entityLabel;
-            EntityTypeId = ExpressMetaData.IfcTypeId(type);
+            EntityTypeId = ExpressMetaData.ExpressTypeId(type);
         }
 
         public XbimInstanceHandle(XbimModel model, int? label, short? type)
@@ -85,7 +86,7 @@ namespace Xbim.IO
         {
             Model = (XbimModel)entity.Model;
             this.EntityLabel = entity.EntityLabel;
-            this.EntityTypeId = ExpressMetaData.IfcTypeId(entity as IInstantiableEntity);
+            this.EntityTypeId = ExpressMetaData.ExpressTypeId(entity);
         }
 
         public IPersistEntity GetEntity()
@@ -93,9 +94,9 @@ namespace Xbim.IO
             return Model.Instances[EntityLabel];
         }
        
-        internal ExpressType IfcType()
+        internal ExpressType ExpressType()
         {
-            return ExpressMetaData.IfcType(EntityTypeId);
+            return ExpressMetaData.ExpressType(EntityTypeId, Model.SchemaModule);
         }
 
 

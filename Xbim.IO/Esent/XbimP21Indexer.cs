@@ -84,10 +84,10 @@ namespace Xbim.IO.Esent
        
         private XbimEntityCursor table;
        
-        private PersistedEntityInstanceCache modelCache;
-        const int _transactionBatchSize = 100;
+        private readonly PersistedEntityInstanceCache _modelCache;
+        const int TransactionBatchSize = 100;
         private int _entityCount = 0;
-        private int _codePageOverride = -1;
+        private readonly int _codePageOverride = -1;
 
         public int EntityCount
         {
@@ -102,7 +102,7 @@ namespace Xbim.IO.Esent
            
             this.table = table;
           //  this.transaction = transaction;
-            this.modelCache = cache;
+            this._modelCache = cache;
             _entityCount = 0;
             if (inputP21.CanSeek)
                 _streamSize = inputP21.Length;
@@ -123,7 +123,7 @@ namespace Xbim.IO.Esent
         {
             _binaryWriter = new BinaryWriter(new MemoryStream(0x7FFF));
             toStore = new BlockingCollection<Tuple<int, short, List<int>, byte[], bool>>(512);
-            if (this.modelCache.IsCaching)
+            if (this._modelCache.IsCaching)
             {
                 toProcess = new BlockingCollection<Tuple<int, Type, byte[]>>();
                 cacheProcessor = Task.Factory.StartNew(() =>
@@ -136,7 +136,7 @@ namespace Xbim.IO.Esent
                             {
                                
                                 if(toProcess.TryTake(out h))
-                                    this.modelCache.GetOrCreateInstanceFromCache(h.Item1, h.Item2, h.Item3);
+                                    this._modelCache.GetOrCreateInstanceFromCache(h.Item1, h.Item2, h.Item3);
                             }
 
                         }
@@ -163,8 +163,8 @@ namespace Xbim.IO.Esent
                                 table.AddEntity(h.Item1, h.Item2, h.Item3, h.Item4, h.Item5, transaction);
                                 if (toStore.IsCompleted)
                                     table.WriteHeader(Header);
-                                long remainder = _entityCount%_transactionBatchSize;
-                                if (remainder == _transactionBatchSize - 1)
+                                long remainder = _entityCount%TransactionBatchSize;
+                                if (remainder == TransactionBatchSize - 1)
                                 {
                                     transaction.Commit();
                                     transaction.Begin();
@@ -191,17 +191,17 @@ namespace Xbim.IO.Esent
         {
             toStore.CompleteAdding();
             storeProcessor.Wait();
-            if (this.modelCache.IsCaching)
+            if (this._modelCache.IsCaching)
             {
                 toProcess.CompleteAdding();
                 cacheProcessor.Wait();
                 cacheProcessor.Dispose();
                 cacheProcessor = null;
-                while (this.modelCache.ForwardReferences.Count > 0)
+                while (this._modelCache.ForwardReferences.Count > 0)
                 {
                     StepForwardReference forwardRef;
-                    if(this.modelCache.ForwardReferences.TryTake(out forwardRef))
-                        forwardRef.Resolve(this.modelCache.Read);
+                    if(this._modelCache.ForwardReferences.TryTake(out forwardRef))
+                        forwardRef.Resolve(this._modelCache.Read);
                 }
             }
             storeProcessor.Dispose();
@@ -314,8 +314,8 @@ namespace Xbim.IO.Esent
             {
 
                 _currentType = entityTypeName;
-                var ifcType = ExpressMetaData.IfcType(_currentType);
-                _indexKeys = ifcType.IndexedValues;
+                var type = ExpressMetaData.ExpressType(_currentType, _modelCache.Model.SchemaModule);
+                _indexKeys = type.IndexedValues;
             }
         }
 
@@ -327,12 +327,12 @@ namespace Xbim.IO.Esent
             if (_currentType != null)
             {
                 _binaryWriter.Write((byte)P21ParseAction.EndEntity);
-                var ifcType = ExpressMetaData.IfcType(_currentType);
+                var type = ExpressMetaData.ExpressType(_currentType, _modelCache.Model.SchemaModule);
                 var data = _binaryWriter.BaseStream as MemoryStream;
                 var bytes =  data.ToArray();
                 var keys = new List<int>(_indexKeyValues);
-                toStore.Add(new Tuple<int, short, List<int>, byte[], bool>(_currentLabel, ifcType.TypeId, keys, bytes, ifcType.IndexedClass));
-                if (this.modelCache.IsCaching) toProcess.Add(new Tuple<int, Type, byte[]>(_currentLabel, ifcType.Type, bytes)); 
+                toStore.Add(new Tuple<int, short, List<int>, byte[], bool>(_currentLabel, type.TypeId, keys, bytes, type.IndexedClass));
+                if (this._modelCache.IsCaching) toProcess.Add(new Tuple<int, Type, byte[]>(_currentLabel, type.Type, bytes)); 
             }
 
         }

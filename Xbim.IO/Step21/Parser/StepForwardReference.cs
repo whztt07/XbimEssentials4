@@ -33,7 +33,7 @@ namespace Xbim.IO.Step21.Parser
                 }
                 catch (Exception)
                 {
-                    var ifcType = ExpressMetaData.IfcType(ReferencingEntity);
+                    var ifcType = ExpressMetaData.ExpressType(ReferencingEntity);
                     
                     XbimModel.Logger.ErrorFormat("Data Error. Cannot set the property = {0} of entity #{1} = {2} to entity #{3}, schema violation. Ignored", 
                         ifcType.Properties[ReferencingPropertyId+1].PropertyInfo.Name, 

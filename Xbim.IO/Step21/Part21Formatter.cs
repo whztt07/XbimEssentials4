@@ -57,10 +57,15 @@ namespace Xbim.IO.Step21
             }
             if (!string.IsNullOrEmpty(fmt) && fmt.ToUpper() == "T") //TimeStamp
             {
-                var dt = arg as DateTime?;
-                if (dt.HasValue == false)
+                if (!(arg is DateTime))
                     throw new ArgumentException("Only valid DateTime objects can be converted to Part21 Timestamp");
-                return IfcTimeStamp.ToTimeStamp(dt.Value).ToString();
+
+                var dateTime = (DateTime)arg;
+                var dt = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
+                //from 1970/1/1 00:00:00 to _lastModifiedDate
+                var result = dateTime.Subtract(dt);
+                var seconds = Convert.ToInt32(result.TotalSeconds);
+                return seconds.ToString();
             }
             if (!string.IsNullOrEmpty(fmt) && fmt.ToUpper() == "G") //Guid
             {

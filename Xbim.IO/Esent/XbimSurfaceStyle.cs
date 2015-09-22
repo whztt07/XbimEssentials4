@@ -1,4 +1,5 @@
-﻿using Xbim.Ifc2x3.PresentationAppearanceResource;
+﻿using System.Reflection;
+using Xbim.Ifc2x3.PresentationAppearanceResource;
 
 namespace Xbim.IO.Esent
 {
@@ -7,8 +8,9 @@ namespace Xbim.IO.Esent
     /// </summary>
     public struct XbimSurfaceStyle
     {
-        private int styleId;
-        private short ifcTypeId;
+        private readonly int _styleId;
+        private readonly short _expressTypeId;
+        private readonly Module _module;
 
         /// <summary>
         /// Holds the material used by the graphics engine to render the surface style
@@ -21,34 +23,35 @@ namespace Xbim.IO.Esent
         //public List<XbimGeometryData> GeometryData = new List<XbimGeometryData>();
 
 
-        public short IfcTypeId
+        public short ExpressTypeId
         {
-            get { return ifcTypeId; }
+            get { return _expressTypeId; }
         }
 
-        public XbimSurfaceStyle(short ifcTypeId, int ifcSurfaceStyleId)
+        public XbimSurfaceStyle(short expressTypeId, int ifcSurfaceStyleId, Module module)
         {
 
-            this.ifcTypeId = ifcTypeId;
-            this.styleId = ifcSurfaceStyleId;
-            this.TagRenderMaterial = null;
+            _expressTypeId = expressTypeId;
+            _styleId = ifcSurfaceStyleId;
+            _module = module;
+            TagRenderMaterial = null;
         }
 
 
         public int IfcSurfaceStyleLabel
         {
-            get { return styleId; }
+            get { return _styleId; }
           
         }
 
         public IfcSurfaceStyle IfcSurfaceStyle(XbimModel model)
         {
-            if (IsIfcSurfaceStyle) return (IfcSurfaceStyle)model.Instances[styleId]; else return null;
+            if (IsIfcSurfaceStyle) return (IfcSurfaceStyle)model.Instances[_styleId]; else return null;
         }
 
         public ExpressType ExpressType
         {
-            get { return ExpressMetaData.IfcType(ifcTypeId); }
+            get { return ExpressMetaData.ExpressType(_expressTypeId, _module); }
            
         }
 
@@ -56,14 +59,14 @@ namespace Xbim.IO.Esent
         {
             get
             {
-                return styleId > 0;
+                return _styleId > 0;
             }
         }
 
 
         public override int GetHashCode()
         {
-            if (IsIfcSurfaceStyle) return styleId; else return ifcTypeId * -1;
+            if (IsIfcSurfaceStyle) return _styleId; else return _expressTypeId * -1;
         }
 
         public override bool Equals(object obj)
@@ -72,12 +75,12 @@ namespace Xbim.IO.Esent
             if (obj is XbimSurfaceStyle)
             {
                 var compareTo = (XbimSurfaceStyle) obj;
-                if (IsIfcSurfaceStyle && styleId == compareTo.styleId) //if it is a surface style then this takes priority
+                if (IsIfcSurfaceStyle && _styleId == compareTo._styleId) //if it is a surface style then this takes priority
                     return true;
                 else if (IsIfcSurfaceStyle)
                     return false;
                 else
-                    return ifcTypeId == compareTo.ifcTypeId; //otherwise the ifc type is precedent
+                    return _expressTypeId == compareTo._expressTypeId; //otherwise the ifc type is precedent
             }
             else
                 return false;

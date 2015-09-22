@@ -60,6 +60,7 @@
     <Compile Include="CobiePickList.cs" />
     <Compile Include="CobiePickValue.cs" />
     <Compile Include="CobieProject.cs" />
+    <Compile Include="CobieReferencedObject.cs" />
     <Compile Include="CobieResource.cs" />
     <Compile Include="CobieSite.cs" />
     <Compile Include="CobieSpace.cs" />

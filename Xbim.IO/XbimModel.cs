@@ -11,6 +11,7 @@ using Xbim.Common.Logging;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
 using System.Globalization;
+using System.Reflection;
 using Xbim.Common.Geometry;
 using Xbim.Common.Step21;
 using Xbim.Common.XbimExtensions;
@@ -92,6 +93,7 @@ namespace Xbim.IO
             _instances = new XbimInstanceCollection(this);
             var r = new Random();
             UserDefinedId = (short)r.Next(short.MaxValue); // initialise value at random to reduce chance of duplicates
+            SchemaModule = typeof(EntityFactory).Module;
         }
         public string DatabaseName
         {
@@ -582,14 +584,14 @@ namespace Xbim.IO
         {
             var itw = new IndentedTextWriter(tw);
             if (validateLevel == ValidationFlags.None) return 0; //nothing to do
-            var ifcType = ExpressMetaData.IfcType(ent as IInstantiableEntity);
+            var ifcType = ExpressMetaData.ExpressType(ent);
             var notIndented = true;
             var errors = 0;
             if (validateLevel == ValidationFlags.Properties || validateLevel == ValidationFlags.All)
             {
                 foreach (var ifcProp in ifcType.Properties.Values)
                 {
-                    var err = GetIfcSchemaError(ent as IInstantiableEntity, ifcProp);
+                    var err = GetSchemaError(ent as IInstantiableEntity, ifcProp);
                     if (string.IsNullOrEmpty(err)) continue;
                     if (notIndented)
                     {
@@ -605,7 +607,7 @@ namespace Xbim.IO
             {
                 foreach (var ifcInv in ifcType.Inverses)
                 {
-                    var err = GetIfcSchemaError(ent as IInstantiableEntity, ifcInv);
+                    var err = GetSchemaError(ent as IInstantiableEntity, ifcInv);
                     if (string.IsNullOrEmpty(err)) continue;
                     if (notIndented)
                     {
@@ -634,7 +636,7 @@ namespace Xbim.IO
             return errors;
         }
 
-        private static string GetIfcSchemaError(IPersist instance, ExpressMetaProperty prop)
+        private static string GetSchemaError(IPersist instance, ExpressMetaProperty prop)
         {
             //IfcAttribute ifcAttr, object instance, object propVal, string propName
 
@@ -642,56 +644,54 @@ namespace Xbim.IO
             var propVal = prop.PropertyInfo.GetValue(instance, null);
             var propName = prop.PropertyInfo.Name;
 
-            var expressType = propVal as IExpressType;
-            if (expressType != null)
-            {
-                var err = "";
-                var val = expressType.ToPart21;
-                if (ifcAttr.State == EntityAttributeState.Mandatory && val == "$")
-                    err += string.Format("{0}.{1} is not optional", instance.GetType().Name, propName);
-                err += ((IPersist)propVal).WhereRule();
-                if (!string.IsNullOrEmpty(err)) return err;
-            }
+            
 
             if (ifcAttr.State == EntityAttributeState.Mandatory && propVal == null)
                 return string.Format("{0}.{1} is not optional", instance.GetType().Name, propName);
             if (ifcAttr.State == EntityAttributeState.Optional && propVal == null)
                 //if it is null and optional then it is ok
                 return null;
-            if (ifcAttr.EntityType == EntityAttributeType.Set || ifcAttr.EntityType == EntityAttributeType.List ||
-                ifcAttr.EntityType == EntityAttributeType.ListUnique)
+
+            var expressType = propVal as IExpressType;
+            if (expressType != null)
             {
-                if (ifcAttr.MinCardinality < 1 && ifcAttr.MaxCardinality < 0) //we don't care how many so don't check
-                    return null;
-                var coll = propVal as ICollection;
-                var count = 0;
-                if (coll != null)
-                    count = coll.Count;
-                else
-                {
-                    var en = (IEnumerable)propVal;
+                var err = ((IPersist)propVal).WhereRule();
+                if (!string.IsNullOrEmpty(err)) return err;
+            }
 
-                    foreach (var item in en)
-                    {
-                        count++;
-                        if (count >= ifcAttr.MinCardinality && ifcAttr.MaxCardinality == -1)
-                            //we have met the requirements
-                            break;
-                        if (ifcAttr.MaxCardinality > -1 && count > ifcAttr.MaxCardinality) //we are out of bounds
-                            break;
-                    }
-                }
+            if (ifcAttr.EntityType != EntityAttributeType.Set && ifcAttr.EntityType != EntityAttributeType.List &&
+                ifcAttr.EntityType != EntityAttributeType.ListUnique) return null;
 
-                if (count < ifcAttr.MinCardinality)
+            if (ifcAttr.MinCardinality < 1 && ifcAttr.MaxCardinality < 0) //we don't care how many so don't check
+                return null;
+            var coll = propVal as ICollection;
+            var count = 0;
+            if (coll != null)
+                count = coll.Count;
+            else
+            {
+                var en = (IEnumerable)propVal;
+
+                foreach (var item in en)
                 {
-                    return string.Format("{0}.{1} must have at least {2} item(s). It has {3}", instance.GetType().Name,
-                                         propName, ifcAttr.MinCardinality, count);
+                    count++;
+                    if (count >= ifcAttr.MinCardinality && ifcAttr.MaxCardinality == -1)
+                        //we have met the requirements
+                        break;
+                    if (ifcAttr.MaxCardinality > -1 && count > ifcAttr.MaxCardinality) //we are out of bounds
+                        break;
                 }
-                if (ifcAttr.MaxCardinality > -1 && count > ifcAttr.MaxCardinality)
-                {
-                    return string.Format("{0}.{1} must have no more than {2} item(s). It has at least {3}",
-                                         instance.GetType().Name, propName, ifcAttr.MaxCardinality, count);
-                }
+            }
+
+            if (count < ifcAttr.MinCardinality)
+            {
+                return string.Format("{0}.{1} must have at least {2} item(s). It has {3}", instance.GetType().Name,
+                    propName, ifcAttr.MinCardinality, count);
+            }
+            if (ifcAttr.MaxCardinality > -1 && count > ifcAttr.MaxCardinality)
+            {
+                return string.Format("{0}.{1} must have no more than {2} item(s). It has at least {3}",
+                    instance.GetType().Name, propName, ifcAttr.MaxCardinality, count);
             }
             return null;
         }
@@ -967,8 +967,8 @@ namespace Xbim.IO
         {
             try
             {
-                var ifcType = ExpressMetaData.IfcType(ifcEntityName);
-                return CreateInstance(ifcType.Type, label);
+                var type = ExpressMetaData.ExpressType(ifcEntityName, SchemaModule);
+                return CreateInstance(type.Type, label);
             }
             catch (Exception e)
             {
@@ -1076,7 +1076,7 @@ namespace Xbim.IO
             var entity = _cache.GetInstance(productLabel, false, true);
             if (entity != null)
             {
-                foreach (var item in _cache.GetGeometry(ExpressMetaData.IfcTypeId(entity as IInstantiableEntity), productLabel, geomType))
+                foreach (var item in _cache.GetGeometry(ExpressMetaData.ExpressTypeId(entity), productLabel, geomType))
                 {
                     yield return item;
                 }
@@ -1099,7 +1099,7 @@ namespace Xbim.IO
 
         public IEnumerable<XbimGeometryData> GetGeometryData(IfcProduct product, XbimGeometryType geomType)
         {
-            return _cache.GetGeometry(ExpressMetaData.IfcTypeId(product as IInstantiableEntity), product.EntityLabel, geomType);
+            return _cache.GetGeometry(ExpressMetaData.ExpressTypeId(product), product.EntityLabel, geomType);
         }
 
         //public IDictionary<string, XbimViewDefinition> Views
@@ -1505,5 +1505,7 @@ namespace Xbim.IO
                     _transactionReference.Target = value;
             }
         }
+
+        public Module SchemaModule { get; private set; }
     }
 }

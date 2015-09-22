@@ -15,12 +15,5 @@ namespace Xbim.IO
         {
             get { return this[ent.GetType()]; }
         }
-
-        public ExpressType this[string ifcTypeName]
-        {
-            get { return ExpressMetaData.IfcType(ifcTypeName); }
-        }
-
-        
     }
 }

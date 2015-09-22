@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 using Xbim.Common;
 using Xbim.Common.Step21;
 using Xbim.IO.Step21;
@@ -15,6 +16,7 @@ namespace Xbim.IO.Memory
             _instances = new EntityCollection<TFactory>(this);
             Header = new StepFileHeader(StepFileHeader.HeaderCreationMode.LeaveEmpty);
             Header.FileSchema.Schemas.AddRange(_instances.Factory.SchemasIds);
+            SchemaModule = typeof (TFactory).Module;
         }
 
         public IEntityCollection Instances
@@ -73,6 +75,8 @@ namespace Xbim.IO.Memory
             } 
         }
 
+        public Module SchemaModule { get; private set; }
+
         public virtual void Open(Stream stream)
         {
             var parser = new XbimP21Parser(stream);
@@ -100,6 +104,10 @@ namespace Xbim.IO.Memory
                 
                 var ent = _instances.Factory.New(this, name, (int) label, true);
                 _instances.InternalAdd(ent);
+
+                //make sure that new added entities will have higher labels to avoid any clashes
+                if (label >= _instances.NextLabel)
+                    _instances.NextLabel = (int)label + 1;
                 return ent;
             };
             parser.Parse();

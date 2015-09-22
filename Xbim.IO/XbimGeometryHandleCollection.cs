@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using Xbim.IO.Esent;
 
 namespace Xbim.IO
@@ -10,15 +11,18 @@ namespace Xbim.IO
     /// </summary>
     public class XbimGeometryHandleCollection : List<XbimGeometryHandle>
     {
-        public XbimGeometryHandleCollection(IEnumerable<XbimGeometryHandle> enumerable)
+        private Module _schemaModule;
+
+        public XbimGeometryHandleCollection(IEnumerable<XbimGeometryHandle> enumerable, Module module)
             : base(enumerable)
         {
-           
+            _schemaModule = module;
         }
 
-        public XbimGeometryHandleCollection()
+        public XbimGeometryHandleCollection(Module module)
             : base()
         {
+            _schemaModule = module;
             // TODO: Complete member initialization
         }
         /// <summary>
@@ -46,16 +50,16 @@ namespace Xbim.IO
             foreach (var ex in exclude)
             {
                 
-                var ifcType = ExpressMetaData.IfcType((short)ex);
+                var type = ExpressMetaData.ExpressType((short)ex, _schemaModule);
                 // bugfix here: loop did not use to include all implementations, but only first level down.
-                foreach (var sub in ifcType.NonAbstractSubTypes)
+                foreach (var sub in type.NonAbstractSubTypes)
                 {
-                    var ifcSub = ExpressMetaData.IfcType(sub);
+                    var ifcSub = ExpressMetaData.ExpressType(sub);
                         excludeSet.Add(ifcSub.TypeId);
                 }
             }
 
-            return this.Where(h => !excludeSet.Contains(h.IfcTypeId));          
+            return this.Where(h => !excludeSet.Contains(h.ExpressTypeId));          
         }
 
         /// <summary>
@@ -68,11 +72,11 @@ namespace Xbim.IO
             var includeSet = new HashSet<int>(include);
             foreach (var inc in include)
             {
-                var ifcType = ExpressMetaData.IfcType((short)inc);
-                foreach (var sub in ifcType.SubTypes)
+                var type = ExpressMetaData.ExpressType((short)inc, _schemaModule);
+                foreach (var sub in type.SubTypes)
                     includeSet.Add(sub.TypeId);
             }
-            return this.Where(h => includeSet.Contains(h.IfcTypeId));
+            return this.Where(h => includeSet.Contains(h.ExpressTypeId));
 
         }
 
@@ -91,12 +95,12 @@ namespace Xbim.IO
         /// Returns a map of all the unique surface style and the geometry objects that the style renders
         /// </summary>
         /// <returns></returns>
-        public XbimSurfaceStyleMap ToSurfaceStyleMap()
+        public XbimSurfaceStyleMap ToSurfaceStyleMap(Module module)
         {
             var result = new XbimSurfaceStyleMap();
             foreach (var style in GetSurfaceStyles())
             {
-                result.Add(style, new XbimGeometryHandleCollection());
+                result.Add(style, new XbimGeometryHandleCollection(module));
             }
             foreach (var item in this)
             {

@@ -54,7 +54,7 @@ namespace Xbim.IO
         /// <summary>
         /// The IFC type of the product this instance represents
         /// </summary>
-        short _ifcTypeId;
+        short _expressTypeId;
         /// <summary>
         /// The label of the IFC Product object that  this instance fully or partly defines
         /// </summary>
@@ -87,7 +87,7 @@ namespace Xbim.IO
         public XbimShapeInstance(int id=-1)
         {
             _instanceLabel = id;
-            _ifcTypeId = 0;
+            _expressTypeId = 0;
             _ifcProductLabel = 0;
             _styleLabel =0;
             _shapeLabel = -1;
@@ -112,11 +112,11 @@ namespace Xbim.IO
         {
             get
             {
-               return _ifcTypeId;
+               return _expressTypeId;
             }
             set
             {
-                _ifcTypeId =  value;
+                _expressTypeId =  value;
             }
         }
 
@@ -259,7 +259,7 @@ namespace Xbim.IO
         public override string ToString()
         {
 
-            return string.Format("{0},{1},{2},{3},{4},{5},{6},{7}",  _instanceLabel,_styleLabel, ExpressMetaData.GetType(_ifcTypeId).Name, _shapeLabel,_ifcProductLabel,  _representationContext, _representationType, _transformation.ToString());
+            return string.Format("{0},{1},TypeId: {2},{3},{4},{5},{6},{7}",  _instanceLabel,_styleLabel, _expressTypeId, _shapeLabel,_ifcProductLabel,  _representationContext, _representationType, _transformation.ToString());
         }
 
        
