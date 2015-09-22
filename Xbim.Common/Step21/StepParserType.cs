@@ -1,4 +1,4 @@
-﻿namespace Xbim.Common
+﻿namespace Xbim.Common.Step21
 {
     public enum StepParserType
     {

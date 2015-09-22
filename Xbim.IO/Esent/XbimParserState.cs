@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using Xbim.Common;
+using Xbim.Common.Step21;
 using Xbim.IO.Parser;
 
 namespace Xbim.IO.Esent

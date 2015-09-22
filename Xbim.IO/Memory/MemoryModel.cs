@@ -17,6 +17,7 @@ namespace Xbim.IO.Memory
             Header = new StepFileHeader(StepFileHeader.HeaderCreationMode.LeaveEmpty);
             Header.FileSchema.Schemas.AddRange(_instances.Factory.SchemasIds);
             SchemaModule = typeof (TFactory).Module;
+            ModelFactors = new XbimModelFactors(180.0/Math.PI, 0.001, 1e-9);
         }
 
         public IEntityCollection Instances
@@ -76,6 +77,7 @@ namespace Xbim.IO.Memory
         }
 
         public Module SchemaModule { get; private set; }
+        public IModelFactors ModelFactors { get; private set; }
 
         public virtual void Open(Stream stream)
         {

@@ -82,7 +82,7 @@ namespace Xbim.IO
         /// <summary>
         /// Model wide factors, precision etc
         /// </summary>
-        public XbimModelFactors ModelFactors
+        public IModelFactors ModelFactors
         {
             get { return _modelFactors; }
         }

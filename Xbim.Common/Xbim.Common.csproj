@@ -123,7 +123,7 @@
     <Compile Include="Logging\Providers\Log4NetLogger.cs" />
     <Compile Include="Logging\Providers\Log4NetProvider.cs" />
     <Compile Include="ReportProgressDelegate.cs" />
-    <Compile Include="StepParserType.cs" />
+    <Compile Include="Step21\StepParserType.cs" />
     <Compile Include="XbimExtensions\BinaryReaderExtensions.cs" />
     <Compile Include="XbimExtensions\Interfaces\IBoundary.cs" />
     <Compile Include="XbimExtensions\Interfaces\IFace.cs" />
@@ -152,7 +152,6 @@
     <Compile Include="XbimExtensions\XbimIndexedCollection.cs" />
     <Compile Include="XbimExtensions\XbimIndexedCollectionExtensions.cs" />
     <Compile Include="XbimExtensions\XbimRepresentationType.cs" />
-    <Compile Include="XbimModelFactors.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

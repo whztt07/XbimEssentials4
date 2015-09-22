@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Xbim.Common;
-using Xbim.Ifc2x3.MeasureResource;
-
-namespace Xbim.Ifc2x3.GeometryResource
+﻿namespace Xbim.Ifc2x3.GeometryResource
 {
     public partial class IfcCartesianPoint
     {
@@ -60,6 +52,11 @@ namespace Xbim.Ifc2x3.GeometryResource
                 else
                     Coordinates[2] = value;
             }
+        }
+
+        public int Dim
+        {
+            get { return Coordinates.Count; }
         }
 
         public void SetXY(double x, double y)

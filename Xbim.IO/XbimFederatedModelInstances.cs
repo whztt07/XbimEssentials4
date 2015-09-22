@@ -2,68 +2,69 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Collections;
+using System.Linq.Expressions;
 using Xbim.Common;
 using Xbim.IO.Esent;
 
 namespace Xbim.IO
 {
 
-    internal class XbimFederatedInstancesEntityEnumerator : IEnumerator<IPersistEntity>, IEnumerator
+    internal class XbimFederatedInstancesEntityEnumerator : IEnumerator<IPersistEntity>
     {
-        private List<XbimModel> models;
-        int currentModelIndex = 0;
-        private PersistedEntityInstanceCache cache;
-        private XbimEntityCursor cursor;
-        private int currentEntityLabel;
+        private readonly List<XbimModel> _models;
+        int _currentModelIndex;
+        private PersistedEntityInstanceCache _cache;
+        private XbimEntityCursor _cursor;
+        private int _currentEntityLabel;
 
         public XbimFederatedInstancesEntityEnumerator(IEnumerable<XbimModel> models)
         {
-            this.models = models.ToList();
+            _models = models.ToList();
             Reset();
         }
         public IPersistEntity Current
         {
-            get { return cache.GetInstance(currentEntityLabel); }
+            get { return _cache.GetInstance(_currentEntityLabel); }
         }
 
 
         public void Reset()
         {
-            currentEntityLabel = 0;
-            currentModelIndex = 0;
-            var first = models.FirstOrDefault();
+            _currentEntityLabel = 0;
+            _currentModelIndex = 0;
+            var first = _models.FirstOrDefault();
             if (first != null)
             {
-                cache = first.Cache;
-                this.cursor = cache.GetEntityTable(); 
-                cursor.MoveBeforeFirst();
+                _cache = first.Cache;
+                _cursor = _cache.GetEntityTable(); 
+                _cursor.MoveBeforeFirst();
             }
             
         }
 
         object IEnumerator.Current
         {
-            get { return cache.GetInstance(currentEntityLabel); }
+            get { return _cache.GetInstance(_currentEntityLabel); }
         }
 
         bool IEnumerator.MoveNext()
         {
             int label;
-            if (cursor.TryMoveNextLabel(out label))
+            if (_cursor.TryMoveNextLabel(out label))
             {
-                currentEntityLabel = label;
+                _currentEntityLabel = label;
                 return true;
             }
-            else if (currentModelIndex < models.Count-1) //we have more models to process
+            else if (_currentModelIndex < _models.Count-1) //we have more models to process
             {
-                currentModelIndex++; //go to next model
-                cache.FreeTable(cursor);
-                cache = models[currentModelIndex].Cache;
-                this.cursor = cache.GetEntityTable();
-                cursor.MoveBeforeFirst();
-                if (cursor.TryMoveNextLabel(out label))
+                _currentModelIndex++; //go to next model
+                _cache.FreeTable(_cursor);
+                _cache = _models[_currentModelIndex].Cache;
+                _cursor = _cache.GetEntityTable();
+                _cursor.MoveBeforeFirst();
+                if (_cursor.TryMoveNextLabel(out label))
                 {
-                    currentEntityLabel = label;
+                    _currentEntityLabel = label;
                     return true;
                 }
             }
@@ -73,20 +74,20 @@ namespace Xbim.IO
 
         public void Dispose()
         {
-            cache.FreeTable(cursor);
+            _cache.FreeTable(_cursor);
         }
     }
     public class XbimFederatedModelInstances : IEntityCollection
     {
-        XbimModel _model;
+        readonly XbimModel _model;
 
-        public IEnumerable<IPersistEntity> OfType(string StringType, bool activate)
+        public IEnumerable<IPersistEntity> OfType(string stringType, bool activate)
         {
             
-            foreach (var instance in _model.InstancesLocal.OfType(StringType, activate))
+            foreach (var instance in _model.InstancesLocal.OfType(stringType, activate))
                 yield return instance;
             foreach (var refModel in _model.ReferencedModels)
-                foreach (var instance in refModel.Model.Instances.OfType(StringType, activate))
+                foreach (var instance in refModel.Model.Instances.OfType(stringType, activate))
                     yield return instance;
             
             //long[] l = new long[] { -1, 2 };
@@ -100,13 +101,23 @@ namespace Xbim.IO
         {
             _model = model;
         }
-        public IEnumerable<T> Where<T>(System.Linq.Expressions.Expression<Func<T, bool>> expr) where T : IPersistEntity
+        public IEnumerable<T> Where<T>(Expression<Func<T, bool>> expr) where T : IPersistEntity
         {
-            foreach (var instance in _model.InstancesLocal.Where<T>(expr))
+            foreach (var instance in _model.InstancesLocal.Where(expr))
                 yield return instance;
             foreach (var refModel in _model.ReferencedModels)
-                foreach (var instance in refModel.Model.Instances.Where<T>(expr))
+                foreach (var instance in refModel.Model.Instances.Where(expr))
                     yield return instance;
+        }
+
+        public T FirstOrDefault<T>() where T : IPersistEntity
+        {
+            return OfType<T>().FirstOrDefault();
+        }
+
+        public T FirstOrDefault<T>(Expression<Func<T, bool>> expr) where T : IPersistEntity
+        {
+            return Where(expr).FirstOrDefault();
         }
 
         public IEnumerable<T> OfType<T>() where T : IPersistEntity
@@ -166,19 +177,13 @@ namespace Xbim.IO
         {
             get
             {
-                var total = _model.InstancesLocal.Count;
-                foreach (var refModel in _model.ReferencedModels)
-                    total += refModel.Model.Instances.Count;
-                return total;
+                return _model.InstancesLocal.Count + _model.ReferencedModels.Sum(refModel => refModel.Model.Instances.Count);
             }
         }
 
         public long CountOf<T>() where T : IPersistEntity
         {
-            var total = _model.InstancesLocal.CountOf<T>();
-            foreach (var refModel in _model.ReferencedModels)
-                total += refModel.Model.Instances.CountOf<T>();
-            return total;
+            return _model.InstancesLocal.CountOf<T>() + _model.ReferencedModels.Sum(refModel => refModel.Model.Instances.CountOf<T>());
         }
 
         /// <summary>
@@ -195,7 +200,7 @@ namespace Xbim.IO
 
        
 
-        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        IEnumerator IEnumerable.GetEnumerator()
         {
             return new XbimFederatedInstancesEntityEnumerator(_model.AllModels);
         }

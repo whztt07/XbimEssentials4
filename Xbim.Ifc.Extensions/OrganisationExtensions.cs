@@ -1,4 +1,5 @@
-﻿using Xbim.Ifc2x3.ActorResource;
+﻿using System.Linq;
+using Xbim.Ifc2x3.ActorResource;
 
 namespace Xbim.Ifc2x3.Extensions
 {
@@ -8,7 +9,7 @@ namespace Xbim.Ifc2x3.Extensions
         {
             if (ifcOrg.Addresses != null)
             {
-                return ifcOrg.Addresses.TelecomAddresses.Select(address => address.ElectronicMailAddresses)
+                return ifcOrg.Addresses.OfType<IfcTelecomAddress>().Select(address => address.ElectronicMailAddresses)
                     .Where(item => item != null).SelectMany(em => em)
                     .FirstOrDefault(em => string.Compare(emailAddress, em, true) == 0) != null;
             }

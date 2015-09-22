@@ -25,14 +25,14 @@ namespace Xbim.Ifc2x3.Extensions
     {
         public static IfcAreaMeasure Area(this IfcPolyLoop loop, IfcDirection normal)
         {
-            var sum = new IfcCartesianPoint(0, 0, 0);
+            var sum = new XbimPoint3D(0, 0, 0);
             var pts = loop.Polygon;
             for (var i = 0; i < pts.Count - 1; i++)
             {
-                sum.Add(pts[i].CrossProduct(pts[i + 1]));
+                sum = XbimPoint3D.Add(sum, pts[i].CrossProduct(pts[i + 1]));
             }
-            IfcDirection n = normal.Normalise();
-            return n.DotProduct(sum)/2;
+            var n = normal.Normalise();
+            return n.DotProduct(new XbimVector3D(sum.X, sum.Y, sum.Z))/2;
         }
 
         /// <summary>

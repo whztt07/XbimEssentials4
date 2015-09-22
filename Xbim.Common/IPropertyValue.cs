@@ -10,6 +10,8 @@
 
 #endregion
 
+using Xbim.Common.Step21;
+
 namespace Xbim.Common
 {
     public interface IPropertyValue

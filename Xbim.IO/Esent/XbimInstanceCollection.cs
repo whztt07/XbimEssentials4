@@ -53,6 +53,16 @@ namespace Xbim.IO.Esent
         }
 
 
+        public T FirstOrDefault<T>() where T : IPersistEntity
+        {
+            return OfType<T>().FirstOrDefault();
+        }
+
+        public T FirstOrDefault<T>(Expression<Func<T, bool>> expr) where T : IPersistEntity
+        {
+            return Where(expr).FirstOrDefault();
+        }
+
         public IEnumerable<TIfc> OfType<TIfc>() where TIfc : IPersistEntity
         {
             return _cache.OfType<TIfc>().Select(item => item);

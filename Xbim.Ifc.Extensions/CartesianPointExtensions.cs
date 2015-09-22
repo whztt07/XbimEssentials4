@@ -13,6 +13,7 @@
 #region Directives
 
 using System.Collections.Generic;
+using Xbim.Common.Geometry;
 using Xbim.Ifc2x3.GeometryResource;
 
 #endregion
@@ -53,16 +54,12 @@ namespace Xbim.Ifc2x3.Extensions
         }
     }
 
-    public static class CartesianPointExtensions
+    public static class XbimPointExtensions
     {
-        public static IfcCartesianPoint CrossProduct(this IfcCartesianPoint a, IfcCartesianPoint b)
+        public static XbimPoint3D CrossProduct(this IfcCartesianPoint a, IfcCartesianPoint b)
         {
-            return new IfcCartesianPoint(a.Y*b.Z - a.Z*b.Y, a.Z*b.X - a.X*b.Z, a.X*b.Y - a.Y*b.X);
+            return new XbimPoint3D(a.Y * b.Z - a.Z * b.Y, a.Z * b.X - a.X * b.Z, a.X * b.Y - a.Y * b.X);
         }
 
-        public static void Add(this IfcCartesianPoint a, IfcCartesianPoint b)
-        {
-            a.SetXYZ(a.X + b.X, a.Y + b.Y, a.Z + b.Z);
-        }
     }
 }

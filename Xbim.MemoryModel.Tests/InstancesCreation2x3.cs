@@ -49,22 +49,11 @@ namespace Xbim.MemoryModel.Tests
 
                 //Optional item set test.
                 var organization = model.Instances.New<IfcOrganization>();
-                Assert.IsTrue(null == organization.Roles);
-                Assert.IsTrue(organization.Roles.Equals(null));
-
-                Assert.IsTrue(null == (organization.Roles as ItemSet<IfcActorRole>));
-                Assert.IsTrue((organization.Roles as IItemSet<IfcActorRole>).Equals(null));
-
-                if(organization.Roles == null) 
-                    organization.Roles.Initialize();
-                
-                Assert.IsFalse(null == organization.Roles);
-                Assert.IsFalse(organization.Roles.Equals(null));
-
+                Assert.IsFalse(organization.Roles.Initialized);
                 //it is possible to add an object to the set without initialization or any previous assignment
                 organization.Roles.Add(model.Instances.New<IfcActorRole>());
 
-                
+                Assert.IsTrue(organization.Roles.Initialized);
 
                 txn.Commit();
             }

@@ -31,6 +31,16 @@ namespace Xbim.IO.Memory
                     .Where(result => condition == null || condition(result));
         }
 
+        public T FirstOrDefault<T>() where T : IPersistEntity
+        {
+            return OfType<T>().FirstOrDefault();
+        }
+
+        public T FirstOrDefault<T>(Expression<Func<T, bool>> expr) where T : IPersistEntity
+        {
+            return Where(expr).FirstOrDefault();
+        }
+
         public IEnumerable<T> OfType<T>() where T : IPersistEntity
         {
             var queryType = typeof(T);

@@ -1,4 +1,5 @@
-﻿using Xbim.Ifc2x3.MeasureResource;
+﻿using System.Linq;
+using Xbim.Ifc2x3.MeasureResource;
 using Xbim.Ifc2x3.QuantityResource;
 
 namespace Xbim.Ifc2x3.Extensions

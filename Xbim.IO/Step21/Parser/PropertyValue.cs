@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Text.RegularExpressions;
 using Xbim.Common;
+using Xbim.Common.Step21;
 using Xbim.Ifc2x3.MeasureResource;
 
 namespace Xbim.IO.Step21.Parser

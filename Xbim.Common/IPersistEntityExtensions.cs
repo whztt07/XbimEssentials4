@@ -13,6 +13,7 @@
 using System;
 using System.Runtime.CompilerServices;
 using Xbim.Common.Exceptions;
+using Xbim.Common.Step21;
 
 #endregion
 

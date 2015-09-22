@@ -44,7 +44,7 @@ namespace Xbim.Ifc2x3.Extensions
             if (uc == null) return 1.0;
 
 
-            ExpressType et = ((ExpressType)mu.ValueComponent);
+            var et = ((IExpressType)mu.ValueComponent);
             var cFactor = 1.0;
             if(et.UnderlyingSystemType==typeof(double))
                 cFactor = (double) et.Value;
@@ -71,7 +71,7 @@ namespace Xbim.Ifc2x3.Extensions
             if (uc == null) return 1.0;
 
 
-            ExpressType et = ((ExpressType)mu.ValueComponent);
+            var et = ((IExpressType)mu.ValueComponent);
             var cFactor = 1.0;
             if (et.UnderlyingSystemType == typeof(double))
                 cFactor = (double)et.Value;
