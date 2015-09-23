@@ -32,6 +32,12 @@ namespace Xbim.IO.Memory
             return 0;
         }
 
+        /// <summary>
+        /// This will delete the entity from model dictionary and also from any references in the model.
+        /// Be carefull as this might take a while to check for all occurances of the object. Also make sure 
+        /// you don't use this object anymore yourself because it won't get disposed until than.
+        /// </summary>
+        /// <param name="entity"></param>
         public void Delete(IPersistEntity entity)
         {
             //remove from entity collection
@@ -40,15 +46,19 @@ namespace Xbim.IO.Memory
 
             var entityType = entity.GetType();
             var entityGenericType = typeof (IEnumerable<>);
-            entityGenericType = entityGenericType.MakeGenericType(entityType);
 
             //find all potential references and delete from there
-            var types = ExpressMetaData.Types(entity.GetType().Module).Where(t => typeof(IPersistEntity).IsAssignableFrom(t.Type));
+            var types = ExpressMetaData.Types(entity.GetType().Module).Where(t => typeof(IInstantiableEntity).IsAssignableFrom(t.Type));
             foreach (var type in types)
             {
-                var toNullify = type.Properties.Values.Where(p => p.PropertyInfo.PropertyType.IsAssignableFrom(entityType)).ToList();
+                var toNullify = type.Properties.Values.Where(p => 
+                    p.EntityAttributeAttribute != null && p.EntityAttributeAttribute.Order > 0 &&
+                    p.PropertyInfo.PropertyType.IsAssignableFrom(entityType)).ToList();
                 var toRemove =
-                    type.Properties.Values.Where(p => p.PropertyInfo.PropertyType.IsAssignableFrom(entityGenericType)).ToList();
+                    type.Properties.Values.Where(p =>
+                        p.EntityAttributeAttribute != null && p.EntityAttributeAttribute.Order > 0 &&
+                        p.PropertyInfo.PropertyType.IsGenericType && 
+                        p.PropertyInfo.PropertyType.GenericTypeArguments[0].IsAssignableFrom(entityType)).ToList();
                 if (!toNullify.Any() && !toRemove.Any()) continue;
 
                 //get all instances of this type and nullify and remove the entity
@@ -76,9 +86,10 @@ namespace Xbim.IO.Memory
 
                         //or it is non-optional item set implementind IList
                         var itemSet = pVal as IList;
-                        if (itemSet != null && itemSet.Contains(entity))
+                        if (itemSet != null )
                         {
-                            itemSet.Remove(entity);
+                            if (itemSet.Contains(entity))
+                                itemSet.Remove(entity);
                             continue;
                         }
 

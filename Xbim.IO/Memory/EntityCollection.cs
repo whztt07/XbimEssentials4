@@ -152,7 +152,7 @@ namespace Xbim.IO.Memory
             else
             {
                 Action doAction = () => _internal.Add(key, new List<IPersistEntity> { entity });
-                Action undo = () => _internal.Remove(key);
+                Action undo = () => _internal[key].Remove(entity);
                 doAction();
 
                 if (!_model.IsTransactional) return;
