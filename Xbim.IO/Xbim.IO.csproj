@@ -84,9 +84,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Esent\XbimFederatedModelInstances.cs" />
     <Compile Include="FileReferenceResolver.cs" />
-    <Compile Include="IfcRepresentationItemExtensions.cs" />
-    <Compile Include="IXbimGeometryCreator.cs" />
     <Compile Include="IXbimShapeBounds.cs" />
     <Compile Include="IXbimShapeGeometryData.cs" />
     <Compile Include="IXbimShapeInstanceData.cs" />
@@ -94,17 +93,17 @@
     <Compile Include="Memory\MemoryModel.cs" />
     <Compile Include="Memory\Transaction.cs" />
     <Compile Include="Step21\Parser\StepForwardReference.cs" />
+    <Compile Include="Step21\StepDateTimeHelper.cs" />
+    <Compile Include="Step21\StepDoubleHelper.cs" />
     <Compile Include="Step21\XbimP21StringDecoder.cs" />
     <Compile Include="Esent\XbimDBAccess.cs" />
     <Compile Include="Step21\StepTextHelper.cs" />
-    <Compile Include="XbimFederatedModelInstances.cs" />
     <Compile Include="Esent\XbimGeometryHandle.cs" />
     <Compile Include="Esent\XbimGeometryHandleCollection.cs" />
     <Compile Include="XbimGeometrySort.cs" />
     <Compile Include="Esent\XbimInstanceCollection.cs" />
     <Compile Include="Esent\XbimInstanceHandle.cs" />
     <Compile Include="Esent\PersistedEntityInstanceCache.cs" />
-    <Compile Include="IfcProductExtensions.cs" />
     <Compile Include="Xml\IfcXmlReader.cs" />
     <Compile Include="Xml\IfcXmlWriter.cs" />
     <Compile Include="IPersistEntityExtensions.cs" />
@@ -129,22 +128,17 @@
     <Compile Include="Esent\XbimLazyDBTransaction.cs" />
     <Compile Include="Esent\EsentModel.cs" />
     <Compile Include="Binary\XbimInputStream.cs" />
-    <Compile Include="XbimModelSummary.cs" />
     <Compile Include="Binary\XbimOutputStream.cs" />
     <Compile Include="Binary\XbimPackage.cs" />
     <Compile Include="Esent\XbimParserState.cs" />
     <Compile Include="Esent\XbimReadOnlyDBTransaction.cs" />
     <Compile Include="Esent\XbimReadTransaction.cs" />
     <Compile Include="Esent\XbimReadWriteTransaction.cs" />
-    <Compile Include="XbimReferencedModel.cs" />
-    <Compile Include="XbimReferencedModelCollection.cs" />
     <Compile Include="Esent\XbimShapeGeometry.cs" />
     <Compile Include="Esent\XbimShapeGeometryCursor.cs" />
     <Compile Include="Esent\XbimShapeInstance.cs" />
     <Compile Include="Esent\XbimShapeInstanceCursor.cs" />
     <Compile Include="XbimStorageType.cs" />
-    <Compile Include="Esent\XbimSurfaceStyle.cs" />
-    <Compile Include="Esent\XbimSurfaceStyleMap.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
@@ -183,10 +177,6 @@
     <ProjectReference Include="..\Xbim.Common\Xbim.Common.csproj">
       <Project>{a34ef831-ea82-4a79-8c65-b5e1c6d9508d}</Project>
       <Name>Xbim.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Xbim.Ifc2x3\Xbim.Ifc2x3.csproj">
-      <Project>{b6668419-d7a4-4736-b4d8-018756ccf134}</Project>
-      <Name>Xbim.Ifc2x3</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

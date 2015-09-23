@@ -1,22 +1,25 @@
 ﻿using System.IO;
+using Xbim.Common;
 using Xbim.Common.Exceptions;
 using Xbim.Ifc2x3.ExternalReferenceResource;
 using Xbim.IO.Esent;
 
-namespace Xbim.IO
+namespace Xbim.Ifc2x3.IO
 {
     /// <summary>
     /// A model that is referenced by another XbimModel
     /// </summary>
-    public class XbimReferencedModel
+    public class XbimReferencedModel : IXbimReferencedModel
     {
         public IfcDocumentInformation DocumentInformation;
-        public EsentModel Model;
 
-        public XbimReadWriteTransaction DocumentInfoTransaction
+        private readonly XbimModel _model;
+        public IModel Model { get { return _model; } }
+
+        public ITransaction DocumentInfoTransaction
         {
              get {
-                 return ((EsentModel)DocumentInformation.Model).BeginTransaction();
+                 return ((XbimModel)DocumentInformation.Model).BeginTransaction();
              }
         }
 
@@ -27,8 +30,8 @@ namespace Xbim.IO
             {
                 throw new XbimException("Reference model not found:" + documentInformation.Name);
             }
-            Model = new EsentModel();
-            if (!Model.Open(documentInformation.Name))
+            _model = new XbimModel();
+            if (!_model.Open(documentInformation.Name))
             {
                 throw new XbimException("Unable to open reference model: " + documentInformation.Name);
             }
@@ -90,7 +93,7 @@ namespace Xbim.IO
 
         internal void Dispose()
         {
-            Model.Dispose();
+            _model.Dispose();
         }
     }
 }

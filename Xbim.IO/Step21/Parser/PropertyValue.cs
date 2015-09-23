@@ -3,7 +3,6 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using Xbim.Common;
 using Xbim.Common.Step21;
-using Xbim.Ifc2x3.MeasureResource;
 
 namespace Xbim.IO.Step21.Parser
 {
@@ -108,12 +107,12 @@ namespace Xbim.IO.Step21.Parser
             get
             {
                 if (_stepParserType == StepParserType.Integer
-                    || _stepParserType == StepParserType.Real) return IfcReal.ToDouble(_strVal);
+                    || _stepParserType == StepParserType.Real) return _strVal.ToDouble();
                 else if (_stepParserType == StepParserType.HexaDecimal)
                     return Convert.ToDouble(Convert.ToInt64(_strVal, 16));
                 else
                     throw new Exception(string.Format("Wrong parameter type, found {0}, expected {1}",
-                                                      _stepParserType.ToString(), "Number"));
+                                                      _stepParserType, "Number"));
             }
         }
 
@@ -124,13 +123,12 @@ namespace Xbim.IO.Step21.Parser
                 if (_stepParserType == StepParserType.Real || _stepParserType == StepParserType.Integer)
                 {
 
-                    return IfcReal.ToDouble(_strVal);
+                    return _strVal.ToDouble();
                 }
-                else if (_stepParserType == StepParserType.Entity && _entityVal is IExpressValueType && typeof(double).IsAssignableFrom(((IExpressValueType)_entityVal).UnderlyingSystemType))
+                if (_stepParserType == StepParserType.Entity && _entityVal is IExpressValueType && typeof(double).IsAssignableFrom(((IExpressValueType)_entityVal).UnderlyingSystemType))
                     return (double)(((IExpressValueType)_entityVal).Value);
-                else
-                    throw new Exception(string.Format("Wrong parameter type, found {0}, expected {1}",
-                                                      _stepParserType.ToString(), "Real"));
+                throw new Exception(string.Format("Wrong parameter type, found {0}, expected {1}",
+                    _stepParserType, "Real"));
             }
         }
 

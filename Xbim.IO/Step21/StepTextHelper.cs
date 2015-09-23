@@ -1,10 +1,16 @@
 ﻿using System;
+using System.Globalization;
 using System.Text;
 
 namespace Xbim.IO.Step21
 {
     public static class StepText
     {
+        public static double ToDouble(this string val)
+        {
+            return Convert.ToDouble(val, CultureInfo.CreateSpecificCulture("en-US"));
+        }
+
         public static string ToPart21(this string source)
         {
             if (string.IsNullOrEmpty(source)) return "";

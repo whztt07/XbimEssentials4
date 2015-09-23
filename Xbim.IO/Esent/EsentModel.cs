@@ -13,14 +13,6 @@ using Xbim.Common.Exceptions;
 using Xbim.Common.Geometry;
 using Xbim.Common.Logging;
 using Xbim.Common.Step21;
-using Xbim.Ifc2x3;
-using Xbim.Ifc2x3.ActorResource;
-using Xbim.Ifc2x3.ExternalReferenceResource;
-using Xbim.Ifc2x3.GeometryResource;
-using Xbim.Ifc2x3.Kernel;
-using Xbim.Ifc2x3.MeasureResource;
-using Xbim.Ifc2x3.RepresentationResource;
-using Xbim.Ifc2x3.UtilityResource;
 using Xbim.XbimExtensions;
 using XbimGeometry.Interfaces;
 
@@ -29,8 +21,8 @@ namespace Xbim.IO.Esent
     /// <summary>
     /// General Model class for memory based model suport
     /// </summary>
-   
-    public class EsentModel : IModel, IDisposable
+
+    public class EsentModel<TFactory> : IModel, IDisposable where TFactory : IEntityFactory, new()
     {
         #region Fields
 
@@ -42,23 +34,20 @@ namespace Xbim.IO.Esent
 
         #region Model state fields
 
-        private readonly PersistedEntityInstanceCache _cache;
+        protected readonly PersistedEntityInstanceCache _cache;
         internal PersistedEntityInstanceCache Cache
         {
             get { return _cache; }
         }
 
         private bool _disposed;
-        private XbimModelFactors _modelFactors;
-
        
         private readonly XbimInstanceCollection _instances;
         private XbimEntityCursor _editTransactionEntityCursor;
         private bool _deleteOnClose;
         
-        const string RefDocument = "XbimReferencedModel";
-        private readonly XbimReferencedModelCollection _referencedModels = new XbimReferencedModelCollection();
-        private int _codePageOverrideForIfcFiles = -1;
+
+        private int _codePageOverrideForStepFiles = -1;
 
         /// <summary>
         /// An identifier that an application can use to identify this model uniquely
@@ -71,25 +60,22 @@ namespace Xbim.IO.Esent
         private Version _geometryVersion = new Version(2,0,0);
         private string _importFilePath;
         
-        private IfcAxis2Placement _wcs;
       
         #endregion
 
         /// <summary>
         /// Model wide factors, precision etc
         /// </summary>
-        public IModelFactors ModelFactors
-        {
-            get { return _modelFactors; }
-        }
+        public IModelFactors ModelFactors { get; protected set; }
 
         public EsentModel()
         {
-            _cache = new PersistedEntityInstanceCache(this, new EntityFactory());
+            var factory = new TFactory();
+            _cache = new PersistedEntityInstanceCache(this, factory);
             _instances = new XbimInstanceCollection(this);
             var r = new Random();
             UserDefinedId = (short)r.Next(short.MaxValue); // initialise value at random to reduce chance of duplicates
-            SchemaModule = typeof(EntityFactory).Module;
+            SchemaModule = typeof(TFactory).Module;
         }
         public string DatabaseName
         {
@@ -97,10 +83,7 @@ namespace Xbim.IO.Esent
         }
 
 
-        public IfcAxis2Placement WorldCoordinateSystem
-        {
-            get { return _wcs; }
-        }
+
 
         //sets or gets the Geometry Manager for this model
         public IGeometryManager GeometryManager { get; set; }
@@ -122,8 +105,8 @@ namespace Xbim.IO.Esent
         /// </example>
         public int CodePageOverride
         {
-           get { return _codePageOverrideForIfcFiles; }
-           set { _codePageOverrideForIfcFiles = value; }
+           get { return _codePageOverrideForStepFiles; }
+           set { _codePageOverrideForStepFiles = value; }
         }
 
         public IEntityCollection InstancesLocal
@@ -141,109 +124,13 @@ namespace Xbim.IO.Esent
         {
             get
             {
-                return new XbimFederatedModelInstances(this);
+                return new XbimFederatedModelInstances<TFactory>(this);
             }
         }
 
-        /// <summary>
-        /// Reloads the model factors if any units or precisions are changed
-        /// </summary>
-        public XbimModelFactors ReloadModelFactors()
-        {
-            GetModelFactors();
-            return _modelFactors;
-        }
+       
 
-        private void GetModelFactors()
-        {
-            double angleToRadiansConversionFactor = 1; //assume radians
-                    double lengthToMetresConversionFactor = 1; //assume metres
-            var instOfType = Instances.OfType<IfcUnitAssignment>();
-            var ua = instOfType.FirstOrDefault();
-                    if (ua != null)
-                    {
-                        foreach (var unit in ua.Units)
-                        {
-                            var value = 1.0;
-                            var cbUnit = unit as IfcConversionBasedUnit;
-                            var siUnit = unit as IfcSIUnit;
-                            if (cbUnit != null)
-                            {
-                                var mu = cbUnit.ConversionFactor;
-                                var component = mu.UnitComponent as IfcSIUnit;
-                                if (component != null)
-                            siUnit = component;
-                        var et = ((IExpressValueType) mu.ValueComponent);
-
-                        if (et.UnderlyingSystemType == typeof (double))
-                            value *= (double) et.Value;
-                        else if (et.UnderlyingSystemType == typeof (int))
-                            value *= (int) et.Value;
-                        else if (et.UnderlyingSystemType == typeof (long))
-                            value *= (long) et.Value;
-                            }
-                            if (siUnit == null) continue;
-
-                            value *= siUnit.Power;
-                            switch (siUnit.UnitType)
-                            {
-                                case IfcUnitEnum.LENGTHUNIT:
-                                    lengthToMetresConversionFactor = value;
-                                    break;
-                                case IfcUnitEnum.PLANEANGLEUNIT:
-                                    angleToRadiansConversionFactor = value;
-                                    break;
-                            }
-                        }
-            }
-            var gcs =
-                Instances.OfType<IfcGeometricRepresentationContext>();
-            double? defaultPrecision = null;
-            //get the Model precision if it is correctly defined
-            foreach (var gc in gcs.Where(g => !(g is IfcGeometricRepresentationSubContext)))
-            {
-                if (!gc.ContextType.HasValue || string.Compare(gc.ContextType.Value, "model", true) != 0) continue;
-                if (!gc.Precision.HasValue) continue;
-                defaultPrecision = gc.Precision.Value;
-                break;
-            }
-            //get the world coordinate system
-            XbimMatrix3D? wcs=null;
-            var context = Instances.OfType<IfcGeometricRepresentationContext>().FirstOrDefault(c => 
-                c.GetType() == typeof(IfcGeometricRepresentationContext) && string.Compare(c.ContextType, "model", true) == 0 || string.Compare(c.ContextType, "design", true) == 0); //allow for incorrect older models
-            if (context != null)
-            {
-                _wcs = context.WorldCoordinateSystem;
-                wcs = _wcs.ToMatrix3D();
-                if (!wcs.Value.IsIdentity)
-                {
-                    wcs.Value.Invert();
-                }
-                else
-                {
-                    wcs = null; //just ignore it
-                }
-               
-            }
-            //check if angle units are incorrectly defined, this happens in some old models
-            if (angleToRadiansConversionFactor == 1)
-            {               
-                foreach (var trimmedCurve in Instances.OfType<IfcTrimmedCurve>()
-                    .Where(trimmedCurve => trimmedCurve.MasterRepresentation == IfcTrimmingPreference.PARAMETER &&
-                        trimmedCurve.BasisCurve is IfcConic))
-                {
-                    if (
-                        !trimmedCurve.Trim1.Concat(trimmedCurve.Trim2)
-                            .OfType<IfcParameterValue>()
-                            .Select(trim => (double) trim.Value)
-                            .Any(val => val > Math.PI*2)) continue;
-                    angleToRadiansConversionFactor = Math.PI/180;
-                    break;
-                }
-            }
-            _modelFactors = new XbimModelFactors(angleToRadiansConversionFactor, lengthToMetresConversionFactor,
-                defaultPrecision, wcs);
-        }
+        
         /// <summary>
         /// Starts a transaction to allow bulk updates on the geometry table, FreeGeometry Table should be called when no longer required
         /// </summary>
@@ -341,45 +228,7 @@ namespace Xbim.IO.Esent
            
         }
 
-        public IfcOwnerHistory OwnerHistoryModifyObject
-        {
-            get
-            {
-                return _instances.OwnerHistoryModifyObject;
-            }
-        }
         
-        public IfcOwnerHistory OwnerHistoryAddObject
-        {
-            get
-            {
-                return _instances.OwnerHistoryAddObject;
-            }
-            set//required for creation of COBie data from xls to a ifc new file
-            {
-                _instances.OwnerHistoryAddObject = value;
-            }
-        }
-
-        public IfcOwnerHistory OwnerHistoryDeleteObject
-        {
-            get
-            {
-                return _instances.OwnerHistoryDeleteObject;
-            }
-        }
-
-
-
-        public IfcApplication DefaultOwningApplication
-        {
-            get { return _instances.DefaultOwningApplication; }
-        }
-
-        public IfcPersonAndOrganization DefaultOwningUser
-        {
-            get { return _instances.DefaultOwningUser; }
-        }
 
         /// <summary>
         /// Performs a set of actions on a collection of entities inside a single read only transaction
@@ -444,7 +293,7 @@ namespace Xbim.IO.Esent
         /// <param name="keepOpen"></param>
         /// <param name="cacheEntities"></param>
         /// <returns></returns>
-        public bool CreateFrom(string importFrom, string xbimDbName = null, ReportProgressDelegate progDelegate = null, bool keepOpen = false, bool cacheEntities = false)
+        public virtual bool CreateFrom(string importFrom, string xbimDbName = null, ReportProgressDelegate progDelegate = null, bool keepOpen = false, bool cacheEntities = false)
         {
             Close();
             _importFilePath = Path.GetFullPath(importFrom);
@@ -462,10 +311,10 @@ namespace Xbim.IO.Esent
                     _cache.ImportIfcXml(xbimDbName, importFrom, progDelegate, keepOpen, cacheEntities);
                     break;
                 case XbimStorageType.IFC:
-                    _cache.ImportIfc(xbimDbName, importFrom, progDelegate, keepOpen, cacheEntities, _codePageOverrideForIfcFiles);
+                    _cache.ImportIfc(xbimDbName, importFrom, progDelegate, keepOpen, cacheEntities, _codePageOverrideForStepFiles);
                     break;
                 case XbimStorageType.IFCZIP:
-                    _cache.ImportIfcZip(xbimDbName, importFrom, progDelegate, keepOpen, cacheEntities, _codePageOverrideForIfcFiles);
+                    _cache.ImportIfcZip(xbimDbName, importFrom, progDelegate, keepOpen, cacheEntities, _codePageOverrideForStepFiles);
                     break;
                 case XbimStorageType.XBIM:
                     _cache.ImportXbim(importFrom, progDelegate);
@@ -473,11 +322,6 @@ namespace Xbim.IO.Esent
                 case XbimStorageType.INVALID:
                 default:
                     return false;
-            }
-            if (keepOpen) 
-            {
-                GetModelFactors();
-                LoadReferenceModels();
             }
             return true;
         }
@@ -487,13 +331,13 @@ namespace Xbim.IO.Esent
         /// It will be returned open for read write operations
         /// </summary>
         /// <returns></returns>
-        static public EsentModel CreateTemporaryModel()
+        static public EsentModel<TFactory> CreateTemporaryModel()
         {
             
             var tmpFileName = Path.GetTempFileName();
             try
             {
-                var model = new EsentModel();
+                var model = new EsentModel<TFactory>();
                 model.CreateDatabase(tmpFileName);  
                 model.Open(tmpFileName, XbimDBAccess.ReadWrite, true);
                 model.Header = new StepFileHeader(StepFileHeader.HeaderCreationMode.InitWithXbimDefaults);
@@ -518,13 +362,13 @@ namespace Xbim.IO.Esent
         /// <param name="dbFileName">Name of the Xbim file</param>
         /// <param name="access"></param>
         /// <returns></returns>
-        static public EsentModel CreateModel(string dbFileName, XbimDBAccess access = XbimDBAccess.ReadWrite)
+        static public EsentModel<TFactory> CreateModel(string dbFileName, XbimDBAccess access = XbimDBAccess.ReadWrite)
         {
             try
             {
                 if (string.IsNullOrWhiteSpace(Path.GetExtension(dbFileName)))
                     dbFileName += ".xBIM";
-                var model = new EsentModel();
+                var model = new EsentModel<TFactory>();
                 model.CreateDatabase(dbFileName); 
                 model.Open(dbFileName, access);
                 model.Header = new StepFileHeader(StepFileHeader.HeaderCreationMode.InitWithXbimDefaults)
@@ -723,16 +567,7 @@ namespace Xbim.IO.Esent
         #endregion
 
 
-        #region Ifc Schema Validation Methods
-
-        public string WhereRule()
-        {
-            if (IfcProject == null)
-                return "WR1 Model: A Model must have a valid Project attribute";
-            return "";
-        }
-
-        #endregion
+        
 
 
         #region General Model operations
@@ -742,14 +577,12 @@ namespace Xbim.IO.Esent
         /// <summary>
         /// Closes the current model and releases all resources and instances
         /// </summary>
-        public void Close()
+        public virtual void Close()
         {
             var dbName = DatabaseName;
-            _modelFactors = null;          
+            ModelFactors = null;          
             Header = null;
-            foreach (var refModel in _referencedModels)
-                refModel.Model.Dispose();
-            _referencedModels.Clear();
+            
             if (_editTransactionEntityCursor != null)
                 EndTransaction();
             _cache.Close();
@@ -805,14 +638,12 @@ namespace Xbim.IO.Esent
         /// <param name="accessMode"></param>
         /// <param name="progDelegate"></param>
         /// <returns>True if successful</returns>
-        public bool Open(string fileName, XbimDBAccess accessMode = XbimDBAccess.Read, ReportProgressDelegate progDelegate = null)
+        public virtual bool Open(string fileName, XbimDBAccess accessMode = XbimDBAccess.Read, ReportProgressDelegate progDelegate = null)
         {
             try
             {
                 Close();
                 _cache.Open(fileName, accessMode); //opens the database
-                GetModelFactors();
-                LoadReferenceModels();
                 return true;
             }
             catch (Exception e)
@@ -988,20 +819,7 @@ namespace Xbim.IO.Esent
             _cache.Print();
         }
 
-        public IfcProject IfcProject
-        {
-            get
-            {
-                return _cache == null ? null : InstancesLocal.OfType<IfcProject>().FirstOrDefault();
-            }
-        }
-        /// <summary>
-        /// Returns all products in the model, including federated products
-        /// </summary>
-        public IEnumerable<IPersistEntity> IfcProducts
-        {
-            get { return _cache == null ? null : Instances.OfType<IfcProduct>(); }
-        }
+        
 
         ~EsentModel()
         {
@@ -1093,10 +911,7 @@ namespace Xbim.IO.Esent
             //}
         }
 
-        public IEnumerable<XbimGeometryData> GetGeometryData(IfcProduct product, XbimGeometryType geomType)
-        {
-            return _cache.GetGeometry(ExpressMetaData.ExpressTypeId(product), product.EntityLabel, geomType);
-        }
+        
 
         //public IDictionary<string, XbimViewDefinition> Views
         //{
@@ -1142,7 +957,7 @@ namespace Xbim.IO.Esent
             return _cache.GetEntityTable();
         }
 
-        internal void Compact(EsentModel targetModel)
+        internal void Compact(EsentModel<TFactory> targetModel)
         {
           
         }
@@ -1191,142 +1006,7 @@ namespace Xbim.IO.Esent
             return _editTransactionEntityCursor;
         }
 
-        #region Model Group functions
-        
-        /// <summary>
-        /// Adds a model as a reference or federated model, do not call inside a transaction
-        /// </summary>
-        /// <param name="refModelPath"></param>
-        /// <param name="organisationName"></param>
-        /// <param name="organisationRole"></param>
-        /// <returns></returns>
-        public XbimReferencedModel AddModelReference(string refModelPath, string organisationName, string organisationRole)
-        {
-            using (var txn = BeginTransaction())
-            {
-                var role = Instances.New<IfcActorRole>();
-                role.RoleString = organisationRole; // the string is converted appropriately by the IfcActorRoleClass
-
-                var org = Instances.New<IfcOrganization>();
-                org.Name = organisationName;
-                org.AddRole(role);
-
-                var retVal = AddModelReference(refModelPath, org);
-                txn.Commit();
-                return retVal;
-            }
-        }
-
-        public XbimReferencedModel AddModelReference(string refModelPath, string organisationName, IfcRoleEnum organisationRole)
-        {
-            using (var txn = BeginTransaction())
-            {
-                var docInfo = Instances.New<IfcDocumentInformation>();
-                docInfo.DocumentId = _referencedModels.NextIdentifer();
-                //create an author of the referenced model
-
-                var role = Instances.New<IfcActorRole>();
-                    role.Role = organisationRole;
-
-                var org = Instances.New<IfcOrganization>();
-                org.Name = organisationName; 
-
-                org.AddRole(role);    
-
-                var retVal = AddModelReference(refModelPath, org);
-                txn.Commit();
-                return retVal;
-            }
-        }
-
-       
-       /// <summary>
-        /// adds a model as a reference model can be called inside a transaction
-       /// </summary>
-        /// <param name="refModelPath">the file path of the xbim model to reference, this must be an xbim file</param>
-       /// <param name="owner">the actor who supplied the model</param>
-       /// <returns></returns>
-        public XbimReferencedModel AddModelReference(string refModelPath, IfcActorSelect owner)
-        {
-            XbimReferencedModel retVal = null;
-            if (!IsTransacting)
-            {
-                using (var txn = BeginTransaction())
-                {
-                    var docInfo = Instances.New<IfcDocumentInformation>();
-                    docInfo.DocumentId = _referencedModels.NextIdentifer();
-                    docInfo.Name = refModelPath;
-                    docInfo.DocumentOwner = owner;
-                    docInfo.IntendedUse = RefDocument;
-                    retVal = new XbimReferencedModel(docInfo);
-                    _referencedModels.Add(retVal);
-                    txn.Commit();
-                }
-            }
-            else
-            {
-                var docInfo = Instances.New<IfcDocumentInformation>();
-                docInfo.DocumentId = _referencedModels.NextIdentifer();
-                docInfo.Name = refModelPath;
-                docInfo.DocumentOwner = owner;
-                docInfo.IntendedUse = RefDocument;
-                retVal = new XbimReferencedModel(docInfo);
-                _referencedModels.Add(retVal);
-            }
-            return retVal;
-        }
-
-        /// <summary>
-        /// All reference models are opened in a readonly mode.
-        /// Their children reference models is invoked iteratively.
-        /// 
-        /// Loading referenced models defaults to avoiding Exception on file not found; in this way the federated model can still be opened and the error rectified.
-        /// </summary>
-        /// <param name="throwReferenceModelExceptions"></param>
-        private void LoadReferenceModels(bool throwReferenceModelExceptions = false)
-        {
-            var docInfos = Instances.OfType<IfcDocumentInformation>().Where(d => d.IntendedUse == RefDocument);
-            foreach (var docInfo in docInfos)
-            {
-                if (throwReferenceModelExceptions)
-                {
-                    // throw exception on referenceModel Creation
-                    _referencedModels.Add(new XbimReferencedModel(docInfo));
-                }
-                else
-                {
-                    // do not throw exception on referenceModel Creation
-                    try
-                    {
-                        _referencedModels.Add(new XbimReferencedModel(docInfo));
-                    }
-                    catch (Exception)
-                    {
-                        // drop exception in this case
-                    }
-                }
-            }
-        }
-
-        public void EnsureUniqueUserDefinedId()
-        {
-            short iId = 0;
-            foreach (var model in AllModels)
-            {
-                model.UserDefinedId = iId++;
-            }
-        }
-
-        #endregion
-
-
-        public XbimReferencedModelCollection ReferencedModels
-        {
-            get
-            {
-                return _referencedModels;
-            }
-        }
+     
 
         public XbimGeometryData GetGeometryData(XbimGeometryHandle handle)
         {
@@ -1343,58 +1023,12 @@ namespace Xbim.IO.Esent
             return _cache.GetGeometryData(handles);
         }
 
-        public void Initialise(string userName = "User 1", string organisationName = "Organisation X", string applicationName = "Application 1.0", string developerName = "Developer 1", string version = "2.0.1")
-        {
-            //Begin a transaction as all changes to a model are transacted
-            using (var txn = BeginTransaction("Initialise Model"))
-            {
-                //do once only initialisation of model application and editor values
-                DefaultOwningUser.ThePerson.FamilyName = userName;
-                DefaultOwningUser.TheOrganization.Name = organisationName;
-                DefaultOwningApplication.ApplicationIdentifier = applicationName;
-                DefaultOwningApplication.ApplicationDeveloper.Name = developerName;
-                DefaultOwningApplication.ApplicationFullName = applicationName;
-                DefaultOwningApplication.Version = version;
-
-                //set up a project and initialise the defaults
-
-                var project = Instances.New<IfcProject>();
-                project.Initialize(ProjectUnits.SIUnitsUK);
-                project.Name = "Empty Project";
-                project.OwnerHistory.OwningUser = DefaultOwningUser;
-                project.OwnerHistory.OwningApplication = DefaultOwningApplication;
-                txn.Commit();
-            }
-            ReloadModelFactors();
-        }
-
-        /// <summary>
-        /// Returns true if the model contains reference models or the model has extension xBIMf
-        /// </summary>
-        public bool IsFederation 
-        {
-            get
-            {
-                return _referencedModels.Any() || string.Compare(Path.GetExtension(_cache.DatabaseName), ".xbimf", true) == 0;
-            }
-        }
+        
+        
 
 
-        /// <summary>
-        /// Returns an enumerable of the handles to all entities in the model
-        /// Note this includes entities that are in any federated models
-        /// </summary>
-        public IEnumerable<XbimInstanceHandle> AllInstancesHandles 
-        {
-            get
-            {
-                foreach (var h in _cache.InstanceHandles)
-                    yield return h;
-                foreach (var refModel in ReferencedModels)
-                    foreach (var h in refModel.Model.InstanceHandles)
-                        yield return h;
-            }
-        }
+
+       
         /// <summary>
         /// Returns an enumerable of the handles to only the entities in this model
         /// Note this do NOT include entities that are in any federated models
@@ -1411,21 +1045,7 @@ namespace Xbim.IO.Esent
           return item.Model.GetInstanceVolatile(item.EntityLabel);
         }
 
-        /// <summary>
-        /// Federated models can be nested.
-        /// Since children models do not have a method for pointing to the parent management of their 
-        /// uniqueness must be achieved top down by the topmost one. After all child models are loaded.
-        /// </summary>
-        public IEnumerable<EsentModel> AllModels
-        {
-            get
-            {
-                yield return this;
-                foreach (var refModel in ReferencedModels)
-                    foreach (var m in refModel.Model.AllModels)
-                        yield return m;
-            }
-        }
+
 
         public object Tag { get; set; }
         
@@ -1479,6 +1099,7 @@ namespace Xbim.IO.Esent
         /// is both not commited and not rolled back either.
         /// </summary>
         private WeakReference _transactionReference;
+
 
         public ITransaction CurrentTransaction
         {

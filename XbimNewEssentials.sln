@@ -23,6 +23,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbim.Ifc2x3.Extensions", "X
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbim.IO.ParserTests", "Xbim.IO.ParserTests\Xbim.IO.ParserTests.csproj", "{5E41F415-7127-45B9-BF78-D96EBEEC2DE3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbim.Ifc2x3.IO", "Xbim.Ifc2x3.IO\Xbim.Ifc2x3.IO.csproj", "{27AC09F9-78B3-486A-8D2B-13D7C8AF8C19}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -61,6 +63,10 @@ Global
 		{5E41F415-7127-45B9-BF78-D96EBEEC2DE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5E41F415-7127-45B9-BF78-D96EBEEC2DE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5E41F415-7127-45B9-BF78-D96EBEEC2DE3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{27AC09F9-78B3-486A-8D2B-13D7C8AF8C19}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{27AC09F9-78B3-486A-8D2B-13D7C8AF8C19}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{27AC09F9-78B3-486A-8D2B-13D7C8AF8C19}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{27AC09F9-78B3-486A-8D2B-13D7C8AF8C19}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -2,18 +2,18 @@
 using Xbim.Common.Exceptions;
 using System.Collections.Specialized;
 using System.ComponentModel;
-using Xbim.Ifc2x3.MeasureResource;
+using Xbim.IO.Esent;
 
 namespace Xbim.IO
 {
-    public class XbimReferencedModelCollection : KeyedCollection<string, XbimReferencedModel>, INotifyCollectionChanged, INotifyPropertyChanged
+    public class XbimReferencedModelCollection : KeyedCollection<string, IXbimReferencedModel>, INotifyCollectionChanged, INotifyPropertyChanged
     {
-        protected override string GetKeyForItem(XbimReferencedModel item)
+        protected override string GetKeyForItem(IXbimReferencedModel item)
         {
             return item.Identifier;
         }
 
-        internal IfcIdentifier NextIdentifer()
+        public string NextIdentifer()
         {
             for (short i = 1; i < short.MaxValue; i++)
             {
@@ -32,9 +32,9 @@ namespace Xbim.IO
         }
 
 
-        protected override void InsertItem(int index, XbimReferencedModel item)
+        protected override void InsertItem(int index, IXbimReferencedModel item)
         {
-            XbimReferencedModel removed = null;
+            IXbimReferencedModel removed = null;
             if (index < Count)
                 removed = this[index];
             base.InsertItem(index, item);
@@ -74,9 +74,9 @@ namespace Xbim.IO
             NotifyCountChanged(oldCount);
         }
 
-        protected override void SetItem(int index, XbimReferencedModel item)
+        protected override void SetItem(int index, IXbimReferencedModel item)
         {
-            XbimReferencedModel removed = null;
+            IXbimReferencedModel removed = null;
             if (index < Count)
                 removed = this[index];
             base.SetItem(index, item);

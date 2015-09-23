@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using Xbim.Common;
+using Xbim.Common.Logging;
 using Xbim.Common.Step21;
 using Xbim.IO.Parser;
 
@@ -10,11 +11,14 @@ namespace Xbim.IO.Esent
     public class XbimParserState
     {
 
-        public XbimParserState(IPersistEntity entity)
+        private readonly ILogger _logger;
+
+        public XbimParserState(IPersistEntity entity, ILogger logger = null)
         {
             _currentInstance = new Part21Entity(entity);
             _processStack.Push(_currentInstance);
             _schemaModule = entity.GetType().Module;
+            _logger = logger;
         }
 
         private readonly Stack<Part21Entity> _processStack = new Stack<Part21Entity>();
@@ -73,7 +77,8 @@ namespace Xbim.IO.Esent
                 }
                 catch (Exception e)
                 {
-                    EsentModel.Logger.ErrorFormat("Parser error, the Attribute {0} of {1} is incorrectly specified and has been ignored. {2}",
+                    if (_logger != null)
+                        _logger.ErrorFormat("Parser error, the Attribute {0} of {1} is incorrectly specified and has been ignored. {2}",
                        _currentInstance.CurrentParamIndex,
                         _currentInstance.Entity.GetType().Name,
                         e.Message);

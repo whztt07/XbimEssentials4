@@ -9,15 +9,15 @@ using Xbim.IO.Esent;
 namespace Xbim.IO
 {
 
-    internal class XbimFederatedInstancesEntityEnumerator : IEnumerator<IPersistEntity>
+    internal class XbimFederatedInstancesEntityEnumerator<TF> : IEnumerator<IPersistEntity> where TF: IEntityFactory, new()
     {
-        private readonly List<EsentModel> _models;
+        private readonly List<EsentModel<TF>> _models;
         int _currentModelIndex;
         private PersistedEntityInstanceCache _cache;
         private XbimEntityCursor _cursor;
         private int _currentEntityLabel;
 
-        public XbimFederatedInstancesEntityEnumerator(IEnumerable<EsentModel> models)
+        public XbimFederatedInstancesEntityEnumerator(IEnumerable<EsentModel<TF>> models)
         {
             _models = models.ToList();
             Reset();
@@ -77,9 +77,9 @@ namespace Xbim.IO
             _cache.FreeTable(_cursor);
         }
     }
-    public class XbimFederatedModelInstances : IEntityCollection
+    public class XbimFederatedModelInstances<TF> : IEntityCollection where TF: IEntityFactory, new()
     {
-        readonly EsentModel _model;
+        readonly EsentModel<TF> _model;
 
         public IEnumerable<IPersistEntity> OfType(string stringType, bool activate)
         {
@@ -97,7 +97,7 @@ namespace Xbim.IO
             //}
         }
 
-        public XbimFederatedModelInstances(EsentModel model)
+        public XbimFederatedModelInstances(EsentModel<TF> model)
         {
             _model = model;
         }

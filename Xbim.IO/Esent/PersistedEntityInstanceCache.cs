@@ -13,8 +13,6 @@ using Microsoft.Isam.Esent.Interop;
 using Microsoft.Isam.Esent.Interop.Windows7;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
-using Xbim.Ifc2x3.GeometryResource;
-using Xbim.Ifc2x3.Kernel;
 using Xbim.IO.Step21;
 using Xbim.IO.Step21.Parser;
 using Xbim.IO.Xml;
@@ -1746,15 +1744,6 @@ namespace Xbim.IO.Esent
             var ifcType = ExpressMetaData.ExpressType(toCopy);
             copyHandle = InsertNew(ifcType.Type);
             mappings.Add(toCopyHandle, copyHandle);
-            if (typeof(IfcCartesianPoint) == ifcType.Type || typeof(IfcDirection) == ifcType.Type)//special cases for cartesian point and direction for efficiency
-            {
-                //(IPersistEntity)Activator.CreateInstance(ifcType.Type, toCopy);      
-                var v = _factory.New(_model, ifcType.Type, copyHandle.EntityLabel, true);
-                v.Activate(true);
-                _read.TryAdd(copyHandle.EntityLabel, v);
-                CreatedNew.TryAdd(copyHandle.EntityLabel, v);
-                return (T)v;
-            }
 
             var theCopy = _factory.New(_model, copyHandle.EntityType, copyHandle.EntityLabel, true);
             _read.TryAdd(copyHandle.EntityLabel, theCopy);

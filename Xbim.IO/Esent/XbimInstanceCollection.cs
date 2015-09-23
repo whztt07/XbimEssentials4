@@ -4,8 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using Xbim.Common;
-using Xbim.Ifc2x3.ActorResource;
-using Xbim.Ifc2x3.UtilityResource;
 
 namespace Xbim.IO.Esent
 {
@@ -15,23 +13,23 @@ namespace Xbim.IO.Esent
     public class XbimInstanceCollection : IEntityCollection
     {
         private readonly EsentModel _esentModel;
-        private readonly PersistedEntityInstanceCache _cache;
+        protected readonly PersistedEntityInstanceCache Cache;
         
         public IEnumerable<IPersistEntity> OfType(string stringType, bool activate)
         {
-            return _cache.OfType(stringType, activate);
+            return Cache.OfType(stringType, activate);
         }
 
         internal XbimInstanceCollection(EsentModel esentModel)
         {
             _esentModel = esentModel;
-            _cache = esentModel.Cache;
+            Cache = esentModel.Cache;
         }
 
         /// <summary>
         /// Returns the total number of Ifc Instances in this model
         /// </summary>
-        public long Count { get { return _cache.Count;  } }
+        public long Count { get { return Cache.Count;  } }
 
         /// <summary>
         /// Returns the count of the number of instances of the specified type
@@ -40,7 +38,7 @@ namespace Xbim.IO.Esent
         /// <returns></returns>
         public long CountOf<TIfcType>() where TIfcType : IPersistEntity
         {
-            return _cache.CountOf<TIfcType>(); 
+            return Cache.CountOf<TIfcType>(); 
         }
         /// <summary>
         /// Returns all instances in the model of IfcType, IfcType may be an abstract Type
@@ -49,7 +47,7 @@ namespace Xbim.IO.Esent
         /// <returns></returns>
         public IEnumerable<TIfc> OfType<TIfc>(bool activate) where TIfc : IPersistEntity
         {
-            return _cache.OfType<TIfc>(activate).Select(item => item);
+            return Cache.OfType<TIfc>(activate).Select(item => item);
         }
 
 
@@ -65,7 +63,7 @@ namespace Xbim.IO.Esent
 
         public IEnumerable<TIfc> OfType<TIfc>() where TIfc : IPersistEntity
         {
-            return _cache.OfType<TIfc>().Select(item => item);
+            return Cache.OfType<TIfc>().Select(item => item);
         }
 
         //public IEnumerable<TIfcType> OfType<TIfcType>() where TIfcType : IPersistEntity
@@ -82,7 +80,7 @@ namespace Xbim.IO.Esent
         public IEnumerable<TIfcType> Where<TIfcType>(Expression<Func<TIfcType, bool>> expression) where TIfcType : IPersistEntity
         {
             
-            return _cache.Where(expression);
+            return Cache.Where(expression);
         }
 
         /// <summary>
@@ -90,7 +88,7 @@ namespace Xbim.IO.Esent
         /// </summary>
         public IEnumerable<XbimInstanceHandle> Handles()
         {
-            return _cache.InstanceHandles;
+            return Cache.InstanceHandles;
         }
 
 
@@ -101,7 +99,7 @@ namespace Xbim.IO.Esent
         /// <returns></returns>
         public IEnumerable<XbimInstanceHandle> Handles<T>()
         {
-            return _cache.InstanceHandlesOfType<T>();
+            return Cache.InstanceHandlesOfType<T>();
         }
 
         /// <summary>
@@ -113,7 +111,7 @@ namespace Xbim.IO.Esent
         {
             get
             {
-                return _cache.GetInstance(label, true, true);
+                return Cache.GetInstance(label, true, true);
             }
         }
        
@@ -124,8 +122,8 @@ namespace Xbim.IO.Esent
         /// <returns></returns>
         public IPersistEntity GetFromGeometryLabel(int geometryLabel)
         {
-            var filledGeomData = _cache.GetGeometryHandle(geometryLabel);
-            return _cache.GetInstance(filledGeomData.ProductLabel, true, true);
+            var filledGeomData = Cache.GetGeometryHandle(geometryLabel);
+            return Cache.GetInstance(filledGeomData.ProductLabel, true, true);
         }
 
         /// <summary>
@@ -160,7 +158,7 @@ namespace Xbim.IO.Esent
         /// <returns></returns>
         public IPersistEntity New(Type t)
         {
-            var entity = _cache.CreateNew(t);
+            var entity = Cache.CreateNew(t);
             
             return entity;
 
@@ -175,7 +173,7 @@ namespace Xbim.IO.Esent
         /// <returns></returns>
         public  bool Contains(int entityLabel)
         {
-            return _cache.Contains(entityLabel);
+            return Cache.Contains(entityLabel);
         }
 
         /// <summary>
@@ -185,138 +183,20 @@ namespace Xbim.IO.Esent
         /// <returns></returns>
         public  bool Contains(IPersistEntity instance)
         {
-            return _cache.Contains(instance);
+            return Cache.Contains(instance);
         }
 
-        #region OwnerHistory Fields
-        //todo: Implement default initialization of IfcRoot object in a different assembly
-        //public void IfcRootInit(Type t)
-        //{
-        //    if (typeof(IfcRoot).IsAssignableFrom(t))
-        //    {
-        //        if (_ownerHistoryAddObject == null) //create an owner history object if it is nor already available
-        //        {
-        //            _ownerHistoryAddObject = (IfcOwnerHistory)cache.CreateNew(typeof(IfcOwnerHistory));
-        //            _ownerHistoryAddObject.ChangeAction = IfcChangeActionEnum.ADDED;
-        //            _ownerHistoryAddObject.OwningApplication = DefaultOwningApplication;
-        //            _ownerHistoryAddObject.OwningUser = DefaultOwningUser;
-        //        }
-
-        //        ((IfcRoot)entity).OwnerHistory = _ownerHistoryAddObject;
-        //    }
-        //}
-
-        [NonSerialized]
-        private IfcOwnerHistory _ownerHistoryDeleteObject;
-
-        [NonSerialized]
-        private IfcOwnerHistory _ownerHistoryAddObject;
-
-        [NonSerialized]
-        private IfcOwnerHistory _ownerHistoryModifyObject;
-
-        [NonSerialized]
-        private IfcPersonAndOrganization _defaultOwningUser;
-
-        [NonSerialized]
-        private IfcApplication _defaultOwningApplication;
-
-        internal IfcOwnerHistory OwnerHistoryModifyObject
-        {
-            get
-            {
-                if (_ownerHistoryModifyObject == null)
-                {
-                    _ownerHistoryModifyObject = New<IfcOwnerHistory>();
-                    _ownerHistoryModifyObject.OwningUser = DefaultOwningUser;
-                    _ownerHistoryModifyObject.OwningApplication = DefaultOwningApplication;
-                    _ownerHistoryModifyObject.ChangeAction = IfcChangeActionEnum.MODIFIED;
-                }
-                return _ownerHistoryModifyObject;
-            }
-        }
-
-        internal IfcOwnerHistory OwnerHistoryAddObject
-        {
-            get
-            {
-                if (_ownerHistoryAddObject == null)
-                {
-                    _ownerHistoryAddObject = New<IfcOwnerHistory>();
-                    _ownerHistoryAddObject.OwningUser = DefaultOwningUser;
-                    _ownerHistoryAddObject.OwningApplication = DefaultOwningApplication;
-                    _ownerHistoryAddObject.ChangeAction = IfcChangeActionEnum.ADDED;
-                }
-                return _ownerHistoryAddObject;
-            }
-            set //required for creation of COBie data from xls to a ifc new file
-            {
-                _ownerHistoryAddObject = value;
-            }
-        }
-
-        internal IfcOwnerHistory OwnerHistoryDeleteObject
-        {
-            get
-            {
-                if (_ownerHistoryDeleteObject == null)
-                {
-                    _ownerHistoryDeleteObject = New<IfcOwnerHistory>();
-                    _ownerHistoryDeleteObject.OwningUser = DefaultOwningUser;
-                    _ownerHistoryDeleteObject.OwningApplication = DefaultOwningApplication;
-                    _ownerHistoryDeleteObject.ChangeAction = IfcChangeActionEnum.DELETED;
-                }
-                return _ownerHistoryDeleteObject;
-            }
-        }
-
-
-
-        internal IfcApplication DefaultOwningApplication
-        {
-            get {
-                return _defaultOwningApplication ??
-                       (_defaultOwningApplication =
-                           New<IfcApplication>(a => a.ApplicationDeveloper = New<IfcOrganization>()));
-            }
-        }
-
-        internal IfcPersonAndOrganization DefaultOwningUser
-        {
-            get
-            {
-                if (_defaultOwningUser == null)
-                {
-                    var existing = OfType<IfcPersonAndOrganization>().ToArray();
-                    if (!existing.Any())
-                    {
-                        var person = New<IfcPerson>();
-                        var organization = New<IfcOrganization>();
-                        _defaultOwningUser = New<IfcPersonAndOrganization>(po =>
-                        {
-                            po.TheOrganization = organization;
-                            po.ThePerson = person;
-                        });
-                    }
-                    else
-                        _defaultOwningUser = existing.FirstOrDefault();
-                }
-                return _defaultOwningUser;
-            }
-        }
-        #endregion
+     
 
         IEnumerator<IPersistEntity> IEnumerable<IPersistEntity>.GetEnumerator()
         {
-            return new XbimInstancesEntityEnumerator(_cache);
+            return new XbimInstancesEntityEnumerator(Cache);
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return new XbimInstancesEntityEnumerator(_cache);
+            return new XbimInstancesEntityEnumerator(Cache);
         }
-
-       
     }
 
 }

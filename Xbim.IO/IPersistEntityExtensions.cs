@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using Xbim.IO.Parser;
 using Xbim.Common.Exceptions;
-using System.Collections.Specialized;
 using Xbim.Common;
-using Xbim.Ifc2x3.Kernel;
-using Xbim.Ifc2x3.MeasureResource;
 using Xbim.IO.Esent;
 using Xbim.IO.Step21;
 using Xbim.IO.Step21.Parser;
@@ -39,19 +35,6 @@ namespace Xbim.IO
             return ExpressMetaData.ExpressType(entity);
         }
 
-        public static StringCollection SummaryString(this IPersistEntity entity)
-        {
-            var sc = new StringCollection {"Entity\t = #" + entity.EntityLabel};
-            if (!(entity is IfcRoot)) return sc;
-
-            var root = (IfcRoot) entity;
-            sc.Add("Guid\t = " + root.GlobalId);
-            sc.Add("Type\t = " + root.GetType().Name);
-            sc.Add("Name\t = " + (root.Name.HasValue ? root.Name.Value.ToString() : root.ToString()));
-            return sc;
-        }
-
-
         internal static void WriteEntity(this IPersistEntity entity, TextWriter tw, byte[] propertyData)
         {
             var type = ExpressMetaData.ExpressType(entity);
@@ -59,7 +42,6 @@ namespace Xbim.IO
             var br = new BinaryReader(new MemoryStream(propertyData));
             var action = (P21ParseAction)br.ReadByte();
             var comma = false; //the first property
-            var parserState = new XbimParserState(entity);
             while (action != P21ParseAction.EndEntity)
             {
                 switch (action)
@@ -89,7 +71,7 @@ namespace Xbim.IO
                     case P21ParseAction.SetFloatValue:
                         if (comma) tw.Write(",");
                         comma = true;
-                        tw.Write(IfcReal.AsPart21(br.ReadDouble()));
+                        tw.Write(br.ReadDouble().AsPart21());
                         break;
                     case P21ParseAction.SetStringValue:
                         if (comma) tw.Write(",");
@@ -564,7 +546,7 @@ namespace Xbim.IO
 
             else if (pInfoType == typeof(DateTime)) //convert  TimeStamp
             {
-                IfcTimeStamp ts = IfcTimeStamp.ToTimeStamp((DateTime)pVal);
+                var ts = ((DateTime)pVal).ToStep21();
                 entityWriter.Write(Convert.ToByte(P21ParseAction.SetIntegerValue));
                 entityWriter.Write(ts);
             }
