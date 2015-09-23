@@ -67,7 +67,7 @@ namespace Xbim.IO.Xml
         }
 
 
-        public void Write(IModel model, XmlWriter output)
+        public void Write(XbimModel  model, XmlWriter output)
         {
             try
             {
@@ -94,9 +94,9 @@ namespace Xbim.IO.Xml
                 output.WriteAttributeString("xmlns", "ifc", null, Namespace);
                 output.WriteAttributeString("xsi", "schemaLocation", null, string.Format("{0} {1}", Namespace, IfcXsd));
 
-                foreach (var item in model.Instances)
+                foreach (var item in model.InstanceHandles)
                 {
-                    Write(model, item, output);
+                    Write(model, item.EntityLabel, output);
                 }
 
                 output.WriteEndElement(); //uos
@@ -144,14 +144,15 @@ namespace Xbim.IO.Xml
             output.WriteEndElement(); //end iso_10303_28_header
         }
 
-        private void Write(IModel model, IPersistEntity entity, XmlWriter output, int pos = -1)
+        private void Write(XbimModel model, int handle, XmlWriter output, int pos = -1)
         {
 
-            if (_written.Contains(entity.EntityLabel)) //we have already done it
+            if (_written.Contains(handle)) //we have already done it
                 return;
             //int nextId = _written.Count + 1;
-            _written.Add(entity.EntityLabel);
+            _written.Add(handle);
 
+            var entity = model.GetInstanceVolatile(handle);
             var ifcType = ExpressMetaData.ExpressType(entity);
 
             output.WriteStartElement(ifcType.Type.Name);
@@ -186,7 +187,7 @@ namespace Xbim.IO.Xml
             output.WriteEndElement();
         }
 
-        private void WriteProperty(IModel model, string propName, Type propType, object propVal, object entity, XmlWriter output,
+        private void WriteProperty(XbimModel model, string propName, Type propType, object propVal, object entity, XmlWriter output,
                                    int pos, EntityAttributeAttribute attr)
         {
             var optSet = propVal as IOptionalItemSet;
@@ -291,7 +292,7 @@ namespace Xbim.IO.Xml
                 }
                 else
                 {
-                    Write(model, persistVal, output, pos);
+                    Write(model, persistVal.EntityLabel, output, pos);
                 }
                 if (pos == -1) output.WriteEndElement();
             }
