@@ -16,7 +16,7 @@ namespace Xbim.Ifc2x3.MeasureResource
 {
 	[ExpressType("IFCPLANEANGLEMEASURE", 612)]
     // ReSharper disable once PartialTypeWithSinglePart
-	public partial struct IfcPlaneAngleMeasure : IfcMeasureValue, IfcOrientationSelect, IExpressType
+	public partial struct IfcPlaneAngleMeasure : IfcMeasureValue, IfcOrientationSelect, IExpressValueType
 	{ 
 		private double _value;
         
@@ -91,7 +91,7 @@ namespace Xbim.Ifc2x3.MeasureResource
 		#endregion
 
 		#region IExpressType implementation
-        System.Type IExpressType.UnderlyingSystemType { 
+        System.Type IExpressValueType.UnderlyingSystemType { 
 			get 
 			{
 				return typeof(double);

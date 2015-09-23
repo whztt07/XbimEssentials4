@@ -15,7 +15,7 @@ namespace Xbim.Ifc2x3.MeasureResource
 {
 	[ExpressType("IFCTIMESTAMP", 605)]
     // ReSharper disable once PartialTypeWithSinglePart
-	public partial struct IfcTimeStamp : IfcDerivedMeasureValue, IExpressType
+	public partial struct IfcTimeStamp : IfcDerivedMeasureValue, IExpressValueType
 	{ 
 		private long _value;
         
@@ -90,7 +90,7 @@ namespace Xbim.Ifc2x3.MeasureResource
 		#endregion
 
 		#region IExpressType implementation
-        System.Type IExpressType.UnderlyingSystemType { 
+        System.Type IExpressValueType.UnderlyingSystemType { 
 			get 
 			{
 				return typeof(long);

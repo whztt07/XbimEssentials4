@@ -11,13 +11,13 @@ namespace Xbim.IO
 
     internal class XbimFederatedInstancesEntityEnumerator : IEnumerator<IPersistEntity>
     {
-        private readonly List<XbimModel> _models;
+        private readonly List<EsentModel> _models;
         int _currentModelIndex;
         private PersistedEntityInstanceCache _cache;
         private XbimEntityCursor _cursor;
         private int _currentEntityLabel;
 
-        public XbimFederatedInstancesEntityEnumerator(IEnumerable<XbimModel> models)
+        public XbimFederatedInstancesEntityEnumerator(IEnumerable<EsentModel> models)
         {
             _models = models.ToList();
             Reset();
@@ -79,7 +79,7 @@ namespace Xbim.IO
     }
     public class XbimFederatedModelInstances : IEntityCollection
     {
-        readonly XbimModel _model;
+        readonly EsentModel _model;
 
         public IEnumerable<IPersistEntity> OfType(string stringType, bool activate)
         {
@@ -97,7 +97,7 @@ namespace Xbim.IO
             //}
         }
 
-        public XbimFederatedModelInstances(XbimModel model)
+        public XbimFederatedModelInstances(EsentModel model)
         {
             _model = model;
         }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Xbim.Common;
 using Xbim.IO.Esent;
 
 namespace Xbim.IO
@@ -11,7 +12,7 @@ namespace Xbim.IO
     /// </summary>
     public class XbimGeometryHandleCollection : List<XbimGeometryHandle>
     {
-        private Module _schemaModule;
+        private readonly Module _schemaModule;
 
         public XbimGeometryHandleCollection(IEnumerable<XbimGeometryHandle> enumerable, Module module)
             : base(enumerable)

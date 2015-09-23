@@ -126,8 +126,8 @@ namespace Xbim.IO.Step21.Parser
 
                     return IfcReal.ToDouble(_strVal);
                 }
-                else if (_stepParserType == StepParserType.Entity && _entityVal is IExpressType && typeof(double).IsAssignableFrom(((IExpressType)_entityVal).UnderlyingSystemType))
-                    return (double)(((IExpressType)_entityVal).Value);
+                else if (_stepParserType == StepParserType.Entity && _entityVal is IExpressValueType && typeof(double).IsAssignableFrom(((IExpressValueType)_entityVal).UnderlyingSystemType))
+                    return (double)(((IExpressValueType)_entityVal).Value);
                 else
                     throw new Exception(string.Format("Wrong parameter type, found {0}, expected {1}",
                                                       _stepParserType.ToString(), "Real"));

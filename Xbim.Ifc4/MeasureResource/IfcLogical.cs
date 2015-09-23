@@ -15,7 +15,7 @@ namespace Xbim.Ifc4.MeasureResource
 {
 	[ExpressType("IFCLOGICAL", 53)]
     // ReSharper disable once PartialTypeWithSinglePart
-	public partial struct IfcLogical : IfcSimpleValue, IExpressType
+	public partial struct IfcLogical : IfcSimpleValue, IExpressValueType
 	{ 
 		private bool? _value;
         
@@ -90,7 +90,7 @@ namespace Xbim.Ifc4.MeasureResource
 		#endregion
 
 		#region IExpressType implementation
-        System.Type IExpressType.UnderlyingSystemType { 
+        System.Type IExpressValueType.UnderlyingSystemType { 
 			get 
 			{
 				return typeof(bool?);

@@ -18,6 +18,7 @@ using System.Linq;
 using System.Text;
 using Xbim.Common;
 using Xbim.Common.Step21;
+using Xbim.IO.Esent;
 
 #endregion
 
@@ -38,7 +39,7 @@ namespace Xbim.IO.Step21
             output.WriteLine("END-ISO-10303-21;");
         }
 
-        public void Write(XbimModel model, TextWriter output, IDictionary<int, int> map = null)
+        public void Write(EsentModel model, TextWriter output, IDictionary<int, int> map = null)
         {
             new HashSet<long>();
             output.Write(HeaderAsString(model.Header ?? new StepFileHeader(StepFileHeader.HeaderCreationMode.InitWithXbimDefaults)));

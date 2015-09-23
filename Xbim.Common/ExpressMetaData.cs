@@ -1,27 +1,10 @@
-﻿#region XbimHeader
-
-// The eXtensible Building Information Modelling (xBIM) Toolkit
-// Solution:    XbimComplete
-// Project:     Xbim.Ifc
-// Filename:    IfcInstances.cs
-// Published:   01, 2012
-// Last Edited: 9:04 AM on 20 12 2011
-// (See accompanying copyright.rtf)
-
-#endregion
-
-#region Directives
-
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
-using System.Diagnostics;
-using Xbim.Common;
 
-#endregion
-
-namespace Xbim.IO
+namespace Xbim.Common
 {
     public class ExpressMetaProperty
     {

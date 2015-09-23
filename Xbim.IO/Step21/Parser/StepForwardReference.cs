@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using Xbim.Common;
+using Xbim.IO.Esent;
 
 namespace Xbim.IO.Step21.Parser
 {
@@ -35,7 +36,7 @@ namespace Xbim.IO.Step21.Parser
                 {
                     var ifcType = ExpressMetaData.ExpressType(ReferencingEntity);
                     
-                    XbimModel.Logger.ErrorFormat("Data Error. Cannot set the property = {0} of entity #{1} = {2} to entity #{3}, schema violation. Ignored", 
+                    EsentModel.Logger.ErrorFormat("Data Error. Cannot set the property = {0} of entity #{1} = {2} to entity #{3}, schema violation. Ignored", 
                         ifcType.Properties[ReferencingPropertyId+1].PropertyInfo.Name, 
                         ReferencingEntity.EntityLabel,
                         ReferencingEntity.GetType().Name,

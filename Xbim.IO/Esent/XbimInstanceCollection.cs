@@ -14,7 +14,7 @@ namespace Xbim.IO.Esent
     /// </summary>
     public class XbimInstanceCollection : IEntityCollection
     {
-        private readonly XbimModel _xbimModel;
+        private readonly EsentModel _esentModel;
         private readonly PersistedEntityInstanceCache _cache;
         
         public IEnumerable<IPersistEntity> OfType(string stringType, bool activate)
@@ -22,10 +22,10 @@ namespace Xbim.IO.Esent
             return _cache.OfType(stringType, activate);
         }
 
-        internal XbimInstanceCollection(XbimModel xbimModel)
+        internal XbimInstanceCollection(EsentModel esentModel)
         {
-            _xbimModel = xbimModel;
-            _cache = xbimModel.Cache;
+            _esentModel = esentModel;
+            _cache = esentModel.Cache;
         }
 
         /// <summary>

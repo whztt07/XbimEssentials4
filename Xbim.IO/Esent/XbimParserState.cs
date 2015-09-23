@@ -73,7 +73,7 @@ namespace Xbim.IO.Esent
                 }
                 catch (Exception e)
                 {
-                    XbimModel.Logger.ErrorFormat("Parser error, the Attribute {0} of {1} is incorrectly specified and has been ignored. {2}",
+                    EsentModel.Logger.ErrorFormat("Parser error, the Attribute {0} of {1} is incorrectly specified and has been ignored. {2}",
                        _currentInstance.CurrentParamIndex,
                         _currentInstance.Entity.GetType().Name,
                         e.Message);

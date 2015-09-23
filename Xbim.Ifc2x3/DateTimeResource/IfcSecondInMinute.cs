@@ -15,7 +15,7 @@ namespace Xbim.Ifc2x3.DateTimeResource
 {
 	[ExpressType("IFCSECONDINMINUTE", 656)]
     // ReSharper disable once PartialTypeWithSinglePart
-	public partial struct IfcSecondInMinute : IExpressType
+	public partial struct IfcSecondInMinute : IExpressValueType
 	{ 
 		private double _value;
         
@@ -90,7 +90,7 @@ namespace Xbim.Ifc2x3.DateTimeResource
 		#endregion
 
 		#region IExpressType implementation
-        System.Type IExpressType.UnderlyingSystemType { 
+        System.Type IExpressValueType.UnderlyingSystemType { 
 			get 
 			{
 				return typeof(double);

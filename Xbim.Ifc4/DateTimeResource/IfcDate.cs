@@ -16,7 +16,7 @@ namespace Xbim.Ifc4.DateTimeResource
 {
 	[ExpressType("IFCDATE", 14)]
     // ReSharper disable once PartialTypeWithSinglePart
-	public partial struct IfcDate : IfcSimpleValue, IExpressType
+	public partial struct IfcDate : IfcSimpleValue, IExpressValueType
 	{ 
 		private string _value;
         
@@ -91,7 +91,7 @@ namespace Xbim.Ifc4.DateTimeResource
 		#endregion
 
 		#region IExpressType implementation
-        System.Type IExpressType.UnderlyingSystemType { 
+        System.Type IExpressValueType.UnderlyingSystemType { 
 			get 
 			{
 				return typeof(string);

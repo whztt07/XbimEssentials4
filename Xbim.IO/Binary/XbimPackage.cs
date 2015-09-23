@@ -18,10 +18,9 @@ using System.Reflection;
 using Xbim.Common.Step21;
 using Xbim.IO.Parser;
 
-
 #endregion
 
-namespace Xbim.IO
+namespace Xbim.IO.Binary
 {
     [Serializable]
     internal class XbimHeader
@@ -32,12 +31,10 @@ namespace Xbim.IO
                                         {
                                             PreprocessorVersion =
                                                 string.Format("Xbim.Ifc File Processor version {0}",
-                                                              Assembly.GetAssembly(typeof (P21Parser)).GetName().Version
-                                                                  .ToString()),
+                                                              Assembly.GetAssembly(typeof (P21Parser)).GetName().Version),
                                             OriginatingSystem =
                                                 string.Format("Xbim version {0}",
-                                                              Assembly.GetExecutingAssembly().GetName().Version.ToString
-                                                                  ()),
+                                                              Assembly.GetExecutingAssembly().GetName().Version),
                                         };
 
         public StepFileSchema StepFileSchema = new StepFileSchema("IFC2X3");
@@ -53,14 +50,14 @@ namespace Xbim.IO
     [Serializable]
     public class XbimPackage
     {
-        [NonSerialized] private XbimHeader _header = new XbimHeader();
+        [NonSerialized] private readonly XbimHeader _header = new XbimHeader();
 
         internal XbimHeader Header
         {
             get { return _header; }
         }
 
-        private Dictionary<string, object> _content = new Dictionary<string, object>();
+        private readonly Dictionary<string, object> _content = new Dictionary<string, object>();
 
         public Dictionary<string, object> Content
         {

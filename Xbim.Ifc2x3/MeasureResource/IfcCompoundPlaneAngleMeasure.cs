@@ -16,7 +16,7 @@ namespace Xbim.Ifc2x3.MeasureResource
 {
 	[ExpressType("IFCCOMPOUNDPLANEANGLEMEASURE", 255)]
     // ReSharper disable once PartialTypeWithSinglePart
-	public partial struct IfcCompoundPlaneAngleMeasure : IfcDerivedMeasureValue, IExpressComplexType
+	public partial struct IfcCompoundPlaneAngleMeasure : IfcDerivedMeasureValue, IExpressValueComplexType
 	{ 
 		private List<long> _value;
         
@@ -93,7 +93,7 @@ namespace Xbim.Ifc2x3.MeasureResource
 		#endregion
 
 		#region IExpressType implementation
-        System.Type IExpressType.UnderlyingSystemType { 
+        System.Type IExpressValueType.UnderlyingSystemType { 
 			get 
 			{
 				return typeof(List<long>);
@@ -102,7 +102,7 @@ namespace Xbim.Ifc2x3.MeasureResource
 		#endregion
 
 		#region IExpressComplexType implementation
-		IEnumerable<object> IExpressComplexType.Properties
+		IEnumerable<object> IExpressValueComplexType.Properties
         {
             get
             {
@@ -112,7 +112,7 @@ namespace Xbim.Ifc2x3.MeasureResource
             }
         }
 
-		void IExpressComplexType.Add(object o)
+		void IExpressValueComplexType.Add(object o)
 	    {
 			if (_value == null)
 				_value = new List<long>();

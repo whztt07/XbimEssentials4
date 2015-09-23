@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Xbim.Common;
 
-namespace Xbim.IO
+namespace Xbim.IO.Esent
 {
     /// <summary>
     /// A class for holding mappings between instances in one model and instances in another model

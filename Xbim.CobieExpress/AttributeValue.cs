@@ -14,7 +14,7 @@ namespace Xbim.CobieExpress
 {
     // ReSharper disable once InconsistentNaming
     // ReSharper disable once PartialTypeWithSinglePart
-	public partial interface AttributeValue : IExpressSelectType, IExpressType
+	public partial interface AttributeValue : IExpressSelectType, IExpressValueType
 	{
 		
 	}

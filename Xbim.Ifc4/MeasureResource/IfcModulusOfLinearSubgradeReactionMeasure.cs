@@ -16,7 +16,7 @@ namespace Xbim.Ifc4.MeasureResource
 {
 	[ExpressType("IFCMODULUSOFLINEARSUBGRADEREACTIONMEASURE", 64)]
     // ReSharper disable once PartialTypeWithSinglePart
-	public partial struct IfcModulusOfLinearSubgradeReactionMeasure : IfcDerivedMeasureValue, IfcModulusOfTranslationalSubgradeReactionSelect, IExpressType
+	public partial struct IfcModulusOfLinearSubgradeReactionMeasure : IfcDerivedMeasureValue, IfcModulusOfTranslationalSubgradeReactionSelect, IExpressValueType
 	{ 
 		private double _value;
         
@@ -91,7 +91,7 @@ namespace Xbim.Ifc4.MeasureResource
 		#endregion
 
 		#region IExpressType implementation
-        System.Type IExpressType.UnderlyingSystemType { 
+        System.Type IExpressValueType.UnderlyingSystemType { 
 			get 
 			{
 				return typeof(double);

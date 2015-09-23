@@ -16,7 +16,7 @@ namespace Xbim.Ifc2x3.MeasureResource
 {
 	[ExpressType("IFCPOSITIVELENGTHMEASURE", 445)]
     // ReSharper disable once PartialTypeWithSinglePart
-	public partial struct IfcPositiveLengthMeasure : IfcHatchLineDistanceSelect, IfcMeasureValue, IfcSizeSelect, IExpressType
+	public partial struct IfcPositiveLengthMeasure : IfcHatchLineDistanceSelect, IfcMeasureValue, IfcSizeSelect, IExpressValueType
 	{ 
 		private double _value;
         
@@ -91,7 +91,7 @@ namespace Xbim.Ifc2x3.MeasureResource
 		#endregion
 
 		#region IExpressType implementation
-        System.Type IExpressType.UnderlyingSystemType { 
+        System.Type IExpressValueType.UnderlyingSystemType { 
 			get 
 			{
 				return typeof(double);

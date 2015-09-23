@@ -15,7 +15,7 @@ namespace Xbim.Ifc4.MaterialResource
 {
 	[ExpressType("IFCCARDINALPOINTREFERENCE", 8)]
     // ReSharper disable once PartialTypeWithSinglePart
-	public partial struct IfcCardinalPointReference : IExpressType
+	public partial struct IfcCardinalPointReference : IExpressValueType
 	{ 
 		private long _value;
         
@@ -90,7 +90,7 @@ namespace Xbim.Ifc4.MaterialResource
 		#endregion
 
 		#region IExpressType implementation
-        System.Type IExpressType.UnderlyingSystemType { 
+        System.Type IExpressValueType.UnderlyingSystemType { 
 			get 
 			{
 				return typeof(long);

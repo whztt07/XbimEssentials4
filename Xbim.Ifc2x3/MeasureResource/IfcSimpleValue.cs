@@ -14,7 +14,7 @@ namespace Xbim.Ifc2x3.MeasureResource
 {
     // ReSharper disable once InconsistentNaming
     // ReSharper disable once PartialTypeWithSinglePart
-	public partial interface IfcSimpleValue : IfcValue, IExpressType
+	public partial interface IfcSimpleValue : IfcValue, IExpressValueType
 	{
 		
 	}

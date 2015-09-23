@@ -189,7 +189,7 @@ namespace Xbim.IO.Esent
 
         }
 
-        public XbimEntityCursor(XbimModel model, string database)
+        public XbimEntityCursor(EsentModel model, string database)
             : this(model, database, OpenDatabaseGrbit.None)
         {
         }
@@ -198,7 +198,7 @@ namespace Xbim.IO.Esent
         /// </summary>
         /// <param name="instance"></param>
         /// <param name="database"></param>
-        public XbimEntityCursor(XbimModel model, string database, OpenDatabaseGrbit mode)
+        public XbimEntityCursor(EsentModel model, string database, OpenDatabaseGrbit mode)
             : base(model, database, mode)
         {
             Api.JetOpenTable(Sesid, DbId, ifcEntityTableName, null, 0, 

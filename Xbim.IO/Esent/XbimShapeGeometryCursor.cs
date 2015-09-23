@@ -48,11 +48,11 @@ namespace Xbim.IO
 
 
         #region Constructors
-        public XbimShapeGeometryCursor(XbimModel model, string database)
+        public XbimShapeGeometryCursor(EsentModel model, string database)
             : this(model, database, OpenDatabaseGrbit.None)
         {
         }
-        public XbimShapeGeometryCursor(XbimModel model, string database, OpenDatabaseGrbit mode)
+        public XbimShapeGeometryCursor(EsentModel model, string database, OpenDatabaseGrbit mode)
             : base(model, database, mode)
         {
             Api.JetOpenTable(this.Sesid, this.DbId, GeometryTableName, null, 0, mode == OpenDatabaseGrbit.ReadOnly ? OpenTableGrbit.ReadOnly :

@@ -13,7 +13,7 @@ using System.Collections.Generic;
 
 namespace Xbim.Common
 {
-	public interface IExpressType : IPersist
+	public interface IExpressValueType : IPersist
     {
         Type UnderlyingSystemType { get; }
         object Value { get; }
@@ -31,7 +31,7 @@ namespace Xbim.Common
     {
     }
 
-	public interface IExpressComplexType : IExpressType
+	public interface IExpressValueComplexType : IExpressValueType
     {
         IEnumerable<object> Properties { get; }
         void Add(object o);

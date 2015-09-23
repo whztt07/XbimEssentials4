@@ -25,7 +25,7 @@ namespace Xbim.IO.Esent
         /// </summary>
         protected JET_TABLEID Table;
 
-        protected XbimModel Model;
+        protected EsentModel Model;
         /// <summary>
         /// Global Table
         /// </summary>
@@ -52,7 +52,7 @@ namespace Xbim.IO.Esent
 
         public bool ReadOnly { get; set; }
 
-        protected XbimCursor(XbimModel model, string database,  OpenDatabaseGrbit mode)
+        protected XbimCursor(EsentModel model, string database,  OpenDatabaseGrbit mode)
         {
             LockObject = new Object();
             Model = model;

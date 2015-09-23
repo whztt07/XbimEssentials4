@@ -135,7 +135,7 @@ namespace Xbim.CobieExpress
 			}
 		}
 
-		public IExpressType New(string typeName)
+		public IExpressValueType New(string typeName)
 		{
 		if (typeName == null)
 				throw new ArgumentNullException();

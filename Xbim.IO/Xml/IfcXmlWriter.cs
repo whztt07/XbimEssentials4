@@ -18,6 +18,7 @@ using System.Reflection;
 using System.Xml;
 using Xbim.Common;
 using Xbim.Common.Step21;
+using Xbim.IO.Esent;
 using Xbim.IO.Parser;
 using Xbim.IO.Step21;
 
@@ -67,7 +68,7 @@ namespace Xbim.IO.Xml
         }
 
 
-        public void Write(XbimModel  model, XmlWriter output)
+        public void Write(EsentModel  model, XmlWriter output)
         {
             try
             {
@@ -144,7 +145,7 @@ namespace Xbim.IO.Xml
             output.WriteEndElement(); //end iso_10303_28_header
         }
 
-        private void Write(XbimModel model, int handle, XmlWriter output, int pos = -1)
+        private void Write(EsentModel model, int handle, XmlWriter output, int pos = -1)
         {
 
             if (_written.Contains(handle)) //we have already done it
@@ -187,7 +188,7 @@ namespace Xbim.IO.Xml
             output.WriteEndElement();
         }
 
-        private void WriteProperty(XbimModel model, string propName, Type propType, object propVal, object entity, XmlWriter output,
+        private void WriteProperty(EsentModel model, string propName, Type propType, object propVal, object entity, XmlWriter output,
                                    int pos, EntityAttributeAttribute attr)
         {
             var optSet = propVal as IOptionalItemSet;
@@ -208,7 +209,7 @@ namespace Xbim.IO.Xml
                 }
             }
             if (propType.IsGenericType && propType.GetGenericTypeDefinition() == typeof(Nullable<>) &&
-                (propVal is IExpressType)) //deal with undefined types (nullables)
+                (propVal is IExpressValueType)) //deal with undefined types (nullables)
             {
                 if (string.IsNullOrEmpty((propVal).ToString()))
                 {
@@ -219,7 +220,7 @@ namespace Xbim.IO.Xml
                     output.WriteStartElement(propName);
                     if (pos > -1)
                         output.WriteAttributeString("pos", pos.ToString());
-                    var val = propVal as IExpressComplexType;
+                    var val = propVal as IExpressValueComplexType;
                     if (val != null)
                     {
                         var complexProps = val.Properties;
@@ -237,7 +238,7 @@ namespace Xbim.IO.Xml
                 }
 
             }
-            else if (typeof(IExpressType).IsAssignableFrom(propType))
+            else if (typeof(IExpressValueType).IsAssignableFrom(propType))
             {
                 var realType = propVal.GetType();
 
@@ -296,9 +297,9 @@ namespace Xbim.IO.Xml
                 }
                 if (pos == -1) output.WriteEndElement();
             }
-            else if (typeof(IExpressComplexType).IsAssignableFrom(propType)) //it is a complex value tpye
+            else if (typeof(IExpressValueComplexType).IsAssignableFrom(propType)) //it is a complex value tpye
             {
-                var properties = ((IExpressComplexType)propVal).Properties;
+                var properties = ((IExpressValueComplexType)propVal).Properties;
             }
             else if (propType.IsValueType) //it might be an in-built value type double, string etc
             {
@@ -385,7 +386,7 @@ namespace Xbim.IO.Xml
                 {
                     var realType = propVal.GetType();
                     output.WriteStartElement(propName);
-                    if (typeof(IExpressType).IsAssignableFrom(realType))
+                    if (typeof(IExpressValueType).IsAssignableFrom(realType))
                     {
                         //WriteProperty(model, realType.Name + "-wrapper", realType, propVal, entity, output, pos, attr);
                         WriteProperty(model, realType.Name, realType, propVal, entity, output, pos, attr);

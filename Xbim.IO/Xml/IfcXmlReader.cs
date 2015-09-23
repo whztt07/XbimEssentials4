@@ -298,9 +298,9 @@ namespace Xbim.IO.Xml
                     {
                         if (t != null && t.IsGenericType && t.GetGenericTypeDefinition().Equals(typeof(Nullable<>)))
                             t = Nullable.GetUnderlyingType(t);
-                        IExpressType et = null;
-                        if (t != null && typeof(IExpressType).IsAssignableFrom(t))
-                            et = (IExpressType)(Activator.CreateInstance(t));
+                        IExpressValueType et = null;
+                        if (t != null && typeof(IExpressValueType).IsAssignableFrom(t))
+                            et = (IExpressValueType)(Activator.CreateInstance(t));
 
                         StepParserType pt;
                         if (et != null)
@@ -450,7 +450,7 @@ namespace Xbim.IO.Xml
                     ok = ExpressMetaData.TryGetExpressType(inputName.ToUpper(), out expressType, module);
                 }
             }
-            return ok && typeof(IExpressType).IsAssignableFrom(expressType.Type);
+            return ok && typeof(IExpressValueType).IsAssignableFrom(expressType.Type);
         }
 
         private int? GetId(XmlReader input, out bool isRefType, Module module)
@@ -483,7 +483,7 @@ namespace Xbim.IO.Xml
                 //return Convert.ToInt32(match.Value);
                 
             }
-            else if (IsIfcEntity(input.LocalName, out expressType, module) && !typeof(IExpressType).IsAssignableFrom(expressType.Type)) //its a type with no identity, make one
+            else if (IsIfcEntity(input.LocalName, out expressType, module) && !typeof(IExpressValueType).IsAssignableFrom(expressType.Type)) //its a type with no identity, make one
             {
                 ++_lastId;
                 nextId = _lastId;
@@ -589,9 +589,9 @@ namespace Xbim.IO.Xml
                     var t = node.Property.PropertyType;
                     if (t != null && t.IsGenericType && t.GetGenericTypeDefinition().Equals(typeof(Nullable<>)))
                         t = Nullable.GetUnderlyingType(t);
-                    IExpressType et = null;
-                    if (t != null && typeof(IExpressType).IsAssignableFrom(t))
-                        et = (IExpressType)(Activator.CreateInstance(t));
+                    IExpressValueType et = null;
+                    if (t != null && typeof(IExpressValueType).IsAssignableFrom(t))
+                        et = (IExpressValueType)(Activator.CreateInstance(t));
 
                     var pt = StepParserType.Undefined;
                     if (et != null)
@@ -650,7 +650,7 @@ namespace Xbim.IO.Xml
 
                         if (genericTypeIsSameAsValueType) //call IfcParse with string value and parser type
                         {
-                            var actualEntityValue = (IExpressType)(Activator.CreateInstance(actualEntityType));
+                            var actualEntityValue = (IExpressValueType)(Activator.CreateInstance(actualEntityType));
                             //resolve the underlying type
                             var parserType = Primitives[actualEntityValue.UnderlyingSystemType.Name];
                             if (parserType == StepParserType.String)
@@ -662,7 +662,7 @@ namespace Xbim.IO.Xml
                         {
                             var param = new object[1];
                             param[0] = expressNode.Value;
-                            var actualEntityValue = (IExpressType)(Activator.CreateInstance(expressNode.Type, param));
+                            var actualEntityValue = (IExpressValueType)(Activator.CreateInstance(expressNode.Type, param));
                             pv.Init(actualEntityValue);
                         }
 
@@ -749,9 +749,9 @@ namespace Xbim.IO.Xml
                         if (!t.IsAbstract)
                         {
                             StepParserType parserType;
-                            if (typeof(IExpressType).IsAssignableFrom(t) && !(typeof(IExpressComplexType).IsAssignableFrom(t) ))
+                            if (typeof(IExpressValueType).IsAssignableFrom(t) && !(typeof(IExpressValueComplexType).IsAssignableFrom(t) ))
                             {
-                                var et = (IExpressType)(Activator.CreateInstance(t));
+                                var et = (IExpressValueType)(Activator.CreateInstance(t));
                                 if (et.GetType() == typeof(IfcLogical))
                                     parserType = StepParserType.Boolean;
                                 else

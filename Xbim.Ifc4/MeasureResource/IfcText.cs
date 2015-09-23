@@ -15,7 +15,7 @@ namespace Xbim.Ifc4.MeasureResource
 {
 	[ExpressType("IFCTEXT", 105)]
     // ReSharper disable once PartialTypeWithSinglePart
-	public partial struct IfcText : IfcSimpleValue, IExpressType
+	public partial struct IfcText : IfcSimpleValue, IExpressValueType
 	{ 
 		private string _value;
         
@@ -90,7 +90,7 @@ namespace Xbim.Ifc4.MeasureResource
 		#endregion
 
 		#region IExpressType implementation
-        System.Type IExpressType.UnderlyingSystemType { 
+        System.Type IExpressValueType.UnderlyingSystemType { 
 			get 
 			{
 				return typeof(string);

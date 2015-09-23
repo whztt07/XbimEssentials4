@@ -3,14 +3,15 @@ using Xbim.Ifc2x3.Kernel;
 using Xbim.Ifc2x3.MeasureResource;
 using Xbim.Ifc2x3.ProductExtension;
 using Xbim.Ifc2x3.SharedBldgElements;
+using Xbim.IO.Esent;
 
 namespace Xbim.IO
 {
     public class XbimModelSummary
     {
-        XbimModel _model;
+        readonly EsentModel _model;
 
-        public XbimModelSummary(XbimModel model)
+        public XbimModelSummary(EsentModel model)
         {
             _model = model;
         }

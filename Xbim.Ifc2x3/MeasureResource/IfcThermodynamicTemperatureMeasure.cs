@@ -15,7 +15,7 @@ namespace Xbim.Ifc2x3.MeasureResource
 {
 	[ExpressType("IFCTHERMODYNAMICTEMPERATUREMEASURE", 428)]
     // ReSharper disable once PartialTypeWithSinglePart
-	public partial struct IfcThermodynamicTemperatureMeasure : IfcMeasureValue, IExpressType
+	public partial struct IfcThermodynamicTemperatureMeasure : IfcMeasureValue, IExpressValueType
 	{ 
 		private double _value;
         
@@ -90,7 +90,7 @@ namespace Xbim.Ifc2x3.MeasureResource
 		#endregion
 
 		#region IExpressType implementation
-        System.Type IExpressType.UnderlyingSystemType { 
+        System.Type IExpressValueType.UnderlyingSystemType { 
 			get 
 			{
 				return typeof(double);

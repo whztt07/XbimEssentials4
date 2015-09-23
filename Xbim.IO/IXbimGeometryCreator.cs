@@ -5,6 +5,7 @@ using Xbim.Ifc2x3.GeometricModelResource;
 using Xbim.Ifc2x3.GeometryResource;
 using Xbim.Ifc2x3.ProfileResource;
 using Xbim.Ifc2x3.TopologyResource;
+using Xbim.IO.Esent;
 using XbimGeometry.Interfaces;
 
 namespace Xbim.IO
@@ -98,7 +99,7 @@ namespace Xbim.IO
         //Vertex Creation
         IXbimVertex CreateVertexPoint(XbimPoint3D point, double precision);
 
-        IfcFacetedBrep CreateFacetedBrep(XbimModel model, IXbimSolid solid);
+        IfcFacetedBrep CreateFacetedBrep(EsentModel model, IXbimSolid solid);
         //Creates collections of objects
         IXbimSolidSet CreateSolidSet();
         IXbimSolidSet CreateSolidSet(IfcBooleanResult boolOp);

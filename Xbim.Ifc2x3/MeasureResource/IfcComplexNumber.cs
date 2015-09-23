@@ -16,7 +16,7 @@ namespace Xbim.Ifc2x3.MeasureResource
 {
 	[ExpressType("IFCCOMPLEXNUMBER", 650)]
     // ReSharper disable once PartialTypeWithSinglePart
-	public partial struct IfcComplexNumber : IfcMeasureValue, IExpressComplexType
+	public partial struct IfcValueComplexNumber : IfcMeasureValue, IExpressValueComplexType
 	{ 
 		private List<double> _value;
         
@@ -30,17 +30,17 @@ namespace Xbim.Ifc2x3.MeasureResource
             return Value != null ? Value.ToString() : typeof(List<double>).Name;
         }
 
-        public IfcComplexNumber(List<double> val)
+        public IfcValueComplexNumber(List<double> val)
         {
             _value = val;
         }
 
-        public static implicit operator IfcComplexNumber(List<double> value)
+        public static implicit operator IfcValueComplexNumber(List<double> value)
         {
-            return new IfcComplexNumber(value);
+            return new IfcValueComplexNumber(value);
         }
 
-        public static implicit operator List<double>(IfcComplexNumber obj)
+        public static implicit operator List<double>(IfcValueComplexNumber obj)
         {
             return obj._value;
         }
@@ -57,15 +57,15 @@ namespace Xbim.Ifc2x3.MeasureResource
             if (GetType() != obj.GetType())
                 return false;
 
-            return System.Linq.Enumerable.SequenceEqual(((IfcComplexNumber) obj)._value, _value);
+            return System.Linq.Enumerable.SequenceEqual(((IfcValueComplexNumber) obj)._value, _value);
         }
 
-        public static bool operator ==(IfcComplexNumber obj1, IfcComplexNumber obj2)
+        public static bool operator ==(IfcValueComplexNumber obj1, IfcValueComplexNumber obj2)
         {
             return Equals(obj1, obj2);
         }
 
-        public static bool operator !=(IfcComplexNumber obj1, IfcComplexNumber obj2)
+        public static bool operator !=(IfcValueComplexNumber obj1, IfcValueComplexNumber obj2)
         {
             return !Equals(obj1, obj2);
         }
@@ -93,7 +93,7 @@ namespace Xbim.Ifc2x3.MeasureResource
 		#endregion
 
 		#region IExpressType implementation
-        System.Type IExpressType.UnderlyingSystemType { 
+        System.Type IExpressValueType.UnderlyingSystemType { 
 			get 
 			{
 				return typeof(List<double>);
@@ -102,7 +102,7 @@ namespace Xbim.Ifc2x3.MeasureResource
 		#endregion
 
 		#region IExpressComplexType implementation
-		IEnumerable<object> IExpressComplexType.Properties
+		IEnumerable<object> IExpressValueComplexType.Properties
         {
             get
             {
@@ -112,7 +112,7 @@ namespace Xbim.Ifc2x3.MeasureResource
             }
         }
 
-		void IExpressComplexType.Add(object o)
+		void IExpressValueComplexType.Add(object o)
 	    {
 			if (_value == null)
 				_value = new List<double>();

@@ -15,7 +15,7 @@ namespace Xbim.Ifc4.MeasureResource
 {
 	[ExpressType("IFCHEATINGVALUEMEASURE", 37)]
     // ReSharper disable once PartialTypeWithSinglePart
-	public partial struct IfcHeatingValueMeasure : IfcDerivedMeasureValue, IExpressType
+	public partial struct IfcHeatingValueMeasure : IfcDerivedMeasureValue, IExpressValueType
 	{ 
 		private double _value;
         
@@ -90,7 +90,7 @@ namespace Xbim.Ifc4.MeasureResource
 		#endregion
 
 		#region IExpressType implementation
-        System.Type IExpressType.UnderlyingSystemType { 
+        System.Type IExpressValueType.UnderlyingSystemType { 
 			get 
 			{
 				return typeof(double);

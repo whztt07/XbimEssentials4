@@ -16,7 +16,7 @@ namespace Xbim.Ifc4.Kernel
 {
 	[ExpressType("IFCPROPERTYSETDEFINITIONSET", 85)]
     // ReSharper disable once PartialTypeWithSinglePart
-	public partial struct IfcPropertySetDefinitionSet : IfcPropertySetDefinitionSelect, IExpressComplexType
+	public partial struct IfcPropertySetDefinitionSet : IfcPropertySetDefinitionSelect, IExpressValueComplexType
 	{ 
 		private List<IfcPropertySetDefinition> _value;
         
@@ -93,7 +93,7 @@ namespace Xbim.Ifc4.Kernel
 		#endregion
 
 		#region IExpressType implementation
-        System.Type IExpressType.UnderlyingSystemType { 
+        System.Type IExpressValueType.UnderlyingSystemType { 
 			get 
 			{
 				return typeof(List<IfcPropertySetDefinition>);
@@ -102,7 +102,7 @@ namespace Xbim.Ifc4.Kernel
 		#endregion
 
 		#region IExpressComplexType implementation
-		IEnumerable<object> IExpressComplexType.Properties
+		IEnumerable<object> IExpressValueComplexType.Properties
         {
             get
             {
@@ -112,7 +112,7 @@ namespace Xbim.Ifc4.Kernel
             }
         }
 
-		void IExpressComplexType.Add(object o)
+		void IExpressValueComplexType.Add(object o)
 	    {
 			if (_value == null)
 				_value = new List<IfcPropertySetDefinition>();

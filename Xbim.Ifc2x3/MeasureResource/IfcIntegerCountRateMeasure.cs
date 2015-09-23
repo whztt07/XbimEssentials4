@@ -15,7 +15,7 @@ namespace Xbim.Ifc2x3.MeasureResource
 {
 	[ExpressType("IFCINTEGERCOUNTRATEMEASURE", 129)]
     // ReSharper disable once PartialTypeWithSinglePart
-	public partial struct IfcIntegerCountRateMeasure : IfcDerivedMeasureValue, IExpressType
+	public partial struct IfcIntegerCountRateMeasure : IfcDerivedMeasureValue, IExpressValueType
 	{ 
 		private long _value;
         
@@ -90,7 +90,7 @@ namespace Xbim.Ifc2x3.MeasureResource
 		#endregion
 
 		#region IExpressType implementation
-        System.Type IExpressType.UnderlyingSystemType { 
+        System.Type IExpressValueType.UnderlyingSystemType { 
 			get 
 			{
 				return typeof(long);

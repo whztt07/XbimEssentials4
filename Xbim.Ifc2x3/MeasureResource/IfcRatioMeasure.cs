@@ -17,7 +17,7 @@ namespace Xbim.Ifc2x3.MeasureResource
 {
 	[ExpressType("IFCRATIOMEASURE", 606)]
     // ReSharper disable once PartialTypeWithSinglePart
-	public partial struct IfcRatioMeasure : IfcAppliedValueSelect, IfcMeasureValue, IfcSizeSelect, IExpressType
+	public partial struct IfcRatioMeasure : IfcAppliedValueSelect, IfcMeasureValue, IfcSizeSelect, IExpressValueType
 	{ 
 		private double _value;
         
@@ -92,7 +92,7 @@ namespace Xbim.Ifc2x3.MeasureResource
 		#endregion
 
 		#region IExpressType implementation
-        System.Type IExpressType.UnderlyingSystemType { 
+        System.Type IExpressValueType.UnderlyingSystemType { 
 			get 
 			{
 				return typeof(double);

@@ -14,7 +14,7 @@ namespace Xbim.Ifc2x3.PresentationAppearanceResource
 {
     // ReSharper disable once InconsistentNaming
     // ReSharper disable once PartialTypeWithSinglePart
-	public partial interface IfcSpecularHighlightSelect : IExpressSelectType, IExpressType
+	public partial interface IfcSpecularHighlightSelect : IExpressSelectType, IExpressValueType
 	{
 		
 	}

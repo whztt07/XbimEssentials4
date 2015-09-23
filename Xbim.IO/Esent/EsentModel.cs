@@ -1,20 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.IO;
-using Xbim.XbimExtensions;
 using System.CodeDom.Compiler;
 using System.Collections;
-using ICSharpCode.SharpZipLib.Zip;
+using System.Collections.Generic;
 using System.Diagnostics;
-using Xbim.Common.Logging;
+using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using ICSharpCode.SharpZipLib.Zip;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
-using System.Globalization;
-using System.Reflection;
 using Xbim.Common.Geometry;
+using Xbim.Common.Logging;
 using Xbim.Common.Step21;
-using Xbim.Common.XbimExtensions;
 using Xbim.Ifc2x3;
 using Xbim.Ifc2x3.ActorResource;
 using Xbim.Ifc2x3.ExternalReferenceResource;
@@ -23,18 +21,16 @@ using Xbim.Ifc2x3.Kernel;
 using Xbim.Ifc2x3.MeasureResource;
 using Xbim.Ifc2x3.RepresentationResource;
 using Xbim.Ifc2x3.UtilityResource;
-using Xbim.IO.Esent;
-using Xbim.IO.Step21;
+using Xbim.XbimExtensions;
 using XbimGeometry.Interfaces;
 
-
-namespace Xbim.IO
+namespace Xbim.IO.Esent
 {
     /// <summary>
     /// General Model class for memory based model suport
     /// </summary>
    
-    public class XbimModel : IModel, IDisposable
+    public class EsentModel : IModel, IDisposable
     {
         #region Fields
 
@@ -87,7 +83,7 @@ namespace Xbim.IO
             get { return _modelFactors; }
         }
 
-        public XbimModel()
+        public EsentModel()
         {
             _cache = new PersistedEntityInstanceCache(this, new EntityFactory());
             _instances = new XbimInstanceCollection(this);
@@ -177,7 +173,7 @@ namespace Xbim.IO
                                 var component = mu.UnitComponent as IfcSIUnit;
                                 if (component != null)
                             siUnit = component;
-                        var et = ((IExpressType) mu.ValueComponent);
+                        var et = ((IExpressValueType) mu.ValueComponent);
 
                         if (et.UnderlyingSystemType == typeof (double))
                             value *= (double) et.Value;
@@ -491,13 +487,13 @@ namespace Xbim.IO
         /// It will be returned open for read write operations
         /// </summary>
         /// <returns></returns>
-        static public XbimModel CreateTemporaryModel()
+        static public EsentModel CreateTemporaryModel()
         {
             
             var tmpFileName = Path.GetTempFileName();
             try
             {
-                var model = new XbimModel();
+                var model = new EsentModel();
                 model.CreateDatabase(tmpFileName);  
                 model.Open(tmpFileName, XbimDBAccess.ReadWrite, true);
                 model.Header = new StepFileHeader(StepFileHeader.HeaderCreationMode.InitWithXbimDefaults);
@@ -522,13 +518,13 @@ namespace Xbim.IO
         /// <param name="dbFileName">Name of the Xbim file</param>
         /// <param name="access"></param>
         /// <returns></returns>
-        static public XbimModel CreateModel(string dbFileName, XbimDBAccess access = XbimDBAccess.ReadWrite)
+        static public EsentModel CreateModel(string dbFileName, XbimDBAccess access = XbimDBAccess.ReadWrite)
         {
             try
             {
                 if (string.IsNullOrWhiteSpace(Path.GetExtension(dbFileName)))
                     dbFileName += ".xBIM";
-                var model = new XbimModel();
+                var model = new EsentModel();
                 model.CreateDatabase(dbFileName); 
                 model.Open(dbFileName, access);
                 model.Header = new StepFileHeader(StepFileHeader.HeaderCreationMode.InitWithXbimDefaults)
@@ -652,7 +648,7 @@ namespace Xbim.IO
                 //if it is null and optional then it is ok
                 return null;
 
-            var expressType = propVal as IExpressType;
+            var expressType = propVal as IExpressValueType;
             if (expressType != null)
             {
                 var err = ((IPersist)propVal).WhereRule();
@@ -1007,7 +1003,7 @@ namespace Xbim.IO
             get { return _cache == null ? null : Instances.OfType<IfcProduct>(); }
         }
 
-        ~XbimModel()
+        ~EsentModel()
         {
             Dispose(false);
         }
@@ -1146,7 +1142,7 @@ namespace Xbim.IO
             return _cache.GetEntityTable();
         }
 
-        internal void Compact(XbimModel targetModel)
+        internal void Compact(EsentModel targetModel)
         {
           
         }
@@ -1420,7 +1416,7 @@ namespace Xbim.IO
         /// Since children models do not have a method for pointing to the parent management of their 
         /// uniqueness must be achieved top down by the topmost one. After all child models are loaded.
         /// </summary>
-        public IEnumerable<XbimModel> AllModels
+        public IEnumerable<EsentModel> AllModels
         {
             get
             {

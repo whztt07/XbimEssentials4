@@ -19,7 +19,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 #endregion
 
-namespace Xbim.IO
+namespace Xbim.IO.Binary
 {
     public class XbimInputStream
     {

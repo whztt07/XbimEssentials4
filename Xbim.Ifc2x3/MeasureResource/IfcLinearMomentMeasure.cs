@@ -15,7 +15,7 @@ namespace Xbim.Ifc2x3.MeasureResource
 {
 	[ExpressType("IFCLINEARMOMENTMEASURE", 682)]
     // ReSharper disable once PartialTypeWithSinglePart
-	public partial struct IfcLinearMomentMeasure : IfcDerivedMeasureValue, IExpressType
+	public partial struct IfcLinearMomentMeasure : IfcDerivedMeasureValue, IExpressValueType
 	{ 
 		private double _value;
         
@@ -90,7 +90,7 @@ namespace Xbim.Ifc2x3.MeasureResource
 		#endregion
 
 		#region IExpressType implementation
-        System.Type IExpressType.UnderlyingSystemType { 
+        System.Type IExpressValueType.UnderlyingSystemType { 
 			get 
 			{
 				return typeof(double);

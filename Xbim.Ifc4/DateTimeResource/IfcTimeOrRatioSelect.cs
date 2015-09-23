@@ -14,7 +14,7 @@ namespace Xbim.Ifc4.DateTimeResource
 {
     // ReSharper disable once InconsistentNaming
     // ReSharper disable once PartialTypeWithSinglePart
-	public partial interface IfcTimeOrRatioSelect : IExpressSelectType, IExpressType
+	public partial interface IfcTimeOrRatioSelect : IExpressSelectType, IExpressValueType
 	{
 		
 	}

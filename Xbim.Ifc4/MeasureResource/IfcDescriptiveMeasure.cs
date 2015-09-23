@@ -16,7 +16,7 @@ namespace Xbim.Ifc4.MeasureResource
 {
 	[ExpressType("IFCDESCRIPTIVEMEASURE", 18)]
     // ReSharper disable once PartialTypeWithSinglePart
-	public partial struct IfcDescriptiveMeasure : IfcMeasureValue, IfcSizeSelect, IExpressType
+	public partial struct IfcDescriptiveMeasure : IfcMeasureValue, IfcSizeSelect, IExpressValueType
 	{ 
 		private string _value;
         
@@ -91,7 +91,7 @@ namespace Xbim.Ifc4.MeasureResource
 		#endregion
 
 		#region IExpressType implementation
-        System.Type IExpressType.UnderlyingSystemType { 
+        System.Type IExpressValueType.UnderlyingSystemType { 
 			get 
 			{
 				return typeof(string);

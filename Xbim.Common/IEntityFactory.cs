@@ -24,7 +24,7 @@ namespace Xbim.Common
 		
 		IInstantiableEntity New(IModel model, int typeId, int entityLabel, bool activated);
 
-		IExpressType New(string typeName);
+		IExpressValueType New(string typeName);
 
 		IEnumerable<string> SchemasIds { get; }
 	}

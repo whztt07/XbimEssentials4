@@ -210,7 +210,7 @@ namespace Xbim.IO
             else if (propType.IsGenericType && propType.GetGenericTypeDefinition() == typeof(Nullable<>))
             //deal with undefined types (nullables)
             {
-                var complexType = propVal as IExpressComplexType;
+                var complexType = propVal as IExpressValueComplexType;
                 if (complexType != null)
                 {
                     entityWriter.Write('(');
@@ -224,9 +224,9 @@ namespace Xbim.IO
                     }
                     entityWriter.Write(')');
                 }
-                else if ((propVal is IExpressType))
+                else if ((propVal is IExpressValueType))
                 {
-                    var expressVal = (IExpressType)propVal;
+                    var expressVal = (IExpressValueType)propVal;
                     WriteValueType(expressVal.UnderlyingSystemType, expressVal.Value, entityWriter);
                 }
                 else // if (propVal.GetType().IsEnum)
@@ -234,11 +234,11 @@ namespace Xbim.IO
                     WriteValueType(propVal.GetType(), propVal, entityWriter);
                 }
             }
-            else if (typeof(IExpressComplexType).IsAssignableFrom(propType))
+            else if (typeof(IExpressValueComplexType).IsAssignableFrom(propType))
             {
                 entityWriter.Write('(');
                 var first = true;
-                foreach (var compVal in ((IExpressComplexType)propVal).Properties)
+                foreach (var compVal in ((IExpressValueComplexType)propVal).Properties)
                 {
                     if (!first)
                         entityWriter.Write(',');
@@ -247,7 +247,7 @@ namespace Xbim.IO
                 }
                 entityWriter.Write(')');
             }
-            else if (typeof(IExpressType).IsAssignableFrom(propType))
+            else if (typeof(IExpressValueType).IsAssignableFrom(propType))
             //value types with a single property (IfcLabel, IfcInteger)
             {
                 var realType = propVal.GetType();
@@ -261,7 +261,7 @@ namespace Xbim.IO
                 }
                 else //need to write out underlying property value
                 {
-                    var expressVal = (IExpressType)propVal;
+                    var expressVal = (IExpressValueType)propVal;
                     WriteValueType(expressVal.UnderlyingSystemType, expressVal.Value, entityWriter);
                 }
             }
@@ -405,7 +405,7 @@ namespace Xbim.IO
             else if (propType.IsGenericType && propType.GetGenericTypeDefinition() == typeof (Nullable<>))
                 //deal with undefined types (nullables)
             {
-                var complexType = propVal as IExpressComplexType;
+                var complexType = propVal as IExpressValueComplexType;
                 if (complexType != null)
                 {
                     entityWriter.Write(Convert.ToByte(P21ParseAction.BeginList));
@@ -413,9 +413,9 @@ namespace Xbim.IO
                         WriteProperty(compVal.GetType(), compVal, entityWriter);
                     entityWriter.Write(Convert.ToByte(P21ParseAction.EndList));
                 }
-                else if ((propVal is IExpressType))
+                else if ((propVal is IExpressValueType))
                 {
-                    var expressVal = (IExpressType) propVal;
+                    var expressVal = (IExpressValueType) propVal;
                     WriteValueType(expressVal.UnderlyingSystemType, expressVal.Value, entityWriter);
                 }
                 else
@@ -423,14 +423,14 @@ namespace Xbim.IO
                     WriteValueType(propVal.GetType(), propVal, entityWriter);
                 }
             }
-            else if (typeof (IExpressComplexType).IsAssignableFrom(propType))
+            else if (typeof (IExpressValueComplexType).IsAssignableFrom(propType))
             {
                 entityWriter.Write(Convert.ToByte(P21ParseAction.BeginList));
-                foreach (var compVal in ((IExpressComplexType) propVal).Properties)
+                foreach (var compVal in ((IExpressValueComplexType) propVal).Properties)
                     WriteProperty(compVal.GetType(), compVal, entityWriter);
                 entityWriter.Write(Convert.ToByte(P21ParseAction.EndList));
             }
-            else if (typeof (IExpressType).IsAssignableFrom(propType))
+            else if (typeof (IExpressValueType).IsAssignableFrom(propType))
                 //value types with a single property (IfcLabel, IfcInteger)
             {
                 var realType = propVal.GetType();
@@ -446,7 +446,7 @@ namespace Xbim.IO
                 }
                 else //need to write out underlying property value
                 {
-                    var expressVal = (IExpressType) propVal;
+                    var expressVal = (IExpressValueType) propVal;
                     WriteValueType(expressVal.UnderlyingSystemType, expressVal.Value, entityWriter);
                 }
             }

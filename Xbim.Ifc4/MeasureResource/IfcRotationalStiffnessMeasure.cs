@@ -16,7 +16,7 @@ namespace Xbim.Ifc4.MeasureResource
 {
 	[ExpressType("IFCROTATIONALSTIFFNESSMEASURE", 91)]
     // ReSharper disable once PartialTypeWithSinglePart
-	public partial struct IfcRotationalStiffnessMeasure : IfcDerivedMeasureValue, IfcRotationalStiffnessSelect, IExpressType
+	public partial struct IfcRotationalStiffnessMeasure : IfcDerivedMeasureValue, IfcRotationalStiffnessSelect, IExpressValueType
 	{ 
 		private double _value;
         
@@ -91,7 +91,7 @@ namespace Xbim.Ifc4.MeasureResource
 		#endregion
 
 		#region IExpressType implementation
-        System.Type IExpressType.UnderlyingSystemType { 
+        System.Type IExpressValueType.UnderlyingSystemType { 
 			get 
 			{
 				return typeof(double);

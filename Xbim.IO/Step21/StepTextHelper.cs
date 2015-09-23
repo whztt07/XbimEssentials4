@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 
-namespace Xbim.IO
+namespace Xbim.IO.Step21
 {
     public static class StepText
     {

@@ -15,7 +15,7 @@ namespace Xbim.CobieExpress
 {
 	[ExpressType("FLOATVALUE", 4)]
     // ReSharper disable once PartialTypeWithSinglePart
-	public partial struct FloatValue : AttributeValue, IExpressType
+	public partial struct FloatValue : AttributeValue, IExpressValueType
 	{ 
 		private double _value;
         
@@ -90,7 +90,7 @@ namespace Xbim.CobieExpress
 		#endregion
 
 		#region IExpressType implementation
-        System.Type IExpressType.UnderlyingSystemType { 
+        System.Type IExpressValueType.UnderlyingSystemType { 
 			get 
 			{
 				return typeof(double);

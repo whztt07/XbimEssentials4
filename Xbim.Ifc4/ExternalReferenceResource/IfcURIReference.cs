@@ -15,7 +15,7 @@ namespace Xbim.Ifc4.ExternalReferenceResource
 {
 	[ExpressType("IFCURIREFERENCE", 120)]
     // ReSharper disable once PartialTypeWithSinglePart
-	public partial struct IfcURIReference : IExpressType
+	public partial struct IfcURIReference : IExpressValueType
 	{ 
 		private string _value;
         
@@ -90,7 +90,7 @@ namespace Xbim.Ifc4.ExternalReferenceResource
 		#endregion
 
 		#region IExpressType implementation
-        System.Type IExpressType.UnderlyingSystemType { 
+        System.Type IExpressValueType.UnderlyingSystemType { 
 			get 
 			{
 				return typeof(string);

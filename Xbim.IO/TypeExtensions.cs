@@ -1,5 +1,5 @@
 ﻿using System;
-using Xbim.Ifc2x3.MeasureResource;
+using Xbim.Common;
 
 namespace Xbim.IO
 {
@@ -21,7 +21,7 @@ namespace Xbim.IO
             }
         }
 
-        internal static short? IfcTypeId(this Type type)
+        internal static short? ExpressTypeId(this Type type)
         {
             return ExpressMetaData.ExpressTypeId(type);
         }

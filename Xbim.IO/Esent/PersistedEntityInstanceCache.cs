@@ -15,7 +15,6 @@ using Xbim.Common;
 using Xbim.Common.Exceptions;
 using Xbim.Ifc2x3.GeometryResource;
 using Xbim.Ifc2x3.Kernel;
-using Xbim.IO.Parser;
 using Xbim.IO.Step21;
 using Xbim.IO.Step21.Parser;
 using Xbim.IO.Xml;
@@ -90,7 +89,7 @@ namespace Xbim.IO.Esent
         #endregion
 
         private string _databaseName;
-        private readonly XbimModel _model;
+        private readonly EsentModel _model;
         private bool _disposed;
         static private readonly ComparePropertyInfo ComparePropInfo = new ComparePropertyInfo();
         private bool _caching;
@@ -108,7 +107,7 @@ namespace Xbim.IO.Esent
             }
         }
 
-        public PersistedEntityInstanceCache(XbimModel model, IEntityFactory factory)
+        public PersistedEntityInstanceCache(EsentModel model, IEntityFactory factory)
         {
             _factory = factory;
             _jetInstance = CreateInstance("XbimInstance");
@@ -242,11 +241,11 @@ namespace Xbim.IO.Esent
                                     // Give the process time to die, as we'll likely be reading files it has open next.
                                     System.Threading.Thread.Sleep(500);
                                 }
-                                XbimModel.Logger.WarnFormat("Repair failed {0} after dirty shutdown, time out", _databaseName);
+                                EsentModel.Logger.WarnFormat("Repair failed {0} after dirty shutdown, time out", _databaseName);
                             }
                             else
                             {
-                                XbimModel.Logger.WarnFormat("Repair success {0} after dirty shutdown", _databaseName);
+                                EsentModel.Logger.WarnFormat("Repair success {0} after dirty shutdown", _databaseName);
                                 if (proc != null) proc.Close();
                                 //try again
                                 Api.JetAttachDatabase(_session, _databaseName, openMode == OpenDatabaseGrbit.ReadOnly ? AttachDatabaseGrbit.ReadOnly : AttachDatabaseGrbit.None);
@@ -1064,7 +1063,7 @@ namespace Xbim.IO.Esent
 
             if (type.IsAbstract)
             {
-                XbimModel.Logger.ErrorFormat("Illegal Entity in the model #{0}, Type {1} is defined as Abstract and cannot be created", label, type.Name);
+                EsentModel.Logger.ErrorFormat("Illegal Entity in the model #{0}, Type {1} is defined as Abstract and cannot be created", label, type.Name);
                 return null;
             }
 
@@ -1775,7 +1774,7 @@ namespace Xbim.IO.Esent
                     var isInverse = (prop.EntityAttributeAttribute.Order == -1); //don't try and set the values for inverses
                     var theType = value.GetType();
                     //if it is an express type or a value type, set the value
-                    if (theType.IsValueType || typeof(IExpressType).IsAssignableFrom(theType))
+                    if (theType.IsValueType || typeof(IExpressValueType).IsAssignableFrom(theType))
                     {
                         prop.PropertyInfo.SetValue(theCopy, value, null);
                     }
@@ -2063,7 +2062,7 @@ namespace Xbim.IO.Esent
             }        
         }
 
-        public XbimModel Model 
+        public EsentModel Model 
         {
             get
             {

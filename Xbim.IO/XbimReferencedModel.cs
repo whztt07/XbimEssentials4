@@ -11,12 +11,12 @@ namespace Xbim.IO
     public class XbimReferencedModel
     {
         public IfcDocumentInformation DocumentInformation;
-        public XbimModel Model;
+        public EsentModel Model;
 
         public XbimReadWriteTransaction DocumentInfoTransaction
         {
              get {
-                 return ((XbimModel)DocumentInformation.Model).BeginTransaction();
+                 return ((EsentModel)DocumentInformation.Model).BeginTransaction();
              }
         }
 
@@ -27,7 +27,7 @@ namespace Xbim.IO
             {
                 throw new XbimException("Reference model not found:" + documentInformation.Name);
             }
-            Model = new XbimModel();
+            Model = new EsentModel();
             if (!Model.Open(documentInformation.Name))
             {
                 throw new XbimException("Unable to open reference model: " + documentInformation.Name);

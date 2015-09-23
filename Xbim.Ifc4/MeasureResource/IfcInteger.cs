@@ -15,7 +15,7 @@ namespace Xbim.Ifc4.MeasureResource
 {
 	[ExpressType("IFCINTEGER", 41)]
     // ReSharper disable once PartialTypeWithSinglePart
-	public partial struct IfcInteger : IfcSimpleValue, IExpressType
+	public partial struct IfcInteger : IfcSimpleValue, IExpressValueType
 	{ 
 		private long _value;
         
@@ -90,7 +90,7 @@ namespace Xbim.Ifc4.MeasureResource
 		#endregion
 
 		#region IExpressType implementation
-        System.Type IExpressType.UnderlyingSystemType { 
+        System.Type IExpressValueType.UnderlyingSystemType { 
 			get 
 			{
 				return typeof(long);

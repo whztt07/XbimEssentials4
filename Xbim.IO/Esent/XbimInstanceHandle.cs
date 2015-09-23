@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Reflection;
 using Xbim.Common;
 
-namespace Xbim.IO
+namespace Xbim.IO.Esent
 {
     /// <summary>
     /// A lightweight structure for obtaining a handle to an Ifc Instance, the instance is not loaded into memory unless the GetInstance function is called
@@ -12,7 +11,7 @@ namespace Xbim.IO
     {
         public int EntityLabel;
         public short EntityTypeId;
-        public XbimModel Model;
+        public EsentModel Model;
        
         public static bool operator ==(XbimInstanceHandle a, XbimInstanceHandle b)
         {
@@ -61,21 +60,21 @@ namespace Xbim.IO
         }
 
         
-        public XbimInstanceHandle(XbimModel model, int entityLabel, short type = 0)
+        public XbimInstanceHandle(EsentModel model, int entityLabel, short type = 0)
         {
             Model = model;
             EntityLabel = entityLabel;
             EntityTypeId= type;
         }
 
-        public XbimInstanceHandle(XbimModel model, int entityLabel, Type type)
+        public XbimInstanceHandle(EsentModel model, int entityLabel, Type type)
         {
             Model = model;
             EntityLabel = entityLabel;
             EntityTypeId = ExpressMetaData.ExpressTypeId(type);
         }
 
-        public XbimInstanceHandle(XbimModel model, int? label, short? type)
+        public XbimInstanceHandle(EsentModel model, int? label, short? type)
         {
             Model = model;
             this.EntityLabel = label ?? 0;
@@ -84,7 +83,7 @@ namespace Xbim.IO
 
         public XbimInstanceHandle(IPersistEntity entity)
         {
-            Model = (XbimModel)entity.Model;
+            Model = (EsentModel)entity.Model;
             this.EntityLabel = entity.EntityLabel;
             this.EntityTypeId = ExpressMetaData.ExpressTypeId(entity);
         }

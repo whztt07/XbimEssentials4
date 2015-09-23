@@ -54,11 +54,11 @@ namespace Xbim.IO
 
 
         #region Constructors
-        public XbimShapeInstanceCursor(XbimModel model, string database)
+        public XbimShapeInstanceCursor(EsentModel model, string database)
             : this(model, database, OpenDatabaseGrbit.None)
         {
         }
-        public XbimShapeInstanceCursor(XbimModel model, string database, OpenDatabaseGrbit mode)
+        public XbimShapeInstanceCursor(EsentModel model, string database, OpenDatabaseGrbit mode)
             : base(model, database, mode)
         {
             Api.JetOpenTable(this.Sesid, this.DbId, InstanceTableName, null, 0, mode == OpenDatabaseGrbit.ReadOnly ? OpenTableGrbit.ReadOnly :

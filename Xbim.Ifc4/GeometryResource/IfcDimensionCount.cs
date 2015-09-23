@@ -15,7 +15,7 @@ namespace Xbim.Ifc4.GeometryResource
 {
 	[ExpressType("IFCDIMENSIONCOUNT", 19)]
     // ReSharper disable once PartialTypeWithSinglePart
-	public partial struct IfcDimensionCount : IExpressType
+	public partial struct IfcDimensionCount : IExpressValueType
 	{ 
 		private long _value;
         
@@ -90,7 +90,7 @@ namespace Xbim.Ifc4.GeometryResource
 		#endregion
 
 		#region IExpressType implementation
-        System.Type IExpressType.UnderlyingSystemType { 
+        System.Type IExpressValueType.UnderlyingSystemType { 
 			get 
 			{
 				return typeof(long);

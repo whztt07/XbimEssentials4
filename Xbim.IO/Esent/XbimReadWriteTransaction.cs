@@ -26,7 +26,7 @@ namespace Xbim.IO.Esent
 
         public string Name { get; protected set; }
 
-        internal XbimReadWriteTransaction(XbimModel theModel, XbimLazyDBTransaction txn, string name = null)
+        internal XbimReadWriteTransaction(EsentModel theModel, XbimLazyDBTransaction txn, string name = null)
         {
             Name = name;
             Model = theModel;

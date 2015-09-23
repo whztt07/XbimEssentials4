@@ -15,7 +15,7 @@ namespace Xbim.Ifc4.MeasureResource
 {
 	[ExpressType("IFCLUMINOUSINTENSITYDISTRIBUTIONMEASURE", 55)]
     // ReSharper disable once PartialTypeWithSinglePart
-	public partial struct IfcLuminousIntensityDistributionMeasure : IfcDerivedMeasureValue, IExpressType
+	public partial struct IfcLuminousIntensityDistributionMeasure : IfcDerivedMeasureValue, IExpressValueType
 	{ 
 		private double _value;
         
@@ -90,7 +90,7 @@ namespace Xbim.Ifc4.MeasureResource
 		#endregion
 
 		#region IExpressType implementation
-        System.Type IExpressType.UnderlyingSystemType { 
+        System.Type IExpressValueType.UnderlyingSystemType { 
 			get 
 			{
 				return typeof(double);

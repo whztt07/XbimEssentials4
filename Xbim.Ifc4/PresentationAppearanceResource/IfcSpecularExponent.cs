@@ -15,7 +15,7 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
 {
 	[ExpressType("IFCSPECULAREXPONENT", 101)]
     // ReSharper disable once PartialTypeWithSinglePart
-	public partial struct IfcSpecularExponent : IfcSpecularHighlightSelect, IExpressType
+	public partial struct IfcSpecularExponent : IfcSpecularHighlightSelect, IExpressValueType
 	{ 
 		private double _value;
         
@@ -90,7 +90,7 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
 		#endregion
 
 		#region IExpressType implementation
-        System.Type IExpressType.UnderlyingSystemType { 
+        System.Type IExpressValueType.UnderlyingSystemType { 
 			get 
 			{
 				return typeof(double);

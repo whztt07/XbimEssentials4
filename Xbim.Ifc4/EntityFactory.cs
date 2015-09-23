@@ -1384,7 +1384,7 @@ namespace Xbim.Ifc4
 			}
 		}
 
-		public IExpressType New(string typeName)
+		public IExpressValueType New(string typeName)
 		{
 		if (typeName == null)
 				throw new ArgumentNullException();
@@ -1401,7 +1401,7 @@ namespace Xbim.Ifc4
 				case "IFCBOOLEAN": return new IfcBoolean ();
 				case "IFCBOXALIGNMENT": return new IfcBoxAlignment ();
 				case "IFCCARDINALPOINTREFERENCE": return new IfcCardinalPointReference ();
-				case "IFCCOMPLEXNUMBER": return new IfcComplexNumber ();
+				case "IFCCOMPLEXNUMBER": return new IfcValueComplexNumber ();
 				case "IFCCOMPOUNDPLANEANGLEMEASURE": return new IfcCompoundPlaneAngleMeasure ();
 				case "IFCCONTEXTDEPENDENTMEASURE": return new IfcContextDependentMeasure ();
 				case "IFCCOUNTMEASURE": return new IfcCountMeasure ();

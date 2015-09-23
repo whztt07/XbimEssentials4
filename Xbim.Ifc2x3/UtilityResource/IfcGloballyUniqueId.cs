@@ -15,7 +15,7 @@ namespace Xbim.Ifc2x3.UtilityResource
 {
 	[ExpressType("IFCGLOBALLYUNIQUEID", 443)]
     // ReSharper disable once PartialTypeWithSinglePart
-	public partial struct IfcGloballyUniqueId : IExpressType
+	public partial struct IfcGloballyUniqueId : IExpressValueType
 	{ 
 		private string _value;
         
@@ -90,7 +90,7 @@ namespace Xbim.Ifc2x3.UtilityResource
 		#endregion
 
 		#region IExpressType implementation
-        System.Type IExpressType.UnderlyingSystemType { 
+        System.Type IExpressValueType.UnderlyingSystemType { 
 			get 
 			{
 				return typeof(string);

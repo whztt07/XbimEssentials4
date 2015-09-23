@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using Xbim.Common;
 
-namespace Xbim.IO
+namespace Xbim.Common
 {
     public class ExpressTypeDictionary : KeyedCollection<Type, ExpressType>
     {

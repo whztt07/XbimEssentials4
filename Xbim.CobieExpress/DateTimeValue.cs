@@ -15,7 +15,7 @@ namespace Xbim.CobieExpress
 {
 	[ExpressType("DATETIMEVALUE", 6)]
     // ReSharper disable once PartialTypeWithSinglePart
-	public partial struct DateTimeValue : AttributeValue, IExpressType
+	public partial struct DateTimeValue : AttributeValue, IExpressValueType
 	{ 
 		private string _value;
         
@@ -90,7 +90,7 @@ namespace Xbim.CobieExpress
 		#endregion
 
 		#region IExpressType implementation
-        System.Type IExpressType.UnderlyingSystemType { 
+        System.Type IExpressValueType.UnderlyingSystemType { 
 			get 
 			{
 				return typeof(string);

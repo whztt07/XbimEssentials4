@@ -15,7 +15,7 @@ namespace Xbim.Ifc2x3.PresentationResource
 {
 	[ExpressType("IFCFONTSTYLE", 434)]
     // ReSharper disable once PartialTypeWithSinglePart
-	public partial struct IfcFontStyle : IExpressType
+	public partial struct IfcFontStyle : IExpressValueType
 	{ 
 		private string _value;
         
@@ -90,7 +90,7 @@ namespace Xbim.Ifc2x3.PresentationResource
 		#endregion
 
 		#region IExpressType implementation
-        System.Type IExpressType.UnderlyingSystemType { 
+        System.Type IExpressValueType.UnderlyingSystemType { 
 			get 
 			{
 				return typeof(string);

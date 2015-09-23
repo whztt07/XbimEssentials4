@@ -44,7 +44,7 @@ namespace Xbim.Ifc2x3.Extensions
             if (uc == null) return 1.0;
 
 
-            var et = ((IExpressType)mu.ValueComponent);
+            var et = ((IExpressValueType)mu.ValueComponent);
             var cFactor = 1.0;
             if(et.UnderlyingSystemType==typeof(double))
                 cFactor = (double) et.Value;
@@ -71,7 +71,7 @@ namespace Xbim.Ifc2x3.Extensions
             if (uc == null) return 1.0;
 
 
-            var et = ((IExpressType)mu.ValueComponent);
+            var et = ((IExpressValueType)mu.ValueComponent);
             var cFactor = 1.0;
             if (et.UnderlyingSystemType == typeof(double))
                 cFactor = (double)et.Value;
@@ -179,7 +179,7 @@ namespace Xbim.Ifc2x3.Extensions
                 requiredUnit = IfcUnitEnum.THERMODYNAMICTEMPERATUREUNIT;
             else if (Property.NominalValue is IfcTimeMeasure)
                 requiredUnit = IfcUnitEnum.TIMEUNIT;
-            else if (Property.NominalValue is IfcComplexNumber)
+            else if (Property.NominalValue is IfcValueComplexNumber)
                 requiredUnit = null; // todo: not sure what to do here.
 
             // types from IfcSimpleValue

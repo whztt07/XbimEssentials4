@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using Xbim.Common;
 using Xbim.Ifc2x3.PresentationAppearanceResource;
 
 namespace Xbim.IO.Esent
@@ -44,7 +45,7 @@ namespace Xbim.IO.Esent
           
         }
 
-        public IfcSurfaceStyle IfcSurfaceStyle(XbimModel model)
+        public IfcSurfaceStyle IfcSurfaceStyle(EsentModel model)
         {
             if (IsIfcSurfaceStyle) return (IfcSurfaceStyle)model.Instances[_styleId]; else return null;
         }

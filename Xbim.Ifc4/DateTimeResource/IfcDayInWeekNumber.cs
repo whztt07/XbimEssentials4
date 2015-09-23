@@ -15,7 +15,7 @@ namespace Xbim.Ifc4.DateTimeResource
 {
 	[ExpressType("IFCDAYINWEEKNUMBER", 17)]
     // ReSharper disable once PartialTypeWithSinglePart
-	public partial struct IfcDayInWeekNumber : IExpressType
+	public partial struct IfcDayInWeekNumber : IExpressValueType
 	{ 
 		private long _value;
         
@@ -90,7 +90,7 @@ namespace Xbim.Ifc4.DateTimeResource
 		#endregion
 
 		#region IExpressType implementation
-        System.Type IExpressType.UnderlyingSystemType { 
+        System.Type IExpressValueType.UnderlyingSystemType { 
 			get 
 			{
 				return typeof(long);

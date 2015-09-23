@@ -18,11 +18,11 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 #endregion
 
-namespace Xbim.IO
+namespace Xbim.IO.Binary
 {
     public class XbimOutputStream
     {
-        private XbimPackage _package = new XbimPackage();
+        private readonly XbimPackage _package = new XbimPackage();
 
         public void AddContent(string name, object content)
         {
