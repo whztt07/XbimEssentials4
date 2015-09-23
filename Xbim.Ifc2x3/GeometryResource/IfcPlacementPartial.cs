@@ -13,5 +13,14 @@ namespace Xbim.Ifc2x3.GeometryResource
             var ax2 = this as IfcAxis2Placement2D;
             return ax2 != null ? ax2.ToMatrix3D() : XbimMatrix3D.Identity;
         }
+
+        /// <summary>
+        ///   Derived. The space dimensionality of this class, derived from the dimensionality of the location.
+        /// </summary>
+
+        public IfcDimensionCount Dim
+        {
+            get { return Location == null ? 0 : Location.Dim; }
+        }
     }
 }

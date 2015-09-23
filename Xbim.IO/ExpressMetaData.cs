@@ -199,9 +199,10 @@ namespace Xbim.IO
             }
         }
 
-        public IEnumerable<ExpressType> Types()
+        public static IEnumerable<ExpressType> Types(Module module)
         {
-            return _typeNameToExpressTypeLookup.Keys.Select(item => _typeNameToExpressTypeLookup[item]);
+            var metadata = GetMetadata(module);
+            return metadata._typeNameToExpressTypeLookup.Values;
         }
 
         /// <summary>
@@ -405,5 +406,6 @@ namespace Xbim.IO
             {
             }
         }
+
     }
 }

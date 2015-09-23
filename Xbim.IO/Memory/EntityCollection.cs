@@ -49,6 +49,15 @@ namespace Xbim.IO.Memory
                 resultTypes.SelectMany(type => _internal[type], (type, entity) => (T) entity);
         }
 
+        public IEnumerable<IPersistEntity> OfType(Type queryType) 
+        {
+            if (!(typeof(IPersistEntity).IsAssignableFrom(queryType)))
+                throw new Exception("Type must be assignable from IPersistEntity");
+            var resultTypes = _internal.Keys.Where(queryType.IsAssignableFrom);
+            return
+                resultTypes.SelectMany(type => _internal[type], (type, entity) => entity);
+        }
+
         public IEnumerable<T> OfType<T>(bool activate) where T : IPersistEntity
         {
             foreach (var entity in OfType<T>())
@@ -150,6 +159,23 @@ namespace Xbim.IO.Memory
                 _model.CurrentTransaction.AddReversibleAction(doAction, undo, entity);
             }
 
+        }
+
+        internal bool RemoveReversible(IPersistEntity entity)
+        {
+            if (_model.IsTransactional && _model.CurrentTransaction == null) throw new Exception("Operation out of transaction");
+            var key = entity.GetType();
+
+            if (!_internal.ContainsKey(key) || !_internal[key].Contains(entity))
+                return false;
+
+            Action doAction = () => _internal[key].Remove(entity);
+            Action undo = () => _internal[key].Add(entity);
+            doAction();
+
+            if (!_model.IsTransactional) return true;
+            _model.CurrentTransaction.AddReversibleAction(doAction, undo, entity);
+            return true;
         }
 
         public IEnumerator<IPersistEntity> GetEnumerator()

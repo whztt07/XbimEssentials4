@@ -33,7 +33,7 @@ namespace Xbim.Ifc2x3.Extensions
         public static bool GeometricEquals(this IfcCartesianPoint a, IfcCartesianPoint b)
         {
             if (a.Equals(b)) return true;
-            double precision = a.Model.ModelFactors.Precision;
+            var precision = a.Model.ModelFactors.Precision;
             return a.IsEqual(b, precision);
         }
     }

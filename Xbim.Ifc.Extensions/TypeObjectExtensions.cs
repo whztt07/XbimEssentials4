@@ -240,9 +240,9 @@ namespace Xbim.Ifc2x3.Extensions
         {
             if (elem.HasPropertySets == null) return null;
             
-            return caseSensitive ? 
-                elem.HasPropertySets.Where<IfcElementQuantity>(r => r.Name == pSetName).FirstOrDefault() :
-                elem.HasPropertySets.Where<IfcElementQuantity>(r => r.Name.ToString().ToLower() == pSetName.ToLower()).FirstOrDefault()
+            return caseSensitive ?
+                elem.HasPropertySets.FirstOrDefault<IfcElementQuantity>(r => r.Name == pSetName) :
+                elem.HasPropertySets.FirstOrDefault<IfcElementQuantity>(r => r.Name.ToString().ToLower() == pSetName.ToLower())
                 ;
         }
 
@@ -251,7 +251,7 @@ namespace Xbim.Ifc2x3.Extensions
             var elementQuantity = GetElementQuantity(elem, pSetName);
             if (elementQuantity != null)
             {
-                var simpleQuantity = elementQuantity.Quantities.Where<IfcPhysicalSimpleQuantity>(sq => sq.Name == qualityName).FirstOrDefault();
+                var simpleQuantity = elementQuantity.Quantities.FirstOrDefault(sq => sq.Name == qualityName);
                 if (simpleQuantity != null)
                 {
                     elementQuantity.Quantities.Remove(simpleQuantity);
@@ -268,7 +268,9 @@ namespace Xbim.Ifc2x3.Extensions
             {
                 qset = model.Instances.New<IfcElementQuantity>();
                 qset.Name = qSetName;
-                if (elem.HasPropertySets == null) elem.CreateHasPropertySets();
+                if (elem.HasPropertySets == null) 
+                    throw new NullReferenceException("HasPropertySets is not initialized");
+                    //elem.CreateHasPropertySets();
                 elem.HasPropertySets.Add(qset);
             }
 

@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using Xbim.Common;
 using Xbim.Common.Step21;
@@ -28,6 +30,69 @@ namespace Xbim.IO.Memory
         public int Activate(IPersistEntity owningEntity, bool write)
         {
             return 0;
+        }
+
+        public void Delete(IPersistEntity entity)
+        {
+            //remove from entity collection
+            var removed = _instances.RemoveReversible(entity);
+            if (!removed) return;
+
+            var entityType = entity.GetType();
+            var entityGenericType = typeof (IEnumerable<>);
+            entityGenericType = entityGenericType.MakeGenericType(entityType);
+
+            //find all potential references and delete from there
+            var types = ExpressMetaData.Types(entity.GetType().Module).Where(t => typeof(IPersistEntity).IsAssignableFrom(t.Type));
+            foreach (var type in types)
+            {
+                var toNullify = type.Properties.Values.Where(p => p.PropertyInfo.PropertyType.IsAssignableFrom(entityType)).ToList();
+                var toRemove =
+                    type.Properties.Values.Where(p => p.PropertyInfo.PropertyType.IsAssignableFrom(entityGenericType)).ToList();
+                if (!toNullify.Any() && !toRemove.Any()) continue;
+
+                //get all instances of this type and nullify and remove the entity
+                var entitiesToCheck = _instances.OfType(type.Type);
+                foreach (var toCheck in entitiesToCheck)
+                {
+                    //check properties
+                    foreach (var pInfo in toNullify.Select(p => p.PropertyInfo))
+                    {
+                        var pVal = pInfo.GetValue(toCheck);
+                        if(pVal == null) continue;
+                        //it is enough to compare references
+                        if (!ReferenceEquals(pVal, entity)) continue;
+                        pInfo.SetValue(toCheck, null);
+                    }
+
+                    foreach (var pInfo in toRemove.Select(p => p.PropertyInfo))
+                    {
+                        var pVal = pInfo.GetValue(toCheck);
+                        if (pVal == null) continue;
+
+                        //it might be uninitialized optional item set
+                        var optSet = pVal as IOptionalItemSet;
+                        if(optSet != null && !optSet.Initialized) continue;
+
+                        //or it is non-optional item set implementind IList
+                        var itemSet = pVal as IList;
+                        if (itemSet != null && itemSet.Contains(entity))
+                        {
+                            itemSet.Remove(entity);
+                            continue;
+                        }
+
+                        //fall back operating on common list functions using reflection (this is slow)
+                        var contMethod = pInfo.PropertyType.GetMethod("Contains");
+                        if (contMethod == null) continue;
+                        var contains = (bool)contMethod.Invoke(pVal, new object[] {entity});
+                        if(!contains) continue;
+                        var removeMethod = pInfo.PropertyType.GetMethod("Remove");
+                        if(removeMethod == null) continue;
+                        removeMethod.Invoke(pVal, new object[] { entity });
+                    }
+                }
+            }
         }
 
         public ITransaction BeginTransaction(string name)
@@ -78,6 +143,13 @@ namespace Xbim.IO.Memory
 
         public Module SchemaModule { get; private set; }
         public IModelFactors ModelFactors { get; private set; }
+        public void ForEach<TSource>(IEnumerable<TSource> source, Action<TSource> body) where TSource : IPersistEntity
+        {
+            foreach (var entity in source)
+            {
+                body(entity);
+            }
+        }
 
         public virtual void Open(Stream stream)
         {
