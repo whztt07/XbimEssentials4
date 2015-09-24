@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace Xbim.IO
+namespace Xbim.IO.Esent
 {
     public class XbimSurfaceStyleMap : Dictionary<XbimSurfaceStyle, XbimGeometryHandleCollection>
     {

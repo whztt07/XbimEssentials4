@@ -12,7 +12,7 @@ namespace Xbim.CobieExpress
     {
         public static implicit operator DateTime(DateTimeValue value)
         {
-            return DateTime.ParseExact(value._theValue, "s", CultureInfo.InvariantCulture);
+            return DateTime.ParseExact(value._value, "s", CultureInfo.InvariantCulture);
         }
 
         public static implicit operator DateTimeValue(DateTime value)

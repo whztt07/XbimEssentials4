@@ -69,6 +69,14 @@
                                     );
         }
 
+        public static XbimPoint3D Add(XbimPoint3D p, XbimPoint3D v)
+        {
+            return new XbimPoint3D(p.X + v.X,
+                                    p.Y + v.Y,
+                                    p.Z + v.Z
+                                    );
+        }
+
         public static XbimPoint3D operator *(XbimPoint3D p, XbimMatrix3D m)
         {
             return XbimPoint3D.Multiply(p, m);

@@ -1,5 +1,5 @@
 ﻿using System;
-using Xbim.Ifc2x3.MeasureResource;
+using Xbim.Common;
 
 namespace Xbim.IO
 {
@@ -7,23 +7,23 @@ namespace Xbim.IO
     {
         internal static Type GetItemTypeFromGenericType(this Type genericType)
         {
-            if (genericType == typeof(ICoordinateList))
-                return typeof(IfcLengthMeasure); //special case for coordinates
-            if (genericType.IsGenericType || genericType.IsInterface)
+            while (true)
             {
-                var genericTypes = genericType.GetGenericArguments();
-                if (genericTypes.GetUpperBound(0) >= 0)
-                    return genericTypes[genericTypes.GetUpperBound(0)];
-                return null;
+                //if (genericType == typeof (ICoordinateList))
+                //    return typeof (IfcLengthMeasure); //special case for coordinates
+                if (genericType.IsGenericType || genericType.IsInterface)
+                {
+                    var genericTypes = genericType.GetGenericArguments();
+                    return genericTypes.GetUpperBound(0) >= 0 ? genericTypes[genericTypes.GetUpperBound(0)] : null;
+                }
+                if (genericType.BaseType == null) return null;
+                genericType = genericType.BaseType;
             }
-            if (genericType.BaseType != null)
-                return genericType.BaseType.GetItemTypeFromGenericType();
-            return null;
         }
 
-        internal static short? IfcTypeId(this Type type)
+        internal static short? ExpressTypeId(this Type type)
         {
-            return IfcMetaData.IfcTypeId(type);
+            return ExpressMetaData.ExpressTypeId(type);
         }
     }
 }

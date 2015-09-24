@@ -60,6 +60,7 @@
     <Compile Include="CobiePickList.cs" />
     <Compile Include="CobiePickValue.cs" />
     <Compile Include="CobieProject.cs" />
+    <Compile Include="CobieReferencedObject.cs" />
     <Compile Include="CobieResource.cs" />
     <Compile Include="CobieSite.cs" />
     <Compile Include="CobieSpace.cs" />
@@ -74,6 +75,8 @@
     <Compile Include="EntityFactory.cs" />
     <Compile Include="FloatValue.cs" />
     <Compile Include="IntegerValue.cs" />
+    <Compile Include="ItemSet.cs" />
+    <Compile Include="OptionalItemSet.cs" />
     <Compile Include="SpatialDivision.cs" />
     <Compile Include="StringValue.cs" />
   </ItemGroup>

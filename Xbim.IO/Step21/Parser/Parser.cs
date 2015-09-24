@@ -89,7 +89,7 @@ namespace Xbim.IO.Parser
             get
             {
                 if (RequiredParameters == null || RequiredParameters.Contains(CurrentParamIndex))
-                    return (Entity).Set;
+                    return (Entity).Parse;
                 else
                     return ParameterEater;
             }

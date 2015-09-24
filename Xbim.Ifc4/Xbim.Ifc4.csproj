@@ -460,6 +460,7 @@
     <Compile Include="HvacDomain\IfcVibrationIsolator.cs" />
     <Compile Include="HvacDomain\IfcVibrationIsolatorType.cs" />
     <Compile Include="HvacDomain\IfcVibrationIsolatorTypeEnum.cs" />
+    <Compile Include="ItemSet.cs" />
     <Compile Include="Kernel\IfcActor.cs" />
     <Compile Include="Kernel\IfcComplexPropertyTemplate.cs" />
     <Compile Include="Kernel\IfcComplexPropertyTemplateTypeEnum.cs" />
@@ -663,6 +664,7 @@
     <Compile Include="MeasureResource\IfcVolumetricFlowRateMeasure.cs" />
     <Compile Include="MeasureResource\IfcWarpingConstantMeasure.cs" />
     <Compile Include="MeasureResource\IfcWarpingMomentMeasure.cs" />
+    <Compile Include="OptionalItemSet.cs" />
     <Compile Include="PlumbingFireProtectionDomain\IfcFireSuppressionTerminal.cs" />
     <Compile Include="PlumbingFireProtectionDomain\IfcFireSuppressionTerminalType.cs" />
     <Compile Include="PlumbingFireProtectionDomain\IfcFireSuppressionTerminalTypeEnum.cs" />

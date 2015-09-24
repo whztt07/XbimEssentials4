@@ -1,5 +1,6 @@
 ﻿using System;
 using Xbim.Common;
+using Xbim.Common.Step21;
 using Xbim.IO.Step21;
 
 namespace Xbim.IO.Parser

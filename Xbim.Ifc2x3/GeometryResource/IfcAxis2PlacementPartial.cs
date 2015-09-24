@@ -7,6 +7,12 @@ using Xbim.Common.Geometry;
 
 namespace Xbim.Ifc2x3.GeometryResource
 {
+    // ReSharper disable once InconsistentNaming
+    public partial interface IfcAxis2Placement
+    {
+        int Dim { get; }
+    }
+
     public static class IfcAxis2PlacementExtensions
     {
         public static XbimMatrix3D ToMatrix3D(this IfcAxis2Placement placement)
