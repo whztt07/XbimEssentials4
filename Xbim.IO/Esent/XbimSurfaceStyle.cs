@@ -1,6 +1,5 @@
 ﻿using System.Reflection;
 using Xbim.Common;
-using Xbim.Ifc2x3.PresentationAppearanceResource;
 
 namespace Xbim.IO.Esent
 {
@@ -45,9 +44,10 @@ namespace Xbim.IO.Esent
           
         }
 
-        public IfcSurfaceStyle IfcSurfaceStyle(EsentModel model)
+        public T SurfaceStyle<T>(EsentModel model) where T: class, IPersistEntity
         {
-            if (IsIfcSurfaceStyle) return (IfcSurfaceStyle)model.Instances[_styleId]; else return null;
+            if (IsIfcSurfaceStyle) return (T)model.Instances[_styleId]; 
+            return null;
         }
 
         public ExpressType ExpressType

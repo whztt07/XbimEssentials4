@@ -14,8 +14,6 @@
 
 using System;
 using System.Globalization;
-using Xbim.Ifc2x3.MeasureResource;
-using Xbim.Ifc2x3.UtilityResource;
 
 #endregion
 
@@ -35,12 +33,11 @@ namespace Xbim.IO.Step21
             if (!string.IsNullOrEmpty(fmt) && fmt.ToUpper() == "R" && arg is double)
             {
                 var dArg = (double)arg;
-                var result = dArg.ToString("R", CultureInfo.CreateSpecificCulture("en-US"));
 
                 // if compiler flag, only then do the following 3 lines
                 var rDoubleStr = dArg.ToString("R", CultureInfo.CreateSpecificCulture("en-US"));
                 var fixedDbl = double.Parse(rDoubleStr, CultureInfo.CreateSpecificCulture("en-US"));
-                result = fixedDbl.ToString("R", CultureInfo.CreateSpecificCulture("en-US"));
+                var result = fixedDbl.ToString("R", CultureInfo.CreateSpecificCulture("en-US"));
 
                 //decimal decArg = new Decimal(dArg);                                
                 // string result = decArg.ToString().ToUpper();
@@ -70,7 +67,7 @@ namespace Xbim.IO.Step21
             if (!string.IsNullOrEmpty(fmt) && fmt.ToUpper() == "G") //Guid
             {
                 var guid = (Guid)arg;
-                return string.Format(@"'{0}'", IfcGloballyUniqueId.AsPart21(guid));
+                return string.Format(@"'{0}'", guid.ToPart21());
             }
             // Return string representation of argument for any other formatting code
             return string.Format(@"'{0}'", arg.ToString().ToPart21());

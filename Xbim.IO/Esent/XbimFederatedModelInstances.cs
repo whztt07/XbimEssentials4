@@ -1,23 +1,22 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Collections;
 using System.Linq.Expressions;
 using Xbim.Common;
-using Xbim.IO.Esent;
 
-namespace Xbim.IO
+namespace Xbim.IO.Esent
 {
 
-    internal class XbimFederatedInstancesEntityEnumerator<TF> : IEnumerator<IPersistEntity> where TF: IEntityFactory, new()
+    internal class XbimFederatedInstancesEntityEnumerator : IEnumerator<IPersistEntity>
     {
-        private readonly List<EsentModel<TF>> _models;
+        private readonly List<EsentModel> _models;
         int _currentModelIndex;
         private PersistedEntityInstanceCache _cache;
         private XbimEntityCursor _cursor;
         private int _currentEntityLabel;
 
-        public XbimFederatedInstancesEntityEnumerator(IEnumerable<EsentModel<TF>> models)
+        public XbimFederatedInstancesEntityEnumerator(IEnumerable<EsentModel> models)
         {
             _models = models.ToList();
             Reset();
@@ -77,9 +76,9 @@ namespace Xbim.IO
             _cache.FreeTable(_cursor);
         }
     }
-    public class XbimFederatedModelInstances<TF> : IEntityCollection where TF: IEntityFactory, new()
+    public class XbimFederatedModelInstances : IEntityCollection
     {
-        readonly EsentModel<TF> _model;
+        readonly EsentModel _model;
 
         public IEnumerable<IPersistEntity> OfType(string stringType, bool activate)
         {
@@ -97,7 +96,7 @@ namespace Xbim.IO
             //}
         }
 
-        public XbimFederatedModelInstances(EsentModel<TF> model)
+        public XbimFederatedModelInstances(EsentModel model)
         {
             _model = model;
         }
@@ -202,12 +201,12 @@ namespace Xbim.IO
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return new XbimFederatedInstancesEntityEnumerator(_model.AllModels);
+            return new XbimFederatedInstancesEntityEnumerator(_model.AllEsentModels);
         }
 
         IEnumerator<IPersistEntity> IEnumerable<IPersistEntity>.GetEnumerator()
         {
-            return new XbimFederatedInstancesEntityEnumerator(_model.AllModels);
+            return new XbimFederatedInstancesEntityEnumerator(_model.AllEsentModels);
         }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -12,22 +11,23 @@ using Xbim.Ifc2x3.Kernel;
 using Xbim.Ifc2x3.MeasureResource;
 using Xbim.Ifc2x3.RepresentationResource;
 using Xbim.Ifc2x3.UtilityResource;
-using Xbim.IO;
 using Xbim.IO.Esent;
 using Xbim.XbimExtensions;
 using XbimGeometry.Interfaces;
 
 namespace Xbim.Ifc2x3.IO
 {
-    public class XbimModel: EsentModel<EntityFactory>
+    public class XbimModel: EsentModel
     {
         private const string RefDocument = "XbimReferencedModel";
-        private IfcAxis2Placement _wcs;
 
-        public IfcAxis2Placement WorldCoordinateSystem
+        public XbimModel()
         {
-            get { return _wcs; }
+            var factory = new EntityFactory();
+            Init(factory);
         }
+
+        public IfcAxis2Placement WorldCoordinateSystem { get; private set; }
 
         private void GetModelFactors()
         {
@@ -88,8 +88,8 @@ namespace Xbim.Ifc2x3.IO
                 c.GetType() == typeof(IfcGeometricRepresentationContext) && string.Compare(c.ContextType, "model", true) == 0 || string.Compare(c.ContextType, "design", true) == 0); //allow for incorrect older models
             if (context != null)
             {
-                _wcs = context.WorldCoordinateSystem;
-                wcs = _wcs.ToMatrix3D();
+                WorldCoordinateSystem = context.WorldCoordinateSystem;
+                wcs = WorldCoordinateSystem.ToMatrix3D();
                 if (!wcs.Value.IsIdentity)
                 {
                     wcs.Value.Invert();
@@ -101,11 +101,11 @@ namespace Xbim.Ifc2x3.IO
 
             }
             //check if angle units are incorrectly defined, this happens in some old models
-            if (angleToRadiansConversionFactor == 1)
+            if (Math.Abs(angleToRadiansConversionFactor - 1) < 1e-10)
             {
-                foreach (var trimmedCurve in Instances.OfType<IfcTrimmedCurve>()
-                    .Where(trimmedCurve => trimmedCurve.MasterRepresentation == IfcTrimmingPreference.PARAMETER &&
-                        trimmedCurve.BasisCurve is IfcConic))
+                foreach (var trimmedCurve in Instances.Where<IfcTrimmedCurve>(trimmedCurve => 
+                    trimmedCurve.MasterRepresentation == IfcTrimmingPreference.PARAMETER &&
+                    trimmedCurve.BasisCurve is IfcConic))
                 {
                     if (
                         !trimmedCurve.Trim1.Concat(trimmedCurve.Trim2)
@@ -127,15 +127,6 @@ namespace Xbim.Ifc2x3.IO
         {
             GetModelFactors(); 
             return ModelFactors;
-        }
-
-        public override void Close()
-        {
-            foreach (var refModel in _referencedModels.Select(r => r.Model).OfType<IDisposable>())
-                refModel.Dispose();
-            _referencedModels.Clear();
-            
-            base.Close();
         }
 
         public override bool Open(string fileName, XbimDBAccess accessMode = XbimDBAccess.Read, ReportProgressDelegate progDelegate = null)
@@ -185,17 +176,8 @@ namespace Xbim.Ifc2x3.IO
             return _cache.GetGeometry(ExpressMetaData.ExpressTypeId(product), product.EntityLabel, geomType);
         }
 
+
         #region Reference Model functions
-        /// <summary>
-        /// Returns true if the model contains reference models or the model has extension xBIMf
-        /// </summary>
-        public bool IsFederation
-        {
-            get
-            {
-                return _referencedModels.Any() || string.Compare(Path.GetExtension(_cache.DatabaseName), ".xbimf", true) == 0;
-            }
-        }
 
         /// <summary>
         /// Adds a model as a reference or federated model, do not call inside a transaction
@@ -226,7 +208,7 @@ namespace Xbim.Ifc2x3.IO
             using (var txn = BeginTransaction())
             {
                 var docInfo = Instances.New<IfcDocumentInformation>();
-                docInfo.DocumentId = _referencedModels.NextIdentifer();
+                docInfo.DocumentId = NextReferenceIdentifier();
                 //create an author of the referenced model
 
                 var role = Instances.New<IfcActorRole>();
@@ -252,30 +234,30 @@ namespace Xbim.Ifc2x3.IO
         /// <returns></returns>
         public XbimReferencedModel AddModelReference(string refModelPath, IfcActorSelect owner)
         {
-            XbimReferencedModel retVal = null;
+            XbimReferencedModel retVal;
             if (!IsTransacting)
             {
                 using (var txn = BeginTransaction())
                 {
                     var docInfo = Instances.New<IfcDocumentInformation>();
-                    docInfo.DocumentId = _referencedModels.NextIdentifer();
+                    docInfo.DocumentId = NextReferenceIdentifier();
                     docInfo.Name = refModelPath;
                     docInfo.DocumentOwner = owner;
                     docInfo.IntendedUse = RefDocument;
                     retVal = new XbimReferencedModel(docInfo);
-                    _referencedModels.Add(retVal);
+                    AddModelReference(retVal);
                     txn.Commit();
                 }
             }
             else
             {
                 var docInfo = Instances.New<IfcDocumentInformation>();
-                docInfo.DocumentId = _referencedModels.NextIdentifer();
+                docInfo.DocumentId = NextReferenceIdentifier();
                 docInfo.Name = refModelPath;
                 docInfo.DocumentOwner = owner;
                 docInfo.IntendedUse = RefDocument;
                 retVal = new XbimReferencedModel(docInfo);
-                _referencedModels.Add(retVal);
+                AddModelReference(retVal);
             }
             return retVal;
         }
@@ -295,14 +277,14 @@ namespace Xbim.Ifc2x3.IO
                 if (throwReferenceModelExceptions)
                 {
                     // throw exception on referenceModel Creation
-                    ReferencedModels.Add(new XbimReferencedModel(docInfo));
+                    AddModelReference(new XbimReferencedModel(docInfo));
                 }
                 else
                 {
                     // do not throw exception on referenceModel Creation
                     try
                     {
-                        ReferencedModels.Add(new XbimReferencedModel(docInfo));
+                        AddModelReference(new XbimReferencedModel(docInfo));
                     }
                     catch (Exception)
                     {
@@ -315,53 +297,15 @@ namespace Xbim.Ifc2x3.IO
         public void EnsureUniqueUserDefinedId()
         {
             short iId = 0;
-            foreach (var model in AllModels)
+            foreach (var model in AllEsentModels)
             {
                 model.UserDefinedId = iId++;
             }
         }
 
-        private readonly XbimReferencedModelCollection _referencedModels = new XbimReferencedModelCollection();
+        
 
-        public XbimReferencedModelCollection ReferencedModels
-        {
-            get
-            {
-                return _referencedModels;
-            }
-        }
-
-        /// <summary>
-        /// Returns an enumerable of the handles to all entities in the model
-        /// Note this includes entities that are in any federated models
-        /// </summary>
-        public IEnumerable<XbimInstanceHandle> AllInstancesHandles
-        {
-            get
-            {
-                foreach (var h in _cache.InstanceHandles)
-                    yield return h;
-                foreach (var refModel in ReferencedModels.Where(r => r.Model is XbimModel).Select(r => r.Model as XbimModel))
-                    foreach (var h in refModel.InstanceHandles)
-                        yield return h;
-            }
-        }
-
-        /// <summary>
-        /// Federated models can be nested.
-        /// Since children models do not have a method for pointing to the parent management of their 
-        /// uniqueness must be achieved top down by the topmost one. After all child models are loaded.
-        /// </summary>
-        public IEnumerable<XbimModel> AllModels
-        {
-            get
-            {
-                yield return this;
-                foreach (var refModel in ReferencedModels.Select(r => r.Model).OfType<XbimModel>())
-                    foreach (var m in refModel.AllModels)
-                        yield return m;
-            }
-        }
+       
 
         #endregion
 

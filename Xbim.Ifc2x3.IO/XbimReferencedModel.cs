@@ -1,15 +1,15 @@
 ﻿using System.IO;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
+using Xbim.Common.Federation;
 using Xbim.Ifc2x3.ExternalReferenceResource;
-using Xbim.IO.Esent;
 
 namespace Xbim.Ifc2x3.IO
 {
     /// <summary>
     /// A model that is referenced by another XbimModel
     /// </summary>
-    public class XbimReferencedModel : IXbimReferencedModel
+    public class XbimReferencedModel : IReferencedModel
     {
         public IfcDocumentInformation DocumentInformation;
 
@@ -68,7 +68,7 @@ namespace Xbim.Ifc2x3.IO
         {
             get
             {
-                var organization = DocumentInformation.DocumentOwner as Ifc2x3.ActorResource.IfcOrganization;
+                var organization = DocumentInformation.DocumentOwner as ActorResource.IfcOrganization;
                 if (organization != null)
                     return organization.Name;
                 return null;
@@ -80,7 +80,7 @@ namespace Xbim.Ifc2x3.IO
         {
             get
             {
-                var organization = DocumentInformation.DocumentOwner as Ifc2x3.ActorResource.IfcOrganization;
+                var organization = DocumentInformation.DocumentOwner as ActorResource.IfcOrganization;
                 if (organization != null)
                 {
                     var role = organization.Roles.FirstOrDefault();

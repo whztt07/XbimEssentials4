@@ -9,9 +9,9 @@ namespace Xbim.IO.Esent
     /// </summary>
     public struct XbimInstanceHandle
     {
-        public int EntityLabel;
+        public readonly int EntityLabel;
         public short EntityTypeId;
-        public EsentModel Model;
+        public readonly IModel Model;
        
         public static bool operator ==(XbimInstanceHandle a, XbimInstanceHandle b)
         {
@@ -30,9 +30,9 @@ namespace Xbim.IO.Esent
 
         public override bool Equals(object b)
         {
-            return this.Model == ((XbimInstanceHandle)b).Model && 
-                   this.EntityLabel  == ((XbimInstanceHandle)b).EntityLabel && 
-                   this.EntityTypeId == ((XbimInstanceHandle)b).EntityTypeId;
+            return Model == ((XbimInstanceHandle)b).Model && 
+                   EntityLabel  == ((XbimInstanceHandle)b).EntityLabel && 
+                   EntityTypeId == ((XbimInstanceHandle)b).EntityTypeId;
         }
 
         public Type EntityType
@@ -60,32 +60,32 @@ namespace Xbim.IO.Esent
         }
 
         
-        public XbimInstanceHandle(EsentModel model, int entityLabel, short type = 0)
+        public XbimInstanceHandle(IModel model, int entityLabel, short type = 0)
         {
             Model = model;
             EntityLabel = entityLabel;
             EntityTypeId= type;
         }
 
-        public XbimInstanceHandle(EsentModel model, int entityLabel, Type type)
+        public XbimInstanceHandle(IModel model, int entityLabel, Type type)
         {
             Model = model;
             EntityLabel = entityLabel;
             EntityTypeId = ExpressMetaData.ExpressTypeId(type);
         }
 
-        public XbimInstanceHandle(EsentModel model, int? label, short? type)
+        public XbimInstanceHandle(IModel model, int? label, short? type)
         {
             Model = model;
-            this.EntityLabel = label ?? 0;
-            this.EntityTypeId = type ?? 0;  
+            EntityLabel = label ?? 0;
+            EntityTypeId = type ?? 0;  
         }
 
         public XbimInstanceHandle(IPersistEntity entity)
         {
-            Model = (EsentModel)entity.Model;
-            this.EntityLabel = entity.EntityLabel;
-            this.EntityTypeId = ExpressMetaData.ExpressTypeId(entity);
+            Model = entity.Model;
+            EntityLabel = entity.EntityLabel;
+            EntityTypeId = ExpressMetaData.ExpressTypeId(entity);
         }
 
         public IPersistEntity GetEntity()

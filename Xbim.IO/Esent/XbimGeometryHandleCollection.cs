@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Xbim.Common;
-using Xbim.IO.Esent;
 
-namespace Xbim.IO
+namespace Xbim.IO.Esent
 {
     /// <summary>
     /// An ordered Collection of geometry handles

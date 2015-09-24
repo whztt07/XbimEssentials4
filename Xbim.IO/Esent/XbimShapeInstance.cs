@@ -2,7 +2,7 @@
 using System.Linq;
 using Xbim.Common.Geometry;
 
-namespace Xbim.IO
+namespace Xbim.IO.Esent
 {
 
   

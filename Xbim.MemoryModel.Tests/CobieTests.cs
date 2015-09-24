@@ -5,12 +5,13 @@ using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Xbim.CobieExpress;
 using Xbim.Common;
+using Xbim.IO.Esent;
 using Xbim.IO.Memory;
 
 namespace Xbim.MemoryModel.Tests
 {
     [TestClass]
-    public class SerializationTests
+    public class CobieTests
     {
         
 
@@ -66,6 +67,20 @@ namespace Xbim.MemoryModel.Tests
                 model.Delete(floor);
                 Assert.IsNull(space.Floor);
             }
+        }
+
+        [TestMethod]
+        public void EsentDatabaseTest()
+        {
+            const string file = "SampleForEsent.stp";
+            var model = CreateTestModel();
+            model.Save(file);
+
+            var db = new EsentModel(new EntityFactory());
+            db.CreateFrom(file, null, null, true);
+
+            var spaces = db.Instances.OfType<CobieSpace>();
+            Assert.IsTrue(spaces.Any());
         }
 
         private MemoryModel<EntityFactory> CreateTestModel()

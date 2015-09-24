@@ -154,7 +154,7 @@ namespace Xbim.IO
             foreach (var ifcProperty in ifcType.Properties.Values)
             //only write out persistent attributes, ignore inverses
             {
-                if (ifcProperty.EntityAttributeAttribute.State == EntityAttributeState.DerivedOverride)
+                if (ifcProperty.EntityAttribute.State == EntityAttributeState.DerivedOverride)
                 {
                     if (!first)
                         entityWriter.Write(',');
@@ -192,7 +192,7 @@ namespace Xbim.IO
             else if (propType.IsGenericType && propType.GetGenericTypeDefinition() == typeof(Nullable<>))
             //deal with undefined types (nullables)
             {
-                var complexType = propVal as IExpressValueComplexType;
+                var complexType = propVal as IExpressComplexType;
                 if (complexType != null)
                 {
                     entityWriter.Write('(');
@@ -216,11 +216,11 @@ namespace Xbim.IO
                     WriteValueType(propVal.GetType(), propVal, entityWriter);
                 }
             }
-            else if (typeof(IExpressValueComplexType).IsAssignableFrom(propType))
+            else if (typeof(IExpressComplexType).IsAssignableFrom(propType))
             {
                 entityWriter.Write('(');
                 var first = true;
-                foreach (var compVal in ((IExpressValueComplexType)propVal).Properties)
+                foreach (var compVal in ((IExpressComplexType)propVal).Properties)
                 {
                     if (!first)
                         entityWriter.Write(',');
@@ -362,7 +362,7 @@ namespace Xbim.IO
             foreach (var ifcProperty in ifcType.Properties.Values)
             //only write out persistent attributes, ignore inverses
             {
-                if (ifcProperty.EntityAttributeAttribute.State == EntityAttributeState.DerivedOverride)
+                if (ifcProperty.EntityAttribute.State == EntityAttributeState.DerivedOverride)
                     entityWriter.Write(Convert.ToByte(P21ParseAction.SetOverrideValue));
                 else
                 {
@@ -387,7 +387,7 @@ namespace Xbim.IO
             else if (propType.IsGenericType && propType.GetGenericTypeDefinition() == typeof (Nullable<>))
                 //deal with undefined types (nullables)
             {
-                var complexType = propVal as IExpressValueComplexType;
+                var complexType = propVal as IExpressComplexType;
                 if (complexType != null)
                 {
                     entityWriter.Write(Convert.ToByte(P21ParseAction.BeginList));
@@ -405,10 +405,10 @@ namespace Xbim.IO
                     WriteValueType(propVal.GetType(), propVal, entityWriter);
                 }
             }
-            else if (typeof (IExpressValueComplexType).IsAssignableFrom(propType))
+            else if (typeof (IExpressComplexType).IsAssignableFrom(propType))
             {
                 entityWriter.Write(Convert.ToByte(P21ParseAction.BeginList));
-                foreach (var compVal in ((IExpressValueComplexType) propVal).Properties)
+                foreach (var compVal in ((IExpressComplexType) propVal).Properties)
                     WriteProperty(compVal.GetType(), compVal, entityWriter);
                 entityWriter.Write(Convert.ToByte(P21ParseAction.EndList));
             }

@@ -493,7 +493,7 @@ namespace Xbim.IO.Esent
         /// <param name="cacheEntities"></param>
         /// <param name="codePageOverride"></param>
         /// <returns></returns>
-        public void ImportIfc(string xbimDbName, string toImportIfcFilename, ReportProgressDelegate progressHandler = null, bool keepOpen = false, bool cacheEntities = false, int codePageOverride = -1)
+        public void ImportStep(string xbimDbName, string toImportIfcFilename, ReportProgressDelegate progressHandler = null, bool keepOpen = false, bool cacheEntities = false, int codePageOverride = -1)
         {
             
             CreateDatabase(xbimDbName);
@@ -541,7 +541,7 @@ namespace Xbim.IO.Esent
         /// <param name="keepOpen"></param>
         /// <param name="cacheEntities"></param>
         /// <param name="codePageOverride"></param>
-        public void ImportIfcZip(string xbimDbName, string toImportFilename, ReportProgressDelegate progressHandler = null, bool keepOpen = false, bool cacheEntities = false, int codePageOverride = -1)
+        public void ImportStepZip(string xbimDbName, string toImportFilename, ReportProgressDelegate progressHandler = null, bool keepOpen = false, bool cacheEntities = false, int codePageOverride = -1)
         {
             CreateDatabase(xbimDbName);
             Open(xbimDbName, XbimDBAccess.Exclusive);
@@ -564,7 +564,11 @@ namespace Xbim.IO.Esent
                                 var ext = extension.ToLowerInvariant();
                                 //look for a valid ifc supported file
                                 if (entry.IsFile &&
-                                    (String.Compare(ext, ".ifc", StringComparison.OrdinalIgnoreCase) == 0)
+                                    (
+                                        string.Compare(ext, ".ifc", StringComparison.OrdinalIgnoreCase) == 0 ||
+                                        string.Compare(ext, ".step21", StringComparison.OrdinalIgnoreCase) == 0 ||
+                                        string.Compare(ext, ".stp", StringComparison.OrdinalIgnoreCase) == 0 
+                                    )
                                     )
                                 {
                                     using (var zipFile = new ZipFile(toImportFilename))
@@ -1416,10 +1420,10 @@ namespace Xbim.IO.Esent
                 case XbimStorageType.IFCXML:
                     SaveAsIfcXml(storageFileName);
                     break;
-                case XbimStorageType.IFC:
+                case XbimStorageType.Step21:
                     SaveAsIfc(storageFileName,map);
                     break;
-                case XbimStorageType.IFCZIP:
+                case XbimStorageType.Step21Zip:
                     SaveAsIfcZip(storageFileName);
                     break;
                 case XbimStorageType.XBIM:
@@ -1727,95 +1731,95 @@ namespace Xbim.IO.Esent
             }
         }
 
-        internal T InsertCopy<T>(T toCopy, XbimInstanceHandleMap mappings, XbimReadWriteTransaction txn, bool includeInverses) where T : IPersistEntity
-        {
-            //check if the transaction needs pulsing
+        //internal T InsertCopy<T>(T toCopy, XbimInstanceHandleMap mappings, XbimReadWriteTransaction txn, bool includeInverses) where T : IPersistEntity
+        //{
+        //    //check if the transaction needs pulsing
             
-            var toCopyHandle=toCopy.GetHandle();
+        //    var toCopyHandle=toCopy.GetHandle();
           
-            XbimInstanceHandle copyHandle;
-            if (mappings.TryGetValue(toCopyHandle, out copyHandle))
-            {
-                var v = GetInstance(copyHandle);
-                Debug.Assert(v!=null);
-                return (T)v;
-            }
-            txn.Pulse();
-            var ifcType = ExpressMetaData.ExpressType(toCopy);
-            copyHandle = InsertNew(ifcType.Type);
-            mappings.Add(toCopyHandle, copyHandle);
+        //    XbimInstanceHandle copyHandle;
+        //    if (mappings.TryGetValue(toCopyHandle, out copyHandle))
+        //    {
+        //        var v = GetInstance(copyHandle);
+        //        Debug.Assert(v!=null);
+        //        return (T)v;
+        //    }
+        //    txn.Pulse();
+        //    var ifcType = ExpressMetaData.ExpressType(toCopy);
+        //    copyHandle = InsertNew(ifcType.Type);
+        //    mappings.Add(toCopyHandle, copyHandle);
 
-            var theCopy = _factory.New(_model, copyHandle.EntityType, copyHandle.EntityLabel, true);
-            _read.TryAdd(copyHandle.EntityLabel, theCopy);
-            CreatedNew.TryAdd(copyHandle.EntityLabel, theCopy);
-            var rt = theCopy as IfcRoot;
-            var props = ifcType.Properties.Values.Where(p => !p.EntityAttributeAttribute.IsDerivedOverride);
-            if (includeInverses)
-                props = props.Union(ifcType.Inverses);
-            if (rt != null) rt.OwnerHistory = _model.OwnerHistoryAddObject;
-            foreach (var prop in props)
-            {
-                if (rt != null && prop.PropertyInfo.Name == "OwnerHistory") //don't add the owner history in as this will be changed later
-                    continue;
-                var value = prop.PropertyInfo.GetValue(toCopy, null);
-                if (value != null)
-                {
-                    var isInverse = (prop.EntityAttributeAttribute.Order == -1); //don't try and set the values for inverses
-                    var theType = value.GetType();
-                    //if it is an express type or a value type, set the value
-                    if (theType.IsValueType || typeof(IExpressValueType).IsAssignableFrom(theType))
-                    {
-                        prop.PropertyInfo.SetValue(theCopy, value, null);
-                    }
-                    //else 
-                    else if (!isInverse && typeof(IPersistEntity).IsAssignableFrom(theType))
-                    {
-                        prop.PropertyInfo.SetValue(theCopy, InsertCopy((IPersistEntity)value, mappings, txn, includeInverses), null);
-                    }
-                    else if (!isInverse && typeof(IExpressEnumerable).IsAssignableFrom(theType))
-                    {
-                        //TODO: MC: This part needs revision
-                        throw new NotImplementedException("This part has to be revised after heavy refactoring of the base code.");
-                        //var itemType = theType.GetItemTypeFromGenericType();
-                        //
-                        //IExpressEnumerable copyColl;
-                        //if (!theType.IsGenericType) //we have a class that inherits from a generic type
-                        //    copyColl = (IExpressEnumerable)Activator.CreateInstance(theType, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance, null, new object[] { theCopy }, null);
-                        //else
-                        //{
-                        //    var genericType = theType.GetGenericTypeDefinition();
-                        //    var gt = genericType.MakeGenericType(itemType);
-                        //    copyColl = (IExpressEnumerable)Activator.CreateInstance(gt, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance, null, new object[] { theCopy }, null);
-                        //}
-                        //prop.PropertyInfo.SetValue(theCopy, copyColl, null);
-                        //foreach (var item in (IExpressEnumerable)value)
-                        //{
-                        //    var actualItemType = item.GetType();
-                        //    if (actualItemType.IsValueType || typeof(IExpressType).IsAssignableFrom(actualItemType))
-                        //        copyColl.Add(item);
-                        //    else if (typeof(IPersistEntity).IsAssignableFrom(actualItemType))
-                        //    {
-                        //        var cpy = InsertCopy((IPersistEntity)item, mappings, txn, includeInverses);
-                        //        copyColl.Add(cpy);
-                        //    }
-                        //    else
-                        //        throw new XbimException(string.Format("Unexpected collection item type ({0}) found", itemType.Name));
-                        //}
-                    }
-                    else if (isInverse && value is IEnumerable<IPersistEntity>) //just an enumeration of IPersistEntity
-                    {
-                        foreach (var ent in (IEnumerable<IPersistEntity>)value)
-                            InsertCopy(ent, mappings, txn, includeInverses);
-                    }
-                    else if (isInverse && value is IPersistEntity) //it is an inverse and has a single value
-                        InsertCopy((IPersistEntity)value, mappings, txn, includeInverses);
-                    else
-                        throw new XbimException(string.Format("Unexpected item type ({0})  found", theType.Name));
-                }
-            }
-            //  if (rt != null) rt.OwnerHistory = this.OwnerHistoryAddObject;
-            return (T)theCopy;
-        }
+        //    var theCopy = _factory.New(_model, copyHandle.EntityType, copyHandle.EntityLabel, true);
+        //    _read.TryAdd(copyHandle.EntityLabel, theCopy);
+        //    CreatedNew.TryAdd(copyHandle.EntityLabel, theCopy);
+        //    var rt = theCopy as IfcRoot;
+        //    var props = ifcType.Properties.Values.Where(p => !p.EntityAttribute.IsDerivedOverride);
+        //    if (includeInverses)
+        //        props = props.Union(ifcType.Inverses);
+        //    if (rt != null) rt.OwnerHistory = _model.OwnerHistoryAddObject;
+        //    foreach (var prop in props)
+        //    {
+        //        if (rt != null && prop.PropertyInfo.Name == "OwnerHistory") //don't add the owner history in as this will be changed later
+        //            continue;
+        //        var value = prop.PropertyInfo.GetValue(toCopy, null);
+        //        if (value != null)
+        //        {
+        //            var isInverse = (prop.EntityAttribute.Order == -1); //don't try and set the values for inverses
+        //            var theType = value.GetType();
+        //            //if it is an express type or a value type, set the value
+        //            if (theType.IsValueType || typeof(IExpressValueType).IsAssignableFrom(theType))
+        //            {
+        //                prop.PropertyInfo.SetValue(theCopy, value, null);
+        //            }
+        //            //else 
+        //            else if (!isInverse && typeof(IPersistEntity).IsAssignableFrom(theType))
+        //            {
+        //                prop.PropertyInfo.SetValue(theCopy, InsertCopy((IPersistEntity)value, mappings, txn, includeInverses), null);
+        //            }
+        //            else if (!isInverse && typeof(IExpressEnumerable).IsAssignableFrom(theType))
+        //            {
+        //                //TODO: MC: This part needs revision
+        //                throw new NotImplementedException("This part has to be revised after heavy refactoring of the base code.");
+        //                //var itemType = theType.GetItemTypeFromGenericType();
+        //                //
+        //                //IExpressEnumerable copyColl;
+        //                //if (!theType.IsGenericType) //we have a class that inherits from a generic type
+        //                //    copyColl = (IExpressEnumerable)Activator.CreateInstance(theType, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance, null, new object[] { theCopy }, null);
+        //                //else
+        //                //{
+        //                //    var genericType = theType.GetGenericTypeDefinition();
+        //                //    var gt = genericType.MakeGenericType(itemType);
+        //                //    copyColl = (IExpressEnumerable)Activator.CreateInstance(gt, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance, null, new object[] { theCopy }, null);
+        //                //}
+        //                //prop.PropertyInfo.SetValue(theCopy, copyColl, null);
+        //                //foreach (var item in (IExpressEnumerable)value)
+        //                //{
+        //                //    var actualItemType = item.GetType();
+        //                //    if (actualItemType.IsValueType || typeof(IExpressType).IsAssignableFrom(actualItemType))
+        //                //        copyColl.Add(item);
+        //                //    else if (typeof(IPersistEntity).IsAssignableFrom(actualItemType))
+        //                //    {
+        //                //        var cpy = InsertCopy((IPersistEntity)item, mappings, txn, includeInverses);
+        //                //        copyColl.Add(cpy);
+        //                //    }
+        //                //    else
+        //                //        throw new XbimException(string.Format("Unexpected collection item type ({0}) found", itemType.Name));
+        //                //}
+        //            }
+        //            else if (isInverse && value is IEnumerable<IPersistEntity>) //just an enumeration of IPersistEntity
+        //            {
+        //                foreach (var ent in (IEnumerable<IPersistEntity>)value)
+        //                    InsertCopy(ent, mappings, txn, includeInverses);
+        //            }
+        //            else if (isInverse && value is IPersistEntity) //it is an inverse and has a single value
+        //                InsertCopy((IPersistEntity)value, mappings, txn, includeInverses);
+        //            else
+        //                throw new XbimException(string.Format("Unexpected item type ({0})  found", theType.Name));
+        //        }
+        //    }
+        //    //  if (rt != null) rt.OwnerHistory = this.OwnerHistoryAddObject;
+        //    return (T)theCopy;
+        //}
 
         private IPersistEntity GetInstance(XbimInstanceHandle map)
         {

@@ -1,8 +1,7 @@
 ﻿using System.Reflection;
-using Xbim.IO.Esent;
 using XbimGeometry.Interfaces;
 
-namespace Xbim.IO
+namespace Xbim.IO.Esent
 {
     public struct XbimGeometryHandle
     {

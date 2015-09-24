@@ -16,7 +16,7 @@ namespace Xbim.IO.Memory
         public MemoryModel()
         {
             _instances = new EntityCollection<TFactory>(this);
-            Header = new StepFileHeader(StepFileHeader.HeaderCreationMode.LeaveEmpty);
+            Header = new StepFileHeader(StepFileHeader.HeaderCreationMode.InitWithXbimDefaults);
             Header.FileSchema.Schemas.AddRange(_instances.Factory.SchemasIds);
             SchemaModule = typeof (TFactory).Module;
             ModelFactors = new XbimModelFactors(180.0/Math.PI, 0.001, 1e-9);
@@ -52,11 +52,11 @@ namespace Xbim.IO.Memory
             foreach (var type in types)
             {
                 var toNullify = type.Properties.Values.Where(p => 
-                    p.EntityAttributeAttribute != null && p.EntityAttributeAttribute.Order > 0 &&
+                    p.EntityAttribute != null && p.EntityAttribute.Order > 0 &&
                     p.PropertyInfo.PropertyType.IsAssignableFrom(entityType)).ToList();
                 var toRemove =
                     type.Properties.Values.Where(p =>
-                        p.EntityAttributeAttribute != null && p.EntityAttributeAttribute.Order > 0 &&
+                        p.EntityAttribute != null && p.EntityAttribute.Order > 0 &&
                         p.PropertyInfo.PropertyType.IsGenericType && 
                         p.PropertyInfo.PropertyType.GenericTypeArguments[0].IsAssignableFrom(entityType)).ToList();
                 if (!toNullify.Any() && !toRemove.Any()) continue;

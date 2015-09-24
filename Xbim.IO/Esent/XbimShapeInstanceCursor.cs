@@ -1,8 +1,7 @@
 ﻿using Microsoft.Isam.Esent.Interop;
 using Xbim.Common.Geometry;
-using Xbim.IO.Esent;
 
-namespace Xbim.IO
+namespace Xbim.IO.Esent
 {
     /// <summary>
     /// Provides a table of instantiations of shapes at specific tranformations

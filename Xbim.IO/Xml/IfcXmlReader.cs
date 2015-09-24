@@ -18,7 +18,6 @@ using System.Reflection;
 using System.Xml;
 using Xbim.Common;
 using Xbim.Common.Step21;
-using Xbim.Ifc2x3.MeasureResource;
 using Xbim.IO.Esent;
 using Xbim.IO.Step21.Parser;
 
@@ -749,10 +748,10 @@ namespace Xbim.IO.Xml
                         if (!t.IsAbstract)
                         {
                             StepParserType parserType;
-                            if (typeof(IExpressValueType).IsAssignableFrom(t) && !(typeof(IExpressValueComplexType).IsAssignableFrom(t) ))
+                            if (typeof(IExpressValueType).IsAssignableFrom(t) && !(typeof(IExpressComplexType).IsAssignableFrom(t) ))
                             {
                                 var et = (IExpressValueType)(Activator.CreateInstance(t));
-                                if (et.GetType() == typeof(IfcLogical))
+                                if (et.UnderlyingSystemType == typeof(bool?))
                                     parserType = StepParserType.Boolean;
                                 else
                                     parserType = Primitives[et.UnderlyingSystemType.Name];

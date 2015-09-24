@@ -1,7 +1,6 @@
 ﻿using Microsoft.Isam.Esent.Interop;
-using Xbim.IO.Esent;
 
-namespace Xbim.IO
+namespace Xbim.IO.Esent
 {
 
     public class XbimShapeGeometryCursor : XbimCursor

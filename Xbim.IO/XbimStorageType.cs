@@ -19,12 +19,12 @@ namespace Xbim.IO
         /// <summary>
         ///   Native IFC format
         /// </summary>
-        IFC = 2,
+        Step21 = 2,
 
         /// <summary>
         ///   compressed IFC format
         /// </summary>
-        IFCZIP = 4,
+        Step21Zip = 4,
 
         // IFCXMLX = 8,
         /// <summary>

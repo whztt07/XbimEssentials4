@@ -13,7 +13,7 @@ namespace Xbim.IO
             var model = product.Model as EsentModel;
             if (model != null)
             {
-                foreach (var item in model.GetGeometryData(product, geomType))
+                foreach (var item in model.GetGeometryData(product.EntityLabel, geomType))
                 {
                     yield return item;
                 }

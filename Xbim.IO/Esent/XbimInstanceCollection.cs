@@ -12,7 +12,6 @@ namespace Xbim.IO.Esent
     /// </summary>
     public class XbimInstanceCollection : IEntityCollection
     {
-        private readonly EsentModel _esentModel;
         protected readonly PersistedEntityInstanceCache Cache;
         
         public IEnumerable<IPersistEntity> OfType(string stringType, bool activate)
@@ -22,7 +21,6 @@ namespace Xbim.IO.Esent
 
         internal XbimInstanceCollection(EsentModel esentModel)
         {
-            _esentModel = esentModel;
             Cache = esentModel.Cache;
         }
 

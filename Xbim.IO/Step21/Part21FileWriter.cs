@@ -41,8 +41,12 @@ namespace Xbim.IO.Step21
 
         public void Write(EsentModel model, TextWriter output, IDictionary<int, int> map = null)
         {
-            new HashSet<long>();
-            output.Write(HeaderAsString(model.Header ?? new StepFileHeader(StepFileHeader.HeaderCreationMode.InitWithXbimDefaults)));
+            output.Write(HeaderAsString(
+                model.Header ?? 
+                new StepFileHeader(StepFileHeader.HeaderCreationMode.InitWithXbimDefaults)
+                {
+                    FileSchema = new StepFileSchema(model.Factory.SchemasIds.FirstOrDefault())
+                }));
             foreach (var item in model.InstanceHandles /*.Types.OrderBy(t=>t.Name)*/)
             {
                 var entity = model.GetInstanceVolatile(item) as IInstantiableEntity;

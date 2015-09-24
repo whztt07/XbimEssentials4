@@ -58,6 +58,8 @@
     <Compile Include="ExpressType.cs" />
     <Compile Include="ExpressTypeDictionary.cs" />
     <Compile Include="ExpressInterfaces.cs" />
+    <Compile Include="Federation\IFederatedModel.cs" />
+    <Compile Include="Federation\IReferencedModel.cs" />
     <Compile Include="Geometry\IGeometryManager.cs" />
     <Compile Include="Geometry\IXbimBooleanOperand.cs" />
     <Compile Include="Geometry\IXbimCurve.cs" />

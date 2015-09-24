@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Xbim.Ifc2x3.IO;
 using Xbim.Ifc2x3.Kernel;
 using Xbim.Ifc2x3.MeasureResource;
 using Xbim.Ifc2x3.ProductExtension;
@@ -9,9 +10,9 @@ namespace Xbim.IO
 {
     public class XbimModelSummary
     {
-        readonly EsentModel _model;
+        readonly XbimModel _model;
 
-        public XbimModelSummary(EsentModel model)
+        public XbimModelSummary(XbimModel model)
         {
             _model = model;
         }

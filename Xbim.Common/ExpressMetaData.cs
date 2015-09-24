@@ -9,7 +9,7 @@ namespace Xbim.Common
     public class ExpressMetaProperty
     {
         public PropertyInfo PropertyInfo;
-        public EntityAttributeAttribute EntityAttributeAttribute;
+        public EntityAttributeAttribute EntityAttribute;
     }
 
     /// <summary>
@@ -138,11 +138,11 @@ namespace Xbim.Common
                     {
                         // SUPPORT: if the code breaks here there's a problem with the order attribut in a class property
                         expressType.Properties.Add(attribute.Order,
-                                                    new ExpressMetaProperty { PropertyInfo = propInfo, EntityAttributeAttribute = attribute });
+                                                    new ExpressMetaProperty { PropertyInfo = propInfo, EntityAttribute = attribute });
                         attributeIdx = attribute.Order;                     
                     }
                     else
-                        expressType.Inverses.Add(new ExpressMetaProperty { PropertyInfo = propInfo, EntityAttributeAttribute = attribute });
+                        expressType.Inverses.Add(new ExpressMetaProperty { PropertyInfo = propInfo, EntityAttribute = attribute });
                 }
                 var isIndexed =
                     propInfo.GetCustomAttributes(typeof(IndexedProperty), false).Any();
@@ -206,7 +206,7 @@ namespace Xbim.Common
             if (metadata._typeNameToExpressTypeLookup.ContainsKey(typeName))
                 return metadata._typeNameToExpressTypeLookup[typeName];
             if (metadata._persistNameToExpressTypeLookup.ContainsKey(typeName))
-                return metadata._typeNameToExpressTypeLookup[typeName];
+                return metadata._persistNameToExpressTypeLookup[typeName];
             return null;
         }
 
@@ -307,7 +307,9 @@ namespace Xbim.Common
         public static short ExpressTypeId(string typeName, Module module)
         {
             var metadata = GetMetadata(module);
-            return metadata._typeNameToExpressTypeLookup[typeName].TypeId;
+            return metadata._typeNameToExpressTypeLookup.ContainsKey(typeName) ? 
+                metadata._typeNameToExpressTypeLookup[typeName].TypeId : 
+                metadata._persistNameToExpressTypeLookup[typeName].TypeId;
         }
 
         public static short ExpressTypeId(IPersist entity)
@@ -362,7 +364,9 @@ namespace Xbim.Common
         public static bool TryGetExpressType(string typeName, out ExpressType expressType, Module module)
         {
             var metadata = GetMetadata(module);
-            return metadata._typeNameToExpressTypeLookup.TryGetValue(typeName, out expressType);
+            if (metadata._typeNameToExpressTypeLookup.TryGetValue(typeName, out expressType))
+                return true;
+            return metadata._persistNameToExpressTypeLookup.TryGetValue(typeName, out expressType);
         }
 
         /// <summary>

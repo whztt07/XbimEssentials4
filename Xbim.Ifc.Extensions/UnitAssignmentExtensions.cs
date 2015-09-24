@@ -179,7 +179,7 @@ namespace Xbim.Ifc2x3.Extensions
                 requiredUnit = IfcUnitEnum.THERMODYNAMICTEMPERATUREUNIT;
             else if (Property.NominalValue is IfcTimeMeasure)
                 requiredUnit = IfcUnitEnum.TIMEUNIT;
-            else if (Property.NominalValue is IfcValueComplexNumber)
+            else if (Property.NominalValue is IfcComplexNumber)
                 requiredUnit = null; // todo: not sure what to do here.
 
             // types from IfcSimpleValue

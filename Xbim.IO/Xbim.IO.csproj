@@ -81,10 +81,14 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Data" />
+    <Reference Include="System.IO.Compression" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Esent\XbimFederatedModelInstances.cs" />
+    <Compile Include="Esent\XbimReferencedModelCollection.cs" />
+    <Compile Include="Esent\XbimSurfaceStyle.cs" />
+    <Compile Include="Esent\XbimSurfaceStyleMap.cs" />
     <Compile Include="FileReferenceResolver.cs" />
     <Compile Include="IXbimShapeBounds.cs" />
     <Compile Include="IXbimShapeGeometryData.cs" />
@@ -95,6 +99,7 @@
     <Compile Include="Step21\Parser\StepForwardReference.cs" />
     <Compile Include="Step21\StepDateTimeHelper.cs" />
     <Compile Include="Step21\StepDoubleHelper.cs" />
+    <Compile Include="Step21\StepGuidHelper.cs" />
     <Compile Include="Step21\XbimP21StringDecoder.cs" />
     <Compile Include="Esent\XbimDBAccess.cs" />
     <Compile Include="Step21\StepTextHelper.cs" />
@@ -139,6 +144,7 @@
     <Compile Include="Esent\XbimShapeInstance.cs" />
     <Compile Include="Esent\XbimShapeInstanceCursor.cs" />
     <Compile Include="XbimStorageType.cs" />
+    <Compile Include="Zip\XbimZipper.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">

@@ -10,6 +10,7 @@ using System.Reflection;
 using ICSharpCode.SharpZipLib.Zip;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
+using Xbim.Common.Federation;
 using Xbim.Common.Geometry;
 using Xbim.Common.Logging;
 using Xbim.Common.Step21;
@@ -22,7 +23,7 @@ namespace Xbim.IO.Esent
     /// General Model class for memory based model suport
     /// </summary>
 
-    public class EsentModel<TFactory> : IModel, IDisposable where TFactory : IEntityFactory, new()
+    public class EsentModel: IModel, IFederatedModel, IDisposable
     {
         #region Fields
 
@@ -34,7 +35,7 @@ namespace Xbim.IO.Esent
 
         #region Model state fields
 
-        protected readonly PersistedEntityInstanceCache _cache;
+        protected PersistedEntityInstanceCache _cache;
         internal PersistedEntityInstanceCache Cache
         {
             get { return _cache; }
@@ -42,7 +43,7 @@ namespace Xbim.IO.Esent
 
         private bool _disposed;
        
-        private readonly XbimInstanceCollection _instances;
+        private XbimInstanceCollection _instances;
         private XbimEntityCursor _editTransactionEntityCursor;
         private bool _deleteOnClose;
         
@@ -59,7 +60,9 @@ namespace Xbim.IO.Esent
         //Object that manages geometry conversion etc
         private Version _geometryVersion = new Version(2,0,0);
         private string _importFilePath;
-        
+
+        private IEntityFactory _factory;
+        public IEntityFactory Factory {get { return _factory; }}
       
         #endregion
 
@@ -68,15 +71,30 @@ namespace Xbim.IO.Esent
         /// </summary>
         public IModelFactors ModelFactors { get; protected set; }
 
-        public EsentModel()
+
+        public EsentModel(IEntityFactory factory)
         {
-            var factory = new TFactory();
+            Init(factory);
+        }
+
+        /// <summary>
+        /// Only inherited models can call parameterless constructor and it is their responsibility to 
+        /// call Init() as the very first thing.
+        /// </summary>
+        protected EsentModel()
+        {
+        }
+
+        protected void Init(IEntityFactory factory)
+        {
+            _factory = factory;
             _cache = new PersistedEntityInstanceCache(this, factory);
             _instances = new XbimInstanceCollection(this);
             var r = new Random();
             UserDefinedId = (short)r.Next(short.MaxValue); // initialise value at random to reduce chance of duplicates
-            SchemaModule = typeof(TFactory).Module;
+            SchemaModule = factory.GetType().Module;
         }
+
         public string DatabaseName
         {
             get { return _cache.DatabaseName; }
@@ -124,7 +142,7 @@ namespace Xbim.IO.Esent
         {
             get
             {
-                return new XbimFederatedModelInstances<TFactory>(this);
+                return new XbimFederatedModelInstances(this);
             }
         }
 
@@ -310,11 +328,11 @@ namespace Xbim.IO.Esent
                 case XbimStorageType.IFCXML:
                     _cache.ImportIfcXml(xbimDbName, importFrom, progDelegate, keepOpen, cacheEntities);
                     break;
-                case XbimStorageType.IFC:
-                    _cache.ImportIfc(xbimDbName, importFrom, progDelegate, keepOpen, cacheEntities, _codePageOverrideForStepFiles);
+                case XbimStorageType.Step21:
+                    _cache.ImportStep(xbimDbName, importFrom, progDelegate, keepOpen, cacheEntities, _codePageOverrideForStepFiles);
                     break;
-                case XbimStorageType.IFCZIP:
-                    _cache.ImportIfcZip(xbimDbName, importFrom, progDelegate, keepOpen, cacheEntities, _codePageOverrideForStepFiles);
+                case XbimStorageType.Step21Zip:
+                    _cache.ImportStepZip(xbimDbName, importFrom, progDelegate, keepOpen, cacheEntities, _codePageOverrideForStepFiles);
                     break;
                 case XbimStorageType.XBIM:
                     _cache.ImportXbim(importFrom, progDelegate);
@@ -331,16 +349,17 @@ namespace Xbim.IO.Esent
         /// It will be returned open for read write operations
         /// </summary>
         /// <returns></returns>
-        static public EsentModel<TFactory> CreateTemporaryModel()
+        static public EsentModel CreateTemporaryModel(IEntityFactory factory)
         {
             
             var tmpFileName = Path.GetTempFileName();
             try
             {
-                var model = new EsentModel<TFactory>();
+                var model = new EsentModel(factory);
                 model.CreateDatabase(tmpFileName);  
                 model.Open(tmpFileName, XbimDBAccess.ReadWrite, true);
                 model.Header = new StepFileHeader(StepFileHeader.HeaderCreationMode.InitWithXbimDefaults);
+                model.Header.FileSchema.Schemas.AddRange(factory.SchemasIds);
                 return model;
             }
             catch (Exception e)
@@ -362,19 +381,17 @@ namespace Xbim.IO.Esent
         /// <param name="dbFileName">Name of the Xbim file</param>
         /// <param name="access"></param>
         /// <returns></returns>
-        static public EsentModel<TFactory> CreateModel(string dbFileName, XbimDBAccess access = XbimDBAccess.ReadWrite)
+        static public EsentModel CreateModel(IEntityFactory factory, string dbFileName, XbimDBAccess access = XbimDBAccess.ReadWrite)
         {
             try
             {
                 if (string.IsNullOrWhiteSpace(Path.GetExtension(dbFileName)))
                     dbFileName += ".xBIM";
-                var model = new EsentModel<TFactory>();
+                var model = new EsentModel(factory);
                 model.CreateDatabase(dbFileName); 
                 model.Open(dbFileName, access);
-                model.Header = new StepFileHeader(StepFileHeader.HeaderCreationMode.InitWithXbimDefaults)
-                {
-                    FileName = {Name = dbFileName}
-                };
+                model.Header = new StepFileHeader(StepFileHeader.HeaderCreationMode.InitWithXbimDefaults) { FileName = {Name = dbFileName} };
+                model.Header.FileSchema.Schemas.AddRange(factory.SchemasIds);
                 return model;
             }
             catch (Exception e)
@@ -394,10 +411,7 @@ namespace Xbim.IO.Esent
                 entity.WriteEntity(entityWriter);
                 return entityStream.ToArray();
             }
-            else //it is in a persisted cache but hasn't been loaded yet
-            {
-                return _cache.GetEntityBinaryData(entity);
-            }
+            return _cache.GetEntityBinaryData(entity);
         }
 
         public IStepFileHeader Header {  get; set; }
@@ -480,29 +494,32 @@ namespace Xbim.IO.Esent
         {
             //IfcAttribute ifcAttr, object instance, object propVal, string propName
 
-            var ifcAttr = prop.EntityAttributeAttribute;
+            var entAttr = prop.EntityAttribute;
             var propVal = prop.PropertyInfo.GetValue(instance, null);
             var propName = prop.PropertyInfo.Name;
 
             
 
-            if (ifcAttr.State == EntityAttributeState.Mandatory && propVal == null)
+            if (entAttr.State == EntityAttributeState.Mandatory && propVal == null)
                 return string.Format("{0}.{1} is not optional", instance.GetType().Name, propName);
-            if (ifcAttr.State == EntityAttributeState.Optional && propVal == null)
+            if (entAttr.State == EntityAttributeState.Optional && propVal == null)
                 //if it is null and optional then it is ok
                 return null;
 
-            var expressType = propVal as IExpressValueType;
-            if (expressType != null)
+            //if it is IPersist (either IPersistEntity or IExpressValueType) check WhereRule() defined in schema. 
+            var persist = propVal as IPersist;
+            if (persist != null)
             {
-                var err = ((IPersist)propVal).WhereRule();
+                var err = persist.WhereRule();
                 if (!string.IsNullOrEmpty(err)) return err;
             }
 
-            if (ifcAttr.EntityType != EntityAttributeType.Set && ifcAttr.EntityType != EntityAttributeType.List &&
-                ifcAttr.EntityType != EntityAttributeType.ListUnique) return null;
+            if (entAttr.EntityType != EntityAttributeType.Set && entAttr.EntityType != EntityAttributeType.List &&
+                entAttr.EntityType != EntityAttributeType.ListUnique && entAttr.EntityType != EntityAttributeType.Array && 
+                entAttr.EntityType != EntityAttributeType.ArrayUnique && entAttr.EntityType != EntityAttributeType.Bag) 
+                return null;
 
-            if (ifcAttr.MinCardinality < 1 && ifcAttr.MaxCardinality < 0) //we don't care how many so don't check
+            if (entAttr.MinCardinality < 1 && entAttr.MaxCardinality < 0) //we don't care how many so don't check
                 return null;
             var coll = propVal as ICollection;
             var count = 0;
@@ -515,23 +532,23 @@ namespace Xbim.IO.Esent
                 foreach (var item in en)
                 {
                     count++;
-                    if (count >= ifcAttr.MinCardinality && ifcAttr.MaxCardinality == -1)
+                    if (count >= entAttr.MinCardinality && entAttr.MaxCardinality == -1)
                         //we have met the requirements
                         break;
-                    if (ifcAttr.MaxCardinality > -1 && count > ifcAttr.MaxCardinality) //we are out of bounds
+                    if (entAttr.MaxCardinality > -1 && count > entAttr.MaxCardinality) //we are out of bounds
                         break;
                 }
             }
 
-            if (count < ifcAttr.MinCardinality)
+            if (count < entAttr.MinCardinality)
             {
                 return string.Format("{0}.{1} must have at least {2} item(s). It has {3}", instance.GetType().Name,
-                    propName, ifcAttr.MinCardinality, count);
+                    propName, entAttr.MinCardinality, count);
             }
-            if (ifcAttr.MaxCardinality > -1 && count > ifcAttr.MaxCardinality)
+            if (entAttr.MaxCardinality > -1 && count > entAttr.MaxCardinality)
             {
                 return string.Format("{0}.{1} must have no more than {2} item(s). It has at least {3}",
-                    instance.GetType().Name, propName, ifcAttr.MaxCardinality, count);
+                    instance.GetType().Name, propName, entAttr.MaxCardinality, count);
             }
             return null;
         }
@@ -559,8 +576,7 @@ namespace Xbim.IO.Esent
                         throw new ArgumentException(string.Format("Invalid Header entity type {0}", className));
                 }
             }
-            else
-                return CreateInstance(className, label);
+            return CreateInstance(className, label);
         }
 
 
@@ -586,6 +602,12 @@ namespace Xbim.IO.Esent
             if (_editTransactionEntityCursor != null)
                 EndTransaction();
             _cache.Close();
+
+            //dispose any referenced models
+            foreach (var refModel in _referencedModels.Select(r => r.Model).OfType<IDisposable>())
+                refModel.Dispose();
+            _referencedModels.Clear();
+
             try //try and tidy up if required
             {
                 if (_deleteOnClose && File.Exists(dbName))
@@ -687,8 +709,7 @@ namespace Xbim.IO.Esent
                     var ext = Path.GetExtension(outputFileName);
                     if(string.IsNullOrWhiteSpace(ext))
                         throw new XbimException("Invalid file type, no extension specified in file " + outputFileName);
-                    else
-                        throw new XbimException("Invalid file type ." + ext.ToUpper() + " in file " + outputFileName);
+                    throw new XbimException("Invalid file type ." + ext.ToUpper() + " in file " + outputFileName);
                 }
                 if (storageType.Value == XbimStorageType.XBIM && DatabaseName != null) //make a copy
                 {
@@ -718,11 +739,8 @@ namespace Xbim.IO.Esent
                         Open(srcFile, accessMode);
                     }
                 }
-                else
-                {
-                    _cache.SaveAs(storageType.Value, outputFileName, progress, map);
-                    return true;
-                }
+                _cache.SaveAs(storageType.Value, outputFileName, progress, map);
+                return true;
             }
             catch (Exception e)
             {
@@ -775,12 +793,24 @@ namespace Xbim.IO.Esent
         {
             if (string.IsNullOrWhiteSpace(fileName)) return XbimStorageType.INVALID;
             var ext = Path.GetExtension(fileName).ToLower();
-            if (ext == ".xbim" || ext == ".xbimf") return XbimStorageType.XBIM;
-            else if (ext == ".ifc") return XbimStorageType.IFC;
-            else if (ext == ".ifcxml") return XbimStorageType.IFCXML;
-            else if (ext == ".zip" || ext == ".ifczip") return XbimStorageType.IFCZIP;
-            else
-                return XbimStorageType.INVALID;
+            switch (ext)
+            {
+                case ".xbim":
+                case ".xbimf":
+                    return XbimStorageType.XBIM;
+                case ".ifc":
+                case ".stp":
+                case ".step21":
+                    return XbimStorageType.Step21;
+                case ".ifcxml":
+                    return XbimStorageType.IFCXML;
+                case ".zip":
+                case ".ifczip":
+                case ".stpzip":
+                case ".step21zip":
+                    return XbimStorageType.Step21Zip;
+            }
+            return XbimStorageType.INVALID;
         }
 
         #endregion
@@ -911,18 +941,6 @@ namespace Xbim.IO.Esent
             //}
         }
 
-        
-
-        //public IDictionary<string, XbimViewDefinition> Views
-        //{
-        //    get
-        //    {
-        //        Dictionary<string, XbimViewDefinition> views = new Dictionary<string, XbimViewDefinition>();
-        //        views.Add("Default", new XbimViewDefinition());
-        //        return views;
-        //    }
-        //}
-
         /// <summary>
         /// Returns the level of geometry supported in the model
         /// 0 = No geometry has been compiled in the model
@@ -957,36 +975,36 @@ namespace Xbim.IO.Esent
             return _cache.GetEntityTable();
         }
 
-        internal void Compact(EsentModel<TFactory> targetModel)
+        internal void Compact(EsentModel targetModel)
         {
           
         }
 
-        /// <summary>
-        /// Inserts a deep copy of the toCopy object into this model
-        /// All property values are copied to the maximum depth
-        /// Objects are not duplicated, if repeated copies are to be performed use the version with the 
-        /// mapping argument to ensure objects are not duplicated
-        /// </summary>
-        /// <param name="toCopy"></param>
-        /// <returns></returns>
-        public T InsertCopy<T>(T toCopy, XbimReadWriteTransaction txn, bool includeInverses = false) where T : IPersistEntity
-        {
-            return InsertCopy(toCopy, new XbimInstanceHandleMap(toCopy.Model, this),txn, includeInverses);
-        }
+        ///// <summary>
+        ///// Inserts a deep copy of the toCopy object into this model
+        ///// All property values are copied to the maximum depth
+        ///// Objects are not duplicated, if repeated copies are to be performed use the version with the 
+        ///// mapping argument to ensure objects are not duplicated
+        ///// </summary>
+        ///// <param name="toCopy"></param>
+        ///// <returns></returns>
+        //public T InsertCopy<T>(T toCopy, XbimReadWriteTransaction txn, bool includeInverses = false) where T : IPersistEntity
+        //{
+        //    return InsertCopy(toCopy, new XbimInstanceHandleMap(toCopy.Model, this),txn, includeInverses);
+        //}
 
-        /// <summary>
-        /// Inserts a deep copy of the toCopy object into this model
-        /// All property values are copied to the maximum depth
-        /// Inverse properties are not copied
-        /// </summary>
-        /// <param name="toCopy">Instance to copy</param>
-        /// <param name="mappings">Supply a dictionary of mappings if repeat copy insertions are to be made</param>
-        /// <returns></returns>
-        public T InsertCopy<T>(T toCopy, XbimInstanceHandleMap mappings, XbimReadWriteTransaction txn, bool includeInverses = false) where T : IPersistEntity
-        {
-            return _cache.InsertCopy<T>(toCopy, mappings, txn, includeInverses);
-        }
+        ///// <summary>
+        ///// Inserts a deep copy of the toCopy object into this model
+        ///// All property values are copied to the maximum depth
+        ///// Inverse properties are not copied
+        ///// </summary>
+        ///// <param name="toCopy">Instance to copy</param>
+        ///// <param name="mappings">Supply a dictionary of mappings if repeat copy insertions are to be made</param>
+        ///// <returns></returns>
+        //public T InsertCopy<T>(T toCopy, XbimInstanceHandleMap mappings, XbimReadWriteTransaction txn, bool includeInverses = false) where T : IPersistEntity
+        //{
+        //    return _cache.InsertCopy<T>(toCopy, mappings, txn, includeInverses);
+        //}
 
         internal void EndTransaction()
         {
@@ -1042,7 +1060,7 @@ namespace Xbim.IO.Esent
 
         internal IPersistEntity GetInstanceVolatile(XbimInstanceHandle item)
         {
-          return item.Model.GetInstanceVolatile(item.EntityLabel);
+          return ((EsentModel)item.Model).GetInstanceVolatile(item.EntityLabel);
         }
 
 
@@ -1124,5 +1142,78 @@ namespace Xbim.IO.Esent
         }
 
         public Module SchemaModule { get; private set; }
+
+        #region Federation 
+        private readonly XbimReferencedModelCollection _referencedModels = new XbimReferencedModelCollection();
+
+        public IEnumerable<IReferencedModel> ReferencedModels
+        {
+            get
+            {
+                return _referencedModels.AsEnumerable();
+            }
+        }
+
+        public void AddModelReference(IReferencedModel model)
+        {
+            _referencedModels.Add(model);
+        }
+
+        IReadOnlyEntityCollection IFederatedModel.Instances
+        {
+            get { return Instances; }
+        }
+
+        /// <summary>
+        /// Returns true if the model contains reference models or the model has extension xBIMf
+        /// </summary>
+        public virtual bool IsFederation
+        {
+            get
+            {
+                return _referencedModels.Any() || string.Compare(Path.GetExtension(_cache.DatabaseName), ".xbimf", StringComparison.OrdinalIgnoreCase) == 0; 
+            }
+        }
+
+        protected string NextReferenceIdentifier()
+        {
+            return _referencedModels.NextIdentifer();
+        }
+
+        /// <summary>
+        /// Returns an enumerable of the handles to all entities in the model
+        /// Note this includes entities that are in any federated models
+        /// </summary>
+        public IEnumerable<XbimInstanceHandle> AllInstancesHandles
+        {
+            get
+            {
+                foreach (var h in InstanceHandles)
+                    yield return h;
+                foreach (var refModel in ReferencedModels.Where(r => r.Model is EsentModel).Select(r => r.Model as EsentModel))
+                    foreach (var h in refModel.AllInstancesHandles)
+                        yield return h;
+            }
+        }
+
+
+
+        /// <summary>
+        /// Federated models can be nested.
+        /// Since children models do not have a method for pointing to the parent management of their 
+        /// uniqueness must be achieved top down by the topmost one. After all child models are loaded.
+        /// </summary>
+        public IEnumerable<EsentModel> AllEsentModels
+        {
+            get 
+            {
+                yield return this;
+                foreach (var refModel in ReferencedModels.Select(r => r.Model).OfType<EsentModel>())
+                    foreach (var m in refModel.AllEsentModels)
+                        yield return m;
+            }
+        }
+
+        #endregion
     }
 }

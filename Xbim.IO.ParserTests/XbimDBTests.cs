@@ -1,7 +1,6 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Xbim.IO.Esent;
+using Xbim.Ifc2x3.IO;
 
 namespace Xbim.IO.ParserTests
 {
@@ -14,7 +13,7 @@ namespace Xbim.IO.ParserTests
         {
             var dbName = "test.xbim";
             var watch = new Stopwatch();
-            using (var model = new EsentModel())
+            using (var model = new XbimModel())
             {
                 watch.Start();
                 model.CreateFrom("SampleHouse.ifc", dbName, null, true);
@@ -27,7 +26,7 @@ namespace Xbim.IO.ParserTests
                 model.Close();    
             }
 
-            using (var model = new EsentModel())
+            using (var model = new XbimModel())
             {
                 watch.Start();
                 model.Open(dbName);

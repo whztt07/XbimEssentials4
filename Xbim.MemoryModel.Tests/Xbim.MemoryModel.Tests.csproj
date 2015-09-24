@@ -50,11 +50,8 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="InstancesCreation4.cs" />
-    <Compile Include="InstancesCreation2x3.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="CobieExpressCreation.cs" />
-    <Compile Include="SerializationTests.cs" />
+    <Compile Include="CobieTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Xbim.CobieExpress\Xbim.CobieExpress.csproj">

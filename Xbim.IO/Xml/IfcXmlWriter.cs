@@ -176,13 +176,13 @@ namespace Xbim.IO.Xml
             
             foreach (var ifcProperty in toWrite) //only write out persistent attributes, ignore inverses
             {
-                if (ifcProperty.EntityAttributeAttribute.State != EntityAttributeState.DerivedOverride)
+                if (ifcProperty.EntityAttribute.State != EntityAttributeState.DerivedOverride)
                 {
                     var propType = ifcProperty.PropertyInfo.PropertyType;
                     var propVal = ifcProperty.PropertyInfo.GetValue(entity, null);
 
                     WriteProperty(model, ifcProperty.PropertyInfo.Name, propType, propVal, entity, output, -1,
-                                  ifcProperty.EntityAttributeAttribute);
+                                  ifcProperty.EntityAttribute);
                 }
             }
             output.WriteEndElement();
@@ -220,7 +220,7 @@ namespace Xbim.IO.Xml
                     output.WriteStartElement(propName);
                     if (pos > -1)
                         output.WriteAttributeString("pos", pos.ToString());
-                    var val = propVal as IExpressValueComplexType;
+                    var val = propVal as IExpressComplexType;
                     if (val != null)
                     {
                         var complexProps = val.Properties;
@@ -297,9 +297,9 @@ namespace Xbim.IO.Xml
                 }
                 if (pos == -1) output.WriteEndElement();
             }
-            else if (typeof(IExpressValueComplexType).IsAssignableFrom(propType)) //it is a complex value tpye
+            else if (typeof(IExpressComplexType).IsAssignableFrom(propType)) //it is a complex value tpye
             {
-                var properties = ((IExpressValueComplexType)propVal).Properties;
+                var properties = ((IExpressComplexType)propVal).Properties;
             }
             else if (propType.IsValueType) //it might be an in-built value type double, string etc
             {

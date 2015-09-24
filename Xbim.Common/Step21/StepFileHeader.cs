@@ -50,7 +50,6 @@ namespace Xbim.Common.Step21
 
         public List<string> Description = new List<string>(2);
         private string ImplementationLevel;
-        public int EntityCount;
 
         #region ISupportIfcParser Members
 
@@ -82,7 +81,7 @@ namespace Xbim.Common.Step21
 
         internal void Write(BinaryWriter binaryWriter)
         {
-            this.MakeValid();
+            MakeValid();
             binaryWriter.Write(Description.Count);
             foreach (var desc in Description)
                 binaryWriter.Write(desc);
@@ -123,17 +122,7 @@ namespace Xbim.Common.Step21
             }
         }
 
-        int IStepFileDescription.EntityCount
-        {
-            get
-            {
-                return EntityCount;
-            }
-            set
-            {
-                EntityCount = value;
-            }
-        }
+        int IStepFileDescription.EntityCount { get; set; }
 
 
         void IStepFileDescription.Write(BinaryWriter binaryWriter)
@@ -457,21 +446,21 @@ namespace Xbim.Common.Step21
             InitWithXbimDefaults
         }
 
-        public StepFileHeader(HeaderCreationMode Mode)
+        public StepFileHeader(HeaderCreationMode mode)
         {
-            if (Mode == HeaderCreationMode.InitWithXbimDefaults)
+            if (mode == HeaderCreationMode.InitWithXbimDefaults)
             {
                 FileDescription = new StepFileDescription("2;1");
                 FileName = new StepFileName(DateTime.Now)
                     {
                         PreprocessorVersion =
-                            string.Format("Xbim.Ifc File Processor version {0}",
+                            string.Format("Xbim File Processor version {0}",
                                           Assembly.GetExecutingAssembly().GetName().Version),
                         OriginatingSystem =
                             string.Format("Xbim version {0}",
                                           Assembly.GetExecutingAssembly().GetName().Version),
                     };
-                FileSchema = new StepFileSchema("IFC2X3");
+                FileSchema = new StepFileSchema();
             }
             else
             {

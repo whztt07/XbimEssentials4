@@ -1,14 +1,14 @@
 ﻿using System.Collections.ObjectModel;
-using Xbim.Common.Exceptions;
 using System.Collections.Specialized;
 using System.ComponentModel;
-using Xbim.IO.Esent;
+using Xbim.Common.Exceptions;
+using Xbim.Common.Federation;
 
-namespace Xbim.IO
+namespace Xbim.IO.Esent
 {
-    public class XbimReferencedModelCollection : KeyedCollection<string, IXbimReferencedModel>, INotifyCollectionChanged, INotifyPropertyChanged
+    public class XbimReferencedModelCollection : KeyedCollection<string, IReferencedModel>, INotifyCollectionChanged, INotifyPropertyChanged
     {
-        protected override string GetKeyForItem(IXbimReferencedModel item)
+        protected override string GetKeyForItem(IReferencedModel item)
         {
             return item.Identifier;
         }
@@ -32,9 +32,9 @@ namespace Xbim.IO
         }
 
 
-        protected override void InsertItem(int index, IXbimReferencedModel item)
+        protected override void InsertItem(int index, IReferencedModel item)
         {
-            IXbimReferencedModel removed = null;
+            IReferencedModel removed = null;
             if (index < Count)
                 removed = this[index];
             base.InsertItem(index, item);
@@ -74,9 +74,9 @@ namespace Xbim.IO
             NotifyCountChanged(oldCount);
         }
 
-        protected override void SetItem(int index, IXbimReferencedModel item)
+        protected override void SetItem(int index, IReferencedModel item)
         {
-            IXbimReferencedModel removed = null;
+            IReferencedModel removed = null;
             if (index < Count)
                 removed = this[index];
             base.SetItem(index, item);

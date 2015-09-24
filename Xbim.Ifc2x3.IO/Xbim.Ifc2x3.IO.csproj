@@ -43,14 +43,10 @@
     <Compile Include="IfcRepresentationItemExtensions.cs" />
     <Compile Include="IPersistEntityExtensions.cs" />
     <Compile Include="IXbimGeometryCreator.cs" />
-    <Compile Include="IXbimReferencedModel.cs" />
     <Compile Include="XbimModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="XbimModelSummary.cs" />
     <Compile Include="XbimReferencedModel.cs" />
-    <Compile Include="XbimReferencedModelCollection.cs" />
-    <Compile Include="XbimSurfaceStyle.cs" />
-    <Compile Include="XbimSurfaceStyleMap.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Xbim.Common\Xbim.Common.csproj">
