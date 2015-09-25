@@ -45,7 +45,7 @@ namespace Xbim.IO.Esent
         /// <returns></returns>
         public IEnumerable<TIfc> OfType<TIfc>(bool activate) where TIfc : IPersistEntity
         {
-            return Cache.OfType<TIfc>(activate).Select(item => item);
+            return Cache.OfType<TIfc>(activate);
         }
 
 
@@ -125,13 +125,28 @@ namespace Xbim.IO.Esent
         }
 
         /// <summary>
+        /// This event is fired every time when new entity instance is created. You can use this to
+        /// do any initialization you need. This event is not fired for objects which are created
+        /// outside of transaction like during deserialization.
+        /// </summary>
+        public event InitNewEntity NewEntityCreated;
+
+        private void HandleNewInstance(IPersistEntity entity)
+        {
+            if (NewEntityCreated != null)
+                NewEntityCreated(entity);
+        }
+
+        /// <summary>
         ///   Creates a new Ifc Persistent Instance, this is an undoable operation
         /// </summary>
         /// <typeparam name = "TIfcType"> The Ifc Type, this cannot be an abstract class. An exception will be thrown if the type is not a valid Ifc Type  </typeparam>
         public TIfcType New<TIfcType>() where TIfcType : IInstantiableEntity
         {
             var t = typeof(TIfcType);
-            return (TIfcType)New(t);
+            var e = (TIfcType)New(t);
+            HandleNewInstance(e);
+            return e;
         }
         /// <summary>
         ///   Creates and Instance of TIfcType and initializes the properties in accordance with the lambda expression
@@ -144,6 +159,7 @@ namespace Xbim.IO.Esent
         {
             var instance = New<TIfcType>();
             initPropertiesFunc(instance);
+            HandleNewInstance(instance);
             return instance;
         }
 
@@ -157,7 +173,7 @@ namespace Xbim.IO.Esent
         public IPersistEntity New(Type t)
         {
             var entity = Cache.CreateNew(t);
-            
+            HandleNewInstance(entity);
             return entity;
 
         }
@@ -196,5 +212,7 @@ namespace Xbim.IO.Esent
             return new XbimInstancesEntityEnumerator(Cache);
         }
     }
+
+    public delegate void InitNewEntity(IPersistEntity entity);
 
 }

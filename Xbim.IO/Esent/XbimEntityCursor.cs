@@ -745,13 +745,10 @@ namespace Xbim.IO.Esent
         bool IEnumerator.MoveNext()
         {
             int label;
-            if (cursor.TryMoveNextLabel(out label))
-            {
-                current = label;
-                return true;
-            }
-            else
-                return false;
+            if (!cursor.TryMoveNextLabel(out label)) return false;
+
+            current = label;
+            return true;
         }
 
 

@@ -25,6 +25,8 @@ namespace Xbim.Ifc2x3.IO
         {
             var factory = new EntityFactory();
             Init(factory);
+
+            InstancesLocal.NewEntityCreated += IfcRootInit;
         }
 
         public IfcAxis2Placement WorldCoordinateSystem { get; private set; }
@@ -173,7 +175,7 @@ namespace Xbim.Ifc2x3.IO
 
         public IEnumerable<XbimGeometryData> GetGeometryData(IfcProduct product, XbimGeometryType geomType)
         {
-            return _cache.GetGeometry(ExpressMetaData.ExpressTypeId(product), product.EntityLabel, geomType);
+            return InstanceCache.GetGeometry(ExpressMetaData.ExpressTypeId(product), product.EntityLabel, geomType);
         }
 
 
@@ -294,14 +296,7 @@ namespace Xbim.Ifc2x3.IO
             }
         }
 
-        public void EnsureUniqueUserDefinedId()
-        {
-            short iId = 0;
-            foreach (var model in AllEsentModels)
-            {
-                model.UserDefinedId = iId++;
-            }
-        }
+        
 
         
 

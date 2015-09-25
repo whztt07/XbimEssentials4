@@ -20,7 +20,7 @@ using Xbim.XbimExtensions;
 using XbimGeometry.Interfaces;
 
 namespace Xbim.IO.Esent
-{   
+{
     public class PersistedEntityInstanceCache : IDisposable
     {
          /// <summary>
@@ -37,6 +37,7 @@ namespace Xbim.IO.Esent
         static int cacheSizeInBytes = 128 * 1024 * 1024 ;
         private const int MaxCachedEntityTables = 32;
         private const int MaxCachedGeometryTables = 32;
+
 
         static PersistedEntityInstanceCache()
         {
@@ -925,6 +926,7 @@ namespace Xbim.IO.Esent
             }
         }
 
+       
 
         /// <summary>
         /// Creates a new instance
