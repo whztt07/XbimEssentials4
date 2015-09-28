@@ -1756,7 +1756,6 @@ namespace Xbim.IO.Esent
         internal T InsertCopy<T>(T toCopy, XbimInstanceHandleMap mappings, XbimReadWriteTransaction txn, bool includeInverses, PropertyTranformDelegate propTransform = null) where T : IPersistEntity
         {
             //check if the transaction needs pulsing
-
             var toCopyHandle = toCopy.GetHandle();
 
             XbimInstanceHandle copyHandle;
@@ -1771,16 +1770,7 @@ namespace Xbim.IO.Esent
             var copyLabel = toCopy.EntityLabel;
             copyHandle = InsertNew(ifcType.Type, copyLabel);
             mappings.Add(toCopyHandle, copyHandle);
-            //if (typeof(IfcCartesianPoint) == ifcType.Type || typeof(IfcDirection) == ifcType.Type)//special cases for cartesian point and direction for efficiency
-            //{
-            //    var v = (IPersistEntity)Activator.CreateInstance(ifcType.Type, new object[] { toCopy });
-            //    v.Bind(_model, copyHandle.EntityLabel, true);
-            //    v.Activate(true);
-            //    read.TryAdd(copyHandle.EntityLabel, v);
-            //    createdNew.TryAdd(copyHandle.EntityLabel, v);
-            //    return (T)v;
-            //}
-
+            
             var theCopy = _factory.New(_model, copyHandle.EntityType, copyHandle.EntityLabel, true);
             _read.TryAdd(copyHandle.EntityLabel, theCopy);
             CreatedNew.TryAdd(copyHandle.EntityLabel, theCopy);
