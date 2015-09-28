@@ -336,6 +336,27 @@ namespace Xbim.IO.Esent
             return true;
         }
 
+        public virtual bool CreateFrom(Stream inputStream, XbimStorageType streamType, string xbimDbName, ReportProgressDelegate progDelegate = null, bool keepOpen = false, bool cacheEntities = false)
+        {
+            Close();
+
+            switch (streamType)
+            {
+                case XbimStorageType.IFCXML:
+                    Cache.ImportIfcXml(xbimDbName, inputStream, progDelegate, keepOpen, cacheEntities);
+                    break;
+                case XbimStorageType.Step21:
+                    Cache.ImportStep(xbimDbName, inputStream, progDelegate, keepOpen, cacheEntities, _codePageOverrideForStepFiles);
+                    break;
+                case XbimStorageType.Step21Zip:
+                    Cache.ImportStepZip(xbimDbName, inputStream, progDelegate, keepOpen, cacheEntities, _codePageOverrideForStepFiles);
+                    break;
+                default:
+                    return false;
+            }
+            
+            return true;
+        }
         /// <summary>
         /// Creates an empty model using a temporary filename, the model will be deleted on close, unless SaveAs is called
         /// It will be returned open for read write operations
@@ -899,36 +920,30 @@ namespace Xbim.IO.Esent
             return InstanceCache.GetEntityTable();
         }
 
-        internal void Compact(EsentModel targetModel)
+        static public void Compact(string sourceModelName, string targetModelName)
         {
-          
+            PersistedEntityInstanceCache.Compact(sourceModelName, targetModelName);
         }
 
-        ///// <summary>
-        ///// Inserts a deep copy of the toCopy object into this model
-        ///// All property values are copied to the maximum depth
-        ///// Objects are not duplicated, if repeated copies are to be performed use the version with the 
-        ///// mapping argument to ensure objects are not duplicated
-        ///// </summary>
-        ///// <param name="toCopy"></param>
-        ///// <returns></returns>
-        //public T InsertCopy<T>(T toCopy, XbimReadWriteTransaction txn, bool includeInverses = false) where T : IPersistEntity
-        //{
-        //    return InsertCopy(toCopy, new XbimInstanceHandleMap(toCopy.Model, this),txn, includeInverses);
-        //}
+        /// <summary>
+        /// Inserts a deep copy of the toCopy object into this model
+        /// All property values are copied to the maximum depth
+        /// Inverse properties are not copied
+        /// </summary>
+        /// <param name="toCopy">Instance to copy</param>
+        /// <param name="mappings">Supply a dictionary of mappings if repeat copy insertions are to be made</param>
+        /// <param name="txn"></param>
+        /// <param name="includeInverses"></param>
+        /// <returns></returns>
+        public T InsertCopy<T>(T toCopy, XbimInstanceHandleMap mappings, XbimReadWriteTransaction txn, bool includeInverses = false) where T : IPersistEntity
+        {
+            return Cache.InsertCopy(toCopy, mappings, txn, includeInverses, null);
+        }
 
-        ///// <summary>
-        ///// Inserts a deep copy of the toCopy object into this model
-        ///// All property values are copied to the maximum depth
-        ///// Inverse properties are not copied
-        ///// </summary>
-        ///// <param name="toCopy">Instance to copy</param>
-        ///// <param name="mappings">Supply a dictionary of mappings if repeat copy insertions are to be made</param>
-        ///// <returns></returns>
-        //public T InsertCopy<T>(T toCopy, XbimInstanceHandleMap mappings, XbimReadWriteTransaction txn, bool includeInverses = false) where T : IPersistEntity
-        //{
-        //    return InstanceCache.InsertCopy<T>(toCopy, mappings, txn, includeInverses);
-        //}
+        public T InsertCopy<T>(T toCopy, XbimInstanceHandleMap mappings, XbimReadWriteTransaction txn, PropertyTranformDelegate propTransform, bool includeInverses = false) where T : IPersistEntity
+        {
+            return Cache.InsertCopy(toCopy, mappings, txn, includeInverses, propTransform);
+        }
 
         internal void EndTransaction()
         {
@@ -1133,4 +1148,7 @@ namespace Xbim.IO.Esent
         }
         #endregion
     }
+
+    public delegate object PropertyTranformDelegate(ExpressMetaProperty property, object parentObject);
+
 }

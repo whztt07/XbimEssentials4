@@ -316,6 +316,8 @@ namespace Xbim.IO.Esent
 
                 _currentType = entityTypeName;
                 var type = ExpressMetaData.ExpressType(_currentType, _modelCache.Model.SchemaModule);
+                if (type == null)
+                    throw new ArgumentException(string.Format("Invalid entity type {0}", _currentType));
                 _indexKeys = type.IndexedValues;
             }
         }

@@ -440,11 +440,25 @@ namespace Xbim.IO.Esent
         /// <returns>A handle to the entity</returns>
         internal XbimInstanceHandle AddEntity(Type type)
         {
-            System.Diagnostics.Debug.Assert(typeof(IPersistEntity).IsAssignableFrom(type));
+            //System.Diagnostics.Debug.Assert(typeof(IPersistEntity).IsAssignableFrom(type));
             var highest = RetrieveHighestLabel();
             var ifcType = ExpressMetaData.ExpressType(type);
             var h = new XbimInstanceHandle(Model, highest + 1, ifcType.TypeId);
             AddEntity(h.EntityLabel, h.EntityTypeId, null, null, ifcType.IndexedClass);
+            return h;
+        }
+
+        /// <summary>
+        /// Create a new entity of the specified type, the entity will be blank, all properties with default values
+        /// The entity label will be as specified, an exception will be raised if the label is already in use
+        /// </summary>
+        /// <param name="type">Type of entity to create, this must support IPersistIfcEntity</param>
+        /// <returns>A handle to the entity</returns>
+        internal XbimInstanceHandle AddEntity(Type type, int entityLabel)
+        {
+            var entityType = ExpressMetaData.ExpressType(type);
+            var h = new XbimInstanceHandle(Model, entityLabel, entityType.TypeId);
+            AddEntity(h.EntityLabel, h.EntityTypeId, null, null, entityType.IndexedClass);
             return h;
         }
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -15,7 +16,6 @@ using Xbim.Common;
 using Xbim.Common.Exceptions;
 using Xbim.Common.Geometry;
 using Xbim.Common.Metadata;
-using Xbim.Common.XbimExtensions;
 using Xbim.IO.Step21;
 using Xbim.IO.Step21.Parser;
 using Xbim.IO.Xml;
@@ -64,7 +64,7 @@ namespace Xbim.IO.Esent
         private readonly XbimEntityCursor[] _entityTables;
         private readonly XbimCursor[] _geometryTables;
         private XbimDBAccess _accessMode;
-        private string _systemPath;
+        private static string _systemPath;
 
        
 
@@ -486,160 +486,7 @@ namespace Xbim.IO.Esent
 
         }
 
-        /// <summary>
-        /// Imports the contents of the ifc file into the named database, the resulting database is closed after success, use Open to access
-        /// </summary>
-        /// <param name="toImportIfcFilename"></param>
-        /// <param name="progressHandler"></param>
-        /// <param name="xbimDbName"></param>
-        /// <param name="keepOpen"></param>
-        /// <param name="cacheEntities"></param>
-        /// <param name="codePageOverride"></param>
-        /// <returns></returns>
-        public void ImportStep(string xbimDbName, string toImportIfcFilename, ReportProgressDelegate progressHandler = null, bool keepOpen = false, bool cacheEntities = false, int codePageOverride = -1)
-        {
-            
-            CreateDatabase(xbimDbName);
-            Open(xbimDbName, XbimDBAccess.Exclusive);
-            var table = GetEntityTable();
-            if (cacheEntities) CacheStart();
-            try
-            {
-                using (var reader = new FileStream(toImportIfcFilename, FileMode.Open, FileAccess.Read))
-                {
-                    _forwardReferences = new BlockingCollection<StepForwardReference>();
-                    using (var part21Parser = new P21toIndexParser(reader, table, this, codePageOverride))
-                    {
-                        if (progressHandler != null) part21Parser.ProgressStatus += progressHandler;
-                        part21Parser.Parse();
-                        _model.Header = part21Parser.Header;       
-                        if (progressHandler != null) part21Parser.ProgressStatus -= progressHandler;
-                    }
-                }
-                // the header used to be written a few lines above just after being assigned but should be ok here too.
-                // todo: bonghi: ask SRL if it should be elsewhere
-                using (var transaction = table.BeginLazyTransaction())
-                {
-                    table.WriteHeader(_model.Header);
-                    transaction.Commit();
-                }
-                FreeTable(table);
-                if (!keepOpen) Close();
-            }
-            catch (Exception)
-            {
-                FreeTable(table);
-                Close();
-                File.Delete(xbimDbName);
-                throw;
-            }
-        }
-
-        /// <summary>
-        /// Imports an Ifc Zip file
-        /// </summary>
-        /// <param name="xbimDbName"></param>
-        /// <param name="toImportFilename"></param>
-        /// <param name="progressHandler"></param>
-        /// <param name="keepOpen"></param>
-        /// <param name="cacheEntities"></param>
-        /// <param name="codePageOverride"></param>
-        public void ImportStepZip(string xbimDbName, string toImportFilename, ReportProgressDelegate progressHandler = null, bool keepOpen = false, bool cacheEntities = false, int codePageOverride = -1)
-        {
-            CreateDatabase(xbimDbName);
-            Open(xbimDbName, XbimDBAccess.Exclusive);
-            var table = GetEntityTable();
-            if (cacheEntities) CacheStart();
-            try 
-            {
-                using (var fileStream = File.OpenRead(toImportFilename))
-                {
-                    // used because - The ZipInputStream has one major advantage over using ZipFile to read a zip: 
-                    // it can read from an unseekable input stream - such as a WebClient download
-                    using (var zipStream = new ZipInputStream(fileStream))
-                    {
-                        var entry = zipStream.GetNextEntry();
-                        while (entry != null)
-                        {
-                            var extension = Path.GetExtension(entry.Name);
-                            if (extension != null)
-                            {
-                                var ext = extension.ToLowerInvariant();
-                                //look for a valid ifc supported file
-                                if (entry.IsFile &&
-                                    (
-                                        string.Compare(ext, ".ifc", StringComparison.OrdinalIgnoreCase) == 0 ||
-                                        string.Compare(ext, ".step21", StringComparison.OrdinalIgnoreCase) == 0 ||
-                                        string.Compare(ext, ".stp", StringComparison.OrdinalIgnoreCase) == 0 
-                                    )
-                                    )
-                                {
-                                    using (var zipFile = new ZipFile(toImportFilename))
-                                    {
-
-                                        using (var reader = zipFile.GetInputStream(entry))
-                                        {
-                                            _forwardReferences = new BlockingCollection<StepForwardReference>();
-                                            using (var part21Parser = new P21toIndexParser(reader, table, this, codePageOverride))
-                                            {
-                                                if (progressHandler != null) part21Parser.ProgressStatus += progressHandler;
-                                                part21Parser.Parse();
-                                                _model.Header = part21Parser.Header;
-                                                if (progressHandler != null) part21Parser.ProgressStatus -= progressHandler;
-                                            }
-                                        }
-                                        using (var transaction = table.BeginLazyTransaction())
-                                        {
-                                            table.WriteHeader(_model.Header);
-                                            transaction.Commit();
-                                        }
-                                        FreeTable(table);
-                                        if (!keepOpen) Close();
-                                        return; // we only want the first file
-                                    }
-                                }
-                                else if(string.CompareOrdinal(ext, ".ifcxml") == 0)
-                                {
-                                    using (var zipFile = new ZipFile(toImportFilename))
-                                    {
-                                        using (var transaction = table.BeginLazyTransaction())
-                                        {
-                                            // XmlReaderSettings settings = new XmlReaderSettings() { IgnoreComments = true, IgnoreWhitespace = false };
-                                            using (var xmlInStream = zipFile.GetInputStream(entry))
-                                            {
-                                                using (var xmlReader = new XmlTextReader(xmlInStream))
-                                                {
-                                                    var reader = new IfcXmlReader();
-                                                    _model.Header = reader.Read(this, table, xmlReader);
-                                                    table.WriteHeader(_model.Header);
-                                                }
-                                            }
-                                            transaction.Commit();
-                                        }
-                                        FreeTable(table);
-                                        if (!keepOpen) Close();
-                                        return;
-                                    }
-                                }
-                            }
-
-                            entry = zipStream.GetNextEntry(); //get next entry
-                        }
-                    }
-                }
-                FreeTable(table);
-                Close();
-                File.Delete(xbimDbName);
-            }
-            catch (Exception)
-            {
-                FreeTable(table);
-                Close();
-                File.Delete(xbimDbName);
-                throw;
-            }
-        }
-
+       
         /// <summary>
         /// Sets up the Esent directories, can only be call before the Init method of the instance
         /// </summary>
@@ -701,12 +548,13 @@ namespace Xbim.IO.Esent
             return false;
         }
 
-        private Instance CreateInstance(string instanceName, string tempDirectory = null,  bool recovery = false)
+        private static Instance CreateInstance(string instanceName, bool recovery = false, bool createTemporaryTables = false)
         {
             var guid = Guid.NewGuid().ToString();
-            var jetInstance = new Instance(instanceName+guid);           
-           
-            _systemPath = !string.IsNullOrWhiteSpace(tempDirectory) ? tempDirectory : GetXbimTempDirectory();
+            var jetInstance = new Instance(instanceName + guid);
+
+            if (string.IsNullOrWhiteSpace(_systemPath)) //we haven't specified a path so make one               
+                _systemPath = GetXbimTempDirectory();
             
             jetInstance.Parameters.BaseName = "XBM";
             jetInstance.Parameters.SystemDirectory = _systemPath;
@@ -719,7 +567,7 @@ namespace Xbim.IO.Esent
             jetInstance.Parameters.CheckpointDepthMax = cacheSizeInBytes;
             jetInstance.Parameters.LogFileSize = 1024;    // 1MB logs
             jetInstance.Parameters.LogBuffers = 1024;     // buffers = 1/2 of logfile
-            jetInstance.Parameters.MaxTemporaryTables = 0; //ensures no temporary files are created
+            if (!createTemporaryTables) jetInstance.Parameters.MaxTemporaryTables = 0; //ensures no temporary files are created
             jetInstance.Parameters.MaxVerPages = 4096;
             jetInstance.Parameters.NoInformationEvent = true;
             jetInstance.Parameters.WaypointLatency = 1;
@@ -735,10 +583,24 @@ namespace Xbim.IO.Esent
             return jetInstance;
         }
 
+        #region Import functions
+        public void ImportXbim(string importFrom, ReportProgressDelegate progressHandler = null)
+        {
+            throw new NotImplementedException();
+        }
+
         /// <summary>
         ///   Imports an Xml file memory model into the model server, only call when the database instances table is empty
         /// </summary>
-        public void ImportIfcXml(string xbimDbName, string xmlFilename, ReportProgressDelegate progressHandler = null, bool keepOpen = false, bool cacheEntities = false)
+        public void ImportIfcXml(string xbimDbName, string xmlFilename, ReportProgressDelegate progressHandler = null,bool keepOpen = false, bool cacheEntities = false)
+        {
+            using (var stream = File.OpenRead(xmlFilename))
+            {
+                ImportIfcXml(xbimDbName, stream, progressHandler, keepOpen, cacheEntities);
+            }
+        }
+        
+        internal void ImportIfcXml(string xbimDbName, Stream inputStream, ReportProgressDelegate progressHandler = null, bool keepOpen = false, bool cacheEntities = false)
         {
             CreateDatabase(xbimDbName);
             Open(xbimDbName, XbimDBAccess.Exclusive);
@@ -748,8 +610,8 @@ namespace Xbim.IO.Esent
             {
                 using (var transaction = table.BeginLazyTransaction())
                 {
-                   
-                    using (var xmlInStream = new StreamReader(xmlFilename,Encoding.GetEncoding("ISO-8859-9"))) //this is a work around to ensure latin character sets are read
+
+                    using (var xmlInStream = new StreamReader(inputStream, Encoding.GetEncoding("ISO-8859-9"))) //this is a work around to ensure latin character sets are read
                     {
                         using (var xmlTextReader = new XmlTextReader(xmlInStream))
                         {
@@ -774,10 +636,173 @@ namespace Xbim.IO.Esent
                 FreeTable(table);
                 Close();
                 File.Delete(xbimDbName);
-                throw new Exception("Error importing IfcXml File " + xmlFilename, e);
+                throw new Exception("Error importing IfcXml file.", e);
             }
         }
 
+        /// <summary>
+        /// Imports the contents of the ifc file into the named database, the resulting database is closed after success, use Open to access
+        /// </summary>
+        /// <param name="toImportIfcFilename"></param>
+        /// <param name="progressHandler"></param>
+        /// <param name="xbimDbName"></param>
+        /// <param name="keepOpen"></param>
+        /// <param name="cacheEntities"></param>
+        /// <param name="codePageOverride"></param>
+        /// <returns></returns>
+        public void ImportStep(string xbimDbName, string toImportIfcFilename,ReportProgressDelegate progressHandler = null, bool keepOpen = false, bool cacheEntities = false,int codePageOverride = -1)
+        {
+            using (var reader = new FileStream(toImportIfcFilename, FileMode.Open, FileAccess.Read))
+            {
+                ImportStep(xbimDbName, reader, progressHandler, keepOpen, cacheEntities);
+            }
+        }
+
+        internal void ImportStep(string xbimDbName, Stream stream, ReportProgressDelegate progressHandler = null, bool keepOpen = false, bool cacheEntities = false, int codePageOverride = -1)
+        {
+
+            CreateDatabase(xbimDbName);
+            Open(xbimDbName, XbimDBAccess.Exclusive);
+            var table = GetEntityTable();
+            if (cacheEntities) CacheStart();
+            try
+            {
+
+                _forwardReferences = new BlockingCollection<StepForwardReference>();
+                using (var part21Parser = new P21toIndexParser(stream, table, this, codePageOverride))
+                {
+                    if (progressHandler != null) part21Parser.ProgressStatus += progressHandler;
+                    part21Parser.Parse();
+                    _model.Header = part21Parser.Header;
+                    if (progressHandler != null) part21Parser.ProgressStatus -= progressHandler;
+                }
+
+                using (var transaction = table.BeginLazyTransaction())
+                {
+                    table.WriteHeader(_model.Header);
+                    transaction.Commit();
+                }
+                FreeTable(table);
+                if (!keepOpen) Close();
+            }
+            catch (Exception)
+            {
+                FreeTable(table);
+                Close();
+                File.Delete(xbimDbName);
+                throw;
+            }
+        }
+
+        public void ImportStepZip(string xbimDbName, string toImportFilename, ReportProgressDelegate progressHandler = null, bool keepOpen = false, bool cacheEntities = false, int codePageOverride = -1)
+        {
+                using (var fileStream = File.OpenRead(toImportFilename))
+                    ImportStepZip(xbimDbName, fileStream, progressHandler, keepOpen, cacheEntities, codePageOverride);
+        }
+
+        /// <summary>
+        /// Imports an Ifc Zip file
+        /// </summary>
+        /// <param name="xbimDbName"></param>
+        /// <param name="fileStream"></param>
+        /// <param name="progressHandler"></param>
+        /// <param name="keepOpen"></param>
+        /// <param name="cacheEntities"></param>
+        /// <param name="codePageOverride"></param>
+        internal void ImportStepZip(string xbimDbName, Stream fileStream, ReportProgressDelegate progressHandler = null, bool keepOpen = false, bool cacheEntities = false, int codePageOverride = -1)
+        {
+            CreateDatabase(xbimDbName);
+            Open(xbimDbName, XbimDBAccess.Exclusive);
+            var table = GetEntityTable();
+            if (cacheEntities) CacheStart();
+            try
+            {
+                // used because - The ZipInputStream has one major advantage over using ZipFile to read a zip: 
+                // it can read from an unseekable input stream - such as a WebClient download
+                using (var zipStream = new ZipInputStream(fileStream))
+                {
+                    var entry = zipStream.GetNextEntry();
+                    while (entry != null)
+                    {
+                        var extension = Path.GetExtension(entry.Name);
+                        if (extension != null)
+                        {
+                            var ext = extension.ToLowerInvariant();
+                            //look for a valid ifc supported file
+                            if (entry.IsFile &&
+                                (
+                                    string.Compare(ext, ".ifc", StringComparison.OrdinalIgnoreCase) == 0 ||
+                                    string.Compare(ext, ".step21", StringComparison.OrdinalIgnoreCase) == 0 ||
+                                    string.Compare(ext, ".stp", StringComparison.OrdinalIgnoreCase) == 0
+                                )
+                                )
+                            {
+                                using (var zipFile = new ZipFile(fileStream))
+                                {
+
+                                    using (var reader = zipFile.GetInputStream(entry))
+                                    {
+                                        _forwardReferences = new BlockingCollection<StepForwardReference>();
+                                        using (var part21Parser = new P21toIndexParser(reader, table, this, codePageOverride))
+                                        {
+                                            if (progressHandler != null) part21Parser.ProgressStatus += progressHandler;
+                                            part21Parser.Parse();
+                                            _model.Header = part21Parser.Header;
+                                            if (progressHandler != null) part21Parser.ProgressStatus -= progressHandler;
+                                        }
+                                    }
+                                    using (var transaction = table.BeginLazyTransaction())
+                                    {
+                                        table.WriteHeader(_model.Header);
+                                        transaction.Commit();
+                                    }
+                                    FreeTable(table);
+                                    if (!keepOpen) Close();
+                                    return; // we only want the first file
+                                }
+                            }
+                            if (string.CompareOrdinal(ext, ".ifcxml") == 0)
+                            {
+                                using (var zipFile = new ZipFile(fileStream))
+                                {
+                                    using (var transaction = table.BeginLazyTransaction())
+                                    {
+                                        // XmlReaderSettings settings = new XmlReaderSettings() { IgnoreComments = true, IgnoreWhitespace = false };
+                                        using (var xmlInStream = zipFile.GetInputStream(entry))
+                                        {
+                                            using (var xmlReader = new XmlTextReader(xmlInStream))
+                                            {
+                                                var reader = new IfcXmlReader();
+                                                _model.Header = reader.Read(this, table, xmlReader);
+                                                table.WriteHeader(_model.Header);
+                                            }
+                                        }
+                                        transaction.Commit();
+                                    }
+                                    FreeTable(table);
+                                    if (!keepOpen) Close();
+                                    return;
+                                }
+                            }
+                        }
+
+                        entry = zipStream.GetNextEntry(); //get next entry
+                    }
+                }
+                FreeTable(table);
+                Close();
+                File.Delete(xbimDbName);
+            }
+            catch (Exception)
+            {
+                FreeTable(table);
+                Close();
+                File.Delete(xbimDbName);
+                throw;
+            }
+        }
+
+        #endregion
 
         public bool Contains(IPersistEntity instance)
         {
@@ -1329,11 +1354,6 @@ namespace Xbim.IO.Esent
             }
         }
 
-        public void ImportXbim(string importFrom, ReportProgressDelegate progressHandler = null)
-        {
-            throw new NotImplementedException();  
-        }
-
         public void Activate(IPersistEntity entity)
         {
             var bytes = GetEntityBinaryData(entity);
@@ -1627,10 +1647,9 @@ namespace Xbim.IO.Esent
                                 if (entity != null)
                                 {
                                     indexFound = true;
-                                    foreach (var item in OfType<T>(true, entity.EntityLabel))
+                                    foreach (var item in OfType<T>(true, entity.EntityLabel).Where(item => predicate(item)))
                                     {
-                                        if (predicate(item))
-                                            yield return item;
+                                        yield return item;
                                     }
                                 }
                             }
@@ -1655,10 +1674,9 @@ namespace Xbim.IO.Esent
                                         if (entity != null)
                                         {
                                             indexFound = true;
-                                            foreach (var item in OfType<T>(true, entity.EntityLabel))
+                                            foreach (var item in OfType<T>(true, entity.EntityLabel).Where(item => predicate(item)))
                                             {
-                                                if (predicate(item))
-                                                    yield return item;
+                                                yield return item;
                                             }
                                         }
                                     }
@@ -1735,95 +1753,106 @@ namespace Xbim.IO.Esent
             }
         }
 
-        //internal T InsertCopy<T>(T toCopy, XbimInstanceHandleMap mappings, XbimReadWriteTransaction txn, bool includeInverses) where T : IPersistEntity
-        //{
-        //    //check if the transaction needs pulsing
-            
-        //    var toCopyHandle=toCopy.GetHandle();
-          
-        //    XbimInstanceHandle copyHandle;
-        //    if (mappings.TryGetValue(toCopyHandle, out copyHandle))
-        //    {
-        //        var v = GetInstance(copyHandle);
-        //        Debug.Assert(v!=null);
-        //        return (T)v;
-        //    }
-        //    txn.Pulse();
-        //    var ifcType = ExpressMetaData.ExpressType(toCopy);
-        //    copyHandle = InsertNew(ifcType.Type);
-        //    mappings.Add(toCopyHandle, copyHandle);
+        internal T InsertCopy<T>(T toCopy, XbimInstanceHandleMap mappings, XbimReadWriteTransaction txn, bool includeInverses, PropertyTranformDelegate propTransform = null) where T : IPersistEntity
+        {
+            //check if the transaction needs pulsing
 
-        //    var theCopy = _factory.New(_model, copyHandle.EntityType, copyHandle.EntityLabel, true);
-        //    _read.TryAdd(copyHandle.EntityLabel, theCopy);
-        //    CreatedNew.TryAdd(copyHandle.EntityLabel, theCopy);
-        //    var rt = theCopy as IfcRoot;
-        //    var props = ifcType.Properties.Values.Where(p => !p.EntityAttribute.IsDerivedOverride);
-        //    if (includeInverses)
-        //        props = props.Union(ifcType.Inverses);
-        //    if (rt != null) rt.OwnerHistory = _model.OwnerHistoryAddObject;
-        //    foreach (var prop in props)
-        //    {
-        //        if (rt != null && prop.PropertyInfo.Name == "OwnerHistory") //don't add the owner history in as this will be changed later
-        //            continue;
-        //        var value = prop.PropertyInfo.GetValue(toCopy, null);
-        //        if (value != null)
-        //        {
-        //            var isInverse = (prop.EntityAttribute.Order == -1); //don't try and set the values for inverses
-        //            var theType = value.GetType();
-        //            //if it is an express type or a value type, set the value
-        //            if (theType.IsValueType || typeof(IExpressValueType).IsAssignableFrom(theType))
-        //            {
-        //                prop.PropertyInfo.SetValue(theCopy, value, null);
-        //            }
-        //            //else 
-        //            else if (!isInverse && typeof(IPersistEntity).IsAssignableFrom(theType))
-        //            {
-        //                prop.PropertyInfo.SetValue(theCopy, InsertCopy((IPersistEntity)value, mappings, txn, includeInverses), null);
-        //            }
-        //            else if (!isInverse && typeof(IExpressEnumerable).IsAssignableFrom(theType))
-        //            {
-        //                //TODO: MC: This part needs revision
-        //                throw new NotImplementedException("This part has to be revised after heavy refactoring of the base code.");
-        //                //var itemType = theType.GetItemTypeFromGenericType();
-        //                //
-        //                //IExpressEnumerable copyColl;
-        //                //if (!theType.IsGenericType) //we have a class that inherits from a generic type
-        //                //    copyColl = (IExpressEnumerable)Activator.CreateInstance(theType, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance, null, new object[] { theCopy }, null);
-        //                //else
-        //                //{
-        //                //    var genericType = theType.GetGenericTypeDefinition();
-        //                //    var gt = genericType.MakeGenericType(itemType);
-        //                //    copyColl = (IExpressEnumerable)Activator.CreateInstance(gt, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance, null, new object[] { theCopy }, null);
-        //                //}
-        //                //prop.PropertyInfo.SetValue(theCopy, copyColl, null);
-        //                //foreach (var item in (IExpressEnumerable)value)
-        //                //{
-        //                //    var actualItemType = item.GetType();
-        //                //    if (actualItemType.IsValueType || typeof(IExpressType).IsAssignableFrom(actualItemType))
-        //                //        copyColl.Add(item);
-        //                //    else if (typeof(IPersistEntity).IsAssignableFrom(actualItemType))
-        //                //    {
-        //                //        var cpy = InsertCopy((IPersistEntity)item, mappings, txn, includeInverses);
-        //                //        copyColl.Add(cpy);
-        //                //    }
-        //                //    else
-        //                //        throw new XbimException(string.Format("Unexpected collection item type ({0}) found", itemType.Name));
-        //                //}
-        //            }
-        //            else if (isInverse && value is IEnumerable<IPersistEntity>) //just an enumeration of IPersistEntity
-        //            {
-        //                foreach (var ent in (IEnumerable<IPersistEntity>)value)
-        //                    InsertCopy(ent, mappings, txn, includeInverses);
-        //            }
-        //            else if (isInverse && value is IPersistEntity) //it is an inverse and has a single value
-        //                InsertCopy((IPersistEntity)value, mappings, txn, includeInverses);
-        //            else
-        //                throw new XbimException(string.Format("Unexpected item type ({0})  found", theType.Name));
-        //        }
-        //    }
-        //    //  if (rt != null) rt.OwnerHistory = this.OwnerHistoryAddObject;
-        //    return (T)theCopy;
-        //}
+            var toCopyHandle = toCopy.GetHandle();
+
+            XbimInstanceHandle copyHandle;
+            if (mappings.TryGetValue(toCopyHandle, out copyHandle))
+            {
+                var v = this.GetInstance(copyHandle);
+                Debug.Assert(v != null);
+                return (T)v;
+            }
+            txn.Pulse();
+            var ifcType = ExpressMetaData.ExpressType(toCopy);
+            var copyLabel = toCopy.EntityLabel;
+            copyHandle = InsertNew(ifcType.Type, copyLabel);
+            mappings.Add(toCopyHandle, copyHandle);
+            //if (typeof(IfcCartesianPoint) == ifcType.Type || typeof(IfcDirection) == ifcType.Type)//special cases for cartesian point and direction for efficiency
+            //{
+            //    var v = (IPersistEntity)Activator.CreateInstance(ifcType.Type, new object[] { toCopy });
+            //    v.Bind(_model, copyHandle.EntityLabel, true);
+            //    v.Activate(true);
+            //    read.TryAdd(copyHandle.EntityLabel, v);
+            //    createdNew.TryAdd(copyHandle.EntityLabel, v);
+            //    return (T)v;
+            //}
+
+            var theCopy = _factory.New(_model, copyHandle.EntityType, copyHandle.EntityLabel, true);
+            _read.TryAdd(copyHandle.EntityLabel, theCopy);
+            CreatedNew.TryAdd(copyHandle.EntityLabel, theCopy);
+            
+            var props = ifcType.Properties.Values.Where(p => !p.EntityAttribute.IsDerivedOverride);
+            if (includeInverses)
+                props = props.Union(ifcType.Inverses);
+            
+            foreach (var prop in props)
+            {
+                var value = propTransform != null ? 
+                    propTransform(prop, toCopy) : 
+                    prop.PropertyInfo.GetValue(toCopy, null);
+                if (value == null) continue;
+
+                var isInverse = (prop.EntityAttribute.Order == -1); //don't try and set the values for inverses
+                var theType = value.GetType();
+                //if it is an express type or a value type, set the value
+                if (theType.IsValueType || typeof(ExpressType).IsAssignableFrom(theType))
+                {
+                    prop.PropertyInfo.SetValue(theCopy, value, null);
+                }
+                //else 
+                else if (!isInverse && typeof(IPersistEntity).IsAssignableFrom(theType))
+                {
+                    prop.PropertyInfo.SetValue(theCopy, InsertCopy((IPersistEntity)value, mappings, txn, includeInverses, propTransform), null);
+                }
+                else if (!isInverse && typeof(IList).IsAssignableFrom(theType))
+                {
+                    var itemType = theType.GetItemTypeFromGenericType();
+
+                    var copyColl = prop.PropertyInfo.GetValue(theCopy, null) as IList;
+                    if(copyColl == null)
+                        throw new XbimException(string.Format("Unexpected collection type ({0}) found", itemType.Name));
+
+                    foreach (var item in (IExpressEnumerable)value)
+                    {
+                        var actualItemType = item.GetType();
+                        if (actualItemType.IsValueType || typeof(ExpressType).IsAssignableFrom(actualItemType))
+                            copyColl.Add(item);
+                        else if (typeof(IPersistEntity).IsAssignableFrom(actualItemType))
+                        {
+                            var cpy = InsertCopy((IPersistEntity)item, mappings, txn, includeInverses, propTransform);
+                            copyColl.Add(cpy);
+                        }
+                        else
+                            throw new XbimException(string.Format("Unexpected collection item type ({0}) found", itemType.Name));
+                    }
+                }
+                else if (isInverse && value is IEnumerable<IPersistEntity>) //just an enumeration of IPersistEntity
+                {
+                    foreach (var ent in (IEnumerable<IPersistEntity>)value)
+                    {
+                        XbimInstanceHandle h;
+                        if (!mappings.TryGetValue(ent.GetHandle(), out h))
+                            InsertCopy(ent, mappings, txn, includeInverses, propTransform);
+                    }
+                }
+                else if (isInverse && value is IPersistEntity) //it is an inverse and has a single value
+                {
+                    XbimInstanceHandle h;
+                    var v = (IPersistEntity)value;
+                    if (!mappings.TryGetValue(v.GetHandle(), out h))
+                        InsertCopy(v, mappings, txn, includeInverses, propTransform);
+                }
+                else
+                    throw new XbimException(string.Format("Unexpected item type ({0})  found", theType.Name));
+            }
+            //  if (rt != null) rt.OwnerHistory = this.OwnerHistoryAddObject;
+            return (T)theCopy;
+        }
+
 
         private IPersistEntity GetInstance(XbimInstanceHandle map)
         {
@@ -1834,10 +1863,11 @@ namespace Xbim.IO.Esent
         /// This function can only be called once the model is in a transaction
         /// </summary>
         /// <param name="type"></param>
+        /// <param name="entityLabel"></param>
         /// <returns></returns>
-        private XbimInstanceHandle InsertNew(Type type)
+        private XbimInstanceHandle InsertNew(Type type, int entityLabel)
         {
-            return _model.GetTransactingCursor().AddEntity(type);
+            return _model.GetTransactingCursor().AddEntity(type, entityLabel);
         }
 
         
@@ -2146,6 +2176,19 @@ namespace Xbim.IO.Esent
             return HasTable(name, _session, _databaseId);
         }
 
+        static internal void Compact(string sourceName, string targetName)
+        {
+            using (var jetInstance = CreateInstance("XbimInstance", false, true))
+            {
+                using (var session = new Session(jetInstance))
+                {
+                    // For JetCompact to work the database has to be attached, but not opened 
+                    Api.JetAttachDatabase(session, sourceName, AttachDatabaseGrbit.None);
+                    Api.JetCompact(session, sourceName, targetName, null, null, CompactGrbit.None);
+                }
+            }
+
+        }
         private static bool HasTable(string name, Session sess, JET_DBID db)
         {
             JET_TABLEID t;

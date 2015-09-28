@@ -3,9 +3,9 @@ using Xbim.Common.Geometry;
 using Xbim.Common.Logging;
 using Xbim.Ifc2x3.GeometricModelResource;
 using Xbim.Ifc2x3.GeometryResource;
+using Xbim.Ifc2x3.IO;
 using Xbim.Ifc2x3.ProfileResource;
 using Xbim.Ifc2x3.TopologyResource;
-using Xbim.IO.Esent;
 using XbimGeometry.Interfaces;
 
 namespace Xbim.IO
@@ -16,9 +16,8 @@ namespace Xbim.IO
 
         IXbimGeometryObject Create(IfcGeometricRepresentationItem ifcRepresentation);
 
-        // temporarily commented to maintain buildability of geometry in the development branch
-        // todo: SRL: restore interface, when merging your changes.
-        // IXbimGeometryObject Create(IfcGeometricRepresentationItem ifcRepresentation, IfcAxis2Placement3D objectLocation);
+
+        IXbimGeometryObject Create(IfcGeometricRepresentationItem ifcRepresentation, IfcAxis2Placement3D objectLocation);
 
         /// <summary>
         /// 
@@ -57,6 +56,7 @@ namespace Xbim.IO
         IXbimSolidSet CreateSolidSet(IfcFacetedBrepWithVoids ifcSolid);
         IXbimSolidSet CreateSolidSet(IfcClosedShell ifcSolid);
 
+        IXbimGeometryObjectSet CreateGeometryObjectSet();
         IXbimSolid CreateSolid(IfcCsgPrimitive3D ifcSolid);
         IXbimSolid CreateSolid(IfcCsgSolid ifcSolid);
         IXbimSolid CreateSolid(IfcSphere ifcSolid);
@@ -99,13 +99,13 @@ namespace Xbim.IO
         //Vertex Creation
         IXbimVertex CreateVertexPoint(XbimPoint3D point, double precision);
 
-        IfcFacetedBrep CreateFacetedBrep(EsentModel model, IXbimSolid solid);
+        IfcFacetedBrep CreateFacetedBrep(XbimModel model, IXbimSolid solid);
         //Creates collections of objects
         IXbimSolidSet CreateSolidSet();
         IXbimSolidSet CreateSolidSet(IfcBooleanResult boolOp);
 
         //Read and write functions
         void WriteTriangulation(TextWriter tw, IXbimGeometryObject shape, double tolerance, double deflection, double angle);
-        void WriteTriangulation(BinaryWriter bw, IXbimGeometryObject shape, double tolerance, double deflection, double angle); 
+        void WriteTriangulation(BinaryWriter bw, IXbimGeometryObject shape, double tolerance, double deflection, double angle);
     }
 }

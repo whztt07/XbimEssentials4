@@ -30,10 +30,16 @@ namespace Xbim.IO.Step21
         {
             new HashSet<long>();
             output.Write(HeaderAsString(model.Header ?? new StepFileHeader(StepFileHeader.HeaderCreationMode.LeaveEmpty)));
-            foreach (var entity in model.Instances)
+            var esent = model as EsentModel;
+            //Esent model is optimized
+            if (esent != null)
             {
-                entity.WriteEntity(output, map);
+                foreach (var entity in esent.InstanceHandles.Select(item => esent.GetInstanceVolatile(item)))
+                    entity.WriteEntity(output, map);
             }
+            else
+                foreach (var entity in model.Instances)
+                    entity.WriteEntity(output, map);
 
             output.WriteLine("ENDSEC;");
             output.WriteLine("END-ISO-10303-21;");

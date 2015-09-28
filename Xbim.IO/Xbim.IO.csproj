@@ -85,6 +85,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\SharedFileVersionInfo.cs">
+      <Link>Properties\SharedFileVersionInfo.cs</Link>
+    </Compile>
     <Compile Include="Esent\XbimFederatedModelInstances.cs" />
     <Compile Include="Esent\XbimReferencedModelCollection.cs" />
     <Compile Include="Esent\XbimSurfaceStyle.cs" />

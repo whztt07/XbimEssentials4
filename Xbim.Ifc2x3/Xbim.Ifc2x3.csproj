@@ -45,6 +45,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\SharedAssemblyInfo.cs">
+      <Link>Properties\SharedAssemblyInfo.cs</Link>
+    </Compile>
+	<Compile Include="..\SharedFileVersionInfo.cs">
+      <Link>Properties\SharedFileVersionInfo.cs</Link>
+    </Compile>
     <Compile Include="ActorResource\IfcActorRole.cs" />
     <Compile Include="ActorResource\IfcActorRolePartial.cs" />
     <Compile Include="ActorResource\IfcActorSelect.cs" />

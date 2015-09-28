@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -12,6 +13,7 @@ using Xbim.Ifc2x3.Kernel;
 using Xbim.Ifc2x3.MeasureResource;
 using Xbim.Ifc2x3.RepresentationResource;
 using Xbim.Ifc2x3.UtilityResource;
+using Xbim.IO;
 using Xbim.IO.Esent;
 using XbimGeometry.Interfaces;
 
@@ -19,6 +21,12 @@ namespace Xbim.Ifc2x3.IO
 {
     public class XbimModel: EsentModel
     {
+        /// <summary>
+        /// If true OwnerHistory properties are added modified when an object is added or modified, by default this is on, turn off with care as it can lead to models that do not comply with the schema
+        /// The main use is for copy data between models where the owner history needs to be preserved
+        /// </summary>
+        public bool AutoAddOwnerHistory { get; set; }
+
         private const string RefDocument = "XbimReferencedModel";
 
         public XbimModel()
@@ -29,6 +37,7 @@ namespace Xbim.Ifc2x3.IO
             InstancesLocal.NewEntityCreated += IfcRootInit;
         }
 
+        #region Geometry related functions
         public IfcAxis2Placement WorldCoordinateSystem { get; private set; }
 
         private void GetModelFactors()
@@ -69,6 +78,9 @@ namespace Xbim.Ifc2x3.IO
                             break;
                         case IfcUnitEnum.PLANEANGLEUNIT:
                             angleToRadiansConversionFactor = value;
+                            //need to guarantee precision to avoid errors in boolean operations
+                            if (Math.Abs(angleToRadiansConversionFactor - (Math.PI / 180)) < 1e-9)
+                                angleToRadiansConversionFactor = Math.PI / 180;
                             break;
                     }
                 }
@@ -131,6 +143,13 @@ namespace Xbim.Ifc2x3.IO
             return ModelFactors;
         }
 
+        public IEnumerable<XbimGeometryData> GetGeometryData(IfcProduct product, XbimGeometryType geomType)
+        {
+            return InstanceCache.GetGeometry(ExpressMetaData.ExpressTypeId(product), product.EntityLabel, geomType);
+        }
+        #endregion
+
+        #region Open and create model
         public override bool Open(string fileName, XbimDBAccess accessMode = XbimDBAccess.Read, ReportProgressDelegate progDelegate = null)
         {
             try
@@ -158,6 +177,20 @@ namespace Xbim.Ifc2x3.IO
 
         }
 
+        public override bool CreateFrom(Stream inputStream, XbimStorageType streamType, string xbimDbName,
+            ReportProgressDelegate progDelegate = null, bool keepOpen = false, bool cacheEntities = false)
+        {
+            var result = base.CreateFrom(inputStream, streamType, xbimDbName, progDelegate, keepOpen, cacheEntities);
+            if (!keepOpen) return result;
+
+            GetModelFactors();
+            LoadReferenceModels();
+            return result;
+        }
+
+        #endregion
+
+        #region Shortcuts
         public IfcProject IfcProject
         {
             get
@@ -173,11 +206,7 @@ namespace Xbim.Ifc2x3.IO
             get { return InstancesLocal == null ? null : Instances.OfType<IfcProduct>(); }
         }
 
-        public IEnumerable<XbimGeometryData> GetGeometryData(IfcProduct product, XbimGeometryType geomType)
-        {
-            return InstanceCache.GetGeometry(ExpressMetaData.ExpressTypeId(product), product.EntityLabel, geomType);
-        }
-
+        #endregion
 
         #region Reference Model functions
 
@@ -342,10 +371,11 @@ namespace Xbim.Ifc2x3.IO
 
         #endregion
 
-
         #region OwnerHistory Fields
         public void IfcRootInit(IPersistEntity entity)
         {
+            if (!AutoAddOwnerHistory) return;
+
             var root = entity as IfcRoot;
             if (root != null)
             {

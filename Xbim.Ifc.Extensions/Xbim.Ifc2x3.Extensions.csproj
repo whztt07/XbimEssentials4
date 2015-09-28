@@ -70,6 +70,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\SharedAssemblyInfo.cs">
+      <Link>Properties\SharedAssemblyInfo.cs</Link>
+    </Compile>
+	<Compile Include="..\SharedFileVersionInfo.cs">
+      <Link>Properties\SharedFileVersionInfo.cs</Link>
+    </Compile>
     <Compile Include="ActorSelectExtensions.cs" />
     <Compile Include="AddressExtensions.cs" />
     <Compile Include="AppliedValueExtensions.cs" />
