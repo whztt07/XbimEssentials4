@@ -9,12 +9,13 @@ using System.Linq;
 using System.Reflection;
 using ICSharpCode.SharpZipLib.Zip;
 using Xbim.Common;
+using Xbim.Common.Enumerations;
 using Xbim.Common.Exceptions;
 using Xbim.Common.Federation;
 using Xbim.Common.Geometry;
 using Xbim.Common.Logging;
+using Xbim.Common.Metadata;
 using Xbim.Common.Step21;
-using Xbim.XbimExtensions;
 using XbimGeometry.Interfaces;
 
 namespace Xbim.IO.Esent

@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using Xbim.Common.Geometry;
 using XbimGeometry.Interfaces;
 
-namespace Xbim.XbimExtensions
+namespace Xbim.Common.Geometry
 {
     /// <summary>
     /// Conpares the shape data of two geometry objects to see if they are the same
@@ -112,10 +110,7 @@ namespace Xbim.XbimExtensions
             unchecked
             {
                 const int p = 16777619;
-                int hash = (int)2166136261;
-
-                for (int i = 0; i < array.Length; i++)
-                    hash = (hash ^ array[i]) * p;
+                var hash = array.Aggregate((int) 2166136261, (current, t) => (current ^ t)*p);
 
                 hash += hash << 13;
                 hash ^= hash >> 7;

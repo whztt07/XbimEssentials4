@@ -5,6 +5,7 @@ using Xbim.IO.Parser;
 using Xbim.Common.Exceptions;
 using System.Collections.Specialized;
 using Xbim.Common;
+using Xbim.Common.Metadata;
 using Xbim.Ifc2x3.Kernel;
 using Xbim.Ifc2x3.MeasureResource;
 using Xbim.IO.Esent;

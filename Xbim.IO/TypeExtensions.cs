@@ -1,5 +1,6 @@
 ﻿using System;
 using Xbim.Common;
+using Xbim.Common.Metadata;
 
 namespace Xbim.IO
 {

@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using Xbim.Common;
+using Xbim.Common.Metadata;
 using Xbim.Common.Step21;
 using Xbim.IO.Step21;
 

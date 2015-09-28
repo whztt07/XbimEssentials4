@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
+using Xbim.Common.Geometry;
 using Xbim.Ifc2x3.Kernel;
 using Xbim.IO.Esent;
-using Xbim.XbimExtensions;
 using XbimGeometry.Interfaces;
 
-namespace Xbim.IO
+namespace Xbim.Ifc2x3.IO
 {
     public static class IfcProductExtensions
     {

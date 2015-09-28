@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 
-namespace Xbim.Common
+namespace Xbim.Common.Metadata
 {
     public class ExpressMetaProperty
     {
@@ -101,7 +101,7 @@ namespace Xbim.Common
                     //
                     foreach (var interfaceFound in typeToProcess.GetInterfaces())
                     {
-                        if (!interfaceFound.Namespace.StartsWith("Xbim"))
+                        if (interfaceFound.Namespace != null && !interfaceFound.Namespace.StartsWith("Xbim"))
                             continue;
                         if (!_interfaceToExpressTypesLookup.ContainsKey(interfaceFound))
                         {
@@ -240,12 +240,12 @@ namespace Xbim.Common
         {
             var metadata = GetMetadata(module);
 
-            var dictitem = metadata._interfaceToExpressTypesLookup.Keys.FirstOrDefault(intf => string.Equals(intf.Name, stringType, StringComparison.InvariantCultureIgnoreCase));
-            if (dictitem == null) yield break;
-            foreach (var item in metadata._interfaceToExpressTypesLookup[dictitem])
-            {
+            var exprType = ExpressType(stringType, module);
+            if (exprType == null) yield break;
+
+            if (!metadata._interfaceToExpressTypesLookup.ContainsKey(exprType.Type)) yield break;
+            foreach (var item in metadata._interfaceToExpressTypesLookup[exprType.Type])
                 yield return item;
-            }
         }
 
         /// <summary>
@@ -386,13 +386,5 @@ namespace Xbim.Common
             var type = ExpressType(entityTypeName, module);
             return type.IsIndexedAttribute(attributeIndex);
         }
-
-        public void Load()
-        {
-            foreach (var l in _typeNameToExpressTypeLookup.Values.Select(item => item.NonAbstractSubTypes))
-            {
-            }
-        }
-
     }
 }

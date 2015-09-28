@@ -14,9 +14,11 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Xml;
 using Xbim.Common;
+using Xbim.Common.Metadata;
 using Xbim.Common.Step21;
 using Xbim.IO.Esent;
 using Xbim.IO.Step21.Parser;
@@ -62,7 +64,8 @@ namespace Xbim.IO.Xml
         {
             public readonly XmlNode Parent;
             public int? Position;
-            internal XmlNode()
+
+            protected XmlNode()
             {
 
             }
@@ -101,14 +104,7 @@ namespace Xbim.IO.Xml
 
         private class XmlBasicType : XmlNode
         {
-            private string _value;
-
-
-            public string Value
-            {
-                get { return _value; }
-                set { _value = value; }
-            }
+            public string Value { get; set; }
 
             public readonly StepParserType Type;
 
@@ -133,7 +129,7 @@ namespace Xbim.IO.Xml
 
             public void SetValue(string val, StepParserType parserType)
             {
-                if (parserType == StepParserType.Boolean && string.Compare(val, "unknown", true) == 0) //do nothing with IfcLogicals that are undefined
+                if (parserType == StepParserType.Boolean && String.Compare(val, "unknown", StringComparison.OrdinalIgnoreCase) == 0) //do nothing with IfcLogicals that are undefined
                     return;
                 var propVal = new PropertyValue();
                 propVal.Init(val, parserType);
@@ -211,7 +207,7 @@ namespace Xbim.IO.Xml
         }
 
         private XmlNode _currentNode;
-        private int _entitiesParsed = 0;
+        private int _entitiesParsed;
         private string _expressNamespace;
         private string _cTypeAttribute;
         private string _posAttribute;
@@ -231,18 +227,9 @@ namespace Xbim.IO.Xml
 
             if (id.HasValue && IsIfcEntity(elementName, out expressType, cache.Model.SchemaModule)) //we have an element which is an Ifc Entity
             {
-                IPersistEntity ent;
-                if (!cache.Contains(id.Value))
-                {
-                    // not been declared in a ref yet
-                    // model.New creates an instance uisng type and id
-                    ent = cache.CreateNew(expressType.Type, id.Value);
-                   
-                }
-                else
-                {
-                    ent = cache.GetInstance(id.Value, false, true);
-                }
+                var ent = !cache.Contains(id.Value) ? 
+                    cache.CreateNew(expressType.Type, id.Value) : 
+                    cache.GetInstance(id.Value, false, true);
 
                 var xmlEnt = new XmlEntity(_currentNode, ent);
                
@@ -293,51 +280,50 @@ namespace Xbim.IO.Xml
                     var propVal = new PropertyValue();
                     var t = node.Property.PropertyType;
 
-                    if (!typeof(IExpressEnumerable).IsAssignableFrom(t)) // if its a empty collection then dont do anything
+                    if (typeof (IExpressEnumerable).IsAssignableFrom(t)) return;
+                    if (t.IsGenericType && t.GetGenericTypeDefinition() == typeof(Nullable<>))
+                        t = Nullable.GetUnderlyingType(t);
+                    IExpressValueType et = null;
+                    if (t != null && typeof(IExpressValueType).IsAssignableFrom(t))
+                        et = (IExpressValueType)(Activator.CreateInstance(t));
+
+                    var pt = StepParserType.Undefined;
+                    if (et != null)
+                        pt = Primitives[et.UnderlyingSystemType.Name];
+                    else
                     {
-                        if (t != null && t.IsGenericType && t.GetGenericTypeDefinition().Equals(typeof(Nullable<>)))
-                            t = Nullable.GetUnderlyingType(t);
-                        IExpressValueType et = null;
-                        if (t != null && typeof(IExpressValueType).IsAssignableFrom(t))
-                            et = (IExpressValueType)(Activator.CreateInstance(t));
-
-                        StepParserType pt;
-                        if (et != null)
-                            pt = Primitives[et.UnderlyingSystemType.Name];
+                        if (t != null && t.IsEnum)
+                        {
+                            pt = StepParserType.Enum;
+                        }
                         else
                         {
-                            if (t.IsEnum)
-                            {
-                                pt = StepParserType.Enum;
-                            }
-                            else
-                                pt = Primitives[t.Name];
+                            if (t != null) pt = Primitives[t.Name];
                         }
-
-                        if (pt.ToString().ToLower() == "string")
-                            propVal.Init("'" + input.Value + "'", pt);
-                        else
-                        {
-                            if (pt.ToString().ToLower() == "boolean")
-                                propVal.Init(Convert.ToBoolean(input.Value) ? ".T." : ".F", pt);
-                            else
-                                propVal.Init(input.Value, pt);
-                        }
-                        ((XmlEntity)node.Parent).Entity.Parse(node.PropertyIndex - 1, propVal);
                     }
 
+                    switch (pt.ToString().ToLower())
+                    {
+                        case "string":
+                            propVal.Init("'" + input.Value + "'", pt);
+                            break;
+                        case "boolean":
+                            propVal.Init(Convert.ToBoolean(input.Value) ? ".T." : ".F", pt);
+                            break;
+                        default:
+                            propVal.Init(input.Value, pt);
+                            break;
+                    }
+                    ((XmlEntity)node.Parent).Entity.Parse(node.PropertyIndex - 1, propVal);
                 }
                 else if (IsIfcType(elementName, out expressType, cache.Model.SchemaModule))
                 {
-                    IPersist ent;
                     var param = new object[1];
                     param[0] = ""; // empty element
-                    ent = (IPersist)Activator.CreateInstance(expressType.Type, param);
+                    var ent = (IPersist)Activator.CreateInstance(expressType.Type, param);
 
                     ((XmlProperty)_currentNode).SetValue(ent);
                 }
-
-                return;
             }
             else if (!id.HasValue && IsIfcProperty(elementName, out propIndex, out prop, cache.Model.SchemaModule)) //we have an element which is a property
             {
@@ -371,8 +357,9 @@ namespace Xbim.IO.Xml
 
                     // its parent can be a collection, if yes then this property needs to be added to parent
                     XmlNode n = new XmlProperty(_currentNode, prop.PropertyInfo, propIndex);
-                    if (_currentNode is XmlCollectionProperty && !(_currentNode.Parent is XmlUosCollection))
-                        ((XmlCollectionProperty)_currentNode).Entities.Add(n);
+                    var collectionProperty = _currentNode as XmlCollectionProperty;
+                    if (collectionProperty != null && !(collectionProperty.Parent is XmlUosCollection))
+                        collectionProperty.Entities.Add(n);
 
                     if (!input.IsEmptyElement) _currentNode = n;
                 }
@@ -383,8 +370,9 @@ namespace Xbim.IO.Xml
 
                 // its parent can be a collection, if yes then this property needs to be added to parent
                 XmlNode n = new XmlExpressType(_currentNode, expressType.Type);
-                if (_currentNode is XmlCollectionProperty && !(_currentNode.Parent is XmlUosCollection))
-                    ((XmlCollectionProperty)_currentNode).Entities.Add(n);
+                var collectionProperty = _currentNode as XmlCollectionProperty;
+                if (collectionProperty != null && !(collectionProperty.Parent is XmlUosCollection))
+                    collectionProperty.Entities.Add(n);
 
                 if (!input.IsEmptyElement) _currentNode = n;
             }
@@ -392,8 +380,9 @@ namespace Xbim.IO.Xml
             {
                 // its parent can be a collection, if yes then this property needs to be added to parent
                 XmlNode n = new XmlBasicType(_currentNode, parserType);
-                if (_currentNode is XmlCollectionProperty && !(_currentNode.Parent is XmlUosCollection))
-                    ((XmlCollectionProperty)_currentNode).Entities.Add(n);
+                var collectionProperty = _currentNode as XmlCollectionProperty;
+                if (collectionProperty != null && !(collectionProperty.Parent is XmlUosCollection))
+                    collectionProperty.Entities.Add(n);
 
                 if (!input.IsEmptyElement) _currentNode = n;
             }
@@ -409,16 +398,11 @@ namespace Xbim.IO.Xml
             {
                 var t = ExpressMetaData.ExpressType(xmlEntity.Entity);
 
-                foreach (var p in t.Properties)
+                foreach (var p in t.Properties.Where(p => p.Value.PropertyInfo.Name == elementName))
                 {
-                    var propIndex = p.Key;
-                    if (p.Value.PropertyInfo.Name == elementName)
-                    //this is the property to set
-                    {
-                        prop = p.Value;
-                        index = p.Key;
-                        return true;
-                    }
+                    prop = p.Value;
+                    index = p.Key;
+                    return true;
                 }
             }
             prop = null;
@@ -445,7 +429,7 @@ namespace Xbim.IO.Xml
 
                 if (elementName.Contains("-wrapper") && elementName.StartsWith(_expressNamespace) == false) // we have an inline type definition
                 {
-                    var inputName = elementName.Substring(0, elementName.LastIndexOf("-"));
+                    var inputName = elementName.Substring(0, elementName.LastIndexOf("-", StringComparison.Ordinal));
                     ok = ExpressMetaData.TryGetExpressType(inputName.ToUpper(), out expressType, module);
                 }
             }
@@ -502,45 +486,44 @@ namespace Xbim.IO.Xml
             try
             {
                 // before end element, we need to deal with SetCollection
-                if (_currentNode is XmlCollectionProperty)
+                var collectionProperty = _currentNode as XmlCollectionProperty;
+                if (collectionProperty != null)
                 {
                     // SetCollection will handle SetValue for Collection
-                    var CType = ((XmlCollectionProperty)_currentNode).CType;
-                    switch (CType)
+                    var cType = collectionProperty.CType;
+                    switch (cType)
                     {
                         case CollectionType.List:
                         case CollectionType.ListUnique:
-                            ((XmlCollectionProperty)_currentNode).Entities.Sort(XmlCollectionProperty.CompareNodes);
+                            collectionProperty.Entities.Sort(XmlCollectionProperty.CompareNodes);
                             break;
                         case CollectionType.Set:
                             break;
                         default:
-                            throw new Exception("Unknown list type, " + CType);
+                            throw new Exception("Unknown list type, " + cType);
                     }
 
-                    foreach (var item in ((XmlCollectionProperty)_currentNode).Entities)
+                    foreach (var item in collectionProperty.Entities)
                     {
-
-                        if (item is XmlEntity)
-                        {
-                            var node = (XmlEntity)item;
-                            var collectionOwner = item.Parent.Parent as XmlEntity;
-                            var collection = item.Parent as XmlCollectionProperty; //the collection to add to;
-                            IPersist ifcCollectionOwner = collectionOwner.Entity;
-                            var pv = new PropertyValue();
-                            pv.Init(node.Entity);
-                            ifcCollectionOwner.Parse(collection.PropertyIndex - 1, pv);
-                                                        
-                        }
-
-                    }                    
+                        var entity = item as XmlEntity;
+                        if (entity == null) continue;
+                        var node = entity;
+                        var collectionOwner = entity.Parent.Parent as XmlEntity;
+                        var collection = entity.Parent as XmlCollectionProperty; //the collection to add to;
+                        if (collectionOwner == null) continue;
+                        IPersist ifcCollectionOwner = collectionOwner.Entity;
+                        var pv = new PropertyValue();
+                        pv.Init(node.Entity);
+                        if (collection != null) ifcCollectionOwner.Parse(collection.PropertyIndex - 1, pv);
+                    }
                 }
                 else if (_currentNode.Parent is XmlProperty)
                 {
                     var propNode = (XmlProperty)_currentNode.Parent;
-                    if (_currentNode is XmlEntity)
+                    var entity = _currentNode as XmlEntity;
+                    if (entity != null)
                     {
-                        var entityNode = (XmlEntity)_currentNode;
+                        var entityNode = entity;
                         propNode.SetValue(entityNode.Entity);
                     }
                     else if (_currentNode is XmlExpressType)
@@ -556,10 +539,9 @@ namespace Xbim.IO.Xml
                             if (IsIfcType(input.LocalName, out expressType, module))
                             //we have an IPersistIfc
                             {
-                                IPersist ent;
                                 var param = new object[1];
                                 param[0] = expressNode.Value;
-                                ent = (IPersist)Activator.CreateInstance(expressType.Type, param);
+                                var ent = (IPersist)Activator.CreateInstance(expressType.Type, param);
 
                                 propNode.SetValue(ent);
                             }
@@ -580,13 +562,13 @@ namespace Xbim.IO.Xml
 
 
                 else if (prevInputType == XmlNodeType.Element && prevInputName == input.LocalName &&
-                    _currentNode is XmlProperty && _currentNode.Parent != null && _currentNode.Parent is XmlEntity)
+                         _currentNode is XmlProperty && _currentNode.Parent is XmlEntity)
                 {
                     // WE SHOULDNT EXECUTE THE FOLLOWING CODE IF THIS PROPERTY ALREADY CALLED SETVALUE
                     var node = (XmlProperty)_currentNode;
                     var propVal = new PropertyValue();
                     var t = node.Property.PropertyType;
-                    if (t != null && t.IsGenericType && t.GetGenericTypeDefinition().Equals(typeof(Nullable<>)))
+                    if (t.IsGenericType && t.GetGenericTypeDefinition() == typeof(Nullable<>))
                         t = Nullable.GetUnderlyingType(t);
                     IExpressValueType et = null;
                     if (t != null && typeof(IExpressValueType).IsAssignableFrom(t))
@@ -597,37 +579,39 @@ namespace Xbim.IO.Xml
                         pt = Primitives[et.UnderlyingSystemType.Name];
                     else
                     {
-                        if (t.IsEnum)
+                        if (t != null && t.IsEnum)
                         {
                             pt = StepParserType.Enum;
                         }
-                        else if (Primitives.ContainsKey(t.Name))
+                        else if (t != null && Primitives.ContainsKey(t.Name))
                             pt = Primitives[t.Name];
                     }
 
                     if (pt != StepParserType.Undefined)
                     {
-                        if (pt.ToString().ToLower() == "string")
-                            propVal.Init("'" + input.Value + "'", pt);
-                        else
+                        switch (pt.ToString().ToLower())
                         {
-                            if (pt.ToString().ToLower() == "boolean")
+                            case "string":
+                                propVal.Init("'" + input.Value + "'", pt);
+                                break;
+                            case "boolean":
                                 propVal.Init(Convert.ToBoolean(input.Value) ? ".T." : ".F", pt);
-                            else
+                                break;
+                            default:
                                 propVal.Init(input.Value, pt);
+                                break;
                         }
 
                         ((XmlEntity)node.Parent).Entity.Parse(node.PropertyIndex - 1, propVal);
                     }
-
-
                 }
 
                 else if (_currentNode.Parent is XmlCollectionProperty && !(_currentNode.Parent is XmlUosCollection))
                 {
-                    if (_currentNode is XmlEntity)
+                    var entity = _currentNode as XmlEntity;
+                    if (entity != null)
                     {
-                        ((XmlCollectionProperty)_currentNode.Parent).Entities.Add(((XmlEntity)_currentNode));
+                        ((XmlCollectionProperty)entity.Parent).Entities.Add(entity);
                     }
                     else if (_currentNode is XmlExpressType)
                     {
@@ -635,15 +619,15 @@ namespace Xbim.IO.Xml
                         //actualEntityType is the actual type of the value to create
                         var actualEntityType = expressNode.Type;
                         //Determine if the Express Type is a Nullable, if so get the type of the Nullable
-                        if (actualEntityType.IsGenericType && actualEntityType.GetGenericTypeDefinition().Equals(typeof(Nullable<>)))
+                        if (actualEntityType.IsGenericType && actualEntityType.GetGenericTypeDefinition() == typeof(Nullable<>))
                             actualEntityType = Nullable.GetUnderlyingType(actualEntityType);
 
                         //need to resolve what the Parser type is
                         //if the generic type of the collection is different from the actualEntityType then we need to create an entity and call Ifc Parse
                         //otherwise we need to call Ifcparse with a string value and the type of the underlying type
-                        var collection = _currentNode.Parent as XmlCollectionProperty; //the collection to add to;
+                        var collection = (XmlCollectionProperty) _currentNode.Parent; //the collection to add to;
                         var collectionValueType = collection.Property.PropertyType;
-                        var collectionGenericType = GetItemTypeFromGenericType(collectionValueType); ;
+                        var collectionGenericType = GetItemTypeFromGenericType(collectionValueType);
                         var genericTypeIsSameAsValueType = (collectionGenericType == actualEntityType);
                         var pv = new PropertyValue();
 
@@ -666,32 +650,34 @@ namespace Xbim.IO.Xml
                         }
 
                         var collectionOwner = _currentNode.Parent.Parent as XmlEntity; //go to owner of collection
-                        IPersist ifcCollectionOwner = collectionOwner.Entity;
-                        ifcCollectionOwner.Parse(collection.PropertyIndex - 1, pv);
-
+                        if (collectionOwner != null)
+                        {
+                            IPersist ifcCollectionOwner = collectionOwner.Entity;
+                            ifcCollectionOwner.Parse(collection.PropertyIndex - 1, pv);
+                        }
                     }
                     else if (_currentNode is XmlBasicType)
                     {
                         var basicNode = (XmlBasicType)_currentNode;
                         var collectionOwner = _currentNode.Parent.Parent as XmlEntity;
-                        var collection = _currentNode.Parent as XmlCollectionProperty; //the collection to add to;
-                        IPersist ifcCollectionOwner = collectionOwner.Entity;
-                        var pv = new PropertyValue();
-                        pv.Init(basicNode.Value, basicNode.Type);
-                        ifcCollectionOwner.Parse(collection.PropertyIndex - 1, pv);
+                        var collection = (XmlCollectionProperty) _currentNode.Parent; //the collection to add to;
+                        if (collectionOwner != null)
+                        {
+                            IPersist ifcCollectionOwner = collectionOwner.Entity;
+                            var pv = new PropertyValue();
+                            pv.Init(basicNode.Value, basicNode.Type);
+                            ifcCollectionOwner.Parse(collection.PropertyIndex - 1, pv);
+                        }
                     }
-
-
                 }
 
 
                 writeEntity = null;
-                if (_currentNode.Parent != null) // we are not at UOS yet
-                {
-                    if (_currentNode is XmlEntity)
-                        writeEntity = ((XmlEntity)_currentNode).Entity;
-                    _currentNode = _currentNode.Parent;
-                }
+                if (_currentNode.Parent == null) return;
+                var currentNode = _currentNode as XmlEntity;
+                if (currentNode != null)
+                    writeEntity = currentNode.Entity;
+                _currentNode = _currentNode.Parent;
             }
             catch (Exception e)
             {
@@ -701,31 +687,27 @@ namespace Xbim.IO.Xml
 
         public Type GetItemTypeFromGenericType(Type genericType)
         {
-            //TODO: Revise an impact. Martin Cerny has commented this out because it wasn't a generic solution. 
-            //if (genericType == typeof(ICoordinateList))
-            //    return typeof(IfcLengthMeasure); //special case for coordinates
             if (genericType.IsGenericType || genericType.IsInterface)
             {
                 var genericTypes = genericType.GetGenericArguments();
-                if (genericTypes.GetUpperBound(0) >= 0)
-                    return genericTypes[genericTypes.GetUpperBound(0)];
-                return null;
+                return genericTypes.GetUpperBound(0) >= 0 ? genericTypes[genericTypes.GetUpperBound(0)] : null;
             }
             if (genericType.BaseType != null)
                 return GetItemTypeFromGenericType(genericType.BaseType);
             return null;
         }
 
-        private void SetValue(XmlReader input, XmlNodeType prevInputType, string prevInputName)
+        private void SetValue(XmlReader input, XmlNodeType prevInputType)
         {
             try
             {
                 // we are here because this node is of type Text or WhiteSpace
                 if (prevInputType == XmlNodeType.Element) // previous node should be of Type Element before we go next
                 {
-                    if (_currentNode is XmlExpressType)
+                    var currentNode = _currentNode as XmlExpressType;
+                    if (currentNode != null)
                     {
-                        var node = (XmlExpressType)_currentNode;
+                        var node = currentNode;
                         node.Value = input.Value;
                     }
                     else if (_currentNode is XmlBasicType)
@@ -739,7 +721,7 @@ namespace Xbim.IO.Xml
                         var node = (XmlProperty)_currentNode;
                         var propVal = new PropertyValue();
                         var t = node.Property.PropertyType;
-                        if (t.IsGenericType && t.GetGenericTypeDefinition().Equals(typeof(Nullable<>)))
+                        if (t.IsGenericType && t.GetGenericTypeDefinition() == typeof(Nullable<>))
                             t = Nullable.GetUnderlyingType(t);
                        
 
@@ -751,10 +733,9 @@ namespace Xbim.IO.Xml
                             if (typeof(IExpressValueType).IsAssignableFrom(t) && !(typeof(IExpressComplexType).IsAssignableFrom(t) ))
                             {
                                 var et = (IExpressValueType)(Activator.CreateInstance(t));
-                                if (et.UnderlyingSystemType == typeof(bool?))
-                                    parserType = StepParserType.Boolean;
-                                else
-                                    parserType = Primitives[et.UnderlyingSystemType.Name];
+                                parserType = et.UnderlyingSystemType == typeof(bool?) ? 
+                                    StepParserType.Boolean : 
+                                    Primitives[et.UnderlyingSystemType.Name];
                             }
                             else if (t.IsEnum)
                             {
@@ -775,7 +756,7 @@ namespace Xbim.IO.Xml
                             {
                                 if (parserType == StepParserType.Boolean)
                                 {
-                                    if(string.Compare(input.Value, "unknown", true) != 0) //do nothing with IfcLogicals that are undefined
+                                    if(String.Compare(input.Value, "unknown", StringComparison.OrdinalIgnoreCase) != 0) //do nothing with IfcLogicals that are undefined
                                         propVal.Init(Convert.ToBoolean(input.Value) ? ".T." : ".F.", parserType);
                                 }
                                 else
@@ -788,8 +769,6 @@ namespace Xbim.IO.Xml
                         }
                     }
                 }
-                
-
             }
             catch (Exception e)
             {
@@ -814,12 +793,12 @@ namespace Xbim.IO.Xml
                 switch (input.NodeType)
                 {
                     case XmlNodeType.Element:
-                        if (string.Compare(input.LocalName, "uos", true) == 0)
+                        if (String.Compare(input.LocalName, "uos", StringComparison.OrdinalIgnoreCase) == 0)
                         {
                             _currentNode = new XmlUosCollection();
                            
                         }
-                        else if (string.Compare(input.LocalName, "iso_10303_28", true) == 0)
+                        else if (String.Compare(input.LocalName, "iso_10303_28", StringComparison.OrdinalIgnoreCase) == 0)
                         {
                             foundHeader = true;
                            
@@ -880,11 +859,7 @@ namespace Xbim.IO.Xml
                             case "documentation":
                                 header.FileDescription.Description.Add(input.Value);
                                 break;
-                            default:
-                                break;
                         }
-                        break;
-                    default:
                         break;
                 }
                
@@ -903,10 +878,6 @@ namespace Xbim.IO.Xml
             {
                 using (var transaction = entityTable.BeginLazyTransaction())
                 {
-
-
-                    // this will create id of each element
-                    var ids = new Dictionary<string, int>();
                     while (input.Read())
                     {
                         switch (input.NodeType)
@@ -931,12 +902,10 @@ namespace Xbim.IO.Xml
                                 }
                                 break;
                             case XmlNodeType.Whitespace:
-                                SetValue(input, prevInputType, prevInputName);
+                                SetValue(input, prevInputType);
                                 break;
                             case XmlNodeType.Text:
-                                SetValue(input, prevInputType, prevInputName);
-                                break;
-                            default:
+                                SetValue(input, prevInputType);
                                 break;
                         }
                         prevInputType = input.NodeType;

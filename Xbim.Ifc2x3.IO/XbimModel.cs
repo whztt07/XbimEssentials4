@@ -4,6 +4,7 @@ using System.Linq;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
 using Xbim.Common.Geometry;
+using Xbim.Common.Metadata;
 using Xbim.Ifc2x3.ActorResource;
 using Xbim.Ifc2x3.ExternalReferenceResource;
 using Xbim.Ifc2x3.GeometryResource;
@@ -12,7 +13,6 @@ using Xbim.Ifc2x3.MeasureResource;
 using Xbim.Ifc2x3.RepresentationResource;
 using Xbim.Ifc2x3.UtilityResource;
 using Xbim.IO.Esent;
-using Xbim.XbimExtensions;
 using XbimGeometry.Interfaces;
 
 namespace Xbim.Ifc2x3.IO

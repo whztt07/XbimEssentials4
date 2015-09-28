@@ -6,6 +6,7 @@ using System.Linq;
 using Microsoft.Isam.Esent.Interop;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
+using Xbim.Common.Metadata;
 using Xbim.Common.Step21;
 
 namespace Xbim.IO.Esent

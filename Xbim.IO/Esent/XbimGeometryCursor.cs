@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using Microsoft.Isam.Esent.Interop;
 using Xbim.Common.Exceptions;
-using Xbim.XbimExtensions;
+using Xbim.Common.Geometry;
 using XbimGeometry.Interfaces;
 #if CREATEGEOMHASH
 using System.Security.Cryptography;

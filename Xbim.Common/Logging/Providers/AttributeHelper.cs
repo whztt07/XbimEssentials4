@@ -13,7 +13,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 
-namespace Xbim.Common.Helpers
+namespace Xbim.Common.Logging.Providers
 {
 	/// <summary>
 	/// A helper class used to retrieve attributes from Assemblies and Types

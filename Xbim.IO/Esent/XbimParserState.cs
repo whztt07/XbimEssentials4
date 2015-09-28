@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using Xbim.Common;
 using Xbim.Common.Logging;
+using Xbim.Common.Metadata;
 using Xbim.Common.Step21;
 using Xbim.IO.Parser;
 

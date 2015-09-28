@@ -2,7 +2,6 @@
 
 namespace Xbim.IO
 {
-    //todo: Rename to be schema independent (just Step21, Xml, ...)
     [Flags]
     public enum XbimStorageType
     {

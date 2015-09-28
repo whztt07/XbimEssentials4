@@ -18,6 +18,7 @@ using System.IO;
 using System.Linq;
 using Xbim.Common;
 using Xbim.Common.Logging;
+using Xbim.Common.Metadata;
 using Xbim.Common.Step21;
 using Xbim.IO.Parser;
 using Xbim.IO.Step21.Parser;

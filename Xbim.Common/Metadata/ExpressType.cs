@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace Xbim.Common
+namespace Xbim.Common.Metadata
 {
     public class ExpressType
     {
@@ -14,7 +14,7 @@ namespace Xbim.Common
         public List<ExpressType> SubTypes = new List<ExpressType>();
         private List<Type> _nonAbstractSubTypes;
         private List<ExpressMetaProperty> _expressEnumerableProperties;
-        internal bool IndexedClass = false;
+        internal bool IndexedClass;
         public List<ExpressMetaProperty> ExpressEnumerableProperties
         {
             get

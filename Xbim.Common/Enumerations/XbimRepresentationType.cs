@@ -16,7 +16,7 @@ using System;
 
 #endregion
 
-namespace Xbim.XbimExtensions
+namespace Xbim.Common.Enumerations
 {
     /// <summary>
     /// </summary>

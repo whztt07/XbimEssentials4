@@ -13,10 +13,12 @@ using Microsoft.Isam.Esent.Interop;
 using Microsoft.Isam.Esent.Interop.Windows7;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
+using Xbim.Common.Geometry;
+using Xbim.Common.Metadata;
+using Xbim.Common.XbimExtensions;
 using Xbim.IO.Step21;
 using Xbim.IO.Step21.Parser;
 using Xbim.IO.Xml;
-using Xbim.XbimExtensions;
 using XbimGeometry.Interfaces;
 
 namespace Xbim.IO.Esent

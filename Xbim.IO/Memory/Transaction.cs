@@ -36,10 +36,14 @@ namespace Xbim.IO.Memory
         public void RollBack()
         {
             if (_closed)
-                throw new Exception("Transaction closed already");
+                throw new Exception("Transaction is closed already");
 
-            foreach (var action in _undoActions)
-                action();
+            //from back to front
+            for (var i = _undoActions.Count -1 ; i == 0 ; i--)
+            {
+                var undo = _undoActions[i];
+                undo();
+            }
             Finish();
         }
 
@@ -70,6 +74,8 @@ namespace Xbim.IO.Memory
         {
             if(!_closed)
                 RollBack();
+            _doActions.Clear();
+            _undoActions.Clear();
         }
 
     }

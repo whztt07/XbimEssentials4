@@ -17,6 +17,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Xml;
 using Xbim.Common;
+using Xbim.Common.Metadata;
 using Xbim.Common.Step21;
 using Xbim.IO.Esent;
 using Xbim.IO.Parser;

@@ -1,5 +1,4 @@
 ﻿using System;
-using Xbim.XbimExtensions.Interfaces;
 
 namespace Xbim.Common.Geometry
 {

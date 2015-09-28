@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using Xbim.Common;
+using Xbim.Common.Metadata;
 using Xbim.IO.Esent;
 
 namespace Xbim.IO.Step21.Parser

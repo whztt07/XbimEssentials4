@@ -16,7 +16,7 @@ using System;
 
 #endregion
 
-namespace Xbim.XbimExtensions
+namespace Xbim.Common.Enumerations
 {
     /// <summary>
     ///   Set the level of the Validation, multiple flags can be set

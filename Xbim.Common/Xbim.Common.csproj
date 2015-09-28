@@ -54,9 +54,9 @@
     <Compile Include="Exceptions\XbimException.cs" />
     <Compile Include="Exceptions\XbimGeometryException.cs" />
     <Compile Include="Exceptions\XbimParserException.cs" />
-    <Compile Include="ExpressMetaData.cs" />
-    <Compile Include="ExpressType.cs" />
-    <Compile Include="ExpressTypeDictionary.cs" />
+    <Compile Include="Metadata\ExpressMetaData.cs" />
+    <Compile Include="Metadata\ExpressType.cs" />
+    <Compile Include="Metadata\ExpressTypeDictionary.cs" />
     <Compile Include="ExpressInterfaces.cs" />
     <Compile Include="Federation\IFederatedModel.cs" />
     <Compile Include="Federation\IReferencedModel.cs" />
@@ -100,7 +100,7 @@
     <Compile Include="Geometry\XbimTriangulationIndexCollection.cs" />
     <Compile Include="Geometry\XbimTriangulationVertexCollection.cs" />
     <Compile Include="Geometry\XbimVector3D.cs" />
-    <Compile Include="Helpers\AttributeHelper.cs" />
+    <Compile Include="Logging\Providers\AttributeHelper.cs" />
     <Compile Include="IEntityCollection.cs" />
     <Compile Include="IEntityFactory.cs" />
     <Compile Include="IPersistEntityExtensions.cs" />
@@ -130,33 +130,10 @@
     <Compile Include="ReportProgressDelegate.cs" />
     <Compile Include="Step21\StepParserType.cs" />
     <Compile Include="XbimExtensions\BinaryReaderExtensions.cs" />
-    <Compile Include="XbimExtensions\Interfaces\IBoundary.cs" />
-    <Compile Include="XbimExtensions\Interfaces\IFace.cs" />
-    <Compile Include="XbimExtensions\Interfaces\IFaceBasedModel.cs" />
-    <Compile Include="XbimExtensions\Interfaces\IFaceBasedModelCollection.cs" />
-    <Compile Include="XbimExtensions\Interfaces\IIfcClosedShell.cs" />
-    <Compile Include="XbimExtensions\Interfaces\IIfcConnectedFaceSet.cs" />
-    <Compile Include="XbimExtensions\Interfaces\IIfcEdge.cs" />
-    <Compile Include="XbimExtensions\Interfaces\IIfcEdgeLoop.cs" />
-    <Compile Include="XbimExtensions\Interfaces\IIfcFace.cs" />
-    <Compile Include="XbimExtensions\Interfaces\IIfcFaceBound.cs" />
-    <Compile Include="XbimExtensions\Interfaces\IIfcLoop.cs" />
-    <Compile Include="XbimExtensions\Interfaces\IIfcOrientedEdge.cs" />
-    <Compile Include="XbimExtensions\Interfaces\IIfcPoint.cs" />
-    <Compile Include="XbimExtensions\Interfaces\IIfcShell.cs" />
-    <Compile Include="XbimExtensions\Interfaces\IIfcShellBasedSurfaceModel.cs" />
-    <Compile Include="XbimExtensions\Interfaces\IIfcVertex.cs" />
-    <Compile Include="XbimExtensions\Interfaces\IIfcVertexPoint.cs" />
-    <Compile Include="XbimExtensions\Interfaces\ISupportChangeNotification.cs" />
-    <Compile Include="XbimExtensions\Interfaces\IVector3D.cs" />
-    <Compile Include="XbimExtensions\Interfaces\IVertex3D.cs" />
-    <Compile Include="XbimExtensions\Interfaces\IXbimNoNotifyCollection.cs" />
-    <Compile Include="XbimExtensions\StepP21Token.cs" />
-    <Compile Include="XbimExtensions\ValidationFlags.cs" />
-    <Compile Include="XbimExtensions\XbimGeometryData.cs" />
-    <Compile Include="XbimExtensions\XbimIndexedCollection.cs" />
-    <Compile Include="XbimExtensions\XbimIndexedCollectionExtensions.cs" />
-    <Compile Include="XbimExtensions\XbimRepresentationType.cs" />
+    <Compile Include="Geometry\IVector3D.cs" />
+    <Compile Include="Enumerations\ValidationFlags.cs" />
+    <Compile Include="Geometry\XbimGeometryData.cs" />
+    <Compile Include="Enumerations\XbimRepresentationType.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -165,6 +142,7 @@
   <ItemGroup>
     <Content Include="log4net.xml" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
