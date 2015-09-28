@@ -18,7 +18,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc2x3.SharedBldgElements
 {
-	[IndexedClass]
 	[ExpressType("IFCCURTAINWALLTYPE", 494)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcCurtainWallType : IfcBuildingElementType, IInstantiableEntity

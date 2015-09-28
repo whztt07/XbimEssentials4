@@ -16,7 +16,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc2x3.ControlExtension
 {
-	[IndexedClass]
 	[ExpressType("IFCPERFORMANCEHISTORY", 710)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcPerformanceHistory : IfcControl, IInstantiableEntity

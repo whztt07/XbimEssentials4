@@ -15,7 +15,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc4.ProfileResource
 {
-	[IndexedClass]
 	[ExpressType("IFCRECTANGLEHOLLOWPROFILEDEF", 886)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcRectangleHollowProfileDef : IfcRectangleProfileDef, IInstantiableEntity

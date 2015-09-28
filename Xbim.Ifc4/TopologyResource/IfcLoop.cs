@@ -13,7 +13,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc4.TopologyResource
 {
-	[IndexedClass]
 	[ExpressType("IFCLOOP", 737)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcLoop : IfcTopologicalRepresentationItem, IInstantiableEntity

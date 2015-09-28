@@ -15,7 +15,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc4.Kernel
 {
-	[IndexedClass]
 	[ExpressType("IFCRELASSIGNSTOPRODUCT", 908)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcRelAssignsToProduct : IfcRelAssigns, IInstantiableEntity

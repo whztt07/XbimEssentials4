@@ -18,7 +18,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc4.ElectricalDomain
 {
-	[IndexedClass]
 	[ExpressType("IFCELECTRICFLOWSTORAGEDEVICE", 602)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcElectricFlowStorageDevice : IfcFlowStorageDevice, IInstantiableEntity

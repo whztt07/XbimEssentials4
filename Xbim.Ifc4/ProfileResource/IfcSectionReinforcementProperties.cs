@@ -15,7 +15,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc4.ProfileResource
 {
-	[IndexedClass]
 	[ExpressType("IFCSECTIONREINFORCEMENTPROPERTIES", 972)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcSectionReinforcementProperties : IfcPreDefinedProperties, IInstantiableEntity

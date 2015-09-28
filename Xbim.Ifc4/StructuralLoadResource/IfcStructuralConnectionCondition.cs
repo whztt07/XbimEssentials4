@@ -15,7 +15,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc4.StructuralLoadResource
 {
-	[IndexedClass]
 	[ExpressType("IFCSTRUCTURALCONNECTIONCONDITION", 1014)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public abstract partial class @IfcStructuralConnectionCondition : IPersistEntity, INotifyPropertyChanged

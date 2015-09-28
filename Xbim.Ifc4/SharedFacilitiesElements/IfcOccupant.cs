@@ -17,7 +17,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc4.SharedFacilitiesElements
 {
-	[IndexedClass]
 	[ExpressType("IFCOCCUPANT", 778)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcOccupant : IfcActor, IInstantiableEntity

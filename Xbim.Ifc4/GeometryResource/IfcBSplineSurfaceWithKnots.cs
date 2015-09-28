@@ -14,7 +14,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc4.GeometryResource
 {
-	[IndexedClass]
 	[ExpressType("IFCBSPLINESURFACEWITHKNOTS", 427)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcBSplineSurfaceWithKnots : IfcBSplineSurface, IInstantiableEntity

@@ -14,7 +14,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc4.StructuralAnalysisDomain
 {
-	[IndexedClass]
 	[ExpressType("IFCSTRUCTURALITEM", 1020)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public abstract partial class @IfcStructuralItem : IfcProduct, IfcStructuralActivityAssignmentSelect

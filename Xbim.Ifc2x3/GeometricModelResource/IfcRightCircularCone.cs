@@ -15,7 +15,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc2x3.GeometricModelResource
 {
-	[IndexedClass]
 	[ExpressType("IFCRIGHTCIRCULARCONE", 703)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcRightCircularCone : IfcCsgPrimitive3D, IInstantiableEntity

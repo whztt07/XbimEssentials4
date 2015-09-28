@@ -15,7 +15,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc2x3.GeometryResource
 {
-	[IndexedClass]
 	[ExpressType("IFCSURFACEOFLINEAREXTRUSION", 256)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcSurfaceOfLinearExtrusion : IfcSweptSurface, IInstantiableEntity

@@ -12,7 +12,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc4.Kernel
 {
-	[IndexedClass]
 	[ExpressType("IFCPREDEFINEDPROPERTYSET", 828)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public abstract partial class @IfcPreDefinedPropertySet : IfcPropertySetDefinition

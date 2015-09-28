@@ -13,7 +13,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc4.GeometryResource
 {
-	[IndexedClass]
 	[ExpressType("IFCCARTESIANTRANSFORMATIONOPERATOR2D", 471)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcCartesianTransformationOperator2D : IfcCartesianTransformationOperator, IInstantiableEntity

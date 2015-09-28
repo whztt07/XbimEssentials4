@@ -15,7 +15,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc4.RepresentationResource
 {
-	[IndexedClass]
 	[ExpressType("IFCPRODUCTREPRESENTATION", 840)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public abstract partial class @IfcProductRepresentation : IPersistEntity, INotifyPropertyChanged

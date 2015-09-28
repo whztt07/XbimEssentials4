@@ -16,7 +16,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc4.ProductExtension
 {
-	[IndexedClass]
 	[ExpressType("IFCRELCONTAINEDINSPATIALSTRUCTURE", 926)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcRelContainedInSpatialStructure : IfcRelConnects, IInstantiableEntity

@@ -15,7 +15,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc2x3.SharedBldgServiceElements
 {
-	[IndexedClass]
 	[ExpressType("IFCELECTRICALBASEPROPERTIES", 177)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcElectricalBaseProperties : IfcEnergyProperties, IInstantiableEntity

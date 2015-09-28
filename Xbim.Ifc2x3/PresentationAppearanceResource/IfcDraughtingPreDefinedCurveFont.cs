@@ -14,7 +14,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc2x3.PresentationAppearanceResource
 {
-	[IndexedClass]
 	[ExpressType("IFCDRAUGHTINGPREDEFINEDCURVEFONT", 286)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcDraughtingPreDefinedCurveFont : IfcPreDefinedCurveFont, IInstantiableEntity

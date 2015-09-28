@@ -17,7 +17,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc2x3.SharedComponentElements
 {
-	[IndexedClass]
 	[ExpressType("IFCDISCRETEACCESSORY", 423)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcDiscreteAccessory : IfcElementComponent, IInstantiableEntity

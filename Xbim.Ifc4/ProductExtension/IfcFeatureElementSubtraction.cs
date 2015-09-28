@@ -13,7 +13,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc4.ProductExtension
 {
-	[IndexedClass]
 	[ExpressType("IFCFEATUREELEMENTSUBTRACTION", 656)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public abstract partial class @IfcFeatureElementSubtraction : IfcFeatureElement

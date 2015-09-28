@@ -15,7 +15,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc2x3.TimeSeriesResource
 {
-	[IndexedClass]
 	[ExpressType("IFCIRREGULARTIMESERIES", 570)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcIrregularTimeSeries : IfcTimeSeries, IInstantiableEntity

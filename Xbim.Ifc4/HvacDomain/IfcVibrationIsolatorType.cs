@@ -18,7 +18,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc4.HvacDomain
 {
-	[IndexedClass]
 	[ExpressType("IFCVIBRATIONISOLATORTYPE", 1134)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcVibrationIsolatorType : IfcElementComponentType, IInstantiableEntity

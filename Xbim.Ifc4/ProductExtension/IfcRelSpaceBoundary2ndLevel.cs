@@ -16,7 +16,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc4.ProductExtension
 {
-	[IndexedClass]
 	[ExpressType("IFCRELSPACEBOUNDARY2NDLEVEL", 946)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcRelSpaceBoundary2ndLevel : IfcRelSpaceBoundary1stLevel, IInstantiableEntity

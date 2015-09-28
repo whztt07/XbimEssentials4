@@ -14,7 +14,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc4.PropertyResource
 {
-	[IndexedClass]
 	[ExpressType("IFCPROPERTYBOUNDEDVALUE", 850)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcPropertyBoundedValue : IfcSimpleProperty, IInstantiableEntity

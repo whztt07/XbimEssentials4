@@ -16,7 +16,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc4.SharedMgmtElements
 {
-	[IndexedClass]
 	[ExpressType("IFCPERMIT", 796)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcPermit : IfcControl, IInstantiableEntity

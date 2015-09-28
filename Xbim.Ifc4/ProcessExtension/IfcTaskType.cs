@@ -16,7 +16,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc4.ProcessExtension
 {
-	[IndexedClass]
 	[ExpressType("IFCTASKTYPE", 1084)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcTaskType : IfcTypeProcess, IInstantiableEntity

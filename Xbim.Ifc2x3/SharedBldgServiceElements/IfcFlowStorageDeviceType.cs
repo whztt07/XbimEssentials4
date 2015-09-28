@@ -12,7 +12,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc2x3.SharedBldgServiceElements
 {
-	[IndexedClass]
 	[ExpressType("IFCFLOWSTORAGEDEVICETYPE", 620)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public abstract partial class @IfcFlowStorageDeviceType : IfcDistributionFlowElementType

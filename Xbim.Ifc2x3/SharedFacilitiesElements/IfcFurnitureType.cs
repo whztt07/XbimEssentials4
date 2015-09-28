@@ -18,7 +18,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc2x3.SharedFacilitiesElements
 {
-	[IndexedClass]
 	[ExpressType("IFCFURNITURETYPE", 359)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcFurnitureType : IfcFurnishingElementType, IInstantiableEntity

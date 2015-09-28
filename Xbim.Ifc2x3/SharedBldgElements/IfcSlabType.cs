@@ -18,7 +18,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc2x3.SharedBldgElements
 {
-	[IndexedClass]
 	[ExpressType("IFCSLABTYPE", 381)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcSlabType : IfcBuildingElementType, IInstantiableEntity

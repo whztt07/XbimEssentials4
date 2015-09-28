@@ -14,7 +14,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc4.GeometryResource
 {
-	[IndexedClass]
 	[ExpressType("IFCSURFACEOFREVOLUTION", 1057)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcSurfaceOfRevolution : IfcSweptSurface, IInstantiableEntity

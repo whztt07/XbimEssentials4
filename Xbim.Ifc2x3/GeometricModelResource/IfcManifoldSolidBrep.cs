@@ -13,7 +13,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc2x3.GeometricModelResource
 {
-	[IndexedClass]
 	[ExpressType("IFCMANIFOLDSOLIDBREP", 149)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public abstract partial class @IfcManifoldSolidBrep : IfcSolidModel

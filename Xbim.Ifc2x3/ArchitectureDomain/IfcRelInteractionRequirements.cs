@@ -17,7 +17,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc2x3.ArchitectureDomain
 {
-	[IndexedClass]
 	[ExpressType("IFCRELINTERACTIONREQUIREMENTS", 708)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcRelInteractionRequirements : IfcRelConnects, IInstantiableEntity

@@ -14,7 +14,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc2x3.StructuralLoadResource
 {
-	[IndexedClass]
 	[ExpressType("IFCSLIPPAGECONNECTIONCONDITION", 638)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcSlippageConnectionCondition : IfcStructuralConnectionCondition, IInstantiableEntity

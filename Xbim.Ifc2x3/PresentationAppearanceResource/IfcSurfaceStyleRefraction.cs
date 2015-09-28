@@ -16,7 +16,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc2x3.PresentationAppearanceResource
 {
-	[IndexedClass]
 	[ExpressType("IFCSURFACESTYLEREFRACTION", 636)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcSurfaceStyleRefraction : IPersistEntity, INotifyPropertyChanged, IfcSurfaceStyleElementSelect, IInstantiableEntity

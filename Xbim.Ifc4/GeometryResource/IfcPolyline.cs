@@ -13,7 +13,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc4.GeometryResource
 {
-	[IndexedClass]
 	[ExpressType("IFCPOLYLINE", 821)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcPolyline : IfcBoundedCurve, IInstantiableEntity

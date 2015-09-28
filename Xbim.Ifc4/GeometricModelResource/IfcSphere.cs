@@ -15,7 +15,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc4.GeometricModelResource
 {
-	[IndexedClass]
 	[ExpressType("IFCSPHERE", 1003)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcSphere : IfcCsgPrimitive3D, IInstantiableEntity

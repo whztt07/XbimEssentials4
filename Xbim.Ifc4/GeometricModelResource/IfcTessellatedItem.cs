@@ -13,7 +13,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc4.GeometricModelResource
 {
-	[IndexedClass]
 	[ExpressType("IFCTESSELLATEDITEM", 1091)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public abstract partial class @IfcTessellatedItem : IfcGeometricRepresentationItem

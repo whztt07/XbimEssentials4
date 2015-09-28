@@ -16,7 +16,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc2x3.PresentationDefinitionResource
 {
-	[IndexedClass]
 	[ExpressType("IFCVERTEXBASEDTEXTUREMAP", 736)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcVertexBasedTextureMap : IPersistEntity, INotifyPropertyChanged, IInstantiableEntity

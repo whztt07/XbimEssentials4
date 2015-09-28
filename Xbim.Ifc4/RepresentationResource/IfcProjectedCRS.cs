@@ -14,7 +14,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc4.RepresentationResource
 {
-	[IndexedClass]
 	[ExpressType("IFCPROJECTEDCRS", 846)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcProjectedCRS : IfcCoordinateReferenceSystem, IInstantiableEntity

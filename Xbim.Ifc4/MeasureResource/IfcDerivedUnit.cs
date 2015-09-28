@@ -15,7 +15,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc4.MeasureResource
 {
-	[IndexedClass]
 	[ExpressType("IFCDERIVEDUNIT", 561)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcDerivedUnit : IPersistEntity, INotifyPropertyChanged, IfcUnit, IInstantiableEntity

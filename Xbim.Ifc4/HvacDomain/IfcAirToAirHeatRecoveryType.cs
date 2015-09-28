@@ -18,7 +18,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc4.HvacDomain
 {
-	[IndexedClass]
 	[ExpressType("IFCAIRTOAIRHEATRECOVERYTYPE", 405)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcAirToAirHeatRecoveryType : IfcEnergyConversionDeviceType, IInstantiableEntity

@@ -14,7 +14,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc4.GeometryResource
 {
-	[IndexedClass]
 	[ExpressType("IFCREPARAMETRISEDCOMPOSITECURVESEGMENT", 949)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcReparametrisedCompositeCurveSegment : IfcCompositeCurveSegment, IInstantiableEntity

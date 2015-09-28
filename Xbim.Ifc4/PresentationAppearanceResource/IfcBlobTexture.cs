@@ -15,7 +15,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc4.PresentationAppearanceResource
 {
-	[IndexedClass]
 	[ExpressType("IFCBLOBTEXTURE", 431)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcBlobTexture : IfcSurfaceTexture, IInstantiableEntity

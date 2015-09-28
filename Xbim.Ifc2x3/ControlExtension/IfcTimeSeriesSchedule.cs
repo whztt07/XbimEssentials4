@@ -18,7 +18,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc2x3.ControlExtension
 {
-	[IndexedClass]
 	[ExpressType("IFCTIMESERIESSCHEDULE", 712)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcTimeSeriesSchedule : IfcControl, IInstantiableEntity

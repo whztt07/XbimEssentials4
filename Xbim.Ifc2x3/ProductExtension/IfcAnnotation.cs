@@ -18,7 +18,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc2x3.ProductExtension
 {
-	[IndexedClass]
 	[ExpressType("IFCANNOTATION", 634)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcAnnotation : IfcProduct, IInstantiableEntity

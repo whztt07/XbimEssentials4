@@ -13,7 +13,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc4.TopologyResource
 {
-	[IndexedClass]
 	[ExpressType("IFCCONNECTEDFACESET", 509)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcConnectedFaceSet : IfcTopologicalRepresentationItem, IInstantiableEntity

@@ -15,7 +15,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc2x3.TopologyResource
 {
-	[IndexedClass]
 	[ExpressType("IFCFACESURFACE", 85)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcFaceSurface : IfcFace, IfcSurfaceOrFaceSurface, IInstantiableEntity

@@ -14,7 +14,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc4.Kernel
 {
-	[IndexedClass]
 	[ExpressType("IFCTYPERESOURCE", 1120)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public abstract partial class @IfcTypeResource : IfcTypeObject, IfcResourceSelect

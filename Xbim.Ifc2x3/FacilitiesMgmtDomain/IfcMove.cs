@@ -17,7 +17,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc2x3.FacilitiesMgmtDomain
 {
-	[IndexedClass]
 	[ExpressType("IFCMOVE", 74)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcMove : IfcTask, IInstantiableEntity

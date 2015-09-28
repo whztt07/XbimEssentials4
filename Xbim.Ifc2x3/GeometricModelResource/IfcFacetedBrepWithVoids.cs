@@ -14,7 +14,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc2x3.GeometricModelResource
 {
-	[IndexedClass]
 	[ExpressType("IFCFACETEDBREPWITHVOIDS", 369)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcFacetedBrepWithVoids : IfcManifoldSolidBrep, IInstantiableEntity

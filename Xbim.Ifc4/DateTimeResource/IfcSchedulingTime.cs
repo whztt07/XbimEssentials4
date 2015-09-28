@@ -15,7 +15,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc4.DateTimeResource
 {
-	[IndexedClass]
 	[ExpressType("IFCSCHEDULINGTIME", 970)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public abstract partial class @IfcSchedulingTime : IPersistEntity, INotifyPropertyChanged

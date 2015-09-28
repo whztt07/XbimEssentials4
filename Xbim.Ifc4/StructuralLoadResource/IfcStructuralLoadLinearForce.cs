@@ -14,7 +14,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc4.StructuralLoadResource
 {
-	[IndexedClass]
 	[ExpressType("IFCSTRUCTURALLOADLINEARFORCE", 1026)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcStructuralLoadLinearForce : IfcStructuralLoadStatic, IInstantiableEntity

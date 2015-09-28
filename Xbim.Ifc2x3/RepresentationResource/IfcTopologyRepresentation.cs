@@ -15,7 +15,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc2x3.RepresentationResource
 {
-	[IndexedClass]
 	[ExpressType("IFCTOPOLOGYREPRESENTATION", 88)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcTopologyRepresentation : IfcShapeModel, IInstantiableEntity

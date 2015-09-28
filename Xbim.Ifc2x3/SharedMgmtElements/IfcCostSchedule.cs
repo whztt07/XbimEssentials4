@@ -18,7 +18,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc2x3.SharedMgmtElements
 {
-	[IndexedClass]
 	[ExpressType("IFCCOSTSCHEDULE", 695)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcCostSchedule : IfcControl, IInstantiableEntity

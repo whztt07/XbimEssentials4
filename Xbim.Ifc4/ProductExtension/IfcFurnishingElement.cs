@@ -17,7 +17,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc4.ProductExtension
 {
-	[IndexedClass]
 	[ExpressType("IFCFURNISHINGELEMENT", 685)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcFurnishingElement : IfcElement, IInstantiableEntity

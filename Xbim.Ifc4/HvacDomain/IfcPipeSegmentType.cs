@@ -18,7 +18,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc4.HvacDomain
 {
-	[IndexedClass]
 	[ExpressType("IFCPIPESEGMENTTYPE", 807)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcPipeSegmentType : IfcFlowSegmentType, IInstantiableEntity

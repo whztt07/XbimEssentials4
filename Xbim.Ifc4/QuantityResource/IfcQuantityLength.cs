@@ -14,7 +14,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc4.QuantityResource
 {
-	[IndexedClass]
 	[ExpressType("IFCQUANTITYLENGTH", 873)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcQuantityLength : IfcPhysicalSimpleQuantity, IInstantiableEntity

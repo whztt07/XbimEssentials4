@@ -14,7 +14,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc4.GeometryResource
 {
-	[IndexedClass]
 	[ExpressType("IFCCIRCLE", 480)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcCircle : IfcConic, IInstantiableEntity

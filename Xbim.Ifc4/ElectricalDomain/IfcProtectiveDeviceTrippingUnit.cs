@@ -18,7 +18,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc4.ElectricalDomain
 {
-	[IndexedClass]
 	[ExpressType("IFCPROTECTIVEDEVICETRIPPINGUNIT", 865)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcProtectiveDeviceTrippingUnit : IfcDistributionControlElement, IInstantiableEntity

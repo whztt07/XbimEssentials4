@@ -15,7 +15,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc2x3.ProfileResource
 {
-	[IndexedClass]
 	[ExpressType("IFCCENTERLINEPROFILEDEF", 353)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcCenterLineProfileDef : IfcArbitraryOpenProfileDef, IInstantiableEntity

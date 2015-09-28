@@ -14,7 +14,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc2x3.GeometricModelResource
 {
-	[IndexedClass]
 	[ExpressType("IFCHALFSPACESOLID", 338)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcHalfSpaceSolid : IfcGeometricRepresentationItem, IfcBooleanOperand, IInstantiableEntity

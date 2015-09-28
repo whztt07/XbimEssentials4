@@ -14,7 +14,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc4.StructuralLoadResource
 {
-	[IndexedClass]
 	[ExpressType("IFCSTRUCTURALLOADSINGLEDISPLACEMENT", 1029)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcStructuralLoadSingleDisplacement : IfcStructuralLoadStatic, IInstantiableEntity

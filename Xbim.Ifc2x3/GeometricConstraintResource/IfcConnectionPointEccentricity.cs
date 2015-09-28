@@ -14,7 +14,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc2x3.GeometricConstraintResource
 {
-	[IndexedClass]
 	[ExpressType("IFCCONNECTIONPOINTECCENTRICITY", 405)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcConnectionPointEccentricity : IfcConnectionPointGeometry, IInstantiableEntity

@@ -17,7 +17,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc2x3.SharedFacilitiesElements
 {
-	[IndexedClass]
 	[ExpressType("IFCRELOCCUPIESSPACES", 324)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcRelOccupiesSpaces : IfcRelAssignsToActor, IInstantiableEntity

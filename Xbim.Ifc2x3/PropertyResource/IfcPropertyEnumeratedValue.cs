@@ -14,7 +14,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc2x3.PropertyResource
 {
-	[IndexedClass]
 	[ExpressType("IFCPROPERTYENUMERATEDVALUE", 629)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcPropertyEnumeratedValue : IfcSimpleProperty, IInstantiableEntity

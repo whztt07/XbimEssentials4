@@ -13,7 +13,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc2x3.GeometryResource
 {
-	[IndexedClass]
 	[ExpressType("IFCPLANE", 388)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcPlane : IfcElementarySurface, IInstantiableEntity

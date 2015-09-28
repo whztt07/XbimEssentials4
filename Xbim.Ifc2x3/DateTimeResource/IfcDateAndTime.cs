@@ -16,7 +16,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc2x3.DateTimeResource
 {
-	[IndexedClass]
 	[ExpressType("IFCDATEANDTIME", 373)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcDateAndTime : IPersistEntity, INotifyPropertyChanged, IfcDateTimeSelect, IfcObjectReferenceSelect, IInstantiableEntity

@@ -16,7 +16,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc4.SharedMgmtElements
 {
-	[IndexedClass]
 	[ExpressType("IFCACTIONREQUEST", 391)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcActionRequest : IfcControl, IInstantiableEntity

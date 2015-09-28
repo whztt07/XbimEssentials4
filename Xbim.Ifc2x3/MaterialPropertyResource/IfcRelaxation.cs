@@ -16,7 +16,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc2x3.MaterialPropertyResource
 {
-	[IndexedClass]
 	[ExpressType("IFCRELAXATION", 364)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcRelaxation : IPersistEntity, INotifyPropertyChanged, IInstantiableEntity

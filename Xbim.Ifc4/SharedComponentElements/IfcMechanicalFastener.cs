@@ -17,7 +17,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc4.SharedComponentElements
 {
-	[IndexedClass]
 	[ExpressType("IFCMECHANICALFASTENER", 761)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcMechanicalFastener : IfcElementComponent, IInstantiableEntity

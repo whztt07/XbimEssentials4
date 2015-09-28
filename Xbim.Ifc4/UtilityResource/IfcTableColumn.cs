@@ -17,7 +17,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc4.UtilityResource
 {
-	[IndexedClass]
 	[ExpressType("IFCTABLECOLUMN", 1077)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcTableColumn : IPersistEntity, INotifyPropertyChanged, IInstantiableEntity

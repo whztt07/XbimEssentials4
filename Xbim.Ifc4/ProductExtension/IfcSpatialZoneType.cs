@@ -17,7 +17,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc4.ProductExtension
 {
-	[IndexedClass]
 	[ExpressType("IFCSPATIALZONETYPE", 1002)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcSpatialZoneType : IfcSpatialElementType, IInstantiableEntity

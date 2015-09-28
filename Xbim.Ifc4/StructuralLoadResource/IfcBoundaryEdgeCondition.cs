@@ -14,7 +14,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc4.StructuralLoadResource
 {
-	[IndexedClass]
 	[ExpressType("IFCBOUNDARYEDGECONDITION", 439)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcBoundaryEdgeCondition : IfcBoundaryCondition, IInstantiableEntity

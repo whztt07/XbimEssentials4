@@ -15,7 +15,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc2x3.GeometricModelResource
 {
-	[IndexedClass]
 	[ExpressType("IFCSECTIONEDSPINE", 300)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcSectionedSpine : IfcGeometricRepresentationItem, IInstantiableEntity

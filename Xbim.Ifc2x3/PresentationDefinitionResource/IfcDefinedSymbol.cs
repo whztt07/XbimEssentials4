@@ -14,7 +14,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc2x3.PresentationDefinitionResource
 {
-	[IndexedClass]
 	[ExpressType("IFCDEFINEDSYMBOL", 461)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcDefinedSymbol : IfcGeometricRepresentationItem, IInstantiableEntity

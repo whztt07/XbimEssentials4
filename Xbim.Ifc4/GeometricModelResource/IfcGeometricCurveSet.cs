@@ -13,7 +13,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc4.GeometricModelResource
 {
-	[IndexedClass]
 	[ExpressType("IFCGEOMETRICCURVESET", 691)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcGeometricCurveSet : IfcGeometricSet, IInstantiableEntity

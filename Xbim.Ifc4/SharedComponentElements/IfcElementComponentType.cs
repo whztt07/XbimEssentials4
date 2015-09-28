@@ -13,7 +13,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc4.SharedComponentElements
 {
-	[IndexedClass]
 	[ExpressType("IFCELEMENTCOMPONENTTYPE", 614)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public abstract partial class @IfcElementComponentType : IfcElementType

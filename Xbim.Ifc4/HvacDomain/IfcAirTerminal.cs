@@ -18,7 +18,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc4.HvacDomain
 {
-	[IndexedClass]
 	[ExpressType("IFCAIRTERMINAL", 400)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcAirTerminal : IfcFlowTerminal, IInstantiableEntity

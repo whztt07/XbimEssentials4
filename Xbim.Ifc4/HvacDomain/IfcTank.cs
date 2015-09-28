@@ -18,7 +18,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc4.HvacDomain
 {
-	[IndexedClass]
 	[ExpressType("IFCTANK", 1079)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcTank : IfcFlowStorageDevice, IInstantiableEntity

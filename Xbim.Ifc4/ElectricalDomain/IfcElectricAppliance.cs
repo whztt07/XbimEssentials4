@@ -18,7 +18,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc4.ElectricalDomain
 {
-	[IndexedClass]
 	[ExpressType("IFCELECTRICAPPLIANCE", 598)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcElectricAppliance : IfcFlowTerminal, IInstantiableEntity

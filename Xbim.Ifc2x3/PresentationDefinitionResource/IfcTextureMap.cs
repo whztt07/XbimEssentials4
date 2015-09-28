@@ -13,7 +13,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc2x3.PresentationDefinitionResource
 {
-	[IndexedClass]
 	[ExpressType("IFCTEXTUREMAP", 734)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcTextureMap : IfcTextureCoordinate, IInstantiableEntity

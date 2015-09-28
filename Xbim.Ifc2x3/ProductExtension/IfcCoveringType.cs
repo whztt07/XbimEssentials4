@@ -17,7 +17,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc2x3.ProductExtension
 {
-	[IndexedClass]
 	[ExpressType("IFCCOVERINGTYPE", 565)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcCoveringType : IfcBuildingElementType, IInstantiableEntity

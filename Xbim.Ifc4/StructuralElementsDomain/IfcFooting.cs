@@ -18,7 +18,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc4.StructuralElementsDomain
 {
-	[IndexedClass]
 	[ExpressType("IFCFOOTING", 683)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcFooting : IfcBuildingElement, IInstantiableEntity

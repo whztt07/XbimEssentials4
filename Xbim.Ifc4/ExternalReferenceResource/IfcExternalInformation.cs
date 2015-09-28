@@ -14,7 +14,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc4.ExternalReferenceResource
 {
-	[IndexedClass]
 	[ExpressType("IFCEXTERNALINFORMATION", 632)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public abstract partial class @IfcExternalInformation : IPersistEntity, INotifyPropertyChanged, IfcResourceObjectSelect

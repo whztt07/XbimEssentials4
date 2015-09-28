@@ -16,7 +16,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc4.SharedBldgServiceElements
 {
-	[IndexedClass]
 	[ExpressType("IFCRELFLOWCONTROLELEMENTS", 937)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcRelFlowControlElements : IfcRelConnects, IInstantiableEntity

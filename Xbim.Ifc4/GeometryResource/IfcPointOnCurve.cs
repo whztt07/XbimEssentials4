@@ -14,7 +14,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc4.GeometryResource
 {
-	[IndexedClass]
 	[ExpressType("IFCPOINTONCURVE", 817)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcPointOnCurve : IfcPoint, IInstantiableEntity

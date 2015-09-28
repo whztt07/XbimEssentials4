@@ -17,7 +17,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc2x3.StructuralElementsDomain
 {
-	[IndexedClass]
 	[ExpressType("IFCREINFORCEMENTDEFINITIONPROPERTIES", 263)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcReinforcementDefinitionProperties : IfcPropertySetDefinition, IInstantiableEntity

@@ -14,7 +14,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc4.MaterialResource
 {
-	[IndexedClass]
 	[ExpressType("IFCMATERIALLAYERWITHOFFSETS", 750)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcMaterialLayerWithOffsets : IfcMaterialLayer, IInstantiableEntity

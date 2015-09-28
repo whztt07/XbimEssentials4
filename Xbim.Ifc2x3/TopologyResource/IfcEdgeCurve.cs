@@ -15,7 +15,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc2x3.TopologyResource
 {
-	[IndexedClass]
 	[ExpressType("IFCEDGECURVE", 203)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcEdgeCurve : IfcEdge, IfcCurveOrEdgeCurve, IInstantiableEntity

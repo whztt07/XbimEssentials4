@@ -16,7 +16,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc4.DateTimeResource
 {
-	[IndexedClass]
 	[ExpressType("IFCRECURRENCEPATTERN", 890)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcRecurrencePattern : IPersistEntity, INotifyPropertyChanged, IInstantiableEntity

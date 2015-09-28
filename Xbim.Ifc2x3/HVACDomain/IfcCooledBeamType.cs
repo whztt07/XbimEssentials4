@@ -18,7 +18,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc2x3.HVACDomain
 {
-	[IndexedClass]
 	[ExpressType("IFCCOOLEDBEAMTYPE", 367)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcCooledBeamType : IfcEnergyConversionDeviceType, IInstantiableEntity

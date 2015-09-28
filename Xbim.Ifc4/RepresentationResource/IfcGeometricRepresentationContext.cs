@@ -15,7 +15,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc4.RepresentationResource
 {
-	[IndexedClass]
 	[ExpressType("IFCGEOMETRICREPRESENTATIONCONTEXT", 692)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcGeometricRepresentationContext : IfcRepresentationContext, IfcCoordinateReferenceSystemSelect, IInstantiableEntity

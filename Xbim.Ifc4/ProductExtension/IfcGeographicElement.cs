@@ -17,7 +17,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc4.ProductExtension
 {
-	[IndexedClass]
 	[ExpressType("IFCGEOGRAPHICELEMENT", 689)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcGeographicElement : IfcElement, IInstantiableEntity

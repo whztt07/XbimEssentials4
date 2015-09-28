@@ -18,7 +18,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc4.ElectricalDomain
 {
-	[IndexedClass]
 	[ExpressType("IFCSOLARDEVICE", 990)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcSolarDevice : IfcEnergyConversionDevice, IInstantiableEntity

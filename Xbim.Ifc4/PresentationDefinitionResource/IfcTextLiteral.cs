@@ -15,7 +15,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc4.PresentationDefinitionResource
 {
-	[IndexedClass]
 	[ExpressType("IFCTEXTLITERAL", 1092)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcTextLiteral : IfcGeometricRepresentationItem, IInstantiableEntity

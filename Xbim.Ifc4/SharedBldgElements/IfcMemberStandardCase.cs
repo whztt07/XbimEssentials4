@@ -17,7 +17,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc4.SharedBldgElements
 {
-	[IndexedClass]
 	[ExpressType("IFCMEMBERSTANDARDCASE", 766)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcMemberStandardCase : IfcMember, IInstantiableEntity

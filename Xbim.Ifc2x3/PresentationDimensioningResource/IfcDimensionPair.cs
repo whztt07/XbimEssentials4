@@ -14,7 +14,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc2x3.PresentationDimensioningResource
 {
-	[IndexedClass]
 	[ExpressType("IFCDIMENSIONPAIR", 745)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcDimensionPair : IfcDraughtingCalloutRelationship, IInstantiableEntity

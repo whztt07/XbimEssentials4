@@ -13,7 +13,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc4.QuantityResource
 {
-	[IndexedClass]
 	[ExpressType("IFCPHYSICALSIMPLEQUANTITY", 801)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public abstract partial class @IfcPhysicalSimpleQuantity : IfcPhysicalQuantity

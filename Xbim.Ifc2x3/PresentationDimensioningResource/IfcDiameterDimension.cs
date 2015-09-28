@@ -13,7 +13,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc2x3.PresentationDimensioningResource
 {
-	[IndexedClass]
 	[ExpressType("IFCDIAMETERDIMENSION", 739)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcDiameterDimension : IfcDimensionCurveDirectedCallout, IInstantiableEntity

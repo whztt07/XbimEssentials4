@@ -14,7 +14,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc2x3.PresentationAppearanceResource
 {
-	[IndexedClass]
 	[ExpressType("IFCTWODIRECTIONREPEATFACTOR", 315)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcTwoDirectionRepeatFactor : IfcOneDirectionRepeatFactor, IInstantiableEntity

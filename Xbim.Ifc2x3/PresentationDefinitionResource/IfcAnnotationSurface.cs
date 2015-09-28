@@ -14,7 +14,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc2x3.PresentationDefinitionResource
 {
-	[IndexedClass]
 	[ExpressType("IFCANNOTATIONSURFACE", 731)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcAnnotationSurface : IfcGeometricRepresentationItem, IInstantiableEntity

@@ -18,7 +18,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc4.HvacDomain
 {
-	[IndexedClass]
 	[ExpressType("IFCMEDICALDEVICETYPE", 764)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcMedicalDeviceType : IfcFlowTerminalType, IInstantiableEntity

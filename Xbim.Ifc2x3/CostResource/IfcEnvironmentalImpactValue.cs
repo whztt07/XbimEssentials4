@@ -15,7 +15,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc2x3.CostResource
 {
-	[IndexedClass]
 	[ExpressType("IFCENVIRONMENTALIMPACTVALUE", 78)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcEnvironmentalImpactValue : IfcAppliedValue, IInstantiableEntity

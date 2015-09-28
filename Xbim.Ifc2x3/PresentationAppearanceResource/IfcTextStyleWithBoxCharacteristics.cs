@@ -16,7 +16,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc2x3.PresentationAppearanceResource
 {
-	[IndexedClass]
 	[ExpressType("IFCTEXTSTYLEWITHBOXCHARACTERISTICS", 730)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcTextStyleWithBoxCharacteristics : IPersistEntity, INotifyPropertyChanged, IfcTextStyleSelect, IInstantiableEntity

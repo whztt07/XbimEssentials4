@@ -12,7 +12,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc2x3.PropertyResource
 {
-	[IndexedClass]
 	[ExpressType("IFCSIMPLEPROPERTY", 4)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public abstract partial class @IfcSimpleProperty : IfcProperty

@@ -16,7 +16,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc4.GeometricConstraintResource
 {
-	[IndexedClass]
 	[ExpressType("IFCVIRTUALGRIDINTERSECTION", 1136)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcVirtualGridIntersection : IPersistEntity, INotifyPropertyChanged, IfcGridPlacementDirectionSelect, IInstantiableEntity

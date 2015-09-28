@@ -15,7 +15,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc4.MaterialResource
 {
-	[IndexedClass]
 	[ExpressType("IFCMATERIALPROFILE", 752)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcMaterialProfile : IfcMaterialDefinition, IInstantiableEntity

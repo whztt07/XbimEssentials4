@@ -16,7 +16,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc4.GeometricConstraintResource
 {
-	[IndexedClass]
 	[ExpressType("IFCOBJECTPLACEMENT", 776)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public abstract partial class @IfcObjectPlacement : IPersistEntity, INotifyPropertyChanged

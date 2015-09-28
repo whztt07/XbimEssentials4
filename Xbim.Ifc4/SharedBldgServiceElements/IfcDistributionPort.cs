@@ -18,7 +18,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc4.SharedBldgServiceElements
 {
-	[IndexedClass]
 	[ExpressType("IFCDISTRIBUTIONPORT", 576)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcDistributionPort : IfcPort, IInstantiableEntity

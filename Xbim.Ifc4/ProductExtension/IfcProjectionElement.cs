@@ -17,7 +17,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc4.ProductExtension
 {
-	[IndexedClass]
 	[ExpressType("IFCPROJECTIONELEMENT", 847)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcProjectionElement : IfcFeatureElementAddition, IInstantiableEntity

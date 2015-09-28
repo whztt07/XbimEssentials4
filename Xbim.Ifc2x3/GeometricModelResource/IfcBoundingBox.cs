@@ -15,7 +15,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc2x3.GeometricModelResource
 {
-	[IndexedClass]
 	[ExpressType("IFCBOUNDINGBOX", 151)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcBoundingBox : IfcGeometricRepresentationItem, IInstantiableEntity

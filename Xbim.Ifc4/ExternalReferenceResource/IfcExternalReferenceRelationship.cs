@@ -14,7 +14,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc4.ExternalReferenceResource
 {
-	[IndexedClass]
 	[ExpressType("IFCEXTERNALREFERENCERELATIONSHIP", 634)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcExternalReferenceRelationship : IfcResourceLevelRelationship, IInstantiableEntity

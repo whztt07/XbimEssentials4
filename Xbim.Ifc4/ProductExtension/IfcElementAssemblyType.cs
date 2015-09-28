@@ -17,7 +17,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc4.ProductExtension
 {
-	[IndexedClass]
 	[ExpressType("IFCELEMENTASSEMBLYTYPE", 612)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcElementAssemblyType : IfcElementType, IInstantiableEntity

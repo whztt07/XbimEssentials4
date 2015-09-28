@@ -17,7 +17,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc4.StructuralElementsDomain
 {
-	[IndexedClass]
 	[ExpressType("IFCREINFORCINGMESHTYPE", 900)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcReinforcingMeshType : IfcReinforcingElementType, IInstantiableEntity

@@ -14,7 +14,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc4.QuantityResource
 {
-	[IndexedClass]
 	[ExpressType("IFCPHYSICALCOMPLEXQUANTITY", 799)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcPhysicalComplexQuantity : IfcPhysicalQuantity, IInstantiableEntity

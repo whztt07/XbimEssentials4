@@ -17,7 +17,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc4.ControlExtension
 {
-	[IndexedClass]
 	[ExpressType("IFCRELASSOCIATESCONSTRAINT", 913)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcRelAssociatesConstraint : IfcRelAssociates, IInstantiableEntity

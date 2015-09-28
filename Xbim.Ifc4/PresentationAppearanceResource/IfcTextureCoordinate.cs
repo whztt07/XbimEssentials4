@@ -13,7 +13,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc4.PresentationAppearanceResource
 {
-	[IndexedClass]
 	[ExpressType("IFCTEXTURECOORDINATE", 1098)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public abstract partial class @IfcTextureCoordinate : IfcPresentationItem

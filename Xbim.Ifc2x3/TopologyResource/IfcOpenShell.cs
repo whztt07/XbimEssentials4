@@ -13,7 +13,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc2x3.TopologyResource
 {
-	[IndexedClass]
 	[ExpressType("IFCOPENSHELL", 488)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcOpenShell : IfcConnectedFaceSet, IfcShell, IInstantiableEntity

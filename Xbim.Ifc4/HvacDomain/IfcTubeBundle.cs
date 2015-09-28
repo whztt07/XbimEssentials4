@@ -18,7 +18,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc4.HvacDomain
 {
-	[IndexedClass]
 	[ExpressType("IFCTUBEBUNDLE", 1115)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcTubeBundle : IfcEnergyConversionDevice, IInstantiableEntity

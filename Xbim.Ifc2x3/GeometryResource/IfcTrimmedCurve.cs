@@ -13,7 +13,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc2x3.GeometryResource
 {
-	[IndexedClass]
 	[ExpressType("IFCTRIMMEDCURVE", 143)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcTrimmedCurve : IfcBoundedCurve, IInstantiableEntity

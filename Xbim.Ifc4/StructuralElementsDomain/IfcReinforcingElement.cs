@@ -14,7 +14,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc4.StructuralElementsDomain
 {
-	[IndexedClass]
 	[ExpressType("IFCREINFORCINGELEMENT", 897)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public abstract partial class @IfcReinforcingElement : IfcElementComponent

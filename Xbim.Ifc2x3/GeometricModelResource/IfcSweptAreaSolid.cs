@@ -14,7 +14,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc2x3.GeometricModelResource
 {
-	[IndexedClass]
 	[ExpressType("IFCSWEPTAREASOLID", 239)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public abstract partial class @IfcSweptAreaSolid : IfcSolidModel

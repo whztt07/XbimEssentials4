@@ -15,7 +15,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc2x3.PresentationDefinitionResource
 {
-	[IndexedClass]
 	[ExpressType("IFCEXTERNALLYDEFINEDSYMBOL", 391)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcExternallyDefinedSymbol : IfcExternalReference, IfcDefinedSymbolSelect, IInstantiableEntity

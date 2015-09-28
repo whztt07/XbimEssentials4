@@ -15,7 +15,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc4.Kernel
 {
-	[IndexedClass]
 	[ExpressType("IFCRELAGGREGATES", 901)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcRelAggregates : IfcRelDecomposes, IInstantiableEntity

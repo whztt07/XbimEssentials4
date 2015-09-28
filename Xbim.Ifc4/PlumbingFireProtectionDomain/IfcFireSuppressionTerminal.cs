@@ -18,7 +18,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc4.PlumbingFireProtectionDomain
 {
-	[IndexedClass]
 	[ExpressType("IFCFIRESUPPRESSIONTERMINAL", 662)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcFireSuppressionTerminal : IfcFlowTerminal, IInstantiableEntity

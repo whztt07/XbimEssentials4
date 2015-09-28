@@ -15,7 +15,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc2x3.PresentationResource
 {
-	[IndexedClass]
 	[ExpressType("IFCPREDEFINEDITEM", 288)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public abstract partial class @IfcPreDefinedItem : IPersistEntity, INotifyPropertyChanged

@@ -15,7 +15,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc2x3.PresentationResource
 {
-	[IndexedClass]
 	[ExpressType("IFCEXTERNALLYDEFINEDTEXTFONT", 132)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcExternallyDefinedTextFont : IfcExternalReference, IfcTextFontSelect, IInstantiableEntity

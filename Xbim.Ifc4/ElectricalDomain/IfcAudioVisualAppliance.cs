@@ -18,7 +18,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc4.ElectricalDomain
 {
-	[IndexedClass]
 	[ExpressType("IFCAUDIOVISUALAPPLIANCE", 419)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcAudioVisualAppliance : IfcFlowTerminal, IInstantiableEntity

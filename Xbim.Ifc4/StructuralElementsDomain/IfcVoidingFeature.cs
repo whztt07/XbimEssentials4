@@ -18,7 +18,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc4.StructuralElementsDomain
 {
-	[IndexedClass]
 	[ExpressType("IFCVOIDINGFEATURE", 1137)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcVoidingFeature : IfcFeatureElementSubtraction, IInstantiableEntity

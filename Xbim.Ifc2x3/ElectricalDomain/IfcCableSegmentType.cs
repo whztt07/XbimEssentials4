@@ -18,7 +18,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc2x3.ElectricalDomain
 {
-	[IndexedClass]
 	[ExpressType("IFCCABLESEGMENTTYPE", 77)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcCableSegmentType : IfcFlowSegmentType, IInstantiableEntity

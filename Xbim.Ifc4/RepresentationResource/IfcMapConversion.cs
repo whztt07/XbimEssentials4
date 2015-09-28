@@ -14,7 +14,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc4.RepresentationResource
 {
-	[IndexedClass]
 	[ExpressType("IFCMAPCONVERSION", 739)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcMapConversion : IfcCoordinateOperation, IInstantiableEntity

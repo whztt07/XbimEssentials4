@@ -15,7 +15,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc4.PresentationAppearanceResource
 {
-	[IndexedClass]
 	[ExpressType("IFCTEXTUREVERTEXLIST", 1102)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcTextureVertexList : IfcPresentationItem, IInstantiableEntity

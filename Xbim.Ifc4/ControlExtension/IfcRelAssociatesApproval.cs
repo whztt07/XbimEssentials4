@@ -17,7 +17,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc4.ControlExtension
 {
-	[IndexedClass]
 	[ExpressType("IFCRELASSOCIATESAPPROVAL", 911)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcRelAssociatesApproval : IfcRelAssociates, IInstantiableEntity

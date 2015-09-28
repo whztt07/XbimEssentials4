@@ -17,7 +17,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc2x3.PresentationDimensioningResource
 {
-	[IndexedClass]
 	[ExpressType("IFCDIMENSIONCURVETERMINATOR", 744)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcDimensionCurveTerminator : IfcTerminatorSymbol, IInstantiableEntity

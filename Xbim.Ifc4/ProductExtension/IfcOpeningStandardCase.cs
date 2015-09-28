@@ -17,7 +17,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc4.ProductExtension
 {
-	[IndexedClass]
 	[ExpressType("IFCOPENINGSTANDARDCASE", 783)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcOpeningStandardCase : IfcOpeningElement, IInstantiableEntity

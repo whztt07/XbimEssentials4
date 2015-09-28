@@ -14,7 +14,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc4.PresentationAppearanceResource
 {
-	[IndexedClass]
 	[ExpressType("IFCTEXTUREMAP", 1100)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcTextureMap : IfcTextureCoordinate, IInstantiableEntity

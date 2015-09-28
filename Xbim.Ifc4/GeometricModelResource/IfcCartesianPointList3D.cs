@@ -14,7 +14,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc4.GeometricModelResource
 {
-	[IndexedClass]
 	[ExpressType("IFCCARTESIANPOINTLIST3D", 469)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcCartesianPointList3D : IfcCartesianPointList, IInstantiableEntity

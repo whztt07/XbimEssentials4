@@ -18,7 +18,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc4.ConstructionMgmtDomain
 {
-	[IndexedClass]
 	[ExpressType("IFCSUBCONTRACTRESOURCETYPE", 1051)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcSubContractResourceType : IfcConstructionResourceType, IInstantiableEntity

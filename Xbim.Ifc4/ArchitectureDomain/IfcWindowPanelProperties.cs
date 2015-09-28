@@ -17,7 +17,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc4.ArchitectureDomain
 {
-	[IndexedClass]
 	[ExpressType("IFCWINDOWPANELPROPERTIES", 1146)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcWindowPanelProperties : IfcPreDefinedPropertySet, IInstantiableEntity

@@ -14,7 +14,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc4.DateTimeResource
 {
-	[IndexedClass]
 	[ExpressType("IFCIRREGULARTIMESERIES", 713)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcIrregularTimeSeries : IfcTimeSeries, IInstantiableEntity

@@ -16,7 +16,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc2x3.SharedMgmtElements
 {
-	[IndexedClass]
 	[ExpressType("IFCRELASSIGNSTOPROJECTORDER", 698)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcRelAssignsToProjectOrder : IfcRelAssignsToControl, IInstantiableEntity

@@ -18,7 +18,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc4.HvacDomain
 {
-	[IndexedClass]
 	[ExpressType("IFCFAN", 650)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcFan : IfcFlowMovingDevice, IInstantiableEntity

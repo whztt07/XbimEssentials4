@@ -15,7 +15,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc2x3.PresentationAppearanceResource
 {
-	[IndexedClass]
 	[ExpressType("IFCCURVESTYLE", 118)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcCurveStyle : IfcPresentationStyle, IfcPresentationStyleSelect, IInstantiableEntity

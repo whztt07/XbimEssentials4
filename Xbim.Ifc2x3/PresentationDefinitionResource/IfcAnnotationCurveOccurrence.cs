@@ -17,7 +17,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc2x3.PresentationDefinitionResource
 {
-	[IndexedClass]
 	[ExpressType("IFCANNOTATIONCURVEOCCURRENCE", 57)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcAnnotationCurveOccurrence : IfcAnnotationOccurrence, IfcDraughtingCalloutElement, IInstantiableEntity

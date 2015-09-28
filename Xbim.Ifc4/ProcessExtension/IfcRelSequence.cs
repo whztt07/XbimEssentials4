@@ -17,7 +17,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc4.ProcessExtension
 {
-	[IndexedClass]
 	[ExpressType("IFCRELSEQUENCE", 942)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcRelSequence : IfcRelConnects, IInstantiableEntity

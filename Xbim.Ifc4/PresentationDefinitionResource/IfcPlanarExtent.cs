@@ -15,7 +15,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc4.PresentationDefinitionResource
 {
-	[IndexedClass]
 	[ExpressType("IFCPLANAREXTENT", 811)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcPlanarExtent : IfcGeometricRepresentationItem, IInstantiableEntity

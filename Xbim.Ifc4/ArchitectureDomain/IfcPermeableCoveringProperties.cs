@@ -17,7 +17,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc4.ArchitectureDomain
 {
-	[IndexedClass]
 	[ExpressType("IFCPERMEABLECOVERINGPROPERTIES", 795)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcPermeableCoveringProperties : IfcPreDefinedPropertySet, IInstantiableEntity

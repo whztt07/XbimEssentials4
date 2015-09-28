@@ -17,7 +17,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc2x3.SharedBldgElements
 {
-	[IndexedClass]
 	[ExpressType("IFCDOORPANELPROPERTIES", 602)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcDoorPanelProperties : IfcPropertySetDefinition, IInstantiableEntity

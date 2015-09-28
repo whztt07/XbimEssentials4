@@ -16,7 +16,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc2x3.SharedBldgServiceElements
 {
-	[IndexedClass]
 	[ExpressType("IFCSOUNDPROPERTIES", 474)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcSoundProperties : IfcPropertySetDefinition, IInstantiableEntity

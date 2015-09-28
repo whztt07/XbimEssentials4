@@ -15,7 +15,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc2x3.PresentationAppearanceResource
 {
-	[IndexedClass]
 	[ExpressType("IFCEXTERNALLYDEFINEDHATCHSTYLE", 724)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcExternallyDefinedHatchStyle : IfcExternalReference, IfcFillStyleSelect, IInstantiableEntity

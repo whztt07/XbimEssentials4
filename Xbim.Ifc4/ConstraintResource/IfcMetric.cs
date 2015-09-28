@@ -16,7 +16,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc4.ConstraintResource
 {
-	[IndexedClass]
 	[ExpressType("IFCMETRIC", 768)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcMetric : IfcConstraint, IInstantiableEntity

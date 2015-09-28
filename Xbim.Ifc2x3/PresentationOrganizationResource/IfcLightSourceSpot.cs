@@ -16,7 +16,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc2x3.PresentationOrganizationResource
 {
-	[IndexedClass]
 	[ExpressType("IFCLIGHTSOURCESPOT", 760)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcLightSourceSpot : IfcLightSourcePositional, IInstantiableEntity

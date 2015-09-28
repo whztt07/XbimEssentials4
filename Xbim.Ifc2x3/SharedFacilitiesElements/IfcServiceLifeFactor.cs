@@ -16,7 +16,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc2x3.SharedFacilitiesElements
 {
-	[IndexedClass]
 	[ExpressType("IFCSERVICELIFEFACTOR", 770)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcServiceLifeFactor : IfcPropertySetDefinition, IInstantiableEntity

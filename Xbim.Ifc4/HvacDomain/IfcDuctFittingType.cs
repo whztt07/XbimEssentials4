@@ -18,7 +18,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc4.HvacDomain
 {
-	[IndexedClass]
 	[ExpressType("IFCDUCTFITTINGTYPE", 590)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcDuctFittingType : IfcFlowFittingType, IInstantiableEntity

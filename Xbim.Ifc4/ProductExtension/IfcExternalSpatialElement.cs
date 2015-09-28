@@ -17,7 +17,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc4.ProductExtension
 {
-	[IndexedClass]
 	[ExpressType("IFCEXTERNALSPATIALELEMENT", 635)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcExternalSpatialElement : IfcExternalSpatialStructureElement, IfcSpaceBoundarySelect, IInstantiableEntity

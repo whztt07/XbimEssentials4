@@ -15,7 +15,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc4.GeometricModelResource
 {
-	[IndexedClass]
 	[ExpressType("IFCTESSELLATEDFACESET", 1090)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public abstract partial class @IfcTessellatedFaceSet : IfcTessellatedItem

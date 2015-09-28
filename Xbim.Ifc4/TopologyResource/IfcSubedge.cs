@@ -13,7 +13,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc4.TopologyResource
 {
-	[IndexedClass]
 	[ExpressType("IFCSUBEDGE", 1052)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcSubedge : IfcEdge, IInstantiableEntity

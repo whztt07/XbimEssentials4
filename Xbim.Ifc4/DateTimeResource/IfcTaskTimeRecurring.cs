@@ -14,7 +14,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc4.DateTimeResource
 {
-	[IndexedClass]
 	[ExpressType("IFCTASKTIMERECURRING", 1083)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcTaskTimeRecurring : IfcTaskTime, IInstantiableEntity

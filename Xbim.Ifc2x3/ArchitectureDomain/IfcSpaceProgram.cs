@@ -17,7 +17,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc2x3.ArchitectureDomain
 {
-	[IndexedClass]
 	[ExpressType("IFCSPACEPROGRAM", 709)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcSpaceProgram : IfcControl, IInstantiableEntity

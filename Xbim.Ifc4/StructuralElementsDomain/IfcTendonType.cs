@@ -17,7 +17,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc4.StructuralElementsDomain
 {
-	[IndexedClass]
 	[ExpressType("IFCTENDONTYPE", 1089)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcTendonType : IfcReinforcingElementType, IInstantiableEntity

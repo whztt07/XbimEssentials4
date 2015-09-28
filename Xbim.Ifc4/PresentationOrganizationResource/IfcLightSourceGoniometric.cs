@@ -16,7 +16,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc4.PresentationOrganizationResource
 {
-	[IndexedClass]
 	[ExpressType("IFCLIGHTSOURCEGONIOMETRIC", 732)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcLightSourceGoniometric : IfcLightSource, IInstantiableEntity

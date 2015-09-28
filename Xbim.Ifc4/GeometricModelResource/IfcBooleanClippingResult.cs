@@ -13,7 +13,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc4.GeometricModelResource
 {
-	[IndexedClass]
 	[ExpressType("IFCBOOLEANCLIPPINGRESULT", 435)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcBooleanClippingResult : IfcBooleanResult, IInstantiableEntity

@@ -14,7 +14,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc2x3.GeometryResource
 {
-	[IndexedClass]
 	[ExpressType("IFCDIRECTION", 344)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcDirection : IfcGeometricRepresentationItem, IfcOrientationSelect, IfcVectorOrDirection, IInstantiableEntity

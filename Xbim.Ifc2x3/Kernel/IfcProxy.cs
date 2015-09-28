@@ -17,7 +17,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc2x3.Kernel
 {
-	[IndexedClass]
 	[ExpressType("IFCPROXY", 447)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcProxy : IfcProduct, IInstantiableEntity

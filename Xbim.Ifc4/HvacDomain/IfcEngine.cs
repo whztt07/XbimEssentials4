@@ -18,7 +18,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc4.HvacDomain
 {
-	[IndexedClass]
 	[ExpressType("IFCENGINE", 622)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcEngine : IfcEnergyConversionDevice, IInstantiableEntity

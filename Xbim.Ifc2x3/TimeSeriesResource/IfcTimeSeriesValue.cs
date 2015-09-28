@@ -16,7 +16,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc2x3.TimeSeriesResource
 {
-	[IndexedClass]
 	[ExpressType("IFCTIMESERIESVALUE", 35)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcTimeSeriesValue : IPersistEntity, INotifyPropertyChanged, IInstantiableEntity

@@ -15,7 +15,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc2x3.PresentationDimensioningResource
 {
-	[IndexedClass]
 	[ExpressType("IFCPREDEFINEDTERMINATORSYMBOL", 749)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcPreDefinedTerminatorSymbol : IfcPreDefinedSymbol, IInstantiableEntity

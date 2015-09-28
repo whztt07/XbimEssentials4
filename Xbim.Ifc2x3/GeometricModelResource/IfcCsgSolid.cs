@@ -13,7 +13,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc2x3.GeometricModelResource
 {
-	[IndexedClass]
 	[ExpressType("IFCCSGSOLID", 548)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcCsgSolid : IfcSolidModel, IInstantiableEntity

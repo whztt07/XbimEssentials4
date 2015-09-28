@@ -15,7 +15,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc2x3.PresentationOrganizationResource
 {
-	[IndexedClass]
 	[ExpressType("IFCLIGHTINTENSITYDISTRIBUTION", 754)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcLightIntensityDistribution : IPersistEntity, INotifyPropertyChanged, IfcLightDistributionDataSourceSelect, IInstantiableEntity

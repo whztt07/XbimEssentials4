@@ -18,7 +18,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc2x3.ProductExtension
 {
-	[IndexedClass]
 	[ExpressType("IFCGRID", 564)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcGrid : IfcProduct, IInstantiableEntity

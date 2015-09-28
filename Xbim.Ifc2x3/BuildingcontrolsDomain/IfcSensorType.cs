@@ -18,7 +18,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc2x3.BuildingcontrolsDomain
 {
-	[IndexedClass]
 	[ExpressType("IFCSENSORTYPE", 375)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcSensorType : IfcDistributionControlElementType, IInstantiableEntity

@@ -18,7 +18,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc2x3.StructuralElementsDomain
 {
-	[IndexedClass]
 	[ExpressType("IFCPILE", 572)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcPile : IfcBuildingElement, IInstantiableEntity

@@ -15,7 +15,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc2x3.PresentationResource
 {
-	[IndexedClass]
 	[ExpressType("IFCCOLOURSPECIFICATION", 28)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public abstract partial class @IfcColourSpecification : IPersistEntity, INotifyPropertyChanged, IfcColour

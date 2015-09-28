@@ -16,7 +16,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc2x3.FacilitiesMgmtDomain
 {
-	[IndexedClass]
 	[ExpressType("IFCFURNITURESTANDARD", 75)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcFurnitureStandard : IfcControl, IInstantiableEntity

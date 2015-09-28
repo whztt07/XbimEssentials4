@@ -14,7 +14,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc4.GeometryResource
 {
-	[IndexedClass]
 	[ExpressType("IFCRECTANGULARTRIMMEDSURFACE", 889)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcRectangularTrimmedSurface : IfcBoundedSurface, IInstantiableEntity

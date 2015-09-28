@@ -17,7 +17,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc2x3.FacilitiesMgmtDomain
 {
-	[IndexedClass]
 	[ExpressType("IFCCONDITIONCRITERION", 688)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcConditionCriterion : IfcControl, IInstantiableEntity

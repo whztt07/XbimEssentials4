@@ -18,7 +18,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc4.BuildingControlsDomain
 {
-	[IndexedClass]
 	[ExpressType("IFCUNITARYCONTROLELEMENTTYPE", 1124)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcUnitaryControlElementType : IfcDistributionControlElementType, IInstantiableEntity

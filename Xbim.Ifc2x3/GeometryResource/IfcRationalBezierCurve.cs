@@ -13,7 +13,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc2x3.GeometryResource
 {
-	[IndexedClass]
 	[ExpressType("IFCRATIONALBEZIERCURVE", 546)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcRationalBezierCurve : IfcBezierCurve, IInstantiableEntity

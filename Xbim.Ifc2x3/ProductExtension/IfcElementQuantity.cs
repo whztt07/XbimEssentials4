@@ -17,7 +17,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc2x3.ProductExtension
 {
-	[IndexedClass]
 	[ExpressType("IFCELEMENTQUANTITY", 458)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcElementQuantity : IfcPropertySetDefinition, IInstantiableEntity

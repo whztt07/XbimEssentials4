@@ -15,7 +15,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc2x3.GeometricModelResource
 {
-	[IndexedClass]
 	[ExpressType("IFCRECTANGULARPYRAMID", 705)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcRectangularPyramid : IfcCsgPrimitive3D, IInstantiableEntity

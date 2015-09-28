@@ -18,7 +18,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc2x3.SharedBldgServiceElements
 {
-	[IndexedClass]
 	[ExpressType("IFCFLUIDFLOWPROPERTIES", 466)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcFluidFlowProperties : IfcPropertySetDefinition, IInstantiableEntity

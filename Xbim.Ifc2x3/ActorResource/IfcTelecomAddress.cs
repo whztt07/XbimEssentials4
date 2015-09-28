@@ -14,7 +14,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc2x3.ActorResource
 {
-	[IndexedClass]
 	[ExpressType("IFCTELECOMADDRESS", 553)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcTelecomAddress : IfcAddress, IInstantiableEntity

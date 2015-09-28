@@ -16,7 +16,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc2x3.ProductExtension
 {
-	[IndexedClass]
 	[ExpressType("IFCRELCOVERSBLDGELEMENTS", 24)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcRelCoversBldgElements : IfcRelConnects, IInstantiableEntity

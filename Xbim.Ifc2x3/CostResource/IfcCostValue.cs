@@ -16,7 +16,6 @@ using Xbim.Common.Exceptions;
 
 namespace Xbim.Ifc2x3.CostResource
 {
-	[IndexedClass]
 	[ExpressType("IFCCOSTVALUE", 658)]
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcCostValue : IfcAppliedValue, IfcMetricValueSelect, IInstantiableEntity
