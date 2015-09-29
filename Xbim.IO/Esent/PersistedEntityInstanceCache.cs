@@ -64,7 +64,7 @@ namespace Xbim.IO.Esent
         private readonly XbimEntityCursor[] _entityTables;
         private readonly XbimCursor[] _geometryTables;
         private XbimDBAccess _accessMode;
-        private static string _systemPath;
+        private string _systemPath;
 
        
 
@@ -548,7 +548,7 @@ namespace Xbim.IO.Esent
             return false;
         }
 
-        private static Instance CreateInstance(string instanceName, bool recovery = false, bool createTemporaryTables = false)
+        private Instance CreateInstance(string instanceName, bool recovery = false, bool createTemporaryTables = false)
         {
             var guid = Guid.NewGuid().ToString();
             var jetInstance = new Instance(instanceName + guid);
@@ -1390,16 +1390,20 @@ namespace Xbim.IO.Esent
                 }
                 try
                 {
-
+                    var systemPath = _jetInstance.Parameters.SystemDirectory;
                     lock (OpenInstances)
                     {
                         OpenInstances.Remove(this);
                         var refCount = OpenInstances.Count(c => c.JetInstance == JetInstance);
                         if (refCount == 0) //only terminate if we have no more references
+                        {
                             _jetInstance.Term();
+                            //TODO: MC: Check this with Steve. System path was obtained from private field before and was deleted even if the instance wasn't terminated. That didn't seem to be right.
+                            if (Directory.Exists(systemPath))
+                                Directory.Delete(systemPath, true);
+                        }
                     }
-                    if (Directory.Exists(_systemPath))
-                        Directory.Delete(_systemPath, true);
+                    
                 }
                 catch (Exception) //just in case we cannot delete
                 {
@@ -2166,16 +2170,13 @@ namespace Xbim.IO.Esent
             return HasTable(name, _session, _databaseId);
         }
 
-        static internal void Compact(string sourceName, string targetName)
+        internal void Compact(string targetName)
         {
-            using (var jetInstance = CreateInstance("XbimInstance", false, true))
+            using (var session = new Session(_jetInstance))
             {
-                using (var session = new Session(jetInstance))
-                {
-                    // For JetCompact to work the database has to be attached, but not opened 
-                    Api.JetAttachDatabase(session, sourceName, AttachDatabaseGrbit.None);
-                    Api.JetCompact(session, sourceName, targetName, null, null, CompactGrbit.None);
-                }
+                // For JetCompact to work the database has to be attached, but not opened 
+                Api.JetAttachDatabase(session, _databaseName, AttachDatabaseGrbit.None);
+                Api.JetCompact(session, _databaseName, targetName, null, null, CompactGrbit.None);
             }
 
         }

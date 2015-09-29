@@ -209,7 +209,7 @@ namespace Xbim.IO.Esent
         {
             get
             {
-                return _transformation.ToArray(false);
+                return _transformation.ToArray();
             }
             set
             {

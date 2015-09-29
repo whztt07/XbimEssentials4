@@ -920,9 +920,9 @@ namespace Xbim.IO.Esent
             return InstanceCache.GetEntityTable();
         }
 
-        static public void Compact(string sourceModelName, string targetModelName)
+        public void Compact(string targetModelName)
         {
-            PersistedEntityInstanceCache.Compact(sourceModelName, targetModelName);
+            Cache.Compact(targetModelName);
         }
 
         /// <summary>
