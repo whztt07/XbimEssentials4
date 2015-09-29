@@ -11,7 +11,7 @@ using Xbim.IO.Esent;
 using Xbim.IO.Step21;
 using Xbim.IO.Step21.Parser;
 
-namespace Xbim.IO
+namespace Xbim.Ifc2x3.IO
 {
     public static class PersistEntityExtensions
     {
