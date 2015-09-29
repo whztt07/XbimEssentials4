@@ -669,6 +669,7 @@
     <Compile Include="IfcSolidModelGeometryExtensions.cs" />
     <Compile Include="IfcSurfaceCurveSweptAreaSolidGeometricExtension.cs" />
     <Compile Include="IfcUShapeProfileDefGeometricExtensions.cs" />
+    <Compile Include="IfcVectorExtensions.cs" />
     <Compile Include="ObjectReferenceSelectExtensions.cs" />
     <Compile Include="OrganisationExtensions.cs" />
     <Compile Include="PersonAndOrganizationExtensions.cs" />
