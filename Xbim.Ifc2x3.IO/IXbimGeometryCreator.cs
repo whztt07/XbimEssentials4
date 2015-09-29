@@ -40,7 +40,7 @@ namespace Xbim.IO
         /// <param name="deflection">the max distance between the chord of a curve and the line segment of a faceted edge </param>
         /// <returns></returns>
         IXbimShapeGeometryData CreateShapeGeometry(IXbimGeometryObject geometryObject, double precision, double deflection /*, double angle=0.5, XbimGeometryType storageType = XbimGeometryType::Polyhedron*/);
-
+        IXbimGeometryObjectSet CreateGeometryObjectSet();
         IXbimSolid CreateSolid(IfcSweptAreaSolid ifcSolid);
         IXbimSolid CreateSolid(IfcExtrudedAreaSolid ifcSolid);
         IXbimSolid CreateSolid(IfcRevolvedAreaSolid ifcSolid);
