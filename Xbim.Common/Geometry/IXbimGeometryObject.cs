@@ -21,6 +21,6 @@ namespace XbimGeometry.Interfaces
         /// <param name="matrix3D"></param>
         /// <returns></returns>
         IXbimGeometryObject Transform(XbimMatrix3D matrix3D);
-
+        IXbimGeometryObject TransformShallow(XbimMatrix3D matrix3D);
     }
 }
