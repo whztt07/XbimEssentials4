@@ -16,6 +16,8 @@ namespace Xbim.IO
 
         IXbimGeometryObject Create(IfcGeometricRepresentationItem ifcRepresentation);
 
+        IXbimGeometryObject Create(IfcGeometricRepresentationItem ifcRepresentation, IfcAxis2Placement3D objectLocation);
+
         // temporarily commented to maintain buildability of geometry in the development branch
         // todo: SRL: restore interface, when merging your changes.
         // IXbimGeometryObject Create(IfcGeometricRepresentationItem ifcRepresentation, IfcAxis2Placement3D objectLocation);
