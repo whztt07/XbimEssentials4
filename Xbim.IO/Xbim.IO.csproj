@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Xbim.IO</RootNamespace>
     <AssemblyName>Xbim.IO</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>SAK</SccProjectName>
     <SccLocalPath>SAK</SccLocalPath>
@@ -49,6 +49,8 @@
     <Optimize>false</Optimize>
     <OutputPath>..\Output\Debug\</OutputPath>
     <DefineConstants>TRACE;DEBUG</DefineConstants>
+    <DefineConstants Condition=" '$(TargetFrameworkVersion)' == 'v4.0' ">RUNNING_ON_4</DefineConstants>
+    <DefineConstants Condition=" '$(TargetFrameworkVersion)' != 'v4.0' ">NOT_RUNNING_ON_4</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -59,6 +61,8 @@
     <Optimize>true</Optimize>
     <OutputPath>..\Output\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants Condition=" '$(TargetFrameworkVersion)' == 'v4.0' ">RUNNING_ON_4</DefineConstants>
+    <DefineConstants Condition=" '$(TargetFrameworkVersion)' != 'v4.0' ">NOT_RUNNING_ON_4</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>..\Output\Release\Xbim.IO.XML</DocumentationFile>
@@ -81,7 +85,6 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Data" />
-    <Reference Include="System.IO.Compression" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
@@ -97,6 +100,7 @@
     <Compile Include="Memory\FederatedModel.cs" />
     <Compile Include="Memory\MemoryModel.cs" />
     <Compile Include="Memory\Transaction.cs" />
+    <Compile Include="PropertyInfoExtensions.cs" />
     <Compile Include="Step21\Parser\StepForwardReference.cs" />
     <Compile Include="Step21\StepDateTimeHelper.cs" />
     <Compile Include="Step21\StepDoubleHelper.cs" />
