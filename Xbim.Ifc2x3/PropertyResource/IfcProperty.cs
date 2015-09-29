@@ -147,12 +147,15 @@ namespace Xbim.Ifc2x3.PropertyResource
 
 			//check there is a transaction
 			var txn = Model.CurrentTransaction;
-			if (txn == null) throw new Exception("Operation out of transaction.");
+			if (txn == null) 
+                throw new Exception("Operation out of transaction.");
 
 			Action doAction = () => setter(newValue);
 			Action undoAction = () => setter(oldValue);
-			txn.AddReversibleAction(doAction, undoAction, this);
 			setter(newValue);
+
+			//do action and THAN add to transaction so that it gets the object in new state
+			txn.AddReversibleAction(doAction, undoAction, this, ChangeType.Modified);
 			NotifyPropertyChanged(notifyPropertyName);
 		}
 

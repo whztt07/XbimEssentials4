@@ -33,6 +33,11 @@ namespace Xbim.Ifc2x3.DateTimeResource
             _value = val;
         }
 
+		public IfcHourInDay(string val)
+        {
+			_value = System.Convert.ToInt64(val);
+        }
+
         public static implicit operator IfcHourInDay(long value)
         {
             return new IfcHourInDay(value);

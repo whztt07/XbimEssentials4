@@ -142,12 +142,12 @@ namespace Xbim.Ifc4.ProductExtension
 					base.Parse(propIndex, value); 
 					return;
 				case 9: 
-					if (!_refLatitude.HasValue) _refLatitude = new IfcCompoundPlaneAngleMeasure?();
+					if (!_refLatitude.HasValue) _refLatitude = new IfcCompoundPlaneAngleMeasure();
 			        // ReSharper disable once PossibleNullReferenceException
 					((IExpressComplexType)_refLatitude).Add(value.IntegerVal);
 					return;
 				case 10: 
-					if (!_refLongitude.HasValue) _refLongitude = new IfcCompoundPlaneAngleMeasure?();
+					if (!_refLongitude.HasValue) _refLongitude = new IfcCompoundPlaneAngleMeasure();
 			        // ReSharper disable once PossibleNullReferenceException
 					((IExpressComplexType)_refLongitude).Add(value.IntegerVal);
 					return;

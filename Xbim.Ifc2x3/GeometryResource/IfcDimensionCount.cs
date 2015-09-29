@@ -33,6 +33,11 @@ namespace Xbim.Ifc2x3.GeometryResource
             _value = val;
         }
 
+		public IfcDimensionCount(string val)
+        {
+			_value = System.Convert.ToInt64(val);
+        }
+
         public static implicit operator IfcDimensionCount(long value)
         {
             return new IfcDimensionCount(value);

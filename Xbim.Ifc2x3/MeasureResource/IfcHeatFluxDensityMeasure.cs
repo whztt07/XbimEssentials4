@@ -33,6 +33,11 @@ namespace Xbim.Ifc2x3.MeasureResource
             _value = val;
         }
 
+		public IfcHeatFluxDensityMeasure(string val)
+        {
+			_value = System.Convert.ToDouble(val, System.Globalization.CultureInfo.CreateSpecificCulture("en-US"));
+        }
+
         public static implicit operator IfcHeatFluxDensityMeasure(double value)
         {
             return new IfcHeatFluxDensityMeasure(value);

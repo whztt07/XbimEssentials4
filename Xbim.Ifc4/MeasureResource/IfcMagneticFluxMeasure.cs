@@ -33,6 +33,11 @@ namespace Xbim.Ifc4.MeasureResource
             _value = val;
         }
 
+		public IfcMagneticFluxMeasure(string val)
+        {
+			_value = System.Convert.ToDouble(val, System.Globalization.CultureInfo.CreateSpecificCulture("en-US"));
+        }
+
         public static implicit operator IfcMagneticFluxMeasure(double value)
         {
             return new IfcMagneticFluxMeasure(value);

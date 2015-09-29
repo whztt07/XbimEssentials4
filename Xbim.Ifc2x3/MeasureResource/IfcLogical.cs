@@ -33,6 +33,16 @@ namespace Xbim.Ifc2x3.MeasureResource
             _value = val;
         }
 
+		public IfcLogical(string val)
+        {
+			if (string.Compare(val, "true", System.StringComparison.OrdinalIgnoreCase) == 0)
+                _value = true;
+            else if (string.Compare(val, "false", System.StringComparison.OrdinalIgnoreCase) == 0)
+                _value = false;
+            else
+                _value = null;
+        }
+
         public static implicit operator IfcLogical(bool? value)
         {
             return new IfcLogical(value);

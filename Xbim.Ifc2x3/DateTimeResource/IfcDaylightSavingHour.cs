@@ -33,6 +33,11 @@ namespace Xbim.Ifc2x3.DateTimeResource
             _value = val;
         }
 
+		public IfcDaylightSavingHour(string val)
+        {
+			_value = System.Convert.ToInt64(val);
+        }
+
         public static implicit operator IfcDaylightSavingHour(long value)
         {
             return new IfcDaylightSavingHour(value);

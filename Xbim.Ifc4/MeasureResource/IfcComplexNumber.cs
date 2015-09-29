@@ -34,6 +34,7 @@ namespace Xbim.Ifc4.MeasureResource
             _value = val;
         }
 
+
         public static implicit operator IfcComplexNumber(List<double> value)
         {
             return new IfcComplexNumber(value);

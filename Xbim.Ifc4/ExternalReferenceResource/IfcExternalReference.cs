@@ -155,8 +155,10 @@ namespace Xbim.Ifc4.ExternalReferenceResource
 
 			Action doAction = () => setter(newValue);
 			Action undoAction = () => setter(oldValue);
-			txn.AddReversibleAction(doAction, undoAction, this);
 			setter(newValue);
+
+			//do action and THAN add to transaction so that it gets the object in new state
+			txn.AddReversibleAction(doAction, undoAction, this, ChangeType.Modified);
 			NotifyPropertyChanged(notifyPropertyName);
 		}
 

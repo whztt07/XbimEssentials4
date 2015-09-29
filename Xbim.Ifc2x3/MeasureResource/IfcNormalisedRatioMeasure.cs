@@ -34,6 +34,11 @@ namespace Xbim.Ifc2x3.MeasureResource
             _value = val;
         }
 
+		public IfcNormalisedRatioMeasure(string val)
+        {
+			_value = System.Convert.ToDouble(val, System.Globalization.CultureInfo.CreateSpecificCulture("en-US"));
+        }
+
         public static implicit operator IfcNormalisedRatioMeasure(double value)
         {
             return new IfcNormalisedRatioMeasure(value);

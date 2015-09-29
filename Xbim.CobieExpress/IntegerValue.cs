@@ -33,6 +33,11 @@ namespace Xbim.CobieExpress
             _value = val;
         }
 
+		public IntegerValue(string val)
+        {
+			_value = System.Convert.ToInt64(val);
+        }
+
         public static implicit operator IntegerValue(long value)
         {
             return new IntegerValue(value);

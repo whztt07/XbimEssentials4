@@ -34,6 +34,14 @@ namespace Xbim.Ifc4.MeasureResource
             _value = val;
         }
 
+		public IfcBoolean(string val)
+        {
+			if (string.Compare(val, "true", System.StringComparison.OrdinalIgnoreCase) == 0)
+                _value = true;
+            else
+                _value = false;
+        }
+
         public static implicit operator IfcBoolean(bool value)
         {
             return new IfcBoolean(value);

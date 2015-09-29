@@ -33,6 +33,7 @@ namespace Xbim.Ifc2x3.PresentationResource
             _value = val;
         }
 
+
         public static implicit operator IfcFontStyle(string value)
         {
             return new IfcFontStyle(value);

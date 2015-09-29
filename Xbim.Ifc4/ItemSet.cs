@@ -127,7 +127,7 @@ namespace Xbim.Ifc4
             {
                 Action undoAction = () => Internal.Remove(item);
                 Action doAction = () => Internal.Add(item);
-                _model.CurrentTransaction.AddReversibleAction(doAction, undoAction, OwningEntity);
+                _model.CurrentTransaction.AddReversibleAction(doAction, undoAction, OwningEntity, ChangeType.Modified);
             }
 
             if (CollectionChanged != null)
@@ -150,7 +150,7 @@ namespace Xbim.Ifc4
                 var oldItems = Internal.ToArray();
                 Action doAction = () => Internal.Clear();
                 Action undoAction = () => Internal.AddRange(oldItems);
-                _model.CurrentTransaction.AddReversibleAction(doAction, undoAction, OwningEntity);
+                _model.CurrentTransaction.AddReversibleAction(doAction, undoAction, OwningEntity, ChangeType.Modified);
             }
 
             if (CollectionChanged != null)
@@ -188,7 +188,7 @@ namespace Xbim.Ifc4
             {
                 Action doAction = () => Internal.Remove(item);
                 Action undoAction = () => Internal.Add(item);
-                _model.CurrentTransaction.AddReversibleAction(doAction, undoAction, OwningEntity);
+                _model.CurrentTransaction.AddReversibleAction(doAction, undoAction, OwningEntity, ChangeType.Modified);
             }
 
             if (CollectionChanged != null)
@@ -300,7 +300,7 @@ namespace Xbim.Ifc4
 				{
 				    Action doAction = () => Internal[index] = value;
 				    Action undoAction = () => Internal[index] = oldValue;
-				    _model.CurrentTransaction.AddReversibleAction(doAction, undoAction, OwningEntity);
+				    _model.CurrentTransaction.AddReversibleAction(doAction, undoAction, OwningEntity, ChangeType.Modified);
 				}
 
 				if (CollectionChanged != null)
@@ -327,7 +327,7 @@ namespace Xbim.Ifc4
             {
                 Action undoAction = () => Internal.RemoveAt(index);
                 Action doAction = () => Internal.Insert(index, item);
-                _model.CurrentTransaction.AddReversibleAction(doAction, undoAction, OwningEntity);
+                _model.CurrentTransaction.AddReversibleAction(doAction, undoAction, OwningEntity, ChangeType.Modified);
             }
 
             if (CollectionChanged != null)

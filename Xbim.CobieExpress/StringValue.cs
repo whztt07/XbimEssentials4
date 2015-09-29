@@ -33,6 +33,7 @@ namespace Xbim.CobieExpress
             _value = val;
         }
 
+
         public static implicit operator StringValue(string value)
         {
             return new StringValue(value);

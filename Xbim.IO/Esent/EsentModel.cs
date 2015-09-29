@@ -139,7 +139,43 @@ namespace Xbim.IO.Esent
             }
         }
 
-       
+        /// <summary>
+        /// This event is fired every time new entity is created.
+        /// </summary>
+        public event NewEntityHandler EntityNew;
+
+        /// <summary>
+        /// This event is fired every time any entity is modified. If your model is not
+        /// transactional it might not be called at all as the central point for all
+        /// modifications is a transaction.
+        /// </summary>
+        public event ModifiedEntityHandler EntityModified;
+
+        /// <summary>
+        /// This event is fired every time when entity gets deleted from model.
+        /// </summary>
+        public event DeletedEntityHandler EntityDeleted;
+
+        internal void HandleEntityChange(ChangeType changeType, IPersistEntity entity)
+        {
+            switch (changeType)
+            {
+                case ChangeType.New:
+                    if (EntityNew != null)
+                        EntityNew(entity);
+                    break;
+                case ChangeType.Deleted:
+                    if (EntityDeleted != null)
+                        EntityDeleted(entity);
+                    break;
+                case ChangeType.Modified:
+                    if (EntityModified != null)
+                        EntityModified(entity);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException("changeType", changeType, null);
+            }
+        }
 
         
         /// <summary>
@@ -383,7 +419,7 @@ namespace Xbim.IO.Esent
            
         }
 
-        private void CreateDatabase(string tmpFileName)
+        protected void CreateDatabase(string tmpFileName)
         {
             InstanceCache.CreateDatabase(tmpFileName);
         }
@@ -605,7 +641,7 @@ namespace Xbim.IO.Esent
         }
         #endregion
 
-        private void Open(string fileName, XbimDBAccess accessMode, bool deleteOnClose)
+        protected void Open(string fileName, XbimDBAccess accessMode, bool deleteOnClose)
         {      
             Open(fileName, accessMode);
             _deleteOnClose = deleteOnClose;
@@ -937,7 +973,7 @@ namespace Xbim.IO.Esent
         /// <returns></returns>
         public T InsertCopy<T>(T toCopy, XbimInstanceHandleMap mappings, XbimReadWriteTransaction txn, bool includeInverses = false) where T : IPersistEntity
         {
-            return Cache.InsertCopy(toCopy, mappings, txn, includeInverses, null);
+            return Cache.InsertCopy(toCopy, mappings, txn, includeInverses);
         }
 
         public T InsertCopy<T>(T toCopy, XbimInstanceHandleMap mappings, XbimReadWriteTransaction txn, PropertyTranformDelegate propTransform, bool includeInverses = false) where T : IPersistEntity
@@ -1150,5 +1186,5 @@ namespace Xbim.IO.Esent
     }
 
     public delegate object PropertyTranformDelegate(ExpressMetaProperty property, object parentObject);
-
+    
 }

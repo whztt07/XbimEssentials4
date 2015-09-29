@@ -33,6 +33,11 @@ namespace Xbim.Ifc4.MeasureResource
             _value = val;
         }
 
+		public IfcTemperatureRateOfChangeMeasure(string val)
+        {
+			_value = System.Convert.ToDouble(val, System.Globalization.CultureInfo.CreateSpecificCulture("en-US"));
+        }
+
         public static implicit operator IfcTemperatureRateOfChangeMeasure(double value)
         {
             return new IfcTemperatureRateOfChangeMeasure(value);

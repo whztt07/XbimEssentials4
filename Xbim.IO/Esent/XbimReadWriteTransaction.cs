@@ -26,10 +26,10 @@ namespace Xbim.IO.Esent
 
         public string Name { get; protected set; }
 
-        internal XbimReadWriteTransaction(EsentModel theModel, XbimLazyDBTransaction txn, string name = null)
+        internal XbimReadWriteTransaction(EsentModel model, XbimLazyDBTransaction txn, string name = null)
         {
             Name = name;
-            Model = theModel;
+            Model = model;
             _readWriteTransaction = txn;
             InTransaction = true;
             _pulseCount = 0;
@@ -70,6 +70,7 @@ namespace Xbim.IO.Esent
             try
             {
                 _readWriteTransaction.Begin();
+                Model.CurrentTransaction = this;
             }
             finally
             {
@@ -115,10 +116,10 @@ namespace Xbim.IO.Esent
         {
             try
             {
-                foreach (var action in _undoActions)
-                {
-                    action();
-                }
+                //roll the transaction back to front
+                for (var i = _undoActions.Count - 1; i == 0; i--)
+                    _undoActions[i]();
+                
                 if (InTransaction) _readWriteTransaction.RollBack();
                 InTransaction = false;
                 Model.CurrentTransaction = null;
@@ -131,14 +132,10 @@ namespace Xbim.IO.Esent
 
         private readonly List<Action> _undoActions = new List<Action>(); 
         
-        void ITransaction.AddReversibleAction(Action doAction, Action undoAction, IPersistEntity entity)
+        void ITransaction.AddReversibleAction(Action doAction, Action undoAction, IPersistEntity entity, ChangeType changeType)
         {
             _undoActions.Add(undoAction);
-        }
-
-        IEnumerable<IPersistEntity> ITransaction.Modified
-        {
-            get { return Modified(); }
+            Model.HandleEntityChange(changeType, entity);
         }
     }
 }

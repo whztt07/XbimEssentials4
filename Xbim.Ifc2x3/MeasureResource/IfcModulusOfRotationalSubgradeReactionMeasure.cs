@@ -33,6 +33,11 @@ namespace Xbim.Ifc2x3.MeasureResource
             _value = val;
         }
 
+		public IfcModulusOfRotationalSubgradeReactionMeasure(string val)
+        {
+			_value = System.Convert.ToDouble(val, System.Globalization.CultureInfo.CreateSpecificCulture("en-US"));
+        }
+
         public static implicit operator IfcModulusOfRotationalSubgradeReactionMeasure(double value)
         {
             return new IfcModulusOfRotationalSubgradeReactionMeasure(value);

@@ -33,6 +33,11 @@ namespace Xbim.Ifc4.MeasureResource
             _value = val;
         }
 
+		public IfcThermalAdmittanceMeasure(string val)
+        {
+			_value = System.Convert.ToDouble(val, System.Globalization.CultureInfo.CreateSpecificCulture("en-US"));
+        }
+
         public static implicit operator IfcThermalAdmittanceMeasure(double value)
         {
             return new IfcThermalAdmittanceMeasure(value);

@@ -33,6 +33,11 @@ namespace Xbim.Ifc4.MeasureResource
             _value = val;
         }
 
+		public IfcThermalExpansionCoefficientMeasure(string val)
+        {
+			_value = System.Convert.ToDouble(val, System.Globalization.CultureInfo.CreateSpecificCulture("en-US"));
+        }
+
         public static implicit operator IfcThermalExpansionCoefficientMeasure(double value)
         {
             return new IfcThermalExpansionCoefficientMeasure(value);

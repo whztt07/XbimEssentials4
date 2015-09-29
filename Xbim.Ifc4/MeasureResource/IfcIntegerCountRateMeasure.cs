@@ -33,6 +33,11 @@ namespace Xbim.Ifc4.MeasureResource
             _value = val;
         }
 
+		public IfcIntegerCountRateMeasure(string val)
+        {
+			_value = System.Convert.ToInt64(val);
+        }
+
         public static implicit operator IfcIntegerCountRateMeasure(long value)
         {
             return new IfcIntegerCountRateMeasure(value);

@@ -34,6 +34,7 @@ namespace Xbim.Ifc4.DateTimeResource
             _value = val;
         }
 
+
         public static implicit operator IfcDuration(string value)
         {
             return new IfcDuration(value);

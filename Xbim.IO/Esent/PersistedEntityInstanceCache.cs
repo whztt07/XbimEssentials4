@@ -1774,10 +1774,12 @@ namespace Xbim.IO.Esent
             var copyLabel = toCopy.EntityLabel;
             copyHandle = InsertNew(ifcType.Type, copyLabel);
             mappings.Add(toCopyHandle, copyHandle);
-            
+
             var theCopy = _factory.New(_model, copyHandle.EntityType, copyHandle.EntityLabel, true);
             _read.TryAdd(copyHandle.EntityLabel, theCopy);
             CreatedNew.TryAdd(copyHandle.EntityLabel, theCopy);
+            ModifiedEntities.TryAdd(copyHandle.EntityLabel, theCopy);
+
             
             var props = ifcType.Properties.Values.Where(p => !p.EntityAttribute.IsDerivedOverride);
             if (includeInverses)

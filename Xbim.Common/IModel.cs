@@ -9,6 +9,7 @@
 using System;
 using Xbim.Common.Geometry;
 using Xbim.Common.Step21;
+using Xbim.Common.Metadata;
 
 namespace Xbim.Common
 {
@@ -45,7 +46,32 @@ namespace Xbim.Common
         /// <param name="source"></param>
         /// <param name="body"></param>
         void ForEach<TSource>(System.Collections.Generic.IEnumerable<TSource> source, Action<TSource> body) where TSource : IPersistEntity;
+
+		/// <summary>
+        /// This event is fired every time new entity is created.
+        /// </summary>
+        event NewEntityHandler EntityNew;
+        
+		/// <summary>
+        /// This event is fired every time any entity is modified. If your model is not
+        /// transactional it might not be called at all as the central point for all
+        /// modifications is a transaction.
+        /// </summary>
+        event ModifiedEntityHandler EntityModified;
+        
+		/// <summary>
+        /// This event is fired every time when entity gets deleted from model.
+        /// </summary>
+        event DeletedEntityHandler EntityDeleted;
+
 	}
+
+	public delegate void NewEntityHandler(IPersistEntity entity);
+    public delegate void ModifiedEntityHandler(IPersistEntity entity);
+    public delegate void DeletedEntityHandler(IPersistEntity entity);
+
+    public delegate object PropertyTranformDelegate(ExpressMetaProperty property, object parentObject);
+
 
 	public interface IModelFactors
     {

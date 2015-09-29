@@ -33,6 +33,7 @@ namespace Xbim.Ifc4.ExternalReferenceResource
             _value = val;
         }
 
+
         public static implicit operator IfcURIReference(string value)
         {
             return new IfcURIReference(value);

@@ -34,6 +34,11 @@ namespace Xbim.Ifc4.MeasureResource
             _value = val;
         }
 
+		public IfcPlaneAngleMeasure(string val)
+        {
+			_value = System.Convert.ToDouble(val, System.Globalization.CultureInfo.CreateSpecificCulture("en-US"));
+        }
+
         public static implicit operator IfcPlaneAngleMeasure(double value)
         {
             return new IfcPlaneAngleMeasure(value);

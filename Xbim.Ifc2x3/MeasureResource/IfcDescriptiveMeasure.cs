@@ -34,6 +34,7 @@ namespace Xbim.Ifc2x3.MeasureResource
             _value = val;
         }
 
+
         public static implicit operator IfcDescriptiveMeasure(string value)
         {
             return new IfcDescriptiveMeasure(value);

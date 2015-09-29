@@ -33,6 +33,11 @@ namespace Xbim.Ifc4.DateTimeResource
             _value = val;
         }
 
+		public IfcDayInWeekNumber(string val)
+        {
+			_value = System.Convert.ToInt64(val);
+        }
+
         public static implicit operator IfcDayInWeekNumber(long value)
         {
             return new IfcDayInWeekNumber(value);

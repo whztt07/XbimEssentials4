@@ -33,6 +33,11 @@ namespace Xbim.Ifc4.DateTimeResource
             _value = val;
         }
 
+		public IfcDayInMonthNumber(string val)
+        {
+			_value = System.Convert.ToInt64(val);
+        }
+
         public static implicit operator IfcDayInMonthNumber(long value)
         {
             return new IfcDayInMonthNumber(value);

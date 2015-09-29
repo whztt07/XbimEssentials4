@@ -34,6 +34,7 @@ namespace Xbim.Ifc2x3.MeasureResource
             _value = val;
         }
 
+
         public static implicit operator IfcCompoundPlaneAngleMeasure(List<long> value)
         {
             return new IfcCompoundPlaneAngleMeasure(value);

@@ -34,6 +34,7 @@ namespace Xbim.Ifc4.PresentationDefinitionResource
             _value = val;
         }
 
+
         public static implicit operator IfcBoxAlignment(string value)
         {
             return new IfcBoxAlignment(value);

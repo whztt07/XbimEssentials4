@@ -6,18 +6,21 @@ using Xbim.Common;
 using Xbim.Common.Exceptions;
 using Xbim.Common.Geometry;
 using Xbim.Common.Metadata;
+using Xbim.Common.Step21;
+using Xbim.Ifc2x3;
 using Xbim.Ifc2x3.ActorResource;
 using Xbim.Ifc2x3.ExternalReferenceResource;
 using Xbim.Ifc2x3.GeometryResource;
+using Xbim.Ifc2x3.IO;
 using Xbim.Ifc2x3.Kernel;
 using Xbim.Ifc2x3.MeasureResource;
 using Xbim.Ifc2x3.RepresentationResource;
 using Xbim.Ifc2x3.UtilityResource;
-using Xbim.IO;
 using Xbim.IO.Esent;
 using XbimGeometry.Interfaces;
 
-namespace Xbim.Ifc2x3.IO
+// ReSharper disable once CheckNamespace
+namespace Xbim.IO
 {
     public class XbimModel: EsentModel
     {
@@ -34,7 +37,9 @@ namespace Xbim.Ifc2x3.IO
             var factory = new EntityFactory();
             Init(factory);
 
-            InstancesLocal.NewEntityCreated += IfcRootInit;
+            AutoAddOwnerHistory = true;
+            EntityNew += IfcRootInit;
+            EntityModified += IfcRootModified;
         }
 
         #region Geometry related functions
@@ -150,6 +155,52 @@ namespace Xbim.Ifc2x3.IO
         #endregion
 
         #region Open and create model
+
+        public static XbimModel CreateTemporaryModel()
+        {
+            var tmpFileName = Path.GetTempFileName();
+            try
+            {
+                var model = new XbimModel();
+                model.CreateDatabase(tmpFileName);
+                model.Open(tmpFileName, XbimDBAccess.ReadWrite, true);
+                model.Header = new StepFileHeader(StepFileHeader.HeaderCreationMode.InitWithXbimDefaults);
+                model.Header.FileSchema.Schemas.AddRange(model.Factory.SchemasIds);
+                return model;
+            }
+            catch (Exception e)
+            {
+
+                throw new XbimException("Failed to create and open temporary xBIM file \'" + tmpFileName + "\'\n" + e.Message, e);
+            }
+        }
+
+        /// <summary>
+        ///  Creates and opens a new Xbim Database
+        /// </summary>
+        /// <param name="dbFileName">Name of the Xbim file</param>
+        /// <param name="access"></param>
+        /// <returns></returns>
+        public static XbimModel CreateModel(string dbFileName, XbimDBAccess access = XbimDBAccess.ReadWrite)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(Path.GetExtension(dbFileName)))
+                    dbFileName += ".xBIM";
+                var model = new XbimModel();
+                model.CreateDatabase(dbFileName);
+                model.Open(dbFileName, access);
+                model.Header = new StepFileHeader(StepFileHeader.HeaderCreationMode.InitWithXbimDefaults) { FileName = { Name = dbFileName } };
+                model.Header.FileSchema.Schemas.AddRange(model.Factory.SchemasIds);
+                return model;
+            }
+            catch (Exception e)
+            {
+                throw new XbimException("Failed to create and open xBIM file \'" + dbFileName + "\'\n" + e.Message, e);
+            }
+
+        }
+
         public override bool Open(string fileName, XbimDBAccess accessMode = XbimDBAccess.Read, ReportProgressDelegate progDelegate = null)
         {
             try
@@ -381,6 +432,18 @@ namespace Xbim.Ifc2x3.IO
             {
                 root.OwnerHistory = OwnerHistoryAddObject;
             }
+        }
+
+        public void IfcRootModified(IPersistEntity entity)
+        {
+            if (!AutoAddOwnerHistory) return;
+
+            var root = entity as IfcRoot;
+            if (root == null || root.OwnerHistory == _ownerHistoryAddObject)
+                return;
+
+            if (root.OwnerHistory != _ownerHistoryModifyObject)
+                root.OwnerHistory = OwnerHistoryModifyObject;
         }
 
         [NonSerialized]

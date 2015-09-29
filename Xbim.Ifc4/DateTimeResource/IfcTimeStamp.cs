@@ -34,6 +34,11 @@ namespace Xbim.Ifc4.DateTimeResource
             _value = val;
         }
 
+		public IfcTimeStamp(string val)
+        {
+			_value = System.Convert.ToInt64(val);
+        }
+
         public static implicit operator IfcTimeStamp(long value)
         {
             return new IfcTimeStamp(value);

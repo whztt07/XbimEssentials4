@@ -34,6 +34,7 @@ namespace Xbim.Ifc4.ExternalReferenceResource
             _value = val;
         }
 
+
         public static implicit operator IfcLanguageId(string value)
         {
             return new IfcLanguageId(value);

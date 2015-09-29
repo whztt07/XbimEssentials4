@@ -33,6 +33,11 @@ namespace Xbim.Ifc2x3.MeasureResource
             _value = val;
         }
 
+		public IfcIsothermalMoistureCapacityMeasure(string val)
+        {
+			_value = System.Convert.ToDouble(val, System.Globalization.CultureInfo.CreateSpecificCulture("en-US"));
+        }
+
         public static implicit operator IfcIsothermalMoistureCapacityMeasure(double value)
         {
             return new IfcIsothermalMoistureCapacityMeasure(value);

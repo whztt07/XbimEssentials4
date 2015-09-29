@@ -34,6 +34,11 @@ namespace Xbim.Ifc4.MeasureResource
             _value = val;
         }
 
+		public IfcRotationalStiffnessMeasure(string val)
+        {
+			_value = System.Convert.ToDouble(val, System.Globalization.CultureInfo.CreateSpecificCulture("en-US"));
+        }
+
         public static implicit operator IfcRotationalStiffnessMeasure(double value)
         {
             return new IfcRotationalStiffnessMeasure(value);

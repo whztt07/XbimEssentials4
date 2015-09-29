@@ -33,6 +33,11 @@ namespace Xbim.Ifc2x3.PresentationAppearanceResource
             _value = val;
         }
 
+		public IfcSpecularExponent(string val)
+        {
+			_value = System.Convert.ToDouble(val, System.Globalization.CultureInfo.CreateSpecificCulture("en-US"));
+        }
+
         public static implicit operator IfcSpecularExponent(double value)
         {
             return new IfcSpecularExponent(value);

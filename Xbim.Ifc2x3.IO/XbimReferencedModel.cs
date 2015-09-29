@@ -3,6 +3,7 @@ using Xbim.Common;
 using Xbim.Common.Exceptions;
 using Xbim.Common.Federation;
 using Xbim.Ifc2x3.ExternalReferenceResource;
+using Xbim.IO;
 
 namespace Xbim.Ifc2x3.IO
 {

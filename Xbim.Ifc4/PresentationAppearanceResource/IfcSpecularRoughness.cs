@@ -33,6 +33,11 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
             _value = val;
         }
 
+		public IfcSpecularRoughness(string val)
+        {
+			_value = System.Convert.ToDouble(val, System.Globalization.CultureInfo.CreateSpecificCulture("en-US"));
+        }
+
         public static implicit operator IfcSpecularRoughness(double value)
         {
             return new IfcSpecularRoughness(value);

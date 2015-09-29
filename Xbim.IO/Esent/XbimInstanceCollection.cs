@@ -13,6 +13,7 @@ namespace Xbim.IO.Esent
     public class XbimInstanceCollection : IEntityCollection
     {
         protected readonly PersistedEntityInstanceCache Cache;
+        private readonly EsentModel _model;
         
         public IEnumerable<IPersistEntity> OfType(string stringType, bool activate)
         {
@@ -22,6 +23,7 @@ namespace Xbim.IO.Esent
         internal XbimInstanceCollection(EsentModel esentModel)
         {
             Cache = esentModel.Cache;
+            _model = esentModel;
         }
 
         /// <summary>
@@ -124,18 +126,6 @@ namespace Xbim.IO.Esent
             return Cache.GetInstance(filledGeomData.ProductLabel, true, true);
         }
 
-        /// <summary>
-        /// This event is fired every time when new entity instance is created. You can use this to
-        /// do any initialization you need. This event is not fired for objects which are created
-        /// outside of transaction like during deserialization.
-        /// </summary>
-        public event InitNewEntity NewEntityCreated;
-
-        private void HandleNewInstance(IPersistEntity entity)
-        {
-            if (NewEntityCreated != null)
-                NewEntityCreated(entity);
-        }
 
         /// <summary>
         ///   Creates a new Ifc Persistent Instance, this is an undoable operation
@@ -145,7 +135,6 @@ namespace Xbim.IO.Esent
         {
             var t = typeof(TIfcType);
             var e = (TIfcType)New(t);
-            HandleNewInstance(e);
             return e;
         }
         /// <summary>
@@ -159,7 +148,6 @@ namespace Xbim.IO.Esent
         {
             var instance = New<TIfcType>();
             initPropertiesFunc(instance);
-            HandleNewInstance(instance);
             return instance;
         }
 
@@ -173,7 +161,7 @@ namespace Xbim.IO.Esent
         public IPersistEntity New(Type t)
         {
             var entity = Cache.CreateNew(t);
-            HandleNewInstance(entity);
+            _model.HandleEntityChange(ChangeType.New, entity);
             return entity;
 
         }

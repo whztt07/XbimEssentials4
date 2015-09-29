@@ -33,6 +33,7 @@ namespace Xbim.Ifc4.UtilityResource
             _value = val;
         }
 
+
         public static implicit operator IfcGloballyUniqueId(string value)
         {
             return new IfcGloballyUniqueId(value);

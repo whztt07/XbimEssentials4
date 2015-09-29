@@ -33,6 +33,14 @@ namespace Xbim.CobieExpress
             _value = val;
         }
 
+		public BooleanValue(string val)
+        {
+			if (string.Compare(val, "true", System.StringComparison.OrdinalIgnoreCase) == 0)
+                _value = true;
+            else
+                _value = false;
+        }
+
         public static implicit operator BooleanValue(bool value)
         {
             return new BooleanValue(value);

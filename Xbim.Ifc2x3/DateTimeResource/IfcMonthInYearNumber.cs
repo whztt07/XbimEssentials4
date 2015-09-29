@@ -33,6 +33,11 @@ namespace Xbim.Ifc2x3.DateTimeResource
             _value = val;
         }
 
+		public IfcMonthInYearNumber(string val)
+        {
+			_value = System.Convert.ToInt64(val);
+        }
+
         public static implicit operator IfcMonthInYearNumber(long value)
         {
             return new IfcMonthInYearNumber(value);

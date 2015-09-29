@@ -33,6 +33,11 @@ namespace Xbim.Ifc2x3.DateTimeResource
             _value = val;
         }
 
+		public IfcSecondInMinute(string val)
+        {
+			_value = System.Convert.ToDouble(val, System.Globalization.CultureInfo.CreateSpecificCulture("en-US"));
+        }
+
         public static implicit operator IfcSecondInMinute(double value)
         {
             return new IfcSecondInMinute(value);

@@ -33,6 +33,7 @@ namespace Xbim.Ifc4.MeasureResource
             _value = val;
         }
 
+
         public static implicit operator IfcLabel(string value)
         {
             return new IfcLabel(value);

@@ -33,6 +33,11 @@ namespace Xbim.Ifc4.MaterialResource
             _value = val;
         }
 
+		public IfcCardinalPointReference(string val)
+        {
+			_value = System.Convert.ToInt64(val);
+        }
+
         public static implicit operator IfcCardinalPointReference(long value)
         {
             return new IfcCardinalPointReference(value);

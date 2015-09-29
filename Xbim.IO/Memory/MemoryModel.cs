@@ -11,7 +11,7 @@ using Xbim.IO.Step21;
 
 namespace Xbim.IO.Memory
 {
-    public class MemoryModel<TFactory> : IModel where TFactory: IEntityFactory, new()
+    public class MemoryModel<TFactory> : IModel, IDisposable where TFactory: IEntityFactory, new()
     {
         private readonly EntityCollection<TFactory> _instances;
         public MemoryModel()
@@ -23,6 +23,10 @@ namespace Xbim.IO.Memory
             ModelFactors = new XbimModelFactors(180.0/Math.PI, 0.001, 1e-9);
         }
 
+        /// <summary>
+        /// Instance collection of all entities in the model. You can use this collection to create new
+        /// entities or to query the model. This is the only way how to create new entities.
+        /// </summary>
         public IEntityCollection Instances
         {
             get { return _instances; }
@@ -36,9 +40,11 @@ namespace Xbim.IO.Memory
         /// <summary>
         /// This will delete the entity from model dictionary and also from any references in the model.
         /// Be carefull as this might take a while to check for all occurances of the object. Also make sure 
-        /// you don't use this object anymore yourself because it won't get disposed until than.
+        /// you don't use this object anymore yourself because it won't get disposed until than. This operation
+        /// doesn't guarantee that model is compliant with any kind of schema but it leaves it consistent. So if you
+        /// serialize the model there won't be any references to the object which wouldn't be there.
         /// </summary>
-        /// <param name="entity"></param>
+        /// <param name="entity">Entity to be deleted</param>
         public void Delete(IPersistEntity entity)
         {
             //remove from entity collection
@@ -46,66 +52,98 @@ namespace Xbim.IO.Memory
             if (!removed) return;
 
             var entityType = entity.GetType();
-            var entityGenericType = typeof (IEnumerable<>);
-
-            //find all potential references and delete from there
-            var types = ExpressMetaData.Types(entity.GetType().Module).Where(t => typeof(IInstantiableEntity).IsAssignableFrom(t.Type));
-            foreach (var type in types)
+            List<DeleteCandidateType> candidateTypes;
+            if (!_deteteCandidatesCache.TryGetValue(entityType, out candidateTypes))
             {
-                var toNullify = type.Properties.Values.Where(p => 
-                    p.EntityAttribute != null && p.EntityAttribute.Order > 0 &&
-                    p.PropertyInfo.PropertyType.IsAssignableFrom(entityType)).ToList();
-                var toRemove =
-                    type.Properties.Values.Where(p =>
-                        p.EntityAttribute != null && p.EntityAttribute.Order > 0 &&
-                        p.PropertyInfo.PropertyType.IsGenericType && 
-                        p.PropertyInfo.PropertyType.GenericTypeArguments[0].IsAssignableFrom(entityType)).ToList();
-                if (!toNullify.Any() && !toRemove.Any()) continue;
+                candidateTypes = new List<DeleteCandidateType>();
+                _deteteCandidatesCache.Add(entityType, candidateTypes);
 
-                //get all instances of this type and nullify and remove the entity
-                var entitiesToCheck = _instances.OfType(type.Type);
-                foreach (var toCheck in entitiesToCheck)
+                //find all potential references and delete from there
+                var types = ExpressMetaData.Types(entity.GetType().Module).Where(t => typeof(IInstantiableEntity).IsAssignableFrom(t.Type));
+                foreach (var type in types)
                 {
-                    //check properties
-                    foreach (var pInfo in toNullify.Select(p => p.PropertyInfo))
+                    var toNullify = type.Properties.Values.Where(p =>
+                        p.EntityAttribute != null && p.EntityAttribute.Order > 0 &&
+                        p.PropertyInfo.PropertyType.IsAssignableFrom(entityType)).ToList();
+                    var toRemove =
+                        type.Properties.Values.Where(p =>
+                            p.EntityAttribute != null && p.EntityAttribute.Order > 0 &&
+                            p.PropertyInfo.PropertyType.IsGenericType &&
+                            p.PropertyInfo.PropertyType.GenericTypeArguments[0].IsAssignableFrom(entityType)).ToList();
+                    if (!toNullify.Any() && !toRemove.Any()) continue;
+
+                    candidateTypes.Add(new DeleteCandidateType{Type = type, ToNullify = toNullify, ToRemove = toRemove});
+                }
+            }
+
+            foreach (var candidateType in candidateTypes)
+                DeleteReferences(entity, candidateType);
+        }
+
+        /// <summary>
+        /// Deletes references to specified entity from all entities in the model where entity is
+        /// a references as an object or as a member of a collection.
+        /// </summary>
+        /// <param name="entity">Entity to be removed from references</param>
+        /// <param name="candidateType">Candidate type containing reference to the type of entity</param>
+        private void DeleteReferences(IPersistEntity entity, DeleteCandidateType candidateType)
+        {
+            //get all instances of this type and nullify and remove the entity
+            var entitiesToCheck = _instances.OfType(candidateType.Type.Type);
+            foreach (var toCheck in entitiesToCheck)
+            {
+                //check properties
+                foreach (var pInfo in candidateType.ToNullify.Select(p => p.PropertyInfo))
+                {
+                    var pVal = pInfo.GetValue(toCheck);
+                    if (pVal == null) continue;
+                    //it is enough to compare references
+                    if (!ReferenceEquals(pVal, entity)) continue;
+                    pInfo.SetValue(toCheck, null);
+                }
+
+                foreach (var pInfo in candidateType.ToRemove.Select(p => p.PropertyInfo))
+                {
+                    var pVal = pInfo.GetValue(toCheck);
+                    if (pVal == null) continue;
+
+                    //it might be uninitialized optional item set
+                    var optSet = pVal as IOptionalItemSet;
+                    if (optSet != null && !optSet.Initialized) continue;
+
+                    //or it is non-optional item set implementind IList
+                    var itemSet = pVal as IList;
+                    if (itemSet != null)
                     {
-                        var pVal = pInfo.GetValue(toCheck);
-                        if(pVal == null) continue;
-                        //it is enough to compare references
-                        if (!ReferenceEquals(pVal, entity)) continue;
-                        pInfo.SetValue(toCheck, null);
+                        if (itemSet.Contains(entity))
+                            itemSet.Remove(entity);
+                        continue;
                     }
 
-                    foreach (var pInfo in toRemove.Select(p => p.PropertyInfo))
-                    {
-                        var pVal = pInfo.GetValue(toCheck);
-                        if (pVal == null) continue;
-
-                        //it might be uninitialized optional item set
-                        var optSet = pVal as IOptionalItemSet;
-                        if(optSet != null && !optSet.Initialized) continue;
-
-                        //or it is non-optional item set implementind IList
-                        var itemSet = pVal as IList;
-                        if (itemSet != null )
-                        {
-                            if (itemSet.Contains(entity))
-                                itemSet.Remove(entity);
-                            continue;
-                        }
-
-                        //fall back operating on common list functions using reflection (this is slow)
-                        var contMethod = pInfo.PropertyType.GetMethod("Contains");
-                        if (contMethod == null) continue;
-                        var contains = (bool)contMethod.Invoke(pVal, new object[] {entity});
-                        if(!contains) continue;
-                        var removeMethod = pInfo.PropertyType.GetMethod("Remove");
-                        if(removeMethod == null) continue;
-                        removeMethod.Invoke(pVal, new object[] { entity });
-                    }
+                    //fall back operating on common list functions using reflection (this is slow)
+                    var contMethod = pInfo.PropertyType.GetMethod("Contains");
+                    if (contMethod == null) continue;
+                    var contains = (bool)contMethod.Invoke(pVal, new object[] { entity });
+                    if (!contains) continue;
+                    var removeMethod = pInfo.PropertyType.GetMethod("Remove");
+                    if (removeMethod == null) continue;
+                    removeMethod.Invoke(pVal, new object[] { entity });
                 }
             }
         }
+
+        /// <summary>
+        /// Helper structure to hold information for reference removal. If multiple objects of the same type are to
+        /// be removed this will cache the information about where to have a look for the references.
+        /// </summary>
+        private struct DeleteCandidateType
+        {
+            public ExpressType Type;
+            public List<ExpressMetaProperty> ToNullify;
+            public List<ExpressMetaProperty> ToRemove;
+        }
+
+        private readonly Dictionary<Type, List<DeleteCandidateType>> _deteteCandidatesCache = new Dictionary<Type, List<DeleteCandidateType>>(); 
 
         public ITransaction BeginTransaction(string name)
         {
@@ -163,6 +201,44 @@ namespace Xbim.IO.Memory
             }
         }
 
+        /// <summary>
+        /// This event is fired every time new entity is created.
+        /// </summary>
+        public event NewEntityHandler EntityNew;
+
+        /// <summary>
+        /// This event is fired every time any entity is modified. If your model is not
+        /// transactional it might not be called at all as the central point for all
+        /// modifications is a transaction.
+        /// </summary>
+        public event ModifiedEntityHandler EntityModified;
+
+        /// <summary>
+        /// This event is fired every time when entity gets deleted from model.
+        /// </summary>
+        public event DeletedEntityHandler EntityDeleted;
+
+        internal void HandleEntityChange(ChangeType changeType, IPersistEntity entity)
+        {
+            switch (changeType)
+            {
+                case ChangeType.New:
+                    if (EntityNew != null)
+                        EntityNew(entity);
+                    break;
+                case ChangeType.Deleted:
+                    if (EntityDeleted != null)
+                        EntityDeleted(entity);
+                    break;
+                case ChangeType.Modified:
+                    if (EntityModified != null)
+                        EntityModified(entity);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException("changeType", changeType, null);
+            }
+        }
+
         public virtual void Open(Stream stream)
         {
             var parser = new XbimP21Parser(stream);
@@ -185,15 +261,15 @@ namespace Xbim.IO.Memory
                             return null;
                     }
                 }
-                if (label == null) 
+                if (label == null)
                     return _instances.Factory.New(name);
-                
+
                 var ent = _instances.Factory.New(this, name, (int) label, true);
                 _instances.InternalAdd(ent);
 
                 //make sure that new added entities will have higher labels to avoid any clashes
                 if (label >= _instances.NextLabel)
-                    _instances.NextLabel = (int)label + 1;
+                    _instances.NextLabel = (int) label + 1;
                 return ent;
             };
             parser.Parse();
@@ -230,6 +306,10 @@ namespace Xbim.IO.Memory
         {
             var part21Writer = new Part21FileWriter();
             part21Writer.Write(this, writer, new Dictionary<int, int>());
+        }
+
+        public void Dispose()
+        {
         }
     }
 }

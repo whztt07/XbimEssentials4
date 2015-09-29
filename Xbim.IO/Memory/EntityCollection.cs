@@ -147,16 +147,16 @@ namespace Xbim.IO.Memory
                 doAction();
 
                 if (!_model.IsTransactional) return;
-                _model.CurrentTransaction.AddReversibleAction(doAction, undo, entity);
+                _model.CurrentTransaction.AddReversibleAction(doAction, undo, entity, ChangeType.New);
             }
             else
             {
                 Action doAction = () => _internal.Add(key, new List<IPersistEntity> { entity });
-                Action undo = () => _internal[key].Remove(entity);
+                Action undo = () => _internal.Remove(key);
                 doAction();
 
                 if (!_model.IsTransactional) return;
-                _model.CurrentTransaction.AddReversibleAction(doAction, undo, entity);
+                _model.CurrentTransaction.AddReversibleAction(doAction, undo, entity, ChangeType.New);
             }
 
         }
@@ -174,7 +174,7 @@ namespace Xbim.IO.Memory
             doAction();
 
             if (!_model.IsTransactional) return true;
-            _model.CurrentTransaction.AddReversibleAction(doAction, undo, entity);
+            _model.CurrentTransaction.AddReversibleAction(doAction, undo, entity, ChangeType.Deleted);
             return true;
         }
 

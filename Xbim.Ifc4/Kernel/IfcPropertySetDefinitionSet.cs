@@ -34,6 +34,7 @@ namespace Xbim.Ifc4.Kernel
             _value = val;
         }
 
+
         public static implicit operator IfcPropertySetDefinitionSet(List<IfcPropertySetDefinition> value)
         {
             return new IfcPropertySetDefinitionSet(value);

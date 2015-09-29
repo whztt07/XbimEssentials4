@@ -132,7 +132,7 @@ namespace Xbim.IO.Esent
 
         public IEnumerator<IPersistEntity> GetEnumerator()
         {
-            return _model.Instances.Concat(_model.ReferencedModels.SelectMany(rm => rm.Model.Instances)).GetEnumerator();
+            return _model.InstancesLocal.Concat(_model.ReferencedModels.SelectMany(rm => rm.Model.Instances)).GetEnumerator();
         }
     }
 }

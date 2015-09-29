@@ -33,6 +33,7 @@ namespace Xbim.CobieExpress
             _value = val;
         }
 
+
         public static implicit operator DateTimeValue(string value)
         {
             return new DateTimeValue(value);

@@ -1,5 +1,4 @@
 ﻿using System;
-using Xbim.Common;
 using Xbim.Ifc2x3.TopologyResource;
 
 namespace Xbim.Ifc2x3.Extensions
@@ -12,10 +11,10 @@ namespace Xbim.Ifc2x3.Extensions
             double xmin = 0; double ymin = 0; double zmin = 0; double xmax = 0; double ymax = 0; double zmax = 0;
             var first = true;
             var model = fSet.Model;
-            model.ForEach<IfcFace>(fSet.CfsFaces, face=>
+            model.ForEach(fSet.CfsFaces, face=>
             {
-                IfcFaceBound outer = face.Bounds.FirstOrDefault<IfcFaceOuterBound>(fb => true);
-                if (outer == null) outer = face.Bounds.FirstOrDefault();
+                var outer = face.Bounds.FirstOrDefault<IfcFaceOuterBound>(fb => true) ??
+                                     face.Bounds.FirstOrDefault();
                 if (outer == null) return;
                 var loop = outer.Bound as IfcPolyLoop;
                 if (loop != null)

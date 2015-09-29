@@ -1,6 +1,9 @@
 ﻿using System.Diagnostics;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xbim.Ifc2x3;
 using Xbim.Ifc2x3.IO;
+using Xbim.Ifc2x3.Kernel;
+using Xbim.IO.Memory;
 
 namespace Xbim.IO.ParserTests
 {
@@ -34,6 +37,18 @@ namespace Xbim.IO.ParserTests
                 watch.Stop();
                 Debug.WriteLine("It took {0}ms to open the DB.", watch.ElapsedMilliseconds);
 
+                Assert.IsNotNull(project);
+                Assert.IsNotNull(project.Name);
+            }
+
+            using (var model = new MemoryModel<EntityFactory>())
+            {
+                watch.Start();
+                model.Open("SampleHouse.ifc");
+                watch.Stop();
+                Debug.WriteLine("It took {0}ms to open IFC in memory.", watch.ElapsedMilliseconds);
+
+                var project = model.Instances.FirstOrDefault<IfcProject>();
                 Assert.IsNotNull(project);
                 Assert.IsNotNull(project.Name);
             }

@@ -28,17 +28,8 @@ namespace Xbim.IO.Step21
     {
         public void Write(IModel model, TextWriter output, IDictionary<int, int> map = null)
         {
-            new HashSet<long>();
-            output.Write(HeaderAsString(model.Header ?? new StepFileHeader(StepFileHeader.HeaderCreationMode.LeaveEmpty)));
-            var esent = model as EsentModel;
-            //Esent model is optimized
-            if (esent != null)
-            {
-                foreach (var entity in esent.InstanceHandles.Select(item => esent.GetInstanceVolatile(item)))
-                    entity.WriteEntity(output, map);
-            }
-            else
-                foreach (var entity in model.Instances)
+            output.Write(HeaderAsString(model.Header ?? new StepFileHeader(StepFileHeader.HeaderCreationMode.InitWithXbimDefaults)));
+            foreach (var entity in model.Instances)
                     entity.WriteEntity(output, map);
 
             output.WriteLine("ENDSEC;");
@@ -55,7 +46,7 @@ namespace Xbim.IO.Step21
                 }));
             foreach (var item in model.InstanceHandles /*.Types.OrderBy(t=>t.Name)*/)
             {
-                var entity = model.GetInstanceVolatile(item) as IInstantiableEntity;
+                var entity = model.GetInstanceVolatile(item);
                 entity.WriteEntity(output, map);
             }
 
