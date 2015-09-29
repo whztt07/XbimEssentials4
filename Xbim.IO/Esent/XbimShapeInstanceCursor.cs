@@ -9,7 +9,7 @@ namespace Xbim.IO.Esent
     public class XbimShapeInstanceCursor : XbimCursor
     {
 
-        const int SizeOfTransformation = 16 * sizeof(float); //the 16 floats that make a transformation
+        const int MaxSizeOfTransformation = 16 * sizeof(double); //the 16 floats that make a transformation
         #region Field Definition
 
         /// <summary>
@@ -234,7 +234,7 @@ namespace Xbim.IO.Esent
                 //Transformation data
                 columndef.coltyp = JET_coltyp.Binary;
                 columndef.grbit = ColumndefGrbit.ColumnNotNULL;
-                columndef.cbMax = SizeOfTransformation;
+                columndef.cbMax = MaxSizeOfTransformation;
                 Api.JetAddColumn(sesid, tableid, colNameTransformation, columndef, null, 0, out columnid);
 
                 //Bounding Box data

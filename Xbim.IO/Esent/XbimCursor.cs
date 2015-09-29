@@ -39,7 +39,7 @@ namespace Xbim.IO.Esent
         protected JET_COLUMNID FlushColumn;
         protected JET_COLUMNID IfcHeaderColumn;
         protected static string VersionColumnName = "Version";
-        protected static string Version = "2.4.0";
+        protected static string Version = "2.4.1";
 
 
 
