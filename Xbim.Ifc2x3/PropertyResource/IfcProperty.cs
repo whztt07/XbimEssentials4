@@ -25,6 +25,12 @@ namespace Xbim.Ifc2x3.PropertyResource
 		public int EntityLabel {get; internal set;}
 		
 		public IModel Model { get; internal set; }
+
+		/// <summary>
+        /// This property is deprecated and likely to be removed. Use just 'Model' instead.
+        /// </summary>
+		[Obsolete("This property is deprecated and likely to be removed. Use just 'Model' instead.")]
+        public IModel ModelOf { get { return Model; } }
 		
 		public bool Activated { get; internal set; }
 
@@ -147,8 +153,7 @@ namespace Xbim.Ifc2x3.PropertyResource
 
 			//check there is a transaction
 			var txn = Model.CurrentTransaction;
-			if (txn == null) 
-                throw new Exception("Operation out of transaction.");
+			if (txn == null) throw new Exception("Operation out of transaction.");
 
 			Action doAction = () => setter(newValue);
 			Action undoAction = () => setter(oldValue);

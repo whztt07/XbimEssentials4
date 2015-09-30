@@ -7,20 +7,18 @@ using Xbim.Common.Exceptions;
 using Xbim.Common.Geometry;
 using Xbim.Common.Metadata;
 using Xbim.Common.Step21;
-using Xbim.Ifc2x3;
 using Xbim.Ifc2x3.ActorResource;
 using Xbim.Ifc2x3.ExternalReferenceResource;
 using Xbim.Ifc2x3.GeometryResource;
-using Xbim.Ifc2x3.IO;
 using Xbim.Ifc2x3.Kernel;
 using Xbim.Ifc2x3.MeasureResource;
 using Xbim.Ifc2x3.RepresentationResource;
 using Xbim.Ifc2x3.UtilityResource;
+using Xbim.IO;
 using Xbim.IO.Esent;
 using XbimGeometry.Interfaces;
 
-// ReSharper disable once CheckNamespace
-namespace Xbim.IO
+namespace Xbim.Ifc2x3.IO
 {
     public class XbimModel: EsentModel
     {
@@ -526,22 +524,21 @@ namespace Xbim.IO
         {
             get
             {
-                if (_defaultOwningUser == null)
+                if (_defaultOwningUser != null) return _defaultOwningUser;
+
+                var existing = Instances.OfType<IfcPersonAndOrganization>().ToArray();
+                if (!existing.Any())
                 {
-                    var existing = Instances.OfType<IfcPersonAndOrganization>().ToArray();
-                    if (!existing.Any())
+                    var person = Instances.New<IfcPerson>();
+                    var organization = Instances.New<IfcOrganization>();
+                    _defaultOwningUser = Instances.New<IfcPersonAndOrganization>(po =>
                     {
-                        var person = Instances.New<IfcPerson>();
-                        var organization = Instances.New<IfcOrganization>();
-                        _defaultOwningUser = Instances.New<IfcPersonAndOrganization>(po =>
-                        {
-                            po.TheOrganization = organization;
-                            po.ThePerson = person;
-                        });
-                    }
-                    else
-                        _defaultOwningUser = existing.FirstOrDefault();
+                        po.TheOrganization = organization;
+                        po.ThePerson = person;
+                    });
                 }
+                else
+                    _defaultOwningUser = existing.FirstOrDefault();
                 return _defaultOwningUser;
             }
         }

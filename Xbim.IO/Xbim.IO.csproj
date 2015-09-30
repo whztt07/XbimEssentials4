@@ -152,7 +152,6 @@
     <Compile Include="Esent\XbimShapeInstance.cs" />
     <Compile Include="Esent\XbimShapeInstanceCursor.cs" />
     <Compile Include="XbimStorageType.cs" />
-    <Compile Include="Zip\XbimZipper.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">

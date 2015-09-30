@@ -17,5 +17,8 @@ namespace Xbim.Common
 		bool Activated { get; }
 		void Activate (bool write);
 		void Activate (Action activation);
+
+		[Obsolete("This property is deprecated and likely to be removed. Use just 'Model' instead.")]
+		IModel ModelOf { get; }
 	}
 }

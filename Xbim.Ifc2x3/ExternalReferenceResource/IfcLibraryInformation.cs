@@ -27,6 +27,12 @@ namespace Xbim.Ifc2x3.ExternalReferenceResource
 		public int EntityLabel {get; internal set;}
 		
 		public IModel Model { get; internal set; }
+
+		/// <summary>
+        /// This property is deprecated and likely to be removed. Use just 'Model' instead.
+        /// </summary>
+		[Obsolete("This property is deprecated and likely to be removed. Use just 'Model' instead.")]
+        public IModel ModelOf { get { return Model; } }
 		
 		public bool Activated { get; internal set; }
 

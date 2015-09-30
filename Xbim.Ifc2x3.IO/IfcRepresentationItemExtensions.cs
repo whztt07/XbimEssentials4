@@ -2,7 +2,7 @@
 using Xbim.Ifc2x3.GeometryResource;
 using Xbim.Ifc2x3.PresentationAppearanceResource;
 
-namespace Xbim.IO
+namespace Xbim.Ifc2x3.IO
 {
     public static class IfcRepresentationItemExtensions
     {
