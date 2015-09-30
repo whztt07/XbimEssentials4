@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Xbim.Ifc2x3.Extensions</RootNamespace>
     <AssemblyName>Xbim.Ifc.Extensions</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>SAK</SccProjectName>
     <SccLocalPath>SAK</SccLocalPath>
@@ -675,6 +675,7 @@
     <Compile Include="IfcSolidModelGeometryExtensions.cs" />
     <Compile Include="IfcSurfaceCurveSweptAreaSolidGeometricExtension.cs" />
     <Compile Include="IfcUShapeProfileDefGeometricExtensions.cs" />
+    <Compile Include="IfcVectorExtensions.cs" />
     <Compile Include="ObjectReferenceSelectExtensions.cs" />
     <Compile Include="OrganisationExtensions.cs" />
     <Compile Include="PersonAndOrganizationExtensions.cs" />

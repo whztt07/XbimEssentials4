@@ -69,7 +69,7 @@ namespace Xbim.IO.Memory
                         type.Properties.Values.Where(p =>
                             p.EntityAttribute != null && p.EntityAttribute.Order > 0 &&
                             p.PropertyInfo.PropertyType.IsGenericType &&
-                            p.PropertyInfo.PropertyType.GenericTypeArguments[0].IsAssignableFrom(entityType)).ToList();
+                            p.PropertyInfo.PropertyType.GenericTypeArgumentIsAssignableFrom(entityType)).ToList();
                     if (!toNullify.Any() && !toRemove.Any()) continue;
 
                     candidateTypes.Add(new DeleteCandidateType{Type = type, ToNullify = toNullify, ToRemove = toRemove});
