@@ -79,5 +79,21 @@ namespace Xbim.Ifc2x3.GeometryResource
             }
                 throw new ArgumentException("Only 3D Directions are supported for normalised at present");
         }
+
+
+        public void SetXY(double x, double y)
+        {
+            DirectionRatios.Clear();
+            DirectionRatios.Add(x);
+            DirectionRatios.Add(y);
+        }
+
+        public void SetXYZ(double x, double y, double z)
+        {
+            DirectionRatios.Clear();
+            DirectionRatios.Add(x);
+            DirectionRatios.Add(y);
+            DirectionRatios.Add(z);
+        }
     }
 }

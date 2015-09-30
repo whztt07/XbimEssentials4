@@ -26,5 +26,21 @@ namespace Xbim.IO
         {
             return ExpressMetaData.ExpressTypeId(type);
         }
+
+        #region Extensions for .Net40 compatibility
+
+        internal static bool GenericTypeArgumentIsAssignableFrom(this Type genericType, Type assignableType)
+        {
+            if (genericType.IsGenericType && !genericType.IsGenericTypeDefinition)
+            {
+                var args = genericType.GetGenericArguments();
+                if (args.Length > 0) return args[0].IsAssignableFrom(assignableType);
+            }
+
+            return false;
+
+        }
+
+        #endregion
     }
 }
