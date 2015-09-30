@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Threading;
 using Xbim.Common;
@@ -97,9 +98,9 @@ namespace Xbim.IO.Esent
             }
         }
 
-        public IEnumerable<IPersistEntity> Modified()
+        public IEnumerable<IInstantiableEntity> Modified()
         {
-            return Model.Cache.Modified();
+            return Model.Cache.Modified().OfType<IInstantiableEntity>();
         }
 
         string ITransaction.Name

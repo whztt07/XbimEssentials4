@@ -14,7 +14,7 @@ namespace Xbim.Essentials.Tests
         [TestMethod]
         public void CopyAllEntitiesTest()
         {
-            using (var source = new XbimModel())
+            using (var source = new Xbim.Ifc2x3.IO.XbimModel())
             {
                 PropertyTranformDelegate propTransform = delegate(ExpressMetaProperty prop, object toCopy)
                 {              
@@ -26,7 +26,7 @@ namespace Xbim.Essentials.Tests
 
                 source.Open("BIM Logo-LetterM.xBIM");
                 source.SaveAs("WithGeometry.ifc");
-                using (var target = XbimModel.CreateTemporaryModel())
+                using (var target = Xbim.Ifc2x3.IO.XbimModel.CreateTemporaryModel())
                 {
                     target.AutoAddOwnerHistory = false;
                     using (var txn = target.BeginTransaction())
@@ -49,7 +49,7 @@ namespace Xbim.Essentials.Tests
         [TestMethod]
         public void ExtractIfcGeometryEntitiesTest()
         {
-            using (var source = new XbimModel())
+            using (var source = new Xbim.Ifc2x3.IO.XbimModel())
             {
                 PropertyTranformDelegate propTransform = delegate(ExpressMetaProperty prop, object toCopy)
                 {
@@ -74,7 +74,7 @@ namespace Xbim.Essentials.Tests
                 
                 source.CreateFrom( Path.ChangeExtension(modelName,"ifc"), null, null, true);
                
-                using (var target = XbimModel.CreateModel(Path.ChangeExtension(modelName + "_NoGeom", "xbim")))
+                using (var target = Xbim.Ifc2x3.IO.XbimModel.CreateModel(Path.ChangeExtension(modelName + "_NoGeom", "xbim")))
                 {
                     target.AutoAddOwnerHistory = false;
                     using (var txn = target.BeginTransaction())

@@ -3,9 +3,10 @@ using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Xbim.Ifc2x3.ActorResource;
 using Xbim.Ifc2x3.RepresentationResource;
-using Xbim.IO;
+using Xbim.Ifc2x3.IO;
 using Xbim.Ifc2x3.Kernel;
 using Xbim.IO.Esent;
+using Xbim.IO;
 
 namespace Xbim.Essentials.Tests
 {
@@ -28,7 +29,7 @@ namespace Xbim.Essentials.Tests
         [TestMethod]
         public void ValidIdentityInFederation()
         {
-            using (var fedModel = XbimModel.CreateTemporaryModel())
+            using (var fedModel = Xbim.Ifc2x3.IO.XbimModel.CreateTemporaryModel())
             {
                 fedModel.Initialise("Federation Creating Author", "Federation Creating Organisation", "This Application", "This Developer", "v1.1");
                 using (var txn = fedModel.BeginTransaction())
@@ -42,7 +43,7 @@ namespace Xbim.Essentials.Tests
                 fedModel.SaveAs("P1P2Federation", XbimStorageType.Step21);
             } //close and automatically delete the temporary database
             //Now open the Ifc file and see what we have
-            using (var fed = new XbimModel())
+            using (var fed = new Xbim.Ifc2x3.IO.XbimModel())
             {
                 fed.CreateFrom("P1P2Federation.ifc", "P1P2Federation.xBIMF"); //use xBIMF to help us distinguish
                 fed.Open("P1P2Federation.xBIMF");
@@ -72,7 +73,7 @@ namespace Xbim.Essentials.Tests
         [TestMethod]
         public void CreateFederation()
         {
-            using (var fedModel = XbimModel.CreateTemporaryModel())
+            using (var fedModel = Xbim.Ifc2x3.IO.XbimModel.CreateTemporaryModel())
             {
                 fedModel.Initialise("Federation Creating Author", "Federation Creating Organisation", "This Application", "This Developer", "v1.1");
                 using (var txn = fedModel.BeginTransaction())
@@ -87,7 +88,7 @@ namespace Xbim.Essentials.Tests
                 fedModel.SaveAs("Federated Model", XbimStorageType.Step21);
             } //close and automatically delete the temporary database
             //Now open the Ifc file and see what we have
-            using (var fed = new XbimModel())
+            using (var fed = new Xbim.Ifc2x3.IO.XbimModel())
             {
                 fed.CreateFrom("Federated Model.ifc", "Federated Model.xBIMF"); //use xBIMF to help us distinguish
                 fed.Open("Federated Model.xBIMF");
