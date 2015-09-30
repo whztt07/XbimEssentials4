@@ -56,7 +56,6 @@ namespace Xbim.IO
         IXbimSolidSet CreateSolidSet(IfcFacetedBrepWithVoids ifcSolid);
         IXbimSolidSet CreateSolidSet(IfcClosedShell ifcSolid);
 
-        IXbimGeometryObjectSet CreateGeometryObjectSet();
         IXbimSolid CreateSolid(IfcCsgPrimitive3D ifcSolid);
         IXbimSolid CreateSolid(IfcCsgSolid ifcSolid);
         IXbimSolid CreateSolid(IfcSphere ifcSolid);
