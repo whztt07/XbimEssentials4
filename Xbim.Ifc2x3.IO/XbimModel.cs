@@ -510,7 +510,7 @@ namespace Xbim.Ifc2x3.IO
 
 
 
-        internal IfcApplication DefaultOwningApplication
+        public IfcApplication DefaultOwningApplication
         {
             get
             {
@@ -520,7 +520,7 @@ namespace Xbim.Ifc2x3.IO
             }
         }
 
-        internal IfcPersonAndOrganization DefaultOwningUser
+        public IfcPersonAndOrganization DefaultOwningUser
         {
             get
             {

@@ -98,7 +98,7 @@ namespace Xbim.Ifc2x3.IO
         //Vertex Creation
         IXbimVertex CreateVertexPoint(XbimPoint3D point, double precision);
 
-        IfcFacetedBrep CreateFacetedBrep(XbimModel model, IXbimSolid solid);
+        IfcFacetedBrep CreateFacetedBrep(Xbim.Ifc2x3.IO.XbimModel model, IXbimSolid solid);
         //Creates collections of objects
         IXbimSolidSet CreateSolidSet();
         IXbimSolidSet CreateSolidSet(IfcBooleanResult boolOp);
