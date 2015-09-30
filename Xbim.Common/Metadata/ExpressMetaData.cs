@@ -148,8 +148,9 @@ namespace Xbim.Common.Metadata
                     propInfo.GetCustomAttributes(typeof(IndexedProperty), false).Any();
                 if (isIndexed) //we have an index
                 {
-                    Debug.Assert(typeof(IPersistEntity).IsAssignableFrom(propInfo.PropertyType)
-                        || typeof(IEnumerable<IPersistEntity>).IsAssignableFrom(propInfo.PropertyType)); //only handles to IPersistEntitiess or collecctions of IPersistEntities are indexable
+                    //TODO: MC: Review with Steve. This is not true for IfcRelDefinesByProperties.RelatingPropertyDefinition in IFC4
+                    //Debug.Assert(typeof(IPersistEntity).IsAssignableFrom(propInfo.PropertyType)
+                    //    || typeof(IEnumerable<IPersistEntity>).IsAssignableFrom(propInfo.PropertyType)); //only handles to IPersistEntitiess or collecctions of IPersistEntities are indexable
                     expressType.AddIndexedAttribute(propInfo, attributeIdx);
                 }
             }

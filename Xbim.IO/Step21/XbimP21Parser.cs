@@ -155,13 +155,13 @@ namespace Xbim.IO.Step21
 
         internal override void SetType(string entityTypeName)
         {
-            var sc = (Scanner) this.Scanner;
-
             if (InHeader)
             {
                 int[] reqParams;
-                _currentInstance = new Part21Entity(EntityCreate(entityTypeName, null, InHeader, out reqParams));
-                _currentInstance.RequiredParameters = reqParams;
+                _currentInstance = new Part21Entity(EntityCreate(entityTypeName, null, InHeader, out reqParams))
+                {
+                    RequiredParameters = reqParams
+                };
                 if(_currentInstance != null) _processStack.Push(_currentInstance);
             }
             else
@@ -302,8 +302,11 @@ namespace Xbim.IO.Step21
         internal override void BeginNestedType(string value)
         {
             int[] reqProps;
-            _currentInstance = new Part21Entity(EntityCreate(value, null, InHeader, out reqProps));
-            _currentInstance.RequiredParameters = reqProps;
+            if (EntityCreate != null)
+                _currentInstance = new Part21Entity(EntityCreate(value, null, InHeader, out reqProps))
+                {
+                    RequiredParameters = reqProps
+                };
             _processStack.Push(_currentInstance);
         }
 

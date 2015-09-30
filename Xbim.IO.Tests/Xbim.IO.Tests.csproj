@@ -54,6 +54,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="CobieTests.cs" />
     <Compile Include="DeepEntityTest.cs" />
+    <Compile Include="ReadIFC4Test.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Xbim.CobieExpress\Xbim.CobieExpress.csproj">
@@ -76,6 +77,14 @@
       <Project>{85856df2-c8ab-4120-8a8d-ae05d2696b51}</Project>
       <Name>Xbim.IO</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="TestFiles\IfcCartesianPointList3D.ifc">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="TestFiles\SampleHouse4.ifc">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
