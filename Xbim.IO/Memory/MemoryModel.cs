@@ -27,12 +27,12 @@ namespace Xbim.IO.Memory
         /// Instance collection of all entities in the model. You can use this collection to create new
         /// entities or to query the model. This is the only way how to create new entities.
         /// </summary>
-        public IEntityCollection Instances
+        public virtual IEntityCollection Instances
         {
             get { return _instances; }
         }
 
-        public int Activate(IPersistEntity owningEntity, bool write)
+        public virtual int Activate(IPersistEntity owningEntity, bool write)
         {
             return 0;
         }
@@ -45,7 +45,7 @@ namespace Xbim.IO.Memory
         /// serialize the model there won't be any references to the object which wouldn't be there.
         /// </summary>
         /// <param name="entity">Entity to be deleted</param>
-        public void Delete(IPersistEntity entity)
+        public virtual void Delete(IPersistEntity entity)
         {
             //remove from entity collection
             var removed = _instances.RemoveReversible(entity);
@@ -86,7 +86,7 @@ namespace Xbim.IO.Memory
         /// </summary>
         /// <param name="entity">Entity to be removed from references</param>
         /// <param name="candidateType">Candidate type containing reference to the type of entity</param>
-        private void DeleteReferences(IPersistEntity entity, DeleteCandidateType candidateType)
+        protected virtual void DeleteReferences(IPersistEntity entity, DeleteCandidateType candidateType)
         {
             //get all instances of this type and nullify and remove the entity
             var entitiesToCheck = _instances.OfType(candidateType.Type.Type);
@@ -136,7 +136,7 @@ namespace Xbim.IO.Memory
         /// Helper structure to hold information for reference removal. If multiple objects of the same type are to
         /// be removed this will cache the information about where to have a look for the references.
         /// </summary>
-        private struct DeleteCandidateType
+        protected struct DeleteCandidateType
         {
             public ExpressType Type;
             public List<ExpressMetaProperty> ToNullify;
@@ -145,7 +145,7 @@ namespace Xbim.IO.Memory
 
         private readonly Dictionary<Type, List<DeleteCandidateType>> _deteteCandidatesCache = new Dictionary<Type, List<DeleteCandidateType>>(); 
 
-        public ITransaction BeginTransaction(string name)
+        public virtual ITransaction BeginTransaction(string name)
         {
             if (CurrentTransaction != null)
                 throw new Exception("Transaction is opened already.");
@@ -169,7 +169,7 @@ namespace Xbim.IO.Memory
         /// </summary>
         private WeakReference _transactionReference; 
 
-        public ITransaction CurrentTransaction
+        public virtual ITransaction CurrentTransaction
         {
             get
             {
@@ -191,9 +191,9 @@ namespace Xbim.IO.Memory
             } 
         }
 
-        public Module SchemaModule { get; private set; }
-        public IModelFactors ModelFactors { get; private set; }
-        public void ForEach<TSource>(IEnumerable<TSource> source, Action<TSource> body) where TSource : IPersistEntity
+        public virtual Module SchemaModule { get; private set; }
+        public virtual IModelFactors ModelFactors { get; private set; }
+        public virtual void ForEach<TSource>(IEnumerable<TSource> source, Action<TSource> body) where TSource : IPersistEntity
         {
             foreach (var entity in source)
             {

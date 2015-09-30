@@ -47,7 +47,7 @@ namespace Xbim.MemoryModel.Tests
         public void Deletion()
         {
             var model = CreateTestModel();
-            using (var txn = model.BeginTransaction("Deletion"))
+            using (model.BeginTransaction("Deletion"))
             {
                 var attribute = model.Instances.FirstOrDefault<CobieAttribute>();
                 Assert.IsNotNull(attribute);
