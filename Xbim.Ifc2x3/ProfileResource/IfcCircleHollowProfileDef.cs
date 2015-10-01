@@ -82,23 +82,6 @@ namespace Xbim.Ifc2x3.ProfileResource
 	        return this == other;
 	    }
 
-	    public override bool Equals(object obj)
-        {
-            // Check for null
-            if (obj == null) return false;
-
-            // Check for type
-            if (GetType() != obj.GetType()) return false;
-
-            // Cast as @IfcCircleHollowProfileDef
-            var root = (@IfcCircleHollowProfileDef)obj;
-            return this == root;
-        }
-        public override int GetHashCode()
-        {
-            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
-            return EntityLabel.GetHashCode(); 
-        }
 
         public static bool operator ==(@IfcCircleHollowProfileDef left, @IfcCircleHollowProfileDef right)
         {

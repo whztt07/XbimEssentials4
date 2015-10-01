@@ -50,23 +50,6 @@ namespace Xbim.Ifc2x3.TopologyResource
 	        return this == other;
 	    }
 
-	    public override bool Equals(object obj)
-        {
-            // Check for null
-            if (obj == null) return false;
-
-            // Check for type
-            if (GetType() != obj.GetType()) return false;
-
-            // Cast as @IfcOpenShell
-            var root = (@IfcOpenShell)obj;
-            return this == root;
-        }
-        public override int GetHashCode()
-        {
-            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
-            return EntityLabel.GetHashCode(); 
-        }
 
         public static bool operator ==(@IfcOpenShell left, @IfcOpenShell right)
         {

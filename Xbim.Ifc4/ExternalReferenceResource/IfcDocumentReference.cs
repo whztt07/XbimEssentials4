@@ -114,23 +114,6 @@ namespace Xbim.Ifc4.ExternalReferenceResource
 	        return this == other;
 	    }
 
-	    public override bool Equals(object obj)
-        {
-            // Check for null
-            if (obj == null) return false;
-
-            // Check for type
-            if (GetType() != obj.GetType()) return false;
-
-            // Cast as @IfcDocumentReference
-            var root = (@IfcDocumentReference)obj;
-            return this == root;
-        }
-        public override int GetHashCode()
-        {
-            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
-            return EntityLabel.GetHashCode(); 
-        }
 
         public static bool operator ==(@IfcDocumentReference left, @IfcDocumentReference right)
         {
