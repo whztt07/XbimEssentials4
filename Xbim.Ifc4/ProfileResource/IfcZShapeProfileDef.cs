@@ -17,7 +17,7 @@ namespace Xbim.Ifc4.ProfileResource
 {
 	[ExpressType("IFCZSHAPEPROFILEDEF", 1155)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcZShapeProfileDef : IfcParameterizedProfileDef, IInstantiableEntity
+	public  partial class @IfcZShapeProfileDef : IfcParameterizedProfileDef, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcZShapeProfileDef>, System.IEquatable<@IfcZShapeProfileDef>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcZShapeProfileDef(IModel model) : base(model) 		{ 
@@ -179,5 +179,60 @@ namespace Xbim.Ifc4.ProfileResource
 		/*ValidFlangeThickness:	ValidFlangeThickness : FlangeThickness < (Depth / 2.);*/
 		}
 		#endregion
+
+		#region Equality comparers and operators
+        public bool Equals(@IfcZShapeProfileDef other)
+	    {
+	        return this == other;
+	    }
+
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcZShapeProfileDef
+            var root = (@IfcZShapeProfileDef)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
+
+        public static bool operator ==(@IfcZShapeProfileDef left, @IfcZShapeProfileDef right)
+        {
+            // If both are null, or both are same instance, return true.
+            if (ReferenceEquals(left, right))
+                return true;
+
+            // If one is null, but not both, return false.
+            if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
+                return false;
+
+            return (left.EntityLabel == right.EntityLabel) && (left.Model == right.Model);
+
+        }
+
+        public static bool operator !=(@IfcZShapeProfileDef left, @IfcZShapeProfileDef right)
+        {
+            return !(left == right);
+        }
+
+
+        public bool Equals(@IfcZShapeProfileDef x, @IfcZShapeProfileDef y)
+        {
+            return x == y;
+        }
+
+        public int GetHashCode(@IfcZShapeProfileDef obj)
+        {
+            return obj == null ? -1 : obj.GetHashCode();
+        }
+        #endregion
 	}
 }

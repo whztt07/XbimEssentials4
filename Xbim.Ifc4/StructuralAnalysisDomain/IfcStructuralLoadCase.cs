@@ -17,7 +17,7 @@ namespace Xbim.Ifc4.StructuralAnalysisDomain
 {
 	[ExpressType("IFCSTRUCTURALLOADCASE", 1023)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcStructuralLoadCase : IfcStructuralLoadGroup, IInstantiableEntity
+	public  partial class @IfcStructuralLoadCase : IfcStructuralLoadGroup, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcStructuralLoadCase>, System.IEquatable<@IfcStructuralLoadCase>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcStructuralLoadCase(IModel model) : base(model) 		{ 
@@ -79,5 +79,60 @@ namespace Xbim.Ifc4.StructuralAnalysisDomain
 		/*IsLoadCasePredefinedType:	IsLoadCasePredefinedType : SELF\IfcStructuralLoadGroup.PredefinedType = IfcLoadGroupTypeEnum.LOAD_CASE;*/
 		}
 		#endregion
+
+		#region Equality comparers and operators
+        public bool Equals(@IfcStructuralLoadCase other)
+	    {
+	        return this == other;
+	    }
+
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcStructuralLoadCase
+            var root = (@IfcStructuralLoadCase)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
+
+        public static bool operator ==(@IfcStructuralLoadCase left, @IfcStructuralLoadCase right)
+        {
+            // If both are null, or both are same instance, return true.
+            if (ReferenceEquals(left, right))
+                return true;
+
+            // If one is null, but not both, return false.
+            if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
+                return false;
+
+            return (left.EntityLabel == right.EntityLabel) && (left.Model == right.Model);
+
+        }
+
+        public static bool operator !=(@IfcStructuralLoadCase left, @IfcStructuralLoadCase right)
+        {
+            return !(left == right);
+        }
+
+
+        public bool Equals(@IfcStructuralLoadCase x, @IfcStructuralLoadCase y)
+        {
+            return x == y;
+        }
+
+        public int GetHashCode(@IfcStructuralLoadCase obj)
+        {
+            return obj == null ? -1 : obj.GetHashCode();
+        }
+        #endregion
 	}
 }

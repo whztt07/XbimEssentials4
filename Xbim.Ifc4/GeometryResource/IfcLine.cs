@@ -15,7 +15,7 @@ namespace Xbim.Ifc4.GeometryResource
 {
 	[ExpressType("IFCLINE", 735)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcLine : IfcCurve, IInstantiableEntity
+	public  partial class @IfcLine : IfcCurve, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcLine>, System.IEquatable<@IfcLine>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcLine(IModel model) : base(model) 		{ 
@@ -88,5 +88,60 @@ namespace Xbim.Ifc4.GeometryResource
 		/*SameDim:	SameDim : Dir.Dim = Pnt.Dim;*/
 		}
 		#endregion
+
+		#region Equality comparers and operators
+        public bool Equals(@IfcLine other)
+	    {
+	        return this == other;
+	    }
+
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcLine
+            var root = (@IfcLine)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
+
+        public static bool operator ==(@IfcLine left, @IfcLine right)
+        {
+            // If both are null, or both are same instance, return true.
+            if (ReferenceEquals(left, right))
+                return true;
+
+            // If one is null, but not both, return false.
+            if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
+                return false;
+
+            return (left.EntityLabel == right.EntityLabel) && (left.Model == right.Model);
+
+        }
+
+        public static bool operator !=(@IfcLine left, @IfcLine right)
+        {
+            return !(left == right);
+        }
+
+
+        public bool Equals(@IfcLine x, @IfcLine y)
+        {
+            return x == y;
+        }
+
+        public int GetHashCode(@IfcLine obj)
+        {
+            return obj == null ? -1 : obj.GetHashCode();
+        }
+        #endregion
 	}
 }

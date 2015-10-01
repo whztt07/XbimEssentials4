@@ -20,7 +20,7 @@ namespace Xbim.Ifc4.StructuralAnalysisDomain
 {
 	[ExpressType("IFCSTRUCTURALSURFACEACTION", 1042)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcStructuralSurfaceAction : IfcStructuralAction, IInstantiableEntity
+	public  partial class @IfcStructuralSurfaceAction : IfcStructuralAction, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcStructuralSurfaceAction>, System.IEquatable<@IfcStructuralSurfaceAction>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcStructuralSurfaceAction(IModel model) : base(model) 		{ 
@@ -106,5 +106,60 @@ namespace Xbim.Ifc4.StructuralAnalysisDomain
 		/*HasObjectType:	HasObjectType : (PredefinedType <> IfcStructuralSurfaceActivityTypeEnum.USERDEFINED) OR EXISTS(SELF\IfcObject.ObjectType);*/
 		}
 		#endregion
+
+		#region Equality comparers and operators
+        public bool Equals(@IfcStructuralSurfaceAction other)
+	    {
+	        return this == other;
+	    }
+
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcStructuralSurfaceAction
+            var root = (@IfcStructuralSurfaceAction)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
+
+        public static bool operator ==(@IfcStructuralSurfaceAction left, @IfcStructuralSurfaceAction right)
+        {
+            // If both are null, or both are same instance, return true.
+            if (ReferenceEquals(left, right))
+                return true;
+
+            // If one is null, but not both, return false.
+            if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
+                return false;
+
+            return (left.EntityLabel == right.EntityLabel) && (left.Model == right.Model);
+
+        }
+
+        public static bool operator !=(@IfcStructuralSurfaceAction left, @IfcStructuralSurfaceAction right)
+        {
+            return !(left == right);
+        }
+
+
+        public bool Equals(@IfcStructuralSurfaceAction x, @IfcStructuralSurfaceAction y)
+        {
+            return x == y;
+        }
+
+        public int GetHashCode(@IfcStructuralSurfaceAction obj)
+        {
+            return obj == null ? -1 : obj.GetHashCode();
+        }
+        #endregion
 	}
 }

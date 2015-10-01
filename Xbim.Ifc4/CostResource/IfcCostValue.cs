@@ -17,7 +17,7 @@ namespace Xbim.Ifc4.CostResource
 {
 	[ExpressType("IFCCOSTVALUE", 540)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcCostValue : IfcAppliedValue, IInstantiableEntity
+	public  partial class @IfcCostValue : IfcAppliedValue, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcCostValue>, System.IEquatable<@IfcCostValue>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcCostValue(IModel model) : base(model) 		{ 
@@ -54,5 +54,60 @@ namespace Xbim.Ifc4.CostResource
 			return "";
 		}
 		#endregion
+
+		#region Equality comparers and operators
+        public bool Equals(@IfcCostValue other)
+	    {
+	        return this == other;
+	    }
+
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcCostValue
+            var root = (@IfcCostValue)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
+
+        public static bool operator ==(@IfcCostValue left, @IfcCostValue right)
+        {
+            // If both are null, or both are same instance, return true.
+            if (ReferenceEquals(left, right))
+                return true;
+
+            // If one is null, but not both, return false.
+            if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
+                return false;
+
+            return (left.EntityLabel == right.EntityLabel) && (left.Model == right.Model);
+
+        }
+
+        public static bool operator !=(@IfcCostValue left, @IfcCostValue right)
+        {
+            return !(left == right);
+        }
+
+
+        public bool Equals(@IfcCostValue x, @IfcCostValue y)
+        {
+            return x == y;
+        }
+
+        public int GetHashCode(@IfcCostValue obj)
+        {
+            return obj == null ? -1 : obj.GetHashCode();
+        }
+        #endregion
 	}
 }

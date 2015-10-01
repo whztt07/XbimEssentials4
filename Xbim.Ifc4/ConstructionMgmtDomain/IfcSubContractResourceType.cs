@@ -20,7 +20,7 @@ namespace Xbim.Ifc4.ConstructionMgmtDomain
 {
 	[ExpressType("IFCSUBCONTRACTRESOURCETYPE", 1051)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcSubContractResourceType : IfcConstructionResourceType, IInstantiableEntity
+	public  partial class @IfcSubContractResourceType : IfcConstructionResourceType, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcSubContractResourceType>, System.IEquatable<@IfcSubContractResourceType>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcSubContractResourceType(IModel model) : base(model) 		{ 
@@ -85,5 +85,60 @@ namespace Xbim.Ifc4.ConstructionMgmtDomain
 		/*CorrectPredefinedType:                              ((PredefinedType = IfcSubContractResourceTypeEnum.USERDEFINED) AND EXISTS(SELF\IfcTypeResource.ResourceType));*/
 		}
 		#endregion
+
+		#region Equality comparers and operators
+        public bool Equals(@IfcSubContractResourceType other)
+	    {
+	        return this == other;
+	    }
+
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcSubContractResourceType
+            var root = (@IfcSubContractResourceType)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
+
+        public static bool operator ==(@IfcSubContractResourceType left, @IfcSubContractResourceType right)
+        {
+            // If both are null, or both are same instance, return true.
+            if (ReferenceEquals(left, right))
+                return true;
+
+            // If one is null, but not both, return false.
+            if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
+                return false;
+
+            return (left.EntityLabel == right.EntityLabel) && (left.Model == right.Model);
+
+        }
+
+        public static bool operator !=(@IfcSubContractResourceType left, @IfcSubContractResourceType right)
+        {
+            return !(left == right);
+        }
+
+
+        public bool Equals(@IfcSubContractResourceType x, @IfcSubContractResourceType y)
+        {
+            return x == y;
+        }
+
+        public int GetHashCode(@IfcSubContractResourceType obj)
+        {
+            return obj == null ? -1 : obj.GetHashCode();
+        }
+        #endregion
 	}
 }

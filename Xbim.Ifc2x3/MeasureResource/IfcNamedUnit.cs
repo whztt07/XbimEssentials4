@@ -16,7 +16,7 @@ namespace Xbim.Ifc2x3.MeasureResource
 {
 	[ExpressType("IFCNAMEDUNIT", 93)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public abstract partial class @IfcNamedUnit : IPersistEntity, INotifyPropertyChanged, IfcUnit
+	public abstract partial class @IfcNamedUnit : IPersistEntity, INotifyPropertyChanged, IfcUnit, System.Collections.Generic.IEqualityComparer<@IfcNamedUnit>, System.IEquatable<@IfcNamedUnit>
 	{
 		#region Implementation of IPersistEntity
 		public int EntityLabel {get; internal set;}
@@ -159,5 +159,60 @@ namespace Xbim.Ifc2x3.MeasureResource
 		/*WR1:	WR1 : IfcCorrectDimensions (SELF.UnitType, SELF.Dimensions);*/
 		}
 		#endregion
+
+		#region Equality comparers and operators
+        public bool Equals(@IfcNamedUnit other)
+	    {
+	        return this == other;
+	    }
+
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcNamedUnit
+            var root = (@IfcNamedUnit)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
+
+        public static bool operator ==(@IfcNamedUnit left, @IfcNamedUnit right)
+        {
+            // If both are null, or both are same instance, return true.
+            if (ReferenceEquals(left, right))
+                return true;
+
+            // If one is null, but not both, return false.
+            if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
+                return false;
+
+            return (left.EntityLabel == right.EntityLabel) && (left.Model == right.Model);
+
+        }
+
+        public static bool operator !=(@IfcNamedUnit left, @IfcNamedUnit right)
+        {
+            return !(left == right);
+        }
+
+
+        public bool Equals(@IfcNamedUnit x, @IfcNamedUnit y)
+        {
+            return x == y;
+        }
+
+        public int GetHashCode(@IfcNamedUnit obj)
+        {
+            return obj == null ? -1 : obj.GetHashCode();
+        }
+        #endregion
 	}
 }

@@ -18,7 +18,7 @@ namespace Xbim.Ifc4.ApprovalResource
 	[IndexedClass]
 	[ExpressType("IFCRESOURCEAPPROVALRELATIONSHIP", 955)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcResourceApprovalRelationship : IfcResourceLevelRelationship, IInstantiableEntity
+	public  partial class @IfcResourceApprovalRelationship : IfcResourceLevelRelationship, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcResourceApprovalRelationship>, System.IEquatable<@IfcResourceApprovalRelationship>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcResourceApprovalRelationship(IModel model) : base(model) 		{ 
@@ -93,5 +93,60 @@ namespace Xbim.Ifc4.ApprovalResource
 			return "";
 		}
 		#endregion
+
+		#region Equality comparers and operators
+        public bool Equals(@IfcResourceApprovalRelationship other)
+	    {
+	        return this == other;
+	    }
+
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcResourceApprovalRelationship
+            var root = (@IfcResourceApprovalRelationship)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
+
+        public static bool operator ==(@IfcResourceApprovalRelationship left, @IfcResourceApprovalRelationship right)
+        {
+            // If both are null, or both are same instance, return true.
+            if (ReferenceEquals(left, right))
+                return true;
+
+            // If one is null, but not both, return false.
+            if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
+                return false;
+
+            return (left.EntityLabel == right.EntityLabel) && (left.Model == right.Model);
+
+        }
+
+        public static bool operator !=(@IfcResourceApprovalRelationship left, @IfcResourceApprovalRelationship right)
+        {
+            return !(left == right);
+        }
+
+
+        public bool Equals(@IfcResourceApprovalRelationship x, @IfcResourceApprovalRelationship y)
+        {
+            return x == y;
+        }
+
+        public int GetHashCode(@IfcResourceApprovalRelationship obj)
+        {
+            return obj == null ? -1 : obj.GetHashCode();
+        }
+        #endregion
 	}
 }

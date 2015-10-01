@@ -18,7 +18,7 @@ namespace Xbim.Ifc2x3.ProductExtension
 {
 	[ExpressType("IFCRELREFERENCEDINSPATIALSTRUCTURE", 455)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcRelReferencedInSpatialStructure : IfcRelConnects, IInstantiableEntity
+	public  partial class @IfcRelReferencedInSpatialStructure : IfcRelConnects, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcRelReferencedInSpatialStructure>, System.IEquatable<@IfcRelReferencedInSpatialStructure>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcRelReferencedInSpatialStructure(IModel model) : base(model) 		{ 
@@ -97,5 +97,60 @@ namespace Xbim.Ifc2x3.ProductExtension
 		/*WR31:	WR31 : SIZEOF(QUERY(temp <* RelatedElements | 'IFC2X3.IFCSPATIALSTRUCTUREELEMENT' IN TYPEOF(temp))) = 0;*/
 		}
 		#endregion
+
+		#region Equality comparers and operators
+        public bool Equals(@IfcRelReferencedInSpatialStructure other)
+	    {
+	        return this == other;
+	    }
+
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcRelReferencedInSpatialStructure
+            var root = (@IfcRelReferencedInSpatialStructure)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
+
+        public static bool operator ==(@IfcRelReferencedInSpatialStructure left, @IfcRelReferencedInSpatialStructure right)
+        {
+            // If both are null, or both are same instance, return true.
+            if (ReferenceEquals(left, right))
+                return true;
+
+            // If one is null, but not both, return false.
+            if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
+                return false;
+
+            return (left.EntityLabel == right.EntityLabel) && (left.Model == right.Model);
+
+        }
+
+        public static bool operator !=(@IfcRelReferencedInSpatialStructure left, @IfcRelReferencedInSpatialStructure right)
+        {
+            return !(left == right);
+        }
+
+
+        public bool Equals(@IfcRelReferencedInSpatialStructure x, @IfcRelReferencedInSpatialStructure y)
+        {
+            return x == y;
+        }
+
+        public int GetHashCode(@IfcRelReferencedInSpatialStructure obj)
+        {
+            return obj == null ? -1 : obj.GetHashCode();
+        }
+        #endregion
 	}
 }

@@ -20,7 +20,7 @@ namespace Xbim.Ifc4.HvacDomain
 {
 	[ExpressType("IFCAIRTERMINALTYPE", 403)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcAirTerminalType : IfcFlowTerminalType, IInstantiableEntity
+	public  partial class @IfcAirTerminalType : IfcFlowTerminalType, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcAirTerminalType>, System.IEquatable<@IfcAirTerminalType>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcAirTerminalType(IModel model) : base(model) 		{ 
@@ -83,5 +83,60 @@ namespace Xbim.Ifc4.HvacDomain
 		/*CorrectPredefinedType:                              ((PredefinedType = IfcAirTerminalTypeEnum.USERDEFINED) AND EXISTS(SELF\IfcElementType.ElementType));*/
 		}
 		#endregion
+
+		#region Equality comparers and operators
+        public bool Equals(@IfcAirTerminalType other)
+	    {
+	        return this == other;
+	    }
+
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcAirTerminalType
+            var root = (@IfcAirTerminalType)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
+
+        public static bool operator ==(@IfcAirTerminalType left, @IfcAirTerminalType right)
+        {
+            // If both are null, or both are same instance, return true.
+            if (ReferenceEquals(left, right))
+                return true;
+
+            // If one is null, but not both, return false.
+            if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
+                return false;
+
+            return (left.EntityLabel == right.EntityLabel) && (left.Model == right.Model);
+
+        }
+
+        public static bool operator !=(@IfcAirTerminalType left, @IfcAirTerminalType right)
+        {
+            return !(left == right);
+        }
+
+
+        public bool Equals(@IfcAirTerminalType x, @IfcAirTerminalType y)
+        {
+            return x == y;
+        }
+
+        public int GetHashCode(@IfcAirTerminalType obj)
+        {
+            return obj == null ? -1 : obj.GetHashCode();
+        }
+        #endregion
 	}
 }

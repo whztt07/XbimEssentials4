@@ -20,7 +20,7 @@ namespace Xbim.Ifc4.ElectricalDomain
 {
 	[ExpressType("IFCSWITCHINGDEVICE", 1070)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcSwitchingDevice : IfcFlowController, IInstantiableEntity
+	public  partial class @IfcSwitchingDevice : IfcFlowController, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcSwitchingDevice>, System.IEquatable<@IfcSwitchingDevice>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcSwitchingDevice(IModel model) : base(model) 		{ 
@@ -83,5 +83,60 @@ namespace Xbim.Ifc4.ElectricalDomain
 		/*CorrectTypeAssigned:                                ('IFC4.IFCSWITCHINGDEVICETYPE' IN TYPEOF(SELF\IfcObject.IsTypedBy[1].RelatingType));*/
 		}
 		#endregion
+
+		#region Equality comparers and operators
+        public bool Equals(@IfcSwitchingDevice other)
+	    {
+	        return this == other;
+	    }
+
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcSwitchingDevice
+            var root = (@IfcSwitchingDevice)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
+
+        public static bool operator ==(@IfcSwitchingDevice left, @IfcSwitchingDevice right)
+        {
+            // If both are null, or both are same instance, return true.
+            if (ReferenceEquals(left, right))
+                return true;
+
+            // If one is null, but not both, return false.
+            if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
+                return false;
+
+            return (left.EntityLabel == right.EntityLabel) && (left.Model == right.Model);
+
+        }
+
+        public static bool operator !=(@IfcSwitchingDevice left, @IfcSwitchingDevice right)
+        {
+            return !(left == right);
+        }
+
+
+        public bool Equals(@IfcSwitchingDevice x, @IfcSwitchingDevice y)
+        {
+            return x == y;
+        }
+
+        public int GetHashCode(@IfcSwitchingDevice obj)
+        {
+            return obj == null ? -1 : obj.GetHashCode();
+        }
+        #endregion
 	}
 }

@@ -17,7 +17,7 @@ namespace Xbim.CobieExpress
 	[IndexedClass]
 	[ExpressType("REFERENCEDOBJECT", 13)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public abstract partial class @CobieReferencedObject : IPersistEntity, INotifyPropertyChanged
+	public abstract partial class @CobieReferencedObject : IPersistEntity, INotifyPropertyChanged, System.Collections.Generic.IEqualityComparer<@CobieReferencedObject>, System.IEquatable<@CobieReferencedObject>
 	{
 		#region Implementation of IPersistEntity
 		public int EntityLabel {get; internal set;}
@@ -201,5 +201,60 @@ namespace Xbim.CobieExpress
 			return "";
 		}
 		#endregion
+
+		#region Equality comparers and operators
+        public bool Equals(@CobieReferencedObject other)
+	    {
+	        return this == other;
+	    }
+
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @CobieReferencedObject
+            var root = (@CobieReferencedObject)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
+
+        public static bool operator ==(@CobieReferencedObject left, @CobieReferencedObject right)
+        {
+            // If both are null, or both are same instance, return true.
+            if (ReferenceEquals(left, right))
+                return true;
+
+            // If one is null, but not both, return false.
+            if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
+                return false;
+
+            return (left.EntityLabel == right.EntityLabel) && (left.Model == right.Model);
+
+        }
+
+        public static bool operator !=(@CobieReferencedObject left, @CobieReferencedObject right)
+        {
+            return !(left == right);
+        }
+
+
+        public bool Equals(@CobieReferencedObject x, @CobieReferencedObject y)
+        {
+            return x == y;
+        }
+
+        public int GetHashCode(@CobieReferencedObject obj)
+        {
+            return obj == null ? -1 : obj.GetHashCode();
+        }
+        #endregion
 	}
 }

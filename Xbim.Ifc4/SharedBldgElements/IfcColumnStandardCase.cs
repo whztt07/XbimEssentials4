@@ -19,7 +19,7 @@ namespace Xbim.Ifc4.SharedBldgElements
 {
 	[ExpressType("IFCCOLUMNSTANDARDCASE", 494)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcColumnStandardCase : IfcColumn, IInstantiableEntity
+	public  partial class @IfcColumnStandardCase : IfcColumn, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcColumnStandardCase>, System.IEquatable<@IfcColumnStandardCase>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcColumnStandardCase(IModel model) : base(model) 		{ 
@@ -56,5 +56,60 @@ namespace Xbim.Ifc4.SharedBldgElements
 		/*HasMaterialProfileSetUsage:                                                 )) = 1;*/
 		}
 		#endregion
+
+		#region Equality comparers and operators
+        public bool Equals(@IfcColumnStandardCase other)
+	    {
+	        return this == other;
+	    }
+
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcColumnStandardCase
+            var root = (@IfcColumnStandardCase)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
+
+        public static bool operator ==(@IfcColumnStandardCase left, @IfcColumnStandardCase right)
+        {
+            // If both are null, or both are same instance, return true.
+            if (ReferenceEquals(left, right))
+                return true;
+
+            // If one is null, but not both, return false.
+            if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
+                return false;
+
+            return (left.EntityLabel == right.EntityLabel) && (left.Model == right.Model);
+
+        }
+
+        public static bool operator !=(@IfcColumnStandardCase left, @IfcColumnStandardCase right)
+        {
+            return !(left == right);
+        }
+
+
+        public bool Equals(@IfcColumnStandardCase x, @IfcColumnStandardCase y)
+        {
+            return x == y;
+        }
+
+        public int GetHashCode(@IfcColumnStandardCase obj)
+        {
+            return obj == null ? -1 : obj.GetHashCode();
+        }
+        #endregion
 	}
 }

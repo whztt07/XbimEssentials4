@@ -17,7 +17,7 @@ namespace Xbim.Ifc4.MaterialResource
 {
 	[ExpressType("IFCMATERIALPROFILESET", 753)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcMaterialProfileSet : IfcMaterialDefinition, IInstantiableEntity
+	public  partial class @IfcMaterialProfileSet : IfcMaterialDefinition, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcMaterialProfileSet>, System.IEquatable<@IfcMaterialProfileSet>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcMaterialProfileSet(IModel model) : base(model) 		{ 
@@ -130,5 +130,60 @@ namespace Xbim.Ifc4.MaterialResource
 			return "";
 		}
 		#endregion
+
+		#region Equality comparers and operators
+        public bool Equals(@IfcMaterialProfileSet other)
+	    {
+	        return this == other;
+	    }
+
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcMaterialProfileSet
+            var root = (@IfcMaterialProfileSet)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
+
+        public static bool operator ==(@IfcMaterialProfileSet left, @IfcMaterialProfileSet right)
+        {
+            // If both are null, or both are same instance, return true.
+            if (ReferenceEquals(left, right))
+                return true;
+
+            // If one is null, but not both, return false.
+            if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
+                return false;
+
+            return (left.EntityLabel == right.EntityLabel) && (left.Model == right.Model);
+
+        }
+
+        public static bool operator !=(@IfcMaterialProfileSet left, @IfcMaterialProfileSet right)
+        {
+            return !(left == right);
+        }
+
+
+        public bool Equals(@IfcMaterialProfileSet x, @IfcMaterialProfileSet y)
+        {
+            return x == y;
+        }
+
+        public int GetHashCode(@IfcMaterialProfileSet obj)
+        {
+            return obj == null ? -1 : obj.GetHashCode();
+        }
+        #endregion
 	}
 }

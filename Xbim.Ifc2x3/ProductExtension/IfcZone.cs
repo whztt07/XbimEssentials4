@@ -18,7 +18,7 @@ namespace Xbim.Ifc2x3.ProductExtension
 {
 	[ExpressType("IFCZONE", 669)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcZone : IfcGroup, IInstantiableEntity
+	public  partial class @IfcZone : IfcGroup, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcZone>, System.IEquatable<@IfcZone>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcZone(IModel model) : base(model) 		{ 
@@ -51,5 +51,60 @@ namespace Xbim.Ifc2x3.ProductExtension
 		/*WR1:	WR1 : SIZEOF (QUERY (temp <* SELF\IfcGroup.IsGroupedBy.RelatedObjects |  NOT(('IFC2X3.IFCZONE' IN TYPEOF(temp)) OR ('IFC2X3.IFCSPACE' IN TYPEOF(temp))) )) = 0;*/
 		}
 		#endregion
+
+		#region Equality comparers and operators
+        public bool Equals(@IfcZone other)
+	    {
+	        return this == other;
+	    }
+
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcZone
+            var root = (@IfcZone)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
+
+        public static bool operator ==(@IfcZone left, @IfcZone right)
+        {
+            // If both are null, or both are same instance, return true.
+            if (ReferenceEquals(left, right))
+                return true;
+
+            // If one is null, but not both, return false.
+            if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
+                return false;
+
+            return (left.EntityLabel == right.EntityLabel) && (left.Model == right.Model);
+
+        }
+
+        public static bool operator !=(@IfcZone left, @IfcZone right)
+        {
+            return !(left == right);
+        }
+
+
+        public bool Equals(@IfcZone x, @IfcZone y)
+        {
+            return x == y;
+        }
+
+        public int GetHashCode(@IfcZone obj)
+        {
+            return obj == null ? -1 : obj.GetHashCode();
+        }
+        #endregion
 	}
 }

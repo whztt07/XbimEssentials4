@@ -19,7 +19,7 @@ namespace Xbim.Ifc4.SharedFacilitiesElements
 {
 	[ExpressType("IFCOCCUPANT", 778)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcOccupant : IfcActor, IInstantiableEntity
+	public  partial class @IfcOccupant : IfcActor, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcOccupant>, System.IEquatable<@IfcOccupant>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcOccupant(IModel model) : base(model) 		{ 
@@ -79,5 +79,60 @@ namespace Xbim.Ifc4.SharedFacilitiesElements
 		/*WR31:             OR EXISTS(SELF\IfcObject.ObjectType);*/
 		}
 		#endregion
+
+		#region Equality comparers and operators
+        public bool Equals(@IfcOccupant other)
+	    {
+	        return this == other;
+	    }
+
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcOccupant
+            var root = (@IfcOccupant)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
+
+        public static bool operator ==(@IfcOccupant left, @IfcOccupant right)
+        {
+            // If both are null, or both are same instance, return true.
+            if (ReferenceEquals(left, right))
+                return true;
+
+            // If one is null, but not both, return false.
+            if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
+                return false;
+
+            return (left.EntityLabel == right.EntityLabel) && (left.Model == right.Model);
+
+        }
+
+        public static bool operator !=(@IfcOccupant left, @IfcOccupant right)
+        {
+            return !(left == right);
+        }
+
+
+        public bool Equals(@IfcOccupant x, @IfcOccupant y)
+        {
+            return x == y;
+        }
+
+        public int GetHashCode(@IfcOccupant obj)
+        {
+            return obj == null ? -1 : obj.GetHashCode();
+        }
+        #endregion
 	}
 }

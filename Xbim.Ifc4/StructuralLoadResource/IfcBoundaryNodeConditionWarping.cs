@@ -16,7 +16,7 @@ namespace Xbim.Ifc4.StructuralLoadResource
 {
 	[ExpressType("IFCBOUNDARYNODECONDITIONWARPING", 442)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcBoundaryNodeConditionWarping : IfcBoundaryNodeCondition, IInstantiableEntity
+	public  partial class @IfcBoundaryNodeConditionWarping : IfcBoundaryNodeCondition, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcBoundaryNodeConditionWarping>, System.IEquatable<@IfcBoundaryNodeConditionWarping>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcBoundaryNodeConditionWarping(IModel model) : base(model) 		{ 
@@ -76,5 +76,60 @@ namespace Xbim.Ifc4.StructuralLoadResource
 			return "";
 		}
 		#endregion
+
+		#region Equality comparers and operators
+        public bool Equals(@IfcBoundaryNodeConditionWarping other)
+	    {
+	        return this == other;
+	    }
+
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcBoundaryNodeConditionWarping
+            var root = (@IfcBoundaryNodeConditionWarping)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
+
+        public static bool operator ==(@IfcBoundaryNodeConditionWarping left, @IfcBoundaryNodeConditionWarping right)
+        {
+            // If both are null, or both are same instance, return true.
+            if (ReferenceEquals(left, right))
+                return true;
+
+            // If one is null, but not both, return false.
+            if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
+                return false;
+
+            return (left.EntityLabel == right.EntityLabel) && (left.Model == right.Model);
+
+        }
+
+        public static bool operator !=(@IfcBoundaryNodeConditionWarping left, @IfcBoundaryNodeConditionWarping right)
+        {
+            return !(left == right);
+        }
+
+
+        public bool Equals(@IfcBoundaryNodeConditionWarping x, @IfcBoundaryNodeConditionWarping y)
+        {
+            return x == y;
+        }
+
+        public int GetHashCode(@IfcBoundaryNodeConditionWarping obj)
+        {
+            return obj == null ? -1 : obj.GetHashCode();
+        }
+        #endregion
 	}
 }

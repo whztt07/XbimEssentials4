@@ -16,7 +16,7 @@ namespace Xbim.Ifc2x3.PresentationDimensioningResource
 {
 	[ExpressType("IFCDRAUGHTINGCALLOUT", 222)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcDraughtingCallout : IfcGeometricRepresentationItem, IInstantiableEntity
+	public  partial class @IfcDraughtingCallout : IfcGeometricRepresentationItem, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcDraughtingCallout>, System.IEquatable<@IfcDraughtingCallout>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcDraughtingCallout(IModel model) : base(model) 		{ 
@@ -83,5 +83,60 @@ namespace Xbim.Ifc2x3.PresentationDimensioningResource
 			return "";
 		}
 		#endregion
+
+		#region Equality comparers and operators
+        public bool Equals(@IfcDraughtingCallout other)
+	    {
+	        return this == other;
+	    }
+
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcDraughtingCallout
+            var root = (@IfcDraughtingCallout)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
+
+        public static bool operator ==(@IfcDraughtingCallout left, @IfcDraughtingCallout right)
+        {
+            // If both are null, or both are same instance, return true.
+            if (ReferenceEquals(left, right))
+                return true;
+
+            // If one is null, but not both, return false.
+            if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
+                return false;
+
+            return (left.EntityLabel == right.EntityLabel) && (left.Model == right.Model);
+
+        }
+
+        public static bool operator !=(@IfcDraughtingCallout left, @IfcDraughtingCallout right)
+        {
+            return !(left == right);
+        }
+
+
+        public bool Equals(@IfcDraughtingCallout x, @IfcDraughtingCallout y)
+        {
+            return x == y;
+        }
+
+        public int GetHashCode(@IfcDraughtingCallout obj)
+        {
+            return obj == null ? -1 : obj.GetHashCode();
+        }
+        #endregion
 	}
 }

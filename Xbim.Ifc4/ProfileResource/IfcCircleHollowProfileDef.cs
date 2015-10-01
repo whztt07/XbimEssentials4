@@ -17,7 +17,7 @@ namespace Xbim.Ifc4.ProfileResource
 {
 	[ExpressType("IFCCIRCLEHOLLOWPROFILEDEF", 481)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcCircleHollowProfileDef : IfcCircleProfileDef, IInstantiableEntity
+	public  partial class @IfcCircleHollowProfileDef : IfcCircleProfileDef, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcCircleHollowProfileDef>, System.IEquatable<@IfcCircleHollowProfileDef>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcCircleHollowProfileDef(IModel model) : base(model) 		{ 
@@ -75,5 +75,60 @@ namespace Xbim.Ifc4.ProfileResource
 		/*WR1:	WR1 : WallThickness < SELF\IfcCircleProfileDef.Radius;*/
 		}
 		#endregion
+
+		#region Equality comparers and operators
+        public bool Equals(@IfcCircleHollowProfileDef other)
+	    {
+	        return this == other;
+	    }
+
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcCircleHollowProfileDef
+            var root = (@IfcCircleHollowProfileDef)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
+
+        public static bool operator ==(@IfcCircleHollowProfileDef left, @IfcCircleHollowProfileDef right)
+        {
+            // If both are null, or both are same instance, return true.
+            if (ReferenceEquals(left, right))
+                return true;
+
+            // If one is null, but not both, return false.
+            if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
+                return false;
+
+            return (left.EntityLabel == right.EntityLabel) && (left.Model == right.Model);
+
+        }
+
+        public static bool operator !=(@IfcCircleHollowProfileDef left, @IfcCircleHollowProfileDef right)
+        {
+            return !(left == right);
+        }
+
+
+        public bool Equals(@IfcCircleHollowProfileDef x, @IfcCircleHollowProfileDef y)
+        {
+            return x == y;
+        }
+
+        public int GetHashCode(@IfcCircleHollowProfileDef obj)
+        {
+            return obj == null ? -1 : obj.GetHashCode();
+        }
+        #endregion
 	}
 }

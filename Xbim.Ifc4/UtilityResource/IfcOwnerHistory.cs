@@ -20,7 +20,7 @@ namespace Xbim.Ifc4.UtilityResource
 	[IndexedClass]
 	[ExpressType("IFCOWNERHISTORY", 790)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcOwnerHistory : IPersistEntity, INotifyPropertyChanged, IInstantiableEntity
+	public  partial class @IfcOwnerHistory : IPersistEntity, INotifyPropertyChanged, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcOwnerHistory>, System.IEquatable<@IfcOwnerHistory>
 	{
 		#region Implementation of IPersistEntity
 		public int EntityLabel {get; internal set;}
@@ -289,5 +289,60 @@ namespace Xbim.Ifc4.UtilityResource
 		/*CorrectChangeAction:                            (NOT(EXISTS(LastModifiedDate)) AND EXISTS(ChangeAction) AND ((ChangeAction = IfcChangeActionEnum.NOTDEFINED) OR (ChangeAction = IfcChangeActionEnum.NOCHANGE)));*/
 		}
 		#endregion
+
+		#region Equality comparers and operators
+        public bool Equals(@IfcOwnerHistory other)
+	    {
+	        return this == other;
+	    }
+
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcOwnerHistory
+            var root = (@IfcOwnerHistory)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
+
+        public static bool operator ==(@IfcOwnerHistory left, @IfcOwnerHistory right)
+        {
+            // If both are null, or both are same instance, return true.
+            if (ReferenceEquals(left, right))
+                return true;
+
+            // If one is null, but not both, return false.
+            if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
+                return false;
+
+            return (left.EntityLabel == right.EntityLabel) && (left.Model == right.Model);
+
+        }
+
+        public static bool operator !=(@IfcOwnerHistory left, @IfcOwnerHistory right)
+        {
+            return !(left == right);
+        }
+
+
+        public bool Equals(@IfcOwnerHistory x, @IfcOwnerHistory y)
+        {
+            return x == y;
+        }
+
+        public int GetHashCode(@IfcOwnerHistory obj)
+        {
+            return obj == null ? -1 : obj.GetHashCode();
+        }
+        #endregion
 	}
 }

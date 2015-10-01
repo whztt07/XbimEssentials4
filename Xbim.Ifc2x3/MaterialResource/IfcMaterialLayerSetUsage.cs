@@ -19,7 +19,7 @@ namespace Xbim.Ifc2x3.MaterialResource
 	[IndexedClass]
 	[ExpressType("IFCMATERIALLAYERSETUSAGE", 165)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcMaterialLayerSetUsage : IPersistEntity, INotifyPropertyChanged, IfcMaterialSelect, IInstantiableEntity
+	public  partial class @IfcMaterialLayerSetUsage : IPersistEntity, INotifyPropertyChanged, IfcMaterialSelect, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcMaterialLayerSetUsage>, System.IEquatable<@IfcMaterialLayerSetUsage>
 	{
 		#region Implementation of IPersistEntity
 		public int EntityLabel {get; internal set;}
@@ -203,5 +203,60 @@ namespace Xbim.Ifc2x3.MaterialResource
 			return "";
 		}
 		#endregion
+
+		#region Equality comparers and operators
+        public bool Equals(@IfcMaterialLayerSetUsage other)
+	    {
+	        return this == other;
+	    }
+
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcMaterialLayerSetUsage
+            var root = (@IfcMaterialLayerSetUsage)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
+
+        public static bool operator ==(@IfcMaterialLayerSetUsage left, @IfcMaterialLayerSetUsage right)
+        {
+            // If both are null, or both are same instance, return true.
+            if (ReferenceEquals(left, right))
+                return true;
+
+            // If one is null, but not both, return false.
+            if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
+                return false;
+
+            return (left.EntityLabel == right.EntityLabel) && (left.Model == right.Model);
+
+        }
+
+        public static bool operator !=(@IfcMaterialLayerSetUsage left, @IfcMaterialLayerSetUsage right)
+        {
+            return !(left == right);
+        }
+
+
+        public bool Equals(@IfcMaterialLayerSetUsage x, @IfcMaterialLayerSetUsage y)
+        {
+            return x == y;
+        }
+
+        public int GetHashCode(@IfcMaterialLayerSetUsage obj)
+        {
+            return obj == null ? -1 : obj.GetHashCode();
+        }
+        #endregion
 	}
 }

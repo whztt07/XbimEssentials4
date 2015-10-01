@@ -20,7 +20,7 @@ namespace Xbim.Ifc2x3.SharedBldgElements
 {
 	[ExpressType("IFCDOOR", 213)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcDoor : IfcBuildingElement, IInstantiableEntity
+	public  partial class @IfcDoor : IfcBuildingElement, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcDoor>, System.IEquatable<@IfcDoor>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcDoor(IModel model) : base(model) 		{ 
@@ -102,5 +102,60 @@ namespace Xbim.Ifc2x3.SharedBldgElements
 			return "";
 		}
 		#endregion
+
+		#region Equality comparers and operators
+        public bool Equals(@IfcDoor other)
+	    {
+	        return this == other;
+	    }
+
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcDoor
+            var root = (@IfcDoor)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
+
+        public static bool operator ==(@IfcDoor left, @IfcDoor right)
+        {
+            // If both are null, or both are same instance, return true.
+            if (ReferenceEquals(left, right))
+                return true;
+
+            // If one is null, but not both, return false.
+            if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
+                return false;
+
+            return (left.EntityLabel == right.EntityLabel) && (left.Model == right.Model);
+
+        }
+
+        public static bool operator !=(@IfcDoor left, @IfcDoor right)
+        {
+            return !(left == right);
+        }
+
+
+        public bool Equals(@IfcDoor x, @IfcDoor y)
+        {
+            return x == y;
+        }
+
+        public int GetHashCode(@IfcDoor obj)
+        {
+            return obj == null ? -1 : obj.GetHashCode();
+        }
+        #endregion
 	}
 }

@@ -20,7 +20,7 @@ namespace Xbim.Ifc4.SharedBldgElements
 {
 	[ExpressType("IFCCURTAINWALL", 548)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcCurtainWall : IfcBuildingElement, IInstantiableEntity
+	public  partial class @IfcCurtainWall : IfcBuildingElement, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcCurtainWall>, System.IEquatable<@IfcCurtainWall>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcCurtainWall(IModel model) : base(model) 		{ 
@@ -83,5 +83,60 @@ namespace Xbim.Ifc4.SharedBldgElements
 		/*CorrectTypeAssigned:                                ('IFC4.IFCCURTAINWALLTYPE' IN TYPEOF(SELF\IfcObject.IsTypedBy[1].RelatingType));*/
 		}
 		#endregion
+
+		#region Equality comparers and operators
+        public bool Equals(@IfcCurtainWall other)
+	    {
+	        return this == other;
+	    }
+
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcCurtainWall
+            var root = (@IfcCurtainWall)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
+
+        public static bool operator ==(@IfcCurtainWall left, @IfcCurtainWall right)
+        {
+            // If both are null, or both are same instance, return true.
+            if (ReferenceEquals(left, right))
+                return true;
+
+            // If one is null, but not both, return false.
+            if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
+                return false;
+
+            return (left.EntityLabel == right.EntityLabel) && (left.Model == right.Model);
+
+        }
+
+        public static bool operator !=(@IfcCurtainWall left, @IfcCurtainWall right)
+        {
+            return !(left == right);
+        }
+
+
+        public bool Equals(@IfcCurtainWall x, @IfcCurtainWall y)
+        {
+            return x == y;
+        }
+
+        public int GetHashCode(@IfcCurtainWall obj)
+        {
+            return obj == null ? -1 : obj.GetHashCode();
+        }
+        #endregion
 	}
 }

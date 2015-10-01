@@ -16,7 +16,7 @@ namespace Xbim.Ifc4.QuantityResource
 {
 	[ExpressType("IFCQUANTITYWEIGHT", 877)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcQuantityWeight : IfcPhysicalSimpleQuantity, IInstantiableEntity
+	public  partial class @IfcQuantityWeight : IfcPhysicalSimpleQuantity, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcQuantityWeight>, System.IEquatable<@IfcQuantityWeight>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcQuantityWeight(IModel model) : base(model) 		{ 
@@ -95,5 +95,60 @@ namespace Xbim.Ifc4.QuantityResource
 		/*WR22:	WR22 : WeightValue >= 0.;*/
 		}
 		#endregion
+
+		#region Equality comparers and operators
+        public bool Equals(@IfcQuantityWeight other)
+	    {
+	        return this == other;
+	    }
+
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcQuantityWeight
+            var root = (@IfcQuantityWeight)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
+
+        public static bool operator ==(@IfcQuantityWeight left, @IfcQuantityWeight right)
+        {
+            // If both are null, or both are same instance, return true.
+            if (ReferenceEquals(left, right))
+                return true;
+
+            // If one is null, but not both, return false.
+            if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
+                return false;
+
+            return (left.EntityLabel == right.EntityLabel) && (left.Model == right.Model);
+
+        }
+
+        public static bool operator !=(@IfcQuantityWeight left, @IfcQuantityWeight right)
+        {
+            return !(left == right);
+        }
+
+
+        public bool Equals(@IfcQuantityWeight x, @IfcQuantityWeight y)
+        {
+            return x == y;
+        }
+
+        public int GetHashCode(@IfcQuantityWeight obj)
+        {
+            return obj == null ? -1 : obj.GetHashCode();
+        }
+        #endregion
 	}
 }

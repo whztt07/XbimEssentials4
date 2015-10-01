@@ -16,7 +16,7 @@ namespace Xbim.Ifc4.TopologyResource
 {
 	[ExpressType("IFCPOLYLOOP", 819)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcPolyLoop : IfcLoop, IInstantiableEntity
+	public  partial class @IfcPolyLoop : IfcLoop, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcPolyLoop>, System.IEquatable<@IfcPolyLoop>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcPolyLoop(IModel model) : base(model) 		{ 
@@ -66,5 +66,60 @@ namespace Xbim.Ifc4.TopologyResource
 		/*AllPointsSameDim:	AllPointsSameDim : SIZEOF(QUERY(Temp <* Polygon | Temp.Dim <> Polygon[1].Dim)) = 0;*/
 		}
 		#endregion
+
+		#region Equality comparers and operators
+        public bool Equals(@IfcPolyLoop other)
+	    {
+	        return this == other;
+	    }
+
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcPolyLoop
+            var root = (@IfcPolyLoop)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
+
+        public static bool operator ==(@IfcPolyLoop left, @IfcPolyLoop right)
+        {
+            // If both are null, or both are same instance, return true.
+            if (ReferenceEquals(left, right))
+                return true;
+
+            // If one is null, but not both, return false.
+            if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
+                return false;
+
+            return (left.EntityLabel == right.EntityLabel) && (left.Model == right.Model);
+
+        }
+
+        public static bool operator !=(@IfcPolyLoop left, @IfcPolyLoop right)
+        {
+            return !(left == right);
+        }
+
+
+        public bool Equals(@IfcPolyLoop x, @IfcPolyLoop y)
+        {
+            return x == y;
+        }
+
+        public int GetHashCode(@IfcPolyLoop obj)
+        {
+            return obj == null ? -1 : obj.GetHashCode();
+        }
+        #endregion
 	}
 }

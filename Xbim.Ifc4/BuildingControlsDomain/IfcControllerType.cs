@@ -20,7 +20,7 @@ namespace Xbim.Ifc4.BuildingControlsDomain
 {
 	[ExpressType("IFCCONTROLLERTYPE", 529)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcControllerType : IfcDistributionControlElementType, IInstantiableEntity
+	public  partial class @IfcControllerType : IfcDistributionControlElementType, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcControllerType>, System.IEquatable<@IfcControllerType>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcControllerType(IModel model) : base(model) 		{ 
@@ -83,5 +83,60 @@ namespace Xbim.Ifc4.BuildingControlsDomain
 		/*CorrectPredefinedType:                              ((PredefinedType = IfcControllerTypeEnum.USERDEFINED) AND EXISTS(SELF\IfcElementType.ElementType));*/
 		}
 		#endregion
+
+		#region Equality comparers and operators
+        public bool Equals(@IfcControllerType other)
+	    {
+	        return this == other;
+	    }
+
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcControllerType
+            var root = (@IfcControllerType)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
+
+        public static bool operator ==(@IfcControllerType left, @IfcControllerType right)
+        {
+            // If both are null, or both are same instance, return true.
+            if (ReferenceEquals(left, right))
+                return true;
+
+            // If one is null, but not both, return false.
+            if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
+                return false;
+
+            return (left.EntityLabel == right.EntityLabel) && (left.Model == right.Model);
+
+        }
+
+        public static bool operator !=(@IfcControllerType left, @IfcControllerType right)
+        {
+            return !(left == right);
+        }
+
+
+        public bool Equals(@IfcControllerType x, @IfcControllerType y)
+        {
+            return x == y;
+        }
+
+        public int GetHashCode(@IfcControllerType obj)
+        {
+            return obj == null ? -1 : obj.GetHashCode();
+        }
+        #endregion
 	}
 }

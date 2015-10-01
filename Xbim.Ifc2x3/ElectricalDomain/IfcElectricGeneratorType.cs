@@ -20,7 +20,7 @@ namespace Xbim.Ifc2x3.ElectricalDomain
 {
 	[ExpressType("IFCELECTRICGENERATORTYPE", 241)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcElectricGeneratorType : IfcEnergyConversionDeviceType, IInstantiableEntity
+	public  partial class @IfcElectricGeneratorType : IfcEnergyConversionDeviceType, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcElectricGeneratorType>, System.IEquatable<@IfcElectricGeneratorType>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcElectricGeneratorType(IModel model) : base(model) 		{ 
@@ -82,5 +82,60 @@ namespace Xbim.Ifc2x3.ElectricalDomain
 			return "";
 		}
 		#endregion
+
+		#region Equality comparers and operators
+        public bool Equals(@IfcElectricGeneratorType other)
+	    {
+	        return this == other;
+	    }
+
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcElectricGeneratorType
+            var root = (@IfcElectricGeneratorType)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
+
+        public static bool operator ==(@IfcElectricGeneratorType left, @IfcElectricGeneratorType right)
+        {
+            // If both are null, or both are same instance, return true.
+            if (ReferenceEquals(left, right))
+                return true;
+
+            // If one is null, but not both, return false.
+            if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
+                return false;
+
+            return (left.EntityLabel == right.EntityLabel) && (left.Model == right.Model);
+
+        }
+
+        public static bool operator !=(@IfcElectricGeneratorType left, @IfcElectricGeneratorType right)
+        {
+            return !(left == right);
+        }
+
+
+        public bool Equals(@IfcElectricGeneratorType x, @IfcElectricGeneratorType y)
+        {
+            return x == y;
+        }
+
+        public int GetHashCode(@IfcElectricGeneratorType obj)
+        {
+            return obj == null ? -1 : obj.GetHashCode();
+        }
+        #endregion
 	}
 }

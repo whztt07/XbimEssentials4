@@ -18,7 +18,7 @@ namespace Xbim.Ifc4.ExternalReferenceResource
 	[IndexedClass]
 	[ExpressType("IFCCLASSIFICATIONREFERENCE", 486)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcClassificationReference : IfcExternalReference, IfcClassificationReferenceSelect, IfcClassificationSelect, IInstantiableEntity
+	public  partial class @IfcClassificationReference : IfcExternalReference, IfcClassificationReferenceSelect, IfcClassificationSelect, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcClassificationReference>, System.IEquatable<@IfcClassificationReference>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcClassificationReference(IModel model) : base(model) 		{ 
@@ -135,5 +135,60 @@ namespace Xbim.Ifc4.ExternalReferenceResource
 			return "";
 		}
 		#endregion
+
+		#region Equality comparers and operators
+        public bool Equals(@IfcClassificationReference other)
+	    {
+	        return this == other;
+	    }
+
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcClassificationReference
+            var root = (@IfcClassificationReference)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
+
+        public static bool operator ==(@IfcClassificationReference left, @IfcClassificationReference right)
+        {
+            // If both are null, or both are same instance, return true.
+            if (ReferenceEquals(left, right))
+                return true;
+
+            // If one is null, but not both, return false.
+            if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
+                return false;
+
+            return (left.EntityLabel == right.EntityLabel) && (left.Model == right.Model);
+
+        }
+
+        public static bool operator !=(@IfcClassificationReference left, @IfcClassificationReference right)
+        {
+            return !(left == right);
+        }
+
+
+        public bool Equals(@IfcClassificationReference x, @IfcClassificationReference y)
+        {
+            return x == y;
+        }
+
+        public int GetHashCode(@IfcClassificationReference obj)
+        {
+            return obj == null ? -1 : obj.GetHashCode();
+        }
+        #endregion
 	}
 }

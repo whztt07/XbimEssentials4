@@ -18,7 +18,7 @@ namespace Xbim.CobieExpress
 	[IndexedClass]
 	[ExpressType("WARRANTY", 23)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @CobieWarranty : IPersistEntity, INotifyPropertyChanged, IInstantiableEntity
+	public  partial class @CobieWarranty : IPersistEntity, INotifyPropertyChanged, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@CobieWarranty>, System.IEquatable<@CobieWarranty>
 	{
 		#region Implementation of IPersistEntity
 		public int EntityLabel {get; internal set;}
@@ -244,5 +244,60 @@ namespace Xbim.CobieExpress
 			return "";
 		}
 		#endregion
+
+		#region Equality comparers and operators
+        public bool Equals(@CobieWarranty other)
+	    {
+	        return this == other;
+	    }
+
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @CobieWarranty
+            var root = (@CobieWarranty)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
+
+        public static bool operator ==(@CobieWarranty left, @CobieWarranty right)
+        {
+            // If both are null, or both are same instance, return true.
+            if (ReferenceEquals(left, right))
+                return true;
+
+            // If one is null, but not both, return false.
+            if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
+                return false;
+
+            return (left.EntityLabel == right.EntityLabel) && (left.Model == right.Model);
+
+        }
+
+        public static bool operator !=(@CobieWarranty left, @CobieWarranty right)
+        {
+            return !(left == right);
+        }
+
+
+        public bool Equals(@CobieWarranty x, @CobieWarranty y)
+        {
+            return x == y;
+        }
+
+        public int GetHashCode(@CobieWarranty obj)
+        {
+            return obj == null ? -1 : obj.GetHashCode();
+        }
+        #endregion
 	}
 }

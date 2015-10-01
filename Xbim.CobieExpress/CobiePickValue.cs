@@ -18,7 +18,7 @@ namespace Xbim.CobieExpress
 	[IndexedClass]
 	[ExpressType("PICKVALUE", 8)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @CobiePickValue : IPersistEntity, INotifyPropertyChanged, IInstantiableEntity
+	public  partial class @CobiePickValue : IPersistEntity, INotifyPropertyChanged, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@CobiePickValue>, System.IEquatable<@CobiePickValue>
 	{
 		#region Implementation of IPersistEntity
 		public int EntityLabel {get; internal set;}
@@ -161,5 +161,60 @@ namespace Xbim.CobieExpress
 			return "";
 		}
 		#endregion
+
+		#region Equality comparers and operators
+        public bool Equals(@CobiePickValue other)
+	    {
+	        return this == other;
+	    }
+
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @CobiePickValue
+            var root = (@CobiePickValue)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
+
+        public static bool operator ==(@CobiePickValue left, @CobiePickValue right)
+        {
+            // If both are null, or both are same instance, return true.
+            if (ReferenceEquals(left, right))
+                return true;
+
+            // If one is null, but not both, return false.
+            if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
+                return false;
+
+            return (left.EntityLabel == right.EntityLabel) && (left.Model == right.Model);
+
+        }
+
+        public static bool operator !=(@CobiePickValue left, @CobiePickValue right)
+        {
+            return !(left == right);
+        }
+
+
+        public bool Equals(@CobiePickValue x, @CobiePickValue y)
+        {
+            return x == y;
+        }
+
+        public int GetHashCode(@CobiePickValue obj)
+        {
+            return obj == null ? -1 : obj.GetHashCode();
+        }
+        #endregion
 	}
 }

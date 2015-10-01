@@ -21,7 +21,7 @@ namespace Xbim.Ifc2x3.RepresentationResource
 	[IndexedClass]
 	[ExpressType("IFCREPRESENTATION", 87)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcRepresentation : IPersistEntity, INotifyPropertyChanged, IfcLayeredItem, IInstantiableEntity
+	public  partial class @IfcRepresentation : IPersistEntity, INotifyPropertyChanged, IfcLayeredItem, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcRepresentation>, System.IEquatable<@IfcRepresentation>
 	{
 		#region Implementation of IPersistEntity
 		public int EntityLabel {get; internal set;}
@@ -230,5 +230,60 @@ namespace Xbim.Ifc2x3.RepresentationResource
 			return "";
 		}
 		#endregion
+
+		#region Equality comparers and operators
+        public bool Equals(@IfcRepresentation other)
+	    {
+	        return this == other;
+	    }
+
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcRepresentation
+            var root = (@IfcRepresentation)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
+
+        public static bool operator ==(@IfcRepresentation left, @IfcRepresentation right)
+        {
+            // If both are null, or both are same instance, return true.
+            if (ReferenceEquals(left, right))
+                return true;
+
+            // If one is null, but not both, return false.
+            if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
+                return false;
+
+            return (left.EntityLabel == right.EntityLabel) && (left.Model == right.Model);
+
+        }
+
+        public static bool operator !=(@IfcRepresentation left, @IfcRepresentation right)
+        {
+            return !(left == right);
+        }
+
+
+        public bool Equals(@IfcRepresentation x, @IfcRepresentation y)
+        {
+            return x == y;
+        }
+
+        public int GetHashCode(@IfcRepresentation obj)
+        {
+            return obj == null ? -1 : obj.GetHashCode();
+        }
+        #endregion
 	}
 }

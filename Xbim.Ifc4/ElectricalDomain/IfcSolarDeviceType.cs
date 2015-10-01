@@ -20,7 +20,7 @@ namespace Xbim.Ifc4.ElectricalDomain
 {
 	[ExpressType("IFCSOLARDEVICETYPE", 991)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcSolarDeviceType : IfcEnergyConversionDeviceType, IInstantiableEntity
+	public  partial class @IfcSolarDeviceType : IfcEnergyConversionDeviceType, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcSolarDeviceType>, System.IEquatable<@IfcSolarDeviceType>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcSolarDeviceType(IModel model) : base(model) 		{ 
@@ -83,5 +83,60 @@ namespace Xbim.Ifc4.ElectricalDomain
 		/*CorrectPredefinedType:                              ((PredefinedType = IfcSolarDeviceTypeEnum.USERDEFINED) AND EXISTS(SELF\IfcElementType.ElementType));*/
 		}
 		#endregion
+
+		#region Equality comparers and operators
+        public bool Equals(@IfcSolarDeviceType other)
+	    {
+	        return this == other;
+	    }
+
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcSolarDeviceType
+            var root = (@IfcSolarDeviceType)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
+
+        public static bool operator ==(@IfcSolarDeviceType left, @IfcSolarDeviceType right)
+        {
+            // If both are null, or both are same instance, return true.
+            if (ReferenceEquals(left, right))
+                return true;
+
+            // If one is null, but not both, return false.
+            if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
+                return false;
+
+            return (left.EntityLabel == right.EntityLabel) && (left.Model == right.Model);
+
+        }
+
+        public static bool operator !=(@IfcSolarDeviceType left, @IfcSolarDeviceType right)
+        {
+            return !(left == right);
+        }
+
+
+        public bool Equals(@IfcSolarDeviceType x, @IfcSolarDeviceType y)
+        {
+            return x == y;
+        }
+
+        public int GetHashCode(@IfcSolarDeviceType obj)
+        {
+            return obj == null ? -1 : obj.GetHashCode();
+        }
+        #endregion
 	}
 }

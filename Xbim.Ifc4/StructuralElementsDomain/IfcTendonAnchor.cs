@@ -19,7 +19,7 @@ namespace Xbim.Ifc4.StructuralElementsDomain
 {
 	[ExpressType("IFCTENDONANCHOR", 1087)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcTendonAnchor : IfcReinforcingElement, IInstantiableEntity
+	public  partial class @IfcTendonAnchor : IfcReinforcingElement, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcTendonAnchor>, System.IEquatable<@IfcTendonAnchor>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcTendonAnchor(IModel model) : base(model) 		{ 
@@ -83,5 +83,60 @@ namespace Xbim.Ifc4.StructuralElementsDomain
 		/*CorrectTypeAssigned:                              ('IFC4.IFCTENDONANCHORTYPE' IN TYPEOF(SELF\IfcObject.IsTypedBy[1].RelatingType));*/
 		}
 		#endregion
+
+		#region Equality comparers and operators
+        public bool Equals(@IfcTendonAnchor other)
+	    {
+	        return this == other;
+	    }
+
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcTendonAnchor
+            var root = (@IfcTendonAnchor)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
+
+        public static bool operator ==(@IfcTendonAnchor left, @IfcTendonAnchor right)
+        {
+            // If both are null, or both are same instance, return true.
+            if (ReferenceEquals(left, right))
+                return true;
+
+            // If one is null, but not both, return false.
+            if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
+                return false;
+
+            return (left.EntityLabel == right.EntityLabel) && (left.Model == right.Model);
+
+        }
+
+        public static bool operator !=(@IfcTendonAnchor left, @IfcTendonAnchor right)
+        {
+            return !(left == right);
+        }
+
+
+        public bool Equals(@IfcTendonAnchor x, @IfcTendonAnchor y)
+        {
+            return x == y;
+        }
+
+        public int GetHashCode(@IfcTendonAnchor obj)
+        {
+            return obj == null ? -1 : obj.GetHashCode();
+        }
+        #endregion
 	}
 }

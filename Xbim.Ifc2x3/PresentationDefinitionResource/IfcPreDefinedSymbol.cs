@@ -15,7 +15,7 @@ namespace Xbim.Ifc2x3.PresentationDefinitionResource
 {
 	[ExpressType("IFCPREDEFINEDSYMBOL", 568)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public abstract partial class @IfcPreDefinedSymbol : IfcPreDefinedItem, IfcDefinedSymbolSelect
+	public abstract partial class @IfcPreDefinedSymbol : IfcPreDefinedItem, IfcDefinedSymbolSelect, System.Collections.Generic.IEqualityComparer<@IfcPreDefinedSymbol>, System.IEquatable<@IfcPreDefinedSymbol>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcPreDefinedSymbol(IModel model) : base(model) 		{ 
@@ -43,5 +43,60 @@ namespace Xbim.Ifc2x3.PresentationDefinitionResource
 			return "";
 		}
 		#endregion
+
+		#region Equality comparers and operators
+        public bool Equals(@IfcPreDefinedSymbol other)
+	    {
+	        return this == other;
+	    }
+
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcPreDefinedSymbol
+            var root = (@IfcPreDefinedSymbol)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
+
+        public static bool operator ==(@IfcPreDefinedSymbol left, @IfcPreDefinedSymbol right)
+        {
+            // If both are null, or both are same instance, return true.
+            if (ReferenceEquals(left, right))
+                return true;
+
+            // If one is null, but not both, return false.
+            if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
+                return false;
+
+            return (left.EntityLabel == right.EntityLabel) && (left.Model == right.Model);
+
+        }
+
+        public static bool operator !=(@IfcPreDefinedSymbol left, @IfcPreDefinedSymbol right)
+        {
+            return !(left == right);
+        }
+
+
+        public bool Equals(@IfcPreDefinedSymbol x, @IfcPreDefinedSymbol y)
+        {
+            return x == y;
+        }
+
+        public int GetHashCode(@IfcPreDefinedSymbol obj)
+        {
+            return obj == null ? -1 : obj.GetHashCode();
+        }
+        #endregion
 	}
 }

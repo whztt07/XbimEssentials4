@@ -16,7 +16,7 @@ namespace Xbim.Ifc4.StructuralLoadResource
 {
 	[ExpressType("IFCSTRUCTURALLOADSINGLEDISPLACEMENTDISTORTION", 1030)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcStructuralLoadSingleDisplacementDistortion : IfcStructuralLoadSingleDisplacement, IInstantiableEntity
+	public  partial class @IfcStructuralLoadSingleDisplacementDistortion : IfcStructuralLoadSingleDisplacement, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcStructuralLoadSingleDisplacementDistortion>, System.IEquatable<@IfcStructuralLoadSingleDisplacementDistortion>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcStructuralLoadSingleDisplacementDistortion(IModel model) : base(model) 		{ 
@@ -76,5 +76,60 @@ namespace Xbim.Ifc4.StructuralLoadResource
 			return "";
 		}
 		#endregion
+
+		#region Equality comparers and operators
+        public bool Equals(@IfcStructuralLoadSingleDisplacementDistortion other)
+	    {
+	        return this == other;
+	    }
+
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcStructuralLoadSingleDisplacementDistortion
+            var root = (@IfcStructuralLoadSingleDisplacementDistortion)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
+
+        public static bool operator ==(@IfcStructuralLoadSingleDisplacementDistortion left, @IfcStructuralLoadSingleDisplacementDistortion right)
+        {
+            // If both are null, or both are same instance, return true.
+            if (ReferenceEquals(left, right))
+                return true;
+
+            // If one is null, but not both, return false.
+            if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
+                return false;
+
+            return (left.EntityLabel == right.EntityLabel) && (left.Model == right.Model);
+
+        }
+
+        public static bool operator !=(@IfcStructuralLoadSingleDisplacementDistortion left, @IfcStructuralLoadSingleDisplacementDistortion right)
+        {
+            return !(left == right);
+        }
+
+
+        public bool Equals(@IfcStructuralLoadSingleDisplacementDistortion x, @IfcStructuralLoadSingleDisplacementDistortion y)
+        {
+            return x == y;
+        }
+
+        public int GetHashCode(@IfcStructuralLoadSingleDisplacementDistortion obj)
+        {
+            return obj == null ? -1 : obj.GetHashCode();
+        }
+        #endregion
 	}
 }

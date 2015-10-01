@@ -15,7 +15,7 @@ namespace Xbim.Ifc4.TopologyResource
 {
 	[ExpressType("IFCORIENTEDEDGE", 786)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcOrientedEdge : IfcEdge, IInstantiableEntity
+	public  partial class @IfcOrientedEdge : IfcEdge, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcOrientedEdge>, System.IEquatable<@IfcOrientedEdge>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcOrientedEdge(IModel model) : base(model) 		{ 
@@ -92,5 +92,60 @@ namespace Xbim.Ifc4.TopologyResource
 		/*EdgeElementNotOriented:	EdgeElementNotOriented : NOT('IFC4.IFCORIENTEDEDGE' IN TYPEOF(EdgeElement));*/
 		}
 		#endregion
+
+		#region Equality comparers and operators
+        public bool Equals(@IfcOrientedEdge other)
+	    {
+	        return this == other;
+	    }
+
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcOrientedEdge
+            var root = (@IfcOrientedEdge)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
+
+        public static bool operator ==(@IfcOrientedEdge left, @IfcOrientedEdge right)
+        {
+            // If both are null, or both are same instance, return true.
+            if (ReferenceEquals(left, right))
+                return true;
+
+            // If one is null, but not both, return false.
+            if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
+                return false;
+
+            return (left.EntityLabel == right.EntityLabel) && (left.Model == right.Model);
+
+        }
+
+        public static bool operator !=(@IfcOrientedEdge left, @IfcOrientedEdge right)
+        {
+            return !(left == right);
+        }
+
+
+        public bool Equals(@IfcOrientedEdge x, @IfcOrientedEdge y)
+        {
+            return x == y;
+        }
+
+        public int GetHashCode(@IfcOrientedEdge obj)
+        {
+            return obj == null ? -1 : obj.GetHashCode();
+        }
+        #endregion
 	}
 }

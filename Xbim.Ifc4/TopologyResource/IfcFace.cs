@@ -16,7 +16,7 @@ namespace Xbim.Ifc4.TopologyResource
 {
 	[ExpressType("IFCFACE", 642)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcFace : IfcTopologicalRepresentationItem, IInstantiableEntity
+	public  partial class @IfcFace : IfcTopologicalRepresentationItem, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcFace>, System.IEquatable<@IfcFace>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcFace(IModel model) : base(model) 		{ 
@@ -76,5 +76,60 @@ namespace Xbim.Ifc4.TopologyResource
 		/*HasOuterBound:	HasOuterBound : SIZEOF(QUERY(temp <* Bounds | 'IFC4.IFCFACEOUTERBOUND' IN TYPEOF(temp))) <= 1;*/
 		}
 		#endregion
+
+		#region Equality comparers and operators
+        public bool Equals(@IfcFace other)
+	    {
+	        return this == other;
+	    }
+
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcFace
+            var root = (@IfcFace)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
+
+        public static bool operator ==(@IfcFace left, @IfcFace right)
+        {
+            // If both are null, or both are same instance, return true.
+            if (ReferenceEquals(left, right))
+                return true;
+
+            // If one is null, but not both, return false.
+            if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
+                return false;
+
+            return (left.EntityLabel == right.EntityLabel) && (left.Model == right.Model);
+
+        }
+
+        public static bool operator !=(@IfcFace left, @IfcFace right)
+        {
+            return !(left == right);
+        }
+
+
+        public bool Equals(@IfcFace x, @IfcFace y)
+        {
+            return x == y;
+        }
+
+        public int GetHashCode(@IfcFace obj)
+        {
+            return obj == null ? -1 : obj.GetHashCode();
+        }
+        #endregion
 	}
 }

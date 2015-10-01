@@ -62,6 +62,7 @@
     <Compile Include="IfcHeaderTests.cs" />
     <Compile Include="ModelFilterTest.cs" />
     <Compile Include="BasicModelTests.cs" />
+    <Compile Include="EqualityTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Xbim.Common\Xbim.Common.csproj">

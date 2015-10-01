@@ -20,7 +20,7 @@ namespace Xbim.Ifc4.StructuralAnalysisDomain
 {
 	[ExpressType("IFCSTRUCTURALCURVEREACTION", 1019)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcStructuralCurveReaction : IfcStructuralReaction, IInstantiableEntity
+	public  partial class @IfcStructuralCurveReaction : IfcStructuralReaction, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcStructuralCurveReaction>, System.IEquatable<@IfcStructuralCurveReaction>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcStructuralCurveReaction(IModel model) : base(model) 		{ 
@@ -84,5 +84,60 @@ namespace Xbim.Ifc4.StructuralAnalysisDomain
 		/*SuitablePredefinedType:	SuitablePredefinedType : (PredefinedType <> IfcStructuralCurveActivityTypeEnum.SINUS) AND (PredefinedType <> IfcStructuralCurveActivityTypeEnum.PARABOLA);*/
 		}
 		#endregion
+
+		#region Equality comparers and operators
+        public bool Equals(@IfcStructuralCurveReaction other)
+	    {
+	        return this == other;
+	    }
+
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcStructuralCurveReaction
+            var root = (@IfcStructuralCurveReaction)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
+
+        public static bool operator ==(@IfcStructuralCurveReaction left, @IfcStructuralCurveReaction right)
+        {
+            // If both are null, or both are same instance, return true.
+            if (ReferenceEquals(left, right))
+                return true;
+
+            // If one is null, but not both, return false.
+            if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
+                return false;
+
+            return (left.EntityLabel == right.EntityLabel) && (left.Model == right.Model);
+
+        }
+
+        public static bool operator !=(@IfcStructuralCurveReaction left, @IfcStructuralCurveReaction right)
+        {
+            return !(left == right);
+        }
+
+
+        public bool Equals(@IfcStructuralCurveReaction x, @IfcStructuralCurveReaction y)
+        {
+            return x == y;
+        }
+
+        public int GetHashCode(@IfcStructuralCurveReaction obj)
+        {
+            return obj == null ? -1 : obj.GetHashCode();
+        }
+        #endregion
 	}
 }

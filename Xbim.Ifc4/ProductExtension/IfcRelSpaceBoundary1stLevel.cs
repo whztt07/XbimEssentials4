@@ -18,7 +18,7 @@ namespace Xbim.Ifc4.ProductExtension
 {
 	[ExpressType("IFCRELSPACEBOUNDARY1STLEVEL", 945)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcRelSpaceBoundary1stLevel : IfcRelSpaceBoundary, IInstantiableEntity
+	public  partial class @IfcRelSpaceBoundary1stLevel : IfcRelSpaceBoundary, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcRelSpaceBoundary1stLevel>, System.IEquatable<@IfcRelSpaceBoundary1stLevel>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcRelSpaceBoundary1stLevel(IModel model) : base(model) 		{ 
@@ -91,5 +91,60 @@ namespace Xbim.Ifc4.ProductExtension
 			return "";
 		}
 		#endregion
+
+		#region Equality comparers and operators
+        public bool Equals(@IfcRelSpaceBoundary1stLevel other)
+	    {
+	        return this == other;
+	    }
+
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcRelSpaceBoundary1stLevel
+            var root = (@IfcRelSpaceBoundary1stLevel)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
+
+        public static bool operator ==(@IfcRelSpaceBoundary1stLevel left, @IfcRelSpaceBoundary1stLevel right)
+        {
+            // If both are null, or both are same instance, return true.
+            if (ReferenceEquals(left, right))
+                return true;
+
+            // If one is null, but not both, return false.
+            if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
+                return false;
+
+            return (left.EntityLabel == right.EntityLabel) && (left.Model == right.Model);
+
+        }
+
+        public static bool operator !=(@IfcRelSpaceBoundary1stLevel left, @IfcRelSpaceBoundary1stLevel right)
+        {
+            return !(left == right);
+        }
+
+
+        public bool Equals(@IfcRelSpaceBoundary1stLevel x, @IfcRelSpaceBoundary1stLevel y)
+        {
+            return x == y;
+        }
+
+        public int GetHashCode(@IfcRelSpaceBoundary1stLevel obj)
+        {
+            return obj == null ? -1 : obj.GetHashCode();
+        }
+        #endregion
 	}
 }

@@ -22,7 +22,7 @@ namespace Xbim.Ifc4.ConstraintResource
 	[IndexedClass]
 	[ExpressType("IFCCONSTRAINT", 516)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public abstract partial class @IfcConstraint : IPersistEntity, INotifyPropertyChanged, IfcResourceObjectSelect
+	public abstract partial class @IfcConstraint : IPersistEntity, INotifyPropertyChanged, IfcResourceObjectSelect, System.Collections.Generic.IEqualityComparer<@IfcConstraint>, System.IEquatable<@IfcConstraint>
 	{
 		#region Implementation of IPersistEntity
 		public int EntityLabel {get; internal set;}
@@ -288,5 +288,60 @@ namespace Xbim.Ifc4.ConstraintResource
 		/*WR11:             ((ConstraintGrade = IfcConstraintEnum.USERDEFINED) AND EXISTS(SELF\IfcConstraint.UserDefinedGrade));*/
 		}
 		#endregion
+
+		#region Equality comparers and operators
+        public bool Equals(@IfcConstraint other)
+	    {
+	        return this == other;
+	    }
+
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcConstraint
+            var root = (@IfcConstraint)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
+
+        public static bool operator ==(@IfcConstraint left, @IfcConstraint right)
+        {
+            // If both are null, or both are same instance, return true.
+            if (ReferenceEquals(left, right))
+                return true;
+
+            // If one is null, but not both, return false.
+            if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
+                return false;
+
+            return (left.EntityLabel == right.EntityLabel) && (left.Model == right.Model);
+
+        }
+
+        public static bool operator !=(@IfcConstraint left, @IfcConstraint right)
+        {
+            return !(left == right);
+        }
+
+
+        public bool Equals(@IfcConstraint x, @IfcConstraint y)
+        {
+            return x == y;
+        }
+
+        public int GetHashCode(@IfcConstraint obj)
+        {
+            return obj == null ? -1 : obj.GetHashCode();
+        }
+        #endregion
 	}
 }

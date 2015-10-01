@@ -19,7 +19,7 @@ namespace Xbim.Ifc2x3.ApprovalResource
 	[IndexedClass]
 	[ExpressType("IFCAPPROVALACTORRELATIONSHIP", 442)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcApprovalActorRelationship : IPersistEntity, INotifyPropertyChanged, IInstantiableEntity
+	public  partial class @IfcApprovalActorRelationship : IPersistEntity, INotifyPropertyChanged, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcApprovalActorRelationship>, System.IEquatable<@IfcApprovalActorRelationship>
 	{
 		#region Implementation of IPersistEntity
 		public int EntityLabel {get; internal set;}
@@ -183,5 +183,60 @@ namespace Xbim.Ifc2x3.ApprovalResource
 			return "";
 		}
 		#endregion
+
+		#region Equality comparers and operators
+        public bool Equals(@IfcApprovalActorRelationship other)
+	    {
+	        return this == other;
+	    }
+
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcApprovalActorRelationship
+            var root = (@IfcApprovalActorRelationship)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
+
+        public static bool operator ==(@IfcApprovalActorRelationship left, @IfcApprovalActorRelationship right)
+        {
+            // If both are null, or both are same instance, return true.
+            if (ReferenceEquals(left, right))
+                return true;
+
+            // If one is null, but not both, return false.
+            if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
+                return false;
+
+            return (left.EntityLabel == right.EntityLabel) && (left.Model == right.Model);
+
+        }
+
+        public static bool operator !=(@IfcApprovalActorRelationship left, @IfcApprovalActorRelationship right)
+        {
+            return !(left == right);
+        }
+
+
+        public bool Equals(@IfcApprovalActorRelationship x, @IfcApprovalActorRelationship y)
+        {
+            return x == y;
+        }
+
+        public int GetHashCode(@IfcApprovalActorRelationship obj)
+        {
+            return obj == null ? -1 : obj.GetHashCode();
+        }
+        #endregion
 	}
 }

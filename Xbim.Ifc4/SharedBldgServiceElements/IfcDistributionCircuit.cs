@@ -17,7 +17,7 @@ namespace Xbim.Ifc4.SharedBldgServiceElements
 {
 	[ExpressType("IFCDISTRIBUTIONCIRCUIT", 569)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcDistributionCircuit : IfcDistributionSystem, IInstantiableEntity
+	public  partial class @IfcDistributionCircuit : IfcDistributionSystem, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcDistributionCircuit>, System.IEquatable<@IfcDistributionCircuit>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcDistributionCircuit(IModel model) : base(model) 		{ 
@@ -51,5 +51,60 @@ namespace Xbim.Ifc4.SharedBldgServiceElements
 			return "";
 		}
 		#endregion
+
+		#region Equality comparers and operators
+        public bool Equals(@IfcDistributionCircuit other)
+	    {
+	        return this == other;
+	    }
+
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcDistributionCircuit
+            var root = (@IfcDistributionCircuit)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
+
+        public static bool operator ==(@IfcDistributionCircuit left, @IfcDistributionCircuit right)
+        {
+            // If both are null, or both are same instance, return true.
+            if (ReferenceEquals(left, right))
+                return true;
+
+            // If one is null, but not both, return false.
+            if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
+                return false;
+
+            return (left.EntityLabel == right.EntityLabel) && (left.Model == right.Model);
+
+        }
+
+        public static bool operator !=(@IfcDistributionCircuit left, @IfcDistributionCircuit right)
+        {
+            return !(left == right);
+        }
+
+
+        public bool Equals(@IfcDistributionCircuit x, @IfcDistributionCircuit y)
+        {
+            return x == y;
+        }
+
+        public int GetHashCode(@IfcDistributionCircuit obj)
+        {
+            return obj == null ? -1 : obj.GetHashCode();
+        }
+        #endregion
 	}
 }

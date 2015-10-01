@@ -20,7 +20,7 @@ namespace Xbim.Ifc2x3.SharedBldgElements
 {
 	[ExpressType("IFCMEMBERTYPE", 601)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcMemberType : IfcBuildingElementType, IInstantiableEntity
+	public  partial class @IfcMemberType : IfcBuildingElementType, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcMemberType>, System.IEquatable<@IfcMemberType>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcMemberType(IModel model) : base(model) 		{ 
@@ -82,5 +82,60 @@ namespace Xbim.Ifc2x3.SharedBldgElements
 			return "";
 		}
 		#endregion
+
+		#region Equality comparers and operators
+        public bool Equals(@IfcMemberType other)
+	    {
+	        return this == other;
+	    }
+
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcMemberType
+            var root = (@IfcMemberType)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
+
+        public static bool operator ==(@IfcMemberType left, @IfcMemberType right)
+        {
+            // If both are null, or both are same instance, return true.
+            if (ReferenceEquals(left, right))
+                return true;
+
+            // If one is null, but not both, return false.
+            if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
+                return false;
+
+            return (left.EntityLabel == right.EntityLabel) && (left.Model == right.Model);
+
+        }
+
+        public static bool operator !=(@IfcMemberType left, @IfcMemberType right)
+        {
+            return !(left == right);
+        }
+
+
+        public bool Equals(@IfcMemberType x, @IfcMemberType y)
+        {
+            return x == y;
+        }
+
+        public int GetHashCode(@IfcMemberType obj)
+        {
+            return obj == null ? -1 : obj.GetHashCode();
+        }
+        #endregion
 	}
 }

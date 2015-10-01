@@ -18,7 +18,7 @@ namespace Xbim.Ifc4.ControlExtension
 {
 	[ExpressType("IFCPERFORMANCEHISTORY", 794)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcPerformanceHistory : IfcControl, IInstantiableEntity
+	public  partial class @IfcPerformanceHistory : IfcControl, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcPerformanceHistory>, System.IEquatable<@IfcPerformanceHistory>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcPerformanceHistory(IModel model) : base(model) 		{ 
@@ -98,5 +98,60 @@ namespace Xbim.Ifc4.ControlExtension
 			return "";
 		}
 		#endregion
+
+		#region Equality comparers and operators
+        public bool Equals(@IfcPerformanceHistory other)
+	    {
+	        return this == other;
+	    }
+
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcPerformanceHistory
+            var root = (@IfcPerformanceHistory)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
+
+        public static bool operator ==(@IfcPerformanceHistory left, @IfcPerformanceHistory right)
+        {
+            // If both are null, or both are same instance, return true.
+            if (ReferenceEquals(left, right))
+                return true;
+
+            // If one is null, but not both, return false.
+            if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
+                return false;
+
+            return (left.EntityLabel == right.EntityLabel) && (left.Model == right.Model);
+
+        }
+
+        public static bool operator !=(@IfcPerformanceHistory left, @IfcPerformanceHistory right)
+        {
+            return !(left == right);
+        }
+
+
+        public bool Equals(@IfcPerformanceHistory x, @IfcPerformanceHistory y)
+        {
+            return x == y;
+        }
+
+        public int GetHashCode(@IfcPerformanceHistory obj)
+        {
+            return obj == null ? -1 : obj.GetHashCode();
+        }
+        #endregion
 	}
 }

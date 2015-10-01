@@ -18,7 +18,7 @@ namespace Xbim.Ifc2x3.ConstraintResource
 {
 	[ExpressType("IFCOBJECTIVE", 518)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcObjective : IfcConstraint, IInstantiableEntity
+	public  partial class @IfcObjective : IfcConstraint, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcObjective>, System.IEquatable<@IfcObjective>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcObjective(IModel model) : base(model) 		{ 
@@ -142,5 +142,60 @@ namespace Xbim.Ifc2x3.ConstraintResource
 		/*WR21:             ((ObjectiveQualifier = IfcObjectiveEnum.USERDEFINED) AND EXISTS(SELF\IfcObjective.UserDefinedQualifier));*/
 		}
 		#endregion
+
+		#region Equality comparers and operators
+        public bool Equals(@IfcObjective other)
+	    {
+	        return this == other;
+	    }
+
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcObjective
+            var root = (@IfcObjective)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
+
+        public static bool operator ==(@IfcObjective left, @IfcObjective right)
+        {
+            // If both are null, or both are same instance, return true.
+            if (ReferenceEquals(left, right))
+                return true;
+
+            // If one is null, but not both, return false.
+            if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
+                return false;
+
+            return (left.EntityLabel == right.EntityLabel) && (left.Model == right.Model);
+
+        }
+
+        public static bool operator !=(@IfcObjective left, @IfcObjective right)
+        {
+            return !(left == right);
+        }
+
+
+        public bool Equals(@IfcObjective x, @IfcObjective y)
+        {
+            return x == y;
+        }
+
+        public int GetHashCode(@IfcObjective obj)
+        {
+            return obj == null ? -1 : obj.GetHashCode();
+        }
+        #endregion
 	}
 }

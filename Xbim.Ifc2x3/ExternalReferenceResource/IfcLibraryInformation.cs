@@ -21,7 +21,7 @@ namespace Xbim.Ifc2x3.ExternalReferenceResource
 	[IndexedClass]
 	[ExpressType("IFCLIBRARYINFORMATION", 449)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcLibraryInformation : IPersistEntity, INotifyPropertyChanged, IfcLibrarySelect, IInstantiableEntity
+	public  partial class @IfcLibraryInformation : IPersistEntity, INotifyPropertyChanged, IfcLibrarySelect, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcLibraryInformation>, System.IEquatable<@IfcLibraryInformation>
 	{
 		#region Implementation of IPersistEntity
 		public int EntityLabel {get; internal set;}
@@ -225,5 +225,60 @@ namespace Xbim.Ifc2x3.ExternalReferenceResource
 			return "";
 		}
 		#endregion
+
+		#region Equality comparers and operators
+        public bool Equals(@IfcLibraryInformation other)
+	    {
+	        return this == other;
+	    }
+
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcLibraryInformation
+            var root = (@IfcLibraryInformation)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
+
+        public static bool operator ==(@IfcLibraryInformation left, @IfcLibraryInformation right)
+        {
+            // If both are null, or both are same instance, return true.
+            if (ReferenceEquals(left, right))
+                return true;
+
+            // If one is null, but not both, return false.
+            if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
+                return false;
+
+            return (left.EntityLabel == right.EntityLabel) && (left.Model == right.Model);
+
+        }
+
+        public static bool operator !=(@IfcLibraryInformation left, @IfcLibraryInformation right)
+        {
+            return !(left == right);
+        }
+
+
+        public bool Equals(@IfcLibraryInformation x, @IfcLibraryInformation y)
+        {
+            return x == y;
+        }
+
+        public int GetHashCode(@IfcLibraryInformation obj)
+        {
+            return obj == null ? -1 : obj.GetHashCode();
+        }
+        #endregion
 	}
 }

@@ -18,7 +18,7 @@ namespace Xbim.Ifc4.SharedMgmtElements
 {
 	[ExpressType("IFCPERMIT", 796)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcPermit : IfcControl, IInstantiableEntity
+	public  partial class @IfcPermit : IfcControl, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcPermit>, System.IEquatable<@IfcPermit>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcPermit(IModel model) : base(model) 		{ 
@@ -119,5 +119,60 @@ namespace Xbim.Ifc4.SharedMgmtElements
 			return "";
 		}
 		#endregion
+
+		#region Equality comparers and operators
+        public bool Equals(@IfcPermit other)
+	    {
+	        return this == other;
+	    }
+
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcPermit
+            var root = (@IfcPermit)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
+
+        public static bool operator ==(@IfcPermit left, @IfcPermit right)
+        {
+            // If both are null, or both are same instance, return true.
+            if (ReferenceEquals(left, right))
+                return true;
+
+            // If one is null, but not both, return false.
+            if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
+                return false;
+
+            return (left.EntityLabel == right.EntityLabel) && (left.Model == right.Model);
+
+        }
+
+        public static bool operator !=(@IfcPermit left, @IfcPermit right)
+        {
+            return !(left == right);
+        }
+
+
+        public bool Equals(@IfcPermit x, @IfcPermit y)
+        {
+            return x == y;
+        }
+
+        public int GetHashCode(@IfcPermit obj)
+        {
+            return obj == null ? -1 : obj.GetHashCode();
+        }
+        #endregion
 	}
 }

@@ -15,7 +15,7 @@ namespace Xbim.Ifc2x3.GeometryResource
 {
 	[ExpressType("IFC2DCOMPOSITECURVE", 524)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @Ifc2DCompositeCurve : IfcCompositeCurve, IInstantiableEntity
+	public  partial class @Ifc2DCompositeCurve : IfcCompositeCurve, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@Ifc2DCompositeCurve>, System.IEquatable<@Ifc2DCompositeCurve>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal Ifc2DCompositeCurve(IModel model) : base(model) 		{ 
@@ -46,5 +46,60 @@ namespace Xbim.Ifc2x3.GeometryResource
 		/*WR2:	WR2 : SELF\IfcCurve.Dim = 2;*/
 		}
 		#endregion
+
+		#region Equality comparers and operators
+        public bool Equals(@Ifc2DCompositeCurve other)
+	    {
+	        return this == other;
+	    }
+
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @Ifc2DCompositeCurve
+            var root = (@Ifc2DCompositeCurve)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
+
+        public static bool operator ==(@Ifc2DCompositeCurve left, @Ifc2DCompositeCurve right)
+        {
+            // If both are null, or both are same instance, return true.
+            if (ReferenceEquals(left, right))
+                return true;
+
+            // If one is null, but not both, return false.
+            if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
+                return false;
+
+            return (left.EntityLabel == right.EntityLabel) && (left.Model == right.Model);
+
+        }
+
+        public static bool operator !=(@Ifc2DCompositeCurve left, @Ifc2DCompositeCurve right)
+        {
+            return !(left == right);
+        }
+
+
+        public bool Equals(@Ifc2DCompositeCurve x, @Ifc2DCompositeCurve y)
+        {
+            return x == y;
+        }
+
+        public int GetHashCode(@Ifc2DCompositeCurve obj)
+        {
+            return obj == null ? -1 : obj.GetHashCode();
+        }
+        #endregion
 	}
 }

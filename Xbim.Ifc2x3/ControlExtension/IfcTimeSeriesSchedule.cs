@@ -20,7 +20,7 @@ namespace Xbim.Ifc2x3.ControlExtension
 {
 	[ExpressType("IFCTIMESERIESSCHEDULE", 712)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcTimeSeriesSchedule : IfcControl, IInstantiableEntity
+	public  partial class @IfcTimeSeriesSchedule : IfcControl, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcTimeSeriesSchedule>, System.IEquatable<@IfcTimeSeriesSchedule>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcTimeSeriesSchedule(IModel model) : base(model) 		{ 
@@ -119,5 +119,60 @@ namespace Xbim.Ifc2x3.ControlExtension
 		/*WR41:	WR41 : NOT(TimeSeriesScheduleType=IfcTimeSeriesScheduleTypeEnum.USERDEFINED) OR EXISTS(SELF\IfcObject.ObjectType);*/
 		}
 		#endregion
+
+		#region Equality comparers and operators
+        public bool Equals(@IfcTimeSeriesSchedule other)
+	    {
+	        return this == other;
+	    }
+
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcTimeSeriesSchedule
+            var root = (@IfcTimeSeriesSchedule)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
+
+        public static bool operator ==(@IfcTimeSeriesSchedule left, @IfcTimeSeriesSchedule right)
+        {
+            // If both are null, or both are same instance, return true.
+            if (ReferenceEquals(left, right))
+                return true;
+
+            // If one is null, but not both, return false.
+            if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
+                return false;
+
+            return (left.EntityLabel == right.EntityLabel) && (left.Model == right.Model);
+
+        }
+
+        public static bool operator !=(@IfcTimeSeriesSchedule left, @IfcTimeSeriesSchedule right)
+        {
+            return !(left == right);
+        }
+
+
+        public bool Equals(@IfcTimeSeriesSchedule x, @IfcTimeSeriesSchedule y)
+        {
+            return x == y;
+        }
+
+        public int GetHashCode(@IfcTimeSeriesSchedule obj)
+        {
+            return obj == null ? -1 : obj.GetHashCode();
+        }
+        #endregion
 	}
 }

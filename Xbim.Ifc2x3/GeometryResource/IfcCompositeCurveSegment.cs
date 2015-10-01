@@ -15,7 +15,7 @@ namespace Xbim.Ifc2x3.GeometryResource
 {
 	[ExpressType("IFCCOMPOSITECURVESEGMENT", 460)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcCompositeCurveSegment : IfcGeometricRepresentationItem, IInstantiableEntity
+	public  partial class @IfcCompositeCurveSegment : IfcGeometricRepresentationItem, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcCompositeCurveSegment>, System.IEquatable<@IfcCompositeCurveSegment>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcCompositeCurveSegment(IModel model) : base(model) 		{ 
@@ -119,5 +119,60 @@ namespace Xbim.Ifc2x3.GeometryResource
 		/*WR1:	WR1 : ('IFC2X3.IFCBOUNDEDCURVE' IN TYPEOF(ParentCurve));*/
 		}
 		#endregion
+
+		#region Equality comparers and operators
+        public bool Equals(@IfcCompositeCurveSegment other)
+	    {
+	        return this == other;
+	    }
+
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcCompositeCurveSegment
+            var root = (@IfcCompositeCurveSegment)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
+
+        public static bool operator ==(@IfcCompositeCurveSegment left, @IfcCompositeCurveSegment right)
+        {
+            // If both are null, or both are same instance, return true.
+            if (ReferenceEquals(left, right))
+                return true;
+
+            // If one is null, but not both, return false.
+            if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
+                return false;
+
+            return (left.EntityLabel == right.EntityLabel) && (left.Model == right.Model);
+
+        }
+
+        public static bool operator !=(@IfcCompositeCurveSegment left, @IfcCompositeCurveSegment right)
+        {
+            return !(left == right);
+        }
+
+
+        public bool Equals(@IfcCompositeCurveSegment x, @IfcCompositeCurveSegment y)
+        {
+            return x == y;
+        }
+
+        public int GetHashCode(@IfcCompositeCurveSegment obj)
+        {
+            return obj == null ? -1 : obj.GetHashCode();
+        }
+        #endregion
 	}
 }

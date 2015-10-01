@@ -20,7 +20,7 @@ namespace Xbim.Ifc2x3.ElectricalDomain
 {
 	[ExpressType("IFCOUTLETTYPE", 240)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcOutletType : IfcFlowTerminalType, IInstantiableEntity
+	public  partial class @IfcOutletType : IfcFlowTerminalType, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcOutletType>, System.IEquatable<@IfcOutletType>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcOutletType(IModel model) : base(model) 		{ 
@@ -82,5 +82,60 @@ namespace Xbim.Ifc2x3.ElectricalDomain
 			return "";
 		}
 		#endregion
+
+		#region Equality comparers and operators
+        public bool Equals(@IfcOutletType other)
+	    {
+	        return this == other;
+	    }
+
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcOutletType
+            var root = (@IfcOutletType)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
+
+        public static bool operator ==(@IfcOutletType left, @IfcOutletType right)
+        {
+            // If both are null, or both are same instance, return true.
+            if (ReferenceEquals(left, right))
+                return true;
+
+            // If one is null, but not both, return false.
+            if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
+                return false;
+
+            return (left.EntityLabel == right.EntityLabel) && (left.Model == right.Model);
+
+        }
+
+        public static bool operator !=(@IfcOutletType left, @IfcOutletType right)
+        {
+            return !(left == right);
+        }
+
+
+        public bool Equals(@IfcOutletType x, @IfcOutletType y)
+        {
+            return x == y;
+        }
+
+        public int GetHashCode(@IfcOutletType obj)
+        {
+            return obj == null ? -1 : obj.GetHashCode();
+        }
+        #endregion
 	}
 }

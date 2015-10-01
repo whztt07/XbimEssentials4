@@ -17,7 +17,7 @@ namespace Xbim.Ifc4.ProfileResource
 {
 	[ExpressType("IFCARBITRARYCLOSEDPROFILEDEF", 414)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcArbitraryClosedProfileDef : IfcProfileDef, IInstantiableEntity
+	public  partial class @IfcArbitraryClosedProfileDef : IfcProfileDef, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcArbitraryClosedProfileDef>, System.IEquatable<@IfcArbitraryClosedProfileDef>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcArbitraryClosedProfileDef(IModel model) : base(model) 		{ 
@@ -75,5 +75,60 @@ namespace Xbim.Ifc4.ProfileResource
 		/*WR3:	WR3 : NOT('IFC4.IFCOFFSETCURVE2D' IN TYPEOF(OuterCurve));*/
 		}
 		#endregion
+
+		#region Equality comparers and operators
+        public bool Equals(@IfcArbitraryClosedProfileDef other)
+	    {
+	        return this == other;
+	    }
+
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcArbitraryClosedProfileDef
+            var root = (@IfcArbitraryClosedProfileDef)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
+
+        public static bool operator ==(@IfcArbitraryClosedProfileDef left, @IfcArbitraryClosedProfileDef right)
+        {
+            // If both are null, or both are same instance, return true.
+            if (ReferenceEquals(left, right))
+                return true;
+
+            // If one is null, but not both, return false.
+            if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
+                return false;
+
+            return (left.EntityLabel == right.EntityLabel) && (left.Model == right.Model);
+
+        }
+
+        public static bool operator !=(@IfcArbitraryClosedProfileDef left, @IfcArbitraryClosedProfileDef right)
+        {
+            return !(left == right);
+        }
+
+
+        public bool Equals(@IfcArbitraryClosedProfileDef x, @IfcArbitraryClosedProfileDef y)
+        {
+            return x == y;
+        }
+
+        public int GetHashCode(@IfcArbitraryClosedProfileDef obj)
+        {
+            return obj == null ? -1 : obj.GetHashCode();
+        }
+        #endregion
 	}
 }

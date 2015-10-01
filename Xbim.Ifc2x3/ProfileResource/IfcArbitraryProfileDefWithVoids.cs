@@ -17,7 +17,7 @@ namespace Xbim.Ifc2x3.ProfileResource
 {
 	[ExpressType("IFCARBITRARYPROFILEDEFWITHVOIDS", 116)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcArbitraryProfileDefWithVoids : IfcArbitraryClosedProfileDef, IInstantiableEntity
+	public  partial class @IfcArbitraryProfileDefWithVoids : IfcArbitraryClosedProfileDef, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcArbitraryProfileDefWithVoids>, System.IEquatable<@IfcArbitraryProfileDefWithVoids>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcArbitraryProfileDefWithVoids(IModel model) : base(model) 		{ 
@@ -74,5 +74,60 @@ namespace Xbim.Ifc2x3.ProfileResource
 		/*WR3:	WR3 : SIZEOF(QUERY(temp <* InnerCurves | 'IFC2X3.IFCLINE' IN TYPEOF(temp))) = 0;*/
 		}
 		#endregion
+
+		#region Equality comparers and operators
+        public bool Equals(@IfcArbitraryProfileDefWithVoids other)
+	    {
+	        return this == other;
+	    }
+
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcArbitraryProfileDefWithVoids
+            var root = (@IfcArbitraryProfileDefWithVoids)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
+
+        public static bool operator ==(@IfcArbitraryProfileDefWithVoids left, @IfcArbitraryProfileDefWithVoids right)
+        {
+            // If both are null, or both are same instance, return true.
+            if (ReferenceEquals(left, right))
+                return true;
+
+            // If one is null, but not both, return false.
+            if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
+                return false;
+
+            return (left.EntityLabel == right.EntityLabel) && (left.Model == right.Model);
+
+        }
+
+        public static bool operator !=(@IfcArbitraryProfileDefWithVoids left, @IfcArbitraryProfileDefWithVoids right)
+        {
+            return !(left == right);
+        }
+
+
+        public bool Equals(@IfcArbitraryProfileDefWithVoids x, @IfcArbitraryProfileDefWithVoids y)
+        {
+            return x == y;
+        }
+
+        public int GetHashCode(@IfcArbitraryProfileDefWithVoids obj)
+        {
+            return obj == null ? -1 : obj.GetHashCode();
+        }
+        #endregion
 	}
 }

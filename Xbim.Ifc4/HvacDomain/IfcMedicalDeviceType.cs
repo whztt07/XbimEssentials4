@@ -20,7 +20,7 @@ namespace Xbim.Ifc4.HvacDomain
 {
 	[ExpressType("IFCMEDICALDEVICETYPE", 764)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcMedicalDeviceType : IfcFlowTerminalType, IInstantiableEntity
+	public  partial class @IfcMedicalDeviceType : IfcFlowTerminalType, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcMedicalDeviceType>, System.IEquatable<@IfcMedicalDeviceType>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcMedicalDeviceType(IModel model) : base(model) 		{ 
@@ -83,5 +83,60 @@ namespace Xbim.Ifc4.HvacDomain
 		/*CorrectPredefinedType:                              ((PredefinedType = IfcMedicalDeviceTypeEnum.USERDEFINED) AND EXISTS(SELF\IfcElementType.ElementType));*/
 		}
 		#endregion
+
+		#region Equality comparers and operators
+        public bool Equals(@IfcMedicalDeviceType other)
+	    {
+	        return this == other;
+	    }
+
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcMedicalDeviceType
+            var root = (@IfcMedicalDeviceType)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
+
+        public static bool operator ==(@IfcMedicalDeviceType left, @IfcMedicalDeviceType right)
+        {
+            // If both are null, or both are same instance, return true.
+            if (ReferenceEquals(left, right))
+                return true;
+
+            // If one is null, but not both, return false.
+            if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
+                return false;
+
+            return (left.EntityLabel == right.EntityLabel) && (left.Model == right.Model);
+
+        }
+
+        public static bool operator !=(@IfcMedicalDeviceType left, @IfcMedicalDeviceType right)
+        {
+            return !(left == right);
+        }
+
+
+        public bool Equals(@IfcMedicalDeviceType x, @IfcMedicalDeviceType y)
+        {
+            return x == y;
+        }
+
+        public int GetHashCode(@IfcMedicalDeviceType obj)
+        {
+            return obj == null ? -1 : obj.GetHashCode();
+        }
+        #endregion
 	}
 }

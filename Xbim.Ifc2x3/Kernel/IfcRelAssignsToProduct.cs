@@ -17,7 +17,7 @@ namespace Xbim.Ifc2x3.Kernel
 {
 	[ExpressType("IFCRELASSIGNSTOPRODUCT", 309)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcRelAssignsToProduct : IfcRelAssigns, IInstantiableEntity
+	public  partial class @IfcRelAssignsToProduct : IfcRelAssigns, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcRelAssignsToProduct>, System.IEquatable<@IfcRelAssignsToProduct>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcRelAssignsToProduct(IModel model) : base(model) 		{ 
@@ -78,5 +78,60 @@ namespace Xbim.Ifc2x3.Kernel
 		/*WR1:	WR1 : SIZEOF(QUERY(Temp <* SELF\IfcRelAssigns.RelatedObjects | RelatingProduct :=: Temp)) = 0;*/
 		}
 		#endregion
+
+		#region Equality comparers and operators
+        public bool Equals(@IfcRelAssignsToProduct other)
+	    {
+	        return this == other;
+	    }
+
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcRelAssignsToProduct
+            var root = (@IfcRelAssignsToProduct)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
+
+        public static bool operator ==(@IfcRelAssignsToProduct left, @IfcRelAssignsToProduct right)
+        {
+            // If both are null, or both are same instance, return true.
+            if (ReferenceEquals(left, right))
+                return true;
+
+            // If one is null, but not both, return false.
+            if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
+                return false;
+
+            return (left.EntityLabel == right.EntityLabel) && (left.Model == right.Model);
+
+        }
+
+        public static bool operator !=(@IfcRelAssignsToProduct left, @IfcRelAssignsToProduct right)
+        {
+            return !(left == right);
+        }
+
+
+        public bool Equals(@IfcRelAssignsToProduct x, @IfcRelAssignsToProduct y)
+        {
+            return x == y;
+        }
+
+        public int GetHashCode(@IfcRelAssignsToProduct obj)
+        {
+            return obj == null ? -1 : obj.GetHashCode();
+        }
+        #endregion
 	}
 }

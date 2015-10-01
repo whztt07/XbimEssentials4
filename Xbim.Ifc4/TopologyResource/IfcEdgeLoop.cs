@@ -15,7 +15,7 @@ namespace Xbim.Ifc4.TopologyResource
 {
 	[ExpressType("IFCEDGELOOP", 597)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcEdgeLoop : IfcLoop, IInstantiableEntity
+	public  partial class @IfcEdgeLoop : IfcLoop, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcEdgeLoop>, System.IEquatable<@IfcEdgeLoop>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcEdgeLoop(IModel model) : base(model) 		{ 
@@ -66,5 +66,60 @@ namespace Xbim.Ifc4.TopologyResource
 		/*IsContinuous:	IsContinuous : IfcLoopHeadToTail(SELF);*/
 		}
 		#endregion
+
+		#region Equality comparers and operators
+        public bool Equals(@IfcEdgeLoop other)
+	    {
+	        return this == other;
+	    }
+
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcEdgeLoop
+            var root = (@IfcEdgeLoop)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
+
+        public static bool operator ==(@IfcEdgeLoop left, @IfcEdgeLoop right)
+        {
+            // If both are null, or both are same instance, return true.
+            if (ReferenceEquals(left, right))
+                return true;
+
+            // If one is null, but not both, return false.
+            if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
+                return false;
+
+            return (left.EntityLabel == right.EntityLabel) && (left.Model == right.Model);
+
+        }
+
+        public static bool operator !=(@IfcEdgeLoop left, @IfcEdgeLoop right)
+        {
+            return !(left == right);
+        }
+
+
+        public bool Equals(@IfcEdgeLoop x, @IfcEdgeLoop y)
+        {
+            return x == y;
+        }
+
+        public int GetHashCode(@IfcEdgeLoop obj)
+        {
+            return obj == null ? -1 : obj.GetHashCode();
+        }
+        #endregion
 	}
 }

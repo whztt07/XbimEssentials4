@@ -16,7 +16,7 @@ namespace Xbim.Ifc4.GeometryResource
 {
 	[ExpressType("IFCBSPLINECURVEWITHKNOTS", 425)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcBSplineCurveWithKnots : IfcBSplineCurve, IInstantiableEntity
+	public  partial class @IfcBSplineCurveWithKnots : IfcBSplineCurve, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcBSplineCurveWithKnots>, System.IEquatable<@IfcBSplineCurveWithKnots>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcBSplineCurveWithKnots(IModel model) : base(model) 		{ 
@@ -114,5 +114,60 @@ namespace Xbim.Ifc4.GeometryResource
 		/*CorrespondingKnotLists:	CorrespondingKnotLists : SIZEOF(KnotMultiplicities) = UpperIndexOnKnots;*/
 		}
 		#endregion
+
+		#region Equality comparers and operators
+        public bool Equals(@IfcBSplineCurveWithKnots other)
+	    {
+	        return this == other;
+	    }
+
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcBSplineCurveWithKnots
+            var root = (@IfcBSplineCurveWithKnots)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
+
+        public static bool operator ==(@IfcBSplineCurveWithKnots left, @IfcBSplineCurveWithKnots right)
+        {
+            // If both are null, or both are same instance, return true.
+            if (ReferenceEquals(left, right))
+                return true;
+
+            // If one is null, but not both, return false.
+            if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
+                return false;
+
+            return (left.EntityLabel == right.EntityLabel) && (left.Model == right.Model);
+
+        }
+
+        public static bool operator !=(@IfcBSplineCurveWithKnots left, @IfcBSplineCurveWithKnots right)
+        {
+            return !(left == right);
+        }
+
+
+        public bool Equals(@IfcBSplineCurveWithKnots x, @IfcBSplineCurveWithKnots y)
+        {
+            return x == y;
+        }
+
+        public int GetHashCode(@IfcBSplineCurveWithKnots obj)
+        {
+            return obj == null ? -1 : obj.GetHashCode();
+        }
+        #endregion
 	}
 }

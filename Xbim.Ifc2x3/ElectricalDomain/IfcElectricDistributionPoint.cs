@@ -20,7 +20,7 @@ namespace Xbim.Ifc2x3.ElectricalDomain
 {
 	[ExpressType("IFCELECTRICDISTRIBUTIONPOINT", 242)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcElectricDistributionPoint : IfcFlowController, IInstantiableEntity
+	public  partial class @IfcElectricDistributionPoint : IfcFlowController, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcElectricDistributionPoint>, System.IEquatable<@IfcElectricDistributionPoint>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcElectricDistributionPoint(IModel model) : base(model) 		{ 
@@ -103,5 +103,60 @@ namespace Xbim.Ifc2x3.ElectricalDomain
 		/*WR31:             ((DistributionPointFunction = IfcElectricDistributionPointFunctionEnum.USERDEFINED) AND EXISTS(SELF\IfcElectricDistributionPoint.UserDefinedFunction));*/
 		}
 		#endregion
+
+		#region Equality comparers and operators
+        public bool Equals(@IfcElectricDistributionPoint other)
+	    {
+	        return this == other;
+	    }
+
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcElectricDistributionPoint
+            var root = (@IfcElectricDistributionPoint)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
+
+        public static bool operator ==(@IfcElectricDistributionPoint left, @IfcElectricDistributionPoint right)
+        {
+            // If both are null, or both are same instance, return true.
+            if (ReferenceEquals(left, right))
+                return true;
+
+            // If one is null, but not both, return false.
+            if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
+                return false;
+
+            return (left.EntityLabel == right.EntityLabel) && (left.Model == right.Model);
+
+        }
+
+        public static bool operator !=(@IfcElectricDistributionPoint left, @IfcElectricDistributionPoint right)
+        {
+            return !(left == right);
+        }
+
+
+        public bool Equals(@IfcElectricDistributionPoint x, @IfcElectricDistributionPoint y)
+        {
+            return x == y;
+        }
+
+        public int GetHashCode(@IfcElectricDistributionPoint obj)
+        {
+            return obj == null ? -1 : obj.GetHashCode();
+        }
+        #endregion
 	}
 }

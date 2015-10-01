@@ -16,7 +16,7 @@ namespace Xbim.Ifc2x3.StructuralLoadResource
 {
 	[ExpressType("IFCFAILURECONNECTIONCONDITION", 640)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcFailureConnectionCondition : IfcStructuralConnectionCondition, IInstantiableEntity
+	public  partial class @IfcFailureConnectionCondition : IfcStructuralConnectionCondition, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcFailureConnectionCondition>, System.IEquatable<@IfcFailureConnectionCondition>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcFailureConnectionCondition(IModel model) : base(model) 		{ 
@@ -175,5 +175,60 @@ namespace Xbim.Ifc2x3.StructuralLoadResource
 			return "";
 		}
 		#endregion
+
+		#region Equality comparers and operators
+        public bool Equals(@IfcFailureConnectionCondition other)
+	    {
+	        return this == other;
+	    }
+
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcFailureConnectionCondition
+            var root = (@IfcFailureConnectionCondition)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
+
+        public static bool operator ==(@IfcFailureConnectionCondition left, @IfcFailureConnectionCondition right)
+        {
+            // If both are null, or both are same instance, return true.
+            if (ReferenceEquals(left, right))
+                return true;
+
+            // If one is null, but not both, return false.
+            if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
+                return false;
+
+            return (left.EntityLabel == right.EntityLabel) && (left.Model == right.Model);
+
+        }
+
+        public static bool operator !=(@IfcFailureConnectionCondition left, @IfcFailureConnectionCondition right)
+        {
+            return !(left == right);
+        }
+
+
+        public bool Equals(@IfcFailureConnectionCondition x, @IfcFailureConnectionCondition y)
+        {
+            return x == y;
+        }
+
+        public int GetHashCode(@IfcFailureConnectionCondition obj)
+        {
+            return obj == null ? -1 : obj.GetHashCode();
+        }
+        #endregion
 	}
 }

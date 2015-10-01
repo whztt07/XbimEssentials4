@@ -17,7 +17,7 @@ namespace Xbim.Ifc4.RepresentationResource
 {
 	[ExpressType("IFCGEOMETRICREPRESENTATIONCONTEXT", 692)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcGeometricRepresentationContext : IfcRepresentationContext, IfcCoordinateReferenceSystemSelect, IInstantiableEntity
+	public  partial class @IfcGeometricRepresentationContext : IfcRepresentationContext, IfcCoordinateReferenceSystemSelect, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcGeometricRepresentationContext>, System.IEquatable<@IfcGeometricRepresentationContext>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcGeometricRepresentationContext(IModel model) : base(model) 		{ 
@@ -146,5 +146,60 @@ namespace Xbim.Ifc4.RepresentationResource
 		/*WR11:	WR11 : NOT(EXISTS(TrueNorth)) OR (HIINDEX(TrueNorth.DirectionRatios) = 2);*/
 		}
 		#endregion
+
+		#region Equality comparers and operators
+        public bool Equals(@IfcGeometricRepresentationContext other)
+	    {
+	        return this == other;
+	    }
+
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcGeometricRepresentationContext
+            var root = (@IfcGeometricRepresentationContext)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
+
+        public static bool operator ==(@IfcGeometricRepresentationContext left, @IfcGeometricRepresentationContext right)
+        {
+            // If both are null, or both are same instance, return true.
+            if (ReferenceEquals(left, right))
+                return true;
+
+            // If one is null, but not both, return false.
+            if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
+                return false;
+
+            return (left.EntityLabel == right.EntityLabel) && (left.Model == right.Model);
+
+        }
+
+        public static bool operator !=(@IfcGeometricRepresentationContext left, @IfcGeometricRepresentationContext right)
+        {
+            return !(left == right);
+        }
+
+
+        public bool Equals(@IfcGeometricRepresentationContext x, @IfcGeometricRepresentationContext y)
+        {
+            return x == y;
+        }
+
+        public int GetHashCode(@IfcGeometricRepresentationContext obj)
+        {
+            return obj == null ? -1 : obj.GetHashCode();
+        }
+        #endregion
 	}
 }

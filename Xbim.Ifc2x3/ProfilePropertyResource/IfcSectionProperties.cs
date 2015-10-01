@@ -18,7 +18,7 @@ namespace Xbim.Ifc2x3.ProfilePropertyResource
 {
 	[ExpressType("IFCSECTIONPROPERTIES", 184)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcSectionProperties : IPersistEntity, INotifyPropertyChanged, IInstantiableEntity
+	public  partial class @IfcSectionProperties : IPersistEntity, INotifyPropertyChanged, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcSectionProperties>, System.IEquatable<@IfcSectionProperties>
 	{
 		#region Implementation of IPersistEntity
 		public int EntityLabel {get; internal set;}
@@ -181,5 +181,60 @@ namespace Xbim.Ifc2x3.ProfilePropertyResource
 			return "";
 		}
 		#endregion
+
+		#region Equality comparers and operators
+        public bool Equals(@IfcSectionProperties other)
+	    {
+	        return this == other;
+	    }
+
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcSectionProperties
+            var root = (@IfcSectionProperties)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
+
+        public static bool operator ==(@IfcSectionProperties left, @IfcSectionProperties right)
+        {
+            // If both are null, or both are same instance, return true.
+            if (ReferenceEquals(left, right))
+                return true;
+
+            // If one is null, but not both, return false.
+            if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
+                return false;
+
+            return (left.EntityLabel == right.EntityLabel) && (left.Model == right.Model);
+
+        }
+
+        public static bool operator !=(@IfcSectionProperties left, @IfcSectionProperties right)
+        {
+            return !(left == right);
+        }
+
+
+        public bool Equals(@IfcSectionProperties x, @IfcSectionProperties y)
+        {
+            return x == y;
+        }
+
+        public int GetHashCode(@IfcSectionProperties obj)
+        {
+            return obj == null ? -1 : obj.GetHashCode();
+        }
+        #endregion
 	}
 }

@@ -17,7 +17,7 @@ namespace Xbim.Ifc2x3.ProfileResource
 {
 	[ExpressType("IFCCRANERAILFSHAPEPROFILEDEF", 112)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcCraneRailFShapeProfileDef : IfcParameterizedProfileDef, IInstantiableEntity
+	public  partial class @IfcCraneRailFShapeProfileDef : IfcParameterizedProfileDef, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcCraneRailFShapeProfileDef>, System.IEquatable<@IfcCraneRailFShapeProfileDef>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcCraneRailFShapeProfileDef(IModel model) : base(model) 		{ 
@@ -241,5 +241,60 @@ namespace Xbim.Ifc2x3.ProfileResource
 			return "";
 		}
 		#endregion
+
+		#region Equality comparers and operators
+        public bool Equals(@IfcCraneRailFShapeProfileDef other)
+	    {
+	        return this == other;
+	    }
+
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcCraneRailFShapeProfileDef
+            var root = (@IfcCraneRailFShapeProfileDef)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
+
+        public static bool operator ==(@IfcCraneRailFShapeProfileDef left, @IfcCraneRailFShapeProfileDef right)
+        {
+            // If both are null, or both are same instance, return true.
+            if (ReferenceEquals(left, right))
+                return true;
+
+            // If one is null, but not both, return false.
+            if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
+                return false;
+
+            return (left.EntityLabel == right.EntityLabel) && (left.Model == right.Model);
+
+        }
+
+        public static bool operator !=(@IfcCraneRailFShapeProfileDef left, @IfcCraneRailFShapeProfileDef right)
+        {
+            return !(left == right);
+        }
+
+
+        public bool Equals(@IfcCraneRailFShapeProfileDef x, @IfcCraneRailFShapeProfileDef y)
+        {
+            return x == y;
+        }
+
+        public int GetHashCode(@IfcCraneRailFShapeProfileDef obj)
+        {
+            return obj == null ? -1 : obj.GetHashCode();
+        }
+        #endregion
 	}
 }

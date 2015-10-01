@@ -20,7 +20,7 @@ namespace Xbim.Ifc4.SharedBldgElements
 {
 	[ExpressType("IFCBUILDINGELEMENTPROXY", 451)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcBuildingElementProxy : IfcBuildingElement, IInstantiableEntity
+	public  partial class @IfcBuildingElementProxy : IfcBuildingElement, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcBuildingElementProxy>, System.IEquatable<@IfcBuildingElementProxy>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcBuildingElementProxy(IModel model) : base(model) 		{ 
@@ -84,5 +84,60 @@ namespace Xbim.Ifc4.SharedBldgElements
 		/*CorrectTypeAssigned:                                ('IFC4.IFCBUILDINGELEMENTPROXYTYPE' IN TYPEOF(SELF\IfcObject.IsTypedBy[1].RelatingType));*/
 		}
 		#endregion
+
+		#region Equality comparers and operators
+        public bool Equals(@IfcBuildingElementProxy other)
+	    {
+	        return this == other;
+	    }
+
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcBuildingElementProxy
+            var root = (@IfcBuildingElementProxy)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
+
+        public static bool operator ==(@IfcBuildingElementProxy left, @IfcBuildingElementProxy right)
+        {
+            // If both are null, or both are same instance, return true.
+            if (ReferenceEquals(left, right))
+                return true;
+
+            // If one is null, but not both, return false.
+            if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
+                return false;
+
+            return (left.EntityLabel == right.EntityLabel) && (left.Model == right.Model);
+
+        }
+
+        public static bool operator !=(@IfcBuildingElementProxy left, @IfcBuildingElementProxy right)
+        {
+            return !(left == right);
+        }
+
+
+        public bool Equals(@IfcBuildingElementProxy x, @IfcBuildingElementProxy y)
+        {
+            return x == y;
+        }
+
+        public int GetHashCode(@IfcBuildingElementProxy obj)
+        {
+            return obj == null ? -1 : obj.GetHashCode();
+        }
+        #endregion
 	}
 }

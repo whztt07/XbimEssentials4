@@ -18,7 +18,7 @@ namespace Xbim.Ifc2x3.TimeSeriesResource
 {
 	[ExpressType("IFCTIMESERIESREFERENCERELATIONSHIP", 673)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcTimeSeriesReferenceRelationship : IPersistEntity, INotifyPropertyChanged, IInstantiableEntity
+	public  partial class @IfcTimeSeriesReferenceRelationship : IPersistEntity, INotifyPropertyChanged, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcTimeSeriesReferenceRelationship>, System.IEquatable<@IfcTimeSeriesReferenceRelationship>
 	{
 		#region Implementation of IPersistEntity
 		public int EntityLabel {get; internal set;}
@@ -159,5 +159,60 @@ namespace Xbim.Ifc2x3.TimeSeriesResource
 			return "";
 		}
 		#endregion
+
+		#region Equality comparers and operators
+        public bool Equals(@IfcTimeSeriesReferenceRelationship other)
+	    {
+	        return this == other;
+	    }
+
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcTimeSeriesReferenceRelationship
+            var root = (@IfcTimeSeriesReferenceRelationship)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
+
+        public static bool operator ==(@IfcTimeSeriesReferenceRelationship left, @IfcTimeSeriesReferenceRelationship right)
+        {
+            // If both are null, or both are same instance, return true.
+            if (ReferenceEquals(left, right))
+                return true;
+
+            // If one is null, but not both, return false.
+            if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
+                return false;
+
+            return (left.EntityLabel == right.EntityLabel) && (left.Model == right.Model);
+
+        }
+
+        public static bool operator !=(@IfcTimeSeriesReferenceRelationship left, @IfcTimeSeriesReferenceRelationship right)
+        {
+            return !(left == right);
+        }
+
+
+        public bool Equals(@IfcTimeSeriesReferenceRelationship x, @IfcTimeSeriesReferenceRelationship y)
+        {
+            return x == y;
+        }
+
+        public int GetHashCode(@IfcTimeSeriesReferenceRelationship obj)
+        {
+            return obj == null ? -1 : obj.GetHashCode();
+        }
+        #endregion
 	}
 }

@@ -20,7 +20,7 @@ namespace Xbim.Ifc4.HvacDomain
 {
 	[ExpressType("IFCFILTER", 660)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcFilter : IfcFlowTreatmentDevice, IInstantiableEntity
+	public  partial class @IfcFilter : IfcFlowTreatmentDevice, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcFilter>, System.IEquatable<@IfcFilter>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcFilter(IModel model) : base(model) 		{ 
@@ -83,5 +83,60 @@ namespace Xbim.Ifc4.HvacDomain
 		/*CorrectTypeAssigned:                                ('IFC4.IFCFILTERTYPE' IN TYPEOF(SELF\IfcObject.IsTypedBy[1].RelatingType));*/
 		}
 		#endregion
+
+		#region Equality comparers and operators
+        public bool Equals(@IfcFilter other)
+	    {
+	        return this == other;
+	    }
+
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcFilter
+            var root = (@IfcFilter)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
+
+        public static bool operator ==(@IfcFilter left, @IfcFilter right)
+        {
+            // If both are null, or both are same instance, return true.
+            if (ReferenceEquals(left, right))
+                return true;
+
+            // If one is null, but not both, return false.
+            if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
+                return false;
+
+            return (left.EntityLabel == right.EntityLabel) && (left.Model == right.Model);
+
+        }
+
+        public static bool operator !=(@IfcFilter left, @IfcFilter right)
+        {
+            return !(left == right);
+        }
+
+
+        public bool Equals(@IfcFilter x, @IfcFilter y)
+        {
+            return x == y;
+        }
+
+        public int GetHashCode(@IfcFilter obj)
+        {
+            return obj == null ? -1 : obj.GetHashCode();
+        }
+        #endregion
 	}
 }
