@@ -7,7 +7,9 @@ namespace Xbim.Common.Metadata
 {
     public class ExpressType
     {
-        public Type Type;
+        private Type _type;
+        public short TypeId;
+        public string ExpressName;
         public SortedList<int, ExpressMetaProperty> Properties = new SortedList<int, ExpressMetaProperty>();
         public List<ExpressMetaProperty> Inverses = new List<ExpressMetaProperty>();
         public ExpressType SuperType;
@@ -15,6 +17,25 @@ namespace Xbim.Common.Metadata
         private List<Type> _nonAbstractSubTypes;
         private List<ExpressMetaProperty> _expressEnumerableProperties;
         internal bool IndexedClass;
+
+        public Type Type
+        {
+            get { return _type; }
+            set{
+                _type = value;
+                var entNameAttr = Type.GetCustomAttributes(typeof(ExpressTypeAttribute), false).FirstOrDefault();
+                if (entNameAttr == null)
+#if DEBUG
+                    throw new Exception("Express Type is not defined for " + Type.Name);
+#else
+                    return -1;
+#endif
+                TypeId =  (short)((ExpressTypeAttribute)entNameAttr).EntityTypeId;
+                ExpressName = ((ExpressTypeAttribute)entNameAttr).Name;
+            }
+        }
+           
+
         public List<ExpressMetaProperty> ExpressEnumerableProperties
         {
             get
@@ -37,35 +58,7 @@ namespace Xbim.Common.Metadata
             return Type.Name;
         }
 
-        public short TypeId
-        {
-            get
-            {
-                var entNameAttr = Type.GetCustomAttributes(typeof (ExpressTypeAttribute), false).FirstOrDefault();
-                if (entNameAttr == null) 
-#if DEBUG
-                    throw new Exception("Type ID not defined for type " + Type.Name);
-#else
-                    return -1;
-#endif
-                return (short)((ExpressTypeAttribute) entNameAttr).EntityTypeId;
-            }
-        }
 
-        public string ExpressName
-        {
-            get
-            {
-                var entNameAttr = Type.GetCustomAttributes(typeof(ExpressTypeAttribute), false).FirstOrDefault();
-                if (entNameAttr == null)
-#if DEBUG
-                    throw new Exception("Type ID not defined for type " + Type.Name);
-#else
-                    return null;
-#endif
-                return ((ExpressTypeAttribute)entNameAttr).Name;
-            }
-        }
 
         public IList<Type> NonAbstractSubTypes
         {
