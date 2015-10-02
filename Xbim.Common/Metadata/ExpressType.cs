@@ -9,6 +9,7 @@ namespace Xbim.Common.Metadata
     {
         private Type _type;
         public short TypeId;
+        public string ExpressName;
         public SortedList<int, ExpressMetaProperty> Properties = new SortedList<int, ExpressMetaProperty>();
         public List<ExpressMetaProperty> Inverses = new List<ExpressMetaProperty>();
         public ExpressType SuperType;
@@ -20,15 +21,17 @@ namespace Xbim.Common.Metadata
         public Type Type
         {
             get { return _type; }
-            set{ _type = value;
+            set{
+                _type = value;
                 var entNameAttr = Type.GetCustomAttributes(typeof(ExpressTypeAttribute), false).FirstOrDefault();
                 if (entNameAttr == null)
 #if DEBUG
-                    throw new Exception("Type ID not defined for type " + Type.Name);
+                    throw new Exception("Express Type is not defined for " + Type.Name);
 #else
                     return -1;
 #endif
                 TypeId =  (short)((ExpressTypeAttribute)entNameAttr).EntityTypeId;
+                ExpressName = ((ExpressTypeAttribute)entNameAttr).Name;
             }
         }
            
@@ -56,20 +59,6 @@ namespace Xbim.Common.Metadata
         }
 
 
-        public string ExpressName
-        {
-            get
-            {
-                var entNameAttr = Type.GetCustomAttributes(typeof(ExpressTypeAttribute), false).FirstOrDefault();
-                if (entNameAttr == null)
-#if DEBUG
-                    throw new Exception("Type ID not defined for type " + Type.Name);
-#else
-                    return null;
-#endif
-                return ((ExpressTypeAttribute)entNameAttr).Name;
-            }
-        }
 
         public IList<Type> NonAbstractSubTypes
         {
