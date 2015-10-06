@@ -8,6 +8,7 @@
 // ------------------------------------------------------------------------------
 
 using Xbim.Ifc2x3.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -16,8 +17,10 @@ namespace Xbim.Ifc2x3.GeometryResource
 {
 	[ExpressType("IFCPOINTONCURVE", 654)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcPointOnCurve : IfcPoint, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcPointOnCurve>, System.IEquatable<@IfcPointOnCurve>
+	public  partial class @IfcPointOnCurve : IfcPoint, IInstantiableEntity, IEqualityComparer<@IfcPointOnCurve>, IEquatable<@IfcPointOnCurve>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcPointOnCurve(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -34,10 +37,8 @@ namespace Xbim.Ifc2x3.GeometryResource
 		{ 
 			get 
 			{
-				if(Activated) return _basisCurve;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _basisCurve;
+				((IPersistEntity)this).Activate(false);
 				return _basisCurve;
 			} 
 			set
@@ -51,10 +52,8 @@ namespace Xbim.Ifc2x3.GeometryResource
 		{ 
 			get 
 			{
-				if(Activated) return _pointParameter;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _pointParameter;
+				((IPersistEntity)this).Activate(false);
 				return _pointParameter;
 			} 
 			set

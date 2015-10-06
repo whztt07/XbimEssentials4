@@ -10,6 +10,7 @@
 using Xbim.Ifc2x3.Kernel;
 using Xbim.Ifc2x3.UtilityResource;
 using Xbim.Ifc2x3.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -18,8 +19,10 @@ namespace Xbim.Ifc2x3.SharedFacilitiesElements
 {
 	[ExpressType("IFCSERVICELIFE", 769)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcServiceLife : IfcControl, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcServiceLife>, System.IEquatable<@IfcServiceLife>
+	public  partial class @IfcServiceLife : IfcControl, IInstantiableEntity, IEqualityComparer<@IfcServiceLife>, IEquatable<@IfcServiceLife>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcServiceLife(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -36,10 +39,8 @@ namespace Xbim.Ifc2x3.SharedFacilitiesElements
 		{ 
 			get 
 			{
-				if(Activated) return _serviceLifeType;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _serviceLifeType;
+				((IPersistEntity)this).Activate(false);
 				return _serviceLifeType;
 			} 
 			set
@@ -53,10 +54,8 @@ namespace Xbim.Ifc2x3.SharedFacilitiesElements
 		{ 
 			get 
 			{
-				if(Activated) return _serviceLifeDuration;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _serviceLifeDuration;
+				((IPersistEntity)this).Activate(false);
 				return _serviceLifeDuration;
 			} 
 			set

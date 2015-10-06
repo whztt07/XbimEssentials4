@@ -14,7 +14,7 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
 {
 	[ExpressType("IFCSPECULAREXPONENT", 101)]
     // ReSharper disable once PartialTypeWithSinglePart
-	public partial struct IfcSpecularExponent : IfcSpecularHighlightSelect, IExpressValueType
+	public partial struct IfcSpecularExponent : IfcSpecularHighlightSelect, IExpressValueType, System.IEquatable<double>
 	{ 
 		private double _value;
         
@@ -46,6 +46,7 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
         public static implicit operator double(IfcSpecularExponent obj)
         {
             return obj._value;
+
         }
 
 
@@ -62,6 +63,11 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
 
             return ((IfcSpecularExponent) obj)._value == _value;
         }
+
+		public bool Equals(double other)
+	    {
+	        return this == other;
+	    }
 
         public static bool operator ==(IfcSpecularExponent obj1, IfcSpecularExponent obj2)
         {

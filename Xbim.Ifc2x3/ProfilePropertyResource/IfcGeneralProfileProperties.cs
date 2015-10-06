@@ -9,6 +9,7 @@
 
 using Xbim.Ifc2x3.MeasureResource;
 using Xbim.Ifc2x3.ProfileResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -17,8 +18,10 @@ namespace Xbim.Ifc2x3.ProfilePropertyResource
 {
 	[ExpressType("IFCGENERALPROFILEPROPERTIES", 648)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcGeneralProfileProperties : IfcProfileProperties, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcGeneralProfileProperties>, System.IEquatable<@IfcGeneralProfileProperties>
+	public  partial class @IfcGeneralProfileProperties : IfcProfileProperties, IInstantiableEntity, IEqualityComparer<@IfcGeneralProfileProperties>, IEquatable<@IfcGeneralProfileProperties>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcGeneralProfileProperties(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -38,10 +41,8 @@ namespace Xbim.Ifc2x3.ProfilePropertyResource
 		{ 
 			get 
 			{
-				if(Activated) return _physicalWeight;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _physicalWeight;
+				((IPersistEntity)this).Activate(false);
 				return _physicalWeight;
 			} 
 			set
@@ -55,10 +56,8 @@ namespace Xbim.Ifc2x3.ProfilePropertyResource
 		{ 
 			get 
 			{
-				if(Activated) return _perimeter;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _perimeter;
+				((IPersistEntity)this).Activate(false);
 				return _perimeter;
 			} 
 			set
@@ -72,10 +71,8 @@ namespace Xbim.Ifc2x3.ProfilePropertyResource
 		{ 
 			get 
 			{
-				if(Activated) return _minimumPlateThickness;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _minimumPlateThickness;
+				((IPersistEntity)this).Activate(false);
 				return _minimumPlateThickness;
 			} 
 			set
@@ -89,10 +86,8 @@ namespace Xbim.Ifc2x3.ProfilePropertyResource
 		{ 
 			get 
 			{
-				if(Activated) return _maximumPlateThickness;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _maximumPlateThickness;
+				((IPersistEntity)this).Activate(false);
 				return _maximumPlateThickness;
 			} 
 			set
@@ -106,10 +101,8 @@ namespace Xbim.Ifc2x3.ProfilePropertyResource
 		{ 
 			get 
 			{
-				if(Activated) return _crossSectionArea;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _crossSectionArea;
+				((IPersistEntity)this).Activate(false);
 				return _crossSectionArea;
 			} 
 			set

@@ -9,6 +9,7 @@
 
 using Xbim.Ifc2x3.MeasureResource;
 using Xbim.Ifc2x3.PresentationResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -17,8 +18,10 @@ namespace Xbim.Ifc2x3.PresentationOrganizationResource
 {
 	[ExpressType("IFCLIGHTSOURCEAMBIENT", 756)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcLightSourceAmbient : IfcLightSource, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcLightSourceAmbient>, System.IEquatable<@IfcLightSourceAmbient>
+	public  partial class @IfcLightSourceAmbient : IfcLightSource, IInstantiableEntity, IEqualityComparer<@IfcLightSourceAmbient>, IEquatable<@IfcLightSourceAmbient>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcLightSourceAmbient(IModel model) : base(model) 		{ 
 			Model = model; 

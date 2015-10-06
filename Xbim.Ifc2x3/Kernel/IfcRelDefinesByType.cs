@@ -9,6 +9,7 @@
 
 using Xbim.Ifc2x3.UtilityResource;
 using Xbim.Ifc2x3.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -17,8 +18,10 @@ namespace Xbim.Ifc2x3.Kernel
 {
 	[ExpressType("IFCRELDEFINESBYTYPE", 206)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcRelDefinesByType : IfcRelDefines, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcRelDefinesByType>, System.IEquatable<@IfcRelDefinesByType>
+	public  partial class @IfcRelDefinesByType : IfcRelDefines, IInstantiableEntity, IEqualityComparer<@IfcRelDefinesByType>, IEquatable<@IfcRelDefinesByType>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcRelDefinesByType(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -35,10 +38,8 @@ namespace Xbim.Ifc2x3.Kernel
 		{ 
 			get 
 			{
-				if(Activated) return _relatingType;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _relatingType;
+				((IPersistEntity)this).Activate(false);
 				return _relatingType;
 			} 
 			set

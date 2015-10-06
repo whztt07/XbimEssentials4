@@ -11,6 +11,7 @@ using Xbim.Ifc2x3.UtilityResource;
 using Xbim.Ifc2x3.MeasureResource;
 using Xbim.Ifc2x3.Kernel;
 using Xbim.Ifc2x3.GeometryResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -19,8 +20,10 @@ namespace Xbim.Ifc2x3.SharedBldgServiceElements
 {
 	[ExpressType("IFCDISTRIBUTIONCHAMBERELEMENTTYPE", 396)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcDistributionChamberElementType : IfcDistributionFlowElementType, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcDistributionChamberElementType>, System.IEquatable<@IfcDistributionChamberElementType>
+	public  partial class @IfcDistributionChamberElementType : IfcDistributionFlowElementType, IInstantiableEntity, IEqualityComparer<@IfcDistributionChamberElementType>, IEquatable<@IfcDistributionChamberElementType>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcDistributionChamberElementType(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -36,10 +39,8 @@ namespace Xbim.Ifc2x3.SharedBldgServiceElements
 		{ 
 			get 
 			{
-				if(Activated) return _predefinedType;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _predefinedType;
+				((IPersistEntity)this).Activate(false);
 				return _predefinedType;
 			} 
 			set

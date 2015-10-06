@@ -15,7 +15,7 @@ namespace Xbim.Ifc4.ExternalReferenceResource
 {
 	[ExpressType("IFCLANGUAGEID", 47)]
     // ReSharper disable once PartialTypeWithSinglePart
-	public partial struct IfcLanguageId : IExpressValueType
+	public partial struct IfcLanguageId : IExpressValueType, System.IEquatable<string>
 	{ 
 		private string _value;
         
@@ -43,6 +43,7 @@ namespace Xbim.Ifc4.ExternalReferenceResource
         public static implicit operator string(IfcLanguageId obj)
         {
             return obj._value;
+
         }
 
 
@@ -59,6 +60,11 @@ namespace Xbim.Ifc4.ExternalReferenceResource
 
             return ((IfcLanguageId) obj)._value == _value;
         }
+
+		public bool Equals(string other)
+	    {
+	        return this == other;
+	    }
 
         public static bool operator ==(IfcLanguageId obj1, IfcLanguageId obj2)
         {

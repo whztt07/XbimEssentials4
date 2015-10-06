@@ -11,6 +11,7 @@ using Xbim.Ifc2x3.Kernel;
 using Xbim.Ifc2x3.UtilityResource;
 using Xbim.Ifc2x3.MeasureResource;
 using Xbim.Ifc2x3.ProductExtension;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -19,8 +20,10 @@ namespace Xbim.Ifc2x3.ArchitectureDomain
 {
 	[ExpressType("IFCSPACEPROGRAM", 709)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcSpaceProgram : IfcControl, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcSpaceProgram>, System.IEquatable<@IfcSpaceProgram>
+	public  partial class @IfcSpaceProgram : IfcControl, IInstantiableEntity, IEqualityComparer<@IfcSpaceProgram>, IEquatable<@IfcSpaceProgram>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcSpaceProgram(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -40,10 +43,8 @@ namespace Xbim.Ifc2x3.ArchitectureDomain
 		{ 
 			get 
 			{
-				if(Activated) return _spaceProgramIdentifier;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _spaceProgramIdentifier;
+				((IPersistEntity)this).Activate(false);
 				return _spaceProgramIdentifier;
 			} 
 			set
@@ -57,10 +58,8 @@ namespace Xbim.Ifc2x3.ArchitectureDomain
 		{ 
 			get 
 			{
-				if(Activated) return _maxRequiredArea;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _maxRequiredArea;
+				((IPersistEntity)this).Activate(false);
 				return _maxRequiredArea;
 			} 
 			set
@@ -74,10 +73,8 @@ namespace Xbim.Ifc2x3.ArchitectureDomain
 		{ 
 			get 
 			{
-				if(Activated) return _minRequiredArea;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _minRequiredArea;
+				((IPersistEntity)this).Activate(false);
 				return _minRequiredArea;
 			} 
 			set
@@ -91,10 +88,8 @@ namespace Xbim.Ifc2x3.ArchitectureDomain
 		{ 
 			get 
 			{
-				if(Activated) return _requestedLocation;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _requestedLocation;
+				((IPersistEntity)this).Activate(false);
 				return _requestedLocation;
 			} 
 			set
@@ -108,10 +103,8 @@ namespace Xbim.Ifc2x3.ArchitectureDomain
 		{ 
 			get 
 			{
-				if(Activated) return _standardRequiredArea;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _standardRequiredArea;
+				((IPersistEntity)this).Activate(false);
 				return _standardRequiredArea;
 			} 
 			set

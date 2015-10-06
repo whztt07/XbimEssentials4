@@ -8,6 +8,7 @@
 // ------------------------------------------------------------------------------
 
 using Xbim.Ifc4.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -16,8 +17,10 @@ namespace Xbim.Ifc4.MaterialResource
 {
 	[ExpressType("IFCMATERIALPROFILESETUSAGE", 754)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcMaterialProfileSetUsage : IfcMaterialUsageDefinition, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcMaterialProfileSetUsage>, System.IEquatable<@IfcMaterialProfileSetUsage>
+	public  partial class @IfcMaterialProfileSetUsage : IfcMaterialUsageDefinition, IInstantiableEntity, IEqualityComparer<@IfcMaterialProfileSetUsage>, IEquatable<@IfcMaterialProfileSetUsage>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcMaterialProfileSetUsage(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -35,10 +38,8 @@ namespace Xbim.Ifc4.MaterialResource
 		{ 
 			get 
 			{
-				if(Activated) return _forProfileSet;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _forProfileSet;
+				((IPersistEntity)this).Activate(false);
 				return _forProfileSet;
 			} 
 			set
@@ -52,10 +53,8 @@ namespace Xbim.Ifc4.MaterialResource
 		{ 
 			get 
 			{
-				if(Activated) return _cardinalPoint;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _cardinalPoint;
+				((IPersistEntity)this).Activate(false);
 				return _cardinalPoint;
 			} 
 			set
@@ -69,10 +68,8 @@ namespace Xbim.Ifc4.MaterialResource
 		{ 
 			get 
 			{
-				if(Activated) return _referenceExtent;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _referenceExtent;
+				((IPersistEntity)this).Activate(false);
 				return _referenceExtent;
 			} 
 			set

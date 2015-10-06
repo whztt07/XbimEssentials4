@@ -9,6 +9,7 @@
 
 using Xbim.Ifc4.GeometryResource;
 using Xbim.Ifc4.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -17,8 +18,10 @@ namespace Xbim.Ifc4.GeometricModelResource
 {
 	[ExpressType("IFCSWEPTDISKSOLIDPOLYGONAL", 1068)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcSweptDiskSolidPolygonal : IfcSweptDiskSolid, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcSweptDiskSolidPolygonal>, System.IEquatable<@IfcSweptDiskSolidPolygonal>
+	public  partial class @IfcSweptDiskSolidPolygonal : IfcSweptDiskSolid, IInstantiableEntity, IEqualityComparer<@IfcSweptDiskSolidPolygonal>, IEquatable<@IfcSweptDiskSolidPolygonal>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcSweptDiskSolidPolygonal(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -34,10 +37,8 @@ namespace Xbim.Ifc4.GeometricModelResource
 		{ 
 			get 
 			{
-				if(Activated) return _filletRadius;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _filletRadius;
+				((IPersistEntity)this).Activate(false);
 				return _filletRadius;
 			} 
 			set

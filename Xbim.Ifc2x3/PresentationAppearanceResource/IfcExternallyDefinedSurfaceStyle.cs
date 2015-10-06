@@ -9,6 +9,7 @@
 
 using Xbim.Ifc2x3.ExternalReferenceResource;
 using Xbim.Ifc2x3.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -17,8 +18,10 @@ namespace Xbim.Ifc2x3.PresentationAppearanceResource
 {
 	[ExpressType("IFCEXTERNALLYDEFINEDSURFACESTYLE", 318)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcExternallyDefinedSurfaceStyle : IfcExternalReference, IfcSurfaceStyleElementSelect, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcExternallyDefinedSurfaceStyle>, System.IEquatable<@IfcExternallyDefinedSurfaceStyle>
+	public  partial class @IfcExternallyDefinedSurfaceStyle : IfcExternalReference, IfcSurfaceStyleElementSelect, IInstantiableEntity, IEqualityComparer<@IfcExternallyDefinedSurfaceStyle>, IEquatable<@IfcExternallyDefinedSurfaceStyle>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcExternallyDefinedSurfaceStyle(IModel model) : base(model) 		{ 
 			Model = model; 

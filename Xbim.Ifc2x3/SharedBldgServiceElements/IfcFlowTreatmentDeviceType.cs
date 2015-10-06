@@ -7,6 +7,8 @@
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
+using System;
+using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
 
@@ -14,8 +16,10 @@ namespace Xbim.Ifc2x3.SharedBldgServiceElements
 {
 	[ExpressType("IFCFLOWTREATMENTDEVICETYPE", 140)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public abstract partial class @IfcFlowTreatmentDeviceType : IfcDistributionFlowElementType, System.Collections.Generic.IEqualityComparer<@IfcFlowTreatmentDeviceType>, System.IEquatable<@IfcFlowTreatmentDeviceType>
+	public abstract partial class @IfcFlowTreatmentDeviceType : IfcDistributionFlowElementType, IEqualityComparer<@IfcFlowTreatmentDeviceType>, IEquatable<@IfcFlowTreatmentDeviceType>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcFlowTreatmentDeviceType(IModel model) : base(model) 		{ 
 			Model = model; 

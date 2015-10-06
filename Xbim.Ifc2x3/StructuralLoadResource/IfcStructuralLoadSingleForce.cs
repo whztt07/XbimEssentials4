@@ -8,6 +8,7 @@
 // ------------------------------------------------------------------------------
 
 using Xbim.Ifc2x3.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -16,8 +17,10 @@ namespace Xbim.Ifc2x3.StructuralLoadResource
 {
 	[ExpressType("IFCSTRUCTURALLOADSINGLEFORCE", 119)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcStructuralLoadSingleForce : IfcStructuralLoadStatic, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcStructuralLoadSingleForce>, System.IEquatable<@IfcStructuralLoadSingleForce>
+	public  partial class @IfcStructuralLoadSingleForce : IfcStructuralLoadStatic, IInstantiableEntity, IEqualityComparer<@IfcStructuralLoadSingleForce>, IEquatable<@IfcStructuralLoadSingleForce>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcStructuralLoadSingleForce(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -38,10 +41,8 @@ namespace Xbim.Ifc2x3.StructuralLoadResource
 		{ 
 			get 
 			{
-				if(Activated) return _forceX;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _forceX;
+				((IPersistEntity)this).Activate(false);
 				return _forceX;
 			} 
 			set
@@ -55,10 +56,8 @@ namespace Xbim.Ifc2x3.StructuralLoadResource
 		{ 
 			get 
 			{
-				if(Activated) return _forceY;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _forceY;
+				((IPersistEntity)this).Activate(false);
 				return _forceY;
 			} 
 			set
@@ -72,10 +71,8 @@ namespace Xbim.Ifc2x3.StructuralLoadResource
 		{ 
 			get 
 			{
-				if(Activated) return _forceZ;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _forceZ;
+				((IPersistEntity)this).Activate(false);
 				return _forceZ;
 			} 
 			set
@@ -89,10 +86,8 @@ namespace Xbim.Ifc2x3.StructuralLoadResource
 		{ 
 			get 
 			{
-				if(Activated) return _momentX;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _momentX;
+				((IPersistEntity)this).Activate(false);
 				return _momentX;
 			} 
 			set
@@ -106,10 +101,8 @@ namespace Xbim.Ifc2x3.StructuralLoadResource
 		{ 
 			get 
 			{
-				if(Activated) return _momentY;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _momentY;
+				((IPersistEntity)this).Activate(false);
 				return _momentY;
 			} 
 			set
@@ -123,10 +116,8 @@ namespace Xbim.Ifc2x3.StructuralLoadResource
 		{ 
 			get 
 			{
-				if(Activated) return _momentZ;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _momentZ;
+				((IPersistEntity)this).Activate(false);
 				return _momentZ;
 			} 
 			set

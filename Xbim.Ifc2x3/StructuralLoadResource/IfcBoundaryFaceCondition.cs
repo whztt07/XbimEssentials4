@@ -8,6 +8,7 @@
 // ------------------------------------------------------------------------------
 
 using Xbim.Ifc2x3.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -16,8 +17,10 @@ namespace Xbim.Ifc2x3.StructuralLoadResource
 {
 	[ExpressType("IFCBOUNDARYFACECONDITION", 674)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcBoundaryFaceCondition : IfcBoundaryCondition, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcBoundaryFaceCondition>, System.IEquatable<@IfcBoundaryFaceCondition>
+	public  partial class @IfcBoundaryFaceCondition : IfcBoundaryCondition, IInstantiableEntity, IEqualityComparer<@IfcBoundaryFaceCondition>, IEquatable<@IfcBoundaryFaceCondition>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcBoundaryFaceCondition(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -35,10 +38,8 @@ namespace Xbim.Ifc2x3.StructuralLoadResource
 		{ 
 			get 
 			{
-				if(Activated) return _linearStiffnessByAreaX;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _linearStiffnessByAreaX;
+				((IPersistEntity)this).Activate(false);
 				return _linearStiffnessByAreaX;
 			} 
 			set
@@ -52,10 +53,8 @@ namespace Xbim.Ifc2x3.StructuralLoadResource
 		{ 
 			get 
 			{
-				if(Activated) return _linearStiffnessByAreaY;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _linearStiffnessByAreaY;
+				((IPersistEntity)this).Activate(false);
 				return _linearStiffnessByAreaY;
 			} 
 			set
@@ -69,10 +68,8 @@ namespace Xbim.Ifc2x3.StructuralLoadResource
 		{ 
 			get 
 			{
-				if(Activated) return _linearStiffnessByAreaZ;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _linearStiffnessByAreaZ;
+				((IPersistEntity)this).Activate(false);
 				return _linearStiffnessByAreaZ;
 			} 
 			set

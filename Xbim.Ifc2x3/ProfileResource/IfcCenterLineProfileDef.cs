@@ -9,6 +9,7 @@
 
 using Xbim.Ifc2x3.MeasureResource;
 using Xbim.Ifc2x3.GeometryResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -17,8 +18,10 @@ namespace Xbim.Ifc2x3.ProfileResource
 {
 	[ExpressType("IFCCENTERLINEPROFILEDEF", 353)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcCenterLineProfileDef : IfcArbitraryOpenProfileDef, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcCenterLineProfileDef>, System.IEquatable<@IfcCenterLineProfileDef>
+	public  partial class @IfcCenterLineProfileDef : IfcArbitraryOpenProfileDef, IInstantiableEntity, IEqualityComparer<@IfcCenterLineProfileDef>, IEquatable<@IfcCenterLineProfileDef>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcCenterLineProfileDef(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -34,10 +37,8 @@ namespace Xbim.Ifc2x3.ProfileResource
 		{ 
 			get 
 			{
-				if(Activated) return _thickness;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _thickness;
+				((IPersistEntity)this).Activate(false);
 				return _thickness;
 			} 
 			set

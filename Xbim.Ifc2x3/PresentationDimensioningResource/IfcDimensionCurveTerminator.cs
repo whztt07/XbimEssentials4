@@ -11,6 +11,7 @@ using Xbim.Ifc2x3.GeometryResource;
 using Xbim.Ifc2x3.MeasureResource;
 using Xbim.Ifc2x3.PresentationDefinitionResource;
 using Xbim.Ifc2x3.PresentationAppearanceResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -19,8 +20,10 @@ namespace Xbim.Ifc2x3.PresentationDimensioningResource
 {
 	[ExpressType("IFCDIMENSIONCURVETERMINATOR", 744)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcDimensionCurveTerminator : IfcTerminatorSymbol, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcDimensionCurveTerminator>, System.IEquatable<@IfcDimensionCurveTerminator>
+	public  partial class @IfcDimensionCurveTerminator : IfcTerminatorSymbol, IInstantiableEntity, IEqualityComparer<@IfcDimensionCurveTerminator>, IEquatable<@IfcDimensionCurveTerminator>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcDimensionCurveTerminator(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -36,10 +39,8 @@ namespace Xbim.Ifc2x3.PresentationDimensioningResource
 		{ 
 			get 
 			{
-				if(Activated) return _role;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _role;
+				((IPersistEntity)this).Activate(false);
 				return _role;
 			} 
 			set

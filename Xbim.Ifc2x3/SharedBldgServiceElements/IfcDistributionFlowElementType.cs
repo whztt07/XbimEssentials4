@@ -8,6 +8,8 @@
 // ------------------------------------------------------------------------------
 
 using Xbim.Ifc2x3.ProductExtension;
+using System;
+using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
 
@@ -15,8 +17,10 @@ namespace Xbim.Ifc2x3.SharedBldgServiceElements
 {
 	[ExpressType("IFCDISTRIBUTIONFLOWELEMENTTYPE", 61)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public abstract partial class @IfcDistributionFlowElementType : IfcDistributionElementType, System.Collections.Generic.IEqualityComparer<@IfcDistributionFlowElementType>, System.IEquatable<@IfcDistributionFlowElementType>
+	public abstract partial class @IfcDistributionFlowElementType : IfcDistributionElementType, IEqualityComparer<@IfcDistributionFlowElementType>, IEquatable<@IfcDistributionFlowElementType>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcDistributionFlowElementType(IModel model) : base(model) 		{ 
 			Model = model; 

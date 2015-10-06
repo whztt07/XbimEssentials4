@@ -14,7 +14,7 @@ namespace Xbim.Ifc2x3.UtilityResource
 {
 	[ExpressType("IFCGLOBALLYUNIQUEID", 443)]
     // ReSharper disable once PartialTypeWithSinglePart
-	public partial struct IfcGloballyUniqueId : IExpressValueType
+	public partial struct IfcGloballyUniqueId : IExpressValueType, System.IEquatable<string>
 	{ 
 		private string _value;
         
@@ -42,6 +42,7 @@ namespace Xbim.Ifc2x3.UtilityResource
         public static implicit operator string(IfcGloballyUniqueId obj)
         {
             return obj._value;
+
         }
 
 
@@ -58,6 +59,11 @@ namespace Xbim.Ifc2x3.UtilityResource
 
             return ((IfcGloballyUniqueId) obj)._value == _value;
         }
+
+		public bool Equals(string other)
+	    {
+	        return this == other;
+	    }
 
         public static bool operator ==(IfcGloballyUniqueId obj1, IfcGloballyUniqueId obj2)
         {

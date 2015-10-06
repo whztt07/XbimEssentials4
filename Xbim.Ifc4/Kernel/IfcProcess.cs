@@ -9,6 +9,7 @@
 
 using Xbim.Ifc4.MeasureResource;
 using Xbim.Ifc4.ProcessExtension;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -17,8 +18,10 @@ namespace Xbim.Ifc4.Kernel
 {
 	[ExpressType("IFCPROCESS", 837)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public abstract partial class @IfcProcess : IfcObject, IfcProcessSelect, System.Collections.Generic.IEqualityComparer<@IfcProcess>, System.IEquatable<@IfcProcess>
+	public abstract partial class @IfcProcess : IfcObject, IfcProcessSelect, IEqualityComparer<@IfcProcess>, IEquatable<@IfcProcess>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcProcess(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -35,10 +38,8 @@ namespace Xbim.Ifc4.Kernel
 		{ 
 			get 
 			{
-				if(Activated) return _identification;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _identification;
+				((IPersistEntity)this).Activate(false);
 				return _identification;
 			} 
 			set
@@ -52,10 +53,8 @@ namespace Xbim.Ifc4.Kernel
 		{ 
 			get 
 			{
-				if(Activated) return _longDescription;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _longDescription;
+				((IPersistEntity)this).Activate(false);
 				return _longDescription;
 			} 
 			set

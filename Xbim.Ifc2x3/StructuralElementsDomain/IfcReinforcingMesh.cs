@@ -11,6 +11,7 @@ using Xbim.Ifc2x3.UtilityResource;
 using Xbim.Ifc2x3.MeasureResource;
 using Xbim.Ifc2x3.GeometricConstraintResource;
 using Xbim.Ifc2x3.RepresentationResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -19,8 +20,10 @@ namespace Xbim.Ifc2x3.StructuralElementsDomain
 {
 	[ExpressType("IFCREINFORCINGMESH", 531)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcReinforcingMesh : IfcReinforcingElement, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcReinforcingMesh>, System.IEquatable<@IfcReinforcingMesh>
+	public  partial class @IfcReinforcingMesh : IfcReinforcingElement, IInstantiableEntity, IEqualityComparer<@IfcReinforcingMesh>, IEquatable<@IfcReinforcingMesh>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcReinforcingMesh(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -43,10 +46,8 @@ namespace Xbim.Ifc2x3.StructuralElementsDomain
 		{ 
 			get 
 			{
-				if(Activated) return _meshLength;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _meshLength;
+				((IPersistEntity)this).Activate(false);
 				return _meshLength;
 			} 
 			set
@@ -60,10 +61,8 @@ namespace Xbim.Ifc2x3.StructuralElementsDomain
 		{ 
 			get 
 			{
-				if(Activated) return _meshWidth;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _meshWidth;
+				((IPersistEntity)this).Activate(false);
 				return _meshWidth;
 			} 
 			set
@@ -77,10 +76,8 @@ namespace Xbim.Ifc2x3.StructuralElementsDomain
 		{ 
 			get 
 			{
-				if(Activated) return _longitudinalBarNominalDiameter;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _longitudinalBarNominalDiameter;
+				((IPersistEntity)this).Activate(false);
 				return _longitudinalBarNominalDiameter;
 			} 
 			set
@@ -94,10 +91,8 @@ namespace Xbim.Ifc2x3.StructuralElementsDomain
 		{ 
 			get 
 			{
-				if(Activated) return _transverseBarNominalDiameter;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _transverseBarNominalDiameter;
+				((IPersistEntity)this).Activate(false);
 				return _transverseBarNominalDiameter;
 			} 
 			set
@@ -111,10 +106,8 @@ namespace Xbim.Ifc2x3.StructuralElementsDomain
 		{ 
 			get 
 			{
-				if(Activated) return _longitudinalBarCrossSectionArea;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _longitudinalBarCrossSectionArea;
+				((IPersistEntity)this).Activate(false);
 				return _longitudinalBarCrossSectionArea;
 			} 
 			set
@@ -128,10 +121,8 @@ namespace Xbim.Ifc2x3.StructuralElementsDomain
 		{ 
 			get 
 			{
-				if(Activated) return _transverseBarCrossSectionArea;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _transverseBarCrossSectionArea;
+				((IPersistEntity)this).Activate(false);
 				return _transverseBarCrossSectionArea;
 			} 
 			set
@@ -145,10 +136,8 @@ namespace Xbim.Ifc2x3.StructuralElementsDomain
 		{ 
 			get 
 			{
-				if(Activated) return _longitudinalBarSpacing;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _longitudinalBarSpacing;
+				((IPersistEntity)this).Activate(false);
 				return _longitudinalBarSpacing;
 			} 
 			set
@@ -162,10 +151,8 @@ namespace Xbim.Ifc2x3.StructuralElementsDomain
 		{ 
 			get 
 			{
-				if(Activated) return _transverseBarSpacing;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _transverseBarSpacing;
+				((IPersistEntity)this).Activate(false);
 				return _transverseBarSpacing;
 			} 
 			set

@@ -10,6 +10,7 @@
 using Xbim.Ifc4.UtilityResource;
 using Xbim.Ifc4.MeasureResource;
 using Xbim.Ifc4.PropertyResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -18,8 +19,10 @@ namespace Xbim.Ifc4.Kernel
 {
 	[ExpressType("IFCSIMPLEPROPERTYTEMPLATE", 983)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcSimplePropertyTemplate : IfcPropertyTemplate, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcSimplePropertyTemplate>, System.IEquatable<@IfcSimplePropertyTemplate>
+	public  partial class @IfcSimplePropertyTemplate : IfcPropertyTemplate, IInstantiableEntity, IEqualityComparer<@IfcSimplePropertyTemplate>, IEquatable<@IfcSimplePropertyTemplate>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcSimplePropertyTemplate(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -42,10 +45,8 @@ namespace Xbim.Ifc4.Kernel
 		{ 
 			get 
 			{
-				if(Activated) return _templateType;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _templateType;
+				((IPersistEntity)this).Activate(false);
 				return _templateType;
 			} 
 			set
@@ -59,10 +60,8 @@ namespace Xbim.Ifc4.Kernel
 		{ 
 			get 
 			{
-				if(Activated) return _primaryMeasureType;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _primaryMeasureType;
+				((IPersistEntity)this).Activate(false);
 				return _primaryMeasureType;
 			} 
 			set
@@ -76,10 +75,8 @@ namespace Xbim.Ifc4.Kernel
 		{ 
 			get 
 			{
-				if(Activated) return _secondaryMeasureType;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _secondaryMeasureType;
+				((IPersistEntity)this).Activate(false);
 				return _secondaryMeasureType;
 			} 
 			set
@@ -93,10 +90,8 @@ namespace Xbim.Ifc4.Kernel
 		{ 
 			get 
 			{
-				if(Activated) return _enumerators;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _enumerators;
+				((IPersistEntity)this).Activate(false);
 				return _enumerators;
 			} 
 			set
@@ -110,10 +105,8 @@ namespace Xbim.Ifc4.Kernel
 		{ 
 			get 
 			{
-				if(Activated) return _primaryUnit;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _primaryUnit;
+				((IPersistEntity)this).Activate(false);
 				return _primaryUnit;
 			} 
 			set
@@ -127,10 +120,8 @@ namespace Xbim.Ifc4.Kernel
 		{ 
 			get 
 			{
-				if(Activated) return _secondaryUnit;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _secondaryUnit;
+				((IPersistEntity)this).Activate(false);
 				return _secondaryUnit;
 			} 
 			set
@@ -144,10 +135,8 @@ namespace Xbim.Ifc4.Kernel
 		{ 
 			get 
 			{
-				if(Activated) return _expression;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _expression;
+				((IPersistEntity)this).Activate(false);
 				return _expression;
 			} 
 			set
@@ -161,10 +150,8 @@ namespace Xbim.Ifc4.Kernel
 		{ 
 			get 
 			{
-				if(Activated) return _accessState;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _accessState;
+				((IPersistEntity)this).Activate(false);
 				return _accessState;
 			} 
 			set

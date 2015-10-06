@@ -11,6 +11,7 @@ using Xbim.Ifc4.ProductExtension;
 using Xbim.Ifc4.UtilityResource;
 using Xbim.Ifc4.MeasureResource;
 using Xbim.Ifc4.GeometricConstraintResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -19,8 +20,10 @@ namespace Xbim.Ifc4.SharedBldgElements
 {
 	[ExpressType("IFCRELCONNECTSPATHELEMENTS", 919)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcRelConnectsPathElements : IfcRelConnectsElements, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcRelConnectsPathElements>, System.IEquatable<@IfcRelConnectsPathElements>
+	public  partial class @IfcRelConnectsPathElements : IfcRelConnectsElements, IInstantiableEntity, IEqualityComparer<@IfcRelConnectsPathElements>, IEquatable<@IfcRelConnectsPathElements>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcRelConnectsPathElements(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -41,10 +44,8 @@ namespace Xbim.Ifc4.SharedBldgElements
 		{ 
 			get 
 			{
-				if(Activated) return _relatingPriorities;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _relatingPriorities;
+				((IPersistEntity)this).Activate(false);
 				return _relatingPriorities;
 			} 
 		}
@@ -54,10 +55,8 @@ namespace Xbim.Ifc4.SharedBldgElements
 		{ 
 			get 
 			{
-				if(Activated) return _relatedPriorities;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _relatedPriorities;
+				((IPersistEntity)this).Activate(false);
 				return _relatedPriorities;
 			} 
 		}
@@ -67,10 +66,8 @@ namespace Xbim.Ifc4.SharedBldgElements
 		{ 
 			get 
 			{
-				if(Activated) return _relatedConnectionType;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _relatedConnectionType;
+				((IPersistEntity)this).Activate(false);
 				return _relatedConnectionType;
 			} 
 			set
@@ -84,10 +81,8 @@ namespace Xbim.Ifc4.SharedBldgElements
 		{ 
 			get 
 			{
-				if(Activated) return _relatingConnectionType;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _relatingConnectionType;
+				((IPersistEntity)this).Activate(false);
 				return _relatingConnectionType;
 			} 
 			set

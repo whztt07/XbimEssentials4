@@ -7,6 +7,7 @@
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -15,8 +16,10 @@ namespace Xbim.Ifc2x3.TopologyResource
 {
 	[ExpressType("IFCFACEBOUND", 86)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcFaceBound : IfcTopologicalRepresentationItem, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcFaceBound>, System.IEquatable<@IfcFaceBound>
+	public  partial class @IfcFaceBound : IfcTopologicalRepresentationItem, IInstantiableEntity, IEqualityComparer<@IfcFaceBound>, IEquatable<@IfcFaceBound>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcFaceBound(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -33,10 +36,8 @@ namespace Xbim.Ifc2x3.TopologyResource
 		{ 
 			get 
 			{
-				if(Activated) return _bound;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _bound;
+				((IPersistEntity)this).Activate(false);
 				return _bound;
 			} 
 			set
@@ -50,10 +51,8 @@ namespace Xbim.Ifc2x3.TopologyResource
 		{ 
 			get 
 			{
-				if(Activated) return _orientation;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _orientation;
+				((IPersistEntity)this).Activate(false);
 				return _orientation;
 			} 
 			set

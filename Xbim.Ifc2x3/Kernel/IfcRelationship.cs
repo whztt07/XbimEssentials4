@@ -7,6 +7,8 @@
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
+using System;
+using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
 
@@ -14,8 +16,10 @@ namespace Xbim.Ifc2x3.Kernel
 {
 	[ExpressType("IFCRELATIONSHIP", 11)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public abstract partial class @IfcRelationship : IfcRoot, System.Collections.Generic.IEqualityComparer<@IfcRelationship>, System.IEquatable<@IfcRelationship>
+	public abstract partial class @IfcRelationship : IfcRoot, IEqualityComparer<@IfcRelationship>, IEquatable<@IfcRelationship>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcRelationship(IModel model) : base(model) 		{ 
 			Model = model; 

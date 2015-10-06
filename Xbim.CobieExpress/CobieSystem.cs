@@ -7,6 +7,7 @@
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -16,8 +17,10 @@ namespace Xbim.CobieExpress
 	[IndexedClass]
 	[ExpressType("SYSTEM", 25)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @CobieSystem : CobieAsset, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@CobieSystem>, System.IEquatable<@CobieSystem>
+	public  partial class @CobieSystem : CobieAsset, IInstantiableEntity, IEqualityComparer<@CobieSystem>, IEquatable<@CobieSystem>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal CobieSystem(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -35,10 +38,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _components;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _components;
+				((IPersistEntity)this).Activate(false);
 				return _components;
 			} 
 		}

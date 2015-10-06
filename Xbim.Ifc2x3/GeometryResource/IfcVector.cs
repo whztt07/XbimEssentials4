@@ -8,6 +8,7 @@
 // ------------------------------------------------------------------------------
 
 using Xbim.Ifc2x3.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -16,8 +17,10 @@ namespace Xbim.Ifc2x3.GeometryResource
 {
 	[ExpressType("IFCVECTOR", 652)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcVector : IfcGeometricRepresentationItem, IfcVectorOrDirection, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcVector>, System.IEquatable<@IfcVector>
+	public  partial class @IfcVector : IfcGeometricRepresentationItem, IfcVectorOrDirection, IInstantiableEntity, IEqualityComparer<@IfcVector>, IEquatable<@IfcVector>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcVector(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -34,10 +37,8 @@ namespace Xbim.Ifc2x3.GeometryResource
 		{ 
 			get 
 			{
-				if(Activated) return _orientation;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _orientation;
+				((IPersistEntity)this).Activate(false);
 				return _orientation;
 			} 
 			set
@@ -51,10 +52,8 @@ namespace Xbim.Ifc2x3.GeometryResource
 		{ 
 			get 
 			{
-				if(Activated) return _magnitude;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _magnitude;
+				((IPersistEntity)this).Activate(false);
 				return _magnitude;
 			} 
 			set

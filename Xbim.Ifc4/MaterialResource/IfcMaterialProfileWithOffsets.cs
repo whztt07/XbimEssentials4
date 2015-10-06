@@ -9,6 +9,7 @@
 
 using Xbim.Ifc4.MeasureResource;
 using Xbim.Ifc4.ProfileResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -17,8 +18,10 @@ namespace Xbim.Ifc4.MaterialResource
 {
 	[ExpressType("IFCMATERIALPROFILEWITHOFFSETS", 756)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcMaterialProfileWithOffsets : IfcMaterialProfile, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcMaterialProfileWithOffsets>, System.IEquatable<@IfcMaterialProfileWithOffsets>
+	public  partial class @IfcMaterialProfileWithOffsets : IfcMaterialProfile, IInstantiableEntity, IEqualityComparer<@IfcMaterialProfileWithOffsets>, IEquatable<@IfcMaterialProfileWithOffsets>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcMaterialProfileWithOffsets(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -35,10 +38,8 @@ namespace Xbim.Ifc4.MaterialResource
 		{ 
 			get 
 			{
-				if(Activated) return _offsetValues;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _offsetValues;
+				((IPersistEntity)this).Activate(false);
 				return _offsetValues;
 			} 
 		}

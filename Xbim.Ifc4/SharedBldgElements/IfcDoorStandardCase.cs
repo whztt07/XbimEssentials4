@@ -11,6 +11,7 @@ using Xbim.Ifc4.UtilityResource;
 using Xbim.Ifc4.MeasureResource;
 using Xbim.Ifc4.GeometricConstraintResource;
 using Xbim.Ifc4.RepresentationResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -19,8 +20,10 @@ namespace Xbim.Ifc4.SharedBldgElements
 {
 	[ExpressType("IFCDOORSTANDARDCASE", 584)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcDoorStandardCase : IfcDoor, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcDoorStandardCase>, System.IEquatable<@IfcDoorStandardCase>
+	public  partial class @IfcDoorStandardCase : IfcDoor, IInstantiableEntity, IEqualityComparer<@IfcDoorStandardCase>, IEquatable<@IfcDoorStandardCase>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcDoorStandardCase(IModel model) : base(model) 		{ 
 			Model = model; 

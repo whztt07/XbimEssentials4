@@ -8,6 +8,7 @@
 // ------------------------------------------------------------------------------
 
 using Xbim.Ifc4.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -16,8 +17,10 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
 {
 	[ExpressType("IFCSURFACESTYLERENDERING", 1062)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcSurfaceStyleRendering : IfcSurfaceStyleShading, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcSurfaceStyleRendering>, System.IEquatable<@IfcSurfaceStyleRendering>
+	public  partial class @IfcSurfaceStyleRendering : IfcSurfaceStyleShading, IInstantiableEntity, IEqualityComparer<@IfcSurfaceStyleRendering>, IEquatable<@IfcSurfaceStyleRendering>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcSurfaceStyleRendering(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -40,10 +43,8 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
 		{ 
 			get 
 			{
-				if(Activated) return _transparency;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _transparency;
+				((IPersistEntity)this).Activate(false);
 				return _transparency;
 			} 
 			set
@@ -57,10 +58,8 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
 		{ 
 			get 
 			{
-				if(Activated) return _diffuseColour;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _diffuseColour;
+				((IPersistEntity)this).Activate(false);
 				return _diffuseColour;
 			} 
 			set
@@ -74,10 +73,8 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
 		{ 
 			get 
 			{
-				if(Activated) return _transmissionColour;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _transmissionColour;
+				((IPersistEntity)this).Activate(false);
 				return _transmissionColour;
 			} 
 			set
@@ -91,10 +88,8 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
 		{ 
 			get 
 			{
-				if(Activated) return _diffuseTransmissionColour;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _diffuseTransmissionColour;
+				((IPersistEntity)this).Activate(false);
 				return _diffuseTransmissionColour;
 			} 
 			set
@@ -108,10 +103,8 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
 		{ 
 			get 
 			{
-				if(Activated) return _reflectionColour;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _reflectionColour;
+				((IPersistEntity)this).Activate(false);
 				return _reflectionColour;
 			} 
 			set
@@ -125,10 +118,8 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
 		{ 
 			get 
 			{
-				if(Activated) return _specularColour;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _specularColour;
+				((IPersistEntity)this).Activate(false);
 				return _specularColour;
 			} 
 			set
@@ -142,10 +133,8 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
 		{ 
 			get 
 			{
-				if(Activated) return _specularHighlight;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _specularHighlight;
+				((IPersistEntity)this).Activate(false);
 				return _specularHighlight;
 			} 
 			set
@@ -159,10 +148,8 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
 		{ 
 			get 
 			{
-				if(Activated) return _reflectanceMethod;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _reflectanceMethod;
+				((IPersistEntity)this).Activate(false);
 				return _reflectanceMethod;
 			} 
 			set

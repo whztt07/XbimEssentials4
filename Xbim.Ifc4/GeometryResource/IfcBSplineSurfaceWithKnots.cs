@@ -8,6 +8,7 @@
 // ------------------------------------------------------------------------------
 
 using Xbim.Ifc4.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -16,8 +17,10 @@ namespace Xbim.Ifc4.GeometryResource
 {
 	[ExpressType("IFCBSPLINESURFACEWITHKNOTS", 427)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcBSplineSurfaceWithKnots : IfcBSplineSurface, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcBSplineSurfaceWithKnots>, System.IEquatable<@IfcBSplineSurfaceWithKnots>
+	public  partial class @IfcBSplineSurfaceWithKnots : IfcBSplineSurface, IInstantiableEntity, IEqualityComparer<@IfcBSplineSurfaceWithKnots>, IEquatable<@IfcBSplineSurfaceWithKnots>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcBSplineSurfaceWithKnots(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -41,10 +44,8 @@ namespace Xbim.Ifc4.GeometryResource
 		{ 
 			get 
 			{
-				if(Activated) return _uMultiplicities;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _uMultiplicities;
+				((IPersistEntity)this).Activate(false);
 				return _uMultiplicities;
 			} 
 		}
@@ -54,10 +55,8 @@ namespace Xbim.Ifc4.GeometryResource
 		{ 
 			get 
 			{
-				if(Activated) return _vMultiplicities;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _vMultiplicities;
+				((IPersistEntity)this).Activate(false);
 				return _vMultiplicities;
 			} 
 		}
@@ -67,10 +66,8 @@ namespace Xbim.Ifc4.GeometryResource
 		{ 
 			get 
 			{
-				if(Activated) return _uKnots;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _uKnots;
+				((IPersistEntity)this).Activate(false);
 				return _uKnots;
 			} 
 		}
@@ -80,10 +77,8 @@ namespace Xbim.Ifc4.GeometryResource
 		{ 
 			get 
 			{
-				if(Activated) return _vKnots;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _vKnots;
+				((IPersistEntity)this).Activate(false);
 				return _vKnots;
 			} 
 		}
@@ -93,10 +88,8 @@ namespace Xbim.Ifc4.GeometryResource
 		{ 
 			get 
 			{
-				if(Activated) return _knotSpec;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _knotSpec;
+				((IPersistEntity)this).Activate(false);
 				return _knotSpec;
 			} 
 			set

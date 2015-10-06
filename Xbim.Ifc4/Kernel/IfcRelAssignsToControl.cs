@@ -9,6 +9,7 @@
 
 using Xbim.Ifc4.UtilityResource;
 using Xbim.Ifc4.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -17,8 +18,10 @@ namespace Xbim.Ifc4.Kernel
 {
 	[ExpressType("IFCRELASSIGNSTOCONTROL", 904)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcRelAssignsToControl : IfcRelAssigns, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcRelAssignsToControl>, System.IEquatable<@IfcRelAssignsToControl>
+	public  partial class @IfcRelAssignsToControl : IfcRelAssigns, IInstantiableEntity, IEqualityComparer<@IfcRelAssignsToControl>, IEquatable<@IfcRelAssignsToControl>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcRelAssignsToControl(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -35,10 +38,8 @@ namespace Xbim.Ifc4.Kernel
 		{ 
 			get 
 			{
-				if(Activated) return _relatingControl;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _relatingControl;
+				((IPersistEntity)this).Activate(false);
 				return _relatingControl;
 			} 
 			set

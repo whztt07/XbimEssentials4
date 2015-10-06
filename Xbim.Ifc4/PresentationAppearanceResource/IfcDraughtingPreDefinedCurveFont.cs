@@ -8,6 +8,7 @@
 // ------------------------------------------------------------------------------
 
 using Xbim.Ifc4.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -16,8 +17,10 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
 {
 	[ExpressType("IFCDRAUGHTINGPREDEFINEDCURVEFONT", 588)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcDraughtingPreDefinedCurveFont : IfcPreDefinedCurveFont, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcDraughtingPreDefinedCurveFont>, System.IEquatable<@IfcDraughtingPreDefinedCurveFont>
+	public  partial class @IfcDraughtingPreDefinedCurveFont : IfcPreDefinedCurveFont, IInstantiableEntity, IEqualityComparer<@IfcDraughtingPreDefinedCurveFont>, IEquatable<@IfcDraughtingPreDefinedCurveFont>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcDraughtingPreDefinedCurveFont(IModel model) : base(model) 		{ 
 			Model = model; 

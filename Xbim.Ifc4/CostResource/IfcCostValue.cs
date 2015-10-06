@@ -9,6 +9,7 @@
 
 using Xbim.Ifc4.MeasureResource;
 using Xbim.Ifc4.DateTimeResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -17,8 +18,10 @@ namespace Xbim.Ifc4.CostResource
 {
 	[ExpressType("IFCCOSTVALUE", 540)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcCostValue : IfcAppliedValue, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcCostValue>, System.IEquatable<@IfcCostValue>
+	public  partial class @IfcCostValue : IfcAppliedValue, IInstantiableEntity, IEqualityComparer<@IfcCostValue>, IEquatable<@IfcCostValue>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcCostValue(IModel model) : base(model) 		{ 
 			Model = model; 

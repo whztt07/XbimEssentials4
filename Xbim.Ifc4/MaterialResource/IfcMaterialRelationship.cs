@@ -9,6 +9,7 @@
 
 using Xbim.Ifc4.ExternalReferenceResource;
 using Xbim.Ifc4.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -17,8 +18,10 @@ namespace Xbim.Ifc4.MaterialResource
 {
 	[ExpressType("IFCMATERIALRELATIONSHIP", 758)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcMaterialRelationship : IfcResourceLevelRelationship, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcMaterialRelationship>, System.IEquatable<@IfcMaterialRelationship>
+	public  partial class @IfcMaterialRelationship : IfcResourceLevelRelationship, IInstantiableEntity, IEqualityComparer<@IfcMaterialRelationship>, IEquatable<@IfcMaterialRelationship>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcMaterialRelationship(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -38,10 +41,8 @@ namespace Xbim.Ifc4.MaterialResource
 		{ 
 			get 
 			{
-				if(Activated) return _relatingMaterial;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _relatingMaterial;
+				((IPersistEntity)this).Activate(false);
 				return _relatingMaterial;
 			} 
 			set
@@ -56,10 +57,8 @@ namespace Xbim.Ifc4.MaterialResource
 		{ 
 			get 
 			{
-				if(Activated) return _relatedMaterials;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _relatedMaterials;
+				((IPersistEntity)this).Activate(false);
 				return _relatedMaterials;
 			} 
 		}
@@ -69,10 +68,8 @@ namespace Xbim.Ifc4.MaterialResource
 		{ 
 			get 
 			{
-				if(Activated) return _expression;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _expression;
+				((IPersistEntity)this).Activate(false);
 				return _expression;
 			} 
 			set

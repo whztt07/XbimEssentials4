@@ -14,7 +14,7 @@ namespace Xbim.Ifc2x3.MeasureResource
 {
 	[ExpressType("IFCVOLUMETRICFLOWRATEMEASURE", 677)]
     // ReSharper disable once PartialTypeWithSinglePart
-	public partial struct IfcVolumetricFlowRateMeasure : IfcDerivedMeasureValue, IExpressValueType
+	public partial struct IfcVolumetricFlowRateMeasure : IfcDerivedMeasureValue, IExpressValueType, System.IEquatable<double>
 	{ 
 		private double _value;
         
@@ -46,6 +46,7 @@ namespace Xbim.Ifc2x3.MeasureResource
         public static implicit operator double(IfcVolumetricFlowRateMeasure obj)
         {
             return obj._value;
+
         }
 
 
@@ -62,6 +63,11 @@ namespace Xbim.Ifc2x3.MeasureResource
 
             return ((IfcVolumetricFlowRateMeasure) obj)._value == _value;
         }
+
+		public bool Equals(double other)
+	    {
+	        return this == other;
+	    }
 
         public static bool operator ==(IfcVolumetricFlowRateMeasure obj1, IfcVolumetricFlowRateMeasure obj2)
         {

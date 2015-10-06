@@ -8,6 +8,7 @@
 // ------------------------------------------------------------------------------
 
 using Xbim.Ifc4.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -16,8 +17,10 @@ namespace Xbim.Ifc4.StructuralLoadResource
 {
 	[ExpressType("IFCSTRUCTURALLOADCONFIGURATION", 1024)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcStructuralLoadConfiguration : IfcStructuralLoad, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcStructuralLoadConfiguration>, System.IEquatable<@IfcStructuralLoadConfiguration>
+	public  partial class @IfcStructuralLoadConfiguration : IfcStructuralLoad, IInstantiableEntity, IEqualityComparer<@IfcStructuralLoadConfiguration>, IEquatable<@IfcStructuralLoadConfiguration>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcStructuralLoadConfiguration(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -36,10 +39,8 @@ namespace Xbim.Ifc4.StructuralLoadResource
 		{ 
 			get 
 			{
-				if(Activated) return _values;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _values;
+				((IPersistEntity)this).Activate(false);
 				return _values;
 			} 
 		}
@@ -49,10 +50,8 @@ namespace Xbim.Ifc4.StructuralLoadResource
 		{ 
 			get 
 			{
-				if(Activated) return _locations;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _locations;
+				((IPersistEntity)this).Activate(false);
 				return _locations;
 			} 
 		}

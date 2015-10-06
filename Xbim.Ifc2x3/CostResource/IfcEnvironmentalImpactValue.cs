@@ -9,6 +9,7 @@
 
 using Xbim.Ifc2x3.MeasureResource;
 using Xbim.Ifc2x3.DateTimeResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -17,8 +18,10 @@ namespace Xbim.Ifc2x3.CostResource
 {
 	[ExpressType("IFCENVIRONMENTALIMPACTVALUE", 78)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcEnvironmentalImpactValue : IfcAppliedValue, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcEnvironmentalImpactValue>, System.IEquatable<@IfcEnvironmentalImpactValue>
+	public  partial class @IfcEnvironmentalImpactValue : IfcAppliedValue, IInstantiableEntity, IEqualityComparer<@IfcEnvironmentalImpactValue>, IEquatable<@IfcEnvironmentalImpactValue>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcEnvironmentalImpactValue(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -36,10 +39,8 @@ namespace Xbim.Ifc2x3.CostResource
 		{ 
 			get 
 			{
-				if(Activated) return _impactType;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _impactType;
+				((IPersistEntity)this).Activate(false);
 				return _impactType;
 			} 
 			set
@@ -53,10 +54,8 @@ namespace Xbim.Ifc2x3.CostResource
 		{ 
 			get 
 			{
-				if(Activated) return _category;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _category;
+				((IPersistEntity)this).Activate(false);
 				return _category;
 			} 
 			set
@@ -70,10 +69,8 @@ namespace Xbim.Ifc2x3.CostResource
 		{ 
 			get 
 			{
-				if(Activated) return _userDefinedCategory;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _userDefinedCategory;
+				((IPersistEntity)this).Activate(false);
 				return _userDefinedCategory;
 			} 
 			set

@@ -8,6 +8,7 @@
 // ------------------------------------------------------------------------------
 
 using Xbim.Ifc4.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -16,8 +17,10 @@ namespace Xbim.Ifc4.QuantityResource
 {
 	[ExpressType("IFCPHYSICALCOMPLEXQUANTITY", 799)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcPhysicalComplexQuantity : IfcPhysicalQuantity, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcPhysicalComplexQuantity>, System.IEquatable<@IfcPhysicalComplexQuantity>
+	public  partial class @IfcPhysicalComplexQuantity : IfcPhysicalQuantity, IInstantiableEntity, IEqualityComparer<@IfcPhysicalComplexQuantity>, IEquatable<@IfcPhysicalComplexQuantity>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcPhysicalComplexQuantity(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -38,10 +41,8 @@ namespace Xbim.Ifc4.QuantityResource
 		{ 
 			get 
 			{
-				if(Activated) return _hasQuantities;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _hasQuantities;
+				((IPersistEntity)this).Activate(false);
 				return _hasQuantities;
 			} 
 		}
@@ -51,10 +52,8 @@ namespace Xbim.Ifc4.QuantityResource
 		{ 
 			get 
 			{
-				if(Activated) return _discrimination;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _discrimination;
+				((IPersistEntity)this).Activate(false);
 				return _discrimination;
 			} 
 			set
@@ -68,10 +67,8 @@ namespace Xbim.Ifc4.QuantityResource
 		{ 
 			get 
 			{
-				if(Activated) return _quality;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _quality;
+				((IPersistEntity)this).Activate(false);
 				return _quality;
 			} 
 			set
@@ -85,10 +82,8 @@ namespace Xbim.Ifc4.QuantityResource
 		{ 
 			get 
 			{
-				if(Activated) return _usage;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _usage;
+				((IPersistEntity)this).Activate(false);
 				return _usage;
 			} 
 			set

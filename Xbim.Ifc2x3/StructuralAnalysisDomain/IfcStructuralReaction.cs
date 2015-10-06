@@ -7,6 +7,7 @@
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -15,8 +16,10 @@ namespace Xbim.Ifc2x3.StructuralAnalysisDomain
 {
 	[ExpressType("IFCSTRUCTURALREACTION", 355)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public abstract partial class @IfcStructuralReaction : IfcStructuralActivity, System.Collections.Generic.IEqualityComparer<@IfcStructuralReaction>, System.IEquatable<@IfcStructuralReaction>
+	public abstract partial class @IfcStructuralReaction : IfcStructuralActivity, IEqualityComparer<@IfcStructuralReaction>, IEquatable<@IfcStructuralReaction>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcStructuralReaction(IModel model) : base(model) 		{ 
 			Model = model; 

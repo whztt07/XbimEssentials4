@@ -7,6 +7,8 @@
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
+using System;
+using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
 
@@ -14,8 +16,10 @@ namespace Xbim.Ifc4.Kernel
 {
 	[ExpressType("IFCRELASSOCIATES", 910)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public abstract partial class @IfcRelAssociates : IfcRelationship, System.Collections.Generic.IEqualityComparer<@IfcRelAssociates>, System.IEquatable<@IfcRelAssociates>
+	public abstract partial class @IfcRelAssociates : IfcRelationship, IEqualityComparer<@IfcRelAssociates>, IEquatable<@IfcRelAssociates>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcRelAssociates(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -33,10 +37,8 @@ namespace Xbim.Ifc4.Kernel
 		{ 
 			get 
 			{
-				if(Activated) return _relatedObjects;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _relatedObjects;
+				((IPersistEntity)this).Activate(false);
 				return _relatedObjects;
 			} 
 		}

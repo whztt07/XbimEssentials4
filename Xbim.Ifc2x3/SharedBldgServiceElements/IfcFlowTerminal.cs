@@ -11,6 +11,7 @@ using Xbim.Ifc2x3.UtilityResource;
 using Xbim.Ifc2x3.MeasureResource;
 using Xbim.Ifc2x3.GeometricConstraintResource;
 using Xbim.Ifc2x3.RepresentationResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -19,8 +20,10 @@ namespace Xbim.Ifc2x3.SharedBldgServiceElements
 {
 	[ExpressType("IFCFLOWTERMINAL", 46)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcFlowTerminal : IfcDistributionFlowElement, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcFlowTerminal>, System.IEquatable<@IfcFlowTerminal>
+	public  partial class @IfcFlowTerminal : IfcDistributionFlowElement, IInstantiableEntity, IEqualityComparer<@IfcFlowTerminal>, IEquatable<@IfcFlowTerminal>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcFlowTerminal(IModel model) : base(model) 		{ 
 			Model = model; 

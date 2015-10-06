@@ -7,6 +7,7 @@
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -15,8 +16,10 @@ namespace Xbim.Ifc2x3.GeometryResource
 {
 	[ExpressType("IFCBOUNDEDSURFACE", 335)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcBoundedSurface : IfcSurface, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcBoundedSurface>, System.IEquatable<@IfcBoundedSurface>
+	public  partial class @IfcBoundedSurface : IfcSurface, IInstantiableEntity, IEqualityComparer<@IfcBoundedSurface>, IEquatable<@IfcBoundedSurface>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcBoundedSurface(IModel model) : base(model) 		{ 
 			Model = model; 

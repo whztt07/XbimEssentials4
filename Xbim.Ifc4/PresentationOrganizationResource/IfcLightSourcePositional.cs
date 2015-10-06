@@ -10,6 +10,7 @@
 using Xbim.Ifc4.MeasureResource;
 using Xbim.Ifc4.PresentationAppearanceResource;
 using Xbim.Ifc4.GeometryResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -18,8 +19,10 @@ namespace Xbim.Ifc4.PresentationOrganizationResource
 {
 	[ExpressType("IFCLIGHTSOURCEPOSITIONAL", 733)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcLightSourcePositional : IfcLightSource, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcLightSourcePositional>, System.IEquatable<@IfcLightSourcePositional>
+	public  partial class @IfcLightSourcePositional : IfcLightSource, IInstantiableEntity, IEqualityComparer<@IfcLightSourcePositional>, IEquatable<@IfcLightSourcePositional>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcLightSourcePositional(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -39,10 +42,8 @@ namespace Xbim.Ifc4.PresentationOrganizationResource
 		{ 
 			get 
 			{
-				if(Activated) return _position;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _position;
+				((IPersistEntity)this).Activate(false);
 				return _position;
 			} 
 			set
@@ -56,10 +57,8 @@ namespace Xbim.Ifc4.PresentationOrganizationResource
 		{ 
 			get 
 			{
-				if(Activated) return _radius;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _radius;
+				((IPersistEntity)this).Activate(false);
 				return _radius;
 			} 
 			set
@@ -73,10 +72,8 @@ namespace Xbim.Ifc4.PresentationOrganizationResource
 		{ 
 			get 
 			{
-				if(Activated) return _constantAttenuation;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _constantAttenuation;
+				((IPersistEntity)this).Activate(false);
 				return _constantAttenuation;
 			} 
 			set
@@ -90,10 +87,8 @@ namespace Xbim.Ifc4.PresentationOrganizationResource
 		{ 
 			get 
 			{
-				if(Activated) return _distanceAttenuation;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _distanceAttenuation;
+				((IPersistEntity)this).Activate(false);
 				return _distanceAttenuation;
 			} 
 			set
@@ -107,10 +102,8 @@ namespace Xbim.Ifc4.PresentationOrganizationResource
 		{ 
 			get 
 			{
-				if(Activated) return _quadricAttenuation;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _quadricAttenuation;
+				((IPersistEntity)this).Activate(false);
 				return _quadricAttenuation;
 			} 
 			set

@@ -7,6 +7,7 @@
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -15,8 +16,10 @@ namespace Xbim.Ifc2x3.TopologyResource
 {
 	[ExpressType("IFCCLOSEDSHELL", 161)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcClosedShell : IfcConnectedFaceSet, IfcShell, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcClosedShell>, System.IEquatable<@IfcClosedShell>
+	public  partial class @IfcClosedShell : IfcConnectedFaceSet, IfcShell, IInstantiableEntity, IEqualityComparer<@IfcClosedShell>, IEquatable<@IfcClosedShell>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcClosedShell(IModel model) : base(model) 		{ 
 			Model = model; 

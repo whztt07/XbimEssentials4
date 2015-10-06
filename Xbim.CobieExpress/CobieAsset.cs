@@ -7,6 +7,7 @@
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -16,8 +17,10 @@ namespace Xbim.CobieExpress
 	[IndexedClass]
 	[ExpressType("ASSET", 15)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public abstract partial class @CobieAsset : CobieReferencedObject, System.Collections.Generic.IEqualityComparer<@CobieAsset>, System.IEquatable<@CobieAsset>
+	public abstract partial class @CobieAsset : CobieReferencedObject, IEqualityComparer<@CobieAsset>, IEquatable<@CobieAsset>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal CobieAsset(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -42,10 +45,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _name;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _name;
+				((IPersistEntity)this).Activate(false);
 				return _name;
 			} 
 			set
@@ -59,10 +60,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _description;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _description;
+				((IPersistEntity)this).Activate(false);
 				return _description;
 			} 
 			set
@@ -76,10 +75,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _category;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _category;
+				((IPersistEntity)this).Activate(false);
 				return _category;
 			} 
 		}
@@ -89,10 +86,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _impacts;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _impacts;
+				((IPersistEntity)this).Activate(false);
 				return _impacts;
 			} 
 		}
@@ -102,10 +97,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _documents;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _documents;
+				((IPersistEntity)this).Activate(false);
 				return _documents;
 			} 
 		}
@@ -115,10 +108,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _attributes;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _attributes;
+				((IPersistEntity)this).Activate(false);
 				return _attributes;
 			} 
 		}

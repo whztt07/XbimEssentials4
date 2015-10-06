@@ -12,6 +12,7 @@ using Xbim.Ifc4.UtilityResource;
 using Xbim.Ifc4.MeasureResource;
 using Xbim.Ifc4.GeometricConstraintResource;
 using Xbim.Ifc4.RepresentationResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -20,8 +21,10 @@ namespace Xbim.Ifc4.SharedBldgElements
 {
 	[ExpressType("IFCSTAIRFLIGHT", 1007)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcStairFlight : IfcBuildingElement, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcStairFlight>, System.IEquatable<@IfcStairFlight>
+	public  partial class @IfcStairFlight : IfcBuildingElement, IInstantiableEntity, IEqualityComparer<@IfcStairFlight>, IEquatable<@IfcStairFlight>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcStairFlight(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -41,10 +44,8 @@ namespace Xbim.Ifc4.SharedBldgElements
 		{ 
 			get 
 			{
-				if(Activated) return _numberOfRiser;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _numberOfRiser;
+				((IPersistEntity)this).Activate(false);
 				return _numberOfRiser;
 			} 
 			set
@@ -58,10 +59,8 @@ namespace Xbim.Ifc4.SharedBldgElements
 		{ 
 			get 
 			{
-				if(Activated) return _numberOfTreads;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _numberOfTreads;
+				((IPersistEntity)this).Activate(false);
 				return _numberOfTreads;
 			} 
 			set
@@ -75,10 +74,8 @@ namespace Xbim.Ifc4.SharedBldgElements
 		{ 
 			get 
 			{
-				if(Activated) return _riserHeight;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _riserHeight;
+				((IPersistEntity)this).Activate(false);
 				return _riserHeight;
 			} 
 			set
@@ -92,10 +89,8 @@ namespace Xbim.Ifc4.SharedBldgElements
 		{ 
 			get 
 			{
-				if(Activated) return _treadLength;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _treadLength;
+				((IPersistEntity)this).Activate(false);
 				return _treadLength;
 			} 
 			set
@@ -109,10 +104,8 @@ namespace Xbim.Ifc4.SharedBldgElements
 		{ 
 			get 
 			{
-				if(Activated) return _predefinedType;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _predefinedType;
+				((IPersistEntity)this).Activate(false);
 				return _predefinedType;
 			} 
 			set

@@ -10,6 +10,7 @@
 using Xbim.Ifc4.ProductExtension;
 using Xbim.Ifc4.UtilityResource;
 using Xbim.Ifc4.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -18,8 +19,10 @@ namespace Xbim.Ifc4.SharedBldgServiceElements
 {
 	[ExpressType("IFCDISTRIBUTIONSYSTEM", 577)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcDistributionSystem : IfcSystem, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcDistributionSystem>, System.IEquatable<@IfcDistributionSystem>
+	public  partial class @IfcDistributionSystem : IfcSystem, IInstantiableEntity, IEqualityComparer<@IfcDistributionSystem>, IEquatable<@IfcDistributionSystem>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcDistributionSystem(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -36,10 +39,8 @@ namespace Xbim.Ifc4.SharedBldgServiceElements
 		{ 
 			get 
 			{
-				if(Activated) return _longName;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _longName;
+				((IPersistEntity)this).Activate(false);
 				return _longName;
 			} 
 			set
@@ -53,10 +54,8 @@ namespace Xbim.Ifc4.SharedBldgServiceElements
 		{ 
 			get 
 			{
-				if(Activated) return _predefinedType;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _predefinedType;
+				((IPersistEntity)this).Activate(false);
 				return _predefinedType;
 			} 
 			set

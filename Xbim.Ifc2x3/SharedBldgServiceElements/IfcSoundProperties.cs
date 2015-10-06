@@ -10,6 +10,7 @@
 using Xbim.Ifc2x3.Kernel;
 using Xbim.Ifc2x3.UtilityResource;
 using Xbim.Ifc2x3.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -18,8 +19,10 @@ namespace Xbim.Ifc2x3.SharedBldgServiceElements
 {
 	[ExpressType("IFCSOUNDPROPERTIES", 474)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcSoundProperties : IfcPropertySetDefinition, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcSoundProperties>, System.IEquatable<@IfcSoundProperties>
+	public  partial class @IfcSoundProperties : IfcPropertySetDefinition, IInstantiableEntity, IEqualityComparer<@IfcSoundProperties>, IEquatable<@IfcSoundProperties>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcSoundProperties(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -38,10 +41,8 @@ namespace Xbim.Ifc2x3.SharedBldgServiceElements
 		{ 
 			get 
 			{
-				if(Activated) return _isAttenuating;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _isAttenuating;
+				((IPersistEntity)this).Activate(false);
 				return _isAttenuating;
 			} 
 			set
@@ -55,10 +56,8 @@ namespace Xbim.Ifc2x3.SharedBldgServiceElements
 		{ 
 			get 
 			{
-				if(Activated) return _soundScale;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _soundScale;
+				((IPersistEntity)this).Activate(false);
 				return _soundScale;
 			} 
 			set
@@ -72,10 +71,8 @@ namespace Xbim.Ifc2x3.SharedBldgServiceElements
 		{ 
 			get 
 			{
-				if(Activated) return _soundValues;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _soundValues;
+				((IPersistEntity)this).Activate(false);
 				return _soundValues;
 			} 
 		}

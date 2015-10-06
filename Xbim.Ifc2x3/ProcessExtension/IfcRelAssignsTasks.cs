@@ -10,6 +10,7 @@
 using Xbim.Ifc2x3.Kernel;
 using Xbim.Ifc2x3.UtilityResource;
 using Xbim.Ifc2x3.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -18,8 +19,10 @@ namespace Xbim.Ifc2x3.ProcessExtension
 {
 	[ExpressType("IFCRELASSIGNSTASKS", 618)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcRelAssignsTasks : IfcRelAssignsToControl, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcRelAssignsTasks>, System.IEquatable<@IfcRelAssignsTasks>
+	public  partial class @IfcRelAssignsTasks : IfcRelAssignsToControl, IInstantiableEntity, IEqualityComparer<@IfcRelAssignsTasks>, IEquatable<@IfcRelAssignsTasks>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcRelAssignsTasks(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -36,10 +39,8 @@ namespace Xbim.Ifc2x3.ProcessExtension
 		{ 
 			get 
 			{
-				if(Activated) return _timeForTask;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _timeForTask;
+				((IPersistEntity)this).Activate(false);
 				return _timeForTask;
 			} 
 			set

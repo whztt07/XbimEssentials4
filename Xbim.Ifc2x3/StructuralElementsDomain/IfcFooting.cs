@@ -12,6 +12,7 @@ using Xbim.Ifc2x3.UtilityResource;
 using Xbim.Ifc2x3.MeasureResource;
 using Xbim.Ifc2x3.GeometricConstraintResource;
 using Xbim.Ifc2x3.RepresentationResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -20,8 +21,10 @@ namespace Xbim.Ifc2x3.StructuralElementsDomain
 {
 	[ExpressType("IFCFOOTING", 120)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcFooting : IfcBuildingElement, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcFooting>, System.IEquatable<@IfcFooting>
+	public  partial class @IfcFooting : IfcBuildingElement, IInstantiableEntity, IEqualityComparer<@IfcFooting>, IEquatable<@IfcFooting>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcFooting(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -37,10 +40,8 @@ namespace Xbim.Ifc2x3.StructuralElementsDomain
 		{ 
 			get 
 			{
-				if(Activated) return _predefinedType;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _predefinedType;
+				((IPersistEntity)this).Activate(false);
 				return _predefinedType;
 			} 
 			set

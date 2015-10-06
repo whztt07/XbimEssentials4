@@ -7,6 +7,7 @@
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -15,8 +16,10 @@ namespace Xbim.Ifc4.TopologyResource
 {
 	[ExpressType("IFCEDGE", 595)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcEdge : IfcTopologicalRepresentationItem, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcEdge>, System.IEquatable<@IfcEdge>
+	public  partial class @IfcEdge : IfcTopologicalRepresentationItem, IInstantiableEntity, IEqualityComparer<@IfcEdge>, IEquatable<@IfcEdge>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcEdge(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -33,10 +36,8 @@ namespace Xbim.Ifc4.TopologyResource
 		{ 
 			get 
 			{
-				if(Activated) return _edgeStart;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _edgeStart;
+				((IPersistEntity)this).Activate(false);
 				return _edgeStart;
 			} 
 			set
@@ -50,10 +51,8 @@ namespace Xbim.Ifc4.TopologyResource
 		{ 
 			get 
 			{
-				if(Activated) return _edgeEnd;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _edgeEnd;
+				((IPersistEntity)this).Activate(false);
 				return _edgeEnd;
 			} 
 			set

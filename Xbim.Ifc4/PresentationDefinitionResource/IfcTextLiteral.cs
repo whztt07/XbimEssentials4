@@ -9,6 +9,7 @@
 
 using Xbim.Ifc4.GeometryResource;
 using Xbim.Ifc4.PresentationAppearanceResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -17,8 +18,10 @@ namespace Xbim.Ifc4.PresentationDefinitionResource
 {
 	[ExpressType("IFCTEXTLITERAL", 1092)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcTextLiteral : IfcGeometricRepresentationItem, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcTextLiteral>, System.IEquatable<@IfcTextLiteral>
+	public  partial class @IfcTextLiteral : IfcGeometricRepresentationItem, IInstantiableEntity, IEqualityComparer<@IfcTextLiteral>, IEquatable<@IfcTextLiteral>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcTextLiteral(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -36,10 +39,8 @@ namespace Xbim.Ifc4.PresentationDefinitionResource
 		{ 
 			get 
 			{
-				if(Activated) return _literal;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _literal;
+				((IPersistEntity)this).Activate(false);
 				return _literal;
 			} 
 			set
@@ -53,10 +54,8 @@ namespace Xbim.Ifc4.PresentationDefinitionResource
 		{ 
 			get 
 			{
-				if(Activated) return _placement;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _placement;
+				((IPersistEntity)this).Activate(false);
 				return _placement;
 			} 
 			set
@@ -70,10 +69,8 @@ namespace Xbim.Ifc4.PresentationDefinitionResource
 		{ 
 			get 
 			{
-				if(Activated) return _path;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _path;
+				((IPersistEntity)this).Activate(false);
 				return _path;
 			} 
 			set

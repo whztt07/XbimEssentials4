@@ -8,6 +8,7 @@
 // ------------------------------------------------------------------------------
 
 using Xbim.Ifc4.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -16,8 +17,10 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
 {
 	[ExpressType("IFCTEXTURECOORDINATEGENERATOR", 1099)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcTextureCoordinateGenerator : IfcTextureCoordinate, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcTextureCoordinateGenerator>, System.IEquatable<@IfcTextureCoordinateGenerator>
+	public  partial class @IfcTextureCoordinateGenerator : IfcTextureCoordinate, IInstantiableEntity, IEqualityComparer<@IfcTextureCoordinateGenerator>, IEquatable<@IfcTextureCoordinateGenerator>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcTextureCoordinateGenerator(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -35,10 +38,8 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
 		{ 
 			get 
 			{
-				if(Activated) return _mode;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _mode;
+				((IPersistEntity)this).Activate(false);
 				return _mode;
 			} 
 			set
@@ -52,10 +53,8 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
 		{ 
 			get 
 			{
-				if(Activated) return _parameter;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _parameter;
+				((IPersistEntity)this).Activate(false);
 				return _parameter;
 			} 
 		}

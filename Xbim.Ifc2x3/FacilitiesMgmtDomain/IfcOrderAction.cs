@@ -10,6 +10,7 @@
 using Xbim.Ifc2x3.ProcessExtension;
 using Xbim.Ifc2x3.UtilityResource;
 using Xbim.Ifc2x3.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -18,8 +19,10 @@ namespace Xbim.Ifc2x3.FacilitiesMgmtDomain
 {
 	[ExpressType("IFCORDERACTION", 591)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcOrderAction : IfcTask, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcOrderAction>, System.IEquatable<@IfcOrderAction>
+	public  partial class @IfcOrderAction : IfcTask, IInstantiableEntity, IEqualityComparer<@IfcOrderAction>, IEquatable<@IfcOrderAction>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcOrderAction(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -35,10 +38,8 @@ namespace Xbim.Ifc2x3.FacilitiesMgmtDomain
 		{ 
 			get 
 			{
-				if(Activated) return _actionID;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _actionID;
+				((IPersistEntity)this).Activate(false);
 				return _actionID;
 			} 
 			set

@@ -7,6 +7,8 @@
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
+using System;
+using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
 
@@ -14,8 +16,10 @@ namespace Xbim.Ifc4.RepresentationResource
 {
 	[ExpressType("IFCSTYLEMODEL", 1047)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public abstract partial class @IfcStyleModel : IfcRepresentation, System.Collections.Generic.IEqualityComparer<@IfcStyleModel>, System.IEquatable<@IfcStyleModel>
+	public abstract partial class @IfcStyleModel : IfcRepresentation, IEqualityComparer<@IfcStyleModel>, IEquatable<@IfcStyleModel>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcStyleModel(IModel model) : base(model) 		{ 
 			Model = model; 

@@ -9,6 +9,7 @@
 
 using Xbim.Ifc4.GeometryResource;
 using Xbim.Ifc4.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -17,8 +18,10 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
 {
 	[ExpressType("IFCFILLAREASTYLETILES", 659)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcFillAreaStyleTiles : IfcGeometricRepresentationItem, IfcFillStyleSelect, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcFillAreaStyleTiles>, System.IEquatable<@IfcFillAreaStyleTiles>
+	public  partial class @IfcFillAreaStyleTiles : IfcGeometricRepresentationItem, IfcFillStyleSelect, IInstantiableEntity, IEqualityComparer<@IfcFillAreaStyleTiles>, IEquatable<@IfcFillAreaStyleTiles>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcFillAreaStyleTiles(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -38,10 +41,8 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
 		{ 
 			get 
 			{
-				if(Activated) return _tilingPattern;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _tilingPattern;
+				((IPersistEntity)this).Activate(false);
 				return _tilingPattern;
 			} 
 		}
@@ -51,10 +52,8 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
 		{ 
 			get 
 			{
-				if(Activated) return _tiles;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _tiles;
+				((IPersistEntity)this).Activate(false);
 				return _tiles;
 			} 
 		}
@@ -64,10 +63,8 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
 		{ 
 			get 
 			{
-				if(Activated) return _tilingScale;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _tilingScale;
+				((IPersistEntity)this).Activate(false);
 				return _tilingScale;
 			} 
 			set

@@ -10,6 +10,7 @@
 using Xbim.Ifc4.Kernel;
 using Xbim.Ifc4.UtilityResource;
 using Xbim.Ifc4.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -18,8 +19,10 @@ namespace Xbim.Ifc4.StructuralAnalysisDomain
 {
 	[ExpressType("IFCSTRUCTURALRESULTGROUP", 1041)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcStructuralResultGroup : IfcGroup, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcStructuralResultGroup>, System.IEquatable<@IfcStructuralResultGroup>
+	public  partial class @IfcStructuralResultGroup : IfcGroup, IInstantiableEntity, IEqualityComparer<@IfcStructuralResultGroup>, IEquatable<@IfcStructuralResultGroup>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcStructuralResultGroup(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -37,10 +40,8 @@ namespace Xbim.Ifc4.StructuralAnalysisDomain
 		{ 
 			get 
 			{
-				if(Activated) return _theoryType;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _theoryType;
+				((IPersistEntity)this).Activate(false);
 				return _theoryType;
 			} 
 			set
@@ -55,10 +56,8 @@ namespace Xbim.Ifc4.StructuralAnalysisDomain
 		{ 
 			get 
 			{
-				if(Activated) return _resultForLoadGroup;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _resultForLoadGroup;
+				((IPersistEntity)this).Activate(false);
 				return _resultForLoadGroup;
 			} 
 			set
@@ -72,10 +71,8 @@ namespace Xbim.Ifc4.StructuralAnalysisDomain
 		{ 
 			get 
 			{
-				if(Activated) return _isLinear;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _isLinear;
+				((IPersistEntity)this).Activate(false);
 				return _isLinear;
 			} 
 			set

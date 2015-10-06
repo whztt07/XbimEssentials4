@@ -9,6 +9,7 @@
 
 using Xbim.Ifc4.UtilityResource;
 using Xbim.Ifc4.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -17,8 +18,10 @@ namespace Xbim.Ifc4.Kernel
 {
 	[ExpressType("IFCRELASSIGNSTOGROUPBYFACTOR", 906)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcRelAssignsToGroupByFactor : IfcRelAssignsToGroup, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcRelAssignsToGroupByFactor>, System.IEquatable<@IfcRelAssignsToGroupByFactor>
+	public  partial class @IfcRelAssignsToGroupByFactor : IfcRelAssignsToGroup, IInstantiableEntity, IEqualityComparer<@IfcRelAssignsToGroupByFactor>, IEquatable<@IfcRelAssignsToGroupByFactor>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcRelAssignsToGroupByFactor(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -34,10 +37,8 @@ namespace Xbim.Ifc4.Kernel
 		{ 
 			get 
 			{
-				if(Activated) return _factor;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _factor;
+				((IPersistEntity)this).Activate(false);
 				return _factor;
 			} 
 			set

@@ -9,6 +9,7 @@
 
 using Xbim.Ifc4.MeasureResource;
 using Xbim.Ifc4.GeometryResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -17,8 +18,10 @@ namespace Xbim.Ifc4.RepresentationResource
 {
 	[ExpressType("IFCTOPOLOGYREPRESENTATION", 1107)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcTopologyRepresentation : IfcShapeModel, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcTopologyRepresentation>, System.IEquatable<@IfcTopologyRepresentation>
+	public  partial class @IfcTopologyRepresentation : IfcShapeModel, IInstantiableEntity, IEqualityComparer<@IfcTopologyRepresentation>, IEquatable<@IfcTopologyRepresentation>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcTopologyRepresentation(IModel model) : base(model) 		{ 
 			Model = model; 

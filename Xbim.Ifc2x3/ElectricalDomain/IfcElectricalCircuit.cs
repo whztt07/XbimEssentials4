@@ -10,6 +10,7 @@
 using Xbim.Ifc2x3.ProductExtension;
 using Xbim.Ifc2x3.UtilityResource;
 using Xbim.Ifc2x3.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -18,8 +19,10 @@ namespace Xbim.Ifc2x3.ElectricalDomain
 {
 	[ExpressType("IFCELECTRICALCIRCUIT", 406)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcElectricalCircuit : IfcSystem, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcElectricalCircuit>, System.IEquatable<@IfcElectricalCircuit>
+	public  partial class @IfcElectricalCircuit : IfcSystem, IInstantiableEntity, IEqualityComparer<@IfcElectricalCircuit>, IEquatable<@IfcElectricalCircuit>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcElectricalCircuit(IModel model) : base(model) 		{ 
 			Model = model; 

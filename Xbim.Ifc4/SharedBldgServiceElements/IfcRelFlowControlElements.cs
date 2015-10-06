@@ -10,6 +10,7 @@
 using Xbim.Ifc4.Kernel;
 using Xbim.Ifc4.UtilityResource;
 using Xbim.Ifc4.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -18,8 +19,10 @@ namespace Xbim.Ifc4.SharedBldgServiceElements
 {
 	[ExpressType("IFCRELFLOWCONTROLELEMENTS", 937)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcRelFlowControlElements : IfcRelConnects, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcRelFlowControlElements>, System.IEquatable<@IfcRelFlowControlElements>
+	public  partial class @IfcRelFlowControlElements : IfcRelConnects, IInstantiableEntity, IEqualityComparer<@IfcRelFlowControlElements>, IEquatable<@IfcRelFlowControlElements>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcRelFlowControlElements(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -38,10 +41,8 @@ namespace Xbim.Ifc4.SharedBldgServiceElements
 		{ 
 			get 
 			{
-				if(Activated) return _relatedControlElements;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _relatedControlElements;
+				((IPersistEntity)this).Activate(false);
 				return _relatedControlElements;
 			} 
 		}
@@ -52,10 +53,8 @@ namespace Xbim.Ifc4.SharedBldgServiceElements
 		{ 
 			get 
 			{
-				if(Activated) return _relatingFlowElement;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _relatingFlowElement;
+				((IPersistEntity)this).Activate(false);
 				return _relatingFlowElement;
 			} 
 			set

@@ -7,6 +7,7 @@
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -16,8 +17,10 @@ namespace Xbim.Ifc4.GeometricConstraintResource
 	[IndexedClass]
 	[ExpressType("IFCCONNECTIONCURVEGEOMETRY", 510)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcConnectionCurveGeometry : IfcConnectionGeometry, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcConnectionCurveGeometry>, System.IEquatable<@IfcConnectionCurveGeometry>
+	public  partial class @IfcConnectionCurveGeometry : IfcConnectionGeometry, IInstantiableEntity, IEqualityComparer<@IfcConnectionCurveGeometry>, IEquatable<@IfcConnectionCurveGeometry>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcConnectionCurveGeometry(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -34,10 +37,8 @@ namespace Xbim.Ifc4.GeometricConstraintResource
 		{ 
 			get 
 			{
-				if(Activated) return _curveOnRelatingElement;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _curveOnRelatingElement;
+				((IPersistEntity)this).Activate(false);
 				return _curveOnRelatingElement;
 			} 
 			set
@@ -51,10 +52,8 @@ namespace Xbim.Ifc4.GeometricConstraintResource
 		{ 
 			get 
 			{
-				if(Activated) return _curveOnRelatedElement;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _curveOnRelatedElement;
+				((IPersistEntity)this).Activate(false);
 				return _curveOnRelatedElement;
 			} 
 			set

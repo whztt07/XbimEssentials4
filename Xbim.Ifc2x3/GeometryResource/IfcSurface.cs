@@ -9,6 +9,8 @@
 
 using Xbim.Ifc2x3.GeometricModelResource;
 using Xbim.Ifc2x3.GeometricConstraintResource;
+using System;
+using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
 
@@ -16,8 +18,10 @@ namespace Xbim.Ifc2x3.GeometryResource
 {
 	[ExpressType("IFCSURFACE", 111)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public abstract partial class @IfcSurface : IfcGeometricRepresentationItem, IfcGeometricSetSelect, IfcSurfaceOrFaceSurface, System.Collections.Generic.IEqualityComparer<@IfcSurface>, System.IEquatable<@IfcSurface>
+	public abstract partial class @IfcSurface : IfcGeometricRepresentationItem, IfcGeometricSetSelect, IfcSurfaceOrFaceSurface, IEqualityComparer<@IfcSurface>, IEquatable<@IfcSurface>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcSurface(IModel model) : base(model) 		{ 
 			Model = model; 

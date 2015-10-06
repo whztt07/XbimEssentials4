@@ -7,6 +7,7 @@
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -15,8 +16,10 @@ namespace Xbim.Ifc2x3.GeometryResource
 {
 	[ExpressType("IFCBEZIERCURVE", 166)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcBezierCurve : IfcBSplineCurve, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcBezierCurve>, System.IEquatable<@IfcBezierCurve>
+	public  partial class @IfcBezierCurve : IfcBSplineCurve, IInstantiableEntity, IEqualityComparer<@IfcBezierCurve>, IEquatable<@IfcBezierCurve>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcBezierCurve(IModel model) : base(model) 		{ 
 			Model = model; 

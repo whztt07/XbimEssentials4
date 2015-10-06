@@ -9,6 +9,7 @@
 
 using Xbim.Ifc4.GeometryResource;
 using Xbim.Ifc4.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -17,8 +18,10 @@ namespace Xbim.Ifc4.GeometricModelResource
 {
 	[ExpressType("IFCSWEPTDISKSOLID", 1067)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcSweptDiskSolid : IfcSolidModel, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcSweptDiskSolid>, System.IEquatable<@IfcSweptDiskSolid>
+	public  partial class @IfcSweptDiskSolid : IfcSolidModel, IInstantiableEntity, IEqualityComparer<@IfcSweptDiskSolid>, IEquatable<@IfcSweptDiskSolid>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcSweptDiskSolid(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -38,10 +41,8 @@ namespace Xbim.Ifc4.GeometricModelResource
 		{ 
 			get 
 			{
-				if(Activated) return _directrix;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _directrix;
+				((IPersistEntity)this).Activate(false);
 				return _directrix;
 			} 
 			set
@@ -55,10 +56,8 @@ namespace Xbim.Ifc4.GeometricModelResource
 		{ 
 			get 
 			{
-				if(Activated) return _radius;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _radius;
+				((IPersistEntity)this).Activate(false);
 				return _radius;
 			} 
 			set
@@ -72,10 +71,8 @@ namespace Xbim.Ifc4.GeometricModelResource
 		{ 
 			get 
 			{
-				if(Activated) return _innerRadius;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _innerRadius;
+				((IPersistEntity)this).Activate(false);
 				return _innerRadius;
 			} 
 			set
@@ -89,10 +86,8 @@ namespace Xbim.Ifc4.GeometricModelResource
 		{ 
 			get 
 			{
-				if(Activated) return _startParam;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _startParam;
+				((IPersistEntity)this).Activate(false);
 				return _startParam;
 			} 
 			set
@@ -106,10 +101,8 @@ namespace Xbim.Ifc4.GeometricModelResource
 		{ 
 			get 
 			{
-				if(Activated) return _endParam;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _endParam;
+				((IPersistEntity)this).Activate(false);
 				return _endParam;
 			} 
 			set

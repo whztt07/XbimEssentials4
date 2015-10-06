@@ -11,6 +11,7 @@ using Xbim.Ifc2x3.Kernel;
 using Xbim.Ifc2x3.UtilityResource;
 using Xbim.Ifc2x3.MeasureResource;
 using Xbim.Ifc2x3.ApprovalResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -19,8 +20,10 @@ namespace Xbim.Ifc2x3.ControlExtension
 {
 	[ExpressType("IFCRELASSOCIATESAPPROVAL", 342)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcRelAssociatesApproval : IfcRelAssociates, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcRelAssociatesApproval>, System.IEquatable<@IfcRelAssociatesApproval>
+	public  partial class @IfcRelAssociatesApproval : IfcRelAssociates, IInstantiableEntity, IEqualityComparer<@IfcRelAssociatesApproval>, IEquatable<@IfcRelAssociatesApproval>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcRelAssociatesApproval(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -36,10 +39,8 @@ namespace Xbim.Ifc2x3.ControlExtension
 		{ 
 			get 
 			{
-				if(Activated) return _relatingApproval;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _relatingApproval;
+				((IPersistEntity)this).Activate(false);
 				return _relatingApproval;
 			} 
 			set

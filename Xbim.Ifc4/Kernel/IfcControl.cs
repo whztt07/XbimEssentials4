@@ -8,6 +8,7 @@
 // ------------------------------------------------------------------------------
 
 using Xbim.Ifc4.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -16,8 +17,10 @@ namespace Xbim.Ifc4.Kernel
 {
 	[ExpressType("IFCCONTROL", 527)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public abstract partial class @IfcControl : IfcObject, System.Collections.Generic.IEqualityComparer<@IfcControl>, System.IEquatable<@IfcControl>
+	public abstract partial class @IfcControl : IfcObject, IEqualityComparer<@IfcControl>, IEquatable<@IfcControl>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcControl(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -33,10 +36,8 @@ namespace Xbim.Ifc4.Kernel
 		{ 
 			get 
 			{
-				if(Activated) return _identification;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _identification;
+				((IPersistEntity)this).Activate(false);
 				return _identification;
 			} 
 			set

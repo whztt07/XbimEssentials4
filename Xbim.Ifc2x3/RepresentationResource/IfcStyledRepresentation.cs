@@ -9,6 +9,7 @@
 
 using Xbim.Ifc2x3.MeasureResource;
 using Xbim.Ifc2x3.GeometryResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -17,8 +18,10 @@ namespace Xbim.Ifc2x3.RepresentationResource
 {
 	[ExpressType("IFCSTYLEDREPRESENTATION", 162)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcStyledRepresentation : IfcStyleModel, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcStyledRepresentation>, System.IEquatable<@IfcStyledRepresentation>
+	public  partial class @IfcStyledRepresentation : IfcStyleModel, IInstantiableEntity, IEqualityComparer<@IfcStyledRepresentation>, IEquatable<@IfcStyledRepresentation>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcStyledRepresentation(IModel model) : base(model) 		{ 
 			Model = model; 

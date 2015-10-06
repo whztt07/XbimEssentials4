@@ -10,6 +10,7 @@
 using Xbim.Ifc4.Kernel;
 using Xbim.Ifc4.UtilityResource;
 using Xbim.Ifc4.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -18,8 +19,10 @@ namespace Xbim.Ifc4.ProductExtension
 {
 	[ExpressType("IFCRELVOIDSELEMENT", 947)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcRelVoidsElement : IfcRelDecomposes, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcRelVoidsElement>, System.IEquatable<@IfcRelVoidsElement>
+	public  partial class @IfcRelVoidsElement : IfcRelDecomposes, IInstantiableEntity, IEqualityComparer<@IfcRelVoidsElement>, IEquatable<@IfcRelVoidsElement>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcRelVoidsElement(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -37,10 +40,8 @@ namespace Xbim.Ifc4.ProductExtension
 		{ 
 			get 
 			{
-				if(Activated) return _relatingBuildingElement;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _relatingBuildingElement;
+				((IPersistEntity)this).Activate(false);
 				return _relatingBuildingElement;
 			} 
 			set
@@ -55,10 +56,8 @@ namespace Xbim.Ifc4.ProductExtension
 		{ 
 			get 
 			{
-				if(Activated) return _relatedOpeningElement;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _relatedOpeningElement;
+				((IPersistEntity)this).Activate(false);
 				return _relatedOpeningElement;
 			} 
 			set

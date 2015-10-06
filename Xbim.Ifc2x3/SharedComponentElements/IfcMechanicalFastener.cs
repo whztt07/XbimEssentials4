@@ -11,6 +11,7 @@ using Xbim.Ifc2x3.UtilityResource;
 using Xbim.Ifc2x3.MeasureResource;
 using Xbim.Ifc2x3.GeometricConstraintResource;
 using Xbim.Ifc2x3.RepresentationResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -19,8 +20,10 @@ namespace Xbim.Ifc2x3.SharedComponentElements
 {
 	[ExpressType("IFCMECHANICALFASTENER", 536)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcMechanicalFastener : IfcFastener, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcMechanicalFastener>, System.IEquatable<@IfcMechanicalFastener>
+	public  partial class @IfcMechanicalFastener : IfcFastener, IInstantiableEntity, IEqualityComparer<@IfcMechanicalFastener>, IEquatable<@IfcMechanicalFastener>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcMechanicalFastener(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -37,10 +40,8 @@ namespace Xbim.Ifc2x3.SharedComponentElements
 		{ 
 			get 
 			{
-				if(Activated) return _nominalDiameter;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _nominalDiameter;
+				((IPersistEntity)this).Activate(false);
 				return _nominalDiameter;
 			} 
 			set
@@ -54,10 +55,8 @@ namespace Xbim.Ifc2x3.SharedComponentElements
 		{ 
 			get 
 			{
-				if(Activated) return _nominalLength;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _nominalLength;
+				((IPersistEntity)this).Activate(false);
 				return _nominalLength;
 			} 
 			set

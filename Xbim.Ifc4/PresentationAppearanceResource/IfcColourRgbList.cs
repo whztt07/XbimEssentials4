@@ -9,6 +9,7 @@
 
 using Xbim.Ifc4.PresentationDefinitionResource;
 using Xbim.Ifc4.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -17,8 +18,10 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
 {
 	[ExpressType("IFCCOLOURRGBLIST", 491)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcColourRgbList : IfcPresentationItem, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcColourRgbList>, System.IEquatable<@IfcColourRgbList>
+	public  partial class @IfcColourRgbList : IfcPresentationItem, IInstantiableEntity, IEqualityComparer<@IfcColourRgbList>, IEquatable<@IfcColourRgbList>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcColourRgbList(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -35,10 +38,8 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
 		{ 
 			get 
 			{
-				if(Activated) return _colourList;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _colourList;
+				((IPersistEntity)this).Activate(false);
 				return _colourList;
 			} 
 		}

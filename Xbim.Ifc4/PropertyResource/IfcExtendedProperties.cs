@@ -8,6 +8,8 @@
 // ------------------------------------------------------------------------------
 
 using Xbim.Ifc4.MeasureResource;
+using System;
+using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
 
@@ -15,8 +17,10 @@ namespace Xbim.Ifc4.PropertyResource
 {
 	[ExpressType("IFCEXTENDEDPROPERTIES", 631)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public abstract partial class @IfcExtendedProperties : IfcPropertyAbstraction, System.Collections.Generic.IEqualityComparer<@IfcExtendedProperties>, System.IEquatable<@IfcExtendedProperties>
+	public abstract partial class @IfcExtendedProperties : IfcPropertyAbstraction, IEqualityComparer<@IfcExtendedProperties>, IEquatable<@IfcExtendedProperties>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcExtendedProperties(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -35,10 +39,8 @@ namespace Xbim.Ifc4.PropertyResource
 		{ 
 			get 
 			{
-				if(Activated) return _name;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _name;
+				((IPersistEntity)this).Activate(false);
 				return _name;
 			} 
 			set
@@ -52,10 +54,8 @@ namespace Xbim.Ifc4.PropertyResource
 		{ 
 			get 
 			{
-				if(Activated) return _description;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _description;
+				((IPersistEntity)this).Activate(false);
 				return _description;
 			} 
 			set
@@ -69,10 +69,8 @@ namespace Xbim.Ifc4.PropertyResource
 		{ 
 			get 
 			{
-				if(Activated) return _properties;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _properties;
+				((IPersistEntity)this).Activate(false);
 				return _properties;
 			} 
 		}

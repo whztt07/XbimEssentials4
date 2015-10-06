@@ -8,6 +8,8 @@
 // ------------------------------------------------------------------------------
 
 using Xbim.Ifc4.GeometryResource;
+using System;
+using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
 
@@ -15,8 +17,10 @@ namespace Xbim.Ifc4.GeometricModelResource
 {
 	[ExpressType("IFCCSGPRIMITIVE3D", 545)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public abstract partial class @IfcCsgPrimitive3D : IfcGeometricRepresentationItem, IfcBooleanOperand, IfcCsgSelect, System.Collections.Generic.IEqualityComparer<@IfcCsgPrimitive3D>, System.IEquatable<@IfcCsgPrimitive3D>
+	public abstract partial class @IfcCsgPrimitive3D : IfcGeometricRepresentationItem, IfcBooleanOperand, IfcCsgSelect, IEqualityComparer<@IfcCsgPrimitive3D>, IEquatable<@IfcCsgPrimitive3D>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcCsgPrimitive3D(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -32,10 +36,8 @@ namespace Xbim.Ifc4.GeometricModelResource
 		{ 
 			get 
 			{
-				if(Activated) return _position;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _position;
+				((IPersistEntity)this).Activate(false);
 				return _position;
 			} 
 			set

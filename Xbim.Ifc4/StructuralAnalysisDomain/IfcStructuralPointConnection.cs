@@ -13,6 +13,7 @@ using Xbim.Ifc4.GeometricConstraintResource;
 using Xbim.Ifc4.RepresentationResource;
 using Xbim.Ifc4.StructuralLoadResource;
 using Xbim.Ifc4.GeometryResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -21,8 +22,10 @@ namespace Xbim.Ifc4.StructuralAnalysisDomain
 {
 	[ExpressType("IFCSTRUCTURALPOINTCONNECTION", 1038)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcStructuralPointConnection : IfcStructuralConnection, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcStructuralPointConnection>, System.IEquatable<@IfcStructuralPointConnection>
+	public  partial class @IfcStructuralPointConnection : IfcStructuralConnection, IInstantiableEntity, IEqualityComparer<@IfcStructuralPointConnection>, IEquatable<@IfcStructuralPointConnection>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcStructuralPointConnection(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -38,10 +41,8 @@ namespace Xbim.Ifc4.StructuralAnalysisDomain
 		{ 
 			get 
 			{
-				if(Activated) return _conditionCoordinateSystem;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _conditionCoordinateSystem;
+				((IPersistEntity)this).Activate(false);
 				return _conditionCoordinateSystem;
 			} 
 			set

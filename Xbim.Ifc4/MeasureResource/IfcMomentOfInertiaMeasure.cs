@@ -14,7 +14,7 @@ namespace Xbim.Ifc4.MeasureResource
 {
 	[ExpressType("IFCMOMENTOFINERTIAMEASURE", 69)]
     // ReSharper disable once PartialTypeWithSinglePart
-	public partial struct IfcMomentOfInertiaMeasure : IfcDerivedMeasureValue, IExpressValueType
+	public partial struct IfcMomentOfInertiaMeasure : IfcDerivedMeasureValue, IExpressValueType, System.IEquatable<double>
 	{ 
 		private double _value;
         
@@ -46,6 +46,7 @@ namespace Xbim.Ifc4.MeasureResource
         public static implicit operator double(IfcMomentOfInertiaMeasure obj)
         {
             return obj._value;
+
         }
 
 
@@ -62,6 +63,11 @@ namespace Xbim.Ifc4.MeasureResource
 
             return ((IfcMomentOfInertiaMeasure) obj)._value == _value;
         }
+
+		public bool Equals(double other)
+	    {
+	        return this == other;
+	    }
 
         public static bool operator ==(IfcMomentOfInertiaMeasure obj1, IfcMomentOfInertiaMeasure obj2)
         {

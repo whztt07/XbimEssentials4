@@ -8,6 +8,7 @@
 // ------------------------------------------------------------------------------
 
 using Xbim.Ifc4.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -16,8 +17,10 @@ namespace Xbim.Ifc4.StructuralLoadResource
 {
 	[ExpressType("IFCSTRUCTURALLOADSINGLEFORCEWARPING", 1032)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcStructuralLoadSingleForceWarping : IfcStructuralLoadSingleForce, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcStructuralLoadSingleForceWarping>, System.IEquatable<@IfcStructuralLoadSingleForceWarping>
+	public  partial class @IfcStructuralLoadSingleForceWarping : IfcStructuralLoadSingleForce, IInstantiableEntity, IEqualityComparer<@IfcStructuralLoadSingleForceWarping>, IEquatable<@IfcStructuralLoadSingleForceWarping>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcStructuralLoadSingleForceWarping(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -33,10 +36,8 @@ namespace Xbim.Ifc4.StructuralLoadResource
 		{ 
 			get 
 			{
-				if(Activated) return _warpingMoment;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _warpingMoment;
+				((IPersistEntity)this).Activate(false);
 				return _warpingMoment;
 			} 
 			set

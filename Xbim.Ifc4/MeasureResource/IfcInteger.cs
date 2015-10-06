@@ -14,7 +14,7 @@ namespace Xbim.Ifc4.MeasureResource
 {
 	[ExpressType("IFCINTEGER", 41)]
     // ReSharper disable once PartialTypeWithSinglePart
-	public partial struct IfcInteger : IfcSimpleValue, IExpressValueType
+	public partial struct IfcInteger : IfcSimpleValue, IExpressValueType, System.IEquatable<long>
 	{ 
 		private long _value;
         
@@ -46,6 +46,7 @@ namespace Xbim.Ifc4.MeasureResource
         public static implicit operator long(IfcInteger obj)
         {
             return obj._value;
+
         }
 
 
@@ -62,6 +63,11 @@ namespace Xbim.Ifc4.MeasureResource
 
             return ((IfcInteger) obj)._value == _value;
         }
+
+		public bool Equals(long other)
+	    {
+	        return this == other;
+	    }
 
         public static bool operator ==(IfcInteger obj1, IfcInteger obj2)
         {

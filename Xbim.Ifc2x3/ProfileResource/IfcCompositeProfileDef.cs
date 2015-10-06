@@ -8,6 +8,7 @@
 // ------------------------------------------------------------------------------
 
 using Xbim.Ifc2x3.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -16,8 +17,10 @@ namespace Xbim.Ifc2x3.ProfileResource
 {
 	[ExpressType("IFCCOMPOSITEPROFILEDEF", 172)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcCompositeProfileDef : IfcProfileDef, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcCompositeProfileDef>, System.IEquatable<@IfcCompositeProfileDef>
+	public  partial class @IfcCompositeProfileDef : IfcProfileDef, IInstantiableEntity, IEqualityComparer<@IfcCompositeProfileDef>, IEquatable<@IfcCompositeProfileDef>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcCompositeProfileDef(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -35,10 +38,8 @@ namespace Xbim.Ifc2x3.ProfileResource
 		{ 
 			get 
 			{
-				if(Activated) return _profiles;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _profiles;
+				((IPersistEntity)this).Activate(false);
 				return _profiles;
 			} 
 		}
@@ -48,10 +49,8 @@ namespace Xbim.Ifc2x3.ProfileResource
 		{ 
 			get 
 			{
-				if(Activated) return _label;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _label;
+				((IPersistEntity)this).Activate(false);
 				return _label;
 			} 
 			set

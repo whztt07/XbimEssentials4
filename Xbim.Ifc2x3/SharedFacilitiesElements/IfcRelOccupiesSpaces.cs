@@ -11,6 +11,7 @@ using Xbim.Ifc2x3.Kernel;
 using Xbim.Ifc2x3.UtilityResource;
 using Xbim.Ifc2x3.MeasureResource;
 using Xbim.Ifc2x3.ActorResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -19,8 +20,10 @@ namespace Xbim.Ifc2x3.SharedFacilitiesElements
 {
 	[ExpressType("IFCRELOCCUPIESSPACES", 324)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcRelOccupiesSpaces : IfcRelAssignsToActor, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcRelOccupiesSpaces>, System.IEquatable<@IfcRelOccupiesSpaces>
+	public  partial class @IfcRelOccupiesSpaces : IfcRelAssignsToActor, IInstantiableEntity, IEqualityComparer<@IfcRelOccupiesSpaces>, IEquatable<@IfcRelOccupiesSpaces>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcRelOccupiesSpaces(IModel model) : base(model) 		{ 
 			Model = model; 

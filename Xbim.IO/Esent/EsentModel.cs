@@ -222,7 +222,7 @@ namespace Xbim.IO.Esent
             InstanceCache.FreeTable(table);
         }
         //Loads the property data of an entity, if it is not already loaded
-        int IModel.Activate(IPersistEntity entity, bool write)
+        bool IModel.Activate(IPersistEntity entity, bool write)
         {
             if (write) //we want to activate for reading
             {
@@ -233,7 +233,7 @@ namespace Xbim.IO.Esent
             {
                 InstanceCache.Activate(entity);
             }
-            return entity.EntityLabel;
+            return true;
         }
 
         #region Transaction support
@@ -455,7 +455,7 @@ namespace Xbim.IO.Esent
 
         public byte[] GetEntityBinaryData(IInstantiableEntity entity)
         {
-            if (entity.Activated) //we have it in memory but not written to store yet
+            if (entity.ActivationStatus != ActivationStatus.NotActivated) //we have it in memory but not written to store yet
             {
                 var entityStream = new MemoryStream(4096);
                 var entityWriter = new BinaryWriter(entityStream);

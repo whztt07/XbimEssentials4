@@ -8,6 +8,7 @@
 // ------------------------------------------------------------------------------
 
 using Xbim.Ifc2x3.GeometryResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -17,8 +18,10 @@ namespace Xbim.Ifc2x3.GeometricModelResource
 	[IndexedClass]
 	[ExpressType("IFCBOOLEANRESULT", 339)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcBooleanResult : IfcGeometricRepresentationItem, IfcBooleanOperand, IfcCsgSelect, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcBooleanResult>, System.IEquatable<@IfcBooleanResult>
+	public  partial class @IfcBooleanResult : IfcGeometricRepresentationItem, IfcBooleanOperand, IfcCsgSelect, IInstantiableEntity, IEqualityComparer<@IfcBooleanResult>, IEquatable<@IfcBooleanResult>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcBooleanResult(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -36,10 +39,8 @@ namespace Xbim.Ifc2x3.GeometricModelResource
 		{ 
 			get 
 			{
-				if(Activated) return _operator;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _operator;
+				((IPersistEntity)this).Activate(false);
 				return _operator;
 			} 
 			set
@@ -53,10 +54,8 @@ namespace Xbim.Ifc2x3.GeometricModelResource
 		{ 
 			get 
 			{
-				if(Activated) return _firstOperand;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _firstOperand;
+				((IPersistEntity)this).Activate(false);
 				return _firstOperand;
 			} 
 			set
@@ -70,10 +69,8 @@ namespace Xbim.Ifc2x3.GeometricModelResource
 		{ 
 			get 
 			{
-				if(Activated) return _secondOperand;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _secondOperand;
+				((IPersistEntity)this).Activate(false);
 				return _secondOperand;
 			} 
 			set

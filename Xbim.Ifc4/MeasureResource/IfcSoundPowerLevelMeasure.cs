@@ -14,7 +14,7 @@ namespace Xbim.Ifc4.MeasureResource
 {
 	[ExpressType("IFCSOUNDPOWERLEVELMEASURE", 96)]
     // ReSharper disable once PartialTypeWithSinglePart
-	public partial struct IfcSoundPowerLevelMeasure : IfcDerivedMeasureValue, IExpressValueType
+	public partial struct IfcSoundPowerLevelMeasure : IfcDerivedMeasureValue, IExpressValueType, System.IEquatable<double>
 	{ 
 		private double _value;
         
@@ -46,6 +46,7 @@ namespace Xbim.Ifc4.MeasureResource
         public static implicit operator double(IfcSoundPowerLevelMeasure obj)
         {
             return obj._value;
+
         }
 
 
@@ -62,6 +63,11 @@ namespace Xbim.Ifc4.MeasureResource
 
             return ((IfcSoundPowerLevelMeasure) obj)._value == _value;
         }
+
+		public bool Equals(double other)
+	    {
+	        return this == other;
+	    }
 
         public static bool operator ==(IfcSoundPowerLevelMeasure obj1, IfcSoundPowerLevelMeasure obj2)
         {

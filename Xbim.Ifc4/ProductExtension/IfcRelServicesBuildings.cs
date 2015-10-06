@@ -10,6 +10,7 @@
 using Xbim.Ifc4.Kernel;
 using Xbim.Ifc4.UtilityResource;
 using Xbim.Ifc4.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -18,8 +19,10 @@ namespace Xbim.Ifc4.ProductExtension
 {
 	[ExpressType("IFCRELSERVICESBUILDINGS", 943)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcRelServicesBuildings : IfcRelConnects, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcRelServicesBuildings>, System.IEquatable<@IfcRelServicesBuildings>
+	public  partial class @IfcRelServicesBuildings : IfcRelConnects, IInstantiableEntity, IEqualityComparer<@IfcRelServicesBuildings>, IEquatable<@IfcRelServicesBuildings>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcRelServicesBuildings(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -38,10 +41,8 @@ namespace Xbim.Ifc4.ProductExtension
 		{ 
 			get 
 			{
-				if(Activated) return _relatingSystem;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _relatingSystem;
+				((IPersistEntity)this).Activate(false);
 				return _relatingSystem;
 			} 
 			set
@@ -56,10 +57,8 @@ namespace Xbim.Ifc4.ProductExtension
 		{ 
 			get 
 			{
-				if(Activated) return _relatedBuildings;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _relatedBuildings;
+				((IPersistEntity)this).Activate(false);
 				return _relatedBuildings;
 			} 
 		}

@@ -9,6 +9,7 @@
 
 using Xbim.Ifc4.PresentationDefinitionResource;
 using Xbim.Ifc4.GeometricModelResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -17,8 +18,10 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
 {
 	[ExpressType("IFCINDEXEDCOLOURMAP", 707)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcIndexedColourMap : IfcPresentationItem, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcIndexedColourMap>, System.IEquatable<@IfcIndexedColourMap>
+	public  partial class @IfcIndexedColourMap : IfcPresentationItem, IInstantiableEntity, IEqualityComparer<@IfcIndexedColourMap>, IEquatable<@IfcIndexedColourMap>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcIndexedColourMap(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -39,10 +42,8 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
 		{ 
 			get 
 			{
-				if(Activated) return _mappedTo;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _mappedTo;
+				((IPersistEntity)this).Activate(false);
 				return _mappedTo;
 			} 
 			set
@@ -56,10 +57,8 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
 		{ 
 			get 
 			{
-				if(Activated) return _overrides;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _overrides;
+				((IPersistEntity)this).Activate(false);
 				return _overrides;
 			} 
 			set
@@ -73,10 +72,8 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
 		{ 
 			get 
 			{
-				if(Activated) return _colours;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _colours;
+				((IPersistEntity)this).Activate(false);
 				return _colours;
 			} 
 			set
@@ -90,10 +87,8 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
 		{ 
 			get 
 			{
-				if(Activated) return _colourIndex;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _colourIndex;
+				((IPersistEntity)this).Activate(false);
 				return _colourIndex;
 			} 
 		}

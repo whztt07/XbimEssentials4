@@ -7,6 +7,7 @@
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -15,8 +16,10 @@ namespace Xbim.Ifc2x3.ProductExtension
 {
 	[ExpressType("IFCFEATUREELEMENTADDITION", 385)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public abstract partial class @IfcFeatureElementAddition : IfcFeatureElement, System.Collections.Generic.IEqualityComparer<@IfcFeatureElementAddition>, System.IEquatable<@IfcFeatureElementAddition>
+	public abstract partial class @IfcFeatureElementAddition : IfcFeatureElement, IEqualityComparer<@IfcFeatureElementAddition>, IEquatable<@IfcFeatureElementAddition>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcFeatureElementAddition(IModel model) : base(model) 		{ 
 			Model = model; 

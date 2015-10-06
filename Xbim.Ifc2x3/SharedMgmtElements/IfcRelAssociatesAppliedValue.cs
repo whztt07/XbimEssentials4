@@ -11,6 +11,7 @@ using Xbim.Ifc2x3.Kernel;
 using Xbim.Ifc2x3.UtilityResource;
 using Xbim.Ifc2x3.MeasureResource;
 using Xbim.Ifc2x3.CostResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -19,8 +20,10 @@ namespace Xbim.Ifc2x3.SharedMgmtElements
 {
 	[ExpressType("IFCRELASSOCIATESAPPLIEDVALUE", 699)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcRelAssociatesAppliedValue : IfcRelAssociates, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcRelAssociatesAppliedValue>, System.IEquatable<@IfcRelAssociatesAppliedValue>
+	public  partial class @IfcRelAssociatesAppliedValue : IfcRelAssociates, IInstantiableEntity, IEqualityComparer<@IfcRelAssociatesAppliedValue>, IEquatable<@IfcRelAssociatesAppliedValue>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcRelAssociatesAppliedValue(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -36,10 +39,8 @@ namespace Xbim.Ifc2x3.SharedMgmtElements
 		{ 
 			get 
 			{
-				if(Activated) return _relatingAppliedValue;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _relatingAppliedValue;
+				((IPersistEntity)this).Activate(false);
 				return _relatingAppliedValue;
 			} 
 			set

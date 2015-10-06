@@ -8,9 +8,9 @@
 // ------------------------------------------------------------------------------
 
 using Xbim.Ifc4.MeasureResource;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
 
@@ -18,9 +18,12 @@ namespace Xbim.Ifc4.DateTimeResource
 {
 	[ExpressType("IFCRECURRENCEPATTERN", 890)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcRecurrencePattern : IPersistEntity, INotifyPropertyChanged, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcRecurrencePattern>, System.IEquatable<@IfcRecurrencePattern>
+	public  partial class @IfcRecurrencePattern : INotifyPropertyChanged, IInstantiableEntity, IEqualityComparer<@IfcRecurrencePattern>, IEquatable<@IfcRecurrencePattern>
 	{
+		public static int LoadDepth = 1;
+
 		#region Implementation of IPersistEntity
+
 		public int EntityLabel {get; internal set;}
 		
 		public IModel Model { get; internal set; }
@@ -31,22 +34,47 @@ namespace Xbim.Ifc4.DateTimeResource
 		[Obsolete("This property is deprecated and likely to be removed. Use just 'Model' instead.")]
         public IModel ModelOf { get { return Model; } }
 		
-		public bool Activated { get; internal set; }
+	    internal ActivationStatus ActivationStatus = ActivationStatus.NotActivated;
 
+	    ActivationStatus IPersistEntity.ActivationStatus { get { return ActivationStatus; } }
+		
 		void IPersistEntity.Activate(bool write)
 		{
-			if (Activated) return; //activation can only happen once in a lifetime of the object
-
-			Model.Activate(this, write);
-			Activated = true;
+			switch (ActivationStatus)
+		    {
+		        case ActivationStatus.ActivatedReadWrite:
+		            return;
+		        case ActivationStatus.NotActivated:
+		            lock (this)
+		            {
+                        //check again in the lock
+		                if (ActivationStatus == ActivationStatus.NotActivated)
+		                {
+		                    if (Model.Activate(this, write))
+		                    {
+		                        ActivationStatus = write
+		                            ? ActivationStatus.ActivatedReadWrite
+		                            : ActivationStatus.ActivatedRead;
+		                    }
+		                }
+		            }
+		            break;
+		        case ActivationStatus.ActivatedRead:
+		            if (!write) return;
+		            if (Model.Activate(this, true))
+                        ActivationStatus = ActivationStatus.ActivatedReadWrite;
+		            break;
+		        default:
+		            throw new ArgumentOutOfRangeException();
+		    }
 		}
 
 		void IPersistEntity.Activate (Action activation)
 		{
-			if (Activated) return; //activation can only happen once in a lifetime of the object
+			if (ActivationStatus != ActivationStatus.NotActivated) return; //activation can only happen once in a lifetime of the object
 			
 			activation();
-			Activated = true;
+			ActivationStatus = ActivationStatus.ActivatedRead;
 		}
 		#endregion
 
@@ -76,10 +104,8 @@ namespace Xbim.Ifc4.DateTimeResource
 		{ 
 			get 
 			{
-				if(Activated) return _recurrenceType;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _recurrenceType;
+				((IPersistEntity)this).Activate(false);
 				return _recurrenceType;
 			} 
 			set
@@ -93,10 +119,8 @@ namespace Xbim.Ifc4.DateTimeResource
 		{ 
 			get 
 			{
-				if(Activated) return _dayComponent;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _dayComponent;
+				((IPersistEntity)this).Activate(false);
 				return _dayComponent;
 			} 
 		}
@@ -106,10 +130,8 @@ namespace Xbim.Ifc4.DateTimeResource
 		{ 
 			get 
 			{
-				if(Activated) return _weekdayComponent;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _weekdayComponent;
+				((IPersistEntity)this).Activate(false);
 				return _weekdayComponent;
 			} 
 		}
@@ -119,10 +141,8 @@ namespace Xbim.Ifc4.DateTimeResource
 		{ 
 			get 
 			{
-				if(Activated) return _monthComponent;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _monthComponent;
+				((IPersistEntity)this).Activate(false);
 				return _monthComponent;
 			} 
 		}
@@ -132,10 +152,8 @@ namespace Xbim.Ifc4.DateTimeResource
 		{ 
 			get 
 			{
-				if(Activated) return _position;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _position;
+				((IPersistEntity)this).Activate(false);
 				return _position;
 			} 
 			set
@@ -149,10 +167,8 @@ namespace Xbim.Ifc4.DateTimeResource
 		{ 
 			get 
 			{
-				if(Activated) return _interval;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _interval;
+				((IPersistEntity)this).Activate(false);
 				return _interval;
 			} 
 			set
@@ -166,10 +182,8 @@ namespace Xbim.Ifc4.DateTimeResource
 		{ 
 			get 
 			{
-				if(Activated) return _occurrences;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _occurrences;
+				((IPersistEntity)this).Activate(false);
 				return _occurrences;
 			} 
 			set
@@ -183,10 +197,8 @@ namespace Xbim.Ifc4.DateTimeResource
 		{ 
 			get 
 			{
-				if(Activated) return _timePeriods;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _timePeriods;
+				((IPersistEntity)this).Activate(false);
 				return _timePeriods;
 			} 
 		}
@@ -212,7 +224,11 @@ namespace Xbim.Ifc4.DateTimeResource
 
 		protected void SetValue<TProperty>(Action<TProperty> setter, TProperty oldValue, TProperty newValue, string notifyPropertyName)
 		{
+			//activate for write if it is not activated yet
+			if (ActivationStatus != ActivationStatus.ActivatedReadWrite)
+				((IPersistEntity)this).Activate(true);
 
+			//just set the value if the model is marked as non-transactional
 			if (!Model.IsTransactional)
 			{
 				setter(newValue);
@@ -224,13 +240,18 @@ namespace Xbim.Ifc4.DateTimeResource
 			var txn = Model.CurrentTransaction;
 			if (txn == null) throw new Exception("Operation out of transaction.");
 
-			Action doAction = () => setter(newValue);
-			Action undoAction = () => setter(oldValue);
-			setter(newValue);
+			Action doAction = () => {
+				setter(newValue);
+				NotifyPropertyChanged(notifyPropertyName);
+			};
+			Action undoAction = () => {
+				setter(oldValue);
+				NotifyPropertyChanged(notifyPropertyName);
+			};
+			doAction();
 
 			//do action and THAN add to transaction so that it gets the object in new state
 			txn.AddReversibleAction(doAction, undoAction, this, ChangeType.Modified);
-			NotifyPropertyChanged(notifyPropertyName);
 		}
 
 		#endregion

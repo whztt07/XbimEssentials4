@@ -8,6 +8,8 @@
 // ------------------------------------------------------------------------------
 
 using Xbim.Ifc4.ProductExtension;
+using System;
+using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
 
@@ -15,8 +17,10 @@ namespace Xbim.Ifc4.SharedComponentElements
 {
 	[ExpressType("IFCELEMENTCOMPONENTTYPE", 614)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public abstract partial class @IfcElementComponentType : IfcElementType, System.Collections.Generic.IEqualityComparer<@IfcElementComponentType>, System.IEquatable<@IfcElementComponentType>
+	public abstract partial class @IfcElementComponentType : IfcElementType, IEqualityComparer<@IfcElementComponentType>, IEquatable<@IfcElementComponentType>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcElementComponentType(IModel model) : base(model) 		{ 
 			Model = model; 

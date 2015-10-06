@@ -9,6 +9,7 @@
 
 using Xbim.Ifc2x3.MaterialResource;
 using Xbim.Ifc2x3.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -17,8 +18,10 @@ namespace Xbim.Ifc2x3.MaterialPropertyResource
 {
 	[ExpressType("IFCOPTICALMATERIALPROPERTIES", 718)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcOpticalMaterialProperties : IfcMaterialProperties, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcOpticalMaterialProperties>, System.IEquatable<@IfcOpticalMaterialProperties>
+	public  partial class @IfcOpticalMaterialProperties : IfcMaterialProperties, IInstantiableEntity, IEqualityComparer<@IfcOpticalMaterialProperties>, IEquatable<@IfcOpticalMaterialProperties>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcOpticalMaterialProperties(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -42,10 +45,8 @@ namespace Xbim.Ifc2x3.MaterialPropertyResource
 		{ 
 			get 
 			{
-				if(Activated) return _visibleTransmittance;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _visibleTransmittance;
+				((IPersistEntity)this).Activate(false);
 				return _visibleTransmittance;
 			} 
 			set
@@ -59,10 +60,8 @@ namespace Xbim.Ifc2x3.MaterialPropertyResource
 		{ 
 			get 
 			{
-				if(Activated) return _solarTransmittance;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _solarTransmittance;
+				((IPersistEntity)this).Activate(false);
 				return _solarTransmittance;
 			} 
 			set
@@ -76,10 +75,8 @@ namespace Xbim.Ifc2x3.MaterialPropertyResource
 		{ 
 			get 
 			{
-				if(Activated) return _thermalIrTransmittance;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _thermalIrTransmittance;
+				((IPersistEntity)this).Activate(false);
 				return _thermalIrTransmittance;
 			} 
 			set
@@ -93,10 +90,8 @@ namespace Xbim.Ifc2x3.MaterialPropertyResource
 		{ 
 			get 
 			{
-				if(Activated) return _thermalIrEmissivityBack;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _thermalIrEmissivityBack;
+				((IPersistEntity)this).Activate(false);
 				return _thermalIrEmissivityBack;
 			} 
 			set
@@ -110,10 +105,8 @@ namespace Xbim.Ifc2x3.MaterialPropertyResource
 		{ 
 			get 
 			{
-				if(Activated) return _thermalIrEmissivityFront;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _thermalIrEmissivityFront;
+				((IPersistEntity)this).Activate(false);
 				return _thermalIrEmissivityFront;
 			} 
 			set
@@ -127,10 +120,8 @@ namespace Xbim.Ifc2x3.MaterialPropertyResource
 		{ 
 			get 
 			{
-				if(Activated) return _visibleReflectanceBack;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _visibleReflectanceBack;
+				((IPersistEntity)this).Activate(false);
 				return _visibleReflectanceBack;
 			} 
 			set
@@ -144,10 +135,8 @@ namespace Xbim.Ifc2x3.MaterialPropertyResource
 		{ 
 			get 
 			{
-				if(Activated) return _visibleReflectanceFront;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _visibleReflectanceFront;
+				((IPersistEntity)this).Activate(false);
 				return _visibleReflectanceFront;
 			} 
 			set
@@ -161,10 +150,8 @@ namespace Xbim.Ifc2x3.MaterialPropertyResource
 		{ 
 			get 
 			{
-				if(Activated) return _solarReflectanceFront;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _solarReflectanceFront;
+				((IPersistEntity)this).Activate(false);
 				return _solarReflectanceFront;
 			} 
 			set
@@ -178,10 +165,8 @@ namespace Xbim.Ifc2x3.MaterialPropertyResource
 		{ 
 			get 
 			{
-				if(Activated) return _solarReflectanceBack;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _solarReflectanceBack;
+				((IPersistEntity)this).Activate(false);
 				return _solarReflectanceBack;
 			} 
 			set

@@ -12,6 +12,7 @@ using Xbim.Ifc4.UtilityResource;
 using Xbim.Ifc4.MeasureResource;
 using Xbim.Ifc4.GeometricConstraintResource;
 using Xbim.Ifc4.RepresentationResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -20,8 +21,10 @@ namespace Xbim.Ifc4.BuildingControlsDomain
 {
 	[ExpressType("IFCSENSOR", 974)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcSensor : IfcDistributionControlElement, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcSensor>, System.IEquatable<@IfcSensor>
+	public  partial class @IfcSensor : IfcDistributionControlElement, IInstantiableEntity, IEqualityComparer<@IfcSensor>, IEquatable<@IfcSensor>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcSensor(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -37,10 +40,8 @@ namespace Xbim.Ifc4.BuildingControlsDomain
 		{ 
 			get 
 			{
-				if(Activated) return _predefinedType;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _predefinedType;
+				((IPersistEntity)this).Activate(false);
 				return _predefinedType;
 			} 
 			set

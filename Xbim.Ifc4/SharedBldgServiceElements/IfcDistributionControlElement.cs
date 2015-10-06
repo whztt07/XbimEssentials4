@@ -12,6 +12,7 @@ using Xbim.Ifc4.UtilityResource;
 using Xbim.Ifc4.MeasureResource;
 using Xbim.Ifc4.GeometricConstraintResource;
 using Xbim.Ifc4.RepresentationResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -20,8 +21,10 @@ namespace Xbim.Ifc4.SharedBldgServiceElements
 {
 	[ExpressType("IFCDISTRIBUTIONCONTROLELEMENT", 570)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcDistributionControlElement : IfcDistributionElement, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcDistributionControlElement>, System.IEquatable<@IfcDistributionControlElement>
+	public  partial class @IfcDistributionControlElement : IfcDistributionElement, IInstantiableEntity, IEqualityComparer<@IfcDistributionControlElement>, IEquatable<@IfcDistributionControlElement>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcDistributionControlElement(IModel model) : base(model) 		{ 
 			Model = model; 

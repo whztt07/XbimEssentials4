@@ -11,6 +11,7 @@ using Xbim.Ifc4.Kernel;
 using Xbim.Ifc4.UtilityResource;
 using Xbim.Ifc4.MeasureResource;
 using Xbim.Ifc4.MaterialResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -19,8 +20,10 @@ namespace Xbim.Ifc4.ProductExtension
 {
 	[ExpressType("IFCRELASSOCIATESMATERIAL", 916)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcRelAssociatesMaterial : IfcRelAssociates, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcRelAssociatesMaterial>, System.IEquatable<@IfcRelAssociatesMaterial>
+	public  partial class @IfcRelAssociatesMaterial : IfcRelAssociates, IInstantiableEntity, IEqualityComparer<@IfcRelAssociatesMaterial>, IEquatable<@IfcRelAssociatesMaterial>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcRelAssociatesMaterial(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -37,10 +40,8 @@ namespace Xbim.Ifc4.ProductExtension
 		{ 
 			get 
 			{
-				if(Activated) return _relatingMaterial;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _relatingMaterial;
+				((IPersistEntity)this).Activate(false);
 				return _relatingMaterial;
 			} 
 			set

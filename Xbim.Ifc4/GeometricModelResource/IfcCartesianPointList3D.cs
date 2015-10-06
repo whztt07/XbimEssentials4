@@ -8,6 +8,7 @@
 // ------------------------------------------------------------------------------
 
 using Xbim.Ifc4.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -16,8 +17,10 @@ namespace Xbim.Ifc4.GeometricModelResource
 {
 	[ExpressType("IFCCARTESIANPOINTLIST3D", 469)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcCartesianPointList3D : IfcCartesianPointList, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcCartesianPointList3D>, System.IEquatable<@IfcCartesianPointList3D>
+	public  partial class @IfcCartesianPointList3D : IfcCartesianPointList, IInstantiableEntity, IEqualityComparer<@IfcCartesianPointList3D>, IEquatable<@IfcCartesianPointList3D>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcCartesianPointList3D(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -34,10 +37,8 @@ namespace Xbim.Ifc4.GeometricModelResource
 		{ 
 			get 
 			{
-				if(Activated) return _coordList;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _coordList;
+				((IPersistEntity)this).Activate(false);
 				return _coordList;
 			} 
 		}

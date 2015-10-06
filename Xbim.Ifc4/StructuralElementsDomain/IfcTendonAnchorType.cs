@@ -11,6 +11,7 @@ using Xbim.Ifc4.UtilityResource;
 using Xbim.Ifc4.MeasureResource;
 using Xbim.Ifc4.Kernel;
 using Xbim.Ifc4.GeometryResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -19,8 +20,10 @@ namespace Xbim.Ifc4.StructuralElementsDomain
 {
 	[ExpressType("IFCTENDONANCHORTYPE", 1088)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcTendonAnchorType : IfcReinforcingElementType, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcTendonAnchorType>, System.IEquatable<@IfcTendonAnchorType>
+	public  partial class @IfcTendonAnchorType : IfcReinforcingElementType, IInstantiableEntity, IEqualityComparer<@IfcTendonAnchorType>, IEquatable<@IfcTendonAnchorType>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcTendonAnchorType(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -36,10 +39,8 @@ namespace Xbim.Ifc4.StructuralElementsDomain
 		{ 
 			get 
 			{
-				if(Activated) return _predefinedType;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _predefinedType;
+				((IPersistEntity)this).Activate(false);
 				return _predefinedType;
 			} 
 			set

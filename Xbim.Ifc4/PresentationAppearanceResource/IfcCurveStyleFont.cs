@@ -9,6 +9,7 @@
 
 using Xbim.Ifc4.PresentationDefinitionResource;
 using Xbim.Ifc4.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -17,8 +18,10 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
 {
 	[ExpressType("IFCCURVESTYLEFONT", 554)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcCurveStyleFont : IfcPresentationItem, IfcCurveStyleFontSelect, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcCurveStyleFont>, System.IEquatable<@IfcCurveStyleFont>
+	public  partial class @IfcCurveStyleFont : IfcPresentationItem, IfcCurveStyleFontSelect, IInstantiableEntity, IEqualityComparer<@IfcCurveStyleFont>, IEquatable<@IfcCurveStyleFont>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcCurveStyleFont(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -36,10 +39,8 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
 		{ 
 			get 
 			{
-				if(Activated) return _name;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _name;
+				((IPersistEntity)this).Activate(false);
 				return _name;
 			} 
 			set
@@ -53,10 +54,8 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
 		{ 
 			get 
 			{
-				if(Activated) return _patternList;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _patternList;
+				((IPersistEntity)this).Activate(false);
 				return _patternList;
 			} 
 		}

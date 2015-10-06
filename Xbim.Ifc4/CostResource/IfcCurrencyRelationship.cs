@@ -10,6 +10,7 @@
 using Xbim.Ifc4.ExternalReferenceResource;
 using Xbim.Ifc4.MeasureResource;
 using Xbim.Ifc4.DateTimeResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -19,8 +20,10 @@ namespace Xbim.Ifc4.CostResource
 	[IndexedClass]
 	[ExpressType("IFCCURRENCYRELATIONSHIP", 547)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcCurrencyRelationship : IfcResourceLevelRelationship, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcCurrencyRelationship>, System.IEquatable<@IfcCurrencyRelationship>
+	public  partial class @IfcCurrencyRelationship : IfcResourceLevelRelationship, IInstantiableEntity, IEqualityComparer<@IfcCurrencyRelationship>, IEquatable<@IfcCurrencyRelationship>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcCurrencyRelationship(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -40,10 +43,8 @@ namespace Xbim.Ifc4.CostResource
 		{ 
 			get 
 			{
-				if(Activated) return _relatingMonetaryUnit;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _relatingMonetaryUnit;
+				((IPersistEntity)this).Activate(false);
 				return _relatingMonetaryUnit;
 			} 
 			set
@@ -57,10 +58,8 @@ namespace Xbim.Ifc4.CostResource
 		{ 
 			get 
 			{
-				if(Activated) return _relatedMonetaryUnit;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _relatedMonetaryUnit;
+				((IPersistEntity)this).Activate(false);
 				return _relatedMonetaryUnit;
 			} 
 			set
@@ -74,10 +73,8 @@ namespace Xbim.Ifc4.CostResource
 		{ 
 			get 
 			{
-				if(Activated) return _exchangeRate;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _exchangeRate;
+				((IPersistEntity)this).Activate(false);
 				return _exchangeRate;
 			} 
 			set
@@ -91,10 +88,8 @@ namespace Xbim.Ifc4.CostResource
 		{ 
 			get 
 			{
-				if(Activated) return _rateDateTime;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _rateDateTime;
+				((IPersistEntity)this).Activate(false);
 				return _rateDateTime;
 			} 
 			set
@@ -108,10 +103,8 @@ namespace Xbim.Ifc4.CostResource
 		{ 
 			get 
 			{
-				if(Activated) return _rateSource;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _rateSource;
+				((IPersistEntity)this).Activate(false);
 				return _rateSource;
 			} 
 			set

@@ -8,6 +8,7 @@
 // ------------------------------------------------------------------------------
 
 using Xbim.Ifc4.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -16,8 +17,10 @@ namespace Xbim.Ifc4.DateTimeResource
 {
 	[ExpressType("IFCIRREGULARTIMESERIES", 713)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcIrregularTimeSeries : IfcTimeSeries, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcIrregularTimeSeries>, System.IEquatable<@IfcIrregularTimeSeries>
+	public  partial class @IfcIrregularTimeSeries : IfcTimeSeries, IInstantiableEntity, IEqualityComparer<@IfcIrregularTimeSeries>, IEquatable<@IfcIrregularTimeSeries>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcIrregularTimeSeries(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -34,10 +37,8 @@ namespace Xbim.Ifc4.DateTimeResource
 		{ 
 			get 
 			{
-				if(Activated) return _values;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _values;
+				((IPersistEntity)this).Activate(false);
 				return _values;
 			} 
 		}

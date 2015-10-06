@@ -7,6 +7,7 @@
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -16,8 +17,10 @@ namespace Xbim.CobieExpress
 	[IndexedClass]
 	[ExpressType("CONTACT", 14)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @CobieContact : CobieReferencedObject, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@CobieContact>, System.IEquatable<@CobieContact>
+	public  partial class @CobieContact : CobieReferencedObject, IInstantiableEntity, IEqualityComparer<@CobieContact>, IEquatable<@CobieContact>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal CobieContact(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -46,10 +49,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _email;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _email;
+				((IPersistEntity)this).Activate(false);
 				return _email;
 			} 
 			set
@@ -63,10 +64,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _category;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _category;
+				((IPersistEntity)this).Activate(false);
 				return _category;
 			} 
 			set
@@ -80,10 +79,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _company;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _company;
+				((IPersistEntity)this).Activate(false);
 				return _company;
 			} 
 			set
@@ -97,10 +94,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _phone;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _phone;
+				((IPersistEntity)this).Activate(false);
 				return _phone;
 			} 
 			set
@@ -114,10 +109,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _department;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _department;
+				((IPersistEntity)this).Activate(false);
 				return _department;
 			} 
 			set
@@ -131,10 +124,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _organizationCode;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _organizationCode;
+				((IPersistEntity)this).Activate(false);
 				return _organizationCode;
 			} 
 			set
@@ -148,10 +139,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _givenName;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _givenName;
+				((IPersistEntity)this).Activate(false);
 				return _givenName;
 			} 
 			set
@@ -165,10 +154,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _familyName;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _familyName;
+				((IPersistEntity)this).Activate(false);
 				return _familyName;
 			} 
 			set
@@ -182,10 +169,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _street;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _street;
+				((IPersistEntity)this).Activate(false);
 				return _street;
 			} 
 			set
@@ -199,10 +184,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _postalBox;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _postalBox;
+				((IPersistEntity)this).Activate(false);
 				return _postalBox;
 			} 
 			set
@@ -216,10 +199,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _town;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _town;
+				((IPersistEntity)this).Activate(false);
 				return _town;
 			} 
 			set
@@ -233,10 +214,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _stateRegion;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _stateRegion;
+				((IPersistEntity)this).Activate(false);
 				return _stateRegion;
 			} 
 			set
@@ -250,10 +229,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _postalCode;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _postalCode;
+				((IPersistEntity)this).Activate(false);
 				return _postalCode;
 			} 
 			set
@@ -267,10 +244,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _country;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _country;
+				((IPersistEntity)this).Activate(false);
 				return _country;
 			} 
 			set

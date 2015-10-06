@@ -10,6 +10,8 @@
 using Xbim.Ifc4.GeometryResource;
 using Xbim.Ifc4.MeasureResource;
 using Xbim.Ifc4.PresentationAppearanceResource;
+using System;
+using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
 
@@ -17,8 +19,10 @@ namespace Xbim.Ifc4.PresentationOrganizationResource
 {
 	[ExpressType("IFCLIGHTSOURCE", 729)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public abstract partial class @IfcLightSource : IfcGeometricRepresentationItem, System.Collections.Generic.IEqualityComparer<@IfcLightSource>, System.IEquatable<@IfcLightSource>
+	public abstract partial class @IfcLightSource : IfcGeometricRepresentationItem, IEqualityComparer<@IfcLightSource>, IEquatable<@IfcLightSource>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcLightSource(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -37,10 +41,8 @@ namespace Xbim.Ifc4.PresentationOrganizationResource
 		{ 
 			get 
 			{
-				if(Activated) return _name;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _name;
+				((IPersistEntity)this).Activate(false);
 				return _name;
 			} 
 			set
@@ -54,10 +56,8 @@ namespace Xbim.Ifc4.PresentationOrganizationResource
 		{ 
 			get 
 			{
-				if(Activated) return _lightColour;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _lightColour;
+				((IPersistEntity)this).Activate(false);
 				return _lightColour;
 			} 
 			set
@@ -71,10 +71,8 @@ namespace Xbim.Ifc4.PresentationOrganizationResource
 		{ 
 			get 
 			{
-				if(Activated) return _ambientIntensity;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _ambientIntensity;
+				((IPersistEntity)this).Activate(false);
 				return _ambientIntensity;
 			} 
 			set
@@ -88,10 +86,8 @@ namespace Xbim.Ifc4.PresentationOrganizationResource
 		{ 
 			get 
 			{
-				if(Activated) return _intensity;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _intensity;
+				((IPersistEntity)this).Activate(false);
 				return _intensity;
 			} 
 			set

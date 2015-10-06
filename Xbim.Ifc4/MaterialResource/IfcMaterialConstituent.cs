@@ -8,6 +8,7 @@
 // ------------------------------------------------------------------------------
 
 using Xbim.Ifc4.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -16,8 +17,10 @@ namespace Xbim.Ifc4.MaterialResource
 {
 	[ExpressType("IFCMATERIALCONSTITUENT", 743)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcMaterialConstituent : IfcMaterialDefinition, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcMaterialConstituent>, System.IEquatable<@IfcMaterialConstituent>
+	public  partial class @IfcMaterialConstituent : IfcMaterialDefinition, IInstantiableEntity, IEqualityComparer<@IfcMaterialConstituent>, IEquatable<@IfcMaterialConstituent>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcMaterialConstituent(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -37,10 +40,8 @@ namespace Xbim.Ifc4.MaterialResource
 		{ 
 			get 
 			{
-				if(Activated) return _name;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _name;
+				((IPersistEntity)this).Activate(false);
 				return _name;
 			} 
 			set
@@ -54,10 +55,8 @@ namespace Xbim.Ifc4.MaterialResource
 		{ 
 			get 
 			{
-				if(Activated) return _description;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _description;
+				((IPersistEntity)this).Activate(false);
 				return _description;
 			} 
 			set
@@ -71,10 +70,8 @@ namespace Xbim.Ifc4.MaterialResource
 		{ 
 			get 
 			{
-				if(Activated) return _material;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _material;
+				((IPersistEntity)this).Activate(false);
 				return _material;
 			} 
 			set
@@ -88,10 +85,8 @@ namespace Xbim.Ifc4.MaterialResource
 		{ 
 			get 
 			{
-				if(Activated) return _fraction;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _fraction;
+				((IPersistEntity)this).Activate(false);
 				return _fraction;
 			} 
 			set
@@ -105,10 +100,8 @@ namespace Xbim.Ifc4.MaterialResource
 		{ 
 			get 
 			{
-				if(Activated) return _category;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _category;
+				((IPersistEntity)this).Activate(false);
 				return _category;
 			} 
 			set

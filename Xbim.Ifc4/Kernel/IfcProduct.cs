@@ -9,6 +9,7 @@
 
 using Xbim.Ifc4.GeometricConstraintResource;
 using Xbim.Ifc4.RepresentationResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -17,8 +18,10 @@ namespace Xbim.Ifc4.Kernel
 {
 	[ExpressType("IFCPRODUCT", 838)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public abstract partial class @IfcProduct : IfcObject, IfcProductSelect, System.Collections.Generic.IEqualityComparer<@IfcProduct>, System.IEquatable<@IfcProduct>
+	public abstract partial class @IfcProduct : IfcObject, IfcProductSelect, IEqualityComparer<@IfcProduct>, IEquatable<@IfcProduct>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcProduct(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -36,10 +39,8 @@ namespace Xbim.Ifc4.Kernel
 		{ 
 			get 
 			{
-				if(Activated) return _objectPlacement;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _objectPlacement;
+				((IPersistEntity)this).Activate(false);
 				return _objectPlacement;
 			} 
 			set
@@ -54,10 +55,8 @@ namespace Xbim.Ifc4.Kernel
 		{ 
 			get 
 			{
-				if(Activated) return _representation;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _representation;
+				((IPersistEntity)this).Activate(false);
 				return _representation;
 			} 
 			set

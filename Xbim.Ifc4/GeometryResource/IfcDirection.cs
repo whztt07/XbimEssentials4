@@ -8,6 +8,7 @@
 // ------------------------------------------------------------------------------
 
 using Xbim.Ifc4.GeometricConstraintResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -16,8 +17,10 @@ namespace Xbim.Ifc4.GeometryResource
 {
 	[ExpressType("IFCDIRECTION", 564)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcDirection : IfcGeometricRepresentationItem, IfcGridPlacementDirectionSelect, IfcVectorOrDirection, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcDirection>, System.IEquatable<@IfcDirection>
+	public  partial class @IfcDirection : IfcGeometricRepresentationItem, IfcGridPlacementDirectionSelect, IfcVectorOrDirection, IInstantiableEntity, IEqualityComparer<@IfcDirection>, IEquatable<@IfcDirection>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcDirection(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -34,10 +37,8 @@ namespace Xbim.Ifc4.GeometryResource
 		{ 
 			get 
 			{
-				if(Activated) return _directionRatios;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _directionRatios;
+				((IPersistEntity)this).Activate(false);
 				return _directionRatios;
 			} 
 		}

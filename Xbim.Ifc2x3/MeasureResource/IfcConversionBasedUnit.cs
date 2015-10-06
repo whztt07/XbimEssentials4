@@ -7,6 +7,7 @@
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -15,8 +16,10 @@ namespace Xbim.Ifc2x3.MeasureResource
 {
 	[ExpressType("IFCCONVERSIONBASEDUNIT", 92)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcConversionBasedUnit : IfcNamedUnit, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcConversionBasedUnit>, System.IEquatable<@IfcConversionBasedUnit>
+	public  partial class @IfcConversionBasedUnit : IfcNamedUnit, IInstantiableEntity, IEqualityComparer<@IfcConversionBasedUnit>, IEquatable<@IfcConversionBasedUnit>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcConversionBasedUnit(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -33,10 +36,8 @@ namespace Xbim.Ifc2x3.MeasureResource
 		{ 
 			get 
 			{
-				if(Activated) return _name;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _name;
+				((IPersistEntity)this).Activate(false);
 				return _name;
 			} 
 			set
@@ -50,10 +51,8 @@ namespace Xbim.Ifc2x3.MeasureResource
 		{ 
 			get 
 			{
-				if(Activated) return _conversionFactor;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _conversionFactor;
+				((IPersistEntity)this).Activate(false);
 				return _conversionFactor;
 			} 
 			set

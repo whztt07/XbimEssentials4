@@ -10,6 +10,7 @@
 using Xbim.Ifc2x3.Kernel;
 using Xbim.Ifc2x3.StructuralLoadResource;
 using Xbim.Ifc2x3.RepresentationResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -18,8 +19,10 @@ namespace Xbim.Ifc2x3.StructuralAnalysisDomain
 {
 	[ExpressType("IFCSTRUCTURALACTIVITY", 41)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public abstract partial class @IfcStructuralActivity : IfcProduct, System.Collections.Generic.IEqualityComparer<@IfcStructuralActivity>, System.IEquatable<@IfcStructuralActivity>
+	public abstract partial class @IfcStructuralActivity : IfcProduct, IEqualityComparer<@IfcStructuralActivity>, IEquatable<@IfcStructuralActivity>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcStructuralActivity(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -36,10 +39,8 @@ namespace Xbim.Ifc2x3.StructuralAnalysisDomain
 		{ 
 			get 
 			{
-				if(Activated) return _appliedLoad;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _appliedLoad;
+				((IPersistEntity)this).Activate(false);
 				return _appliedLoad;
 			} 
 			set
@@ -53,10 +54,8 @@ namespace Xbim.Ifc2x3.StructuralAnalysisDomain
 		{ 
 			get 
 			{
-				if(Activated) return _globalOrLocal;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _globalOrLocal;
+				((IPersistEntity)this).Activate(false);
 				return _globalOrLocal;
 			} 
 			set

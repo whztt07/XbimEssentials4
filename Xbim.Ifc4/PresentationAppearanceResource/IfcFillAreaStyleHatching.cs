@@ -9,6 +9,7 @@
 
 using Xbim.Ifc4.GeometryResource;
 using Xbim.Ifc4.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -17,8 +18,10 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
 {
 	[ExpressType("IFCFILLAREASTYLEHATCHING", 658)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcFillAreaStyleHatching : IfcGeometricRepresentationItem, IfcFillStyleSelect, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcFillAreaStyleHatching>, System.IEquatable<@IfcFillAreaStyleHatching>
+	public  partial class @IfcFillAreaStyleHatching : IfcGeometricRepresentationItem, IfcFillStyleSelect, IInstantiableEntity, IEqualityComparer<@IfcFillAreaStyleHatching>, IEquatable<@IfcFillAreaStyleHatching>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcFillAreaStyleHatching(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -38,10 +41,8 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
 		{ 
 			get 
 			{
-				if(Activated) return _hatchLineAppearance;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _hatchLineAppearance;
+				((IPersistEntity)this).Activate(false);
 				return _hatchLineAppearance;
 			} 
 			set
@@ -55,10 +56,8 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
 		{ 
 			get 
 			{
-				if(Activated) return _startOfNextHatchLine;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _startOfNextHatchLine;
+				((IPersistEntity)this).Activate(false);
 				return _startOfNextHatchLine;
 			} 
 			set
@@ -72,10 +71,8 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
 		{ 
 			get 
 			{
-				if(Activated) return _pointOfReferenceHatchLine;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _pointOfReferenceHatchLine;
+				((IPersistEntity)this).Activate(false);
 				return _pointOfReferenceHatchLine;
 			} 
 			set
@@ -89,10 +86,8 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
 		{ 
 			get 
 			{
-				if(Activated) return _patternStart;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _patternStart;
+				((IPersistEntity)this).Activate(false);
 				return _patternStart;
 			} 
 			set
@@ -106,10 +101,8 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
 		{ 
 			get 
 			{
-				if(Activated) return _hatchLineAngle;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _hatchLineAngle;
+				((IPersistEntity)this).Activate(false);
 				return _hatchLineAngle;
 			} 
 			set

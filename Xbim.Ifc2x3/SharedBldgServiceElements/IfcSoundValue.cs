@@ -11,6 +11,7 @@ using Xbim.Ifc2x3.Kernel;
 using Xbim.Ifc2x3.UtilityResource;
 using Xbim.Ifc2x3.MeasureResource;
 using Xbim.Ifc2x3.TimeSeriesResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -19,8 +20,10 @@ namespace Xbim.Ifc2x3.SharedBldgServiceElements
 {
 	[ExpressType("IFCSOUNDVALUE", 266)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcSoundValue : IfcPropertySetDefinition, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcSoundValue>, System.IEquatable<@IfcSoundValue>
+	public  partial class @IfcSoundValue : IfcPropertySetDefinition, IInstantiableEntity, IEqualityComparer<@IfcSoundValue>, IEquatable<@IfcSoundValue>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcSoundValue(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -38,10 +41,8 @@ namespace Xbim.Ifc2x3.SharedBldgServiceElements
 		{ 
 			get 
 			{
-				if(Activated) return _soundLevelTimeSeries;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _soundLevelTimeSeries;
+				((IPersistEntity)this).Activate(false);
 				return _soundLevelTimeSeries;
 			} 
 			set
@@ -55,10 +56,8 @@ namespace Xbim.Ifc2x3.SharedBldgServiceElements
 		{ 
 			get 
 			{
-				if(Activated) return _frequency;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _frequency;
+				((IPersistEntity)this).Activate(false);
 				return _frequency;
 			} 
 			set
@@ -72,10 +71,8 @@ namespace Xbim.Ifc2x3.SharedBldgServiceElements
 		{ 
 			get 
 			{
-				if(Activated) return _soundLevelSingleValue;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _soundLevelSingleValue;
+				((IPersistEntity)this).Activate(false);
 				return _soundLevelSingleValue;
 			} 
 			set

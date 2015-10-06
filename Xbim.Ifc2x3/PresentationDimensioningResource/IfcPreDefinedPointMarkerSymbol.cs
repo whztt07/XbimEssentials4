@@ -9,6 +9,7 @@
 
 using Xbim.Ifc2x3.PresentationDefinitionResource;
 using Xbim.Ifc2x3.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -17,8 +18,10 @@ namespace Xbim.Ifc2x3.PresentationDimensioningResource
 {
 	[ExpressType("IFCPREDEFINEDPOINTMARKERSYMBOL", 748)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcPreDefinedPointMarkerSymbol : IfcPreDefinedSymbol, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcPreDefinedPointMarkerSymbol>, System.IEquatable<@IfcPreDefinedPointMarkerSymbol>
+	public  partial class @IfcPreDefinedPointMarkerSymbol : IfcPreDefinedSymbol, IInstantiableEntity, IEqualityComparer<@IfcPreDefinedPointMarkerSymbol>, IEquatable<@IfcPreDefinedPointMarkerSymbol>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcPreDefinedPointMarkerSymbol(IModel model) : base(model) 		{ 
 			Model = model; 

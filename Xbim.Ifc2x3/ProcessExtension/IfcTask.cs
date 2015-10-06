@@ -10,6 +10,7 @@
 using Xbim.Ifc2x3.Kernel;
 using Xbim.Ifc2x3.UtilityResource;
 using Xbim.Ifc2x3.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -18,8 +19,10 @@ namespace Xbim.Ifc2x3.ProcessExtension
 {
 	[ExpressType("IFCTASK", 72)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcTask : IfcProcess, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcTask>, System.IEquatable<@IfcTask>
+	public  partial class @IfcTask : IfcProcess, IInstantiableEntity, IEqualityComparer<@IfcTask>, IEquatable<@IfcTask>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcTask(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -39,10 +42,8 @@ namespace Xbim.Ifc2x3.ProcessExtension
 		{ 
 			get 
 			{
-				if(Activated) return _taskId;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _taskId;
+				((IPersistEntity)this).Activate(false);
 				return _taskId;
 			} 
 			set
@@ -56,10 +57,8 @@ namespace Xbim.Ifc2x3.ProcessExtension
 		{ 
 			get 
 			{
-				if(Activated) return _status;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _status;
+				((IPersistEntity)this).Activate(false);
 				return _status;
 			} 
 			set
@@ -73,10 +72,8 @@ namespace Xbim.Ifc2x3.ProcessExtension
 		{ 
 			get 
 			{
-				if(Activated) return _workMethod;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _workMethod;
+				((IPersistEntity)this).Activate(false);
 				return _workMethod;
 			} 
 			set
@@ -90,10 +87,8 @@ namespace Xbim.Ifc2x3.ProcessExtension
 		{ 
 			get 
 			{
-				if(Activated) return _isMilestone;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _isMilestone;
+				((IPersistEntity)this).Activate(false);
 				return _isMilestone;
 			} 
 			set
@@ -107,10 +102,8 @@ namespace Xbim.Ifc2x3.ProcessExtension
 		{ 
 			get 
 			{
-				if(Activated) return _priority;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _priority;
+				((IPersistEntity)this).Activate(false);
 				return _priority;
 			} 
 			set

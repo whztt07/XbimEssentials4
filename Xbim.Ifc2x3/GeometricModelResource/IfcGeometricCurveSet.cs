@@ -7,6 +7,7 @@
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -15,8 +16,10 @@ namespace Xbim.Ifc2x3.GeometricModelResource
 {
 	[ExpressType("IFCGEOMETRICCURVESET", 237)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcGeometricCurveSet : IfcGeometricSet, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcGeometricCurveSet>, System.IEquatable<@IfcGeometricCurveSet>
+	public  partial class @IfcGeometricCurveSet : IfcGeometricSet, IInstantiableEntity, IEqualityComparer<@IfcGeometricCurveSet>, IEquatable<@IfcGeometricCurveSet>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcGeometricCurveSet(IModel model) : base(model) 		{ 
 			Model = model; 

@@ -10,6 +10,7 @@
 using Xbim.Ifc2x3.MeasureResource;
 using Xbim.Ifc2x3.PresentationResource;
 using Xbim.Ifc2x3.GeometryResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -18,8 +19,10 @@ namespace Xbim.Ifc2x3.PresentationOrganizationResource
 {
 	[ExpressType("IFCLIGHTSOURCESPOT", 760)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcLightSourceSpot : IfcLightSourcePositional, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcLightSourceSpot>, System.IEquatable<@IfcLightSourceSpot>
+	public  partial class @IfcLightSourceSpot : IfcLightSourcePositional, IInstantiableEntity, IEqualityComparer<@IfcLightSourceSpot>, IEquatable<@IfcLightSourceSpot>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcLightSourceSpot(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -38,10 +41,8 @@ namespace Xbim.Ifc2x3.PresentationOrganizationResource
 		{ 
 			get 
 			{
-				if(Activated) return _orientation;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _orientation;
+				((IPersistEntity)this).Activate(false);
 				return _orientation;
 			} 
 			set
@@ -55,10 +56,8 @@ namespace Xbim.Ifc2x3.PresentationOrganizationResource
 		{ 
 			get 
 			{
-				if(Activated) return _concentrationExponent;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _concentrationExponent;
+				((IPersistEntity)this).Activate(false);
 				return _concentrationExponent;
 			} 
 			set
@@ -72,10 +71,8 @@ namespace Xbim.Ifc2x3.PresentationOrganizationResource
 		{ 
 			get 
 			{
-				if(Activated) return _spreadAngle;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _spreadAngle;
+				((IPersistEntity)this).Activate(false);
 				return _spreadAngle;
 			} 
 			set
@@ -89,10 +86,8 @@ namespace Xbim.Ifc2x3.PresentationOrganizationResource
 		{ 
 			get 
 			{
-				if(Activated) return _beamWidthAngle;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _beamWidthAngle;
+				((IPersistEntity)this).Activate(false);
 				return _beamWidthAngle;
 			} 
 			set

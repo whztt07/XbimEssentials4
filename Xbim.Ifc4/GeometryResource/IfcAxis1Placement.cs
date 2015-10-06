@@ -7,6 +7,7 @@
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -15,8 +16,10 @@ namespace Xbim.Ifc4.GeometryResource
 {
 	[ExpressType("IFCAXIS1PLACEMENT", 421)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcAxis1Placement : IfcPlacement, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcAxis1Placement>, System.IEquatable<@IfcAxis1Placement>
+	public  partial class @IfcAxis1Placement : IfcPlacement, IInstantiableEntity, IEqualityComparer<@IfcAxis1Placement>, IEquatable<@IfcAxis1Placement>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcAxis1Placement(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -32,10 +35,8 @@ namespace Xbim.Ifc4.GeometryResource
 		{ 
 			get 
 			{
-				if(Activated) return _axis;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _axis;
+				((IPersistEntity)this).Activate(false);
 				return _axis;
 			} 
 			set

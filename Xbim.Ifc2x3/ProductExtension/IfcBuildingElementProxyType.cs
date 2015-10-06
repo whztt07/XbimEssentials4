@@ -11,6 +11,7 @@ using Xbim.Ifc2x3.UtilityResource;
 using Xbim.Ifc2x3.MeasureResource;
 using Xbim.Ifc2x3.Kernel;
 using Xbim.Ifc2x3.GeometryResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -19,8 +20,10 @@ namespace Xbim.Ifc2x3.ProductExtension
 {
 	[ExpressType("IFCBUILDINGELEMENTPROXYTYPE", 107)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcBuildingElementProxyType : IfcBuildingElementType, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcBuildingElementProxyType>, System.IEquatable<@IfcBuildingElementProxyType>
+	public  partial class @IfcBuildingElementProxyType : IfcBuildingElementType, IInstantiableEntity, IEqualityComparer<@IfcBuildingElementProxyType>, IEquatable<@IfcBuildingElementProxyType>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcBuildingElementProxyType(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -36,10 +39,8 @@ namespace Xbim.Ifc2x3.ProductExtension
 		{ 
 			get 
 			{
-				if(Activated) return _predefinedType;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _predefinedType;
+				((IPersistEntity)this).Activate(false);
 				return _predefinedType;
 			} 
 			set

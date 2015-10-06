@@ -9,6 +9,7 @@
 
 using Xbim.Ifc2x3.MeasureResource;
 using Xbim.Ifc2x3.ProfileResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -17,8 +18,10 @@ namespace Xbim.Ifc2x3.ProfilePropertyResource
 {
 	[ExpressType("IFCRIBPLATEPROFILEPROPERTIES", 763)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcRibPlateProfileProperties : IfcProfileProperties, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcRibPlateProfileProperties>, System.IEquatable<@IfcRibPlateProfileProperties>
+	public  partial class @IfcRibPlateProfileProperties : IfcProfileProperties, IInstantiableEntity, IEqualityComparer<@IfcRibPlateProfileProperties>, IEquatable<@IfcRibPlateProfileProperties>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcRibPlateProfileProperties(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -38,10 +41,8 @@ namespace Xbim.Ifc2x3.ProfilePropertyResource
 		{ 
 			get 
 			{
-				if(Activated) return _thickness;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _thickness;
+				((IPersistEntity)this).Activate(false);
 				return _thickness;
 			} 
 			set
@@ -55,10 +56,8 @@ namespace Xbim.Ifc2x3.ProfilePropertyResource
 		{ 
 			get 
 			{
-				if(Activated) return _ribHeight;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _ribHeight;
+				((IPersistEntity)this).Activate(false);
 				return _ribHeight;
 			} 
 			set
@@ -72,10 +71,8 @@ namespace Xbim.Ifc2x3.ProfilePropertyResource
 		{ 
 			get 
 			{
-				if(Activated) return _ribWidth;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _ribWidth;
+				((IPersistEntity)this).Activate(false);
 				return _ribWidth;
 			} 
 			set
@@ -89,10 +86,8 @@ namespace Xbim.Ifc2x3.ProfilePropertyResource
 		{ 
 			get 
 			{
-				if(Activated) return _ribSpacing;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _ribSpacing;
+				((IPersistEntity)this).Activate(false);
 				return _ribSpacing;
 			} 
 			set
@@ -106,10 +101,8 @@ namespace Xbim.Ifc2x3.ProfilePropertyResource
 		{ 
 			get 
 			{
-				if(Activated) return _direction;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _direction;
+				((IPersistEntity)this).Activate(false);
 				return _direction;
 			} 
 			set

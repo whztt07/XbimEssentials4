@@ -11,6 +11,7 @@ using Xbim.Ifc2x3.Kernel;
 using Xbim.Ifc2x3.UtilityResource;
 using Xbim.Ifc2x3.MeasureResource;
 using Xbim.Ifc2x3.DateTimeResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -19,8 +20,10 @@ namespace Xbim.Ifc2x3.ProcessExtension
 {
 	[ExpressType("IFCSCHEDULETIMECONTROL", 402)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcScheduleTimeControl : IfcControl, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcScheduleTimeControl>, System.IEquatable<@IfcScheduleTimeControl>
+	public  partial class @IfcScheduleTimeControl : IfcControl, IInstantiableEntity, IEqualityComparer<@IfcScheduleTimeControl>, IEquatable<@IfcScheduleTimeControl>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcScheduleTimeControl(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -53,10 +56,8 @@ namespace Xbim.Ifc2x3.ProcessExtension
 		{ 
 			get 
 			{
-				if(Activated) return _actualStart;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _actualStart;
+				((IPersistEntity)this).Activate(false);
 				return _actualStart;
 			} 
 			set
@@ -70,10 +71,8 @@ namespace Xbim.Ifc2x3.ProcessExtension
 		{ 
 			get 
 			{
-				if(Activated) return _earlyStart;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _earlyStart;
+				((IPersistEntity)this).Activate(false);
 				return _earlyStart;
 			} 
 			set
@@ -87,10 +86,8 @@ namespace Xbim.Ifc2x3.ProcessExtension
 		{ 
 			get 
 			{
-				if(Activated) return _lateStart;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _lateStart;
+				((IPersistEntity)this).Activate(false);
 				return _lateStart;
 			} 
 			set
@@ -104,10 +101,8 @@ namespace Xbim.Ifc2x3.ProcessExtension
 		{ 
 			get 
 			{
-				if(Activated) return _scheduleStart;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _scheduleStart;
+				((IPersistEntity)this).Activate(false);
 				return _scheduleStart;
 			} 
 			set
@@ -121,10 +116,8 @@ namespace Xbim.Ifc2x3.ProcessExtension
 		{ 
 			get 
 			{
-				if(Activated) return _actualFinish;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _actualFinish;
+				((IPersistEntity)this).Activate(false);
 				return _actualFinish;
 			} 
 			set
@@ -138,10 +131,8 @@ namespace Xbim.Ifc2x3.ProcessExtension
 		{ 
 			get 
 			{
-				if(Activated) return _earlyFinish;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _earlyFinish;
+				((IPersistEntity)this).Activate(false);
 				return _earlyFinish;
 			} 
 			set
@@ -155,10 +146,8 @@ namespace Xbim.Ifc2x3.ProcessExtension
 		{ 
 			get 
 			{
-				if(Activated) return _lateFinish;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _lateFinish;
+				((IPersistEntity)this).Activate(false);
 				return _lateFinish;
 			} 
 			set
@@ -172,10 +161,8 @@ namespace Xbim.Ifc2x3.ProcessExtension
 		{ 
 			get 
 			{
-				if(Activated) return _scheduleFinish;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _scheduleFinish;
+				((IPersistEntity)this).Activate(false);
 				return _scheduleFinish;
 			} 
 			set
@@ -189,10 +176,8 @@ namespace Xbim.Ifc2x3.ProcessExtension
 		{ 
 			get 
 			{
-				if(Activated) return _scheduleDuration;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _scheduleDuration;
+				((IPersistEntity)this).Activate(false);
 				return _scheduleDuration;
 			} 
 			set
@@ -206,10 +191,8 @@ namespace Xbim.Ifc2x3.ProcessExtension
 		{ 
 			get 
 			{
-				if(Activated) return _actualDuration;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _actualDuration;
+				((IPersistEntity)this).Activate(false);
 				return _actualDuration;
 			} 
 			set
@@ -223,10 +206,8 @@ namespace Xbim.Ifc2x3.ProcessExtension
 		{ 
 			get 
 			{
-				if(Activated) return _remainingTime;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _remainingTime;
+				((IPersistEntity)this).Activate(false);
 				return _remainingTime;
 			} 
 			set
@@ -240,10 +221,8 @@ namespace Xbim.Ifc2x3.ProcessExtension
 		{ 
 			get 
 			{
-				if(Activated) return _freeFloat;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _freeFloat;
+				((IPersistEntity)this).Activate(false);
 				return _freeFloat;
 			} 
 			set
@@ -257,10 +236,8 @@ namespace Xbim.Ifc2x3.ProcessExtension
 		{ 
 			get 
 			{
-				if(Activated) return _totalFloat;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _totalFloat;
+				((IPersistEntity)this).Activate(false);
 				return _totalFloat;
 			} 
 			set
@@ -274,10 +251,8 @@ namespace Xbim.Ifc2x3.ProcessExtension
 		{ 
 			get 
 			{
-				if(Activated) return _isCritical;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _isCritical;
+				((IPersistEntity)this).Activate(false);
 				return _isCritical;
 			} 
 			set
@@ -291,10 +266,8 @@ namespace Xbim.Ifc2x3.ProcessExtension
 		{ 
 			get 
 			{
-				if(Activated) return _statusTime;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _statusTime;
+				((IPersistEntity)this).Activate(false);
 				return _statusTime;
 			} 
 			set
@@ -308,10 +281,8 @@ namespace Xbim.Ifc2x3.ProcessExtension
 		{ 
 			get 
 			{
-				if(Activated) return _startFloat;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _startFloat;
+				((IPersistEntity)this).Activate(false);
 				return _startFloat;
 			} 
 			set
@@ -325,10 +296,8 @@ namespace Xbim.Ifc2x3.ProcessExtension
 		{ 
 			get 
 			{
-				if(Activated) return _finishFloat;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _finishFloat;
+				((IPersistEntity)this).Activate(false);
 				return _finishFloat;
 			} 
 			set
@@ -342,10 +311,8 @@ namespace Xbim.Ifc2x3.ProcessExtension
 		{ 
 			get 
 			{
-				if(Activated) return _completion;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _completion;
+				((IPersistEntity)this).Activate(false);
 				return _completion;
 			} 
 			set

@@ -15,7 +15,7 @@ namespace Xbim.Ifc2x3.MeasureResource
 {
 	[ExpressType("IFCMONETARYMEASURE", 567)]
     // ReSharper disable once PartialTypeWithSinglePart
-	public partial struct IfcMonetaryMeasure : IfcAppliedValueSelect, IfcDerivedMeasureValue, IExpressValueType
+	public partial struct IfcMonetaryMeasure : IfcAppliedValueSelect, IfcDerivedMeasureValue, IExpressValueType, System.IEquatable<double>
 	{ 
 		private double _value;
         
@@ -47,6 +47,7 @@ namespace Xbim.Ifc2x3.MeasureResource
         public static implicit operator double(IfcMonetaryMeasure obj)
         {
             return obj._value;
+
         }
 
 
@@ -63,6 +64,11 @@ namespace Xbim.Ifc2x3.MeasureResource
 
             return ((IfcMonetaryMeasure) obj)._value == _value;
         }
+
+		public bool Equals(double other)
+	    {
+	        return this == other;
+	    }
 
         public static bool operator ==(IfcMonetaryMeasure obj1, IfcMonetaryMeasure obj2)
         {

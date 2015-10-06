@@ -9,6 +9,7 @@
 
 using Xbim.Ifc4.MeasureResource;
 using Xbim.Ifc4.GeometryResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -17,8 +18,10 @@ namespace Xbim.Ifc4.RepresentationResource
 {
 	[ExpressType("IFCGEOMETRICREPRESENTATIONSUBCONTEXT", 694)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcGeometricRepresentationSubContext : IfcGeometricRepresentationContext, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcGeometricRepresentationSubContext>, System.IEquatable<@IfcGeometricRepresentationSubContext>
+	public  partial class @IfcGeometricRepresentationSubContext : IfcGeometricRepresentationContext, IInstantiableEntity, IEqualityComparer<@IfcGeometricRepresentationSubContext>, IEquatable<@IfcGeometricRepresentationSubContext>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcGeometricRepresentationSubContext(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -38,10 +41,8 @@ namespace Xbim.Ifc4.RepresentationResource
 		{ 
 			get 
 			{
-				if(Activated) return _parentContext;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _parentContext;
+				((IPersistEntity)this).Activate(false);
 				return _parentContext;
 			} 
 			set
@@ -55,10 +56,8 @@ namespace Xbim.Ifc4.RepresentationResource
 		{ 
 			get 
 			{
-				if(Activated) return _targetScale;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _targetScale;
+				((IPersistEntity)this).Activate(false);
 				return _targetScale;
 			} 
 			set
@@ -72,10 +71,8 @@ namespace Xbim.Ifc4.RepresentationResource
 		{ 
 			get 
 			{
-				if(Activated) return _targetView;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _targetView;
+				((IPersistEntity)this).Activate(false);
 				return _targetView;
 			} 
 			set
@@ -89,10 +86,8 @@ namespace Xbim.Ifc4.RepresentationResource
 		{ 
 			get 
 			{
-				if(Activated) return _userDefinedTargetView;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _userDefinedTargetView;
+				((IPersistEntity)this).Activate(false);
 				return _userDefinedTargetView;
 			} 
 			set

@@ -11,6 +11,7 @@ using Xbim.Ifc2x3.UtilityResource;
 using Xbim.Ifc2x3.MeasureResource;
 using Xbim.Ifc2x3.GeometricConstraintResource;
 using Xbim.Ifc2x3.RepresentationResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -19,8 +20,10 @@ namespace Xbim.Ifc2x3.ProductExtension
 {
 	[ExpressType("IFCTRANSPORTELEMENT", 416)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcTransportElement : IfcElement, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcTransportElement>, System.IEquatable<@IfcTransportElement>
+	public  partial class @IfcTransportElement : IfcElement, IInstantiableEntity, IEqualityComparer<@IfcTransportElement>, IEquatable<@IfcTransportElement>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcTransportElement(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -38,10 +41,8 @@ namespace Xbim.Ifc2x3.ProductExtension
 		{ 
 			get 
 			{
-				if(Activated) return _operationType;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _operationType;
+				((IPersistEntity)this).Activate(false);
 				return _operationType;
 			} 
 			set
@@ -55,10 +56,8 @@ namespace Xbim.Ifc2x3.ProductExtension
 		{ 
 			get 
 			{
-				if(Activated) return _capacityByWeight;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _capacityByWeight;
+				((IPersistEntity)this).Activate(false);
 				return _capacityByWeight;
 			} 
 			set
@@ -72,10 +71,8 @@ namespace Xbim.Ifc2x3.ProductExtension
 		{ 
 			get 
 			{
-				if(Activated) return _capacityByNumber;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _capacityByNumber;
+				((IPersistEntity)this).Activate(false);
 				return _capacityByNumber;
 			} 
 			set

@@ -11,6 +11,7 @@ using Xbim.Ifc2x3.PresentationDimensioningResource;
 using Xbim.Ifc2x3.GeometryResource;
 using Xbim.Ifc2x3.MeasureResource;
 using Xbim.Ifc2x3.PresentationAppearanceResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -19,8 +20,10 @@ namespace Xbim.Ifc2x3.PresentationDefinitionResource
 {
 	[ExpressType("IFCANNOTATIONSYMBOLOCCURRENCE", 134)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcAnnotationSymbolOccurrence : IfcAnnotationOccurrence, IfcDraughtingCalloutElement, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcAnnotationSymbolOccurrence>, System.IEquatable<@IfcAnnotationSymbolOccurrence>
+	public  partial class @IfcAnnotationSymbolOccurrence : IfcAnnotationOccurrence, IfcDraughtingCalloutElement, IInstantiableEntity, IEqualityComparer<@IfcAnnotationSymbolOccurrence>, IEquatable<@IfcAnnotationSymbolOccurrence>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcAnnotationSymbolOccurrence(IModel model) : base(model) 		{ 
 			Model = model; 

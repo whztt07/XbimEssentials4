@@ -14,11 +14,19 @@ namespace Xbim.Common
 	{
 		int EntityLabel {get; }
 		IModel Model { get; }
-		bool Activated { get; }
+		ActivationStatus ActivationStatus { get; }
 		void Activate (bool write);
 		void Activate (Action activation);
 
 		[Obsolete("This property is deprecated and likely to be removed. Use just 'Model' instead.")]
 		IModel ModelOf { get; }
 	}
+
+	public enum ActivationStatus : byte
+    {
+        NotActivated = 0,
+        ActivatedRead = 1,
+        ActivatedReadWrite = 2
+    }
+
 }

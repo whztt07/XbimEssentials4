@@ -12,6 +12,7 @@ using Xbim.Ifc2x3.MeasureResource;
 using Xbim.Ifc2x3.GeometricConstraintResource;
 using Xbim.Ifc2x3.RepresentationResource;
 using Xbim.Ifc2x3.StructuralLoadResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -20,8 +21,10 @@ namespace Xbim.Ifc2x3.StructuralAnalysisDomain
 {
 	[ExpressType("IFCSTRUCTURALCURVECONNECTION", 534)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcStructuralCurveConnection : IfcStructuralConnection, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcStructuralCurveConnection>, System.IEquatable<@IfcStructuralCurveConnection>
+	public  partial class @IfcStructuralCurveConnection : IfcStructuralConnection, IInstantiableEntity, IEqualityComparer<@IfcStructuralCurveConnection>, IEquatable<@IfcStructuralCurveConnection>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcStructuralCurveConnection(IModel model) : base(model) 		{ 
 			Model = model; 

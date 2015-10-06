@@ -9,6 +9,7 @@
 
 using Xbim.Ifc4.PresentationDefinitionResource;
 using Xbim.Ifc4.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -17,8 +18,10 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
 {
 	[ExpressType("IFCTEXTUREVERTEX", 1101)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcTextureVertex : IfcPresentationItem, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcTextureVertex>, System.IEquatable<@IfcTextureVertex>
+	public  partial class @IfcTextureVertex : IfcPresentationItem, IInstantiableEntity, IEqualityComparer<@IfcTextureVertex>, IEquatable<@IfcTextureVertex>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcTextureVertex(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -35,10 +38,8 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
 		{ 
 			get 
 			{
-				if(Activated) return _coordinates;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _coordinates;
+				((IPersistEntity)this).Activate(false);
 				return _coordinates;
 			} 
 		}

@@ -10,6 +10,7 @@
 using Xbim.Ifc2x3.Kernel;
 using Xbim.Ifc2x3.UtilityResource;
 using Xbim.Ifc2x3.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -18,8 +19,10 @@ namespace Xbim.Ifc2x3.ProductExtension
 {
 	[ExpressType("IFCRELCONNECTSPORTTOELEMENT", 633)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcRelConnectsPortToElement : IfcRelConnects, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcRelConnectsPortToElement>, System.IEquatable<@IfcRelConnectsPortToElement>
+	public  partial class @IfcRelConnectsPortToElement : IfcRelConnects, IInstantiableEntity, IEqualityComparer<@IfcRelConnectsPortToElement>, IEquatable<@IfcRelConnectsPortToElement>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcRelConnectsPortToElement(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -37,10 +40,8 @@ namespace Xbim.Ifc2x3.ProductExtension
 		{ 
 			get 
 			{
-				if(Activated) return _relatingPort;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _relatingPort;
+				((IPersistEntity)this).Activate(false);
 				return _relatingPort;
 			} 
 			set
@@ -55,10 +56,8 @@ namespace Xbim.Ifc2x3.ProductExtension
 		{ 
 			get 
 			{
-				if(Activated) return _relatedElement;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _relatedElement;
+				((IPersistEntity)this).Activate(false);
 				return _relatedElement;
 			} 
 			set

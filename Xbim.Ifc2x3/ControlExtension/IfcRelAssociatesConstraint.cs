@@ -11,6 +11,7 @@ using Xbim.Ifc2x3.Kernel;
 using Xbim.Ifc2x3.UtilityResource;
 using Xbim.Ifc2x3.MeasureResource;
 using Xbim.Ifc2x3.ConstraintResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -19,8 +20,10 @@ namespace Xbim.Ifc2x3.ControlExtension
 {
 	[ExpressType("IFCRELASSOCIATESCONSTRAINT", 711)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcRelAssociatesConstraint : IfcRelAssociates, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcRelAssociatesConstraint>, System.IEquatable<@IfcRelAssociatesConstraint>
+	public  partial class @IfcRelAssociatesConstraint : IfcRelAssociates, IInstantiableEntity, IEqualityComparer<@IfcRelAssociatesConstraint>, IEquatable<@IfcRelAssociatesConstraint>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcRelAssociatesConstraint(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -37,10 +40,8 @@ namespace Xbim.Ifc2x3.ControlExtension
 		{ 
 			get 
 			{
-				if(Activated) return _intent;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _intent;
+				((IPersistEntity)this).Activate(false);
 				return _intent;
 			} 
 			set
@@ -54,10 +55,8 @@ namespace Xbim.Ifc2x3.ControlExtension
 		{ 
 			get 
 			{
-				if(Activated) return _relatingConstraint;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _relatingConstraint;
+				((IPersistEntity)this).Activate(false);
 				return _relatingConstraint;
 			} 
 			set

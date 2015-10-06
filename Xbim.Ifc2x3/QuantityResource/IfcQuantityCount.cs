@@ -8,6 +8,7 @@
 // ------------------------------------------------------------------------------
 
 using Xbim.Ifc2x3.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -16,8 +17,10 @@ namespace Xbim.Ifc2x3.QuantityResource
 {
 	[ExpressType("IFCQUANTITYCOUNT", 457)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcQuantityCount : IfcPhysicalSimpleQuantity, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcQuantityCount>, System.IEquatable<@IfcQuantityCount>
+	public  partial class @IfcQuantityCount : IfcPhysicalSimpleQuantity, IInstantiableEntity, IEqualityComparer<@IfcQuantityCount>, IEquatable<@IfcQuantityCount>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcQuantityCount(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -33,10 +36,8 @@ namespace Xbim.Ifc2x3.QuantityResource
 		{ 
 			get 
 			{
-				if(Activated) return _countValue;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _countValue;
+				((IPersistEntity)this).Activate(false);
 				return _countValue;
 			} 
 			set

@@ -7,6 +7,7 @@
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -16,8 +17,10 @@ namespace Xbim.Ifc2x3.GeometryResource
 	[IndexedClass]
 	[ExpressType("IFCMAPPEDITEM", 333)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcMappedItem : IfcRepresentationItem, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcMappedItem>, System.IEquatable<@IfcMappedItem>
+	public  partial class @IfcMappedItem : IfcRepresentationItem, IInstantiableEntity, IEqualityComparer<@IfcMappedItem>, IEquatable<@IfcMappedItem>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcMappedItem(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -35,10 +38,8 @@ namespace Xbim.Ifc2x3.GeometryResource
 		{ 
 			get 
 			{
-				if(Activated) return _mappingSource;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _mappingSource;
+				((IPersistEntity)this).Activate(false);
 				return _mappingSource;
 			} 
 			set
@@ -52,10 +53,8 @@ namespace Xbim.Ifc2x3.GeometryResource
 		{ 
 			get 
 			{
-				if(Activated) return _mappingTarget;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _mappingTarget;
+				((IPersistEntity)this).Activate(false);
 				return _mappingTarget;
 			} 
 			set

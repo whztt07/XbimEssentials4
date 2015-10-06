@@ -10,6 +10,8 @@
 using Xbim.Ifc4.Kernel;
 using Xbim.Ifc4.QuantityResource;
 using Xbim.Ifc4.CostResource;
+using System;
+using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
 
@@ -17,8 +19,10 @@ namespace Xbim.Ifc4.ConstructionMgmtDomain
 {
 	[ExpressType("IFCCONSTRUCTIONRESOURCETYPE", 524)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public abstract partial class @IfcConstructionResourceType : IfcTypeResource, System.Collections.Generic.IEqualityComparer<@IfcConstructionResourceType>, System.IEquatable<@IfcConstructionResourceType>
+	public abstract partial class @IfcConstructionResourceType : IfcTypeResource, IEqualityComparer<@IfcConstructionResourceType>, IEquatable<@IfcConstructionResourceType>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcConstructionResourceType(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -36,10 +40,8 @@ namespace Xbim.Ifc4.ConstructionMgmtDomain
 		{ 
 			get 
 			{
-				if(Activated) return _baseCosts;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _baseCosts;
+				((IPersistEntity)this).Activate(false);
 				return _baseCosts;
 			} 
 		}
@@ -49,10 +51,8 @@ namespace Xbim.Ifc4.ConstructionMgmtDomain
 		{ 
 			get 
 			{
-				if(Activated) return _baseQuantity;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _baseQuantity;
+				((IPersistEntity)this).Activate(false);
 				return _baseQuantity;
 			} 
 			set

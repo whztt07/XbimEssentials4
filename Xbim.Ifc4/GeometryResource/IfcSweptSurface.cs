@@ -8,6 +8,8 @@
 // ------------------------------------------------------------------------------
 
 using Xbim.Ifc4.ProfileResource;
+using System;
+using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
 
@@ -15,8 +17,10 @@ namespace Xbim.Ifc4.GeometryResource
 {
 	[ExpressType("IFCSWEPTSURFACE", 1069)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public abstract partial class @IfcSweptSurface : IfcSurface, System.Collections.Generic.IEqualityComparer<@IfcSweptSurface>, System.IEquatable<@IfcSweptSurface>
+	public abstract partial class @IfcSweptSurface : IfcSurface, IEqualityComparer<@IfcSweptSurface>, IEquatable<@IfcSweptSurface>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcSweptSurface(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -33,10 +37,8 @@ namespace Xbim.Ifc4.GeometryResource
 		{ 
 			get 
 			{
-				if(Activated) return _sweptCurve;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _sweptCurve;
+				((IPersistEntity)this).Activate(false);
 				return _sweptCurve;
 			} 
 			set
@@ -50,10 +52,8 @@ namespace Xbim.Ifc4.GeometryResource
 		{ 
 			get 
 			{
-				if(Activated) return _position;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _position;
+				((IPersistEntity)this).Activate(false);
 				return _position;
 			} 
 			set

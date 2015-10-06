@@ -8,6 +8,7 @@
 // ------------------------------------------------------------------------------
 
 using Xbim.Ifc2x3.GeometryResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -16,8 +17,10 @@ namespace Xbim.Ifc2x3.PresentationAppearanceResource
 {
 	[ExpressType("IFCONEDIRECTIONREPEATFACTOR", 32)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcOneDirectionRepeatFactor : IfcGeometricRepresentationItem, IfcHatchLineDistanceSelect, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcOneDirectionRepeatFactor>, System.IEquatable<@IfcOneDirectionRepeatFactor>
+	public  partial class @IfcOneDirectionRepeatFactor : IfcGeometricRepresentationItem, IfcHatchLineDistanceSelect, IInstantiableEntity, IEqualityComparer<@IfcOneDirectionRepeatFactor>, IEquatable<@IfcOneDirectionRepeatFactor>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcOneDirectionRepeatFactor(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -33,10 +36,8 @@ namespace Xbim.Ifc2x3.PresentationAppearanceResource
 		{ 
 			get 
 			{
-				if(Activated) return _repeatFactor;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _repeatFactor;
+				((IPersistEntity)this).Activate(false);
 				return _repeatFactor;
 			} 
 			set

@@ -9,6 +9,7 @@
 
 using Xbim.Ifc2x3.MaterialResource;
 using Xbim.Ifc2x3.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -17,8 +18,10 @@ namespace Xbim.Ifc2x3.MaterialPropertyResource
 {
 	[ExpressType("IFCWATERPROPERTIES", 721)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcWaterProperties : IfcMaterialProperties, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcWaterProperties>, System.IEquatable<@IfcWaterProperties>
+	public  partial class @IfcWaterProperties : IfcMaterialProperties, IInstantiableEntity, IEqualityComparer<@IfcWaterProperties>, IEquatable<@IfcWaterProperties>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcWaterProperties(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -40,10 +43,8 @@ namespace Xbim.Ifc2x3.MaterialPropertyResource
 		{ 
 			get 
 			{
-				if(Activated) return _isPotable;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _isPotable;
+				((IPersistEntity)this).Activate(false);
 				return _isPotable;
 			} 
 			set
@@ -57,10 +58,8 @@ namespace Xbim.Ifc2x3.MaterialPropertyResource
 		{ 
 			get 
 			{
-				if(Activated) return _hardness;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _hardness;
+				((IPersistEntity)this).Activate(false);
 				return _hardness;
 			} 
 			set
@@ -74,10 +73,8 @@ namespace Xbim.Ifc2x3.MaterialPropertyResource
 		{ 
 			get 
 			{
-				if(Activated) return _alkalinityConcentration;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _alkalinityConcentration;
+				((IPersistEntity)this).Activate(false);
 				return _alkalinityConcentration;
 			} 
 			set
@@ -91,10 +88,8 @@ namespace Xbim.Ifc2x3.MaterialPropertyResource
 		{ 
 			get 
 			{
-				if(Activated) return _acidityConcentration;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _acidityConcentration;
+				((IPersistEntity)this).Activate(false);
 				return _acidityConcentration;
 			} 
 			set
@@ -108,10 +103,8 @@ namespace Xbim.Ifc2x3.MaterialPropertyResource
 		{ 
 			get 
 			{
-				if(Activated) return _impuritiesContent;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _impuritiesContent;
+				((IPersistEntity)this).Activate(false);
 				return _impuritiesContent;
 			} 
 			set
@@ -125,10 +118,8 @@ namespace Xbim.Ifc2x3.MaterialPropertyResource
 		{ 
 			get 
 			{
-				if(Activated) return _pHLevel;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _pHLevel;
+				((IPersistEntity)this).Activate(false);
 				return _pHLevel;
 			} 
 			set
@@ -142,10 +133,8 @@ namespace Xbim.Ifc2x3.MaterialPropertyResource
 		{ 
 			get 
 			{
-				if(Activated) return _dissolvedSolidsContent;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _dissolvedSolidsContent;
+				((IPersistEntity)this).Activate(false);
 				return _dissolvedSolidsContent;
 			} 
 			set

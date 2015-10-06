@@ -9,6 +9,7 @@
 
 using Xbim.Ifc4.UtilityResource;
 using Xbim.Ifc4.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -17,8 +18,10 @@ namespace Xbim.Ifc4.Kernel
 {
 	[ExpressType("IFCRELNESTS", 939)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcRelNests : IfcRelDecomposes, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcRelNests>, System.IEquatable<@IfcRelNests>
+	public  partial class @IfcRelNests : IfcRelDecomposes, IInstantiableEntity, IEqualityComparer<@IfcRelNests>, IEquatable<@IfcRelNests>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcRelNests(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -37,10 +40,8 @@ namespace Xbim.Ifc4.Kernel
 		{ 
 			get 
 			{
-				if(Activated) return _relatingObject;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _relatingObject;
+				((IPersistEntity)this).Activate(false);
 				return _relatingObject;
 			} 
 			set
@@ -55,10 +56,8 @@ namespace Xbim.Ifc4.Kernel
 		{ 
 			get 
 			{
-				if(Activated) return _relatedObjects;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _relatedObjects;
+				((IPersistEntity)this).Activate(false);
 				return _relatedObjects;
 			} 
 		}

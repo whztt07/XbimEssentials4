@@ -9,6 +9,8 @@
 
 using Xbim.Ifc4.GeometricConstraintResource;
 using Xbim.Ifc4.GeometryResource;
+using System;
+using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
 
@@ -17,8 +19,10 @@ namespace Xbim.Ifc4.GeometricModelResource
 	[IndexedClass]
 	[ExpressType("IFCSOLIDMODEL", 992)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public abstract partial class @IfcSolidModel : IfcGeometricRepresentationItem, IfcBooleanOperand, IfcSolidOrShell, System.Collections.Generic.IEqualityComparer<@IfcSolidModel>, System.IEquatable<@IfcSolidModel>
+	public abstract partial class @IfcSolidModel : IfcGeometricRepresentationItem, IfcBooleanOperand, IfcSolidOrShell, IEqualityComparer<@IfcSolidModel>, IEquatable<@IfcSolidModel>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcSolidModel(IModel model) : base(model) 		{ 
 			Model = model; 

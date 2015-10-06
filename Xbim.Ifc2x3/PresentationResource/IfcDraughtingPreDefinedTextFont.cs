@@ -8,6 +8,7 @@
 // ------------------------------------------------------------------------------
 
 using Xbim.Ifc2x3.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -16,8 +17,10 @@ namespace Xbim.Ifc2x3.PresentationResource
 {
 	[ExpressType("IFCDRAUGHTINGPREDEFINEDTEXTFONT", 761)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcDraughtingPreDefinedTextFont : IfcPreDefinedTextFont, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcDraughtingPreDefinedTextFont>, System.IEquatable<@IfcDraughtingPreDefinedTextFont>
+	public  partial class @IfcDraughtingPreDefinedTextFont : IfcPreDefinedTextFont, IInstantiableEntity, IEqualityComparer<@IfcDraughtingPreDefinedTextFont>, IEquatable<@IfcDraughtingPreDefinedTextFont>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcDraughtingPreDefinedTextFont(IModel model) : base(model) 		{ 
 			Model = model; 

@@ -9,6 +9,7 @@
 
 using Xbim.Ifc4.UtilityResource;
 using Xbim.Ifc4.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -17,8 +18,10 @@ namespace Xbim.Ifc4.Kernel
 {
 	[ExpressType("IFCGROUP", 699)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcGroup : IfcObject, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcGroup>, System.IEquatable<@IfcGroup>
+	public  partial class @IfcGroup : IfcObject, IInstantiableEntity, IEqualityComparer<@IfcGroup>, IEquatable<@IfcGroup>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcGroup(IModel model) : base(model) 		{ 
 			Model = model; 

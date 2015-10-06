@@ -9,6 +9,7 @@
 
 using Xbim.Ifc4.GeometryResource;
 using Xbim.Ifc4.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -17,8 +18,10 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
 {
 	[ExpressType("IFCSTYLEDITEM", 1048)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcStyledItem : IfcRepresentationItem, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcStyledItem>, System.IEquatable<@IfcStyledItem>
+	public  partial class @IfcStyledItem : IfcRepresentationItem, IInstantiableEntity, IEqualityComparer<@IfcStyledItem>, IEquatable<@IfcStyledItem>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcStyledItem(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -38,10 +41,8 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
 		{ 
 			get 
 			{
-				if(Activated) return _item;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _item;
+				((IPersistEntity)this).Activate(false);
 				return _item;
 			} 
 			set
@@ -55,10 +56,8 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
 		{ 
 			get 
 			{
-				if(Activated) return _styles;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _styles;
+				((IPersistEntity)this).Activate(false);
 				return _styles;
 			} 
 		}
@@ -68,10 +67,8 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
 		{ 
 			get 
 			{
-				if(Activated) return _name;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _name;
+				((IPersistEntity)this).Activate(false);
 				return _name;
 			} 
 			set

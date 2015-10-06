@@ -11,6 +11,7 @@ using Xbim.Ifc4.Kernel;
 using Xbim.Ifc4.UtilityResource;
 using Xbim.Ifc4.MeasureResource;
 using Xbim.Ifc4.DateTimeResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -19,8 +20,10 @@ namespace Xbim.Ifc4.ProcessExtension
 {
 	[ExpressType("IFCWORKCALENDAR", 1150)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcWorkCalendar : IfcControl, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcWorkCalendar>, System.IEquatable<@IfcWorkCalendar>
+	public  partial class @IfcWorkCalendar : IfcControl, IInstantiableEntity, IEqualityComparer<@IfcWorkCalendar>, IEquatable<@IfcWorkCalendar>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcWorkCalendar(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -40,10 +43,8 @@ namespace Xbim.Ifc4.ProcessExtension
 		{ 
 			get 
 			{
-				if(Activated) return _workingTimes;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _workingTimes;
+				((IPersistEntity)this).Activate(false);
 				return _workingTimes;
 			} 
 		}
@@ -53,10 +54,8 @@ namespace Xbim.Ifc4.ProcessExtension
 		{ 
 			get 
 			{
-				if(Activated) return _exceptionTimes;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _exceptionTimes;
+				((IPersistEntity)this).Activate(false);
 				return _exceptionTimes;
 			} 
 		}
@@ -66,10 +65,8 @@ namespace Xbim.Ifc4.ProcessExtension
 		{ 
 			get 
 			{
-				if(Activated) return _predefinedType;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _predefinedType;
+				((IPersistEntity)this).Activate(false);
 				return _predefinedType;
 			} 
 			set

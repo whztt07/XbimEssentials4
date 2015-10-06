@@ -9,6 +9,7 @@
 
 using Xbim.Ifc4.MeasureResource;
 using Xbim.Ifc4.Kernel;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -18,8 +19,10 @@ namespace Xbim.Ifc4.ExternalReferenceResource
 	[IndexedClass]
 	[ExpressType("IFCDOCUMENTREFERENCE", 580)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcDocumentReference : IfcExternalReference, IfcDocumentSelect, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcDocumentReference>, System.IEquatable<@IfcDocumentReference>
+	public  partial class @IfcDocumentReference : IfcExternalReference, IfcDocumentSelect, IInstantiableEntity, IEqualityComparer<@IfcDocumentReference>, IEquatable<@IfcDocumentReference>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcDocumentReference(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -36,10 +39,8 @@ namespace Xbim.Ifc4.ExternalReferenceResource
 		{ 
 			get 
 			{
-				if(Activated) return _description;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _description;
+				((IPersistEntity)this).Activate(false);
 				return _description;
 			} 
 			set
@@ -54,10 +55,8 @@ namespace Xbim.Ifc4.ExternalReferenceResource
 		{ 
 			get 
 			{
-				if(Activated) return _referencedDocument;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _referencedDocument;
+				((IPersistEntity)this).Activate(false);
 				return _referencedDocument;
 			} 
 			set

@@ -7,6 +7,7 @@
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -15,8 +16,10 @@ namespace Xbim.Ifc2x3.GeometryResource
 {
 	[ExpressType("IFCLINE", 272)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcLine : IfcCurve, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcLine>, System.IEquatable<@IfcLine>
+	public  partial class @IfcLine : IfcCurve, IInstantiableEntity, IEqualityComparer<@IfcLine>, IEquatable<@IfcLine>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcLine(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -33,10 +36,8 @@ namespace Xbim.Ifc2x3.GeometryResource
 		{ 
 			get 
 			{
-				if(Activated) return _pnt;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _pnt;
+				((IPersistEntity)this).Activate(false);
 				return _pnt;
 			} 
 			set
@@ -50,10 +51,8 @@ namespace Xbim.Ifc2x3.GeometryResource
 		{ 
 			get 
 			{
-				if(Activated) return _dir;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _dir;
+				((IPersistEntity)this).Activate(false);
 				return _dir;
 			} 
 			set

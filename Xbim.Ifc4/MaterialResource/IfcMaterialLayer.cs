@@ -8,6 +8,7 @@
 // ------------------------------------------------------------------------------
 
 using Xbim.Ifc4.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -17,8 +18,10 @@ namespace Xbim.Ifc4.MaterialResource
 	[IndexedClass]
 	[ExpressType("IFCMATERIALLAYER", 747)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcMaterialLayer : IfcMaterialDefinition, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcMaterialLayer>, System.IEquatable<@IfcMaterialLayer>
+	public  partial class @IfcMaterialLayer : IfcMaterialDefinition, IInstantiableEntity, IEqualityComparer<@IfcMaterialLayer>, IEquatable<@IfcMaterialLayer>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcMaterialLayer(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -40,10 +43,8 @@ namespace Xbim.Ifc4.MaterialResource
 		{ 
 			get 
 			{
-				if(Activated) return _material;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _material;
+				((IPersistEntity)this).Activate(false);
 				return _material;
 			} 
 			set
@@ -57,10 +58,8 @@ namespace Xbim.Ifc4.MaterialResource
 		{ 
 			get 
 			{
-				if(Activated) return _layerThickness;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _layerThickness;
+				((IPersistEntity)this).Activate(false);
 				return _layerThickness;
 			} 
 			set
@@ -74,10 +73,8 @@ namespace Xbim.Ifc4.MaterialResource
 		{ 
 			get 
 			{
-				if(Activated) return _isVentilated;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _isVentilated;
+				((IPersistEntity)this).Activate(false);
 				return _isVentilated;
 			} 
 			set
@@ -91,10 +88,8 @@ namespace Xbim.Ifc4.MaterialResource
 		{ 
 			get 
 			{
-				if(Activated) return _name;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _name;
+				((IPersistEntity)this).Activate(false);
 				return _name;
 			} 
 			set
@@ -108,10 +103,8 @@ namespace Xbim.Ifc4.MaterialResource
 		{ 
 			get 
 			{
-				if(Activated) return _description;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _description;
+				((IPersistEntity)this).Activate(false);
 				return _description;
 			} 
 			set
@@ -125,10 +118,8 @@ namespace Xbim.Ifc4.MaterialResource
 		{ 
 			get 
 			{
-				if(Activated) return _category;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _category;
+				((IPersistEntity)this).Activate(false);
 				return _category;
 			} 
 			set
@@ -142,10 +133,8 @@ namespace Xbim.Ifc4.MaterialResource
 		{ 
 			get 
 			{
-				if(Activated) return _priority;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _priority;
+				((IPersistEntity)this).Activate(false);
 				return _priority;
 			} 
 			set

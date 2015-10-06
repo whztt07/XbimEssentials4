@@ -8,6 +8,8 @@
 // ------------------------------------------------------------------------------
 
 using Xbim.Ifc4.GeometryResource;
+using System;
+using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
 
@@ -15,8 +17,10 @@ namespace Xbim.Ifc4.GeometricModelResource
 {
 	[ExpressType("IFCCARTESIANPOINTLIST", 468)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public abstract partial class @IfcCartesianPointList : IfcGeometricRepresentationItem, System.Collections.Generic.IEqualityComparer<@IfcCartesianPointList>, System.IEquatable<@IfcCartesianPointList>
+	public abstract partial class @IfcCartesianPointList : IfcGeometricRepresentationItem, IEqualityComparer<@IfcCartesianPointList>, IEquatable<@IfcCartesianPointList>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcCartesianPointList(IModel model) : base(model) 		{ 
 			Model = model; 

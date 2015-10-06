@@ -15,7 +15,7 @@ namespace Xbim.Ifc4.DateTimeResource
 {
 	[ExpressType("IFCDATE", 14)]
     // ReSharper disable once PartialTypeWithSinglePart
-	public partial struct IfcDate : IfcSimpleValue, IExpressValueType
+	public partial struct IfcDate : IfcSimpleValue, IExpressValueType, System.IEquatable<string>
 	{ 
 		private string _value;
         
@@ -43,6 +43,7 @@ namespace Xbim.Ifc4.DateTimeResource
         public static implicit operator string(IfcDate obj)
         {
             return obj._value;
+
         }
 
 
@@ -59,6 +60,11 @@ namespace Xbim.Ifc4.DateTimeResource
 
             return ((IfcDate) obj)._value == _value;
         }
+
+		public bool Equals(string other)
+	    {
+	        return this == other;
+	    }
 
         public static bool operator ==(IfcDate obj1, IfcDate obj2)
         {

@@ -8,6 +8,7 @@
 // ------------------------------------------------------------------------------
 
 using Xbim.Ifc2x3.GeometryResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -16,8 +17,10 @@ namespace Xbim.Ifc2x3.GeometricModelResource
 {
 	[ExpressType("IFCHALFSPACESOLID", 338)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcHalfSpaceSolid : IfcGeometricRepresentationItem, IfcBooleanOperand, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcHalfSpaceSolid>, System.IEquatable<@IfcHalfSpaceSolid>
+	public  partial class @IfcHalfSpaceSolid : IfcGeometricRepresentationItem, IfcBooleanOperand, IInstantiableEntity, IEqualityComparer<@IfcHalfSpaceSolid>, IEquatable<@IfcHalfSpaceSolid>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcHalfSpaceSolid(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -34,10 +37,8 @@ namespace Xbim.Ifc2x3.GeometricModelResource
 		{ 
 			get 
 			{
-				if(Activated) return _baseSurface;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _baseSurface;
+				((IPersistEntity)this).Activate(false);
 				return _baseSurface;
 			} 
 			set
@@ -51,10 +52,8 @@ namespace Xbim.Ifc2x3.GeometricModelResource
 		{ 
 			get 
 			{
-				if(Activated) return _agreementFlag;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _agreementFlag;
+				((IPersistEntity)this).Activate(false);
 				return _agreementFlag;
 			} 
 			set

@@ -9,6 +9,7 @@
 
 using Xbim.Ifc2x3.MaterialResource;
 using Xbim.Ifc2x3.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -17,8 +18,10 @@ namespace Xbim.Ifc2x3.MaterialPropertyResource
 {
 	[ExpressType("IFCHYGROSCOPICMATERIALPROPERTIES", 717)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcHygroscopicMaterialProperties : IfcMaterialProperties, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcHygroscopicMaterialProperties>, System.IEquatable<@IfcHygroscopicMaterialProperties>
+	public  partial class @IfcHygroscopicMaterialProperties : IfcMaterialProperties, IInstantiableEntity, IEqualityComparer<@IfcHygroscopicMaterialProperties>, IEquatable<@IfcHygroscopicMaterialProperties>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcHygroscopicMaterialProperties(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -38,10 +41,8 @@ namespace Xbim.Ifc2x3.MaterialPropertyResource
 		{ 
 			get 
 			{
-				if(Activated) return _upperVaporResistanceFactor;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _upperVaporResistanceFactor;
+				((IPersistEntity)this).Activate(false);
 				return _upperVaporResistanceFactor;
 			} 
 			set
@@ -55,10 +56,8 @@ namespace Xbim.Ifc2x3.MaterialPropertyResource
 		{ 
 			get 
 			{
-				if(Activated) return _lowerVaporResistanceFactor;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _lowerVaporResistanceFactor;
+				((IPersistEntity)this).Activate(false);
 				return _lowerVaporResistanceFactor;
 			} 
 			set
@@ -72,10 +71,8 @@ namespace Xbim.Ifc2x3.MaterialPropertyResource
 		{ 
 			get 
 			{
-				if(Activated) return _isothermalMoistureCapacity;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _isothermalMoistureCapacity;
+				((IPersistEntity)this).Activate(false);
 				return _isothermalMoistureCapacity;
 			} 
 			set
@@ -89,10 +86,8 @@ namespace Xbim.Ifc2x3.MaterialPropertyResource
 		{ 
 			get 
 			{
-				if(Activated) return _vaporPermeability;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _vaporPermeability;
+				((IPersistEntity)this).Activate(false);
 				return _vaporPermeability;
 			} 
 			set
@@ -106,10 +101,8 @@ namespace Xbim.Ifc2x3.MaterialPropertyResource
 		{ 
 			get 
 			{
-				if(Activated) return _moistureDiffusivity;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _moistureDiffusivity;
+				((IPersistEntity)this).Activate(false);
 				return _moistureDiffusivity;
 			} 
 			set

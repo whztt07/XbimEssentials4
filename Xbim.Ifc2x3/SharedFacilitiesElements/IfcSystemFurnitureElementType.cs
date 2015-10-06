@@ -12,6 +12,7 @@ using Xbim.Ifc2x3.UtilityResource;
 using Xbim.Ifc2x3.MeasureResource;
 using Xbim.Ifc2x3.Kernel;
 using Xbim.Ifc2x3.GeometryResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -20,8 +21,10 @@ namespace Xbim.Ifc2x3.SharedFacilitiesElements
 {
 	[ExpressType("IFCSYSTEMFURNITUREELEMENTTYPE", 422)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcSystemFurnitureElementType : IfcFurnishingElementType, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcSystemFurnitureElementType>, System.IEquatable<@IfcSystemFurnitureElementType>
+	public  partial class @IfcSystemFurnitureElementType : IfcFurnishingElementType, IInstantiableEntity, IEqualityComparer<@IfcSystemFurnitureElementType>, IEquatable<@IfcSystemFurnitureElementType>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcSystemFurnitureElementType(IModel model) : base(model) 		{ 
 			Model = model; 

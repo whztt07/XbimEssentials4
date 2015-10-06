@@ -12,6 +12,7 @@ using Xbim.Ifc2x3.UtilityResource;
 using Xbim.Ifc2x3.MeasureResource;
 using Xbim.Ifc2x3.GeometricConstraintResource;
 using Xbim.Ifc2x3.RepresentationResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -20,8 +21,10 @@ namespace Xbim.Ifc2x3.SharedBldgElements
 {
 	[ExpressType("IFCSTAIR", 346)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcStair : IfcBuildingElement, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcStair>, System.IEquatable<@IfcStair>
+	public  partial class @IfcStair : IfcBuildingElement, IInstantiableEntity, IEqualityComparer<@IfcStair>, IEquatable<@IfcStair>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcStair(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -37,10 +40,8 @@ namespace Xbim.Ifc2x3.SharedBldgElements
 		{ 
 			get 
 			{
-				if(Activated) return _shapeType;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _shapeType;
+				((IPersistEntity)this).Activate(false);
 				return _shapeType;
 			} 
 			set

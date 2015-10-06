@@ -10,6 +10,7 @@
 using Xbim.Ifc4.ProfileResource;
 using Xbim.Ifc4.GeometryResource;
 using Xbim.Ifc4.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -18,8 +19,10 @@ namespace Xbim.Ifc4.GeometricModelResource
 {
 	[ExpressType("IFCREVOLVEDAREASOLIDTAPERED", 960)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcRevolvedAreaSolidTapered : IfcRevolvedAreaSolid, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcRevolvedAreaSolidTapered>, System.IEquatable<@IfcRevolvedAreaSolidTapered>
+	public  partial class @IfcRevolvedAreaSolidTapered : IfcRevolvedAreaSolid, IInstantiableEntity, IEqualityComparer<@IfcRevolvedAreaSolidTapered>, IEquatable<@IfcRevolvedAreaSolidTapered>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcRevolvedAreaSolidTapered(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -35,10 +38,8 @@ namespace Xbim.Ifc4.GeometricModelResource
 		{ 
 			get 
 			{
-				if(Activated) return _endSweptArea;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _endSweptArea;
+				((IPersistEntity)this).Activate(false);
 				return _endSweptArea;
 			} 
 			set

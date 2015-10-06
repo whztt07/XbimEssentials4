@@ -9,6 +9,7 @@
 
 using Xbim.Ifc2x3.ExternalReferenceResource;
 using Xbim.Ifc2x3.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -17,8 +18,10 @@ namespace Xbim.Ifc2x3.PresentationDefinitionResource
 {
 	[ExpressType("IFCEXTERNALLYDEFINEDSYMBOL", 391)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcExternallyDefinedSymbol : IfcExternalReference, IfcDefinedSymbolSelect, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcExternallyDefinedSymbol>, System.IEquatable<@IfcExternallyDefinedSymbol>
+	public  partial class @IfcExternallyDefinedSymbol : IfcExternalReference, IfcDefinedSymbolSelect, IInstantiableEntity, IEqualityComparer<@IfcExternallyDefinedSymbol>, IEquatable<@IfcExternallyDefinedSymbol>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcExternallyDefinedSymbol(IModel model) : base(model) 		{ 
 			Model = model; 

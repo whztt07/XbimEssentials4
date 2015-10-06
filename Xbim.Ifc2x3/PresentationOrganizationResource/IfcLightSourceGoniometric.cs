@@ -10,6 +10,7 @@
 using Xbim.Ifc2x3.MeasureResource;
 using Xbim.Ifc2x3.PresentationResource;
 using Xbim.Ifc2x3.GeometryResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -18,8 +19,10 @@ namespace Xbim.Ifc2x3.PresentationOrganizationResource
 {
 	[ExpressType("IFCLIGHTSOURCEGONIOMETRIC", 758)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcLightSourceGoniometric : IfcLightSource, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcLightSourceGoniometric>, System.IEquatable<@IfcLightSourceGoniometric>
+	public  partial class @IfcLightSourceGoniometric : IfcLightSource, IInstantiableEntity, IEqualityComparer<@IfcLightSourceGoniometric>, IEquatable<@IfcLightSourceGoniometric>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcLightSourceGoniometric(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -40,10 +43,8 @@ namespace Xbim.Ifc2x3.PresentationOrganizationResource
 		{ 
 			get 
 			{
-				if(Activated) return _position;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _position;
+				((IPersistEntity)this).Activate(false);
 				return _position;
 			} 
 			set
@@ -57,10 +58,8 @@ namespace Xbim.Ifc2x3.PresentationOrganizationResource
 		{ 
 			get 
 			{
-				if(Activated) return _colourAppearance;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _colourAppearance;
+				((IPersistEntity)this).Activate(false);
 				return _colourAppearance;
 			} 
 			set
@@ -74,10 +73,8 @@ namespace Xbim.Ifc2x3.PresentationOrganizationResource
 		{ 
 			get 
 			{
-				if(Activated) return _colourTemperature;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _colourTemperature;
+				((IPersistEntity)this).Activate(false);
 				return _colourTemperature;
 			} 
 			set
@@ -91,10 +88,8 @@ namespace Xbim.Ifc2x3.PresentationOrganizationResource
 		{ 
 			get 
 			{
-				if(Activated) return _luminousFlux;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _luminousFlux;
+				((IPersistEntity)this).Activate(false);
 				return _luminousFlux;
 			} 
 			set
@@ -108,10 +103,8 @@ namespace Xbim.Ifc2x3.PresentationOrganizationResource
 		{ 
 			get 
 			{
-				if(Activated) return _lightEmissionSource;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _lightEmissionSource;
+				((IPersistEntity)this).Activate(false);
 				return _lightEmissionSource;
 			} 
 			set
@@ -125,10 +118,8 @@ namespace Xbim.Ifc2x3.PresentationOrganizationResource
 		{ 
 			get 
 			{
-				if(Activated) return _lightDistributionDataSource;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _lightDistributionDataSource;
+				((IPersistEntity)this).Activate(false);
 				return _lightDistributionDataSource;
 			} 
 			set

@@ -14,7 +14,7 @@ namespace Xbim.Ifc4.MeasureResource
 {
 	[ExpressType("IFCANGULARVELOCITYMEASURE", 3)]
     // ReSharper disable once PartialTypeWithSinglePart
-	public partial struct IfcAngularVelocityMeasure : IfcDerivedMeasureValue, IExpressValueType
+	public partial struct IfcAngularVelocityMeasure : IfcDerivedMeasureValue, IExpressValueType, System.IEquatable<double>
 	{ 
 		private double _value;
         
@@ -46,6 +46,7 @@ namespace Xbim.Ifc4.MeasureResource
         public static implicit operator double(IfcAngularVelocityMeasure obj)
         {
             return obj._value;
+
         }
 
 
@@ -62,6 +63,11 @@ namespace Xbim.Ifc4.MeasureResource
 
             return ((IfcAngularVelocityMeasure) obj)._value == _value;
         }
+
+		public bool Equals(double other)
+	    {
+	        return this == other;
+	    }
 
         public static bool operator ==(IfcAngularVelocityMeasure obj1, IfcAngularVelocityMeasure obj2)
         {

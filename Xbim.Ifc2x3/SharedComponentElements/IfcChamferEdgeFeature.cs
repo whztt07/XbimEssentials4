@@ -11,6 +11,7 @@ using Xbim.Ifc2x3.UtilityResource;
 using Xbim.Ifc2x3.MeasureResource;
 using Xbim.Ifc2x3.GeometricConstraintResource;
 using Xbim.Ifc2x3.RepresentationResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -19,8 +20,10 @@ namespace Xbim.Ifc2x3.SharedComponentElements
 {
 	[ExpressType("IFCCHAMFEREDGEFEATURE", 765)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcChamferEdgeFeature : IfcEdgeFeature, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcChamferEdgeFeature>, System.IEquatable<@IfcChamferEdgeFeature>
+	public  partial class @IfcChamferEdgeFeature : IfcEdgeFeature, IInstantiableEntity, IEqualityComparer<@IfcChamferEdgeFeature>, IEquatable<@IfcChamferEdgeFeature>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcChamferEdgeFeature(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -37,10 +40,8 @@ namespace Xbim.Ifc2x3.SharedComponentElements
 		{ 
 			get 
 			{
-				if(Activated) return _width;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _width;
+				((IPersistEntity)this).Activate(false);
 				return _width;
 			} 
 			set
@@ -54,10 +55,8 @@ namespace Xbim.Ifc2x3.SharedComponentElements
 		{ 
 			get 
 			{
-				if(Activated) return _height;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _height;
+				((IPersistEntity)this).Activate(false);
 				return _height;
 			} 
 			set

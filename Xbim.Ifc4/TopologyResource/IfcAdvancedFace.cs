@@ -8,6 +8,7 @@
 // ------------------------------------------------------------------------------
 
 using Xbim.Ifc4.GeometryResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -16,8 +17,10 @@ namespace Xbim.Ifc4.TopologyResource
 {
 	[ExpressType("IFCADVANCEDFACE", 399)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcAdvancedFace : IfcFaceSurface, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcAdvancedFace>, System.IEquatable<@IfcAdvancedFace>
+	public  partial class @IfcAdvancedFace : IfcFaceSurface, IInstantiableEntity, IEqualityComparer<@IfcAdvancedFace>, IEquatable<@IfcAdvancedFace>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcAdvancedFace(IModel model) : base(model) 		{ 
 			Model = model; 

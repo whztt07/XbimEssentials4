@@ -7,6 +7,7 @@
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -15,8 +16,10 @@ namespace Xbim.Ifc4.GeometryResource
 {
 	[ExpressType("IFCOUTERBOUNDARYCURVE", 787)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcOuterBoundaryCurve : IfcBoundaryCurve, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcOuterBoundaryCurve>, System.IEquatable<@IfcOuterBoundaryCurve>
+	public  partial class @IfcOuterBoundaryCurve : IfcBoundaryCurve, IInstantiableEntity, IEqualityComparer<@IfcOuterBoundaryCurve>, IEquatable<@IfcOuterBoundaryCurve>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcOuterBoundaryCurve(IModel model) : base(model) 		{ 
 			Model = model; 

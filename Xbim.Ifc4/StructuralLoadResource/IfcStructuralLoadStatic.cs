@@ -7,6 +7,8 @@
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
+using System;
+using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
 
@@ -14,8 +16,10 @@ namespace Xbim.Ifc4.StructuralLoadResource
 {
 	[ExpressType("IFCSTRUCTURALLOADSTATIC", 1033)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public abstract partial class @IfcStructuralLoadStatic : IfcStructuralLoadOrResult, System.Collections.Generic.IEqualityComparer<@IfcStructuralLoadStatic>, System.IEquatable<@IfcStructuralLoadStatic>
+	public abstract partial class @IfcStructuralLoadStatic : IfcStructuralLoadOrResult, IEqualityComparer<@IfcStructuralLoadStatic>, IEquatable<@IfcStructuralLoadStatic>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcStructuralLoadStatic(IModel model) : base(model) 		{ 
 			Model = model; 

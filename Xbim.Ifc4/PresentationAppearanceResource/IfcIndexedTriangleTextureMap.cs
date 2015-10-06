@@ -8,6 +8,7 @@
 // ------------------------------------------------------------------------------
 
 using Xbim.Ifc4.GeometricModelResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -16,8 +17,10 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
 {
 	[ExpressType("IFCINDEXEDTRIANGLETEXTUREMAP", 709)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcIndexedTriangleTextureMap : IfcIndexedTextureMap, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcIndexedTriangleTextureMap>, System.IEquatable<@IfcIndexedTriangleTextureMap>
+	public  partial class @IfcIndexedTriangleTextureMap : IfcIndexedTextureMap, IInstantiableEntity, IEqualityComparer<@IfcIndexedTriangleTextureMap>, IEquatable<@IfcIndexedTriangleTextureMap>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcIndexedTriangleTextureMap(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -34,10 +37,8 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
 		{ 
 			get 
 			{
-				if(Activated) return _texCoordIndex;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _texCoordIndex;
+				((IPersistEntity)this).Activate(false);
 				return _texCoordIndex;
 			} 
 		}

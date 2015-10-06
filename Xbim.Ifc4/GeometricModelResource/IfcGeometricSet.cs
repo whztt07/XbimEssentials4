@@ -8,6 +8,7 @@
 // ------------------------------------------------------------------------------
 
 using Xbim.Ifc4.GeometryResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -16,8 +17,10 @@ namespace Xbim.Ifc4.GeometricModelResource
 {
 	[ExpressType("IFCGEOMETRICSET", 695)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcGeometricSet : IfcGeometricRepresentationItem, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcGeometricSet>, System.IEquatable<@IfcGeometricSet>
+	public  partial class @IfcGeometricSet : IfcGeometricRepresentationItem, IInstantiableEntity, IEqualityComparer<@IfcGeometricSet>, IEquatable<@IfcGeometricSet>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcGeometricSet(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -34,10 +37,8 @@ namespace Xbim.Ifc4.GeometricModelResource
 		{ 
 			get 
 			{
-				if(Activated) return _elements;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _elements;
+				((IPersistEntity)this).Activate(false);
 				return _elements;
 			} 
 		}

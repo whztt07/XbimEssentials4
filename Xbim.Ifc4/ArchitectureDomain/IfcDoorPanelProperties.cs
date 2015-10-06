@@ -11,6 +11,7 @@ using Xbim.Ifc4.Kernel;
 using Xbim.Ifc4.UtilityResource;
 using Xbim.Ifc4.MeasureResource;
 using Xbim.Ifc4.RepresentationResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -19,8 +20,10 @@ namespace Xbim.Ifc4.ArchitectureDomain
 {
 	[ExpressType("IFCDOORPANELPROPERTIES", 583)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcDoorPanelProperties : IfcPreDefinedPropertySet, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcDoorPanelProperties>, System.IEquatable<@IfcDoorPanelProperties>
+	public  partial class @IfcDoorPanelProperties : IfcPreDefinedPropertySet, IInstantiableEntity, IEqualityComparer<@IfcDoorPanelProperties>, IEquatable<@IfcDoorPanelProperties>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcDoorPanelProperties(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -40,10 +43,8 @@ namespace Xbim.Ifc4.ArchitectureDomain
 		{ 
 			get 
 			{
-				if(Activated) return _panelDepth;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _panelDepth;
+				((IPersistEntity)this).Activate(false);
 				return _panelDepth;
 			} 
 			set
@@ -57,10 +58,8 @@ namespace Xbim.Ifc4.ArchitectureDomain
 		{ 
 			get 
 			{
-				if(Activated) return _panelOperation;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _panelOperation;
+				((IPersistEntity)this).Activate(false);
 				return _panelOperation;
 			} 
 			set
@@ -74,10 +73,8 @@ namespace Xbim.Ifc4.ArchitectureDomain
 		{ 
 			get 
 			{
-				if(Activated) return _panelWidth;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _panelWidth;
+				((IPersistEntity)this).Activate(false);
 				return _panelWidth;
 			} 
 			set
@@ -91,10 +88,8 @@ namespace Xbim.Ifc4.ArchitectureDomain
 		{ 
 			get 
 			{
-				if(Activated) return _panelPosition;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _panelPosition;
+				((IPersistEntity)this).Activate(false);
 				return _panelPosition;
 			} 
 			set
@@ -108,10 +103,8 @@ namespace Xbim.Ifc4.ArchitectureDomain
 		{ 
 			get 
 			{
-				if(Activated) return _shapeAspectStyle;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _shapeAspectStyle;
+				((IPersistEntity)this).Activate(false);
 				return _shapeAspectStyle;
 			} 
 			set

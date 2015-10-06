@@ -9,6 +9,8 @@
 
 using Xbim.Ifc2x3.Kernel;
 using Xbim.Ifc2x3.MeasureResource;
+using System;
+using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
 
@@ -16,8 +18,10 @@ namespace Xbim.Ifc2x3.ConstructionMgmtDomain
 {
 	[ExpressType("IFCCONSTRUCTIONRESOURCE", 157)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public abstract partial class @IfcConstructionResource : IfcResource, System.Collections.Generic.IEqualityComparer<@IfcConstructionResource>, System.IEquatable<@IfcConstructionResource>
+	public abstract partial class @IfcConstructionResource : IfcResource, IEqualityComparer<@IfcConstructionResource>, IEquatable<@IfcConstructionResource>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcConstructionResource(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -36,10 +40,8 @@ namespace Xbim.Ifc2x3.ConstructionMgmtDomain
 		{ 
 			get 
 			{
-				if(Activated) return _resourceIdentifier;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _resourceIdentifier;
+				((IPersistEntity)this).Activate(false);
 				return _resourceIdentifier;
 			} 
 			set
@@ -53,10 +55,8 @@ namespace Xbim.Ifc2x3.ConstructionMgmtDomain
 		{ 
 			get 
 			{
-				if(Activated) return _resourceGroup;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _resourceGroup;
+				((IPersistEntity)this).Activate(false);
 				return _resourceGroup;
 			} 
 			set
@@ -70,10 +70,8 @@ namespace Xbim.Ifc2x3.ConstructionMgmtDomain
 		{ 
 			get 
 			{
-				if(Activated) return _resourceConsumption;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _resourceConsumption;
+				((IPersistEntity)this).Activate(false);
 				return _resourceConsumption;
 			} 
 			set
@@ -87,10 +85,8 @@ namespace Xbim.Ifc2x3.ConstructionMgmtDomain
 		{ 
 			get 
 			{
-				if(Activated) return _baseQuantity;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _baseQuantity;
+				((IPersistEntity)this).Activate(false);
 				return _baseQuantity;
 			} 
 			set

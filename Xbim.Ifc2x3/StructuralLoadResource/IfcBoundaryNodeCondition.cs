@@ -8,6 +8,7 @@
 // ------------------------------------------------------------------------------
 
 using Xbim.Ifc2x3.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -16,8 +17,10 @@ namespace Xbim.Ifc2x3.StructuralLoadResource
 {
 	[ExpressType("IFCBOUNDARYNODECONDITION", 394)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcBoundaryNodeCondition : IfcBoundaryCondition, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcBoundaryNodeCondition>, System.IEquatable<@IfcBoundaryNodeCondition>
+	public  partial class @IfcBoundaryNodeCondition : IfcBoundaryCondition, IInstantiableEntity, IEqualityComparer<@IfcBoundaryNodeCondition>, IEquatable<@IfcBoundaryNodeCondition>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcBoundaryNodeCondition(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -38,10 +41,8 @@ namespace Xbim.Ifc2x3.StructuralLoadResource
 		{ 
 			get 
 			{
-				if(Activated) return _linearStiffnessX;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _linearStiffnessX;
+				((IPersistEntity)this).Activate(false);
 				return _linearStiffnessX;
 			} 
 			set
@@ -55,10 +56,8 @@ namespace Xbim.Ifc2x3.StructuralLoadResource
 		{ 
 			get 
 			{
-				if(Activated) return _linearStiffnessY;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _linearStiffnessY;
+				((IPersistEntity)this).Activate(false);
 				return _linearStiffnessY;
 			} 
 			set
@@ -72,10 +71,8 @@ namespace Xbim.Ifc2x3.StructuralLoadResource
 		{ 
 			get 
 			{
-				if(Activated) return _linearStiffnessZ;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _linearStiffnessZ;
+				((IPersistEntity)this).Activate(false);
 				return _linearStiffnessZ;
 			} 
 			set
@@ -89,10 +86,8 @@ namespace Xbim.Ifc2x3.StructuralLoadResource
 		{ 
 			get 
 			{
-				if(Activated) return _rotationalStiffnessX;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _rotationalStiffnessX;
+				((IPersistEntity)this).Activate(false);
 				return _rotationalStiffnessX;
 			} 
 			set
@@ -106,10 +101,8 @@ namespace Xbim.Ifc2x3.StructuralLoadResource
 		{ 
 			get 
 			{
-				if(Activated) return _rotationalStiffnessY;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _rotationalStiffnessY;
+				((IPersistEntity)this).Activate(false);
 				return _rotationalStiffnessY;
 			} 
 			set
@@ -123,10 +116,8 @@ namespace Xbim.Ifc2x3.StructuralLoadResource
 		{ 
 			get 
 			{
-				if(Activated) return _rotationalStiffnessZ;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _rotationalStiffnessZ;
+				((IPersistEntity)this).Activate(false);
 				return _rotationalStiffnessZ;
 			} 
 			set

@@ -9,6 +9,7 @@
 
 using Xbim.Ifc2x3.MeasureResource;
 using Xbim.Ifc2x3.GeometryResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -17,8 +18,10 @@ namespace Xbim.Ifc2x3.ProfileResource
 {
 	[ExpressType("IFCDERIVEDPROFILEDEF", 390)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcDerivedProfileDef : IfcProfileDef, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcDerivedProfileDef>, System.IEquatable<@IfcDerivedProfileDef>
+	public  partial class @IfcDerivedProfileDef : IfcProfileDef, IInstantiableEntity, IEqualityComparer<@IfcDerivedProfileDef>, IEquatable<@IfcDerivedProfileDef>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcDerivedProfileDef(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -36,10 +39,8 @@ namespace Xbim.Ifc2x3.ProfileResource
 		{ 
 			get 
 			{
-				if(Activated) return _parentProfile;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _parentProfile;
+				((IPersistEntity)this).Activate(false);
 				return _parentProfile;
 			} 
 			set
@@ -53,10 +54,8 @@ namespace Xbim.Ifc2x3.ProfileResource
 		{ 
 			get 
 			{
-				if(Activated) return _operator;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _operator;
+				((IPersistEntity)this).Activate(false);
 				return _operator;
 			} 
 			set
@@ -70,10 +69,8 @@ namespace Xbim.Ifc2x3.ProfileResource
 		{ 
 			get 
 			{
-				if(Activated) return _label;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _label;
+				((IPersistEntity)this).Activate(false);
 				return _label;
 			} 
 			set

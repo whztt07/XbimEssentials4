@@ -7,6 +7,8 @@
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
+using System;
+using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
 
@@ -14,8 +16,10 @@ namespace Xbim.Ifc2x3.ProductExtension
 {
 	[ExpressType("IFCBUILDINGELEMENTTYPE", 108)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public abstract partial class @IfcBuildingElementType : IfcElementType, System.Collections.Generic.IEqualityComparer<@IfcBuildingElementType>, System.IEquatable<@IfcBuildingElementType>
+	public abstract partial class @IfcBuildingElementType : IfcElementType, IEqualityComparer<@IfcBuildingElementType>, IEquatable<@IfcBuildingElementType>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcBuildingElementType(IModel model) : base(model) 		{ 
 			Model = model; 

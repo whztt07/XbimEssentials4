@@ -8,6 +8,8 @@
 // ------------------------------------------------------------------------------
 
 using Xbim.Ifc4.SharedComponentElements;
+using System;
+using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
 
@@ -15,8 +17,10 @@ namespace Xbim.Ifc4.StructuralElementsDomain
 {
 	[ExpressType("IFCREINFORCINGELEMENTTYPE", 898)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public abstract partial class @IfcReinforcingElementType : IfcElementComponentType, System.Collections.Generic.IEqualityComparer<@IfcReinforcingElementType>, System.IEquatable<@IfcReinforcingElementType>
+	public abstract partial class @IfcReinforcingElementType : IfcElementComponentType, IEqualityComparer<@IfcReinforcingElementType>, IEquatable<@IfcReinforcingElementType>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcReinforcingElementType(IModel model) : base(model) 		{ 
 			Model = model; 

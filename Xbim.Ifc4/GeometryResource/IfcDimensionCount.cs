@@ -14,7 +14,7 @@ namespace Xbim.Ifc4.GeometryResource
 {
 	[ExpressType("IFCDIMENSIONCOUNT", 19)]
     // ReSharper disable once PartialTypeWithSinglePart
-	public partial struct IfcDimensionCount : IExpressValueType
+	public partial struct IfcDimensionCount : IExpressValueType, System.IEquatable<long>
 	{ 
 		private long _value;
         
@@ -46,6 +46,7 @@ namespace Xbim.Ifc4.GeometryResource
         public static implicit operator long(IfcDimensionCount obj)
         {
             return obj._value;
+
         }
 
 
@@ -62,6 +63,11 @@ namespace Xbim.Ifc4.GeometryResource
 
             return ((IfcDimensionCount) obj)._value == _value;
         }
+
+		public bool Equals(long other)
+	    {
+	        return this == other;
+	    }
 
         public static bool operator ==(IfcDimensionCount obj1, IfcDimensionCount obj2)
         {

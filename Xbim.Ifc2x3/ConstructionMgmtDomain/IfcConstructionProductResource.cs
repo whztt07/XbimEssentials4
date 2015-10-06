@@ -9,6 +9,7 @@
 
 using Xbim.Ifc2x3.UtilityResource;
 using Xbim.Ifc2x3.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -17,8 +18,10 @@ namespace Xbim.Ifc2x3.ConstructionMgmtDomain
 {
 	[ExpressType("IFCCONSTRUCTIONPRODUCTRESOURCE", 660)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcConstructionProductResource : IfcConstructionResource, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcConstructionProductResource>, System.IEquatable<@IfcConstructionProductResource>
+	public  partial class @IfcConstructionProductResource : IfcConstructionResource, IInstantiableEntity, IEqualityComparer<@IfcConstructionProductResource>, IEquatable<@IfcConstructionProductResource>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcConstructionProductResource(IModel model) : base(model) 		{ 
 			Model = model; 

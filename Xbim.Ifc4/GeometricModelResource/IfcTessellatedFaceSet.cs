@@ -9,6 +9,7 @@
 
 using Xbim.Ifc4.MeasureResource;
 using Xbim.Ifc4.PresentationAppearanceResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -17,8 +18,10 @@ namespace Xbim.Ifc4.GeometricModelResource
 {
 	[ExpressType("IFCTESSELLATEDFACESET", 1090)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public abstract partial class @IfcTessellatedFaceSet : IfcTessellatedItem, System.Collections.Generic.IEqualityComparer<@IfcTessellatedFaceSet>, System.IEquatable<@IfcTessellatedFaceSet>
+	public abstract partial class @IfcTessellatedFaceSet : IfcTessellatedItem, IEqualityComparer<@IfcTessellatedFaceSet>, IEquatable<@IfcTessellatedFaceSet>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcTessellatedFaceSet(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -37,10 +40,8 @@ namespace Xbim.Ifc4.GeometricModelResource
 		{ 
 			get 
 			{
-				if(Activated) return _coordinates;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _coordinates;
+				((IPersistEntity)this).Activate(false);
 				return _coordinates;
 			} 
 			set
@@ -54,10 +55,8 @@ namespace Xbim.Ifc4.GeometricModelResource
 		{ 
 			get 
 			{
-				if(Activated) return _normals;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _normals;
+				((IPersistEntity)this).Activate(false);
 				return _normals;
 			} 
 		}
@@ -67,10 +66,8 @@ namespace Xbim.Ifc4.GeometricModelResource
 		{ 
 			get 
 			{
-				if(Activated) return _closed;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _closed;
+				((IPersistEntity)this).Activate(false);
 				return _closed;
 			} 
 			set

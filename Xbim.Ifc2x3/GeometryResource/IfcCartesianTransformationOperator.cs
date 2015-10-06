@@ -7,6 +7,8 @@
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
+using System;
+using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
 
@@ -14,8 +16,10 @@ namespace Xbim.Ifc2x3.GeometryResource
 {
 	[ExpressType("IFCCARTESIANTRANSFORMATIONOPERATOR", 146)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public abstract partial class @IfcCartesianTransformationOperator : IfcGeometricRepresentationItem, System.Collections.Generic.IEqualityComparer<@IfcCartesianTransformationOperator>, System.IEquatable<@IfcCartesianTransformationOperator>
+	public abstract partial class @IfcCartesianTransformationOperator : IfcGeometricRepresentationItem, IEqualityComparer<@IfcCartesianTransformationOperator>, IEquatable<@IfcCartesianTransformationOperator>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcCartesianTransformationOperator(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -34,10 +38,8 @@ namespace Xbim.Ifc2x3.GeometryResource
 		{ 
 			get 
 			{
-				if(Activated) return _axis1;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _axis1;
+				((IPersistEntity)this).Activate(false);
 				return _axis1;
 			} 
 			set
@@ -51,10 +53,8 @@ namespace Xbim.Ifc2x3.GeometryResource
 		{ 
 			get 
 			{
-				if(Activated) return _axis2;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _axis2;
+				((IPersistEntity)this).Activate(false);
 				return _axis2;
 			} 
 			set
@@ -68,10 +68,8 @@ namespace Xbim.Ifc2x3.GeometryResource
 		{ 
 			get 
 			{
-				if(Activated) return _localOrigin;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _localOrigin;
+				((IPersistEntity)this).Activate(false);
 				return _localOrigin;
 			} 
 			set
@@ -85,10 +83,8 @@ namespace Xbim.Ifc2x3.GeometryResource
 		{ 
 			get 
 			{
-				if(Activated) return _scale;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _scale;
+				((IPersistEntity)this).Activate(false);
 				return _scale;
 			} 
 			set

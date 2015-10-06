@@ -14,7 +14,7 @@ namespace Xbim.CobieExpress
 {
 	[ExpressType("BOOLEANVALUE", 5)]
     // ReSharper disable once PartialTypeWithSinglePart
-	public partial struct BooleanValue : AttributeValue, IExpressValueType
+	public partial struct BooleanValue : AttributeValue, IExpressValueType, System.IEquatable<bool>
 	{ 
 		private bool _value;
         
@@ -35,7 +35,7 @@ namespace Xbim.CobieExpress
 
 		public BooleanValue(string val)
         {
-			if (string.Compare(val, "true", System.StringComparison.OrdinalIgnoreCase) == 0)
+			if (string.Compare(val, "true", System.StringComparison.OrdinalIgnoreCase) == 0 || string.Compare(val, ".T.", System.StringComparison.OrdinalIgnoreCase) == 0)
                 _value = true;
             else
                 _value = false;
@@ -49,6 +49,7 @@ namespace Xbim.CobieExpress
         public static implicit operator bool(BooleanValue obj)
         {
             return obj._value;
+
         }
 
 
@@ -65,6 +66,11 @@ namespace Xbim.CobieExpress
 
             return ((BooleanValue) obj)._value == _value;
         }
+
+		public bool Equals(bool other)
+	    {
+	        return this == other;
+	    }
 
         public static bool operator ==(BooleanValue obj1, BooleanValue obj2)
         {

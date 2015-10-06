@@ -9,6 +9,8 @@
 
 using Xbim.Ifc4.PresentationDefinitionResource;
 using Xbim.Ifc4.MeasureResource;
+using System;
+using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
 
@@ -16,8 +18,10 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
 {
 	[ExpressType("IFCPREDEFINEDITEM", 826)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public abstract partial class @IfcPreDefinedItem : IfcPresentationItem, System.Collections.Generic.IEqualityComparer<@IfcPreDefinedItem>, System.IEquatable<@IfcPreDefinedItem>
+	public abstract partial class @IfcPreDefinedItem : IfcPresentationItem, IEqualityComparer<@IfcPreDefinedItem>, IEquatable<@IfcPreDefinedItem>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcPreDefinedItem(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -33,10 +37,8 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
 		{ 
 			get 
 			{
-				if(Activated) return _name;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _name;
+				((IPersistEntity)this).Activate(false);
 				return _name;
 			} 
 			set

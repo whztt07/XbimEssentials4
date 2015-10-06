@@ -9,6 +9,8 @@
 
 using Xbim.Ifc2x3.Kernel;
 using Xbim.Ifc2x3.MeasureResource;
+using System;
+using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
 
@@ -16,8 +18,10 @@ namespace Xbim.Ifc2x3.ProductExtension
 {
 	[ExpressType("IFCELEMENTTYPE", 48)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public abstract partial class @IfcElementType : IfcTypeProduct, System.Collections.Generic.IEqualityComparer<@IfcElementType>, System.IEquatable<@IfcElementType>
+	public abstract partial class @IfcElementType : IfcTypeProduct, IEqualityComparer<@IfcElementType>, IEquatable<@IfcElementType>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcElementType(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -33,10 +37,8 @@ namespace Xbim.Ifc2x3.ProductExtension
 		{ 
 			get 
 			{
-				if(Activated) return _elementType;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _elementType;
+				((IPersistEntity)this).Activate(false);
 				return _elementType;
 			} 
 			set

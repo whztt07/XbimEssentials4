@@ -7,6 +7,7 @@
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -15,8 +16,10 @@ namespace Xbim.Ifc2x3.GeometryResource
 {
 	[ExpressType("IFCPLANE", 388)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcPlane : IfcElementarySurface, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcPlane>, System.IEquatable<@IfcPlane>
+	public  partial class @IfcPlane : IfcElementarySurface, IInstantiableEntity, IEqualityComparer<@IfcPlane>, IEquatable<@IfcPlane>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcPlane(IModel model) : base(model) 		{ 
 			Model = model; 

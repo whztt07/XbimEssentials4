@@ -10,6 +10,7 @@
 using Xbim.Ifc4.Kernel;
 using Xbim.Ifc4.UtilityResource;
 using Xbim.Ifc4.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -18,8 +19,10 @@ namespace Xbim.Ifc4.ProcessExtension
 {
 	[ExpressType("IFCTASKTYPE", 1084)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcTaskType : IfcTypeProcess, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcTaskType>, System.IEquatable<@IfcTaskType>
+	public  partial class @IfcTaskType : IfcTypeProcess, IInstantiableEntity, IEqualityComparer<@IfcTaskType>, IEquatable<@IfcTaskType>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcTaskType(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -36,10 +39,8 @@ namespace Xbim.Ifc4.ProcessExtension
 		{ 
 			get 
 			{
-				if(Activated) return _predefinedType;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _predefinedType;
+				((IPersistEntity)this).Activate(false);
 				return _predefinedType;
 			} 
 			set
@@ -53,10 +54,8 @@ namespace Xbim.Ifc4.ProcessExtension
 		{ 
 			get 
 			{
-				if(Activated) return _workMethod;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _workMethod;
+				((IPersistEntity)this).Activate(false);
 				return _workMethod;
 			} 
 			set

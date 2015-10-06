@@ -14,7 +14,7 @@ namespace Xbim.Ifc4.DateTimeResource
 {
 	[ExpressType("IFCDAYINWEEKNUMBER", 17)]
     // ReSharper disable once PartialTypeWithSinglePart
-	public partial struct IfcDayInWeekNumber : IExpressValueType
+	public partial struct IfcDayInWeekNumber : IExpressValueType, System.IEquatable<long>
 	{ 
 		private long _value;
         
@@ -46,6 +46,7 @@ namespace Xbim.Ifc4.DateTimeResource
         public static implicit operator long(IfcDayInWeekNumber obj)
         {
             return obj._value;
+
         }
 
 
@@ -62,6 +63,11 @@ namespace Xbim.Ifc4.DateTimeResource
 
             return ((IfcDayInWeekNumber) obj)._value == _value;
         }
+
+		public bool Equals(long other)
+	    {
+	        return this == other;
+	    }
 
         public static bool operator ==(IfcDayInWeekNumber obj1, IfcDayInWeekNumber obj2)
         {

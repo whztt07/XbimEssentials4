@@ -8,6 +8,7 @@
 // ------------------------------------------------------------------------------
 
 using Xbim.Ifc4.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -16,8 +17,10 @@ namespace Xbim.Ifc4.Kernel
 {
 	[ExpressType("IFCTYPEPROCESS", 1118)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public abstract partial class @IfcTypeProcess : IfcTypeObject, IfcProcessSelect, System.Collections.Generic.IEqualityComparer<@IfcTypeProcess>, System.IEquatable<@IfcTypeProcess>
+	public abstract partial class @IfcTypeProcess : IfcTypeObject, IfcProcessSelect, IEqualityComparer<@IfcTypeProcess>, IEquatable<@IfcTypeProcess>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcTypeProcess(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -35,10 +38,8 @@ namespace Xbim.Ifc4.Kernel
 		{ 
 			get 
 			{
-				if(Activated) return _identification;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _identification;
+				((IPersistEntity)this).Activate(false);
 				return _identification;
 			} 
 			set
@@ -52,10 +53,8 @@ namespace Xbim.Ifc4.Kernel
 		{ 
 			get 
 			{
-				if(Activated) return _longDescription;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _longDescription;
+				((IPersistEntity)this).Activate(false);
 				return _longDescription;
 			} 
 			set
@@ -69,10 +68,8 @@ namespace Xbim.Ifc4.Kernel
 		{ 
 			get 
 			{
-				if(Activated) return _processType;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _processType;
+				((IPersistEntity)this).Activate(false);
 				return _processType;
 			} 
 			set

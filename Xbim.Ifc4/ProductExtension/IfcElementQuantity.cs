@@ -11,6 +11,7 @@ using Xbim.Ifc4.Kernel;
 using Xbim.Ifc4.UtilityResource;
 using Xbim.Ifc4.MeasureResource;
 using Xbim.Ifc4.QuantityResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -19,8 +20,10 @@ namespace Xbim.Ifc4.ProductExtension
 {
 	[ExpressType("IFCELEMENTQUANTITY", 615)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcElementQuantity : IfcQuantitySet, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcElementQuantity>, System.IEquatable<@IfcElementQuantity>
+	public  partial class @IfcElementQuantity : IfcQuantitySet, IInstantiableEntity, IEqualityComparer<@IfcElementQuantity>, IEquatable<@IfcElementQuantity>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcElementQuantity(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -38,10 +41,8 @@ namespace Xbim.Ifc4.ProductExtension
 		{ 
 			get 
 			{
-				if(Activated) return _methodOfMeasurement;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _methodOfMeasurement;
+				((IPersistEntity)this).Activate(false);
 				return _methodOfMeasurement;
 			} 
 			set
@@ -55,10 +56,8 @@ namespace Xbim.Ifc4.ProductExtension
 		{ 
 			get 
 			{
-				if(Activated) return _quantities;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _quantities;
+				((IPersistEntity)this).Activate(false);
 				return _quantities;
 			} 
 		}

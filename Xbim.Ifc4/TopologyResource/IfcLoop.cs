@@ -7,6 +7,7 @@
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -15,8 +16,10 @@ namespace Xbim.Ifc4.TopologyResource
 {
 	[ExpressType("IFCLOOP", 737)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcLoop : IfcTopologicalRepresentationItem, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcLoop>, System.IEquatable<@IfcLoop>
+	public  partial class @IfcLoop : IfcTopologicalRepresentationItem, IInstantiableEntity, IEqualityComparer<@IfcLoop>, IEquatable<@IfcLoop>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcLoop(IModel model) : base(model) 		{ 
 			Model = model; 

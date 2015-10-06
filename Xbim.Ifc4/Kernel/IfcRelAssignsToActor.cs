@@ -10,6 +10,7 @@
 using Xbim.Ifc4.UtilityResource;
 using Xbim.Ifc4.MeasureResource;
 using Xbim.Ifc4.ActorResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -18,8 +19,10 @@ namespace Xbim.Ifc4.Kernel
 {
 	[ExpressType("IFCRELASSIGNSTOACTOR", 903)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcRelAssignsToActor : IfcRelAssigns, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcRelAssignsToActor>, System.IEquatable<@IfcRelAssignsToActor>
+	public  partial class @IfcRelAssignsToActor : IfcRelAssigns, IInstantiableEntity, IEqualityComparer<@IfcRelAssignsToActor>, IEquatable<@IfcRelAssignsToActor>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcRelAssignsToActor(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -37,10 +40,8 @@ namespace Xbim.Ifc4.Kernel
 		{ 
 			get 
 			{
-				if(Activated) return _relatingActor;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _relatingActor;
+				((IPersistEntity)this).Activate(false);
 				return _relatingActor;
 			} 
 			set
@@ -54,10 +55,8 @@ namespace Xbim.Ifc4.Kernel
 		{ 
 			get 
 			{
-				if(Activated) return _actingRole;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _actingRole;
+				((IPersistEntity)this).Activate(false);
 				return _actingRole;
 			} 
 			set

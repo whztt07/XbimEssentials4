@@ -11,6 +11,7 @@ using Xbim.Ifc2x3.Kernel;
 using Xbim.Ifc2x3.UtilityResource;
 using Xbim.Ifc2x3.MeasureResource;
 using Xbim.Ifc2x3.GeometryResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -19,8 +20,10 @@ namespace Xbim.Ifc2x3.SharedBldgElements
 {
 	[ExpressType("IFCWINDOWSTYLE", 345)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcWindowStyle : IfcTypeProduct, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcWindowStyle>, System.IEquatable<@IfcWindowStyle>
+	public  partial class @IfcWindowStyle : IfcTypeProduct, IInstantiableEntity, IEqualityComparer<@IfcWindowStyle>, IEquatable<@IfcWindowStyle>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcWindowStyle(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -39,10 +42,8 @@ namespace Xbim.Ifc2x3.SharedBldgElements
 		{ 
 			get 
 			{
-				if(Activated) return _constructionType;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _constructionType;
+				((IPersistEntity)this).Activate(false);
 				return _constructionType;
 			} 
 			set
@@ -56,10 +57,8 @@ namespace Xbim.Ifc2x3.SharedBldgElements
 		{ 
 			get 
 			{
-				if(Activated) return _operationType;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _operationType;
+				((IPersistEntity)this).Activate(false);
 				return _operationType;
 			} 
 			set
@@ -73,10 +72,8 @@ namespace Xbim.Ifc2x3.SharedBldgElements
 		{ 
 			get 
 			{
-				if(Activated) return _parameterTakesPrecedence;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _parameterTakesPrecedence;
+				((IPersistEntity)this).Activate(false);
 				return _parameterTakesPrecedence;
 			} 
 			set
@@ -90,10 +87,8 @@ namespace Xbim.Ifc2x3.SharedBldgElements
 		{ 
 			get 
 			{
-				if(Activated) return _sizeable;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _sizeable;
+				((IPersistEntity)this).Activate(false);
 				return _sizeable;
 			} 
 			set

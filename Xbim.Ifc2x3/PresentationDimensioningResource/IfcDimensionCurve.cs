@@ -11,6 +11,7 @@ using Xbim.Ifc2x3.PresentationDefinitionResource;
 using Xbim.Ifc2x3.GeometryResource;
 using Xbim.Ifc2x3.MeasureResource;
 using Xbim.Ifc2x3.PresentationAppearanceResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -19,8 +20,10 @@ namespace Xbim.Ifc2x3.PresentationDimensioningResource
 {
 	[ExpressType("IFCDIMENSIONCURVE", 742)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcDimensionCurve : IfcAnnotationCurveOccurrence, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcDimensionCurve>, System.IEquatable<@IfcDimensionCurve>
+	public  partial class @IfcDimensionCurve : IfcAnnotationCurveOccurrence, IInstantiableEntity, IEqualityComparer<@IfcDimensionCurve>, IEquatable<@IfcDimensionCurve>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcDimensionCurve(IModel model) : base(model) 		{ 
 			Model = model; 

@@ -12,6 +12,7 @@ using Xbim.Ifc4.UtilityResource;
 using Xbim.Ifc4.MeasureResource;
 using Xbim.Ifc4.GeometricConstraintResource;
 using Xbim.Ifc4.RepresentationResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -20,8 +21,10 @@ namespace Xbim.Ifc4.ProductExtension
 {
 	[ExpressType("IFCANNOTATION", 408)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcAnnotation : IfcProduct, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcAnnotation>, System.IEquatable<@IfcAnnotation>
+	public  partial class @IfcAnnotation : IfcProduct, IInstantiableEntity, IEqualityComparer<@IfcAnnotation>, IEquatable<@IfcAnnotation>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcAnnotation(IModel model) : base(model) 		{ 
 			Model = model; 

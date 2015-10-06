@@ -9,6 +9,7 @@
 
 using Xbim.Ifc4.GeometryResource;
 using Xbim.Ifc4.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -17,8 +18,10 @@ namespace Xbim.Ifc4.GeometricModelResource
 {
 	[ExpressType("IFCBOUNDINGBOX", 445)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcBoundingBox : IfcGeometricRepresentationItem, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcBoundingBox>, System.IEquatable<@IfcBoundingBox>
+	public  partial class @IfcBoundingBox : IfcGeometricRepresentationItem, IInstantiableEntity, IEqualityComparer<@IfcBoundingBox>, IEquatable<@IfcBoundingBox>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcBoundingBox(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -37,10 +40,8 @@ namespace Xbim.Ifc4.GeometricModelResource
 		{ 
 			get 
 			{
-				if(Activated) return _corner;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _corner;
+				((IPersistEntity)this).Activate(false);
 				return _corner;
 			} 
 			set
@@ -54,10 +55,8 @@ namespace Xbim.Ifc4.GeometricModelResource
 		{ 
 			get 
 			{
-				if(Activated) return _xDim;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _xDim;
+				((IPersistEntity)this).Activate(false);
 				return _xDim;
 			} 
 			set
@@ -71,10 +70,8 @@ namespace Xbim.Ifc4.GeometricModelResource
 		{ 
 			get 
 			{
-				if(Activated) return _yDim;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _yDim;
+				((IPersistEntity)this).Activate(false);
 				return _yDim;
 			} 
 			set
@@ -88,10 +85,8 @@ namespace Xbim.Ifc4.GeometricModelResource
 		{ 
 			get 
 			{
-				if(Activated) return _zDim;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _zDim;
+				((IPersistEntity)this).Activate(false);
 				return _zDim;
 			} 
 			set

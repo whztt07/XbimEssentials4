@@ -7,6 +7,7 @@
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -15,8 +16,10 @@ namespace Xbim.Ifc4.GeometryResource
 {
 	[ExpressType("IFCTRIMMEDCURVE", 1114)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcTrimmedCurve : IfcBoundedCurve, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcTrimmedCurve>, System.IEquatable<@IfcTrimmedCurve>
+	public  partial class @IfcTrimmedCurve : IfcBoundedCurve, IInstantiableEntity, IEqualityComparer<@IfcTrimmedCurve>, IEquatable<@IfcTrimmedCurve>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcTrimmedCurve(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -38,10 +41,8 @@ namespace Xbim.Ifc4.GeometryResource
 		{ 
 			get 
 			{
-				if(Activated) return _basisCurve;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _basisCurve;
+				((IPersistEntity)this).Activate(false);
 				return _basisCurve;
 			} 
 			set
@@ -55,10 +56,8 @@ namespace Xbim.Ifc4.GeometryResource
 		{ 
 			get 
 			{
-				if(Activated) return _trim1;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _trim1;
+				((IPersistEntity)this).Activate(false);
 				return _trim1;
 			} 
 		}
@@ -68,10 +67,8 @@ namespace Xbim.Ifc4.GeometryResource
 		{ 
 			get 
 			{
-				if(Activated) return _trim2;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _trim2;
+				((IPersistEntity)this).Activate(false);
 				return _trim2;
 			} 
 		}
@@ -81,10 +78,8 @@ namespace Xbim.Ifc4.GeometryResource
 		{ 
 			get 
 			{
-				if(Activated) return _senseAgreement;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _senseAgreement;
+				((IPersistEntity)this).Activate(false);
 				return _senseAgreement;
 			} 
 			set
@@ -98,10 +93,8 @@ namespace Xbim.Ifc4.GeometryResource
 		{ 
 			get 
 			{
-				if(Activated) return _masterRepresentation;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _masterRepresentation;
+				((IPersistEntity)this).Activate(false);
 				return _masterRepresentation;
 			} 
 			set

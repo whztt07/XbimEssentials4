@@ -7,6 +7,8 @@
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
+using System;
+using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
 
@@ -14,8 +16,10 @@ namespace Xbim.Ifc2x3.SharedBldgServiceElements
 {
 	[ExpressType("IFCENERGYCONVERSIONDEVICETYPE", 60)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public abstract partial class @IfcEnergyConversionDeviceType : IfcDistributionFlowElementType, System.Collections.Generic.IEqualityComparer<@IfcEnergyConversionDeviceType>, System.IEquatable<@IfcEnergyConversionDeviceType>
+	public abstract partial class @IfcEnergyConversionDeviceType : IfcDistributionFlowElementType, IEqualityComparer<@IfcEnergyConversionDeviceType>, IEquatable<@IfcEnergyConversionDeviceType>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcEnergyConversionDeviceType(IModel model) : base(model) 		{ 
 			Model = model; 

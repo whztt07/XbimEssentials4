@@ -10,6 +10,7 @@
 using Xbim.Ifc2x3.UtilityResource;
 using Xbim.Ifc2x3.MeasureResource;
 using Xbim.Ifc2x3.ActorResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -18,8 +19,10 @@ namespace Xbim.Ifc2x3.ConstructionMgmtDomain
 {
 	[ExpressType("IFCSUBCONTRACTRESOURCE", 594)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcSubContractResource : IfcConstructionResource, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcSubContractResource>, System.IEquatable<@IfcSubContractResource>
+	public  partial class @IfcSubContractResource : IfcConstructionResource, IInstantiableEntity, IEqualityComparer<@IfcSubContractResource>, IEquatable<@IfcSubContractResource>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcSubContractResource(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -36,10 +39,8 @@ namespace Xbim.Ifc2x3.ConstructionMgmtDomain
 		{ 
 			get 
 			{
-				if(Activated) return _subContractor;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _subContractor;
+				((IPersistEntity)this).Activate(false);
 				return _subContractor;
 			} 
 			set
@@ -53,10 +54,8 @@ namespace Xbim.Ifc2x3.ConstructionMgmtDomain
 		{ 
 			get 
 			{
-				if(Activated) return _jobDescription;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _jobDescription;
+				((IPersistEntity)this).Activate(false);
 				return _jobDescription;
 			} 
 			set

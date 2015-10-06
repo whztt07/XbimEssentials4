@@ -8,6 +8,7 @@
 // ------------------------------------------------------------------------------
 
 using Xbim.Ifc4.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -16,8 +17,10 @@ namespace Xbim.Ifc4.GeometricModelResource
 {
 	[ExpressType("IFCTRIANGULATEDFACESET", 1113)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcTriangulatedFaceSet : IfcTessellatedFaceSet, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcTriangulatedFaceSet>, System.IEquatable<@IfcTriangulatedFaceSet>
+	public  partial class @IfcTriangulatedFaceSet : IfcTessellatedFaceSet, IInstantiableEntity, IEqualityComparer<@IfcTriangulatedFaceSet>, IEquatable<@IfcTriangulatedFaceSet>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcTriangulatedFaceSet(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -36,10 +39,8 @@ namespace Xbim.Ifc4.GeometricModelResource
 		{ 
 			get 
 			{
-				if(Activated) return _coordIndex;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _coordIndex;
+				((IPersistEntity)this).Activate(false);
 				return _coordIndex;
 			} 
 		}
@@ -49,10 +50,8 @@ namespace Xbim.Ifc4.GeometricModelResource
 		{ 
 			get 
 			{
-				if(Activated) return _normalIndex;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _normalIndex;
+				((IPersistEntity)this).Activate(false);
 				return _normalIndex;
 			} 
 		}

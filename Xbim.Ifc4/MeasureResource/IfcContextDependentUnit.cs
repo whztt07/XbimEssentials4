@@ -8,6 +8,7 @@
 // ------------------------------------------------------------------------------
 
 using Xbim.Ifc4.ExternalReferenceResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -16,8 +17,10 @@ namespace Xbim.Ifc4.MeasureResource
 {
 	[ExpressType("IFCCONTEXTDEPENDENTUNIT", 526)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcContextDependentUnit : IfcNamedUnit, IfcResourceObjectSelect, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcContextDependentUnit>, System.IEquatable<@IfcContextDependentUnit>
+	public  partial class @IfcContextDependentUnit : IfcNamedUnit, IfcResourceObjectSelect, IInstantiableEntity, IEqualityComparer<@IfcContextDependentUnit>, IEquatable<@IfcContextDependentUnit>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcContextDependentUnit(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -33,10 +36,8 @@ namespace Xbim.Ifc4.MeasureResource
 		{ 
 			get 
 			{
-				if(Activated) return _name;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _name;
+				((IPersistEntity)this).Activate(false);
 				return _name;
 			} 
 			set

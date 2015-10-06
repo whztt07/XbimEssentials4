@@ -9,6 +9,7 @@
 
 using Xbim.Ifc2x3.MeasureResource;
 using Xbim.Ifc2x3.GeometryResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -17,8 +18,10 @@ namespace Xbim.Ifc2x3.RepresentationResource
 {
 	[ExpressType("IFCSHAPEREPRESENTATION", 664)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcShapeRepresentation : IfcShapeModel, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcShapeRepresentation>, System.IEquatable<@IfcShapeRepresentation>
+	public  partial class @IfcShapeRepresentation : IfcShapeModel, IInstantiableEntity, IEqualityComparer<@IfcShapeRepresentation>, IEquatable<@IfcShapeRepresentation>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcShapeRepresentation(IModel model) : base(model) 		{ 
 			Model = model; 

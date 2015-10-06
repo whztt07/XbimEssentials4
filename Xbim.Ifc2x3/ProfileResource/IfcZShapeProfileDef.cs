@@ -9,6 +9,7 @@
 
 using Xbim.Ifc2x3.MeasureResource;
 using Xbim.Ifc2x3.GeometryResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -17,8 +18,10 @@ namespace Xbim.Ifc2x3.ProfileResource
 {
 	[ExpressType("IFCZSHAPEPROFILEDEF", 528)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcZShapeProfileDef : IfcParameterizedProfileDef, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcZShapeProfileDef>, System.IEquatable<@IfcZShapeProfileDef>
+	public  partial class @IfcZShapeProfileDef : IfcParameterizedProfileDef, IInstantiableEntity, IEqualityComparer<@IfcZShapeProfileDef>, IEquatable<@IfcZShapeProfileDef>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcZShapeProfileDef(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -39,10 +42,8 @@ namespace Xbim.Ifc2x3.ProfileResource
 		{ 
 			get 
 			{
-				if(Activated) return _depth;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _depth;
+				((IPersistEntity)this).Activate(false);
 				return _depth;
 			} 
 			set
@@ -56,10 +57,8 @@ namespace Xbim.Ifc2x3.ProfileResource
 		{ 
 			get 
 			{
-				if(Activated) return _flangeWidth;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _flangeWidth;
+				((IPersistEntity)this).Activate(false);
 				return _flangeWidth;
 			} 
 			set
@@ -73,10 +72,8 @@ namespace Xbim.Ifc2x3.ProfileResource
 		{ 
 			get 
 			{
-				if(Activated) return _webThickness;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _webThickness;
+				((IPersistEntity)this).Activate(false);
 				return _webThickness;
 			} 
 			set
@@ -90,10 +87,8 @@ namespace Xbim.Ifc2x3.ProfileResource
 		{ 
 			get 
 			{
-				if(Activated) return _flangeThickness;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _flangeThickness;
+				((IPersistEntity)this).Activate(false);
 				return _flangeThickness;
 			} 
 			set
@@ -107,10 +102,8 @@ namespace Xbim.Ifc2x3.ProfileResource
 		{ 
 			get 
 			{
-				if(Activated) return _filletRadius;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _filletRadius;
+				((IPersistEntity)this).Activate(false);
 				return _filletRadius;
 			} 
 			set
@@ -124,10 +117,8 @@ namespace Xbim.Ifc2x3.ProfileResource
 		{ 
 			get 
 			{
-				if(Activated) return _edgeRadius;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _edgeRadius;
+				((IPersistEntity)this).Activate(false);
 				return _edgeRadius;
 			} 
 			set

@@ -8,6 +8,8 @@
 // ------------------------------------------------------------------------------
 
 using Xbim.Ifc2x3.MeasureResource;
+using System;
+using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
 
@@ -15,8 +17,10 @@ namespace Xbim.Ifc2x3.QuantityResource
 {
 	[ExpressType("IFCPHYSICALSIMPLEQUANTITY", 101)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public abstract partial class @IfcPhysicalSimpleQuantity : IfcPhysicalQuantity, System.Collections.Generic.IEqualityComparer<@IfcPhysicalSimpleQuantity>, System.IEquatable<@IfcPhysicalSimpleQuantity>
+	public abstract partial class @IfcPhysicalSimpleQuantity : IfcPhysicalQuantity, IEqualityComparer<@IfcPhysicalSimpleQuantity>, IEquatable<@IfcPhysicalSimpleQuantity>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcPhysicalSimpleQuantity(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -32,10 +36,8 @@ namespace Xbim.Ifc2x3.QuantityResource
 		{ 
 			get 
 			{
-				if(Activated) return _unit;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _unit;
+				((IPersistEntity)this).Activate(false);
 				return _unit;
 			} 
 			set

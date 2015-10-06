@@ -1194,7 +1194,7 @@ namespace Xbim.IO.Esent
                             IPersistEntity entity;
                             if (_caching && _read.TryGetValue(ih.EntityLabel, out entity))
                             {
-                                if (activate && !entity.Activated) //activate if required and not already done
+                                if (activate && entity.ActivationStatus == ActivationStatus.NotActivated) //activate if required and not already done
                                 {
                                     entity.Activate(() =>
                                     {
@@ -1287,7 +1287,7 @@ namespace Xbim.IO.Esent
                                     IPersistEntity entity;
                                     if (_caching && _read.TryGetValue(ih.EntityLabel, out entity))
                                     {
-                                        if (activate && !entity.Activated) //activate if required and not already done
+                                        if (activate && entity.ActivationStatus == ActivationStatus.NotActivated) //activate if required and not already done
                                         {
                                             var properties = entityTable.GetProperties();
                                             entity = _factory.New(_model, ih.EntityType, ih.EntityLabel, true);

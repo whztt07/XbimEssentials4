@@ -12,6 +12,7 @@ using Xbim.Ifc2x3.MeasureResource;
 using Xbim.Ifc2x3.StructuralLoadResource;
 using Xbim.Ifc2x3.GeometryResource;
 using Xbim.Ifc2x3.GeometricConstraintResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -20,8 +21,10 @@ namespace Xbim.Ifc2x3.StructuralAnalysisDomain
 {
 	[ExpressType("IFCRELCONNECTSWITHECCENTRICITY", 322)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcRelConnectsWithEccentricity : IfcRelConnectsStructuralMember, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcRelConnectsWithEccentricity>, System.IEquatable<@IfcRelConnectsWithEccentricity>
+	public  partial class @IfcRelConnectsWithEccentricity : IfcRelConnectsStructuralMember, IInstantiableEntity, IEqualityComparer<@IfcRelConnectsWithEccentricity>, IEquatable<@IfcRelConnectsWithEccentricity>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcRelConnectsWithEccentricity(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -37,10 +40,8 @@ namespace Xbim.Ifc2x3.StructuralAnalysisDomain
 		{ 
 			get 
 			{
-				if(Activated) return _connectionConstraint;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _connectionConstraint;
+				((IPersistEntity)this).Activate(false);
 				return _connectionConstraint;
 			} 
 			set

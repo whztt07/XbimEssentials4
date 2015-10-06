@@ -14,7 +14,7 @@ namespace Xbim.Ifc4.ExternalReferenceResource
 {
 	[ExpressType("IFCURIREFERENCE", 120)]
     // ReSharper disable once PartialTypeWithSinglePart
-	public partial struct IfcURIReference : IExpressValueType
+	public partial struct IfcURIReference : IExpressValueType, System.IEquatable<string>
 	{ 
 		private string _value;
         
@@ -42,6 +42,7 @@ namespace Xbim.Ifc4.ExternalReferenceResource
         public static implicit operator string(IfcURIReference obj)
         {
             return obj._value;
+
         }
 
 
@@ -58,6 +59,11 @@ namespace Xbim.Ifc4.ExternalReferenceResource
 
             return ((IfcURIReference) obj)._value == _value;
         }
+
+		public bool Equals(string other)
+	    {
+	        return this == other;
+	    }
 
         public static bool operator ==(IfcURIReference obj1, IfcURIReference obj2)
         {

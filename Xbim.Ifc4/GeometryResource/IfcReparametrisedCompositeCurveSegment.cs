@@ -8,6 +8,7 @@
 // ------------------------------------------------------------------------------
 
 using Xbim.Ifc4.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -16,8 +17,10 @@ namespace Xbim.Ifc4.GeometryResource
 {
 	[ExpressType("IFCREPARAMETRISEDCOMPOSITECURVESEGMENT", 949)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcReparametrisedCompositeCurveSegment : IfcCompositeCurveSegment, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcReparametrisedCompositeCurveSegment>, System.IEquatable<@IfcReparametrisedCompositeCurveSegment>
+	public  partial class @IfcReparametrisedCompositeCurveSegment : IfcCompositeCurveSegment, IInstantiableEntity, IEqualityComparer<@IfcReparametrisedCompositeCurveSegment>, IEquatable<@IfcReparametrisedCompositeCurveSegment>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcReparametrisedCompositeCurveSegment(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -33,10 +36,8 @@ namespace Xbim.Ifc4.GeometryResource
 		{ 
 			get 
 			{
-				if(Activated) return _paramLength;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _paramLength;
+				((IPersistEntity)this).Activate(false);
 				return _paramLength;
 			} 
 			set

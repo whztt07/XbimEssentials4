@@ -11,6 +11,7 @@ using Xbim.Ifc2x3.Kernel;
 using Xbim.Ifc2x3.UtilityResource;
 using Xbim.Ifc2x3.MeasureResource;
 using Xbim.Ifc2x3.RepresentationResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -19,8 +20,10 @@ namespace Xbim.Ifc2x3.SharedBldgElements
 {
 	[ExpressType("IFCWINDOWLININGPROPERTIES", 252)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcWindowLiningProperties : IfcPropertySetDefinition, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcWindowLiningProperties>, System.IEquatable<@IfcWindowLiningProperties>
+	public  partial class @IfcWindowLiningProperties : IfcPropertySetDefinition, IInstantiableEntity, IEqualityComparer<@IfcWindowLiningProperties>, IEquatable<@IfcWindowLiningProperties>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcWindowLiningProperties(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -44,10 +47,8 @@ namespace Xbim.Ifc2x3.SharedBldgElements
 		{ 
 			get 
 			{
-				if(Activated) return _liningDepth;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _liningDepth;
+				((IPersistEntity)this).Activate(false);
 				return _liningDepth;
 			} 
 			set
@@ -61,10 +62,8 @@ namespace Xbim.Ifc2x3.SharedBldgElements
 		{ 
 			get 
 			{
-				if(Activated) return _liningThickness;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _liningThickness;
+				((IPersistEntity)this).Activate(false);
 				return _liningThickness;
 			} 
 			set
@@ -78,10 +77,8 @@ namespace Xbim.Ifc2x3.SharedBldgElements
 		{ 
 			get 
 			{
-				if(Activated) return _transomThickness;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _transomThickness;
+				((IPersistEntity)this).Activate(false);
 				return _transomThickness;
 			} 
 			set
@@ -95,10 +92,8 @@ namespace Xbim.Ifc2x3.SharedBldgElements
 		{ 
 			get 
 			{
-				if(Activated) return _mullionThickness;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _mullionThickness;
+				((IPersistEntity)this).Activate(false);
 				return _mullionThickness;
 			} 
 			set
@@ -112,10 +107,8 @@ namespace Xbim.Ifc2x3.SharedBldgElements
 		{ 
 			get 
 			{
-				if(Activated) return _firstTransomOffset;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _firstTransomOffset;
+				((IPersistEntity)this).Activate(false);
 				return _firstTransomOffset;
 			} 
 			set
@@ -129,10 +122,8 @@ namespace Xbim.Ifc2x3.SharedBldgElements
 		{ 
 			get 
 			{
-				if(Activated) return _secondTransomOffset;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _secondTransomOffset;
+				((IPersistEntity)this).Activate(false);
 				return _secondTransomOffset;
 			} 
 			set
@@ -146,10 +137,8 @@ namespace Xbim.Ifc2x3.SharedBldgElements
 		{ 
 			get 
 			{
-				if(Activated) return _firstMullionOffset;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _firstMullionOffset;
+				((IPersistEntity)this).Activate(false);
 				return _firstMullionOffset;
 			} 
 			set
@@ -163,10 +152,8 @@ namespace Xbim.Ifc2x3.SharedBldgElements
 		{ 
 			get 
 			{
-				if(Activated) return _secondMullionOffset;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _secondMullionOffset;
+				((IPersistEntity)this).Activate(false);
 				return _secondMullionOffset;
 			} 
 			set
@@ -180,10 +167,8 @@ namespace Xbim.Ifc2x3.SharedBldgElements
 		{ 
 			get 
 			{
-				if(Activated) return _shapeAspectStyle;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _shapeAspectStyle;
+				((IPersistEntity)this).Activate(false);
 				return _shapeAspectStyle;
 			} 
 			set

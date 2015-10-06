@@ -8,6 +8,7 @@
 // ------------------------------------------------------------------------------
 
 using Xbim.Ifc4.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -16,8 +17,10 @@ namespace Xbim.Ifc4.ExternalReferenceResource
 {
 	[ExpressType("IFCEXTERNALREFERENCERELATIONSHIP", 634)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcExternalReferenceRelationship : IfcResourceLevelRelationship, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcExternalReferenceRelationship>, System.IEquatable<@IfcExternalReferenceRelationship>
+	public  partial class @IfcExternalReferenceRelationship : IfcResourceLevelRelationship, IInstantiableEntity, IEqualityComparer<@IfcExternalReferenceRelationship>, IEquatable<@IfcExternalReferenceRelationship>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcExternalReferenceRelationship(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -36,10 +39,8 @@ namespace Xbim.Ifc4.ExternalReferenceResource
 		{ 
 			get 
 			{
-				if(Activated) return _relatingReference;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _relatingReference;
+				((IPersistEntity)this).Activate(false);
 				return _relatingReference;
 			} 
 			set
@@ -54,10 +55,8 @@ namespace Xbim.Ifc4.ExternalReferenceResource
 		{ 
 			get 
 			{
-				if(Activated) return _relatedResourceObjects;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _relatedResourceObjects;
+				((IPersistEntity)this).Activate(false);
 				return _relatedResourceObjects;
 			} 
 		}

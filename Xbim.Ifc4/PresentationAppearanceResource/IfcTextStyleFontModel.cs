@@ -8,6 +8,7 @@
 // ------------------------------------------------------------------------------
 
 using Xbim.Ifc4.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -17,8 +18,10 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
 	[IndexedClass]
 	[ExpressType("IFCTEXTSTYLEFONTMODEL", 1095)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcTextStyleFontModel : IfcPreDefinedTextFont, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcTextStyleFontModel>, System.IEquatable<@IfcTextStyleFontModel>
+	public  partial class @IfcTextStyleFontModel : IfcPreDefinedTextFont, IInstantiableEntity, IEqualityComparer<@IfcTextStyleFontModel>, IEquatable<@IfcTextStyleFontModel>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcTextStyleFontModel(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -39,10 +42,8 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
 		{ 
 			get 
 			{
-				if(Activated) return _fontFamily;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _fontFamily;
+				((IPersistEntity)this).Activate(false);
 				return _fontFamily;
 			} 
 		}
@@ -52,10 +53,8 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
 		{ 
 			get 
 			{
-				if(Activated) return _fontStyle;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _fontStyle;
+				((IPersistEntity)this).Activate(false);
 				return _fontStyle;
 			} 
 			set
@@ -69,10 +68,8 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
 		{ 
 			get 
 			{
-				if(Activated) return _fontVariant;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _fontVariant;
+				((IPersistEntity)this).Activate(false);
 				return _fontVariant;
 			} 
 			set
@@ -86,10 +83,8 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
 		{ 
 			get 
 			{
-				if(Activated) return _fontWeight;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _fontWeight;
+				((IPersistEntity)this).Activate(false);
 				return _fontWeight;
 			} 
 			set
@@ -103,10 +98,8 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
 		{ 
 			get 
 			{
-				if(Activated) return _fontSize;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _fontSize;
+				((IPersistEntity)this).Activate(false);
 				return _fontSize;
 			} 
 			set

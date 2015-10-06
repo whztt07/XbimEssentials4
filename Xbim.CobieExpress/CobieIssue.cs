@@ -7,6 +7,7 @@
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -16,8 +17,10 @@ namespace Xbim.CobieExpress
 	[IndexedClass]
 	[ExpressType("ISSUE", 33)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @CobieIssue : CobieReferencedObject, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@CobieIssue>, System.IEquatable<@CobieIssue>
+	public  partial class @CobieIssue : CobieReferencedObject, IInstantiableEntity, IEqualityComparer<@CobieIssue>, IEquatable<@CobieIssue>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal CobieIssue(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -42,10 +45,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _name;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _name;
+				((IPersistEntity)this).Activate(false);
 				return _name;
 			} 
 			set
@@ -59,10 +60,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _description;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _description;
+				((IPersistEntity)this).Activate(false);
 				return _description;
 			} 
 			set
@@ -76,10 +75,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _issueType;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _issueType;
+				((IPersistEntity)this).Activate(false);
 				return _issueType;
 			} 
 			set
@@ -93,10 +90,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _risk;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _risk;
+				((IPersistEntity)this).Activate(false);
 				return _risk;
 			} 
 			set
@@ -110,10 +105,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _chance;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _chance;
+				((IPersistEntity)this).Activate(false);
 				return _chance;
 			} 
 			set
@@ -127,10 +120,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _impact;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _impact;
+				((IPersistEntity)this).Activate(false);
 				return _impact;
 			} 
 			set
@@ -144,10 +135,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _owner;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _owner;
+				((IPersistEntity)this).Activate(false);
 				return _owner;
 			} 
 			set
@@ -161,10 +150,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _mitigation;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _mitigation;
+				((IPersistEntity)this).Activate(false);
 				return _mitigation;
 			} 
 			set
@@ -179,10 +166,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _causing;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _causing;
+				((IPersistEntity)this).Activate(false);
 				return _causing;
 			} 
 			set
@@ -197,10 +182,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _affected;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _affected;
+				((IPersistEntity)this).Activate(false);
 				return _affected;
 			} 
 			set

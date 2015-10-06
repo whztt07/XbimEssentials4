@@ -11,6 +11,7 @@ using Xbim.Ifc4.UtilityResource;
 using Xbim.Ifc4.MeasureResource;
 using Xbim.Ifc4.Kernel;
 using Xbim.Ifc4.GeometryResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -19,8 +20,10 @@ namespace Xbim.Ifc4.SharedComponentElements
 {
 	[ExpressType("IFCMECHANICALFASTENERTYPE", 762)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcMechanicalFastenerType : IfcElementComponentType, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcMechanicalFastenerType>, System.IEquatable<@IfcMechanicalFastenerType>
+	public  partial class @IfcMechanicalFastenerType : IfcElementComponentType, IInstantiableEntity, IEqualityComparer<@IfcMechanicalFastenerType>, IEquatable<@IfcMechanicalFastenerType>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcMechanicalFastenerType(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -38,10 +41,8 @@ namespace Xbim.Ifc4.SharedComponentElements
 		{ 
 			get 
 			{
-				if(Activated) return _predefinedType;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _predefinedType;
+				((IPersistEntity)this).Activate(false);
 				return _predefinedType;
 			} 
 			set
@@ -55,10 +56,8 @@ namespace Xbim.Ifc4.SharedComponentElements
 		{ 
 			get 
 			{
-				if(Activated) return _nominalDiameter;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _nominalDiameter;
+				((IPersistEntity)this).Activate(false);
 				return _nominalDiameter;
 			} 
 			set
@@ -72,10 +71,8 @@ namespace Xbim.Ifc4.SharedComponentElements
 		{ 
 			get 
 			{
-				if(Activated) return _nominalLength;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _nominalLength;
+				((IPersistEntity)this).Activate(false);
 				return _nominalLength;
 			} 
 			set

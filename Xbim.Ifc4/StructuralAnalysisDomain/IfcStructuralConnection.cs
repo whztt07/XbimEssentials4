@@ -8,6 +8,7 @@
 // ------------------------------------------------------------------------------
 
 using Xbim.Ifc4.StructuralLoadResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -16,8 +17,10 @@ namespace Xbim.Ifc4.StructuralAnalysisDomain
 {
 	[ExpressType("IFCSTRUCTURALCONNECTION", 1013)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public abstract partial class @IfcStructuralConnection : IfcStructuralItem, System.Collections.Generic.IEqualityComparer<@IfcStructuralConnection>, System.IEquatable<@IfcStructuralConnection>
+	public abstract partial class @IfcStructuralConnection : IfcStructuralItem, IEqualityComparer<@IfcStructuralConnection>, IEquatable<@IfcStructuralConnection>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcStructuralConnection(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -33,10 +36,8 @@ namespace Xbim.Ifc4.StructuralAnalysisDomain
 		{ 
 			get 
 			{
-				if(Activated) return _appliedCondition;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _appliedCondition;
+				((IPersistEntity)this).Activate(false);
 				return _appliedCondition;
 			} 
 			set

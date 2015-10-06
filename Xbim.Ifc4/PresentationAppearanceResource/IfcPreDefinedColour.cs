@@ -7,6 +7,8 @@
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
+using System;
+using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
 
@@ -14,8 +16,10 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
 {
 	[ExpressType("IFCPREDEFINEDCOLOUR", 824)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public abstract partial class @IfcPreDefinedColour : IfcPreDefinedItem, IfcColour, System.Collections.Generic.IEqualityComparer<@IfcPreDefinedColour>, System.IEquatable<@IfcPreDefinedColour>
+	public abstract partial class @IfcPreDefinedColour : IfcPreDefinedItem, IfcColour, IEqualityComparer<@IfcPreDefinedColour>, IEquatable<@IfcPreDefinedColour>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcPreDefinedColour(IModel model) : base(model) 		{ 
 			Model = model; 

@@ -9,6 +9,7 @@
 
 using Xbim.Ifc2x3.GeometryResource;
 using Xbim.Ifc2x3.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -17,8 +18,10 @@ namespace Xbim.Ifc2x3.GeometricModelResource
 {
 	[ExpressType("IFCRECTANGULARPYRAMID", 705)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcRectangularPyramid : IfcCsgPrimitive3D, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcRectangularPyramid>, System.IEquatable<@IfcRectangularPyramid>
+	public  partial class @IfcRectangularPyramid : IfcCsgPrimitive3D, IInstantiableEntity, IEqualityComparer<@IfcRectangularPyramid>, IEquatable<@IfcRectangularPyramid>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcRectangularPyramid(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -36,10 +39,8 @@ namespace Xbim.Ifc2x3.GeometricModelResource
 		{ 
 			get 
 			{
-				if(Activated) return _xLength;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _xLength;
+				((IPersistEntity)this).Activate(false);
 				return _xLength;
 			} 
 			set
@@ -53,10 +54,8 @@ namespace Xbim.Ifc2x3.GeometricModelResource
 		{ 
 			get 
 			{
-				if(Activated) return _yLength;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _yLength;
+				((IPersistEntity)this).Activate(false);
 				return _yLength;
 			} 
 			set
@@ -70,10 +69,8 @@ namespace Xbim.Ifc2x3.GeometricModelResource
 		{ 
 			get 
 			{
-				if(Activated) return _height;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _height;
+				((IPersistEntity)this).Activate(false);
 				return _height;
 			} 
 			set

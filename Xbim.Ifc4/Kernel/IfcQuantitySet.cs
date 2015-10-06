@@ -7,6 +7,8 @@
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
+using System;
+using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
 
@@ -14,8 +16,10 @@ namespace Xbim.Ifc4.Kernel
 {
 	[ExpressType("IFCQUANTITYSET", 874)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public abstract partial class @IfcQuantitySet : IfcPropertySetDefinition, System.Collections.Generic.IEqualityComparer<@IfcQuantitySet>, System.IEquatable<@IfcQuantitySet>
+	public abstract partial class @IfcQuantitySet : IfcPropertySetDefinition, IEqualityComparer<@IfcQuantitySet>, IEquatable<@IfcQuantitySet>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcQuantitySet(IModel model) : base(model) 		{ 
 			Model = model; 

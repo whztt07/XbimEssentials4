@@ -11,6 +11,7 @@ using Xbim.Ifc4.Kernel;
 using Xbim.Ifc4.UtilityResource;
 using Xbim.Ifc4.MeasureResource;
 using Xbim.Ifc4.GeometricConstraintResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -19,8 +20,10 @@ namespace Xbim.Ifc4.ProductExtension
 {
 	[ExpressType("IFCRELCONNECTSELEMENTS", 918)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcRelConnectsElements : IfcRelConnects, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcRelConnectsElements>, System.IEquatable<@IfcRelConnectsElements>
+	public  partial class @IfcRelConnectsElements : IfcRelConnects, IInstantiableEntity, IEqualityComparer<@IfcRelConnectsElements>, IEquatable<@IfcRelConnectsElements>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcRelConnectsElements(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -38,10 +41,8 @@ namespace Xbim.Ifc4.ProductExtension
 		{ 
 			get 
 			{
-				if(Activated) return _connectionGeometry;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _connectionGeometry;
+				((IPersistEntity)this).Activate(false);
 				return _connectionGeometry;
 			} 
 			set
@@ -56,10 +57,8 @@ namespace Xbim.Ifc4.ProductExtension
 		{ 
 			get 
 			{
-				if(Activated) return _relatingElement;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _relatingElement;
+				((IPersistEntity)this).Activate(false);
 				return _relatingElement;
 			} 
 			set
@@ -74,10 +73,8 @@ namespace Xbim.Ifc4.ProductExtension
 		{ 
 			get 
 			{
-				if(Activated) return _relatedElement;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _relatedElement;
+				((IPersistEntity)this).Activate(false);
 				return _relatedElement;
 			} 
 			set

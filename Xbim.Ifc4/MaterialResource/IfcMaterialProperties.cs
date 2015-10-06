@@ -9,6 +9,7 @@
 
 using Xbim.Ifc4.PropertyResource;
 using Xbim.Ifc4.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -18,8 +19,10 @@ namespace Xbim.Ifc4.MaterialResource
 	[IndexedClass]
 	[ExpressType("IFCMATERIALPROPERTIES", 757)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcMaterialProperties : IfcExtendedProperties, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcMaterialProperties>, System.IEquatable<@IfcMaterialProperties>
+	public  partial class @IfcMaterialProperties : IfcExtendedProperties, IInstantiableEntity, IEqualityComparer<@IfcMaterialProperties>, IEquatable<@IfcMaterialProperties>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcMaterialProperties(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -36,10 +39,8 @@ namespace Xbim.Ifc4.MaterialResource
 		{ 
 			get 
 			{
-				if(Activated) return _material;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _material;
+				((IPersistEntity)this).Activate(false);
 				return _material;
 			} 
 			set

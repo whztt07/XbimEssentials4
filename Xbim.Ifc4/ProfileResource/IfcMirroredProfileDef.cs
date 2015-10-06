@@ -9,6 +9,7 @@
 
 using Xbim.Ifc4.MeasureResource;
 using Xbim.Ifc4.GeometryResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -17,8 +18,10 @@ namespace Xbim.Ifc4.ProfileResource
 {
 	[ExpressType("IFCMIRROREDPROFILEDEF", 769)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcMirroredProfileDef : IfcDerivedProfileDef, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcMirroredProfileDef>, System.IEquatable<@IfcMirroredProfileDef>
+	public  partial class @IfcMirroredProfileDef : IfcDerivedProfileDef, IInstantiableEntity, IEqualityComparer<@IfcMirroredProfileDef>, IEquatable<@IfcMirroredProfileDef>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcMirroredProfileDef(IModel model) : base(model) 		{ 
 			Model = model; 

@@ -10,6 +10,7 @@
 using Xbim.Ifc2x3.Kernel;
 using Xbim.Ifc2x3.UtilityResource;
 using Xbim.Ifc2x3.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -18,8 +19,10 @@ namespace Xbim.Ifc2x3.SharedMgmtElements
 {
 	[ExpressType("IFCPROJECTORDER", 696)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcProjectOrder : IfcControl, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcProjectOrder>, System.IEquatable<@IfcProjectOrder>
+	public  partial class @IfcProjectOrder : IfcControl, IInstantiableEntity, IEqualityComparer<@IfcProjectOrder>, IEquatable<@IfcProjectOrder>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcProjectOrder(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -37,10 +40,8 @@ namespace Xbim.Ifc2x3.SharedMgmtElements
 		{ 
 			get 
 			{
-				if(Activated) return _iD;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _iD;
+				((IPersistEntity)this).Activate(false);
 				return _iD;
 			} 
 			set
@@ -54,10 +55,8 @@ namespace Xbim.Ifc2x3.SharedMgmtElements
 		{ 
 			get 
 			{
-				if(Activated) return _predefinedType;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _predefinedType;
+				((IPersistEntity)this).Activate(false);
 				return _predefinedType;
 			} 
 			set
@@ -71,10 +70,8 @@ namespace Xbim.Ifc2x3.SharedMgmtElements
 		{ 
 			get 
 			{
-				if(Activated) return _status;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _status;
+				((IPersistEntity)this).Activate(false);
 				return _status;
 			} 
 			set

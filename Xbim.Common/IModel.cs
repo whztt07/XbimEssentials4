@@ -21,7 +21,7 @@ namespace Xbim.Common
 
 	    IEntityCollection Instances { get; }
 
-	    int Activate(IPersistEntity owningEntity, bool write);
+	    bool Activate(IPersistEntity owningEntity, bool write);
 
 		void Delete (IPersistEntity entity);
 		
@@ -34,9 +34,9 @@ namespace Xbim.Common
         /// </summary>
 		ITransaction CurrentTransaction { get; }
 
-		IModelFactors ModelFactors { get; }
+		ExpressMetaData Metadata { get; }
 
-        ExpressMetaData Metadata { get; }
+		IModelFactors ModelFactors { get; }
 
 		/// <summary>
         /// Performs a set of actions on a collection of entities inside a single read only transaction

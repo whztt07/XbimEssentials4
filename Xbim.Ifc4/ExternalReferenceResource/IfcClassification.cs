@@ -10,6 +10,7 @@
 using Xbim.Ifc4.MeasureResource;
 using Xbim.Ifc4.DateTimeResource;
 using Xbim.Ifc4.Kernel;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -19,8 +20,10 @@ namespace Xbim.Ifc4.ExternalReferenceResource
 	[IndexedClass]
 	[ExpressType("IFCCLASSIFICATION", 485)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcClassification : IfcExternalInformation, IfcClassificationReferenceSelect, IfcClassificationSelect, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcClassification>, System.IEquatable<@IfcClassification>
+	public  partial class @IfcClassification : IfcExternalInformation, IfcClassificationReferenceSelect, IfcClassificationSelect, IInstantiableEntity, IEqualityComparer<@IfcClassification>, IEquatable<@IfcClassification>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcClassification(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -43,10 +46,8 @@ namespace Xbim.Ifc4.ExternalReferenceResource
 		{ 
 			get 
 			{
-				if(Activated) return _source;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _source;
+				((IPersistEntity)this).Activate(false);
 				return _source;
 			} 
 			set
@@ -60,10 +61,8 @@ namespace Xbim.Ifc4.ExternalReferenceResource
 		{ 
 			get 
 			{
-				if(Activated) return _edition;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _edition;
+				((IPersistEntity)this).Activate(false);
 				return _edition;
 			} 
 			set
@@ -77,10 +76,8 @@ namespace Xbim.Ifc4.ExternalReferenceResource
 		{ 
 			get 
 			{
-				if(Activated) return _editionDate;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _editionDate;
+				((IPersistEntity)this).Activate(false);
 				return _editionDate;
 			} 
 			set
@@ -94,10 +91,8 @@ namespace Xbim.Ifc4.ExternalReferenceResource
 		{ 
 			get 
 			{
-				if(Activated) return _name;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _name;
+				((IPersistEntity)this).Activate(false);
 				return _name;
 			} 
 			set
@@ -111,10 +106,8 @@ namespace Xbim.Ifc4.ExternalReferenceResource
 		{ 
 			get 
 			{
-				if(Activated) return _description;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _description;
+				((IPersistEntity)this).Activate(false);
 				return _description;
 			} 
 			set
@@ -128,10 +121,8 @@ namespace Xbim.Ifc4.ExternalReferenceResource
 		{ 
 			get 
 			{
-				if(Activated) return _location;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _location;
+				((IPersistEntity)this).Activate(false);
 				return _location;
 			} 
 			set
@@ -145,10 +136,8 @@ namespace Xbim.Ifc4.ExternalReferenceResource
 		{ 
 			get 
 			{
-				if(Activated) return _referenceTokens;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _referenceTokens;
+				((IPersistEntity)this).Activate(false);
 				return _referenceTokens;
 			} 
 		}

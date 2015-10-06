@@ -7,6 +7,8 @@
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
+using System;
+using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
 
@@ -14,8 +16,10 @@ namespace Xbim.Ifc2x3.PresentationResource
 {
 	[ExpressType("IFCPREDEFINEDTEXTFONT", 504)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public abstract partial class @IfcPreDefinedTextFont : IfcPreDefinedItem, IfcTextFontSelect, System.Collections.Generic.IEqualityComparer<@IfcPreDefinedTextFont>, System.IEquatable<@IfcPreDefinedTextFont>
+	public abstract partial class @IfcPreDefinedTextFont : IfcPreDefinedItem, IfcTextFontSelect, IEqualityComparer<@IfcPreDefinedTextFont>, IEquatable<@IfcPreDefinedTextFont>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcPreDefinedTextFont(IModel model) : base(model) 		{ 
 			Model = model; 

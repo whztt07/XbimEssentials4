@@ -12,6 +12,7 @@ using Xbim.Ifc4.UtilityResource;
 using Xbim.Ifc4.MeasureResource;
 using Xbim.Ifc4.GeometricConstraintResource;
 using Xbim.Ifc4.RepresentationResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -20,8 +21,10 @@ namespace Xbim.Ifc4.SharedFacilitiesElements
 {
 	[ExpressType("IFCFURNITURE", 687)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcFurniture : IfcFurnishingElement, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcFurniture>, System.IEquatable<@IfcFurniture>
+	public  partial class @IfcFurniture : IfcFurnishingElement, IInstantiableEntity, IEqualityComparer<@IfcFurniture>, IEquatable<@IfcFurniture>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcFurniture(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -37,10 +40,8 @@ namespace Xbim.Ifc4.SharedFacilitiesElements
 		{ 
 			get 
 			{
-				if(Activated) return _predefinedType;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _predefinedType;
+				((IPersistEntity)this).Activate(false);
 				return _predefinedType;
 			} 
 			set

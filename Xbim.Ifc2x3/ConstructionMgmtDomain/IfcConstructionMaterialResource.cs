@@ -10,6 +10,7 @@
 using Xbim.Ifc2x3.UtilityResource;
 using Xbim.Ifc2x3.MeasureResource;
 using Xbim.Ifc2x3.ActorResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -18,8 +19,10 @@ namespace Xbim.Ifc2x3.ConstructionMgmtDomain
 {
 	[ExpressType("IFCCONSTRUCTIONMATERIALRESOURCE", 243)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcConstructionMaterialResource : IfcConstructionResource, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcConstructionMaterialResource>, System.IEquatable<@IfcConstructionMaterialResource>
+	public  partial class @IfcConstructionMaterialResource : IfcConstructionResource, IInstantiableEntity, IEqualityComparer<@IfcConstructionMaterialResource>, IEquatable<@IfcConstructionMaterialResource>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcConstructionMaterialResource(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -37,10 +40,8 @@ namespace Xbim.Ifc2x3.ConstructionMgmtDomain
 		{ 
 			get 
 			{
-				if(Activated) return _suppliers;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _suppliers;
+				((IPersistEntity)this).Activate(false);
 				return _suppliers;
 			} 
 		}
@@ -50,10 +51,8 @@ namespace Xbim.Ifc2x3.ConstructionMgmtDomain
 		{ 
 			get 
 			{
-				if(Activated) return _usageRatio;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _usageRatio;
+				((IPersistEntity)this).Activate(false);
 				return _usageRatio;
 			} 
 			set

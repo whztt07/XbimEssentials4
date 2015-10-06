@@ -9,6 +9,7 @@
 
 using Xbim.Ifc4.UtilityResource;
 using Xbim.Ifc4.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -17,8 +18,10 @@ namespace Xbim.Ifc4.Kernel
 {
 	[ExpressType("IFCRELDEFINESBYTEMPLATE", 934)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcRelDefinesByTemplate : IfcRelDefines, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcRelDefinesByTemplate>, System.IEquatable<@IfcRelDefinesByTemplate>
+	public  partial class @IfcRelDefinesByTemplate : IfcRelDefines, IInstantiableEntity, IEqualityComparer<@IfcRelDefinesByTemplate>, IEquatable<@IfcRelDefinesByTemplate>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcRelDefinesByTemplate(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -37,10 +40,8 @@ namespace Xbim.Ifc4.Kernel
 		{ 
 			get 
 			{
-				if(Activated) return _relatedPropertySets;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _relatedPropertySets;
+				((IPersistEntity)this).Activate(false);
 				return _relatedPropertySets;
 			} 
 		}
@@ -51,10 +52,8 @@ namespace Xbim.Ifc4.Kernel
 		{ 
 			get 
 			{
-				if(Activated) return _relatingTemplate;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _relatingTemplate;
+				((IPersistEntity)this).Activate(false);
 				return _relatingTemplate;
 			} 
 			set

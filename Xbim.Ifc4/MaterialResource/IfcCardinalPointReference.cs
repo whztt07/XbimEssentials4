@@ -14,7 +14,7 @@ namespace Xbim.Ifc4.MaterialResource
 {
 	[ExpressType("IFCCARDINALPOINTREFERENCE", 8)]
     // ReSharper disable once PartialTypeWithSinglePart
-	public partial struct IfcCardinalPointReference : IExpressValueType
+	public partial struct IfcCardinalPointReference : IExpressValueType, System.IEquatable<long>
 	{ 
 		private long _value;
         
@@ -46,6 +46,7 @@ namespace Xbim.Ifc4.MaterialResource
         public static implicit operator long(IfcCardinalPointReference obj)
         {
             return obj._value;
+
         }
 
 
@@ -62,6 +63,11 @@ namespace Xbim.Ifc4.MaterialResource
 
             return ((IfcCardinalPointReference) obj)._value == _value;
         }
+
+		public bool Equals(long other)
+	    {
+	        return this == other;
+	    }
 
         public static bool operator ==(IfcCardinalPointReference obj1, IfcCardinalPointReference obj2)
         {

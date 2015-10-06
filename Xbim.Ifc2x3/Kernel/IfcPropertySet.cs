@@ -10,6 +10,7 @@
 using Xbim.Ifc2x3.UtilityResource;
 using Xbim.Ifc2x3.MeasureResource;
 using Xbim.Ifc2x3.PropertyResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -18,8 +19,10 @@ namespace Xbim.Ifc2x3.Kernel
 {
 	[ExpressType("IFCPROPERTYSET", 666)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcPropertySet : IfcPropertySetDefinition, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcPropertySet>, System.IEquatable<@IfcPropertySet>
+	public  partial class @IfcPropertySet : IfcPropertySetDefinition, IInstantiableEntity, IEqualityComparer<@IfcPropertySet>, IEquatable<@IfcPropertySet>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcPropertySet(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -36,10 +39,8 @@ namespace Xbim.Ifc2x3.Kernel
 		{ 
 			get 
 			{
-				if(Activated) return _hasProperties;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _hasProperties;
+				((IPersistEntity)this).Activate(false);
 				return _hasProperties;
 			} 
 		}

@@ -16,7 +16,7 @@ namespace Xbim.Ifc2x3.MeasureResource
 {
 	[ExpressType("IFCRATIOMEASURE", 606)]
     // ReSharper disable once PartialTypeWithSinglePart
-	public partial struct IfcRatioMeasure : IfcAppliedValueSelect, IfcMeasureValue, IfcSizeSelect, IExpressValueType
+	public partial struct IfcRatioMeasure : IfcAppliedValueSelect, IfcMeasureValue, IfcSizeSelect, IExpressValueType, System.IEquatable<double>
 	{ 
 		private double _value;
         
@@ -48,6 +48,7 @@ namespace Xbim.Ifc2x3.MeasureResource
         public static implicit operator double(IfcRatioMeasure obj)
         {
             return obj._value;
+
         }
 
 
@@ -64,6 +65,11 @@ namespace Xbim.Ifc2x3.MeasureResource
 
             return ((IfcRatioMeasure) obj)._value == _value;
         }
+
+		public bool Equals(double other)
+	    {
+	        return this == other;
+	    }
 
         public static bool operator ==(IfcRatioMeasure obj1, IfcRatioMeasure obj2)
         {

@@ -9,6 +9,8 @@
 
 using Xbim.Ifc2x3.ProductExtension;
 using Xbim.Ifc2x3.MeasureResource;
+using System;
+using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
 
@@ -16,8 +18,10 @@ namespace Xbim.Ifc2x3.SharedComponentElements
 {
 	[ExpressType("IFCEDGEFEATURE", 764)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public abstract partial class @IfcEdgeFeature : IfcFeatureElementSubtraction, System.Collections.Generic.IEqualityComparer<@IfcEdgeFeature>, System.IEquatable<@IfcEdgeFeature>
+	public abstract partial class @IfcEdgeFeature : IfcFeatureElementSubtraction, IEqualityComparer<@IfcEdgeFeature>, IEquatable<@IfcEdgeFeature>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcEdgeFeature(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -33,10 +37,8 @@ namespace Xbim.Ifc2x3.SharedComponentElements
 		{ 
 			get 
 			{
-				if(Activated) return _featureLength;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _featureLength;
+				((IPersistEntity)this).Activate(false);
 				return _featureLength;
 			} 
 			set

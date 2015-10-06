@@ -9,6 +9,7 @@
 
 using Xbim.Ifc2x3.MeasureResource;
 using Xbim.Ifc2x3.GeometryResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -17,8 +18,10 @@ namespace Xbim.Ifc2x3.ProfileResource
 {
 	[ExpressType("IFCELLIPSEPROFILEDEF", 285)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcEllipseProfileDef : IfcParameterizedProfileDef, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcEllipseProfileDef>, System.IEquatable<@IfcEllipseProfileDef>
+	public  partial class @IfcEllipseProfileDef : IfcParameterizedProfileDef, IInstantiableEntity, IEqualityComparer<@IfcEllipseProfileDef>, IEquatable<@IfcEllipseProfileDef>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcEllipseProfileDef(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -35,10 +38,8 @@ namespace Xbim.Ifc2x3.ProfileResource
 		{ 
 			get 
 			{
-				if(Activated) return _semiAxis1;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _semiAxis1;
+				((IPersistEntity)this).Activate(false);
 				return _semiAxis1;
 			} 
 			set
@@ -52,10 +53,8 @@ namespace Xbim.Ifc2x3.ProfileResource
 		{ 
 			get 
 			{
-				if(Activated) return _semiAxis2;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _semiAxis2;
+				((IPersistEntity)this).Activate(false);
 				return _semiAxis2;
 			} 
 			set

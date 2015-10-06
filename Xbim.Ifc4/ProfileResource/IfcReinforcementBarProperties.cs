@@ -9,6 +9,7 @@
 
 using Xbim.Ifc4.PropertyResource;
 using Xbim.Ifc4.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -17,8 +18,10 @@ namespace Xbim.Ifc4.ProfileResource
 {
 	[ExpressType("IFCREINFORCEMENTBARPROPERTIES", 893)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcReinforcementBarProperties : IfcPreDefinedProperties, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcReinforcementBarProperties>, System.IEquatable<@IfcReinforcementBarProperties>
+	public  partial class @IfcReinforcementBarProperties : IfcPreDefinedProperties, IInstantiableEntity, IEqualityComparer<@IfcReinforcementBarProperties>, IEquatable<@IfcReinforcementBarProperties>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcReinforcementBarProperties(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -39,10 +42,8 @@ namespace Xbim.Ifc4.ProfileResource
 		{ 
 			get 
 			{
-				if(Activated) return _totalCrossSectionArea;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _totalCrossSectionArea;
+				((IPersistEntity)this).Activate(false);
 				return _totalCrossSectionArea;
 			} 
 			set
@@ -56,10 +57,8 @@ namespace Xbim.Ifc4.ProfileResource
 		{ 
 			get 
 			{
-				if(Activated) return _steelGrade;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _steelGrade;
+				((IPersistEntity)this).Activate(false);
 				return _steelGrade;
 			} 
 			set
@@ -73,10 +72,8 @@ namespace Xbim.Ifc4.ProfileResource
 		{ 
 			get 
 			{
-				if(Activated) return _barSurface;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _barSurface;
+				((IPersistEntity)this).Activate(false);
 				return _barSurface;
 			} 
 			set
@@ -90,10 +87,8 @@ namespace Xbim.Ifc4.ProfileResource
 		{ 
 			get 
 			{
-				if(Activated) return _effectiveDepth;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _effectiveDepth;
+				((IPersistEntity)this).Activate(false);
 				return _effectiveDepth;
 			} 
 			set
@@ -107,10 +102,8 @@ namespace Xbim.Ifc4.ProfileResource
 		{ 
 			get 
 			{
-				if(Activated) return _nominalBarDiameter;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _nominalBarDiameter;
+				((IPersistEntity)this).Activate(false);
 				return _nominalBarDiameter;
 			} 
 			set
@@ -124,10 +117,8 @@ namespace Xbim.Ifc4.ProfileResource
 		{ 
 			get 
 			{
-				if(Activated) return _barCount;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _barCount;
+				((IPersistEntity)this).Activate(false);
 				return _barCount;
 			} 
 			set

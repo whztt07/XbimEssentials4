@@ -7,6 +7,7 @@
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -16,8 +17,10 @@ namespace Xbim.CobieExpress
 	[IndexedClass]
 	[ExpressType("PICKKEYVALUE", 9)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @CobiePickKeyValue : CobiePickValue, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@CobiePickKeyValue>, System.IEquatable<@CobiePickKeyValue>
+	public  partial class @CobiePickKeyValue : CobiePickValue, IInstantiableEntity, IEqualityComparer<@CobiePickKeyValue>, IEquatable<@CobiePickKeyValue>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal CobiePickKeyValue(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -33,10 +36,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _key;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _key;
+				((IPersistEntity)this).Activate(false);
 				return _key;
 			} 
 			set

@@ -9,6 +9,7 @@
 
 using Xbim.Ifc2x3.PresentationAppearanceResource;
 using Xbim.Ifc2x3.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -17,8 +18,10 @@ namespace Xbim.Ifc2x3.PresentationResource
 {
 	[ExpressType("IFCCOLOURRGB", 27)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcColourRgb : IfcColourSpecification, IfcColourOrFactor, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcColourRgb>, System.IEquatable<@IfcColourRgb>
+	public  partial class @IfcColourRgb : IfcColourSpecification, IfcColourOrFactor, IInstantiableEntity, IEqualityComparer<@IfcColourRgb>, IEquatable<@IfcColourRgb>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcColourRgb(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -36,10 +39,8 @@ namespace Xbim.Ifc2x3.PresentationResource
 		{ 
 			get 
 			{
-				if(Activated) return _red;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _red;
+				((IPersistEntity)this).Activate(false);
 				return _red;
 			} 
 			set
@@ -53,10 +54,8 @@ namespace Xbim.Ifc2x3.PresentationResource
 		{ 
 			get 
 			{
-				if(Activated) return _green;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _green;
+				((IPersistEntity)this).Activate(false);
 				return _green;
 			} 
 			set
@@ -70,10 +69,8 @@ namespace Xbim.Ifc2x3.PresentationResource
 		{ 
 			get 
 			{
-				if(Activated) return _blue;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _blue;
+				((IPersistEntity)this).Activate(false);
 				return _blue;
 			} 
 			set

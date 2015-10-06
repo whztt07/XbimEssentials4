@@ -12,6 +12,7 @@ using Xbim.Ifc2x3.UtilityResource;
 using Xbim.Ifc2x3.MeasureResource;
 using Xbim.Ifc2x3.GeometricConstraintResource;
 using Xbim.Ifc2x3.RepresentationResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -20,8 +21,10 @@ namespace Xbim.Ifc2x3.ProductExtension
 {
 	[ExpressType("IFCGRID", 564)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcGrid : IfcProduct, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcGrid>, System.IEquatable<@IfcGrid>
+	public  partial class @IfcGrid : IfcProduct, IInstantiableEntity, IEqualityComparer<@IfcGrid>, IEquatable<@IfcGrid>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcGrid(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -43,10 +46,8 @@ namespace Xbim.Ifc2x3.ProductExtension
 		{ 
 			get 
 			{
-				if(Activated) return _uAxes;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _uAxes;
+				((IPersistEntity)this).Activate(false);
 				return _uAxes;
 			} 
 		}
@@ -57,10 +58,8 @@ namespace Xbim.Ifc2x3.ProductExtension
 		{ 
 			get 
 			{
-				if(Activated) return _vAxes;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _vAxes;
+				((IPersistEntity)this).Activate(false);
 				return _vAxes;
 			} 
 		}
@@ -71,10 +70,8 @@ namespace Xbim.Ifc2x3.ProductExtension
 		{ 
 			get 
 			{
-				if(Activated) return _wAxes;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _wAxes;
+				((IPersistEntity)this).Activate(false);
 				return _wAxes;
 			} 
 		}

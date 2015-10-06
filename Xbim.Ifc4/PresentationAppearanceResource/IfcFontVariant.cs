@@ -14,7 +14,7 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
 {
 	[ExpressType("IFCFONTVARIANT", 31)]
     // ReSharper disable once PartialTypeWithSinglePart
-	public partial struct IfcFontVariant : IExpressValueType
+	public partial struct IfcFontVariant : IExpressValueType, System.IEquatable<string>
 	{ 
 		private string _value;
         
@@ -42,6 +42,7 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
         public static implicit operator string(IfcFontVariant obj)
         {
             return obj._value;
+
         }
 
 
@@ -58,6 +59,11 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
 
             return ((IfcFontVariant) obj)._value == _value;
         }
+
+		public bool Equals(string other)
+	    {
+	        return this == other;
+	    }
 
         public static bool operator ==(IfcFontVariant obj1, IfcFontVariant obj2)
         {

@@ -12,6 +12,7 @@ using Xbim.Ifc2x3.MeasureResource;
 using Xbim.Ifc2x3.GeometricConstraintResource;
 using Xbim.Ifc2x3.RepresentationResource;
 using Xbim.Ifc2x3.ProfilePropertyResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -20,8 +21,10 @@ namespace Xbim.Ifc2x3.StructuralElementsDomain
 {
 	[ExpressType("IFCREINFORCINGBAR", 571)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcReinforcingBar : IfcReinforcingElement, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcReinforcingBar>, System.IEquatable<@IfcReinforcingBar>
+	public  partial class @IfcReinforcingBar : IfcReinforcingElement, IInstantiableEntity, IEqualityComparer<@IfcReinforcingBar>, IEquatable<@IfcReinforcingBar>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcReinforcingBar(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -41,10 +44,8 @@ namespace Xbim.Ifc2x3.StructuralElementsDomain
 		{ 
 			get 
 			{
-				if(Activated) return _nominalDiameter;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _nominalDiameter;
+				((IPersistEntity)this).Activate(false);
 				return _nominalDiameter;
 			} 
 			set
@@ -58,10 +59,8 @@ namespace Xbim.Ifc2x3.StructuralElementsDomain
 		{ 
 			get 
 			{
-				if(Activated) return _crossSectionArea;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _crossSectionArea;
+				((IPersistEntity)this).Activate(false);
 				return _crossSectionArea;
 			} 
 			set
@@ -75,10 +74,8 @@ namespace Xbim.Ifc2x3.StructuralElementsDomain
 		{ 
 			get 
 			{
-				if(Activated) return _barLength;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _barLength;
+				((IPersistEntity)this).Activate(false);
 				return _barLength;
 			} 
 			set
@@ -92,10 +89,8 @@ namespace Xbim.Ifc2x3.StructuralElementsDomain
 		{ 
 			get 
 			{
-				if(Activated) return _barRole;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _barRole;
+				((IPersistEntity)this).Activate(false);
 				return _barRole;
 			} 
 			set
@@ -109,10 +104,8 @@ namespace Xbim.Ifc2x3.StructuralElementsDomain
 		{ 
 			get 
 			{
-				if(Activated) return _barSurface;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _barSurface;
+				((IPersistEntity)this).Activate(false);
 				return _barSurface;
 			} 
 			set

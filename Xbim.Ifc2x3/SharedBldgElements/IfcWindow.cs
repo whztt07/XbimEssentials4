@@ -12,6 +12,7 @@ using Xbim.Ifc2x3.UtilityResource;
 using Xbim.Ifc2x3.MeasureResource;
 using Xbim.Ifc2x3.GeometricConstraintResource;
 using Xbim.Ifc2x3.RepresentationResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -20,8 +21,10 @@ namespace Xbim.Ifc2x3.SharedBldgElements
 {
 	[ExpressType("IFCWINDOW", 667)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcWindow : IfcBuildingElement, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcWindow>, System.IEquatable<@IfcWindow>
+	public  partial class @IfcWindow : IfcBuildingElement, IInstantiableEntity, IEqualityComparer<@IfcWindow>, IEquatable<@IfcWindow>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcWindow(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -38,10 +41,8 @@ namespace Xbim.Ifc2x3.SharedBldgElements
 		{ 
 			get 
 			{
-				if(Activated) return _overallHeight;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _overallHeight;
+				((IPersistEntity)this).Activate(false);
 				return _overallHeight;
 			} 
 			set
@@ -55,10 +56,8 @@ namespace Xbim.Ifc2x3.SharedBldgElements
 		{ 
 			get 
 			{
-				if(Activated) return _overallWidth;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _overallWidth;
+				((IPersistEntity)this).Activate(false);
 				return _overallWidth;
 			} 
 			set

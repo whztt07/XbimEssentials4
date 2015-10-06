@@ -7,6 +7,7 @@
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -15,8 +16,10 @@ namespace Xbim.Ifc2x3.PresentationDimensioningResource
 {
 	[ExpressType("IFCDIAMETERDIMENSION", 739)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcDiameterDimension : IfcDimensionCurveDirectedCallout, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcDiameterDimension>, System.IEquatable<@IfcDiameterDimension>
+	public  partial class @IfcDiameterDimension : IfcDimensionCurveDirectedCallout, IInstantiableEntity, IEqualityComparer<@IfcDiameterDimension>, IEquatable<@IfcDiameterDimension>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcDiameterDimension(IModel model) : base(model) 		{ 
 			Model = model; 

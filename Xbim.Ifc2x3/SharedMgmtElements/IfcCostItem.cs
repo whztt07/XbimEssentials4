@@ -10,6 +10,7 @@
 using Xbim.Ifc2x3.Kernel;
 using Xbim.Ifc2x3.UtilityResource;
 using Xbim.Ifc2x3.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -18,8 +19,10 @@ namespace Xbim.Ifc2x3.SharedMgmtElements
 {
 	[ExpressType("IFCCOSTITEM", 694)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcCostItem : IfcControl, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcCostItem>, System.IEquatable<@IfcCostItem>
+	public  partial class @IfcCostItem : IfcControl, IInstantiableEntity, IEqualityComparer<@IfcCostItem>, IEquatable<@IfcCostItem>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcCostItem(IModel model) : base(model) 		{ 
 			Model = model; 

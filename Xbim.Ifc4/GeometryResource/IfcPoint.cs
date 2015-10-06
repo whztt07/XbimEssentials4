@@ -9,6 +9,8 @@
 
 using Xbim.Ifc4.GeometricModelResource;
 using Xbim.Ifc4.GeometricConstraintResource;
+using System;
+using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
 
@@ -16,8 +18,10 @@ namespace Xbim.Ifc4.GeometryResource
 {
 	[ExpressType("IFCPOINT", 816)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public abstract partial class @IfcPoint : IfcGeometricRepresentationItem, IfcGeometricSetSelect, IfcPointOrVertexPoint, System.Collections.Generic.IEqualityComparer<@IfcPoint>, System.IEquatable<@IfcPoint>
+	public abstract partial class @IfcPoint : IfcGeometricRepresentationItem, IfcGeometricSetSelect, IfcPointOrVertexPoint, IEqualityComparer<@IfcPoint>, IEquatable<@IfcPoint>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcPoint(IModel model) : base(model) 		{ 
 			Model = model; 

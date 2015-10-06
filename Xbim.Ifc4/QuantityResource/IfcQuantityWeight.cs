@@ -8,6 +8,7 @@
 // ------------------------------------------------------------------------------
 
 using Xbim.Ifc4.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -16,8 +17,10 @@ namespace Xbim.Ifc4.QuantityResource
 {
 	[ExpressType("IFCQUANTITYWEIGHT", 877)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcQuantityWeight : IfcPhysicalSimpleQuantity, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcQuantityWeight>, System.IEquatable<@IfcQuantityWeight>
+	public  partial class @IfcQuantityWeight : IfcPhysicalSimpleQuantity, IInstantiableEntity, IEqualityComparer<@IfcQuantityWeight>, IEquatable<@IfcQuantityWeight>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcQuantityWeight(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -34,10 +37,8 @@ namespace Xbim.Ifc4.QuantityResource
 		{ 
 			get 
 			{
-				if(Activated) return _weightValue;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _weightValue;
+				((IPersistEntity)this).Activate(false);
 				return _weightValue;
 			} 
 			set
@@ -51,10 +52,8 @@ namespace Xbim.Ifc4.QuantityResource
 		{ 
 			get 
 			{
-				if(Activated) return _formula;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _formula;
+				((IPersistEntity)this).Activate(false);
 				return _formula;
 			} 
 			set

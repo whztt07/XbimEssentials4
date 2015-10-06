@@ -8,6 +8,7 @@
 // ------------------------------------------------------------------------------
 
 using Xbim.Ifc4.GeometryResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -17,8 +18,10 @@ namespace Xbim.Ifc4.GeometricConstraintResource
 	[IndexedClass]
 	[ExpressType("IFCLOCALPLACEMENT", 736)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcLocalPlacement : IfcObjectPlacement, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcLocalPlacement>, System.IEquatable<@IfcLocalPlacement>
+	public  partial class @IfcLocalPlacement : IfcObjectPlacement, IInstantiableEntity, IEqualityComparer<@IfcLocalPlacement>, IEquatable<@IfcLocalPlacement>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcLocalPlacement(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -36,10 +39,8 @@ namespace Xbim.Ifc4.GeometricConstraintResource
 		{ 
 			get 
 			{
-				if(Activated) return _placementRelTo;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _placementRelTo;
+				((IPersistEntity)this).Activate(false);
 				return _placementRelTo;
 			} 
 			set
@@ -53,10 +54,8 @@ namespace Xbim.Ifc4.GeometricConstraintResource
 		{ 
 			get 
 			{
-				if(Activated) return _relativePlacement;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _relativePlacement;
+				((IPersistEntity)this).Activate(false);
 				return _relativePlacement;
 			} 
 			set

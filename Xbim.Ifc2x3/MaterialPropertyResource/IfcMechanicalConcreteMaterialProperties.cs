@@ -9,6 +9,7 @@
 
 using Xbim.Ifc2x3.MaterialResource;
 using Xbim.Ifc2x3.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -17,8 +18,10 @@ namespace Xbim.Ifc2x3.MaterialPropertyResource
 {
 	[ExpressType("IFCMECHANICALCONCRETEMATERIALPROPERTIES", 693)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcMechanicalConcreteMaterialProperties : IfcMechanicalMaterialProperties, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcMechanicalConcreteMaterialProperties>, System.IEquatable<@IfcMechanicalConcreteMaterialProperties>
+	public  partial class @IfcMechanicalConcreteMaterialProperties : IfcMechanicalMaterialProperties, IInstantiableEntity, IEqualityComparer<@IfcMechanicalConcreteMaterialProperties>, IEquatable<@IfcMechanicalConcreteMaterialProperties>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcMechanicalConcreteMaterialProperties(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -39,10 +42,8 @@ namespace Xbim.Ifc2x3.MaterialPropertyResource
 		{ 
 			get 
 			{
-				if(Activated) return _compressiveStrength;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _compressiveStrength;
+				((IPersistEntity)this).Activate(false);
 				return _compressiveStrength;
 			} 
 			set
@@ -56,10 +57,8 @@ namespace Xbim.Ifc2x3.MaterialPropertyResource
 		{ 
 			get 
 			{
-				if(Activated) return _maxAggregateSize;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _maxAggregateSize;
+				((IPersistEntity)this).Activate(false);
 				return _maxAggregateSize;
 			} 
 			set
@@ -73,10 +72,8 @@ namespace Xbim.Ifc2x3.MaterialPropertyResource
 		{ 
 			get 
 			{
-				if(Activated) return _admixturesDescription;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _admixturesDescription;
+				((IPersistEntity)this).Activate(false);
 				return _admixturesDescription;
 			} 
 			set
@@ -90,10 +87,8 @@ namespace Xbim.Ifc2x3.MaterialPropertyResource
 		{ 
 			get 
 			{
-				if(Activated) return _workability;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _workability;
+				((IPersistEntity)this).Activate(false);
 				return _workability;
 			} 
 			set
@@ -107,10 +102,8 @@ namespace Xbim.Ifc2x3.MaterialPropertyResource
 		{ 
 			get 
 			{
-				if(Activated) return _protectivePoreRatio;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _protectivePoreRatio;
+				((IPersistEntity)this).Activate(false);
 				return _protectivePoreRatio;
 			} 
 			set
@@ -124,10 +117,8 @@ namespace Xbim.Ifc2x3.MaterialPropertyResource
 		{ 
 			get 
 			{
-				if(Activated) return _waterImpermeability;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _waterImpermeability;
+				((IPersistEntity)this).Activate(false);
 				return _waterImpermeability;
 			} 
 			set

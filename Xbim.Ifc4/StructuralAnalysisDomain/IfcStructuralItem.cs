@@ -8,6 +8,7 @@
 // ------------------------------------------------------------------------------
 
 using Xbim.Ifc4.Kernel;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -16,8 +17,10 @@ namespace Xbim.Ifc4.StructuralAnalysisDomain
 {
 	[ExpressType("IFCSTRUCTURALITEM", 1020)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public abstract partial class @IfcStructuralItem : IfcProduct, IfcStructuralActivityAssignmentSelect, System.Collections.Generic.IEqualityComparer<@IfcStructuralItem>, System.IEquatable<@IfcStructuralItem>
+	public abstract partial class @IfcStructuralItem : IfcProduct, IfcStructuralActivityAssignmentSelect, IEqualityComparer<@IfcStructuralItem>, IEquatable<@IfcStructuralItem>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcStructuralItem(IModel model) : base(model) 		{ 
 			Model = model; 

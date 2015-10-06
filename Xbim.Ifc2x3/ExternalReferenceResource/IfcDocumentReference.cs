@@ -8,6 +8,7 @@
 // ------------------------------------------------------------------------------
 
 using Xbim.Ifc2x3.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -17,8 +18,10 @@ namespace Xbim.Ifc2x3.ExternalReferenceResource
 	[IndexedClass]
 	[ExpressType("IFCDOCUMENTREFERENCE", 450)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcDocumentReference : IfcExternalReference, IfcDocumentSelect, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcDocumentReference>, System.IEquatable<@IfcDocumentReference>
+	public  partial class @IfcDocumentReference : IfcExternalReference, IfcDocumentSelect, IInstantiableEntity, IEqualityComparer<@IfcDocumentReference>, IEquatable<@IfcDocumentReference>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcDocumentReference(IModel model) : base(model) 		{ 
 			Model = model; 

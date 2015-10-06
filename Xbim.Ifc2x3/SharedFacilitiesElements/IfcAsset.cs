@@ -13,6 +13,7 @@ using Xbim.Ifc2x3.MeasureResource;
 using Xbim.Ifc2x3.CostResource;
 using Xbim.Ifc2x3.ActorResource;
 using Xbim.Ifc2x3.DateTimeResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -21,8 +22,10 @@ namespace Xbim.Ifc2x3.SharedFacilitiesElements
 {
 	[ExpressType("IFCASSET", 767)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcAsset : IfcGroup, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcAsset>, System.IEquatable<@IfcAsset>
+	public  partial class @IfcAsset : IfcGroup, IInstantiableEntity, IEqualityComparer<@IfcAsset>, IEquatable<@IfcAsset>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcAsset(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -46,10 +49,8 @@ namespace Xbim.Ifc2x3.SharedFacilitiesElements
 		{ 
 			get 
 			{
-				if(Activated) return _assetID;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _assetID;
+				((IPersistEntity)this).Activate(false);
 				return _assetID;
 			} 
 			set
@@ -63,10 +64,8 @@ namespace Xbim.Ifc2x3.SharedFacilitiesElements
 		{ 
 			get 
 			{
-				if(Activated) return _originalValue;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _originalValue;
+				((IPersistEntity)this).Activate(false);
 				return _originalValue;
 			} 
 			set
@@ -80,10 +79,8 @@ namespace Xbim.Ifc2x3.SharedFacilitiesElements
 		{ 
 			get 
 			{
-				if(Activated) return _currentValue;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _currentValue;
+				((IPersistEntity)this).Activate(false);
 				return _currentValue;
 			} 
 			set
@@ -97,10 +94,8 @@ namespace Xbim.Ifc2x3.SharedFacilitiesElements
 		{ 
 			get 
 			{
-				if(Activated) return _totalReplacementCost;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _totalReplacementCost;
+				((IPersistEntity)this).Activate(false);
 				return _totalReplacementCost;
 			} 
 			set
@@ -114,10 +109,8 @@ namespace Xbim.Ifc2x3.SharedFacilitiesElements
 		{ 
 			get 
 			{
-				if(Activated) return _owner;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _owner;
+				((IPersistEntity)this).Activate(false);
 				return _owner;
 			} 
 			set
@@ -131,10 +124,8 @@ namespace Xbim.Ifc2x3.SharedFacilitiesElements
 		{ 
 			get 
 			{
-				if(Activated) return _user;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _user;
+				((IPersistEntity)this).Activate(false);
 				return _user;
 			} 
 			set
@@ -148,10 +139,8 @@ namespace Xbim.Ifc2x3.SharedFacilitiesElements
 		{ 
 			get 
 			{
-				if(Activated) return _responsiblePerson;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _responsiblePerson;
+				((IPersistEntity)this).Activate(false);
 				return _responsiblePerson;
 			} 
 			set
@@ -165,10 +154,8 @@ namespace Xbim.Ifc2x3.SharedFacilitiesElements
 		{ 
 			get 
 			{
-				if(Activated) return _incorporationDate;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _incorporationDate;
+				((IPersistEntity)this).Activate(false);
 				return _incorporationDate;
 			} 
 			set
@@ -182,10 +169,8 @@ namespace Xbim.Ifc2x3.SharedFacilitiesElements
 		{ 
 			get 
 			{
-				if(Activated) return _depreciatedValue;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _depreciatedValue;
+				((IPersistEntity)this).Activate(false);
 				return _depreciatedValue;
 			} 
 			set

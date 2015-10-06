@@ -14,7 +14,7 @@ namespace Xbim.CobieExpress
 {
 	[ExpressType("STRINGVALUE", 2)]
     // ReSharper disable once PartialTypeWithSinglePart
-	public partial struct StringValue : AttributeValue, IExpressValueType
+	public partial struct StringValue : AttributeValue, IExpressValueType, System.IEquatable<string>
 	{ 
 		private string _value;
         
@@ -42,6 +42,7 @@ namespace Xbim.CobieExpress
         public static implicit operator string(StringValue obj)
         {
             return obj._value;
+
         }
 
 
@@ -58,6 +59,11 @@ namespace Xbim.CobieExpress
 
             return ((StringValue) obj)._value == _value;
         }
+
+		public bool Equals(string other)
+	    {
+	        return this == other;
+	    }
 
         public static bool operator ==(StringValue obj1, StringValue obj2)
         {

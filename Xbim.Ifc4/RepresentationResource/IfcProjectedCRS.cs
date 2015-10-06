@@ -8,6 +8,7 @@
 // ------------------------------------------------------------------------------
 
 using Xbim.Ifc4.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -16,8 +17,10 @@ namespace Xbim.Ifc4.RepresentationResource
 {
 	[ExpressType("IFCPROJECTEDCRS", 846)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcProjectedCRS : IfcCoordinateReferenceSystem, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcProjectedCRS>, System.IEquatable<@IfcProjectedCRS>
+	public  partial class @IfcProjectedCRS : IfcCoordinateReferenceSystem, IInstantiableEntity, IEqualityComparer<@IfcProjectedCRS>, IEquatable<@IfcProjectedCRS>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcProjectedCRS(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -35,10 +38,8 @@ namespace Xbim.Ifc4.RepresentationResource
 		{ 
 			get 
 			{
-				if(Activated) return _mapProjection;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _mapProjection;
+				((IPersistEntity)this).Activate(false);
 				return _mapProjection;
 			} 
 			set
@@ -52,10 +53,8 @@ namespace Xbim.Ifc4.RepresentationResource
 		{ 
 			get 
 			{
-				if(Activated) return _mapZone;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _mapZone;
+				((IPersistEntity)this).Activate(false);
 				return _mapZone;
 			} 
 			set
@@ -69,10 +68,8 @@ namespace Xbim.Ifc4.RepresentationResource
 		{ 
 			get 
 			{
-				if(Activated) return _mapUnit;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _mapUnit;
+				((IPersistEntity)this).Activate(false);
 				return _mapUnit;
 			} 
 			set

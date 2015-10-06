@@ -7,6 +7,7 @@
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -15,8 +16,10 @@ namespace Xbim.Ifc2x3.GeometryResource
 {
 	[ExpressType("IFC2DCOMPOSITECURVE", 524)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @Ifc2DCompositeCurve : IfcCompositeCurve, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@Ifc2DCompositeCurve>, System.IEquatable<@Ifc2DCompositeCurve>
+	public  partial class @Ifc2DCompositeCurve : IfcCompositeCurve, IInstantiableEntity, IEqualityComparer<@Ifc2DCompositeCurve>, IEquatable<@Ifc2DCompositeCurve>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal Ifc2DCompositeCurve(IModel model) : base(model) 		{ 
 			Model = model; 

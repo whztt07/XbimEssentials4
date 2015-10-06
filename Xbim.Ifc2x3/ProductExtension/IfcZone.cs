@@ -10,6 +10,7 @@
 using Xbim.Ifc2x3.Kernel;
 using Xbim.Ifc2x3.UtilityResource;
 using Xbim.Ifc2x3.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -18,8 +19,10 @@ namespace Xbim.Ifc2x3.ProductExtension
 {
 	[ExpressType("IFCZONE", 669)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcZone : IfcGroup, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcZone>, System.IEquatable<@IfcZone>
+	public  partial class @IfcZone : IfcGroup, IInstantiableEntity, IEqualityComparer<@IfcZone>, IEquatable<@IfcZone>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcZone(IModel model) : base(model) 		{ 
 			Model = model; 

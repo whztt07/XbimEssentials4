@@ -11,6 +11,7 @@ using Xbim.Ifc4.Kernel;
 using Xbim.Ifc4.UtilityResource;
 using Xbim.Ifc4.MeasureResource;
 using Xbim.Ifc4.DateTimeResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -19,8 +20,10 @@ namespace Xbim.Ifc4.ProcessExtension
 {
 	[ExpressType("IFCEVENT", 628)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcEvent : IfcProcess, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcEvent>, System.IEquatable<@IfcEvent>
+	public  partial class @IfcEvent : IfcProcess, IInstantiableEntity, IEqualityComparer<@IfcEvent>, IEquatable<@IfcEvent>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcEvent(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -39,10 +42,8 @@ namespace Xbim.Ifc4.ProcessExtension
 		{ 
 			get 
 			{
-				if(Activated) return _predefinedType;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _predefinedType;
+				((IPersistEntity)this).Activate(false);
 				return _predefinedType;
 			} 
 			set
@@ -56,10 +57,8 @@ namespace Xbim.Ifc4.ProcessExtension
 		{ 
 			get 
 			{
-				if(Activated) return _eventTriggerType;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _eventTriggerType;
+				((IPersistEntity)this).Activate(false);
 				return _eventTriggerType;
 			} 
 			set
@@ -73,10 +72,8 @@ namespace Xbim.Ifc4.ProcessExtension
 		{ 
 			get 
 			{
-				if(Activated) return _userDefinedEventTriggerType;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _userDefinedEventTriggerType;
+				((IPersistEntity)this).Activate(false);
 				return _userDefinedEventTriggerType;
 			} 
 			set
@@ -90,10 +87,8 @@ namespace Xbim.Ifc4.ProcessExtension
 		{ 
 			get 
 			{
-				if(Activated) return _eventOccurenceTime;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _eventOccurenceTime;
+				((IPersistEntity)this).Activate(false);
 				return _eventOccurenceTime;
 			} 
 			set

@@ -8,6 +8,8 @@
 // ------------------------------------------------------------------------------
 
 using Xbim.Ifc4.GeometryResource;
+using System;
+using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
 
@@ -15,8 +17,10 @@ namespace Xbim.Ifc4.ProfileResource
 {
 	[ExpressType("IFCPARAMETERIZEDPROFILEDEF", 791)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public abstract partial class @IfcParameterizedProfileDef : IfcProfileDef, System.Collections.Generic.IEqualityComparer<@IfcParameterizedProfileDef>, System.IEquatable<@IfcParameterizedProfileDef>
+	public abstract partial class @IfcParameterizedProfileDef : IfcProfileDef, IEqualityComparer<@IfcParameterizedProfileDef>, IEquatable<@IfcParameterizedProfileDef>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcParameterizedProfileDef(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -32,10 +36,8 @@ namespace Xbim.Ifc4.ProfileResource
 		{ 
 			get 
 			{
-				if(Activated) return _position;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _position;
+				((IPersistEntity)this).Activate(false);
 				return _position;
 			} 
 			set

@@ -11,6 +11,8 @@ using Xbim.Ifc4.Kernel;
 using Xbim.Ifc4.DateTimeResource;
 using Xbim.Ifc4.MeasureResource;
 using Xbim.Ifc4.ActorResource;
+using System;
+using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
 
@@ -18,8 +20,10 @@ namespace Xbim.Ifc4.ProcessExtension
 {
 	[ExpressType("IFCWORKCONTROL", 1151)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public abstract partial class @IfcWorkControl : IfcControl, System.Collections.Generic.IEqualityComparer<@IfcWorkControl>, System.IEquatable<@IfcWorkControl>
+	public abstract partial class @IfcWorkControl : IfcControl, IEqualityComparer<@IfcWorkControl>, IEquatable<@IfcWorkControl>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcWorkControl(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -42,10 +46,8 @@ namespace Xbim.Ifc4.ProcessExtension
 		{ 
 			get 
 			{
-				if(Activated) return _creationDate;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _creationDate;
+				((IPersistEntity)this).Activate(false);
 				return _creationDate;
 			} 
 			set
@@ -59,10 +61,8 @@ namespace Xbim.Ifc4.ProcessExtension
 		{ 
 			get 
 			{
-				if(Activated) return _creators;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _creators;
+				((IPersistEntity)this).Activate(false);
 				return _creators;
 			} 
 		}
@@ -72,10 +72,8 @@ namespace Xbim.Ifc4.ProcessExtension
 		{ 
 			get 
 			{
-				if(Activated) return _purpose;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _purpose;
+				((IPersistEntity)this).Activate(false);
 				return _purpose;
 			} 
 			set
@@ -89,10 +87,8 @@ namespace Xbim.Ifc4.ProcessExtension
 		{ 
 			get 
 			{
-				if(Activated) return _duration;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _duration;
+				((IPersistEntity)this).Activate(false);
 				return _duration;
 			} 
 			set
@@ -106,10 +102,8 @@ namespace Xbim.Ifc4.ProcessExtension
 		{ 
 			get 
 			{
-				if(Activated) return _totalFloat;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _totalFloat;
+				((IPersistEntity)this).Activate(false);
 				return _totalFloat;
 			} 
 			set
@@ -123,10 +117,8 @@ namespace Xbim.Ifc4.ProcessExtension
 		{ 
 			get 
 			{
-				if(Activated) return _startTime;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _startTime;
+				((IPersistEntity)this).Activate(false);
 				return _startTime;
 			} 
 			set
@@ -140,10 +132,8 @@ namespace Xbim.Ifc4.ProcessExtension
 		{ 
 			get 
 			{
-				if(Activated) return _finishTime;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _finishTime;
+				((IPersistEntity)this).Activate(false);
 				return _finishTime;
 			} 
 			set

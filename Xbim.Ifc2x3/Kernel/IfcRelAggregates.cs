@@ -9,6 +9,7 @@
 
 using Xbim.Ifc2x3.UtilityResource;
 using Xbim.Ifc2x3.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -17,8 +18,10 @@ namespace Xbim.Ifc2x3.Kernel
 {
 	[ExpressType("IFCRELAGGREGATES", 631)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcRelAggregates : IfcRelDecomposes, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcRelAggregates>, System.IEquatable<@IfcRelAggregates>
+	public  partial class @IfcRelAggregates : IfcRelDecomposes, IInstantiableEntity, IEqualityComparer<@IfcRelAggregates>, IEquatable<@IfcRelAggregates>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcRelAggregates(IModel model) : base(model) 		{ 
 			Model = model; 

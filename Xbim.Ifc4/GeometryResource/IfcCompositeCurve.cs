@@ -7,6 +7,7 @@
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -16,8 +17,10 @@ namespace Xbim.Ifc4.GeometryResource
 	[IndexedClass]
 	[ExpressType("IFCCOMPOSITECURVE", 500)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcCompositeCurve : IfcBoundedCurve, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcCompositeCurve>, System.IEquatable<@IfcCompositeCurve>
+	public  partial class @IfcCompositeCurve : IfcBoundedCurve, IInstantiableEntity, IEqualityComparer<@IfcCompositeCurve>, IEquatable<@IfcCompositeCurve>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcCompositeCurve(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -36,10 +39,8 @@ namespace Xbim.Ifc4.GeometryResource
 		{ 
 			get 
 			{
-				if(Activated) return _segments;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _segments;
+				((IPersistEntity)this).Activate(false);
 				return _segments;
 			} 
 		}
@@ -49,10 +50,8 @@ namespace Xbim.Ifc4.GeometryResource
 		{ 
 			get 
 			{
-				if(Activated) return _selfIntersect;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _selfIntersect;
+				((IPersistEntity)this).Activate(false);
 				return _selfIntersect;
 			} 
 			set

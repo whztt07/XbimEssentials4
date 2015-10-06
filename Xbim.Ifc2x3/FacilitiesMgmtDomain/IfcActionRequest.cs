@@ -10,6 +10,7 @@
 using Xbim.Ifc2x3.Kernel;
 using Xbim.Ifc2x3.UtilityResource;
 using Xbim.Ifc2x3.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -18,8 +19,10 @@ namespace Xbim.Ifc2x3.FacilitiesMgmtDomain
 {
 	[ExpressType("IFCACTIONREQUEST", 516)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcActionRequest : IfcControl, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcActionRequest>, System.IEquatable<@IfcActionRequest>
+	public  partial class @IfcActionRequest : IfcControl, IInstantiableEntity, IEqualityComparer<@IfcActionRequest>, IEquatable<@IfcActionRequest>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcActionRequest(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -35,10 +38,8 @@ namespace Xbim.Ifc2x3.FacilitiesMgmtDomain
 		{ 
 			get 
 			{
-				if(Activated) return _requestID;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _requestID;
+				((IPersistEntity)this).Activate(false);
 				return _requestID;
 			} 
 			set

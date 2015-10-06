@@ -9,6 +9,7 @@
 
 using Xbim.Ifc4.ExternalReferenceResource;
 using Xbim.Ifc4.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -17,8 +18,10 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
 {
 	[ExpressType("IFCEXTERNALLYDEFINEDTEXTFONT", 639)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcExternallyDefinedTextFont : IfcExternalReference, IfcTextFontSelect, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcExternallyDefinedTextFont>, System.IEquatable<@IfcExternallyDefinedTextFont>
+	public  partial class @IfcExternallyDefinedTextFont : IfcExternalReference, IfcTextFontSelect, IInstantiableEntity, IEqualityComparer<@IfcExternallyDefinedTextFont>, IEquatable<@IfcExternallyDefinedTextFont>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcExternallyDefinedTextFont(IModel model) : base(model) 		{ 
 			Model = model; 

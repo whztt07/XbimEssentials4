@@ -14,7 +14,7 @@ namespace Xbim.CobieExpress
 {
 	[ExpressType("DATETIMEVALUE", 6)]
     // ReSharper disable once PartialTypeWithSinglePart
-	public partial struct DateTimeValue : AttributeValue, IExpressValueType
+	public partial struct DateTimeValue : AttributeValue, IExpressValueType, System.IEquatable<string>
 	{ 
 		private string _value;
         
@@ -42,6 +42,7 @@ namespace Xbim.CobieExpress
         public static implicit operator string(DateTimeValue obj)
         {
             return obj._value;
+
         }
 
 
@@ -58,6 +59,11 @@ namespace Xbim.CobieExpress
 
             return ((DateTimeValue) obj)._value == _value;
         }
+
+		public bool Equals(string other)
+	    {
+	        return this == other;
+	    }
 
         public static bool operator ==(DateTimeValue obj1, DateTimeValue obj2)
         {

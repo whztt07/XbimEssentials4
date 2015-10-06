@@ -9,6 +9,7 @@
 
 using Xbim.Ifc2x3.MeasureResource;
 using Xbim.Ifc2x3.DateTimeResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -17,8 +18,10 @@ namespace Xbim.Ifc2x3.TimeSeriesResource
 {
 	[ExpressType("IFCREGULARTIMESERIES", 417)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcRegularTimeSeries : IfcTimeSeries, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcRegularTimeSeries>, System.IEquatable<@IfcRegularTimeSeries>
+	public  partial class @IfcRegularTimeSeries : IfcTimeSeries, IInstantiableEntity, IEqualityComparer<@IfcRegularTimeSeries>, IEquatable<@IfcRegularTimeSeries>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcRegularTimeSeries(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -36,10 +39,8 @@ namespace Xbim.Ifc2x3.TimeSeriesResource
 		{ 
 			get 
 			{
-				if(Activated) return _timeStep;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _timeStep;
+				((IPersistEntity)this).Activate(false);
 				return _timeStep;
 			} 
 			set
@@ -53,10 +54,8 @@ namespace Xbim.Ifc2x3.TimeSeriesResource
 		{ 
 			get 
 			{
-				if(Activated) return _values;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _values;
+				((IPersistEntity)this).Activate(false);
 				return _values;
 			} 
 		}

@@ -12,6 +12,7 @@ using Xbim.Ifc2x3.UtilityResource;
 using Xbim.Ifc2x3.MeasureResource;
 using Xbim.Ifc2x3.GeometricConstraintResource;
 using Xbim.Ifc2x3.RepresentationResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -20,8 +21,10 @@ namespace Xbim.Ifc2x3.SharedBldgElements
 {
 	[ExpressType("IFCRAMPFLIGHT", 348)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcRampFlight : IfcBuildingElement, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcRampFlight>, System.IEquatable<@IfcRampFlight>
+	public  partial class @IfcRampFlight : IfcBuildingElement, IInstantiableEntity, IEqualityComparer<@IfcRampFlight>, IEquatable<@IfcRampFlight>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcRampFlight(IModel model) : base(model) 		{ 
 			Model = model; 

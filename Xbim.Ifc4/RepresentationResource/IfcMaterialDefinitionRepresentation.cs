@@ -9,6 +9,7 @@
 
 using Xbim.Ifc4.MeasureResource;
 using Xbim.Ifc4.MaterialResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -17,8 +18,10 @@ namespace Xbim.Ifc4.RepresentationResource
 {
 	[ExpressType("IFCMATERIALDEFINITIONREPRESENTATION", 746)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcMaterialDefinitionRepresentation : IfcProductRepresentation, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcMaterialDefinitionRepresentation>, System.IEquatable<@IfcMaterialDefinitionRepresentation>
+	public  partial class @IfcMaterialDefinitionRepresentation : IfcProductRepresentation, IInstantiableEntity, IEqualityComparer<@IfcMaterialDefinitionRepresentation>, IEquatable<@IfcMaterialDefinitionRepresentation>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcMaterialDefinitionRepresentation(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -35,10 +38,8 @@ namespace Xbim.Ifc4.RepresentationResource
 		{ 
 			get 
 			{
-				if(Activated) return _representedMaterial;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _representedMaterial;
+				((IPersistEntity)this).Activate(false);
 				return _representedMaterial;
 			} 
 			set

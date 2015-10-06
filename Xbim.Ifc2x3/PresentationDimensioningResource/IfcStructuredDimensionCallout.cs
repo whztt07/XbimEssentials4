@@ -7,6 +7,7 @@
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -15,8 +16,10 @@ namespace Xbim.Ifc2x3.PresentationDimensioningResource
 {
 	[ExpressType("IFCSTRUCTUREDDIMENSIONCALLOUT", 752)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcStructuredDimensionCallout : IfcDraughtingCallout, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcStructuredDimensionCallout>, System.IEquatable<@IfcStructuredDimensionCallout>
+	public  partial class @IfcStructuredDimensionCallout : IfcDraughtingCallout, IInstantiableEntity, IEqualityComparer<@IfcStructuredDimensionCallout>, IEquatable<@IfcStructuredDimensionCallout>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcStructuredDimensionCallout(IModel model) : base(model) 		{ 
 			Model = model; 

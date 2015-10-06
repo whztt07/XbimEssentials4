@@ -9,6 +9,7 @@
 
 using Xbim.Ifc4.MeasureResource;
 using Xbim.Ifc4.ExternalReferenceResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -17,8 +18,10 @@ namespace Xbim.Ifc4.ActorResource
 {
 	[ExpressType("IFCTELECOMADDRESS", 1085)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcTelecomAddress : IfcAddress, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcTelecomAddress>, System.IEquatable<@IfcTelecomAddress>
+	public  partial class @IfcTelecomAddress : IfcAddress, IInstantiableEntity, IEqualityComparer<@IfcTelecomAddress>, IEquatable<@IfcTelecomAddress>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcTelecomAddress(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -43,10 +46,8 @@ namespace Xbim.Ifc4.ActorResource
 		{ 
 			get 
 			{
-				if(Activated) return _telephoneNumbers;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _telephoneNumbers;
+				((IPersistEntity)this).Activate(false);
 				return _telephoneNumbers;
 			} 
 		}
@@ -56,10 +57,8 @@ namespace Xbim.Ifc4.ActorResource
 		{ 
 			get 
 			{
-				if(Activated) return _facsimileNumbers;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _facsimileNumbers;
+				((IPersistEntity)this).Activate(false);
 				return _facsimileNumbers;
 			} 
 		}
@@ -69,10 +68,8 @@ namespace Xbim.Ifc4.ActorResource
 		{ 
 			get 
 			{
-				if(Activated) return _pagerNumber;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _pagerNumber;
+				((IPersistEntity)this).Activate(false);
 				return _pagerNumber;
 			} 
 			set
@@ -86,10 +83,8 @@ namespace Xbim.Ifc4.ActorResource
 		{ 
 			get 
 			{
-				if(Activated) return _electronicMailAddresses;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _electronicMailAddresses;
+				((IPersistEntity)this).Activate(false);
 				return _electronicMailAddresses;
 			} 
 		}
@@ -99,10 +94,8 @@ namespace Xbim.Ifc4.ActorResource
 		{ 
 			get 
 			{
-				if(Activated) return _wWWHomePageURL;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _wWWHomePageURL;
+				((IPersistEntity)this).Activate(false);
 				return _wWWHomePageURL;
 			} 
 			set
@@ -116,10 +109,8 @@ namespace Xbim.Ifc4.ActorResource
 		{ 
 			get 
 			{
-				if(Activated) return _messagingIDs;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _messagingIDs;
+				((IPersistEntity)this).Activate(false);
 				return _messagingIDs;
 			} 
 		}

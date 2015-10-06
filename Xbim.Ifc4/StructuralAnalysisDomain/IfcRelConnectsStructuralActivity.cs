@@ -10,6 +10,7 @@
 using Xbim.Ifc4.Kernel;
 using Xbim.Ifc4.UtilityResource;
 using Xbim.Ifc4.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -18,8 +19,10 @@ namespace Xbim.Ifc4.StructuralAnalysisDomain
 {
 	[ExpressType("IFCRELCONNECTSSTRUCTURALACTIVITY", 922)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcRelConnectsStructuralActivity : IfcRelConnects, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcRelConnectsStructuralActivity>, System.IEquatable<@IfcRelConnectsStructuralActivity>
+	public  partial class @IfcRelConnectsStructuralActivity : IfcRelConnects, IInstantiableEntity, IEqualityComparer<@IfcRelConnectsStructuralActivity>, IEquatable<@IfcRelConnectsStructuralActivity>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcRelConnectsStructuralActivity(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -37,10 +40,8 @@ namespace Xbim.Ifc4.StructuralAnalysisDomain
 		{ 
 			get 
 			{
-				if(Activated) return _relatingElement;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _relatingElement;
+				((IPersistEntity)this).Activate(false);
 				return _relatingElement;
 			} 
 			set
@@ -55,10 +56,8 @@ namespace Xbim.Ifc4.StructuralAnalysisDomain
 		{ 
 			get 
 			{
-				if(Activated) return _relatedStructuralActivity;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _relatedStructuralActivity;
+				((IPersistEntity)this).Activate(false);
 				return _relatedStructuralActivity;
 			} 
 			set

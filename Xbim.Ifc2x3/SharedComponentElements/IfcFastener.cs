@@ -11,6 +11,7 @@ using Xbim.Ifc2x3.UtilityResource;
 using Xbim.Ifc2x3.MeasureResource;
 using Xbim.Ifc2x3.GeometricConstraintResource;
 using Xbim.Ifc2x3.RepresentationResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -19,8 +20,10 @@ namespace Xbim.Ifc2x3.SharedComponentElements
 {
 	[ExpressType("IFCFASTENER", 535)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcFastener : IfcElementComponent, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcFastener>, System.IEquatable<@IfcFastener>
+	public  partial class @IfcFastener : IfcElementComponent, IInstantiableEntity, IEqualityComparer<@IfcFastener>, IEquatable<@IfcFastener>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcFastener(IModel model) : base(model) 		{ 
 			Model = model; 

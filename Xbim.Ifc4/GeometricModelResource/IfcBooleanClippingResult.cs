@@ -7,6 +7,7 @@
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -15,8 +16,10 @@ namespace Xbim.Ifc4.GeometricModelResource
 {
 	[ExpressType("IFCBOOLEANCLIPPINGRESULT", 435)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcBooleanClippingResult : IfcBooleanResult, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcBooleanClippingResult>, System.IEquatable<@IfcBooleanClippingResult>
+	public  partial class @IfcBooleanClippingResult : IfcBooleanResult, IInstantiableEntity, IEqualityComparer<@IfcBooleanClippingResult>, IEquatable<@IfcBooleanClippingResult>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcBooleanClippingResult(IModel model) : base(model) 		{ 
 			Model = model; 

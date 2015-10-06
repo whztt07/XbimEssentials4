@@ -8,6 +8,7 @@
 // ------------------------------------------------------------------------------
 
 using Xbim.Ifc2x3.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -16,8 +17,10 @@ namespace Xbim.Ifc2x3.StructuralLoadResource
 {
 	[ExpressType("IFCSTRUCTURALLOADSINGLEDISPLACEMENT", 289)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcStructuralLoadSingleDisplacement : IfcStructuralLoadStatic, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcStructuralLoadSingleDisplacement>, System.IEquatable<@IfcStructuralLoadSingleDisplacement>
+	public  partial class @IfcStructuralLoadSingleDisplacement : IfcStructuralLoadStatic, IInstantiableEntity, IEqualityComparer<@IfcStructuralLoadSingleDisplacement>, IEquatable<@IfcStructuralLoadSingleDisplacement>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcStructuralLoadSingleDisplacement(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -38,10 +41,8 @@ namespace Xbim.Ifc2x3.StructuralLoadResource
 		{ 
 			get 
 			{
-				if(Activated) return _displacementX;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _displacementX;
+				((IPersistEntity)this).Activate(false);
 				return _displacementX;
 			} 
 			set
@@ -55,10 +56,8 @@ namespace Xbim.Ifc2x3.StructuralLoadResource
 		{ 
 			get 
 			{
-				if(Activated) return _displacementY;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _displacementY;
+				((IPersistEntity)this).Activate(false);
 				return _displacementY;
 			} 
 			set
@@ -72,10 +71,8 @@ namespace Xbim.Ifc2x3.StructuralLoadResource
 		{ 
 			get 
 			{
-				if(Activated) return _displacementZ;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _displacementZ;
+				((IPersistEntity)this).Activate(false);
 				return _displacementZ;
 			} 
 			set
@@ -89,10 +86,8 @@ namespace Xbim.Ifc2x3.StructuralLoadResource
 		{ 
 			get 
 			{
-				if(Activated) return _rotationalDisplacementRX;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _rotationalDisplacementRX;
+				((IPersistEntity)this).Activate(false);
 				return _rotationalDisplacementRX;
 			} 
 			set
@@ -106,10 +101,8 @@ namespace Xbim.Ifc2x3.StructuralLoadResource
 		{ 
 			get 
 			{
-				if(Activated) return _rotationalDisplacementRY;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _rotationalDisplacementRY;
+				((IPersistEntity)this).Activate(false);
 				return _rotationalDisplacementRY;
 			} 
 			set
@@ -123,10 +116,8 @@ namespace Xbim.Ifc2x3.StructuralLoadResource
 		{ 
 			get 
 			{
-				if(Activated) return _rotationalDisplacementRZ;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _rotationalDisplacementRZ;
+				((IPersistEntity)this).Activate(false);
 				return _rotationalDisplacementRZ;
 			} 
 			set

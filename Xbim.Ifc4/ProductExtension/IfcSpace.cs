@@ -12,6 +12,7 @@ using Xbim.Ifc4.MeasureResource;
 using Xbim.Ifc4.GeometricConstraintResource;
 using Xbim.Ifc4.RepresentationResource;
 using Xbim.Ifc4.SharedBldgElements;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -20,8 +21,10 @@ namespace Xbim.Ifc4.ProductExtension
 {
 	[ExpressType("IFCSPACE", 993)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcSpace : IfcSpatialStructureElement, IfcSpaceBoundarySelect, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcSpace>, System.IEquatable<@IfcSpace>
+	public  partial class @IfcSpace : IfcSpatialStructureElement, IfcSpaceBoundarySelect, IInstantiableEntity, IEqualityComparer<@IfcSpace>, IEquatable<@IfcSpace>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcSpace(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -38,10 +41,8 @@ namespace Xbim.Ifc4.ProductExtension
 		{ 
 			get 
 			{
-				if(Activated) return _predefinedType;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _predefinedType;
+				((IPersistEntity)this).Activate(false);
 				return _predefinedType;
 			} 
 			set
@@ -55,10 +56,8 @@ namespace Xbim.Ifc4.ProductExtension
 		{ 
 			get 
 			{
-				if(Activated) return _elevationWithFlooring;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _elevationWithFlooring;
+				((IPersistEntity)this).Activate(false);
 				return _elevationWithFlooring;
 			} 
 			set

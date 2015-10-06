@@ -8,6 +8,7 @@
 // ------------------------------------------------------------------------------
 
 using Xbim.Ifc4.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -16,8 +17,10 @@ namespace Xbim.Ifc4.QuantityResource
 {
 	[ExpressType("IFCQUANTITYTIME", 875)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcQuantityTime : IfcPhysicalSimpleQuantity, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcQuantityTime>, System.IEquatable<@IfcQuantityTime>
+	public  partial class @IfcQuantityTime : IfcPhysicalSimpleQuantity, IInstantiableEntity, IEqualityComparer<@IfcQuantityTime>, IEquatable<@IfcQuantityTime>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcQuantityTime(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -34,10 +37,8 @@ namespace Xbim.Ifc4.QuantityResource
 		{ 
 			get 
 			{
-				if(Activated) return _timeValue;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _timeValue;
+				((IPersistEntity)this).Activate(false);
 				return _timeValue;
 			} 
 			set
@@ -51,10 +52,8 @@ namespace Xbim.Ifc4.QuantityResource
 		{ 
 			get 
 			{
-				if(Activated) return _formula;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _formula;
+				((IPersistEntity)this).Activate(false);
 				return _formula;
 			} 
 			set

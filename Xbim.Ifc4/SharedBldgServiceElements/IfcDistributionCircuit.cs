@@ -9,6 +9,7 @@
 
 using Xbim.Ifc4.UtilityResource;
 using Xbim.Ifc4.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -17,8 +18,10 @@ namespace Xbim.Ifc4.SharedBldgServiceElements
 {
 	[ExpressType("IFCDISTRIBUTIONCIRCUIT", 569)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcDistributionCircuit : IfcDistributionSystem, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcDistributionCircuit>, System.IEquatable<@IfcDistributionCircuit>
+	public  partial class @IfcDistributionCircuit : IfcDistributionSystem, IInstantiableEntity, IEqualityComparer<@IfcDistributionCircuit>, IEquatable<@IfcDistributionCircuit>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcDistributionCircuit(IModel model) : base(model) 		{ 
 			Model = model; 

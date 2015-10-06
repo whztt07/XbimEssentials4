@@ -8,6 +8,8 @@
 // ------------------------------------------------------------------------------
 
 using Xbim.Ifc4.TopologyResource;
+using System;
+using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
 
@@ -15,8 +17,10 @@ namespace Xbim.Ifc4.GeometricModelResource
 {
 	[ExpressType("IFCMANIFOLDSOLIDBREP", 738)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public abstract partial class @IfcManifoldSolidBrep : IfcSolidModel, System.Collections.Generic.IEqualityComparer<@IfcManifoldSolidBrep>, System.IEquatable<@IfcManifoldSolidBrep>
+	public abstract partial class @IfcManifoldSolidBrep : IfcSolidModel, IEqualityComparer<@IfcManifoldSolidBrep>, IEquatable<@IfcManifoldSolidBrep>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcManifoldSolidBrep(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -32,10 +36,8 @@ namespace Xbim.Ifc4.GeometricModelResource
 		{ 
 			get 
 			{
-				if(Activated) return _outer;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _outer;
+				((IPersistEntity)this).Activate(false);
 				return _outer;
 			} 
 			set

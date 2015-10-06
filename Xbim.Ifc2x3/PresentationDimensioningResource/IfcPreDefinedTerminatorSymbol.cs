@@ -9,6 +9,7 @@
 
 using Xbim.Ifc2x3.PresentationDefinitionResource;
 using Xbim.Ifc2x3.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -17,8 +18,10 @@ namespace Xbim.Ifc2x3.PresentationDimensioningResource
 {
 	[ExpressType("IFCPREDEFINEDTERMINATORSYMBOL", 749)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcPreDefinedTerminatorSymbol : IfcPreDefinedSymbol, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcPreDefinedTerminatorSymbol>, System.IEquatable<@IfcPreDefinedTerminatorSymbol>
+	public  partial class @IfcPreDefinedTerminatorSymbol : IfcPreDefinedSymbol, IInstantiableEntity, IEqualityComparer<@IfcPreDefinedTerminatorSymbol>, IEquatable<@IfcPreDefinedTerminatorSymbol>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcPreDefinedTerminatorSymbol(IModel model) : base(model) 		{ 
 			Model = model; 

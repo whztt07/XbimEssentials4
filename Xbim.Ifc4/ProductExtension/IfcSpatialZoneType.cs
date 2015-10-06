@@ -11,6 +11,7 @@ using Xbim.Ifc4.UtilityResource;
 using Xbim.Ifc4.MeasureResource;
 using Xbim.Ifc4.Kernel;
 using Xbim.Ifc4.GeometryResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -19,8 +20,10 @@ namespace Xbim.Ifc4.ProductExtension
 {
 	[ExpressType("IFCSPATIALZONETYPE", 1002)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcSpatialZoneType : IfcSpatialElementType, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcSpatialZoneType>, System.IEquatable<@IfcSpatialZoneType>
+	public  partial class @IfcSpatialZoneType : IfcSpatialElementType, IInstantiableEntity, IEqualityComparer<@IfcSpatialZoneType>, IEquatable<@IfcSpatialZoneType>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcSpatialZoneType(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -37,10 +40,8 @@ namespace Xbim.Ifc4.ProductExtension
 		{ 
 			get 
 			{
-				if(Activated) return _predefinedType;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _predefinedType;
+				((IPersistEntity)this).Activate(false);
 				return _predefinedType;
 			} 
 			set
@@ -54,10 +55,8 @@ namespace Xbim.Ifc4.ProductExtension
 		{ 
 			get 
 			{
-				if(Activated) return _longName;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _longName;
+				((IPersistEntity)this).Activate(false);
 				return _longName;
 			} 
 			set

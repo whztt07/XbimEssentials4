@@ -9,6 +9,7 @@
 
 using Xbim.Ifc4.MeasureResource;
 using Xbim.Ifc4.GeometryResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -17,8 +18,10 @@ namespace Xbim.Ifc4.ProfileResource
 {
 	[ExpressType("IFCARBITRARYCLOSEDPROFILEDEF", 414)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcArbitraryClosedProfileDef : IfcProfileDef, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcArbitraryClosedProfileDef>, System.IEquatable<@IfcArbitraryClosedProfileDef>
+	public  partial class @IfcArbitraryClosedProfileDef : IfcProfileDef, IInstantiableEntity, IEqualityComparer<@IfcArbitraryClosedProfileDef>, IEquatable<@IfcArbitraryClosedProfileDef>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcArbitraryClosedProfileDef(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -34,10 +37,8 @@ namespace Xbim.Ifc4.ProfileResource
 		{ 
 			get 
 			{
-				if(Activated) return _outerCurve;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _outerCurve;
+				((IPersistEntity)this).Activate(false);
 				return _outerCurve;
 			} 
 			set

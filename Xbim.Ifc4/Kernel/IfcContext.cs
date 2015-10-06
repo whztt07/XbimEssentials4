@@ -9,6 +9,7 @@
 
 using Xbim.Ifc4.MeasureResource;
 using Xbim.Ifc4.RepresentationResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -17,8 +18,10 @@ namespace Xbim.Ifc4.Kernel
 {
 	[ExpressType("IFCCONTEXT", 525)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public abstract partial class @IfcContext : IfcObjectDefinition, System.Collections.Generic.IEqualityComparer<@IfcContext>, System.IEquatable<@IfcContext>
+	public abstract partial class @IfcContext : IfcObjectDefinition, IEqualityComparer<@IfcContext>, IEquatable<@IfcContext>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcContext(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -39,10 +42,8 @@ namespace Xbim.Ifc4.Kernel
 		{ 
 			get 
 			{
-				if(Activated) return _objectType;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _objectType;
+				((IPersistEntity)this).Activate(false);
 				return _objectType;
 			} 
 			set
@@ -56,10 +57,8 @@ namespace Xbim.Ifc4.Kernel
 		{ 
 			get 
 			{
-				if(Activated) return _longName;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _longName;
+				((IPersistEntity)this).Activate(false);
 				return _longName;
 			} 
 			set
@@ -73,10 +72,8 @@ namespace Xbim.Ifc4.Kernel
 		{ 
 			get 
 			{
-				if(Activated) return _phase;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _phase;
+				((IPersistEntity)this).Activate(false);
 				return _phase;
 			} 
 			set
@@ -90,10 +87,8 @@ namespace Xbim.Ifc4.Kernel
 		{ 
 			get 
 			{
-				if(Activated) return _representationContexts;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _representationContexts;
+				((IPersistEntity)this).Activate(false);
 				return _representationContexts;
 			} 
 		}
@@ -103,10 +98,8 @@ namespace Xbim.Ifc4.Kernel
 		{ 
 			get 
 			{
-				if(Activated) return _unitsInContext;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _unitsInContext;
+				((IPersistEntity)this).Activate(false);
 				return _unitsInContext;
 			} 
 			set

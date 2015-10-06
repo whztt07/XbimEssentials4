@@ -12,6 +12,7 @@ using Xbim.Ifc2x3.UtilityResource;
 using Xbim.Ifc2x3.MeasureResource;
 using Xbim.Ifc2x3.ActorResource;
 using Xbim.Ifc2x3.DateTimeResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -20,8 +21,10 @@ namespace Xbim.Ifc2x3.SharedMgmtElements
 {
 	[ExpressType("IFCCOSTSCHEDULE", 695)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcCostSchedule : IfcControl, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcCostSchedule>, System.IEquatable<@IfcCostSchedule>
+	public  partial class @IfcCostSchedule : IfcControl, IInstantiableEntity, IEqualityComparer<@IfcCostSchedule>, IEquatable<@IfcCostSchedule>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcCostSchedule(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -45,10 +48,8 @@ namespace Xbim.Ifc2x3.SharedMgmtElements
 		{ 
 			get 
 			{
-				if(Activated) return _submittedBy;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _submittedBy;
+				((IPersistEntity)this).Activate(false);
 				return _submittedBy;
 			} 
 			set
@@ -62,10 +63,8 @@ namespace Xbim.Ifc2x3.SharedMgmtElements
 		{ 
 			get 
 			{
-				if(Activated) return _preparedBy;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _preparedBy;
+				((IPersistEntity)this).Activate(false);
 				return _preparedBy;
 			} 
 			set
@@ -79,10 +78,8 @@ namespace Xbim.Ifc2x3.SharedMgmtElements
 		{ 
 			get 
 			{
-				if(Activated) return _submittedOn;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _submittedOn;
+				((IPersistEntity)this).Activate(false);
 				return _submittedOn;
 			} 
 			set
@@ -96,10 +93,8 @@ namespace Xbim.Ifc2x3.SharedMgmtElements
 		{ 
 			get 
 			{
-				if(Activated) return _status;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _status;
+				((IPersistEntity)this).Activate(false);
 				return _status;
 			} 
 			set
@@ -113,10 +108,8 @@ namespace Xbim.Ifc2x3.SharedMgmtElements
 		{ 
 			get 
 			{
-				if(Activated) return _targetUsers;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _targetUsers;
+				((IPersistEntity)this).Activate(false);
 				return _targetUsers;
 			} 
 		}
@@ -126,10 +119,8 @@ namespace Xbim.Ifc2x3.SharedMgmtElements
 		{ 
 			get 
 			{
-				if(Activated) return _updateDate;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _updateDate;
+				((IPersistEntity)this).Activate(false);
 				return _updateDate;
 			} 
 			set
@@ -143,10 +134,8 @@ namespace Xbim.Ifc2x3.SharedMgmtElements
 		{ 
 			get 
 			{
-				if(Activated) return _iD;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _iD;
+				((IPersistEntity)this).Activate(false);
 				return _iD;
 			} 
 			set
@@ -160,10 +149,8 @@ namespace Xbim.Ifc2x3.SharedMgmtElements
 		{ 
 			get 
 			{
-				if(Activated) return _predefinedType;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _predefinedType;
+				((IPersistEntity)this).Activate(false);
 				return _predefinedType;
 			} 
 			set

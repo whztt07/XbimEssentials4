@@ -12,6 +12,7 @@ using Xbim.Ifc2x3.UtilityResource;
 using Xbim.Ifc2x3.MeasureResource;
 using Xbim.Ifc2x3.GeometricConstraintResource;
 using Xbim.Ifc2x3.RepresentationResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -20,8 +21,10 @@ namespace Xbim.Ifc2x3.SharedBldgElements
 {
 	[ExpressType("IFCCURTAINWALL", 456)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcCurtainWall : IfcBuildingElement, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcCurtainWall>, System.IEquatable<@IfcCurtainWall>
+	public  partial class @IfcCurtainWall : IfcBuildingElement, IInstantiableEntity, IEqualityComparer<@IfcCurtainWall>, IEquatable<@IfcCurtainWall>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcCurtainWall(IModel model) : base(model) 		{ 
 			Model = model; 

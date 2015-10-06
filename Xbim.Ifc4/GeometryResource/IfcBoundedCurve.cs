@@ -8,6 +8,8 @@
 // ------------------------------------------------------------------------------
 
 using Xbim.Ifc4.GeometricConstraintResource;
+using System;
+using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
 
@@ -15,8 +17,10 @@ namespace Xbim.Ifc4.GeometryResource
 {
 	[ExpressType("IFCBOUNDEDCURVE", 443)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public abstract partial class @IfcBoundedCurve : IfcCurve, IfcCurveOrEdgeCurve, System.Collections.Generic.IEqualityComparer<@IfcBoundedCurve>, System.IEquatable<@IfcBoundedCurve>
+	public abstract partial class @IfcBoundedCurve : IfcCurve, IfcCurveOrEdgeCurve, IEqualityComparer<@IfcBoundedCurve>, IEquatable<@IfcBoundedCurve>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcBoundedCurve(IModel model) : base(model) 		{ 
 			Model = model; 

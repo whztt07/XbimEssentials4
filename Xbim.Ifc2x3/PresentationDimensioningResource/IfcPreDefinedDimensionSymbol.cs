@@ -9,6 +9,7 @@
 
 using Xbim.Ifc2x3.PresentationDefinitionResource;
 using Xbim.Ifc2x3.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -17,8 +18,10 @@ namespace Xbim.Ifc2x3.PresentationDimensioningResource
 {
 	[ExpressType("IFCPREDEFINEDDIMENSIONSYMBOL", 747)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcPreDefinedDimensionSymbol : IfcPreDefinedSymbol, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcPreDefinedDimensionSymbol>, System.IEquatable<@IfcPreDefinedDimensionSymbol>
+	public  partial class @IfcPreDefinedDimensionSymbol : IfcPreDefinedSymbol, IInstantiableEntity, IEqualityComparer<@IfcPreDefinedDimensionSymbol>, IEquatable<@IfcPreDefinedDimensionSymbol>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcPreDefinedDimensionSymbol(IModel model) : base(model) 		{ 
 			Model = model; 

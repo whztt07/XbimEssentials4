@@ -7,6 +7,7 @@
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -16,8 +17,10 @@ namespace Xbim.CobieExpress
 	[IndexedClass]
 	[ExpressType("TYPE", 22)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @CobieType : CobieAsset, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@CobieType>, System.IEquatable<@CobieType>
+	public  partial class @CobieType : CobieAsset, IInstantiableEntity, IEqualityComparer<@CobieType>, IEquatable<@CobieType>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal CobieType(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -58,10 +61,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _assetType;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _assetType;
+				((IPersistEntity)this).Activate(false);
 				return _assetType;
 			} 
 			set
@@ -75,10 +76,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _manufacturer;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _manufacturer;
+				((IPersistEntity)this).Activate(false);
 				return _manufacturer;
 			} 
 			set
@@ -92,10 +91,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _modelNumber;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _modelNumber;
+				((IPersistEntity)this).Activate(false);
 				return _modelNumber;
 			} 
 			set
@@ -109,10 +106,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _warranty;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _warranty;
+				((IPersistEntity)this).Activate(false);
 				return _warranty;
 			} 
 			set
@@ -126,10 +121,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _replacementCost;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _replacementCost;
+				((IPersistEntity)this).Activate(false);
 				return _replacementCost;
 			} 
 			set
@@ -143,10 +136,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _expectedLife;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _expectedLife;
+				((IPersistEntity)this).Activate(false);
 				return _expectedLife;
 			} 
 			set
@@ -160,10 +151,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _durationUnit;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _durationUnit;
+				((IPersistEntity)this).Activate(false);
 				return _durationUnit;
 			} 
 			set
@@ -177,10 +166,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _nominalLength;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _nominalLength;
+				((IPersistEntity)this).Activate(false);
 				return _nominalLength;
 			} 
 			set
@@ -194,10 +181,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _nominalWidth;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _nominalWidth;
+				((IPersistEntity)this).Activate(false);
 				return _nominalWidth;
 			} 
 			set
@@ -211,10 +196,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _nominalHeight;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _nominalHeight;
+				((IPersistEntity)this).Activate(false);
 				return _nominalHeight;
 			} 
 			set
@@ -228,10 +211,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _modelReference;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _modelReference;
+				((IPersistEntity)this).Activate(false);
 				return _modelReference;
 			} 
 			set
@@ -245,10 +226,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _shape;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _shape;
+				((IPersistEntity)this).Activate(false);
 				return _shape;
 			} 
 			set
@@ -262,10 +241,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _size;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _size;
+				((IPersistEntity)this).Activate(false);
 				return _size;
 			} 
 			set
@@ -279,10 +256,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _color;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _color;
+				((IPersistEntity)this).Activate(false);
 				return _color;
 			} 
 			set
@@ -296,10 +271,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _finish;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _finish;
+				((IPersistEntity)this).Activate(false);
 				return _finish;
 			} 
 			set
@@ -313,10 +286,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _grade;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _grade;
+				((IPersistEntity)this).Activate(false);
 				return _grade;
 			} 
 			set
@@ -330,10 +301,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _material;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _material;
+				((IPersistEntity)this).Activate(false);
 				return _material;
 			} 
 			set
@@ -347,10 +316,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _constituents;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _constituents;
+				((IPersistEntity)this).Activate(false);
 				return _constituents;
 			} 
 			set
@@ -364,10 +331,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _features;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _features;
+				((IPersistEntity)this).Activate(false);
 				return _features;
 			} 
 			set
@@ -381,10 +346,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _accessibilityPerformance;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _accessibilityPerformance;
+				((IPersistEntity)this).Activate(false);
 				return _accessibilityPerformance;
 			} 
 			set
@@ -398,10 +361,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _codePerformance;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _codePerformance;
+				((IPersistEntity)this).Activate(false);
 				return _codePerformance;
 			} 
 			set
@@ -415,10 +376,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _sustainabilityPerformance;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _sustainabilityPerformance;
+				((IPersistEntity)this).Activate(false);
 				return _sustainabilityPerformance;
 			} 
 			set
@@ -432,10 +391,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _assemblyOf;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _assemblyOf;
+				((IPersistEntity)this).Activate(false);
 				return _assemblyOf;
 			} 
 		}
@@ -446,10 +403,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _jobs;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _jobs;
+				((IPersistEntity)this).Activate(false);
 				return _jobs;
 			} 
 		}

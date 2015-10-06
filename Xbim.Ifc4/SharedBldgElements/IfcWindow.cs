@@ -12,6 +12,7 @@ using Xbim.Ifc4.UtilityResource;
 using Xbim.Ifc4.MeasureResource;
 using Xbim.Ifc4.GeometricConstraintResource;
 using Xbim.Ifc4.RepresentationResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -20,8 +21,10 @@ namespace Xbim.Ifc4.SharedBldgElements
 {
 	[ExpressType("IFCWINDOW", 1144)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcWindow : IfcBuildingElement, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcWindow>, System.IEquatable<@IfcWindow>
+	public  partial class @IfcWindow : IfcBuildingElement, IInstantiableEntity, IEqualityComparer<@IfcWindow>, IEquatable<@IfcWindow>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcWindow(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -41,10 +44,8 @@ namespace Xbim.Ifc4.SharedBldgElements
 		{ 
 			get 
 			{
-				if(Activated) return _overallHeight;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _overallHeight;
+				((IPersistEntity)this).Activate(false);
 				return _overallHeight;
 			} 
 			set
@@ -58,10 +59,8 @@ namespace Xbim.Ifc4.SharedBldgElements
 		{ 
 			get 
 			{
-				if(Activated) return _overallWidth;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _overallWidth;
+				((IPersistEntity)this).Activate(false);
 				return _overallWidth;
 			} 
 			set
@@ -75,10 +74,8 @@ namespace Xbim.Ifc4.SharedBldgElements
 		{ 
 			get 
 			{
-				if(Activated) return _predefinedType;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _predefinedType;
+				((IPersistEntity)this).Activate(false);
 				return _predefinedType;
 			} 
 			set
@@ -92,10 +89,8 @@ namespace Xbim.Ifc4.SharedBldgElements
 		{ 
 			get 
 			{
-				if(Activated) return _partitioningType;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _partitioningType;
+				((IPersistEntity)this).Activate(false);
 				return _partitioningType;
 			} 
 			set
@@ -109,10 +104,8 @@ namespace Xbim.Ifc4.SharedBldgElements
 		{ 
 			get 
 			{
-				if(Activated) return _userDefinedPartitioningType;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _userDefinedPartitioningType;
+				((IPersistEntity)this).Activate(false);
 				return _userDefinedPartitioningType;
 			} 
 			set

@@ -8,6 +8,7 @@
 // ------------------------------------------------------------------------------
 
 using Xbim.Ifc4.Kernel;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -16,8 +17,10 @@ namespace Xbim.Ifc4.ProductExtension
 {
 	[ExpressType("IFCPORT", 822)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public abstract partial class @IfcPort : IfcProduct, System.Collections.Generic.IEqualityComparer<@IfcPort>, System.IEquatable<@IfcPort>
+	public abstract partial class @IfcPort : IfcProduct, IEqualityComparer<@IfcPort>, IEquatable<@IfcPort>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcPort(IModel model) : base(model) 		{ 
 			Model = model; 

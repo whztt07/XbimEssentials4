@@ -7,6 +7,7 @@
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -15,8 +16,10 @@ namespace Xbim.Ifc2x3.Kernel
 {
 	[ExpressType("IFCOBJECTDEFINITION", 22)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public abstract partial class @IfcObjectDefinition : IfcRoot, System.Collections.Generic.IEqualityComparer<@IfcObjectDefinition>, System.IEquatable<@IfcObjectDefinition>
+	public abstract partial class @IfcObjectDefinition : IfcRoot, IEqualityComparer<@IfcObjectDefinition>, IEquatable<@IfcObjectDefinition>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcObjectDefinition(IModel model) : base(model) 		{ 
 			Model = model; 

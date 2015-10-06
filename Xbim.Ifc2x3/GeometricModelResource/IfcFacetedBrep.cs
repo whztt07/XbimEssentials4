@@ -8,6 +8,7 @@
 // ------------------------------------------------------------------------------
 
 using Xbim.Ifc2x3.TopologyResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -16,8 +17,10 @@ namespace Xbim.Ifc2x3.GeometricModelResource
 {
 	[ExpressType("IFCFACETEDBREP", 148)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcFacetedBrep : IfcManifoldSolidBrep, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcFacetedBrep>, System.IEquatable<@IfcFacetedBrep>
+	public  partial class @IfcFacetedBrep : IfcManifoldSolidBrep, IInstantiableEntity, IEqualityComparer<@IfcFacetedBrep>, IEquatable<@IfcFacetedBrep>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcFacetedBrep(IModel model) : base(model) 		{ 
 			Model = model; 

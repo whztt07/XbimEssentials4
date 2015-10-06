@@ -10,6 +10,7 @@
 using Xbim.Ifc4.ProfileResource;
 using Xbim.Ifc4.GeometryResource;
 using Xbim.Ifc4.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -18,8 +19,10 @@ namespace Xbim.Ifc4.GeometricModelResource
 {
 	[ExpressType("IFCEXTRUDEDAREASOLID", 640)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcExtrudedAreaSolid : IfcSweptAreaSolid, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcExtrudedAreaSolid>, System.IEquatable<@IfcExtrudedAreaSolid>
+	public  partial class @IfcExtrudedAreaSolid : IfcSweptAreaSolid, IInstantiableEntity, IEqualityComparer<@IfcExtrudedAreaSolid>, IEquatable<@IfcExtrudedAreaSolid>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcExtrudedAreaSolid(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -36,10 +39,8 @@ namespace Xbim.Ifc4.GeometricModelResource
 		{ 
 			get 
 			{
-				if(Activated) return _extrudedDirection;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _extrudedDirection;
+				((IPersistEntity)this).Activate(false);
 				return _extrudedDirection;
 			} 
 			set
@@ -53,10 +54,8 @@ namespace Xbim.Ifc4.GeometricModelResource
 		{ 
 			get 
 			{
-				if(Activated) return _depth;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _depth;
+				((IPersistEntity)this).Activate(false);
 				return _depth;
 			} 
 			set

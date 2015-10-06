@@ -10,6 +10,7 @@
 using Xbim.Ifc2x3.UtilityResource;
 using Xbim.Ifc2x3.MeasureResource;
 using Xbim.Ifc2x3.RepresentationResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -18,8 +19,10 @@ namespace Xbim.Ifc2x3.Kernel
 {
 	[ExpressType("IFCPROJECT", 204)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcProject : IfcObject, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcProject>, System.IEquatable<@IfcProject>
+	public  partial class @IfcProject : IfcObject, IInstantiableEntity, IEqualityComparer<@IfcProject>, IEquatable<@IfcProject>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcProject(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -39,10 +42,8 @@ namespace Xbim.Ifc2x3.Kernel
 		{ 
 			get 
 			{
-				if(Activated) return _longName;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _longName;
+				((IPersistEntity)this).Activate(false);
 				return _longName;
 			} 
 			set
@@ -56,10 +57,8 @@ namespace Xbim.Ifc2x3.Kernel
 		{ 
 			get 
 			{
-				if(Activated) return _phase;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _phase;
+				((IPersistEntity)this).Activate(false);
 				return _phase;
 			} 
 			set
@@ -73,10 +72,8 @@ namespace Xbim.Ifc2x3.Kernel
 		{ 
 			get 
 			{
-				if(Activated) return _representationContexts;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _representationContexts;
+				((IPersistEntity)this).Activate(false);
 				return _representationContexts;
 			} 
 		}
@@ -86,10 +83,8 @@ namespace Xbim.Ifc2x3.Kernel
 		{ 
 			get 
 			{
-				if(Activated) return _unitsInContext;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _unitsInContext;
+				((IPersistEntity)this).Activate(false);
 				return _unitsInContext;
 			} 
 			set

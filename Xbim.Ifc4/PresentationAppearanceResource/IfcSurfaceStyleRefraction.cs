@@ -9,6 +9,7 @@
 
 using Xbim.Ifc4.PresentationDefinitionResource;
 using Xbim.Ifc4.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -17,8 +18,10 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
 {
 	[ExpressType("IFCSURFACESTYLEREFRACTION", 1061)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcSurfaceStyleRefraction : IfcPresentationItem, IfcSurfaceStyleElementSelect, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcSurfaceStyleRefraction>, System.IEquatable<@IfcSurfaceStyleRefraction>
+	public  partial class @IfcSurfaceStyleRefraction : IfcPresentationItem, IfcSurfaceStyleElementSelect, IInstantiableEntity, IEqualityComparer<@IfcSurfaceStyleRefraction>, IEquatable<@IfcSurfaceStyleRefraction>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcSurfaceStyleRefraction(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -35,10 +38,8 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
 		{ 
 			get 
 			{
-				if(Activated) return _refractionIndex;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _refractionIndex;
+				((IPersistEntity)this).Activate(false);
 				return _refractionIndex;
 			} 
 			set
@@ -52,10 +53,8 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
 		{ 
 			get 
 			{
-				if(Activated) return _dispersionFactor;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _dispersionFactor;
+				((IPersistEntity)this).Activate(false);
 				return _dispersionFactor;
 			} 
 			set

@@ -7,6 +7,8 @@
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
+using System;
+using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
 
@@ -14,8 +16,10 @@ namespace Xbim.Ifc4.ProductExtension
 {
 	[ExpressType("IFCSPATIALSTRUCTUREELEMENTTYPE", 1000)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public abstract partial class @IfcSpatialStructureElementType : IfcSpatialElementType, System.Collections.Generic.IEqualityComparer<@IfcSpatialStructureElementType>, System.IEquatable<@IfcSpatialStructureElementType>
+	public abstract partial class @IfcSpatialStructureElementType : IfcSpatialElementType, IEqualityComparer<@IfcSpatialStructureElementType>, IEquatable<@IfcSpatialStructureElementType>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcSpatialStructureElementType(IModel model) : base(model) 		{ 
 			Model = model; 

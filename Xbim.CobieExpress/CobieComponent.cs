@@ -7,6 +7,7 @@
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -16,8 +17,10 @@ namespace Xbim.CobieExpress
 	[IndexedClass]
 	[ExpressType("COMPONENT", 24)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @CobieComponent : CobieAsset, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@CobieComponent>, System.IEquatable<@CobieComponent>
+	public  partial class @CobieComponent : CobieAsset, IInstantiableEntity, IEqualityComparer<@CobieComponent>, IEquatable<@CobieComponent>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal CobieComponent(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -42,10 +45,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _serialNumber;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _serialNumber;
+				((IPersistEntity)this).Activate(false);
 				return _serialNumber;
 			} 
 			set
@@ -59,10 +60,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _installationDate;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _installationDate;
+				((IPersistEntity)this).Activate(false);
 				return _installationDate;
 			} 
 			set
@@ -76,10 +75,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _warrantyStartDate;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _warrantyStartDate;
+				((IPersistEntity)this).Activate(false);
 				return _warrantyStartDate;
 			} 
 			set
@@ -93,10 +90,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _tagNumber;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _tagNumber;
+				((IPersistEntity)this).Activate(false);
 				return _tagNumber;
 			} 
 			set
@@ -110,10 +105,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _barCode;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _barCode;
+				((IPersistEntity)this).Activate(false);
 				return _barCode;
 			} 
 			set
@@ -127,10 +120,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _assetIdentifier;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _assetIdentifier;
+				((IPersistEntity)this).Activate(false);
 				return _assetIdentifier;
 			} 
 			set
@@ -145,10 +136,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _type;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _type;
+				((IPersistEntity)this).Activate(false);
 				return _type;
 			} 
 			set
@@ -163,10 +152,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _space;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _space;
+				((IPersistEntity)this).Activate(false);
 				return _space;
 			} 
 			set
@@ -180,10 +167,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _assemblyOf;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _assemblyOf;
+				((IPersistEntity)this).Activate(false);
 				return _assemblyOf;
 			} 
 		}

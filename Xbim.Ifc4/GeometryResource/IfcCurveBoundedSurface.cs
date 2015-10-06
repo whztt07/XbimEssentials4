@@ -7,6 +7,7 @@
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -15,8 +16,10 @@ namespace Xbim.Ifc4.GeometryResource
 {
 	[ExpressType("IFCCURVEBOUNDEDSURFACE", 552)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcCurveBoundedSurface : IfcBoundedSurface, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcCurveBoundedSurface>, System.IEquatable<@IfcCurveBoundedSurface>
+	public  partial class @IfcCurveBoundedSurface : IfcBoundedSurface, IInstantiableEntity, IEqualityComparer<@IfcCurveBoundedSurface>, IEquatable<@IfcCurveBoundedSurface>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcCurveBoundedSurface(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -35,10 +38,8 @@ namespace Xbim.Ifc4.GeometryResource
 		{ 
 			get 
 			{
-				if(Activated) return _basisSurface;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _basisSurface;
+				((IPersistEntity)this).Activate(false);
 				return _basisSurface;
 			} 
 			set
@@ -52,10 +53,8 @@ namespace Xbim.Ifc4.GeometryResource
 		{ 
 			get 
 			{
-				if(Activated) return _boundaries;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _boundaries;
+				((IPersistEntity)this).Activate(false);
 				return _boundaries;
 			} 
 		}
@@ -65,10 +64,8 @@ namespace Xbim.Ifc4.GeometryResource
 		{ 
 			get 
 			{
-				if(Activated) return _implicitOuter;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _implicitOuter;
+				((IPersistEntity)this).Activate(false);
 				return _implicitOuter;
 			} 
 			set

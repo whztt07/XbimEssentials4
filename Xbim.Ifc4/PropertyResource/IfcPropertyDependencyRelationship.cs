@@ -9,6 +9,7 @@
 
 using Xbim.Ifc4.ExternalReferenceResource;
 using Xbim.Ifc4.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -18,8 +19,10 @@ namespace Xbim.Ifc4.PropertyResource
 	[IndexedClass]
 	[ExpressType("IFCPROPERTYDEPENDENCYRELATIONSHIP", 852)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcPropertyDependencyRelationship : IfcResourceLevelRelationship, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcPropertyDependencyRelationship>, System.IEquatable<@IfcPropertyDependencyRelationship>
+	public  partial class @IfcPropertyDependencyRelationship : IfcResourceLevelRelationship, IInstantiableEntity, IEqualityComparer<@IfcPropertyDependencyRelationship>, IEquatable<@IfcPropertyDependencyRelationship>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcPropertyDependencyRelationship(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -38,10 +41,8 @@ namespace Xbim.Ifc4.PropertyResource
 		{ 
 			get 
 			{
-				if(Activated) return _dependingProperty;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _dependingProperty;
+				((IPersistEntity)this).Activate(false);
 				return _dependingProperty;
 			} 
 			set
@@ -56,10 +57,8 @@ namespace Xbim.Ifc4.PropertyResource
 		{ 
 			get 
 			{
-				if(Activated) return _dependantProperty;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _dependantProperty;
+				((IPersistEntity)this).Activate(false);
 				return _dependantProperty;
 			} 
 			set
@@ -73,10 +72,8 @@ namespace Xbim.Ifc4.PropertyResource
 		{ 
 			get 
 			{
-				if(Activated) return _expression;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _expression;
+				((IPersistEntity)this).Activate(false);
 				return _expression;
 			} 
 			set

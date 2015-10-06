@@ -10,6 +10,7 @@
 using Xbim.Ifc2x3.Kernel;
 using Xbim.Ifc2x3.UtilityResource;
 using Xbim.Ifc2x3.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -18,8 +19,10 @@ namespace Xbim.Ifc2x3.FacilitiesMgmtDomain
 {
 	[ExpressType("IFCCONDITION", 482)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcCondition : IfcGroup, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcCondition>, System.IEquatable<@IfcCondition>
+	public  partial class @IfcCondition : IfcGroup, IInstantiableEntity, IEqualityComparer<@IfcCondition>, IEquatable<@IfcCondition>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcCondition(IModel model) : base(model) 		{ 
 			Model = model; 

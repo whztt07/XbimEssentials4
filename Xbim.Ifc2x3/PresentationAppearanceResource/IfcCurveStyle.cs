@@ -9,6 +9,7 @@
 
 using Xbim.Ifc2x3.MeasureResource;
 using Xbim.Ifc2x3.PresentationResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -17,8 +18,10 @@ namespace Xbim.Ifc2x3.PresentationAppearanceResource
 {
 	[ExpressType("IFCCURVESTYLE", 118)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcCurveStyle : IfcPresentationStyle, IfcPresentationStyleSelect, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcCurveStyle>, System.IEquatable<@IfcCurveStyle>
+	public  partial class @IfcCurveStyle : IfcPresentationStyle, IfcPresentationStyleSelect, IInstantiableEntity, IEqualityComparer<@IfcCurveStyle>, IEquatable<@IfcCurveStyle>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcCurveStyle(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -36,10 +39,8 @@ namespace Xbim.Ifc2x3.PresentationAppearanceResource
 		{ 
 			get 
 			{
-				if(Activated) return _curveFont;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _curveFont;
+				((IPersistEntity)this).Activate(false);
 				return _curveFont;
 			} 
 			set
@@ -53,10 +54,8 @@ namespace Xbim.Ifc2x3.PresentationAppearanceResource
 		{ 
 			get 
 			{
-				if(Activated) return _curveWidth;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _curveWidth;
+				((IPersistEntity)this).Activate(false);
 				return _curveWidth;
 			} 
 			set
@@ -70,10 +69,8 @@ namespace Xbim.Ifc2x3.PresentationAppearanceResource
 		{ 
 			get 
 			{
-				if(Activated) return _curveColour;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _curveColour;
+				((IPersistEntity)this).Activate(false);
 				return _curveColour;
 			} 
 			set

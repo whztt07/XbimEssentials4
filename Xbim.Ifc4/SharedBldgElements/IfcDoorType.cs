@@ -12,6 +12,7 @@ using Xbim.Ifc4.UtilityResource;
 using Xbim.Ifc4.MeasureResource;
 using Xbim.Ifc4.Kernel;
 using Xbim.Ifc4.GeometryResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -20,8 +21,10 @@ namespace Xbim.Ifc4.SharedBldgElements
 {
 	[ExpressType("IFCDOORTYPE", 586)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcDoorType : IfcBuildingElementType, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcDoorType>, System.IEquatable<@IfcDoorType>
+	public  partial class @IfcDoorType : IfcBuildingElementType, IInstantiableEntity, IEqualityComparer<@IfcDoorType>, IEquatable<@IfcDoorType>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcDoorType(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -40,10 +43,8 @@ namespace Xbim.Ifc4.SharedBldgElements
 		{ 
 			get 
 			{
-				if(Activated) return _predefinedType;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _predefinedType;
+				((IPersistEntity)this).Activate(false);
 				return _predefinedType;
 			} 
 			set
@@ -57,10 +58,8 @@ namespace Xbim.Ifc4.SharedBldgElements
 		{ 
 			get 
 			{
-				if(Activated) return _operationType;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _operationType;
+				((IPersistEntity)this).Activate(false);
 				return _operationType;
 			} 
 			set
@@ -74,10 +73,8 @@ namespace Xbim.Ifc4.SharedBldgElements
 		{ 
 			get 
 			{
-				if(Activated) return _parameterTakesPrecedence;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _parameterTakesPrecedence;
+				((IPersistEntity)this).Activate(false);
 				return _parameterTakesPrecedence;
 			} 
 			set
@@ -91,10 +88,8 @@ namespace Xbim.Ifc4.SharedBldgElements
 		{ 
 			get 
 			{
-				if(Activated) return _userDefinedOperationType;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _userDefinedOperationType;
+				((IPersistEntity)this).Activate(false);
 				return _userDefinedOperationType;
 			} 
 			set

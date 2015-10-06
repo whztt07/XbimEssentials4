@@ -32,9 +32,9 @@ namespace Xbim.IO.Memory
             get { return _instances; }
         }
 
-        public virtual int Activate(IPersistEntity owningEntity, bool write)
+        public virtual bool Activate(IPersistEntity owningEntity, bool write)
         {
-            return 0;
+            return true;
         }
 
         /// <summary>

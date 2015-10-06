@@ -8,6 +8,7 @@
 // ------------------------------------------------------------------------------
 
 using Xbim.Ifc4.TopologyResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -16,8 +17,10 @@ namespace Xbim.Ifc4.GeometricModelResource
 {
 	[ExpressType("IFCADVANCEDBREPWITHVOIDS", 398)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcAdvancedBrepWithVoids : IfcAdvancedBrep, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcAdvancedBrepWithVoids>, System.IEquatable<@IfcAdvancedBrepWithVoids>
+	public  partial class @IfcAdvancedBrepWithVoids : IfcAdvancedBrep, IInstantiableEntity, IEqualityComparer<@IfcAdvancedBrepWithVoids>, IEquatable<@IfcAdvancedBrepWithVoids>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcAdvancedBrepWithVoids(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -34,10 +37,8 @@ namespace Xbim.Ifc4.GeometricModelResource
 		{ 
 			get 
 			{
-				if(Activated) return _voids;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _voids;
+				((IPersistEntity)this).Activate(false);
 				return _voids;
 			} 
 		}

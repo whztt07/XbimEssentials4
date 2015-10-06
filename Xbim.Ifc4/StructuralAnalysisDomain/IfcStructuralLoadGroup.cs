@@ -10,6 +10,7 @@
 using Xbim.Ifc4.Kernel;
 using Xbim.Ifc4.UtilityResource;
 using Xbim.Ifc4.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -18,8 +19,10 @@ namespace Xbim.Ifc4.StructuralAnalysisDomain
 {
 	[ExpressType("IFCSTRUCTURALLOADGROUP", 1025)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcStructuralLoadGroup : IfcGroup, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcStructuralLoadGroup>, System.IEquatable<@IfcStructuralLoadGroup>
+	public  partial class @IfcStructuralLoadGroup : IfcGroup, IInstantiableEntity, IEqualityComparer<@IfcStructuralLoadGroup>, IEquatable<@IfcStructuralLoadGroup>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcStructuralLoadGroup(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -39,10 +42,8 @@ namespace Xbim.Ifc4.StructuralAnalysisDomain
 		{ 
 			get 
 			{
-				if(Activated) return _predefinedType;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _predefinedType;
+				((IPersistEntity)this).Activate(false);
 				return _predefinedType;
 			} 
 			set
@@ -56,10 +57,8 @@ namespace Xbim.Ifc4.StructuralAnalysisDomain
 		{ 
 			get 
 			{
-				if(Activated) return _actionType;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _actionType;
+				((IPersistEntity)this).Activate(false);
 				return _actionType;
 			} 
 			set
@@ -73,10 +72,8 @@ namespace Xbim.Ifc4.StructuralAnalysisDomain
 		{ 
 			get 
 			{
-				if(Activated) return _actionSource;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _actionSource;
+				((IPersistEntity)this).Activate(false);
 				return _actionSource;
 			} 
 			set
@@ -90,10 +87,8 @@ namespace Xbim.Ifc4.StructuralAnalysisDomain
 		{ 
 			get 
 			{
-				if(Activated) return _coefficient;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _coefficient;
+				((IPersistEntity)this).Activate(false);
 				return _coefficient;
 			} 
 			set
@@ -107,10 +102,8 @@ namespace Xbim.Ifc4.StructuralAnalysisDomain
 		{ 
 			get 
 			{
-				if(Activated) return _purpose;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _purpose;
+				((IPersistEntity)this).Activate(false);
 				return _purpose;
 			} 
 			set

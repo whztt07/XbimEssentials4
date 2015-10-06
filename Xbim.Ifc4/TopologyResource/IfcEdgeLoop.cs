@@ -7,6 +7,7 @@
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -15,8 +16,10 @@ namespace Xbim.Ifc4.TopologyResource
 {
 	[ExpressType("IFCEDGELOOP", 597)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcEdgeLoop : IfcLoop, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcEdgeLoop>, System.IEquatable<@IfcEdgeLoop>
+	public  partial class @IfcEdgeLoop : IfcLoop, IInstantiableEntity, IEqualityComparer<@IfcEdgeLoop>, IEquatable<@IfcEdgeLoop>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcEdgeLoop(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -33,10 +36,8 @@ namespace Xbim.Ifc4.TopologyResource
 		{ 
 			get 
 			{
-				if(Activated) return _edgeList;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _edgeList;
+				((IPersistEntity)this).Activate(false);
 				return _edgeList;
 			} 
 		}

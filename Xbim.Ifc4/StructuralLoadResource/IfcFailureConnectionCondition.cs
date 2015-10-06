@@ -8,6 +8,7 @@
 // ------------------------------------------------------------------------------
 
 using Xbim.Ifc4.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -16,8 +17,10 @@ namespace Xbim.Ifc4.StructuralLoadResource
 {
 	[ExpressType("IFCFAILURECONNECTIONCONDITION", 649)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcFailureConnectionCondition : IfcStructuralConnectionCondition, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcFailureConnectionCondition>, System.IEquatable<@IfcFailureConnectionCondition>
+	public  partial class @IfcFailureConnectionCondition : IfcStructuralConnectionCondition, IInstantiableEntity, IEqualityComparer<@IfcFailureConnectionCondition>, IEquatable<@IfcFailureConnectionCondition>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcFailureConnectionCondition(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -38,10 +41,8 @@ namespace Xbim.Ifc4.StructuralLoadResource
 		{ 
 			get 
 			{
-				if(Activated) return _tensionFailureX;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _tensionFailureX;
+				((IPersistEntity)this).Activate(false);
 				return _tensionFailureX;
 			} 
 			set
@@ -55,10 +56,8 @@ namespace Xbim.Ifc4.StructuralLoadResource
 		{ 
 			get 
 			{
-				if(Activated) return _tensionFailureY;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _tensionFailureY;
+				((IPersistEntity)this).Activate(false);
 				return _tensionFailureY;
 			} 
 			set
@@ -72,10 +71,8 @@ namespace Xbim.Ifc4.StructuralLoadResource
 		{ 
 			get 
 			{
-				if(Activated) return _tensionFailureZ;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _tensionFailureZ;
+				((IPersistEntity)this).Activate(false);
 				return _tensionFailureZ;
 			} 
 			set
@@ -89,10 +86,8 @@ namespace Xbim.Ifc4.StructuralLoadResource
 		{ 
 			get 
 			{
-				if(Activated) return _compressionFailureX;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _compressionFailureX;
+				((IPersistEntity)this).Activate(false);
 				return _compressionFailureX;
 			} 
 			set
@@ -106,10 +101,8 @@ namespace Xbim.Ifc4.StructuralLoadResource
 		{ 
 			get 
 			{
-				if(Activated) return _compressionFailureY;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _compressionFailureY;
+				((IPersistEntity)this).Activate(false);
 				return _compressionFailureY;
 			} 
 			set
@@ -123,10 +116,8 @@ namespace Xbim.Ifc4.StructuralLoadResource
 		{ 
 			get 
 			{
-				if(Activated) return _compressionFailureZ;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _compressionFailureZ;
+				((IPersistEntity)this).Activate(false);
 				return _compressionFailureZ;
 			} 
 			set

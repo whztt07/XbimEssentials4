@@ -14,7 +14,7 @@ namespace Xbim.Ifc2x3.MeasureResource
 {
 	[ExpressType("IFCBOOLEAN", 616)]
     // ReSharper disable once PartialTypeWithSinglePart
-	public partial struct IfcBoolean : IfcSimpleValue, IExpressValueType
+	public partial struct IfcBoolean : IfcSimpleValue, IExpressValueType, System.IEquatable<bool>
 	{ 
 		private bool _value;
         
@@ -35,7 +35,7 @@ namespace Xbim.Ifc2x3.MeasureResource
 
 		public IfcBoolean(string val)
         {
-			if (string.Compare(val, "true", System.StringComparison.OrdinalIgnoreCase) == 0)
+			if (string.Compare(val, "true", System.StringComparison.OrdinalIgnoreCase) == 0 || string.Compare(val, ".T.", System.StringComparison.OrdinalIgnoreCase) == 0)
                 _value = true;
             else
                 _value = false;
@@ -49,6 +49,7 @@ namespace Xbim.Ifc2x3.MeasureResource
         public static implicit operator bool(IfcBoolean obj)
         {
             return obj._value;
+
         }
 
 
@@ -65,6 +66,11 @@ namespace Xbim.Ifc2x3.MeasureResource
 
             return ((IfcBoolean) obj)._value == _value;
         }
+
+		public bool Equals(bool other)
+	    {
+	        return this == other;
+	    }
 
         public static bool operator ==(IfcBoolean obj1, IfcBoolean obj2)
         {

@@ -10,6 +10,7 @@
 using Xbim.Ifc2x3.MeasureResource;
 using Xbim.Ifc2x3.ActorResource;
 using Xbim.Ifc2x3.DateTimeResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -18,8 +19,10 @@ namespace Xbim.Ifc2x3.ConstraintResource
 {
 	[ExpressType("IFCMETRIC", 80)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcMetric : IfcConstraint, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcMetric>, System.IEquatable<@IfcMetric>
+	public  partial class @IfcMetric : IfcConstraint, IInstantiableEntity, IEqualityComparer<@IfcMetric>, IEquatable<@IfcMetric>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcMetric(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -37,10 +40,8 @@ namespace Xbim.Ifc2x3.ConstraintResource
 		{ 
 			get 
 			{
-				if(Activated) return _benchmark;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _benchmark;
+				((IPersistEntity)this).Activate(false);
 				return _benchmark;
 			} 
 			set
@@ -54,10 +55,8 @@ namespace Xbim.Ifc2x3.ConstraintResource
 		{ 
 			get 
 			{
-				if(Activated) return _valueSource;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _valueSource;
+				((IPersistEntity)this).Activate(false);
 				return _valueSource;
 			} 
 			set
@@ -71,10 +70,8 @@ namespace Xbim.Ifc2x3.ConstraintResource
 		{ 
 			get 
 			{
-				if(Activated) return _dataValue;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _dataValue;
+				((IPersistEntity)this).Activate(false);
 				return _dataValue;
 			} 
 			set

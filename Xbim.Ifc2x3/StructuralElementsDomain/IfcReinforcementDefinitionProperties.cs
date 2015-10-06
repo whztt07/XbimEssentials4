@@ -11,6 +11,7 @@ using Xbim.Ifc2x3.Kernel;
 using Xbim.Ifc2x3.UtilityResource;
 using Xbim.Ifc2x3.MeasureResource;
 using Xbim.Ifc2x3.ProfilePropertyResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -19,8 +20,10 @@ namespace Xbim.Ifc2x3.StructuralElementsDomain
 {
 	[ExpressType("IFCREINFORCEMENTDEFINITIONPROPERTIES", 263)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcReinforcementDefinitionProperties : IfcPropertySetDefinition, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcReinforcementDefinitionProperties>, System.IEquatable<@IfcReinforcementDefinitionProperties>
+	public  partial class @IfcReinforcementDefinitionProperties : IfcPropertySetDefinition, IInstantiableEntity, IEqualityComparer<@IfcReinforcementDefinitionProperties>, IEquatable<@IfcReinforcementDefinitionProperties>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcReinforcementDefinitionProperties(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -38,10 +41,8 @@ namespace Xbim.Ifc2x3.StructuralElementsDomain
 		{ 
 			get 
 			{
-				if(Activated) return _definitionType;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _definitionType;
+				((IPersistEntity)this).Activate(false);
 				return _definitionType;
 			} 
 			set
@@ -55,10 +56,8 @@ namespace Xbim.Ifc2x3.StructuralElementsDomain
 		{ 
 			get 
 			{
-				if(Activated) return _reinforcementSectionDefinitions;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _reinforcementSectionDefinitions;
+				((IPersistEntity)this).Activate(false);
 				return _reinforcementSectionDefinitions;
 			} 
 		}

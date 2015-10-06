@@ -7,6 +7,7 @@
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -15,8 +16,10 @@ namespace Xbim.Ifc2x3.RepresentationResource
 {
 	[ExpressType("IFCSHAPEMODEL", 89)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public abstract partial class @IfcShapeModel : IfcRepresentation, System.Collections.Generic.IEqualityComparer<@IfcShapeModel>, System.IEquatable<@IfcShapeModel>
+	public abstract partial class @IfcShapeModel : IfcRepresentation, IEqualityComparer<@IfcShapeModel>, IEquatable<@IfcShapeModel>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcShapeModel(IModel model) : base(model) 		{ 
 			Model = model; 

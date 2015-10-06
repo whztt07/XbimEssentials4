@@ -8,6 +8,8 @@
 // ------------------------------------------------------------------------------
 
 using Xbim.Ifc4.GeometricModelResource;
+using System;
+using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
 
@@ -15,8 +17,10 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
 {
 	[ExpressType("IFCINDEXEDTEXTUREMAP", 708)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public abstract partial class @IfcIndexedTextureMap : IfcTextureCoordinate, System.Collections.Generic.IEqualityComparer<@IfcIndexedTextureMap>, System.IEquatable<@IfcIndexedTextureMap>
+	public abstract partial class @IfcIndexedTextureMap : IfcTextureCoordinate, IEqualityComparer<@IfcIndexedTextureMap>, IEquatable<@IfcIndexedTextureMap>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcIndexedTextureMap(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -34,10 +38,8 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
 		{ 
 			get 
 			{
-				if(Activated) return _mappedTo;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _mappedTo;
+				((IPersistEntity)this).Activate(false);
 				return _mappedTo;
 			} 
 			set
@@ -51,10 +53,8 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
 		{ 
 			get 
 			{
-				if(Activated) return _texCoords;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _texCoords;
+				((IPersistEntity)this).Activate(false);
 				return _texCoords;
 			} 
 			set

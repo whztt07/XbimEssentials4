@@ -9,6 +9,7 @@
 
 using Xbim.Ifc2x3.GeometricConstraintResource;
 using Xbim.Ifc2x3.GeometryResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -17,8 +18,10 @@ namespace Xbim.Ifc2x3.TopologyResource
 {
 	[ExpressType("IFCEDGECURVE", 203)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcEdgeCurve : IfcEdge, IfcCurveOrEdgeCurve, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcEdgeCurve>, System.IEquatable<@IfcEdgeCurve>
+	public  partial class @IfcEdgeCurve : IfcEdge, IfcCurveOrEdgeCurve, IInstantiableEntity, IEqualityComparer<@IfcEdgeCurve>, IEquatable<@IfcEdgeCurve>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcEdgeCurve(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -35,10 +38,8 @@ namespace Xbim.Ifc2x3.TopologyResource
 		{ 
 			get 
 			{
-				if(Activated) return _edgeGeometry;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _edgeGeometry;
+				((IPersistEntity)this).Activate(false);
 				return _edgeGeometry;
 			} 
 			set
@@ -52,10 +53,8 @@ namespace Xbim.Ifc2x3.TopologyResource
 		{ 
 			get 
 			{
-				if(Activated) return _sameSense;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _sameSense;
+				((IPersistEntity)this).Activate(false);
 				return _sameSense;
 			} 
 			set

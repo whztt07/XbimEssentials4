@@ -14,7 +14,7 @@ namespace Xbim.Ifc2x3.DateTimeResource
 {
 	[ExpressType("IFCYEARNUMBER", 451)]
     // ReSharper disable once PartialTypeWithSinglePart
-	public partial struct IfcYearNumber : IExpressValueType
+	public partial struct IfcYearNumber : IExpressValueType, System.IEquatable<long>
 	{ 
 		private long _value;
         
@@ -46,6 +46,7 @@ namespace Xbim.Ifc2x3.DateTimeResource
         public static implicit operator long(IfcYearNumber obj)
         {
             return obj._value;
+
         }
 
 
@@ -62,6 +63,11 @@ namespace Xbim.Ifc2x3.DateTimeResource
 
             return ((IfcYearNumber) obj)._value == _value;
         }
+
+		public bool Equals(long other)
+	    {
+	        return this == other;
+	    }
 
         public static bool operator ==(IfcYearNumber obj1, IfcYearNumber obj2)
         {

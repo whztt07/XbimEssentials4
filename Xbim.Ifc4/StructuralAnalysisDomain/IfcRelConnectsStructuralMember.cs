@@ -12,6 +12,7 @@ using Xbim.Ifc4.UtilityResource;
 using Xbim.Ifc4.MeasureResource;
 using Xbim.Ifc4.StructuralLoadResource;
 using Xbim.Ifc4.GeometryResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -20,8 +21,10 @@ namespace Xbim.Ifc4.StructuralAnalysisDomain
 {
 	[ExpressType("IFCRELCONNECTSSTRUCTURALMEMBER", 923)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcRelConnectsStructuralMember : IfcRelConnects, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcRelConnectsStructuralMember>, System.IEquatable<@IfcRelConnectsStructuralMember>
+	public  partial class @IfcRelConnectsStructuralMember : IfcRelConnects, IInstantiableEntity, IEqualityComparer<@IfcRelConnectsStructuralMember>, IEquatable<@IfcRelConnectsStructuralMember>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcRelConnectsStructuralMember(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -43,10 +46,8 @@ namespace Xbim.Ifc4.StructuralAnalysisDomain
 		{ 
 			get 
 			{
-				if(Activated) return _relatingStructuralMember;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _relatingStructuralMember;
+				((IPersistEntity)this).Activate(false);
 				return _relatingStructuralMember;
 			} 
 			set
@@ -61,10 +62,8 @@ namespace Xbim.Ifc4.StructuralAnalysisDomain
 		{ 
 			get 
 			{
-				if(Activated) return _relatedStructuralConnection;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _relatedStructuralConnection;
+				((IPersistEntity)this).Activate(false);
 				return _relatedStructuralConnection;
 			} 
 			set
@@ -78,10 +77,8 @@ namespace Xbim.Ifc4.StructuralAnalysisDomain
 		{ 
 			get 
 			{
-				if(Activated) return _appliedCondition;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _appliedCondition;
+				((IPersistEntity)this).Activate(false);
 				return _appliedCondition;
 			} 
 			set
@@ -95,10 +92,8 @@ namespace Xbim.Ifc4.StructuralAnalysisDomain
 		{ 
 			get 
 			{
-				if(Activated) return _additionalConditions;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _additionalConditions;
+				((IPersistEntity)this).Activate(false);
 				return _additionalConditions;
 			} 
 			set
@@ -112,10 +107,8 @@ namespace Xbim.Ifc4.StructuralAnalysisDomain
 		{ 
 			get 
 			{
-				if(Activated) return _supportedLength;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _supportedLength;
+				((IPersistEntity)this).Activate(false);
 				return _supportedLength;
 			} 
 			set
@@ -129,10 +122,8 @@ namespace Xbim.Ifc4.StructuralAnalysisDomain
 		{ 
 			get 
 			{
-				if(Activated) return _conditionCoordinateSystem;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _conditionCoordinateSystem;
+				((IPersistEntity)this).Activate(false);
 				return _conditionCoordinateSystem;
 			} 
 			set

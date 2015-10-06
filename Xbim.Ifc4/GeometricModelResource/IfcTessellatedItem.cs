@@ -8,6 +8,8 @@
 // ------------------------------------------------------------------------------
 
 using Xbim.Ifc4.GeometryResource;
+using System;
+using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
 
@@ -15,8 +17,10 @@ namespace Xbim.Ifc4.GeometricModelResource
 {
 	[ExpressType("IFCTESSELLATEDITEM", 1091)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public abstract partial class @IfcTessellatedItem : IfcGeometricRepresentationItem, System.Collections.Generic.IEqualityComparer<@IfcTessellatedItem>, System.IEquatable<@IfcTessellatedItem>
+	public abstract partial class @IfcTessellatedItem : IfcGeometricRepresentationItem, IEqualityComparer<@IfcTessellatedItem>, IEquatable<@IfcTessellatedItem>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcTessellatedItem(IModel model) : base(model) 		{ 
 			Model = model; 

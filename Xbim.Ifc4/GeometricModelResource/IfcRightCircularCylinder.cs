@@ -9,6 +9,7 @@
 
 using Xbim.Ifc4.GeometryResource;
 using Xbim.Ifc4.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -17,8 +18,10 @@ namespace Xbim.Ifc4.GeometricModelResource
 {
 	[ExpressType("IFCRIGHTCIRCULARCYLINDER", 962)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcRightCircularCylinder : IfcCsgPrimitive3D, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcRightCircularCylinder>, System.IEquatable<@IfcRightCircularCylinder>
+	public  partial class @IfcRightCircularCylinder : IfcCsgPrimitive3D, IInstantiableEntity, IEqualityComparer<@IfcRightCircularCylinder>, IEquatable<@IfcRightCircularCylinder>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcRightCircularCylinder(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -35,10 +38,8 @@ namespace Xbim.Ifc4.GeometricModelResource
 		{ 
 			get 
 			{
-				if(Activated) return _height;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _height;
+				((IPersistEntity)this).Activate(false);
 				return _height;
 			} 
 			set
@@ -52,10 +53,8 @@ namespace Xbim.Ifc4.GeometricModelResource
 		{ 
 			get 
 			{
-				if(Activated) return _radius;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _radius;
+				((IPersistEntity)this).Activate(false);
 				return _radius;
 			} 
 			set

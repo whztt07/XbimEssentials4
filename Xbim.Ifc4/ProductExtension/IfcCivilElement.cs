@@ -11,6 +11,7 @@ using Xbim.Ifc4.UtilityResource;
 using Xbim.Ifc4.MeasureResource;
 using Xbim.Ifc4.GeometricConstraintResource;
 using Xbim.Ifc4.RepresentationResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -19,8 +20,10 @@ namespace Xbim.Ifc4.ProductExtension
 {
 	[ExpressType("IFCCIVILELEMENT", 483)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcCivilElement : IfcElement, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcCivilElement>, System.IEquatable<@IfcCivilElement>
+	public  partial class @IfcCivilElement : IfcElement, IInstantiableEntity, IEqualityComparer<@IfcCivilElement>, IEquatable<@IfcCivilElement>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcCivilElement(IModel model) : base(model) 		{ 
 			Model = model; 

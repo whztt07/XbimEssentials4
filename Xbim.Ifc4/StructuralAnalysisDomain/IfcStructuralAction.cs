@@ -7,6 +7,8 @@
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
+using System;
+using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
 
@@ -14,8 +16,10 @@ namespace Xbim.Ifc4.StructuralAnalysisDomain
 {
 	[ExpressType("IFCSTRUCTURALACTION", 1010)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public abstract partial class @IfcStructuralAction : IfcStructuralActivity, System.Collections.Generic.IEqualityComparer<@IfcStructuralAction>, System.IEquatable<@IfcStructuralAction>
+	public abstract partial class @IfcStructuralAction : IfcStructuralActivity, IEqualityComparer<@IfcStructuralAction>, IEquatable<@IfcStructuralAction>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcStructuralAction(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -31,10 +35,8 @@ namespace Xbim.Ifc4.StructuralAnalysisDomain
 		{ 
 			get 
 			{
-				if(Activated) return _destabilizingLoad;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _destabilizingLoad;
+				((IPersistEntity)this).Activate(false);
 				return _destabilizingLoad;
 			} 
 			set

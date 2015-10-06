@@ -9,6 +9,7 @@
 
 using Xbim.Ifc2x3.MaterialResource;
 using Xbim.Ifc2x3.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -17,8 +18,10 @@ namespace Xbim.Ifc2x3.MaterialPropertyResource
 {
 	[ExpressType("IFCMECHANICALSTEELMATERIALPROPERTIES", 510)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcMechanicalSteelMaterialProperties : IfcMechanicalMaterialProperties, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcMechanicalSteelMaterialProperties>, System.IEquatable<@IfcMechanicalSteelMaterialProperties>
+	public  partial class @IfcMechanicalSteelMaterialProperties : IfcMechanicalMaterialProperties, IInstantiableEntity, IEqualityComparer<@IfcMechanicalSteelMaterialProperties>, IEquatable<@IfcMechanicalSteelMaterialProperties>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcMechanicalSteelMaterialProperties(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -41,10 +44,8 @@ namespace Xbim.Ifc2x3.MaterialPropertyResource
 		{ 
 			get 
 			{
-				if(Activated) return _yieldStress;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _yieldStress;
+				((IPersistEntity)this).Activate(false);
 				return _yieldStress;
 			} 
 			set
@@ -58,10 +59,8 @@ namespace Xbim.Ifc2x3.MaterialPropertyResource
 		{ 
 			get 
 			{
-				if(Activated) return _ultimateStress;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _ultimateStress;
+				((IPersistEntity)this).Activate(false);
 				return _ultimateStress;
 			} 
 			set
@@ -75,10 +74,8 @@ namespace Xbim.Ifc2x3.MaterialPropertyResource
 		{ 
 			get 
 			{
-				if(Activated) return _ultimateStrain;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _ultimateStrain;
+				((IPersistEntity)this).Activate(false);
 				return _ultimateStrain;
 			} 
 			set
@@ -92,10 +89,8 @@ namespace Xbim.Ifc2x3.MaterialPropertyResource
 		{ 
 			get 
 			{
-				if(Activated) return _hardeningModule;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _hardeningModule;
+				((IPersistEntity)this).Activate(false);
 				return _hardeningModule;
 			} 
 			set
@@ -109,10 +104,8 @@ namespace Xbim.Ifc2x3.MaterialPropertyResource
 		{ 
 			get 
 			{
-				if(Activated) return _proportionalStress;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _proportionalStress;
+				((IPersistEntity)this).Activate(false);
 				return _proportionalStress;
 			} 
 			set
@@ -126,10 +119,8 @@ namespace Xbim.Ifc2x3.MaterialPropertyResource
 		{ 
 			get 
 			{
-				if(Activated) return _plasticStrain;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _plasticStrain;
+				((IPersistEntity)this).Activate(false);
 				return _plasticStrain;
 			} 
 			set
@@ -143,10 +134,8 @@ namespace Xbim.Ifc2x3.MaterialPropertyResource
 		{ 
 			get 
 			{
-				if(Activated) return _relaxations;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _relaxations;
+				((IPersistEntity)this).Activate(false);
 				return _relaxations;
 			} 
 		}

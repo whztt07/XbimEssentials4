@@ -11,6 +11,7 @@ using Xbim.Ifc2x3.UtilityResource;
 using Xbim.Ifc2x3.MeasureResource;
 using Xbim.Ifc2x3.GeometricConstraintResource;
 using Xbim.Ifc2x3.RepresentationResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -19,8 +20,10 @@ namespace Xbim.Ifc2x3.StructuralElementsDomain
 {
 	[ExpressType("IFCTENDON", 261)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcTendon : IfcReinforcingElement, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcTendon>, System.IEquatable<@IfcTendon>
+	public  partial class @IfcTendon : IfcReinforcingElement, IInstantiableEntity, IEqualityComparer<@IfcTendon>, IEquatable<@IfcTendon>
 	{
+		public static int LoadDepth = 1;
+
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcTendon(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -43,10 +46,8 @@ namespace Xbim.Ifc2x3.StructuralElementsDomain
 		{ 
 			get 
 			{
-				if(Activated) return _predefinedType;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _predefinedType;
+				((IPersistEntity)this).Activate(false);
 				return _predefinedType;
 			} 
 			set
@@ -60,10 +61,8 @@ namespace Xbim.Ifc2x3.StructuralElementsDomain
 		{ 
 			get 
 			{
-				if(Activated) return _nominalDiameter;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _nominalDiameter;
+				((IPersistEntity)this).Activate(false);
 				return _nominalDiameter;
 			} 
 			set
@@ -77,10 +76,8 @@ namespace Xbim.Ifc2x3.StructuralElementsDomain
 		{ 
 			get 
 			{
-				if(Activated) return _crossSectionArea;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _crossSectionArea;
+				((IPersistEntity)this).Activate(false);
 				return _crossSectionArea;
 			} 
 			set
@@ -94,10 +91,8 @@ namespace Xbim.Ifc2x3.StructuralElementsDomain
 		{ 
 			get 
 			{
-				if(Activated) return _tensionForce;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _tensionForce;
+				((IPersistEntity)this).Activate(false);
 				return _tensionForce;
 			} 
 			set
@@ -111,10 +106,8 @@ namespace Xbim.Ifc2x3.StructuralElementsDomain
 		{ 
 			get 
 			{
-				if(Activated) return _preStress;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _preStress;
+				((IPersistEntity)this).Activate(false);
 				return _preStress;
 			} 
 			set
@@ -128,10 +121,8 @@ namespace Xbim.Ifc2x3.StructuralElementsDomain
 		{ 
 			get 
 			{
-				if(Activated) return _frictionCoefficient;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _frictionCoefficient;
+				((IPersistEntity)this).Activate(false);
 				return _frictionCoefficient;
 			} 
 			set
@@ -145,10 +136,8 @@ namespace Xbim.Ifc2x3.StructuralElementsDomain
 		{ 
 			get 
 			{
-				if(Activated) return _anchorageSlip;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _anchorageSlip;
+				((IPersistEntity)this).Activate(false);
 				return _anchorageSlip;
 			} 
 			set
@@ -162,10 +151,8 @@ namespace Xbim.Ifc2x3.StructuralElementsDomain
 		{ 
 			get 
 			{
-				if(Activated) return _minCurvatureRadius;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _minCurvatureRadius;
+				((IPersistEntity)this).Activate(false);
 				return _minCurvatureRadius;
 			} 
 			set
