@@ -19,8 +19,6 @@ namespace Xbim.Ifc4.GeometricConstraintResource
 	// ReSharper disable once PartialTypeWithSinglePart
 	public abstract partial class @IfcConnectionGeometry : IPersistEntity, INotifyPropertyChanged, IEqualityComparer<@IfcConnectionGeometry>, IEquatable<@IfcConnectionGeometry>
 	{
-		public static int LoadDepth = 1;
-
 		#region Implementation of IPersistEntity
 
 		public int EntityLabel {get; internal set;}

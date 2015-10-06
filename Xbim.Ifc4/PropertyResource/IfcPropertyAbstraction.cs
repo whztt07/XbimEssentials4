@@ -20,8 +20,6 @@ namespace Xbim.Ifc4.PropertyResource
 	// ReSharper disable once PartialTypeWithSinglePart
 	public abstract partial class @IfcPropertyAbstraction : IPersistEntity, INotifyPropertyChanged, IfcResourceObjectSelect, IEqualityComparer<@IfcPropertyAbstraction>, IEquatable<@IfcPropertyAbstraction>
 	{
-		public static int LoadDepth = 1;
-
 		#region Implementation of IPersistEntity
 
 		public int EntityLabel {get; internal set;}

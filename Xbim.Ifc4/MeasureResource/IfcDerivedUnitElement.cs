@@ -19,8 +19,6 @@ namespace Xbim.Ifc4.MeasureResource
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcDerivedUnitElement : INotifyPropertyChanged, IInstantiableEntity, IEqualityComparer<@IfcDerivedUnitElement>, IEquatable<@IfcDerivedUnitElement>
 	{
-		public static int LoadDepth = 1;
-
 		#region Implementation of IPersistEntity
 
 		public int EntityLabel {get; internal set;}

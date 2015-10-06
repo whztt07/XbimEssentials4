@@ -20,8 +20,6 @@ namespace Xbim.CobieExpress
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @CobiePickList : INotifyPropertyChanged, IInstantiableEntity, IEqualityComparer<@CobiePickList>, IEquatable<@CobiePickList>
 	{
-		public static int LoadDepth = 1;
-
 		#region Implementation of IPersistEntity
 
 		public int EntityLabel {get; internal set;}

@@ -22,8 +22,6 @@ namespace Xbim.Ifc2x3.UtilityResource
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcOwnerHistory : INotifyPropertyChanged, IInstantiableEntity, IEqualityComparer<@IfcOwnerHistory>, IEquatable<@IfcOwnerHistory>
 	{
-		public static int LoadDepth = 1;
-
 		#region Implementation of IPersistEntity
 
 		public int EntityLabel {get; internal set;}

@@ -21,8 +21,6 @@ namespace Xbim.Ifc2x3.RepresentationResource
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcShapeAspect : INotifyPropertyChanged, IInstantiableEntity, IEqualityComparer<@IfcShapeAspect>, IEquatable<@IfcShapeAspect>
 	{
-		public static int LoadDepth = 1;
-
 		#region Implementation of IPersistEntity
 
 		public int EntityLabel {get; internal set;}

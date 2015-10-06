@@ -21,8 +21,6 @@ namespace Xbim.Ifc2x3.ExternalReferenceResource
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcClassificationItem : INotifyPropertyChanged, IInstantiableEntity, IEqualityComparer<@IfcClassificationItem>, IEquatable<@IfcClassificationItem>
 	{
-		public static int LoadDepth = 1;
-
 		#region Implementation of IPersistEntity
 
 		public int EntityLabel {get; internal set;}

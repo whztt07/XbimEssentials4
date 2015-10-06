@@ -20,8 +20,6 @@ namespace Xbim.Ifc4.DateTimeResource
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcIrregularTimeSeriesValue : INotifyPropertyChanged, IInstantiableEntity, IEqualityComparer<@IfcIrregularTimeSeriesValue>, IEquatable<@IfcIrregularTimeSeriesValue>
 	{
-		public static int LoadDepth = 1;
-
 		#region Implementation of IPersistEntity
 
 		public int EntityLabel {get; internal set;}

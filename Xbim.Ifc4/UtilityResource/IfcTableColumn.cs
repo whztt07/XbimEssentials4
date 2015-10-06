@@ -21,8 +21,6 @@ namespace Xbim.Ifc4.UtilityResource
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcTableColumn : INotifyPropertyChanged, IInstantiableEntity, IEqualityComparer<@IfcTableColumn>, IEquatable<@IfcTableColumn>
 	{
-		public static int LoadDepth = 1;
-
 		#region Implementation of IPersistEntity
 
 		public int EntityLabel {get; internal set;}

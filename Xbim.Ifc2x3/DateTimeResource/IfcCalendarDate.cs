@@ -21,8 +21,6 @@ namespace Xbim.Ifc2x3.DateTimeResource
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcCalendarDate : INotifyPropertyChanged, IfcDateTimeSelect, IfcObjectReferenceSelect, IInstantiableEntity, IEqualityComparer<@IfcCalendarDate>, IEquatable<@IfcCalendarDate>
 	{
-		public static int LoadDepth = 1;
-
 		#region Implementation of IPersistEntity
 
 		public int EntityLabel {get; internal set;}

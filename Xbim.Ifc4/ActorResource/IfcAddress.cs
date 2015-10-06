@@ -22,8 +22,6 @@ namespace Xbim.Ifc4.ActorResource
 	// ReSharper disable once PartialTypeWithSinglePart
 	public abstract partial class @IfcAddress : IPersistEntity, INotifyPropertyChanged, IfcObjectReferenceSelect, IEqualityComparer<@IfcAddress>, IEquatable<@IfcAddress>
 	{
-		public static int LoadDepth = 1;
-
 		#region Implementation of IPersistEntity
 
 		public int EntityLabel {get; internal set;}

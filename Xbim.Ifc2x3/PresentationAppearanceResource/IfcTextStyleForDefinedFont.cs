@@ -21,8 +21,6 @@ namespace Xbim.Ifc2x3.PresentationAppearanceResource
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcTextStyleForDefinedFont : INotifyPropertyChanged, IfcCharacterStyleSelect, IInstantiableEntity, IEqualityComparer<@IfcTextStyleForDefinedFont>, IEquatable<@IfcTextStyleForDefinedFont>
 	{
-		public static int LoadDepth = 1;
-
 		#region Implementation of IPersistEntity
 
 		public int EntityLabel {get; internal set;}

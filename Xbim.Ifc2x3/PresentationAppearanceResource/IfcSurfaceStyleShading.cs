@@ -20,8 +20,6 @@ namespace Xbim.Ifc2x3.PresentationAppearanceResource
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcSurfaceStyleShading : INotifyPropertyChanged, IfcSurfaceStyleElementSelect, IInstantiableEntity, IEqualityComparer<@IfcSurfaceStyleShading>, IEquatable<@IfcSurfaceStyleShading>
 	{
-		public static int LoadDepth = 1;
-
 		#region Implementation of IPersistEntity
 
 		public int EntityLabel {get; internal set;}

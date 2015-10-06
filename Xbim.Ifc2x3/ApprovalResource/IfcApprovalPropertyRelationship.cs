@@ -21,8 +21,6 @@ namespace Xbim.Ifc2x3.ApprovalResource
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcApprovalPropertyRelationship : INotifyPropertyChanged, IInstantiableEntity, IEqualityComparer<@IfcApprovalPropertyRelationship>, IEquatable<@IfcApprovalPropertyRelationship>
 	{
-		public static int LoadDepth = 1;
-
 		#region Implementation of IPersistEntity
 
 		public int EntityLabel {get; internal set;}

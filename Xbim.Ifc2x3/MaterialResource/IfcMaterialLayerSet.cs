@@ -21,8 +21,6 @@ namespace Xbim.Ifc2x3.MaterialResource
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcMaterialLayerSet : INotifyPropertyChanged, IfcMaterialSelect, IInstantiableEntity, IEqualityComparer<@IfcMaterialLayerSet>, IEquatable<@IfcMaterialLayerSet>
 	{
-		public static int LoadDepth = 1;
-
 		#region Implementation of IPersistEntity
 
 		public int EntityLabel {get; internal set;}

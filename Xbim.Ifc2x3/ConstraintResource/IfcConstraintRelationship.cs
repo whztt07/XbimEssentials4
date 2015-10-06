@@ -21,8 +21,6 @@ namespace Xbim.Ifc2x3.ConstraintResource
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcConstraintRelationship : INotifyPropertyChanged, IInstantiableEntity, IEqualityComparer<@IfcConstraintRelationship>, IEquatable<@IfcConstraintRelationship>
 	{
-		public static int LoadDepth = 1;
-
 		#region Implementation of IPersistEntity
 
 		public int EntityLabel {get; internal set;}

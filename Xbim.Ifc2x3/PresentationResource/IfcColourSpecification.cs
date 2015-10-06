@@ -20,8 +20,6 @@ namespace Xbim.Ifc2x3.PresentationResource
 	// ReSharper disable once PartialTypeWithSinglePart
 	public abstract partial class @IfcColourSpecification : IPersistEntity, INotifyPropertyChanged, IfcColour, IEqualityComparer<@IfcColourSpecification>, IEquatable<@IfcColourSpecification>
 	{
-		public static int LoadDepth = 1;
-
 		#region Implementation of IPersistEntity
 
 		public int EntityLabel {get; internal set;}

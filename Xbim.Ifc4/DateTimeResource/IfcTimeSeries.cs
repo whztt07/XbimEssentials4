@@ -24,8 +24,6 @@ namespace Xbim.Ifc4.DateTimeResource
 	// ReSharper disable once PartialTypeWithSinglePart
 	public abstract partial class @IfcTimeSeries : IPersistEntity, INotifyPropertyChanged, IfcMetricValueSelect, IfcObjectReferenceSelect, IfcResourceObjectSelect, IEqualityComparer<@IfcTimeSeries>, IEquatable<@IfcTimeSeries>
 	{
-		public static int LoadDepth = 1;
-
 		#region Implementation of IPersistEntity
 
 		public int EntityLabel {get; internal set;}

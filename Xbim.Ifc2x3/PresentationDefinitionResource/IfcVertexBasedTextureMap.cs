@@ -20,8 +20,6 @@ namespace Xbim.Ifc2x3.PresentationDefinitionResource
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcVertexBasedTextureMap : INotifyPropertyChanged, IInstantiableEntity, IEqualityComparer<@IfcVertexBasedTextureMap>, IEquatable<@IfcVertexBasedTextureMap>
 	{
-		public static int LoadDepth = 1;
-
 		#region Implementation of IPersistEntity
 
 		public int EntityLabel {get; internal set;}

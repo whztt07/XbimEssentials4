@@ -22,8 +22,6 @@ namespace Xbim.Ifc4.SharedBldgElements
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcPlateStandardCase : IfcPlate, IInstantiableEntity, IEqualityComparer<@IfcPlateStandardCase>, IEquatable<@IfcPlateStandardCase>
 	{
-		public static int LoadDepth = 1;
-
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcPlateStandardCase(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -66,6 +64,23 @@ namespace Xbim.Ifc4.SharedBldgElements
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcPlateStandardCase
+            var root = (@IfcPlateStandardCase)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcPlateStandardCase left, @IfcPlateStandardCase right)
         {

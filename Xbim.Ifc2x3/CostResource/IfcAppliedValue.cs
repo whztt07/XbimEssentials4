@@ -23,8 +23,6 @@ namespace Xbim.Ifc2x3.CostResource
 	// ReSharper disable once PartialTypeWithSinglePart
 	public abstract partial class @IfcAppliedValue : IPersistEntity, INotifyPropertyChanged, IfcObjectReferenceSelect, IEqualityComparer<@IfcAppliedValue>, IEquatable<@IfcAppliedValue>
 	{
-		public static int LoadDepth = 1;
-
 		#region Implementation of IPersistEntity
 
 		public int EntityLabel {get; internal set;}

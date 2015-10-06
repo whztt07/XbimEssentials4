@@ -20,8 +20,6 @@ namespace Xbim.Ifc4.GeometricConstraintResource
 	// ReSharper disable once PartialTypeWithSinglePart
 	public abstract partial class @IfcObjectPlacement : IPersistEntity, INotifyPropertyChanged, IEqualityComparer<@IfcObjectPlacement>, IEquatable<@IfcObjectPlacement>
 	{
-		public static int LoadDepth = 1;
-
 		#region Implementation of IPersistEntity
 
 		public int EntityLabel {get; internal set;}

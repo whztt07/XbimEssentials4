@@ -20,8 +20,6 @@ namespace Xbim.Ifc2x3.PresentationAppearanceResource
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcPixelTexture : IfcSurfaceTexture, IInstantiableEntity, IEqualityComparer<@IfcPixelTexture>, IEquatable<@IfcPixelTexture>
 	{
-		public static int LoadDepth = 1;
-
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcPixelTexture(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -141,6 +139,23 @@ namespace Xbim.Ifc2x3.PresentationAppearanceResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcPixelTexture
+            var root = (@IfcPixelTexture)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcPixelTexture left, @IfcPixelTexture right)
         {

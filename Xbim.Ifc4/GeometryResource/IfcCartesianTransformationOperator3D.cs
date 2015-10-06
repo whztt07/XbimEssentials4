@@ -18,8 +18,6 @@ namespace Xbim.Ifc4.GeometryResource
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcCartesianTransformationOperator3D : IfcCartesianTransformationOperator, IInstantiableEntity, IEqualityComparer<@IfcCartesianTransformationOperator3D>, IEquatable<@IfcCartesianTransformationOperator3D>
 	{
-		public static int LoadDepth = 1;
-
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcCartesianTransformationOperator3D(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -84,6 +82,23 @@ namespace Xbim.Ifc4.GeometryResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcCartesianTransformationOperator3D
+            var root = (@IfcCartesianTransformationOperator3D)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcCartesianTransformationOperator3D left, @IfcCartesianTransformationOperator3D right)
         {

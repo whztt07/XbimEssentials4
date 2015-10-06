@@ -21,8 +21,6 @@ namespace Xbim.Ifc2x3.ActorResource
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcOrganizationRelationship : INotifyPropertyChanged, IInstantiableEntity, IEqualityComparer<@IfcOrganizationRelationship>, IEquatable<@IfcOrganizationRelationship>
 	{
-		public static int LoadDepth = 1;
-
 		#region Implementation of IPersistEntity
 
 		public int EntityLabel {get; internal set;}

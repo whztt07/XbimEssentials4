@@ -19,8 +19,6 @@ namespace Xbim.Ifc4.QuantityResource
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcQuantityTime : IfcPhysicalSimpleQuantity, IInstantiableEntity, IEqualityComparer<@IfcQuantityTime>, IEquatable<@IfcQuantityTime>
 	{
-		public static int LoadDepth = 1;
-
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcQuantityTime(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -101,6 +99,23 @@ namespace Xbim.Ifc4.QuantityResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcQuantityTime
+            var root = (@IfcQuantityTime)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcQuantityTime left, @IfcQuantityTime right)
         {

@@ -18,8 +18,6 @@ namespace Xbim.Ifc4.RepresentationResource
 	// ReSharper disable once PartialTypeWithSinglePart
 	public abstract partial class @IfcStyleModel : IfcRepresentation, IEqualityComparer<@IfcStyleModel>, IEquatable<@IfcStyleModel>
 	{
-		public static int LoadDepth = 1;
-
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcStyleModel(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -56,6 +54,23 @@ namespace Xbim.Ifc4.RepresentationResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcStyleModel
+            var root = (@IfcStyleModel)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcStyleModel left, @IfcStyleModel right)
         {

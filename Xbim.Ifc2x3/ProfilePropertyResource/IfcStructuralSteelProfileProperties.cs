@@ -20,8 +20,6 @@ namespace Xbim.Ifc2x3.ProfilePropertyResource
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcStructuralSteelProfileProperties : IfcStructuralProfileProperties, IInstantiableEntity, IEqualityComparer<@IfcStructuralSteelProfileProperties>, IEquatable<@IfcStructuralSteelProfileProperties>
 	{
-		public static int LoadDepth = 1;
-
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcStructuralSteelProfileProperties(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -160,6 +158,23 @@ namespace Xbim.Ifc2x3.ProfilePropertyResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcStructuralSteelProfileProperties
+            var root = (@IfcStructuralSteelProfileProperties)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcStructuralSteelProfileProperties left, @IfcStructuralSteelProfileProperties right)
         {

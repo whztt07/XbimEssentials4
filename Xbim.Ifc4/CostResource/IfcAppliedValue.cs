@@ -25,8 +25,6 @@ namespace Xbim.Ifc4.CostResource
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcAppliedValue : INotifyPropertyChanged, IfcMetricValueSelect, IfcObjectReferenceSelect, IfcResourceObjectSelect, IInstantiableEntity, IEqualityComparer<@IfcAppliedValue>, IEquatable<@IfcAppliedValue>
 	{
-		public static int LoadDepth = 1;
-
 		#region Implementation of IPersistEntity
 
 		public int EntityLabel {get; internal set;}

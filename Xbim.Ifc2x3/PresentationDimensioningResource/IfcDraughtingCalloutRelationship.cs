@@ -20,8 +20,6 @@ namespace Xbim.Ifc2x3.PresentationDimensioningResource
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcDraughtingCalloutRelationship : INotifyPropertyChanged, IInstantiableEntity, IEqualityComparer<@IfcDraughtingCalloutRelationship>, IEquatable<@IfcDraughtingCalloutRelationship>
 	{
-		public static int LoadDepth = 1;
-
 		#region Implementation of IPersistEntity
 
 		public int EntityLabel {get; internal set;}

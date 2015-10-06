@@ -20,8 +20,6 @@ namespace Xbim.Ifc2x3.TimeSeriesResource
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcRegularTimeSeries : IfcTimeSeries, IInstantiableEntity, IEqualityComparer<@IfcRegularTimeSeries>, IEquatable<@IfcRegularTimeSeries>
 	{
-		public static int LoadDepth = 1;
-
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcRegularTimeSeries(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -103,6 +101,23 @@ namespace Xbim.Ifc2x3.TimeSeriesResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcRegularTimeSeries
+            var root = (@IfcRegularTimeSeries)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcRegularTimeSeries left, @IfcRegularTimeSeries right)
         {

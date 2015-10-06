@@ -22,8 +22,6 @@ namespace Xbim.Ifc4.ActorResource
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcPersonAndOrganization : INotifyPropertyChanged, IfcActorSelect, IfcObjectReferenceSelect, IfcResourceObjectSelect, IInstantiableEntity, IEqualityComparer<@IfcPersonAndOrganization>, IEquatable<@IfcPersonAndOrganization>
 	{
-		public static int LoadDepth = 1;
-
 		#region Implementation of IPersistEntity
 
 		public int EntityLabel {get; internal set;}

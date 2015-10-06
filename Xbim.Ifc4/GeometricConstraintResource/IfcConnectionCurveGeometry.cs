@@ -19,8 +19,6 @@ namespace Xbim.Ifc4.GeometricConstraintResource
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcConnectionCurveGeometry : IfcConnectionGeometry, IInstantiableEntity, IEqualityComparer<@IfcConnectionCurveGeometry>, IEquatable<@IfcConnectionCurveGeometry>
 	{
-		public static int LoadDepth = 1;
-
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcConnectionCurveGeometry(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -94,6 +92,23 @@ namespace Xbim.Ifc4.GeometricConstraintResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcConnectionCurveGeometry
+            var root = (@IfcConnectionCurveGeometry)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcConnectionCurveGeometry left, @IfcConnectionCurveGeometry right)
         {

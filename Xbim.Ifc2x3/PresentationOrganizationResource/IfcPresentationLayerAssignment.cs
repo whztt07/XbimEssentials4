@@ -21,8 +21,6 @@ namespace Xbim.Ifc2x3.PresentationOrganizationResource
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcPresentationLayerAssignment : INotifyPropertyChanged, IInstantiableEntity, IEqualityComparer<@IfcPresentationLayerAssignment>, IEquatable<@IfcPresentationLayerAssignment>
 	{
-		public static int LoadDepth = 1;
-
 		#region Implementation of IPersistEntity
 
 		public int EntityLabel {get; internal set;}

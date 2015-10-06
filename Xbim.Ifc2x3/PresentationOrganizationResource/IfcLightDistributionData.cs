@@ -20,8 +20,6 @@ namespace Xbim.Ifc2x3.PresentationOrganizationResource
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcLightDistributionData : INotifyPropertyChanged, IInstantiableEntity, IEqualityComparer<@IfcLightDistributionData>, IEquatable<@IfcLightDistributionData>
 	{
-		public static int LoadDepth = 1;
-
 		#region Implementation of IPersistEntity
 
 		public int EntityLabel {get; internal set;}

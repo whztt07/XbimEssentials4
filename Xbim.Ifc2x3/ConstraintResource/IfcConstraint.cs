@@ -23,8 +23,6 @@ namespace Xbim.Ifc2x3.ConstraintResource
 	// ReSharper disable once PartialTypeWithSinglePart
 	public abstract partial class @IfcConstraint : IPersistEntity, INotifyPropertyChanged, IEqualityComparer<@IfcConstraint>, IEquatable<@IfcConstraint>
 	{
-		public static int LoadDepth = 1;
-
 		#region Implementation of IPersistEntity
 
 		public int EntityLabel {get; internal set;}

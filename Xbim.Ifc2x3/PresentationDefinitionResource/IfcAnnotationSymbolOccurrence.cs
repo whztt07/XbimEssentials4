@@ -22,8 +22,6 @@ namespace Xbim.Ifc2x3.PresentationDefinitionResource
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcAnnotationSymbolOccurrence : IfcAnnotationOccurrence, IfcDraughtingCalloutElement, IInstantiableEntity, IEqualityComparer<@IfcAnnotationSymbolOccurrence>, IEquatable<@IfcAnnotationSymbolOccurrence>
 	{
-		public static int LoadDepth = 1;
-
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcAnnotationSymbolOccurrence(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -60,6 +58,23 @@ namespace Xbim.Ifc2x3.PresentationDefinitionResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcAnnotationSymbolOccurrence
+            var root = (@IfcAnnotationSymbolOccurrence)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcAnnotationSymbolOccurrence left, @IfcAnnotationSymbolOccurrence right)
         {

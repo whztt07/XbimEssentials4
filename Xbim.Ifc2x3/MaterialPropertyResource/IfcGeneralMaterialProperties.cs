@@ -20,8 +20,6 @@ namespace Xbim.Ifc2x3.MaterialPropertyResource
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcGeneralMaterialProperties : IfcMaterialProperties, IInstantiableEntity, IEqualityComparer<@IfcGeneralMaterialProperties>, IEquatable<@IfcGeneralMaterialProperties>
 	{
-		public static int LoadDepth = 1;
-
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcGeneralMaterialProperties(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -117,6 +115,23 @@ namespace Xbim.Ifc2x3.MaterialPropertyResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcGeneralMaterialProperties
+            var root = (@IfcGeneralMaterialProperties)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcGeneralMaterialProperties left, @IfcGeneralMaterialProperties right)
         {

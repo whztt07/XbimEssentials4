@@ -20,8 +20,6 @@ namespace Xbim.Ifc2x3.StructuralLoadResource
 	// ReSharper disable once PartialTypeWithSinglePart
 	public abstract partial class @IfcStructuralConnectionCondition : IPersistEntity, INotifyPropertyChanged, IEqualityComparer<@IfcStructuralConnectionCondition>, IEquatable<@IfcStructuralConnectionCondition>
 	{
-		public static int LoadDepth = 1;
-
 		#region Implementation of IPersistEntity
 
 		public int EntityLabel {get; internal set;}

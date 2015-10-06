@@ -20,8 +20,6 @@ namespace Xbim.Ifc2x3.QuantityResource
 	// ReSharper disable once PartialTypeWithSinglePart
 	public abstract partial class @IfcPhysicalQuantity : IPersistEntity, INotifyPropertyChanged, IEqualityComparer<@IfcPhysicalQuantity>, IEquatable<@IfcPhysicalQuantity>
 	{
-		public static int LoadDepth = 1;
-
 		#region Implementation of IPersistEntity
 
 		public int EntityLabel {get; internal set;}

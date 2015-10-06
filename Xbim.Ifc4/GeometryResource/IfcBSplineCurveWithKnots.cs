@@ -19,8 +19,6 @@ namespace Xbim.Ifc4.GeometryResource
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcBSplineCurveWithKnots : IfcBSplineCurve, IInstantiableEntity, IEqualityComparer<@IfcBSplineCurveWithKnots>, IEquatable<@IfcBSplineCurveWithKnots>
 	{
-		public static int LoadDepth = 1;
-
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcBSplineCurveWithKnots(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -118,6 +116,23 @@ namespace Xbim.Ifc4.GeometryResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcBSplineCurveWithKnots
+            var root = (@IfcBSplineCurveWithKnots)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcBSplineCurveWithKnots left, @IfcBSplineCurveWithKnots right)
         {

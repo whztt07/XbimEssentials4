@@ -22,8 +22,6 @@ namespace Xbim.Ifc4.ProductExtension
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcGeographicElement : IfcElement, IInstantiableEntity, IEqualityComparer<@IfcGeographicElement>, IEquatable<@IfcGeographicElement>
 	{
-		public static int LoadDepth = 1;
-
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcGeographicElement(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -90,6 +88,23 @@ namespace Xbim.Ifc4.ProductExtension
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcGeographicElement
+            var root = (@IfcGeographicElement)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcGeographicElement left, @IfcGeographicElement right)
         {

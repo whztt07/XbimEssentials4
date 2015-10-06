@@ -20,8 +20,6 @@ namespace Xbim.Ifc4.RepresentationResource
 	// ReSharper disable once PartialTypeWithSinglePart
 	public abstract partial class @IfcCoordinateReferenceSystem : IPersistEntity, INotifyPropertyChanged, IfcCoordinateReferenceSystemSelect, IEqualityComparer<@IfcCoordinateReferenceSystem>, IEquatable<@IfcCoordinateReferenceSystem>
 	{
-		public static int LoadDepth = 1;
-
 		#region Implementation of IPersistEntity
 
 		public int EntityLabel {get; internal set;}

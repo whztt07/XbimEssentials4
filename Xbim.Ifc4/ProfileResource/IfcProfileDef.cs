@@ -21,8 +21,6 @@ namespace Xbim.Ifc4.ProfileResource
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcProfileDef : INotifyPropertyChanged, IfcResourceObjectSelect, IInstantiableEntity, IEqualityComparer<@IfcProfileDef>, IEquatable<@IfcProfileDef>
 	{
-		public static int LoadDepth = 1;
-
 		#region Implementation of IPersistEntity
 
 		public int EntityLabel {get; internal set;}

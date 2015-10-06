@@ -20,8 +20,6 @@ namespace Xbim.Ifc4.TopologyResource
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcEdgeCurve : IfcEdge, IfcCurveOrEdgeCurve, IInstantiableEntity, IEqualityComparer<@IfcEdgeCurve>, IEquatable<@IfcEdgeCurve>
 	{
-		public static int LoadDepth = 1;
-
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcEdgeCurve(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -99,6 +97,23 @@ namespace Xbim.Ifc4.TopologyResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcEdgeCurve
+            var root = (@IfcEdgeCurve)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcEdgeCurve left, @IfcEdgeCurve right)
         {

@@ -19,8 +19,6 @@ namespace Xbim.CobieExpress
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @CobieType : CobieAsset, IInstantiableEntity, IEqualityComparer<@CobieType>, IEquatable<@CobieType>
 	{
-		public static int LoadDepth = 1;
-
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal CobieType(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -539,6 +537,23 @@ namespace Xbim.CobieExpress
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @CobieType
+            var root = (@CobieType)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@CobieType left, @CobieType right)
         {

@@ -22,8 +22,6 @@ namespace Xbim.Ifc4.ArchitectureDomain
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcDoorLiningProperties : IfcPreDefinedPropertySet, IInstantiableEntity, IEqualityComparer<@IfcDoorLiningProperties>, IEquatable<@IfcDoorLiningProperties>
 	{
-		public static int LoadDepth = 1;
-
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcDoorLiningProperties(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -317,6 +315,23 @@ namespace Xbim.Ifc4.ArchitectureDomain
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcDoorLiningProperties
+            var root = (@IfcDoorLiningProperties)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcDoorLiningProperties left, @IfcDoorLiningProperties right)
         {

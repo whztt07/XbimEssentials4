@@ -22,8 +22,6 @@ namespace Xbim.Ifc2x3.Kernel
 	// ReSharper disable once PartialTypeWithSinglePart
 	public abstract partial class @IfcRoot : IPersistEntity, INotifyPropertyChanged, IEqualityComparer<@IfcRoot>, IEquatable<@IfcRoot>
 	{
-		public static int LoadDepth = 1;
-
 		#region Implementation of IPersistEntity
 
 		public int EntityLabel {get; internal set;}

@@ -21,8 +21,6 @@ namespace Xbim.Ifc2x3.GeometryResource
 	// ReSharper disable once PartialTypeWithSinglePart
 	public abstract partial class @IfcRepresentationItem : IPersistEntity, INotifyPropertyChanged, IfcLayeredItem, IEqualityComparer<@IfcRepresentationItem>, IEquatable<@IfcRepresentationItem>
 	{
-		public static int LoadDepth = 1;
-
 		#region Implementation of IPersistEntity
 
 		public int EntityLabel {get; internal set;}

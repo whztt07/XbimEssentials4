@@ -23,8 +23,6 @@ namespace Xbim.Ifc4.HvacDomain
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcBoiler : IfcEnergyConversionDevice, IInstantiableEntity, IEqualityComparer<@IfcBoiler>, IEquatable<@IfcBoiler>
 	{
-		public static int LoadDepth = 1;
-
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcBoiler(IModel model) : base(model) 		{ 
 			Model = model; 
@@ -91,6 +89,23 @@ namespace Xbim.Ifc4.HvacDomain
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcBoiler
+            var root = (@IfcBoiler)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcBoiler left, @IfcBoiler right)
         {

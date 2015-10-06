@@ -19,8 +19,6 @@ namespace Xbim.Ifc2x3.PresentationAppearanceResource
 	// ReSharper disable once PartialTypeWithSinglePart
 	public  partial class @IfcSurfaceStyleWithTextures : INotifyPropertyChanged, IfcSurfaceStyleElementSelect, IInstantiableEntity, IEqualityComparer<@IfcSurfaceStyleWithTextures>, IEquatable<@IfcSurfaceStyleWithTextures>
 	{
-		public static int LoadDepth = 1;
-
 		#region Implementation of IPersistEntity
 
 		public int EntityLabel {get; internal set;}
