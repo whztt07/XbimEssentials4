@@ -17,6 +17,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using Xbim.Common;
+using Xbim.Common.Metadata;
 using Xbim.Common.Step21;
 using Xbim.IO.Esent;
 
@@ -26,17 +27,17 @@ namespace Xbim.IO.Step21
 {
     public class Part21FileWriter 
     {
-        public void Write(IModel model, TextWriter output, IDictionary<int, int> map = null)
+        public void Write(IModel model, TextWriter output, ExpressMetaData metadata, IDictionary<int, int> map = null)
         {
             output.Write(HeaderAsString(model.Header ?? new StepFileHeader(StepFileHeader.HeaderCreationMode.InitWithXbimDefaults)));
             foreach (var entity in model.Instances)
-                    entity.WriteEntity(output, map);
+                entity.WriteEntity(output, metadata, map);
 
             output.WriteLine("ENDSEC;");
             output.WriteLine("END-ISO-10303-21;");
         }
 
-        public void Write(EsentModel model, TextWriter output, IDictionary<int, int> map = null)
+        public void Write(EsentModel model, TextWriter output, ExpressMetaData metadata, IDictionary<int, int> map = null)
         {
             output.Write(HeaderAsString(
                 model.Header ?? 
@@ -47,7 +48,7 @@ namespace Xbim.IO.Step21
             foreach (var item in model.InstanceHandles /*.Types.OrderBy(t=>t.Name)*/)
             {
                 var entity = model.GetInstanceVolatile(item);
-                entity.WriteEntity(output, map);
+                entity.WriteEntity(output, metadata, map);
             }
 
             output.WriteLine("ENDSEC;");

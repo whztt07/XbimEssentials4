@@ -293,9 +293,9 @@ namespace Xbim.IO.Esent
         {
             var ms = new MemoryStream();
             var bw = new BinaryWriter(ms);
-            toWrite.WriteEntity(bw);
-            var ifcType = ExpressMetaData.ExpressType(toWrite);
-            UpdateEntity(toWrite.EntityLabel, ifcType.TypeId, ifcType.GetIndexedValues(toWrite), ms.ToArray(), ifcType.IndexedClass);
+            toWrite.WriteEntity(bw, Model.Metadata);
+            var expressType = Model.Metadata.ExpressType(toWrite);
+            UpdateEntity(toWrite.EntityLabel, expressType.TypeId, expressType.GetIndexedValues(toWrite), ms.ToArray(), expressType.IndexedClass);
         }
 
         /// <summary>
@@ -365,9 +365,9 @@ namespace Xbim.IO.Esent
         {
             var ms = new MemoryStream();
             var bw = new BinaryWriter(ms);
-            toWrite.WriteEntity(bw);
-            var ifcType = ExpressMetaData.ExpressType(toWrite);
-            AddEntity(toWrite.EntityLabel, ifcType.TypeId, ifcType.GetIndexedValues(toWrite), ms.ToArray(), ifcType.IndexedClass);
+            toWrite.WriteEntity(bw, Model.Metadata);
+            var expressType = Model.Metadata.ExpressType(toWrite);
+            AddEntity(toWrite.EntityLabel, expressType.TypeId, expressType.GetIndexedValues(toWrite), ms.ToArray(), expressType.IndexedClass);
         }
         
 
@@ -404,24 +404,22 @@ namespace Xbim.IO.Esent
                 }
 
                 //now add in any extra index keys
-                if (indexKeys != null && indexKeys.Any())
+                if (indexKeys == null) return;
+
+                var transactionCounter = 0;
+                //SRL need to upgrade store to uint
+                foreach (var key in indexKeys.Distinct())
                 {
-                    var transactionCounter = 0;
-                    //SRL need to upgrade store to uint
-                    foreach (var key in indexKeys.Distinct())
+                    using (var update = new Update(Sesid, _indexTable, JET_prep.Insert))
                     {
-                        using (var update = new Update(Sesid, _indexTable, JET_prep.Insert))
-                        {
-                            _colValIdxKey.Value = (int)key;
-                            Api.SetColumns(Sesid, _indexTable, _colIdxValues);
-                            update.Save();
-                            transactionCounter++;
-                            if (trans.HasValue && transactionCounter % 100 == 0)
-                            {
-                                trans.Value.Commit();
-                                trans.Value.Begin();
-                            }
-                        }
+                        _colValIdxKey.Value = key;
+                        Api.SetColumns(Sesid, _indexTable, _colIdxValues);
+                        update.Save();
+                        transactionCounter++;
+                        if (!trans.HasValue || transactionCounter%100 != 0) continue;
+
+                        trans.Value.Commit();
+                        trans.Value.Begin();
                     }
                 }
             }
@@ -442,9 +440,9 @@ namespace Xbim.IO.Esent
         {
             //System.Diagnostics.Debug.Assert(typeof(IPersistEntity).IsAssignableFrom(type));
             var highest = RetrieveHighestLabel();
-            var ifcType = ExpressMetaData.ExpressType(type);
-            var h = new XbimInstanceHandle(Model, highest + 1, ifcType.TypeId);
-            AddEntity(h.EntityLabel, h.EntityTypeId, null, null, ifcType.IndexedClass);
+            var expressType = Model.Metadata.ExpressType(type);
+            var h = new XbimInstanceHandle(Model, highest + 1, expressType.TypeId);
+            AddEntity(h.EntityLabel, h.EntityTypeId, null, null, expressType.IndexedClass);
             return h;
         }
 
@@ -456,7 +454,7 @@ namespace Xbim.IO.Esent
         /// <returns>A handle to the entity</returns>
         internal XbimInstanceHandle AddEntity(Type type, int entityLabel)
         {
-            var entityType = ExpressMetaData.ExpressType(type);
+            var entityType = Model.Metadata.ExpressType(type);
             var h = new XbimInstanceHandle(Model, entityLabel, entityType.TypeId);
             AddEntity(h.EntityLabel, h.EntityTypeId, null, null, entityType.IndexedClass);
             return h;

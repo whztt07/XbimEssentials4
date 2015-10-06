@@ -68,9 +68,12 @@ namespace Xbim.IO.Xml
             OriginatingSystem = string.Format("Xbim version {0}", Assembly.GetExecutingAssembly().GetName().Version);
         }
 
+        private ExpressMetaData _metadata;
 
         public void Write(EsentModel  model, XmlWriter output)
         {
+            _metadata = model.Metadata;
+
             try
             {
                 _written = new HashSet<long>();
@@ -155,9 +158,9 @@ namespace Xbim.IO.Xml
             _written.Add(handle);
 
             var entity = model.GetInstanceVolatile(handle);
-            var ifcType = ExpressMetaData.ExpressType(entity);
+            var expressType = _metadata.ExpressType(entity);
 
-            output.WriteStartElement(ifcType.Type.Name);
+            output.WriteStartElement(expressType.Type.Name);
 
             output.WriteAttributeString("id", string.Format("i{0}", entity.EntityLabel));
             if (pos > -1) //we are writing out a list element
@@ -166,13 +169,13 @@ namespace Xbim.IO.Xml
             IEnumerable<ExpressMetaProperty> toWrite;
             if (WriteInverses)
             {
-                var l = new List<ExpressMetaProperty>(ifcType.Properties.Values);
-                l.AddRange(ifcType.Inverses);
+                var l = new List<ExpressMetaProperty>(expressType.Properties.Values);
+                l.AddRange(expressType.Inverses);
                 toWrite = l;
             }
             else
             {
-                toWrite = ifcType.Properties.Values;
+                toWrite = expressType.Properties.Values;
             }
             
             foreach (var ifcProperty in toWrite) //only write out persistent attributes, ignore inverses

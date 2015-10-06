@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Reflection;
 using Xbim.Common;
 using Xbim.Common.Logging;
 using Xbim.Common.Metadata;
@@ -13,19 +12,19 @@ namespace Xbim.IO.Esent
     {
 
         private readonly ILogger _logger;
+        private readonly ExpressMetaData _metadata;
 
         public XbimParserState(IPersistEntity entity, ILogger logger = null)
         {
             _currentInstance = new Part21Entity(entity);
             _processStack.Push(_currentInstance);
-            _schemaModule = entity.GetType().Module;
             _logger = logger;
+            _metadata = entity.Model.Metadata;
         }
 
         private readonly Stack<Part21Entity> _processStack = new Stack<Part21Entity>();
         private int _listNestLevel = -1;
         private Part21Entity _currentInstance;
-        private readonly Module _schemaModule;
         private readonly IndexPropertyValue _propertyValue = new IndexPropertyValue();
 
         public void BeginList()
@@ -53,7 +52,7 @@ namespace Xbim.IO.Esent
 
         internal void BeginNestedType(string typeName)
         {
-            var type = ExpressMetaData.ExpressType(typeName, _schemaModule);
+            var type = _metadata.ExpressType(typeName);
             _currentInstance = new Part21Entity((IPersist)Activator.CreateInstance(type.Type));
             _processStack.Push(_currentInstance);
         }
@@ -154,7 +153,7 @@ namespace Xbim.IO.Esent
         {
             get
             {
-                return ExpressMetaData.ExpressType(_currentInstance.Entity).Properties[_currentInstance.CurrentParamIndex+1];
+                return _metadata.ExpressType(_currentInstance.Entity).Properties[_currentInstance.CurrentParamIndex+1];
             }
         }
         internal short CurrentPropertyId

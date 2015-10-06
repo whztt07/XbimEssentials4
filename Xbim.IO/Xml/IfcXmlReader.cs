@@ -216,7 +216,7 @@ namespace Xbim.IO.Xml
         {
             var elementName = input.LocalName;
             bool isRefType;
-            var id = GetId(input, out isRefType, cache.Model.SchemaModule);
+            var id = GetId(input, out isRefType);
            
             ExpressType expressType;
             
@@ -225,7 +225,7 @@ namespace Xbim.IO.Xml
             int propIndex;
 
 
-            if (id.HasValue && IsIfcEntity(elementName, out expressType, cache.Model.SchemaModule)) //we have an element which is an Ifc Entity
+            if (id.HasValue && IsIfcEntity(elementName, out expressType)) //we have an element which is an Ifc Entity
             {
                 var ent = !cache.Contains(id.Value) ? 
                     cache.CreateNew(expressType.Type, id.Value) : 
@@ -274,7 +274,7 @@ namespace Xbim.IO.Xml
             }
             else if (input.IsEmptyElement)
             {
-                if (IsIfcProperty(elementName, out propIndex, out prop, cache.Model.SchemaModule))
+                if (IsIfcProperty(elementName, out propIndex, out prop))
                 {
                     var node = new XmlProperty(_currentNode, prop.PropertyInfo, propIndex);
                     var propVal = new PropertyValue();
@@ -316,7 +316,7 @@ namespace Xbim.IO.Xml
                     }
                     ((XmlEntity)node.Parent).Entity.Parse(node.PropertyIndex - 1, propVal);
                 }
-                else if (IsIfcType(elementName, out expressType, cache.Model.SchemaModule))
+                else if (IsIfcType(elementName, out expressType))
                 {
                     var param = new object[1];
                     param[0] = ""; // empty element
@@ -325,7 +325,7 @@ namespace Xbim.IO.Xml
                     ((XmlProperty)_currentNode).SetValue(ent);
                 }
             }
-            else if (!id.HasValue && IsIfcProperty(elementName, out propIndex, out prop, cache.Model.SchemaModule)) //we have an element which is a property
+            else if (!id.HasValue && IsIfcProperty(elementName, out propIndex, out prop)) //we have an element which is a property
             {
 
                 var cType = input.GetAttribute(_cTypeAttribute);
@@ -364,7 +364,7 @@ namespace Xbim.IO.Xml
                     if (!input.IsEmptyElement) _currentNode = n;
                 }
             }
-            else if (!id.HasValue && IsIfcType(elementName, out expressType, cache.Model.SchemaModule)) // we have an Ifc ExpressType
+            else if (!id.HasValue && IsIfcType(elementName, out expressType)) // we have an Ifc ExpressType
             {
 
 
@@ -390,13 +390,13 @@ namespace Xbim.IO.Xml
                 throw new Exception("Illegal XML element tag");
         }
 
-        private bool IsIfcProperty(string elementName, out int index, out ExpressMetaProperty prop, Module module)
+        private bool IsIfcProperty(string elementName, out int index, out ExpressMetaProperty prop)
         {
             ExpressType expressType;
             var xmlEntity = _currentNode as XmlEntity;
-            if (xmlEntity != null && !ExpressMetaData.TryGetExpressType(elementName.ToUpper(), out expressType, module))
+            if (xmlEntity != null && !_metadata.TryGetExpressType(elementName.ToUpper(), out expressType))
             {
-                var t = ExpressMetaData.ExpressType(xmlEntity.Entity);
+                var t = _metadata.ExpressType(xmlEntity.Entity);
 
                 foreach (var p in t.Properties.Where(p => p.Value.PropertyInfo.Name == elementName))
                 {
@@ -421,22 +421,22 @@ namespace Xbim.IO.Xml
 
         }
 
-        private bool IsIfcType(string elementName, out ExpressType expressType, Module module)
+        private bool IsIfcType(string elementName, out ExpressType expressType)
         {
-            var ok = ExpressMetaData.TryGetExpressType(elementName.ToUpper(), out expressType, module);
+            var ok = _metadata.TryGetExpressType(elementName.ToUpper(), out expressType);
             if (!ok)
             {
 
                 if (elementName.Contains("-wrapper") && elementName.StartsWith(_expressNamespace) == false) // we have an inline type definition
                 {
                     var inputName = elementName.Substring(0, elementName.LastIndexOf("-", StringComparison.Ordinal));
-                    ok = ExpressMetaData.TryGetExpressType(inputName.ToUpper(), out expressType, module);
+                    ok = _metadata.TryGetExpressType(inputName.ToUpper(), out expressType);
                 }
             }
             return ok && typeof(IExpressValueType).IsAssignableFrom(expressType.Type);
         }
 
-        private int? GetId(XmlReader input, out bool isRefType, Module module)
+        private int? GetId(XmlReader input, out bool isRefType)
         {
             isRefType = false;
             int? nextId = null;
@@ -466,7 +466,7 @@ namespace Xbim.IO.Xml
                 //return Convert.ToInt32(match.Value);
                 
             }
-            else if (IsIfcEntity(input.LocalName, out expressType, module) && !typeof(IExpressValueType).IsAssignableFrom(expressType.Type)) //its a type with no identity, make one
+            else if (IsIfcEntity(input.LocalName, out expressType) && !typeof(IExpressValueType).IsAssignableFrom(expressType.Type)) //its a type with no identity, make one
             {
                 ++_lastId;
                 nextId = _lastId;
@@ -475,13 +475,12 @@ namespace Xbim.IO.Xml
             return nextId;
         }
 
-        private bool IsIfcEntity(string elementName, out ExpressType expressType, Module module)
+        private bool IsIfcEntity(string elementName, out ExpressType expressType)
         {
-
-            return ExpressMetaData.TryGetExpressType(elementName.ToUpper(), out expressType, module);
+            return _metadata.TryGetExpressType(elementName.ToUpper(), out expressType);
         }
 
-        private void EndElement(XmlReader input, XmlNodeType prevInputType, string prevInputName, out IPersistEntity writeEntity, Module module)
+        private void EndElement(XmlReader input, XmlNodeType prevInputType, string prevInputName, out IPersistEntity writeEntity)
         {
             try
             {
@@ -536,7 +535,7 @@ namespace Xbim.IO.Xml
                         {
                             //propNode.SetValue(expressNode);
                             ExpressType expressType;
-                            if (IsIfcType(input.LocalName, out expressType, module))
+                            if (IsIfcType(input.LocalName, out expressType))
                             //we have an IPersistIfc
                             {
                                 var param = new object[1];
@@ -776,11 +775,13 @@ namespace Xbim.IO.Xml
             }
         }
 
-
+        private ExpressMetaData _metadata;
 
         internal StepFileHeader Read(PersistedEntityInstanceCache entityInstanceCache, XbimEntityCursor entityTable,  XmlReader input)
         {
-           
+
+            _metadata = entityInstanceCache.Model.Metadata;
+
             // Read until end of file
             _idMap = new Dictionary<string, int>();
             _lastId = 0;
@@ -888,7 +889,7 @@ namespace Xbim.IO.Xml
                             case XmlNodeType.EndElement:
                                 IPersistEntity toWrite;
                                 //if toWrite has a value we have completed an Ifc Entity
-                                EndElement(input, prevInputType, prevInputName, out toWrite, entityInstanceCache.Model.SchemaModule);
+                                EndElement(input, prevInputType, prevInputName, out toWrite);
                                 if (toWrite != null)
                                 {
                                     _entitiesParsed++;

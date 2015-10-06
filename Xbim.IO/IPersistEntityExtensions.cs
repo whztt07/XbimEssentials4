@@ -16,29 +16,29 @@ namespace Xbim.IO
 
         #region Write the properties of an IPersistEntity to a stream
 
-        /// <summary>
-        /// Returns the index value of this type for use in Xbim database storage
-        /// </summary>
-        /// <param name="entity"></param>
-        /// <returns></returns>
-        public static short ExpressTypeId(this  IPersist entity)
-        {
-            return ExpressMetaData.ExpressTypeId(entity);
-        }
+        ///// <summary>
+        ///// Returns the index value of this type for use in Xbim database storage
+        ///// </summary>
+        ///// <param name="entity"></param>
+        ///// <returns></returns>
+        //public static short ExpressTypeId(this  IPersist entity)
+        //{
+        //    return ExpressMetaData.ExpressTypeId(entity);
+        //}
 
-        /// <summary>
-        /// Returns the Xbim meta data about the Ifc Properties of the Type
-        /// </summary>
-        /// <param name="entity"></param>
-        /// <returns></returns>
-        public static ExpressType ExpressType(this  IPersist entity)
-        {
-            return ExpressMetaData.ExpressType(entity);
-        }
+        ///// <summary>
+        ///// Returns the Xbim meta data about the Ifc Properties of the Type
+        ///// </summary>
+        ///// <param name="entity"></param>
+        ///// <returns></returns>
+        //public static ExpressType ExpressType(this  IPersist entity)
+        //{
+        //    return ExpressMetaData.ExpressType(entity);
+        //}
 
-        internal static void WriteEntity(this IPersistEntity entity, TextWriter tw, byte[] propertyData)
+        internal static void WriteEntity(this IPersistEntity entity, TextWriter tw, byte[] propertyData, ExpressMetaData metadata)
         {
-            var type = ExpressMetaData.ExpressType(entity);
+            var type = metadata.ExpressType(entity);
             tw.Write("#{0}={1}", entity.EntityLabel, type.ExpressName);
             var br = new BinaryReader(new MemoryStream(propertyData));
             var action = (P21ParseAction)br.ReadByte();
@@ -144,15 +144,15 @@ namespace Xbim.IO
         /// <param name="entityWriter">The TextWriter</param>
         /// <param name="entity">The entity to write</param>
         /// <param name="map"></param>
-        internal static void WriteEntity(this IPersistEntity entity, TextWriter entityWriter, IDictionary<int, int> map = null)
+        internal static void WriteEntity(this IPersistEntity entity, TextWriter entityWriter, ExpressMetaData metadata, IDictionary<int, int> map = null)
         {
-            var type = ExpressMetaData.ExpressType(entity);
+            var type = metadata.ExpressType(entity);
             if (map != null && map.Keys.Contains(entity.EntityLabel)) return; //if the entity is replaced in the map do not write it
             entityWriter.Write("#{0}={1}(", entity.EntityLabel, type.ExpressName);
-            var ifcType = ExpressMetaData.ExpressType(entity);
+            var expressType = metadata.ExpressType(entity);
             var first = true;
             
-            foreach (var ifcProperty in ifcType.Properties.Values)
+            foreach (var ifcProperty in expressType.Properties.Values)
             //only write out persistent attributes, ignore inverses
             {
                 if (ifcProperty.EntityAttribute.State == EntityAttributeState.DerivedOverride)
@@ -168,7 +168,7 @@ namespace Xbim.IO
                     var propVal = ifcProperty.PropertyInfo.GetValue(entity, null);
                     if (!first)
                         entityWriter.Write(',');
-                    WriteProperty(propType, propVal, entityWriter, map);
+                    WriteProperty(propType, propVal, entityWriter, map, metadata);
                     first = false;
                 }
             }
@@ -183,7 +183,7 @@ namespace Xbim.IO
         /// <param name="propVal"></param>
         /// <param name="entityWriter"></param>
         /// <param name="map"></param>
-        private static void WriteProperty(Type propType, object propVal, TextWriter entityWriter,IDictionary<int,int> map)
+        private static void WriteProperty(Type propType, object propVal, TextWriter entityWriter,IDictionary<int,int> map, ExpressMetaData metadata)
         {
             Type itemType;
             if (propVal == null) //null or a value type that maybe null
@@ -202,7 +202,7 @@ namespace Xbim.IO
                     {
                         if (!first)
                             entityWriter.Write(',');
-                        WriteProperty(compVal.GetType(), compVal, entityWriter,map);
+                        WriteProperty(compVal.GetType(), compVal, entityWriter,map, metadata);
                         first = false;
                     }
                     entityWriter.Write(')');
@@ -225,7 +225,7 @@ namespace Xbim.IO
                 {
                     if (!first)
                         entityWriter.Write(',');
-                    WriteProperty(compVal.GetType(), compVal, entityWriter, map);
+                    WriteProperty(compVal.GetType(), compVal, entityWriter, map, metadata);
                     first = false;
                 }
                 entityWriter.Write(')');
@@ -239,7 +239,7 @@ namespace Xbim.IO
                 {
                     entityWriter.Write(realType.Name.ToUpper());
                     entityWriter.Write('(');
-                    WriteProperty(realType, propVal, entityWriter, map);
+                    WriteProperty(realType, propVal, entityWriter, map, metadata);
                     entityWriter.Write(')');
                 }
                 else //need to write out underlying property value
@@ -258,7 +258,7 @@ namespace Xbim.IO
                 {
                     if (!first)
                         entityWriter.Write(',');
-                    WriteProperty(itemType, item, entityWriter, map);
+                    WriteProperty(itemType, item, entityWriter, map, metadata);
                     first = false;
                 }
                 entityWriter.Write(')');
@@ -282,15 +282,15 @@ namespace Xbim.IO
             {
                 if (propVal.GetType().IsValueType) //we have a value type, so write out explicitly
                 {
-                    var type = ExpressMetaData.ExpressType(propVal.GetType());
+                    var type = metadata.ExpressType(propVal.GetType());
                     entityWriter.Write(type.ExpressName);
                     entityWriter.Write('(');
-                    WriteProperty(propVal.GetType(), propVal, entityWriter, map);
+                    WriteProperty(propVal.GetType(), propVal, entityWriter, map, metadata);
                     entityWriter.Write(')');
                 }
                 else //could be anything so re-evaluate actual type
                 {
-                    WriteProperty(propVal.GetType(), propVal, entityWriter, map);
+                    WriteProperty(propVal.GetType(), propVal, entityWriter, map, metadata);
                 }
             }
             else
@@ -354,13 +354,13 @@ namespace Xbim.IO
             return new XbimInstanceHandle(entity);
         }
 
-        public static void WriteEntity(this IPersistEntity entity, BinaryWriter entityWriter)
+        public static void WriteEntity(this IPersistEntity entity, BinaryWriter entityWriter, ExpressMetaData metadata)
         {
-           
-            var ifcType = ExpressMetaData.ExpressType(entity);
+
+            var expressType = metadata.ExpressType(entity);
            // entityWriter.Write(Convert.ToByte(P21ParseAction.NewEntity));
             entityWriter.Write(Convert.ToByte(P21ParseAction.BeginList));
-            foreach (var ifcProperty in ifcType.Properties.Values)
+            foreach (var ifcProperty in expressType.Properties.Values)
             //only write out persistent attributes, ignore inverses
             {
                 if (ifcProperty.EntityAttribute.State == EntityAttributeState.DerivedOverride)
@@ -369,14 +369,14 @@ namespace Xbim.IO
                 {
                     var propType = ifcProperty.PropertyInfo.PropertyType;
                     var propVal = ifcProperty.PropertyInfo.GetValue(entity, null);
-                    WriteProperty(propType, propVal, entityWriter);
+                    WriteProperty(propType, propVal, entityWriter, metadata);
                 }
             }
             entityWriter.Write(Convert.ToByte(P21ParseAction.EndList));
             entityWriter.Write(Convert.ToByte(P21ParseAction.EndEntity));
         }
 
-        private static  void WriteProperty(Type propType, object propVal, BinaryWriter entityWriter)
+        private static void WriteProperty(Type propType, object propVal, BinaryWriter entityWriter, ExpressMetaData metadata)
         {
             Type itemType;
             if (propVal == null) //null or a value type that maybe null
@@ -393,7 +393,7 @@ namespace Xbim.IO
                 {
                     entityWriter.Write(Convert.ToByte(P21ParseAction.BeginList));
                     foreach (var compVal in complexType.Properties)
-                        WriteProperty(compVal.GetType(), compVal, entityWriter);
+                        WriteProperty(compVal.GetType(), compVal, entityWriter, metadata);
                     entityWriter.Write(Convert.ToByte(P21ParseAction.EndList));
                 }
                 else if ((propVal is IExpressValueType))
@@ -410,7 +410,7 @@ namespace Xbim.IO
             {
                 entityWriter.Write(Convert.ToByte(P21ParseAction.BeginList));
                 foreach (var compVal in ((IExpressComplexType) propVal).Properties)
-                    WriteProperty(compVal.GetType(), compVal, entityWriter);
+                    WriteProperty(compVal.GetType(), compVal, entityWriter, metadata);
                 entityWriter.Write(Convert.ToByte(P21ParseAction.EndList));
             }
             else if (typeof (IExpressValueType).IsAssignableFrom(propType))
@@ -423,7 +423,7 @@ namespace Xbim.IO
                     entityWriter.Write(Convert.ToByte(P21ParseAction.BeginNestedType));
                     entityWriter.Write(realType.Name.ToUpper());
                     entityWriter.Write(Convert.ToByte(P21ParseAction.BeginList));
-                    WriteProperty(realType, propVal, entityWriter);
+                    WriteProperty(realType, propVal, entityWriter, metadata);
                     entityWriter.Write(Convert.ToByte(P21ParseAction.EndList));
                     entityWriter.Write(Convert.ToByte(P21ParseAction.EndNestedType));
                 }
@@ -439,7 +439,7 @@ namespace Xbim.IO
             {
                 entityWriter.Write(Convert.ToByte(P21ParseAction.BeginList));
                 foreach (var item in ((IExpressEnumerable) propVal))
-                    WriteProperty(itemType, item, entityWriter);
+                    WriteProperty(itemType, item, entityWriter, metadata);
                 entityWriter.Write(Convert.ToByte(P21ParseAction.EndList));
             }
             else if (typeof (IPersistEntity).IsAssignableFrom(propType))
@@ -477,17 +477,17 @@ namespace Xbim.IO
             {
                 if (propVal.GetType().IsValueType) //we have a value type, so write out explicitly
                 {
-                    var type = ExpressMetaData.ExpressType(propVal.GetType());
+                    var type = metadata.ExpressType(propVal.GetType());
                     entityWriter.Write(Convert.ToByte(P21ParseAction.BeginNestedType));
                     entityWriter.Write(type.ExpressName);
                     entityWriter.Write(Convert.ToByte(P21ParseAction.BeginList));
-                    WriteProperty(propVal.GetType(), propVal, entityWriter);
+                    WriteProperty(propVal.GetType(), propVal, entityWriter, metadata);
                     entityWriter.Write(Convert.ToByte(P21ParseAction.EndList));
                     entityWriter.Write(Convert.ToByte(P21ParseAction.EndNestedType));
                 }
                 else //could be anything so re-evaluate actual type
                 {
-                    WriteProperty(propVal.GetType(), propVal, entityWriter);
+                    WriteProperty(propVal.GetType(), propVal, entityWriter, metadata);
                 }
             }
             else
@@ -582,11 +582,12 @@ namespace Xbim.IO
         /// <param name = "entityStream"></param>
         /// <param name = "entityWriter"></param>
         /// <param name = "item"></param>
-        private static int WriteEntityToSteam(MemoryStream entityStream, BinaryWriter entityWriter, IInstantiableEntity item)
+        /// <param name="metadata"></param>
+        private static int WriteEntityToSteam(MemoryStream entityStream, BinaryWriter entityWriter, IPersistEntity item, ExpressMetaData metadata)
         {
             entityWriter.Seek(0, SeekOrigin.Begin);
             entityWriter.Write(0);
-            item.WriteEntity(entityWriter);
+            item.WriteEntity(entityWriter, metadata);
             var len = Convert.ToInt32(entityStream.Position);
             entityWriter.Seek(0, SeekOrigin.Begin);
             entityWriter.Write(len);

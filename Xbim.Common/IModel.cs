@@ -34,9 +34,9 @@ namespace Xbim.Common
         /// </summary>
 		ITransaction CurrentTransaction { get; }
 
-		System.Reflection.Module SchemaModule { get; }
-
 		IModelFactors ModelFactors { get; }
+
+        ExpressMetaData Metadata { get; }
 
 		/// <summary>
         /// Performs a set of actions on a collection of entities inside a single read only transaction

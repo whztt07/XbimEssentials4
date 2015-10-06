@@ -7,51 +7,135 @@ namespace Xbim.Common.Metadata
 {
     public class ExpressType
     {
-        private Type _type;
-        public short TypeId;
-        public string ExpressName;
-        public SortedList<int, ExpressMetaProperty> Properties = new SortedList<int, ExpressMetaProperty>();
-        public List<ExpressMetaProperty> Inverses = new List<ExpressMetaProperty>();
-        public ExpressType SuperType;
-        public List<ExpressType> SubTypes = new List<ExpressType>();
+        #region Fields
+
+        private readonly SortedList<int, ExpressMetaProperty> _properties = new SortedList<int, ExpressMetaProperty>();
+        private readonly List<ExpressMetaProperty> _inverses = new List<ExpressMetaProperty>();
+        private readonly List<ExpressType> _subTypes = new List<ExpressType>();
         private List<Type> _nonAbstractSubTypes;
-        private List<ExpressMetaProperty> _expressEnumerableProperties;
-        internal bool IndexedClass;
+        private readonly List<ExpressMetaProperty> _expressEnumerableProperties = new List<ExpressMetaProperty>();
+        private readonly string _expressName;
+        private readonly short _typeId;
+        private readonly List<PropertyInfo> _indexedProperties;
+        private readonly List<int> _indexedValues;
 
-        public Type Type
+        #endregion
+
+        #region Properties
+
+        public ExpressType SuperType { get; internal set; }
+
+        public bool IndexedClass { get; private set; }
+
+        public string ExpressName
         {
-            get { return _type; }
-            set{
-                _type = value;
-                var entNameAttr = Type.GetCustomAttributes(typeof(ExpressTypeAttribute), false).FirstOrDefault();
-                if (entNameAttr == null)
-#if DEBUG
-                    throw new Exception("Express Type is not defined for " + Type.Name);
-#else
-                    return -1;
-#endif
-                TypeId =  (short)((ExpressTypeAttribute)entNameAttr).EntityTypeId;
-                ExpressName = ((ExpressTypeAttribute)entNameAttr).Name;
-            }
+            get { return _expressName; }
         }
-           
 
-        public List<ExpressMetaProperty> ExpressEnumerableProperties
+        public short TypeId
+        {
+            get { return _typeId; }
+        }
+
+        public IEnumerable<ExpressMetaProperty> Inverses
+        {
+            get { return _inverses; }
+        }
+
+        public SortedList<int, ExpressMetaProperty> Properties
+        {
+            get { return _properties; }
+        }
+
+        public Type Type { get; private set; }
+
+        public IEnumerable<ExpressMetaProperty> ExpressEnumerableProperties
         {
             get
             {
-                if (_expressEnumerableProperties == null)
-                {
-                    _expressEnumerableProperties = new List<ExpressMetaProperty>();
-                    foreach (var prop in Properties.Values)
-                    {
-                        if (typeof(IExpressEnumerable).IsAssignableFrom(prop.PropertyInfo.PropertyType))
-                            _expressEnumerableProperties.Add(prop);
-                    }
-                }
                 return _expressEnumerableProperties;
             }
         }
+
+        /// <summary>
+        /// Don't ask for this before types hierarchy is finished or it will cache incomplete result.
+        /// </summary>
+        public IEnumerable<Type> NonAbstractSubTypes
+        {
+            get
+            {
+                lock (this)
+                {
+                    //this needs to be set up after hierarchy is set up
+                    if (_nonAbstractSubTypes != null) return _nonAbstractSubTypes;
+                    _nonAbstractSubTypes = new List<Type>();
+                    AddNonAbstractTypes(this, _nonAbstractSubTypes);
+                }
+                return _nonAbstractSubTypes;
+            }
+        }
+
+        #endregion
+
+        public ExpressType(Type type)
+        {
+            Type = type;
+            var entNameAttr = Type.GetCustomAttributes(typeof(ExpressTypeAttribute), false).FirstOrDefault();
+#if DEBUG
+            if (entNameAttr == null)
+                throw new Exception("Express Type is not defined for " + Type.Name);
+#endif
+            _typeId = (short)((ExpressTypeAttribute)entNameAttr).EntityTypeId;
+            _expressName = ((ExpressTypeAttribute)entNameAttr).Name;
+
+            IndexedClass = type.GetCustomAttributes(typeof(IndexedClass), true).Any();
+
+            
+
+            var properties =
+                type.GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
+            foreach (var propInfo in properties)
+            {
+                var attributeIdx = -1;
+                var attribute =
+                    ((EntityAttributeAttribute[])propInfo.GetCustomAttributes(typeof(EntityAttributeAttribute), false)).FirstOrDefault();
+                if(attribute == null)
+                    continue;
+
+                if (attribute.Order > 0)
+                {
+                    // SUPPORT: if the code breaks here there's a problem with the order attribut in a class property
+                    _properties.Add(attribute.Order,
+                                                new ExpressMetaProperty { PropertyInfo = propInfo, EntityAttribute = attribute });
+                    attributeIdx = attribute.Order;
+                }
+                else
+                    _inverses.Add(new ExpressMetaProperty { PropertyInfo = propInfo, EntityAttribute = attribute });
+               
+                var isIndexed =
+                    propInfo.GetCustomAttributes(typeof(IndexedProperty), false).Any();
+                if (!isIndexed) continue;
+
+                //TODO: MC: Review with Steve. This is not true for IfcRelDefinesByProperties.RelatingPropertyDefinition in IFC4
+                //Debug.Assert(typeof(IPersistEntity).IsAssignableFrom(propInfo.PropertyType)
+                //    || typeof(IEnumerable<IPersistEntity>).IsAssignableFrom(propInfo.PropertyType)); //only handles to IPersistEntitiess or collecctions of IPersistEntities are indexable
+                    
+                if (_indexedProperties == null) _indexedProperties = new List<PropertyInfo>();
+                if (_indexedValues == null) _indexedValues = new List<int>();
+                _indexedProperties.Add(propInfo);
+                _indexedValues.Add(attributeIdx);
+                IndexedClass = true; //if it has keys it must be an indexed class
+            }
+
+            //cache enumerable properties
+            foreach (var prop in _properties.Values.Where(prop => typeof(IExpressEnumerable).IsAssignableFrom(prop.PropertyInfo.PropertyType)))
+            {
+                _expressEnumerableProperties.Add(prop);
+            }
+        }
+
+
+
 
         public override string ToString()
         {
@@ -60,22 +144,7 @@ namespace Xbim.Common.Metadata
 
 
 
-        public IList<Type> NonAbstractSubTypes
-        {
-            get
-            {
-                lock (this)
-                {
-                    if (_nonAbstractSubTypes == null)
-                    {
-                        _nonAbstractSubTypes = new List<Type>();
-                        AddNonAbstractTypes(this, _nonAbstractSubTypes);
-                    }
-                    return _nonAbstractSubTypes;
-                }
-               
-            }
-        }
+
         /// <summary>
         /// If the type has indexed attributes, this returns a set of unique values for the specified IPersistEntity
         /// </summary>
@@ -89,6 +158,12 @@ namespace Xbim.Common.Metadata
             foreach (var prop in IndexedProperties)
             {
                 var o = prop.GetValue(ent, null);
+                if(o == null) 
+                    continue;
+                var optSet = o as IOptionalItemSet;
+                if (optSet != null && !optSet.Initialized)
+                    continue;
+
                 var entity = o as IPersistEntity;
                 if (entity != null)
                 {
@@ -103,19 +178,27 @@ namespace Xbim.Common.Metadata
                         keys.Add(h); //normally there are only one or two keys so don't worry about performance of contains on a list
                     }                    
                 }
+                //TODO: MC: This won't be true for IfcRelDefinesByProperties.RelatingPropertyDefinition where 'o' might be only IPersist (IfcPropertySetDefinitionSet is a value type)
+
             }
             return keys;
         }
 
-        internal List<PropertyInfo> IndexedProperties { get; private set; }
+        internal IEnumerable<PropertyInfo> IndexedProperties
+        {
+            get { return _indexedProperties ?? Enumerable.Empty<PropertyInfo>(); }
+        }
 
-        internal List<int> IndexedValues { get; private set; }
+        internal IList<int> IndexedValues
+        {
+            get { return _indexedValues; }
+        }
 
-        private static void AddNonAbstractTypes(ExpressType expressType, List<Type> nonAbstractTypes)
+        private static void AddNonAbstractTypes(ExpressType expressType, ICollection<Type> nonAbstractTypes)
         {
             if (!expressType.Type.IsAbstract) //this is a concrete type so add it
                 nonAbstractTypes.Add(expressType.Type);
-            foreach (var subType in expressType.SubTypes)
+            foreach (var subType in expressType._subTypes)
                 AddNonAbstractTypes(subType, nonAbstractTypes);
         }
 
@@ -130,14 +213,6 @@ namespace Xbim.Common.Metadata
             return IndexedValues != null && IndexedValues.Contains(attributeIndex);
         }
 
-        internal void AddIndexedAttribute(PropertyInfo pInfo, int attributeIdx)
-        {
-            if (IndexedProperties == null) IndexedProperties = new List<PropertyInfo>();
-            if (IndexedValues == null) IndexedValues = new List<int>();
-            IndexedProperties.Add(pInfo);
-            IndexedValues.Add(attributeIdx);
-            IndexedClass = true; //if it has keys it must be an indexed class
-        }
         /// <summary>
         /// Returns true if the type has an indexed attribute
         /// </summary>
@@ -146,7 +221,7 @@ namespace Xbim.Common.Metadata
         {
             get
             {
-                return IndexedValues != null && IndexedValues.Count > 0;
+                return IndexedValues != null && _indexedValues.Count > 0;
             }
         }
 
@@ -156,6 +231,11 @@ namespace Xbim.Common.Metadata
             {
                 return Type.Name; 
             }
+        }
+
+        public List<ExpressType> SubTypes
+        {
+            get { return _subTypes; }
         }
     }
 

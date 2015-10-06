@@ -44,12 +44,14 @@ namespace Xbim.IO.Step21
         private int _percentageParsed;
         private bool _deferListItems;
 
-       
+
+        private ExpressMetaData _metadata;
 
 
-        public XbimP21Parser(Stream strm)
+        public XbimP21Parser(Stream strm, ExpressMetaData metadata)
             : base(strm)
         {
+            _metadata = metadata;
             var entityApproxCount = 5000;
             if (strm.CanSeek)
             {
@@ -140,17 +142,14 @@ namespace Xbim.IO.Step21
             _currentInstance = new Part21Entity(entityLabel);
             // Console.WriteLine(CurrentSemanticValue.strVal);
             _processStack.Push(_currentInstance);
-            if (_streamSize != -1 && ProgressStatus != null)
-            {
-                var sc = (Scanner) this.Scanner;
-                double pos = sc.Buffer.Pos;
-                var newPercentage = Convert.ToInt32(pos/_streamSize*100.0);
-                if (newPercentage > _percentageParsed)
-                {
-                    _percentageParsed = newPercentage;
-                    ProgressStatus(_percentageParsed, "Parsing");
-                }
-            }
+            if (_streamSize == -1 || ProgressStatus == null) return;
+
+            var sc = (Scanner) Scanner;
+            double pos = sc.Buffer.Pos;
+            var newPercentage = Convert.ToInt32(pos/_streamSize*100.0);
+            if (newPercentage <= _percentageParsed) return;
+            _percentageParsed = newPercentage;
+            ProgressStatus(_percentageParsed, "Parsing");
         }
 
         internal override void SetType(string entityTypeName)
@@ -280,11 +279,11 @@ namespace Xbim.IO.Step21
                 var mainEntity = _processStack.Last();
                 if (mainEntity != null)
                 {
-                    var ifcType = ExpressMetaData.ExpressType(mainEntity.Entity);
+                    var expressType = _metadata.ExpressType(mainEntity.Entity);
                     Logger.ErrorFormat("Entity #{0,-5} {1}, error at parameter {2}-{3} value = {4}",
                                                mainEntity.EntityLabel, mainEntity.Entity.GetType().Name.ToUpper(),
                                                mainEntity.CurrentParamIndex + 1,
-                                               ifcType.Properties[mainEntity.CurrentParamIndex + 1].PropertyInfo.Name,
+                                               expressType.Properties[mainEntity.CurrentParamIndex + 1].PropertyInfo.Name,
                                                value);
                 }
                 else
@@ -325,10 +324,10 @@ namespace Xbim.IO.Step21
                 var mainEntity = _processStack.Last();
                 if (mainEntity != null)
                 {
-                    var ifcType = ExpressMetaData.ExpressType(mainEntity.Entity);
+                    var expressType = _metadata.ExpressType(mainEntity.Entity);
 
-                    var propertyName = mainEntity.CurrentParamIndex + 1 > ifcType.Properties.Count ? "[UnknownProperty]" :
-                        ifcType.Properties[mainEntity.CurrentParamIndex + 1].PropertyInfo.Name;
+                    var propertyName = mainEntity.CurrentParamIndex + 1 > expressType.Properties.Count ? "[UnknownProperty]" :
+                        expressType.Properties[mainEntity.CurrentParamIndex + 1].PropertyInfo.Name;
 
                     Logger.ErrorFormat("Entity #{0,-5} {1}, error at parameter {2}-{3} value = {4}",
                                                mainEntity.EntityLabel, 
@@ -373,11 +372,11 @@ namespace Xbim.IO.Step21
                 if (_errorCount > MaxErrorCount)
                     throw new Exception("Too many errors in file, parser execution terminated");
                 _errorCount++;
-                var ifcType = ExpressMetaData.ExpressType(host);
-                var propertyName = paramIndex+1 > ifcType.Properties.Count ? "[UnknownProperty]" :
-                        ifcType.Properties[paramIndex+1].PropertyInfo.Name;
+                var expressType = _metadata.ExpressType(host);
+                var propertyName = paramIndex+1 > expressType.Properties.Count ? "[UnknownProperty]" :
+                        expressType.Properties[paramIndex+1].PropertyInfo.Name;
                 Logger.ErrorFormat("Entity #{0,-5} {1}, error at parameter {2}-{3}",
-                                           refID, ifcType.Type.Name.ToUpper(), paramIndex + 1,
+                                           refID, expressType.Type.Name.ToUpper(), paramIndex + 1,
                                            propertyName);
                 
             }

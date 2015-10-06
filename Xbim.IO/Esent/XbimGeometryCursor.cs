@@ -166,14 +166,14 @@ namespace Xbim.IO.Esent
         /// </summary>
         /// <param name="prodLabel"></param>
         /// <param name="type"></param>
-        /// <param name="ifcType"></param>
+        /// <param name="expressType"></param>
         /// <param name="transform"></param>
         /// <param name="shapeData"></param>
         /// <param name="subPart"></param>
         /// <param name="styleLabel"></param>
         /// <param name="geometryHash"></param>
         /// <returns></returns>
-        public int AddGeometry(int prodLabel, XbimGeometryType type, short ifcType, byte[] transform, byte[] shapeData, short subPart = 0, int styleLabel = 0, int? geometryHash = null)
+        public int AddGeometry(int prodLabel, XbimGeometryType type, short expressType, byte[] transform, byte[] shapeData, short subPart = 0, int styleLabel = 0, int? geometryHash = null)
         {
 
             var mainId = -1;
@@ -182,7 +182,7 @@ namespace Xbim.IO.Esent
 
                 _colValProductLabel.Value = prodLabel;
                 _colValGeomType.Value = (Byte)type;
-                _colValProductIfcTypeId.Value = ifcType;
+                _colValProductIfcTypeId.Value = expressType;
                 _colValSubPart.Value = subPart;
                 _colValTransformMatrix.Value = transform;
                 _colValShapeData.Value = shapeData;
@@ -190,7 +190,7 @@ namespace Xbim.IO.Esent
                 // if (styleLabel > 0)
                 _colValStyleLabel.Value = styleLabel;
                 // else
-                //     _colValStyleLabel.Value = -ifcType; //use the negative type id as a style for object that have no render material
+                //     _colValStyleLabel.Value = -expressType; //use the negative type id as a style for object that have no render material
                 Api.SetColumns(Sesid, Table, _colValues);
 
                 try
@@ -247,7 +247,7 @@ namespace Xbim.IO.Esent
         }
 
 
-        public int AddMapGeometry(int geomId, int prodLabel, short ifcType, byte[] transform, int styleLabel = 0)
+        public int AddMapGeometry(int geomId, int prodLabel, short expressType, byte[] transform, int styleLabel = 0)
         {
             Api.JetSetCurrentIndex(Sesid, Table, GeometryTablePrimaryIndex);
             Api.MakeKey(Sesid, Table, geomId, MakeKeyGrbit.NewKey);
@@ -260,12 +260,12 @@ namespace Xbim.IO.Esent
                 {
 
                     Api.SetColumn(Sesid, Table, _colIdProductLabel, prodLabel);
-                    Api.SetColumn(Sesid, Table, _colIdProductIfcTypeId, ifcType);
+                    Api.SetColumn(Sesid, Table, _colIdProductIfcTypeId, expressType);
                     Api.SetColumn(Sesid, Table, _colIdTransformMatrix, transform);
                     if (styleLabel > 0)
                         Api.SetColumn(Sesid, Table, _colIdStyleLabel, styleLabel);
                     else
-                        Api.SetColumn(Sesid, Table, _colIdStyleLabel, -ifcType); //use the negative type id as a style for object that have no render material
+                        Api.SetColumn(Sesid, Table, _colIdStyleLabel, -expressType); //use the negative type id as a style for object that have no render material
                     UpdateCount(1);
                     var mapGeomId = Api.RetrieveColumnAsInt32(Sesid, Table, _colIdGeometryLabel, RetrieveColumnGrbit.RetrieveCopy);
                     update.Save();
@@ -282,12 +282,12 @@ namespace Xbim.IO.Esent
                         using (var update = new Update(sesid, table, JET_prep.InsertCopy))
                         {
                             Api.SetColumn(sesid, table, _colIdProductLabel, prodLabel);
-                            Api.SetColumn(sesid, table, _colIdProductIfcTypeId, ifcType);
+                            Api.SetColumn(sesid, table, _colIdProductIfcTypeId, expressType);
                             Api.SetColumn(sesid, table, _colIdTransformMatrix, transform);
                             if (styleLabel > 0)
                                 Api.SetColumn(sesid, table, _colIdStyleLabel, styleLabel);
                             else
-                                Api.SetColumn(sesid, table, _colIdStyleLabel, -ifcType); //use the negative type id as a style for object that have no render material
+                                Api.SetColumn(sesid, table, _colIdStyleLabel, -expressType); //use the negative type id as a style for object that have no render material
                             UpdateCount(1);
                             update.Save();
                         }
@@ -391,7 +391,7 @@ namespace Xbim.IO.Esent
 
         private XbimGeometryHandleCollection GetGeometryHandlesById(XbimGeometryType geomType)
         {
-            var result = new XbimGeometryHandleCollection(Model.SchemaModule);
+            var result = new XbimGeometryHandleCollection();
             Api.JetSetCurrentIndex(Sesid, Table, GeometryTablePrimaryIndex);
 
             Api.MakeKey(Sesid, Table, (byte)geomType, MakeKeyGrbit.NewKey);
@@ -403,12 +403,12 @@ namespace Xbim.IO.Esent
                     do
                     {
                         var style = Api.RetrieveColumnAsInt32(Sesid, Table, _colIdStyleLabel);
-                        var ifcType = Api.RetrieveColumnAsInt16(Sesid, Table, _colIdProductIfcTypeId);
+                        var expressType = Api.RetrieveColumnAsInt16(Sesid, Table, _colIdProductIfcTypeId);
                         var product = Api.RetrieveColumnAsInt32(Sesid, Table, _colIdProductLabel);
                         var geomId = Api.RetrieveColumnAsInt32(Sesid, Table, _colIdGeometryLabel);
                         var hashId = Api.RetrieveColumnAsInt32(Sesid, Table, _colIdGeometryHash);
                         //srl note casting to UINT, needs to be resolved at database level
-                        result.Add(new XbimGeometryHandle(geomId.Value, geomType, product.Value, ifcType.Value, style.Value, hashId.Value, Model.SchemaModule));
+                        result.Add(new XbimGeometryHandle(geomId.Value, geomType, product.Value, expressType.Value, style.Value, hashId.Value));
                     } while (Api.TryMoveNext(Sesid, Table));
                 }
 
@@ -418,7 +418,7 @@ namespace Xbim.IO.Esent
 
         private XbimGeometryHandleCollection GetGeometryHandlesByIfcType(XbimGeometryType geomType)
         {
-            var result = new XbimGeometryHandleCollection(Model.SchemaModule);
+            var result = new XbimGeometryHandleCollection();
             Api.JetSetCurrentIndex(Sesid, Table, GeometryTableGeomTypeIndex);
 
             Api.MakeKey(Sesid, Table, (byte)geomType, MakeKeyGrbit.NewKey);
@@ -430,11 +430,11 @@ namespace Xbim.IO.Esent
                     do
                     {
                         var style = Api.RetrieveColumnAsInt32(Sesid, Table, _colIdStyleLabel, RetrieveColumnGrbit.RetrieveFromIndex);
-                        var ifcType = Api.RetrieveColumnAsInt16(Sesid, Table, _colIdProductIfcTypeId, RetrieveColumnGrbit.RetrieveFromIndex);
+                        var expressType = Api.RetrieveColumnAsInt16(Sesid, Table, _colIdProductIfcTypeId, RetrieveColumnGrbit.RetrieveFromIndex);
                         var product = Api.RetrieveColumnAsInt32(Sesid, Table, _colIdProductLabel, RetrieveColumnGrbit.RetrieveFromIndex);
                         var geomId = Api.RetrieveColumnAsInt32(Sesid, Table, _colIdGeometryLabel, RetrieveColumnGrbit.RetrieveFromIndex);
                         //srl note casting to UINT, needs to be resolved at database level
-                        result.Add(new XbimGeometryHandle(geomId.Value, geomType, product.Value, ifcType.Value, style.Value, geomId.Value, Model.SchemaModule));
+                        result.Add(new XbimGeometryHandle(geomId.Value, geomType, product.Value, expressType.Value, style.Value, geomId.Value));
                     } while (Api.TryMoveNext(Sesid, Table));
                 }
 
@@ -444,7 +444,7 @@ namespace Xbim.IO.Esent
 
         private XbimGeometryHandleCollection GetGeometryHandlesBySurfaceStyle(XbimGeometryType geomType)
         {
-            var result = new XbimGeometryHandleCollection(Model.SchemaModule);
+            var result = new XbimGeometryHandleCollection();
             Api.JetSetCurrentIndex(Sesid, Table, GeometryTableStyleIndex);
             Api.MakeKey(Sesid, Table, (byte)geomType, MakeKeyGrbit.NewKey);
             if (Api.TrySeek(Sesid, Table, SeekGrbit.SeekGE))
@@ -455,10 +455,10 @@ namespace Xbim.IO.Esent
                     do
                     {
                         var style = Api.RetrieveColumnAsInt32(Sesid, Table, _colIdStyleLabel, RetrieveColumnGrbit.RetrieveFromIndex);
-                        var ifcType = Api.RetrieveColumnAsInt16(Sesid, Table, _colIdProductIfcTypeId, RetrieveColumnGrbit.RetrieveFromIndex);
+                        var expressType = Api.RetrieveColumnAsInt16(Sesid, Table, _colIdProductIfcTypeId, RetrieveColumnGrbit.RetrieveFromIndex);
                         var product = Api.RetrieveColumnAsInt32(Sesid, Table, _colIdProductLabel, RetrieveColumnGrbit.RetrieveFromIndex);
                         var geomId = Api.RetrieveColumnAsInt32(Sesid, Table, _colIdGeometryLabel, RetrieveColumnGrbit.RetrieveFromIndex);
-                        result.Add(new XbimGeometryHandle(geomId.Value, geomType, product.Value, ifcType.Value, style.Value, Model.SchemaModule));
+                        result.Add(new XbimGeometryHandle(geomId.Value, geomType, product.Value, expressType.Value, style.Value));
                     } while (Api.TryMoveNext(Sesid, Table));
                 }
 
@@ -477,12 +477,12 @@ namespace Xbim.IO.Esent
             {
                 Api.RetrieveColumns(Sesid, Table, _colValues);
                 var style = Api.RetrieveColumnAsInt32(Sesid, Table, _colIdStyleLabel);
-                var ifcType = Api.RetrieveColumnAsInt16(Sesid, Table, _colIdProductIfcTypeId);
+                var expressType = Api.RetrieveColumnAsInt16(Sesid, Table, _colIdProductIfcTypeId);
                 var product = Api.RetrieveColumnAsInt32(Sesid, Table, _colIdProductLabel);
                 var geomType = Api.RetrieveColumnAsByte(Sesid, Table, _colIdGeomType);
                 var geomHash = Api.RetrieveColumnAsInt32(Sesid, Table, _colIdGeometryHash);
                
-                return new XbimGeometryHandle(geometryLabel, (XbimGeometryType)geomType.Value, product.Value, ifcType.Value, style.Value, geomHash.Value, Model.SchemaModule);
+                return new XbimGeometryHandle(geometryLabel, (XbimGeometryType)geomType.Value, product.Value, expressType.Value, style.Value, geomHash.Value);
             }
             return new XbimGeometryHandle();
         }
