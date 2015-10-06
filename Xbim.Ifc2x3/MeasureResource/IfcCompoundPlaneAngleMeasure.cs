@@ -17,8 +17,39 @@ namespace Xbim.Ifc2x3.MeasureResource
     // ReSharper disable once PartialTypeWithSinglePart
 	public partial struct IfcCompoundPlaneAngleMeasure : IfcDerivedMeasureValue, IExpressComplexType
 	{ 
-		private List<long> _value;
+        static public void Add(ref IfcCompoundPlaneAngleMeasure? compound, long angleComponent)
+        {
+            
+            if (compound.HasValue)
+            {
+                var comp = compound.Value;
+                if (comp._value == null)
+                    comp.Initialise(angleComponent);
+                else
+                    comp._value.Add(angleComponent);
+
+                compound = comp;
+            }
+            else
+                throw new System.Exception("IfcCompoundPlaneAngleMeasure cannot be null");
+        }
+
+        static public void Add(ref IfcCompoundPlaneAngleMeasure comp, long angleComponent)
+        {
+            if (comp._value == null)
+                comp.Initialise(angleComponent);
+            else
+                comp._value.Add(angleComponent);
+        }
+
+
+        private List<long> _value;
         
+        private void Initialise(long comp)
+        {
+            _value = new List<long>();
+            _value.Add(comp);
+        }
 		public object Value
         {
             get { return _value; }
@@ -29,9 +60,9 @@ namespace Xbim.Ifc2x3.MeasureResource
             return Value != null ? Value.ToString() : typeof(List<long>).Name;
         }
 
-        public IfcCompoundPlaneAngleMeasure(List<long> val)
+        public IfcCompoundPlaneAngleMeasure(IEnumerable<long> val)
         {
-            _value = val;
+            _value = new List<long>(val);
         }
 
 
@@ -42,7 +73,7 @@ namespace Xbim.Ifc2x3.MeasureResource
 
         public static implicit operator List<long>(IfcCompoundPlaneAngleMeasure obj)
         {
-            return obj._value;
+            return new List<long>(obj._value);
         }
 
 

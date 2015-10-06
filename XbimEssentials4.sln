@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbim.Ifc2x3", "Xbim.Ifc2x3\Xbim.Ifc2x3.csproj", "{B6668419-D7A4-4736-B4D8-018756CCF134}"
 EndProject
@@ -29,7 +29,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CobieExpress", "CobieExpres
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbim.Essentials.Tests", "Xbim.Essentials.Tests\Xbim.Essentials.Tests.csproj", "{C51DFF66-DEA7-43BE-98DF-6A07E1A6FFA1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbim.Extract", "Xbim.Extract\Xbim.Extract.csproj", "{93CD15E7-BD41-4B4C-BBC2-41D0EBF79F9D}"
+EndProject
 Global
+	GlobalSection(Performance) = preSolution
+		HasPerformanceSessions = true
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
@@ -71,6 +76,10 @@ Global
 		{C51DFF66-DEA7-43BE-98DF-6A07E1A6FFA1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C51DFF66-DEA7-43BE-98DF-6A07E1A6FFA1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C51DFF66-DEA7-43BE-98DF-6A07E1A6FFA1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{93CD15E7-BD41-4B4C-BBC2-41D0EBF79F9D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{93CD15E7-BD41-4B4C-BBC2-41D0EBF79F9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{93CD15E7-BD41-4B4C-BBC2-41D0EBF79F9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{93CD15E7-BD41-4B4C-BBC2-41D0EBF79F9D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1778,11 +1778,10 @@ namespace Xbim.IO.Esent
             var theCopy = _factory.New(_model, copyHandle.EntityType, copyHandle.EntityLabel, true);
             _read.TryAdd(copyHandle.EntityLabel, theCopy);
             CreatedNew.TryAdd(copyHandle.EntityLabel, theCopy);
-            ModifiedEntities.TryAdd(copyHandle.EntityLabel, theCopy);
+          //  ModifiedEntities.TryAdd(copyHandle.EntityLabel, theCopy);
 
-            
             var props = ifcType.Properties.Values.Where(p => !p.EntityAttribute.IsDerivedOverride);
-            if (includeInverses)
+            if (false)
                 props = props.Union(ifcType.Inverses);
             
             foreach (var prop in props)
@@ -1802,14 +1801,13 @@ namespace Xbim.IO.Esent
                 //else 
                 else if (!isInverse && typeof(IPersistEntity).IsAssignableFrom(theType))
                 {
-                    prop.PropertyInfo.SetValue(theCopy, InsertCopy((IPersistEntity)value, mappings, txn, includeInverses, propTransform), null);
+                    prop.PropertyInfo.SetValue(theCopy, InsertCopy((IPersistEntity)value, mappings, txn, false, propTransform), null);
                 }
                 else if (!isInverse && typeof(IList).IsAssignableFrom(theType))
                 {
                     var itemType = theType.GetItemTypeFromGenericType();
-
                     var copyColl = prop.PropertyInfo.GetValue(theCopy, null) as IList;
-                    if(copyColl == null)
+                    if (copyColl == null)
                         throw new XbimException(string.Format("Unexpected collection type ({0}) found", itemType.Name));
 
                     foreach (var item in (IExpressEnumerable)value)
@@ -1819,7 +1817,7 @@ namespace Xbim.IO.Esent
                             copyColl.Add(item);
                         else if (typeof(IPersistEntity).IsAssignableFrom(actualItemType))
                         {
-                            var cpy = InsertCopy((IPersistEntity)item, mappings, txn, includeInverses, propTransform);
+                            var cpy = InsertCopy((IPersistEntity)item, mappings, txn, false, propTransform);
                             copyColl.Add(cpy);
                         }
                         else
@@ -1832,7 +1830,7 @@ namespace Xbim.IO.Esent
                     {
                         XbimInstanceHandle h;
                         if (!mappings.TryGetValue(ent.GetHandle(), out h))
-                            InsertCopy(ent, mappings, txn, includeInverses, propTransform);
+                            InsertCopy(ent, mappings, txn, false, propTransform);
                     }
                 }
                 else if (isInverse && value is IPersistEntity) //it is an inverse and has a single value
@@ -1840,12 +1838,13 @@ namespace Xbim.IO.Esent
                     XbimInstanceHandle h;
                     var v = (IPersistEntity)value;
                     if (!mappings.TryGetValue(v.GetHandle(), out h))
-                        InsertCopy(v, mappings, txn, includeInverses, propTransform);
+                        InsertCopy(v, mappings, txn, false, propTransform);
                 }
                 else
                     throw new XbimException(string.Format("Unexpected item type ({0})  found", theType.Name));
             }
             //  if (rt != null) rt.OwnerHistory = this.OwnerHistoryAddObject;
+            ModifiedEntities.TryAdd(copyHandle.EntityLabel, theCopy);
             return (T)theCopy;
         }
 
