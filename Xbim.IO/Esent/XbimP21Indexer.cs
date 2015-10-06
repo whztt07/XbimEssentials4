@@ -20,7 +20,6 @@ using System.Globalization;
 using System.IO;
 using System.Threading.Tasks;
 using Xbim.Common;
-using Xbim.Common.Metadata;
 using Xbim.Common.Step21;
 using Xbim.IO.Parser;
 using Xbim.IO.Step21;
