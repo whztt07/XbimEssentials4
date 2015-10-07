@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc2x3.BuildingcontrolsDomain
 {
-	public enum IfcControllerTypeEnum
+	public enum IfcControllerTypeEnum : byte
 	{
 		@FLOATING ,
 		@PROPORTIONAL ,

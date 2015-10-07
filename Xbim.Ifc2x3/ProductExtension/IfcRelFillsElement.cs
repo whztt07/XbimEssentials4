@@ -10,6 +10,7 @@
 using Xbim.Ifc2x3.Kernel;
 using Xbim.Ifc2x3.UtilityResource;
 using Xbim.Ifc2x3.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -18,7 +19,7 @@ namespace Xbim.Ifc2x3.ProductExtension
 {
 	[ExpressType("IFCRELFILLSELEMENT", 563)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcRelFillsElement : IfcRelConnects, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcRelFillsElement>, System.IEquatable<@IfcRelFillsElement>
+	public  partial class @IfcRelFillsElement : IfcRelConnects, IInstantiableEntity, IEqualityComparer<@IfcRelFillsElement>, IEquatable<@IfcRelFillsElement>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcRelFillsElement(IModel model) : base(model) 		{ 
@@ -37,10 +38,8 @@ namespace Xbim.Ifc2x3.ProductExtension
 		{ 
 			get 
 			{
-				if(Activated) return _relatingOpeningElement;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _relatingOpeningElement;
+				((IPersistEntity)this).Activate(false);
 				return _relatingOpeningElement;
 			} 
 			set
@@ -55,10 +54,8 @@ namespace Xbim.Ifc2x3.ProductExtension
 		{ 
 			get 
 			{
-				if(Activated) return _relatedBuildingElement;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _relatedBuildingElement;
+				((IPersistEntity)this).Activate(false);
 				return _relatedBuildingElement;
 			} 
 			set
@@ -105,6 +102,23 @@ namespace Xbim.Ifc2x3.ProductExtension
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcRelFillsElement
+            var root = (@IfcRelFillsElement)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcRelFillsElement left, @IfcRelFillsElement right)
         {

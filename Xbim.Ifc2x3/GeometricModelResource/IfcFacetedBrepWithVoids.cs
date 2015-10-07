@@ -8,6 +8,7 @@
 // ------------------------------------------------------------------------------
 
 using Xbim.Ifc2x3.TopologyResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -16,12 +17,12 @@ namespace Xbim.Ifc2x3.GeometricModelResource
 {
 	[ExpressType("IFCFACETEDBREPWITHVOIDS", 369)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcFacetedBrepWithVoids : IfcManifoldSolidBrep, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcFacetedBrepWithVoids>, System.IEquatable<@IfcFacetedBrepWithVoids>
+	public  partial class @IfcFacetedBrepWithVoids : IfcManifoldSolidBrep, IInstantiableEntity, IEqualityComparer<@IfcFacetedBrepWithVoids>, IEquatable<@IfcFacetedBrepWithVoids>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcFacetedBrepWithVoids(IModel model) : base(model) 		{ 
 			Model = model; 
-			_voids = new ItemSet<IfcClosedShell>( this );
+			_voids = new ItemSet<IfcClosedShell>( this, 0 );
 		}
 
 		#region Explicit attribute fields
@@ -34,10 +35,8 @@ namespace Xbim.Ifc2x3.GeometricModelResource
 		{ 
 			get 
 			{
-				if(Activated) return _voids;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _voids;
+				((IPersistEntity)this).Activate(false);
 				return _voids;
 			} 
 		}
@@ -75,6 +74,23 @@ namespace Xbim.Ifc2x3.GeometricModelResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcFacetedBrepWithVoids
+            var root = (@IfcFacetedBrepWithVoids)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcFacetedBrepWithVoids left, @IfcFacetedBrepWithVoids right)
         {

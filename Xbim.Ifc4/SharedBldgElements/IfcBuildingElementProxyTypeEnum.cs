@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.SharedBldgElements
 {
-	public enum IfcBuildingElementProxyTypeEnum
+	public enum IfcBuildingElementProxyTypeEnum : byte
 	{
 		@COMPLEX ,
 		@ELEMENT ,

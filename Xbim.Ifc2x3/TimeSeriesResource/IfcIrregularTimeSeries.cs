@@ -9,6 +9,7 @@
 
 using Xbim.Ifc2x3.MeasureResource;
 using Xbim.Ifc2x3.DateTimeResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -17,12 +18,12 @@ namespace Xbim.Ifc2x3.TimeSeriesResource
 {
 	[ExpressType("IFCIRREGULARTIMESERIES", 570)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcIrregularTimeSeries : IfcTimeSeries, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcIrregularTimeSeries>, System.IEquatable<@IfcIrregularTimeSeries>
+	public  partial class @IfcIrregularTimeSeries : IfcTimeSeries, IInstantiableEntity, IEqualityComparer<@IfcIrregularTimeSeries>, IEquatable<@IfcIrregularTimeSeries>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcIrregularTimeSeries(IModel model) : base(model) 		{ 
 			Model = model; 
-			_values = new ItemSet<IfcIrregularTimeSeriesValue>( this );
+			_values = new ItemSet<IfcIrregularTimeSeriesValue>( this, 0 );
 		}
 
 		#region Explicit attribute fields
@@ -35,10 +36,8 @@ namespace Xbim.Ifc2x3.TimeSeriesResource
 		{ 
 			get 
 			{
-				if(Activated) return _values;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _values;
+				((IPersistEntity)this).Activate(false);
 				return _values;
 			} 
 		}
@@ -83,6 +82,23 @@ namespace Xbim.Ifc2x3.TimeSeriesResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcIrregularTimeSeries
+            var root = (@IfcIrregularTimeSeries)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcIrregularTimeSeries left, @IfcIrregularTimeSeries right)
         {

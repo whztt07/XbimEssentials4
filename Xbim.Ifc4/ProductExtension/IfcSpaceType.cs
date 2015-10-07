@@ -11,6 +11,7 @@ using Xbim.Ifc4.UtilityResource;
 using Xbim.Ifc4.MeasureResource;
 using Xbim.Ifc4.Kernel;
 using Xbim.Ifc4.GeometryResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -19,7 +20,7 @@ namespace Xbim.Ifc4.ProductExtension
 {
 	[ExpressType("IFCSPACETYPE", 996)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcSpaceType : IfcSpatialStructureElementType, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcSpaceType>, System.IEquatable<@IfcSpaceType>
+	public  partial class @IfcSpaceType : IfcSpatialStructureElementType, IInstantiableEntity, IEqualityComparer<@IfcSpaceType>, IEquatable<@IfcSpaceType>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcSpaceType(IModel model) : base(model) 		{ 
@@ -37,10 +38,8 @@ namespace Xbim.Ifc4.ProductExtension
 		{ 
 			get 
 			{
-				if(Activated) return _predefinedType;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _predefinedType;
+				((IPersistEntity)this).Activate(false);
 				return _predefinedType;
 			} 
 			set
@@ -54,10 +53,8 @@ namespace Xbim.Ifc4.ProductExtension
 		{ 
 			get 
 			{
-				if(Activated) return _longName;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _longName;
+				((IPersistEntity)this).Activate(false);
 				return _longName;
 			} 
 			set
@@ -110,6 +107,23 @@ namespace Xbim.Ifc4.ProductExtension
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcSpaceType
+            var root = (@IfcSpaceType)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcSpaceType left, @IfcSpaceType right)
         {

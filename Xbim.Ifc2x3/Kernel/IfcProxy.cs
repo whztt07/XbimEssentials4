@@ -11,6 +11,7 @@ using Xbim.Ifc2x3.UtilityResource;
 using Xbim.Ifc2x3.MeasureResource;
 using Xbim.Ifc2x3.GeometricConstraintResource;
 using Xbim.Ifc2x3.RepresentationResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -19,7 +20,7 @@ namespace Xbim.Ifc2x3.Kernel
 {
 	[ExpressType("IFCPROXY", 447)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcProxy : IfcProduct, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcProxy>, System.IEquatable<@IfcProxy>
+	public  partial class @IfcProxy : IfcProduct, IInstantiableEntity, IEqualityComparer<@IfcProxy>, IEquatable<@IfcProxy>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcProxy(IModel model) : base(model) 		{ 
@@ -37,10 +38,8 @@ namespace Xbim.Ifc2x3.Kernel
 		{ 
 			get 
 			{
-				if(Activated) return _proxyType;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _proxyType;
+				((IPersistEntity)this).Activate(false);
 				return _proxyType;
 			} 
 			set
@@ -54,10 +53,8 @@ namespace Xbim.Ifc2x3.Kernel
 		{ 
 			get 
 			{
-				if(Activated) return _tag;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _tag;
+				((IPersistEntity)this).Activate(false);
 				return _tag;
 			} 
 			set
@@ -108,6 +105,23 @@ namespace Xbim.Ifc2x3.Kernel
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcProxy
+            var root = (@IfcProxy)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcProxy left, @IfcProxy right)
         {

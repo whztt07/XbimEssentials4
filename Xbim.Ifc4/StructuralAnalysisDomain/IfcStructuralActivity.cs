@@ -10,6 +10,7 @@
 using Xbim.Ifc4.Kernel;
 using Xbim.Ifc4.StructuralLoadResource;
 using Xbim.Ifc4.RepresentationResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -18,7 +19,7 @@ namespace Xbim.Ifc4.StructuralAnalysisDomain
 {
 	[ExpressType("IFCSTRUCTURALACTIVITY", 1011)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public abstract partial class @IfcStructuralActivity : IfcProduct, System.Collections.Generic.IEqualityComparer<@IfcStructuralActivity>, System.IEquatable<@IfcStructuralActivity>
+	public abstract partial class @IfcStructuralActivity : IfcProduct, IEqualityComparer<@IfcStructuralActivity>, IEquatable<@IfcStructuralActivity>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcStructuralActivity(IModel model) : base(model) 		{ 
@@ -36,10 +37,8 @@ namespace Xbim.Ifc4.StructuralAnalysisDomain
 		{ 
 			get 
 			{
-				if(Activated) return _appliedLoad;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _appliedLoad;
+				((IPersistEntity)this).Activate(false);
 				return _appliedLoad;
 			} 
 			set
@@ -53,10 +52,8 @@ namespace Xbim.Ifc4.StructuralAnalysisDomain
 		{ 
 			get 
 			{
-				if(Activated) return _globalOrLocal;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _globalOrLocal;
+				((IPersistEntity)this).Activate(false);
 				return _globalOrLocal;
 			} 
 			set
@@ -73,7 +70,7 @@ namespace Xbim.Ifc4.StructuralAnalysisDomain
 		{ 
 			get 
 			{
-				return Model.Instances.Where<IfcRelConnectsStructuralActivity>(e => e.RelatedStructuralActivity == this);
+				return Model.Instances.Where<IfcRelConnectsStructuralActivity>(e => (e.RelatedStructuralActivity as IfcStructuralActivity) == this);
 			} 
 		}
 		#endregion
@@ -116,6 +113,23 @@ namespace Xbim.Ifc4.StructuralAnalysisDomain
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcStructuralActivity
+            var root = (@IfcStructuralActivity)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcStructuralActivity left, @IfcStructuralActivity right)
         {

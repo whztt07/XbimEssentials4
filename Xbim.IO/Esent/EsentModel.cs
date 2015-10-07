@@ -62,7 +62,8 @@ namespace Xbim.IO.Esent
 
         private IEntityFactory _factory;
         public IEntityFactory Factory {get { return _factory; }}
-      
+
+        public ExpressMetaData Metadata { get; private set; }
         #endregion
 
         /// <summary>
@@ -91,7 +92,7 @@ namespace Xbim.IO.Esent
             InstancesLocal = new XbimInstanceCollection(this);
             var r = new Random();
             UserDefinedId = (short)r.Next(short.MaxValue); // initialise value at random to reduce chance of duplicates
-            SchemaModule = factory.GetType().Module;
+            Metadata = ExpressMetaData.GetMetadata(factory.GetType().Module);
         }
 
         public string DatabaseName
@@ -221,7 +222,7 @@ namespace Xbim.IO.Esent
             InstanceCache.FreeTable(table);
         }
         //Loads the property data of an entity, if it is not already loaded
-        int IModel.Activate(IPersistEntity entity, bool write)
+        bool IModel.Activate(IPersistEntity entity, bool write)
         {
             if (write) //we want to activate for reading
             {
@@ -232,7 +233,7 @@ namespace Xbim.IO.Esent
             {
                 InstanceCache.Activate(entity);
             }
-            return entity.EntityLabel;
+            return true;
         }
 
         #region Transaction support
@@ -454,11 +455,11 @@ namespace Xbim.IO.Esent
 
         public byte[] GetEntityBinaryData(IInstantiableEntity entity)
         {
-            if (entity.Activated) //we have it in memory but not written to store yet
+            if (entity.ActivationStatus != ActivationStatus.NotActivated) //we have it in memory but not written to store yet
             {
                 var entityStream = new MemoryStream(4096);
                 var entityWriter = new BinaryWriter(entityStream);
-                entity.WriteEntity(entityWriter);
+                entity.WriteEntity(entityWriter, Metadata);
                 return entityStream.ToArray();
             }
             return InstanceCache.GetEntityBinaryData(entity);
@@ -488,18 +489,18 @@ namespace Xbim.IO.Esent
         {
             var itw = new IndentedTextWriter(tw);
             if (validateLevel == ValidationFlags.None) return 0; //nothing to do
-            var ifcType = ExpressMetaData.ExpressType(ent);
+            var expressType = Metadata.ExpressType(ent);
             var notIndented = true;
             var errors = 0;
             if (validateLevel == ValidationFlags.Properties || validateLevel == ValidationFlags.All)
             {
-                foreach (var ifcProp in ifcType.Properties.Values)
+                foreach (var ifcProp in expressType.Properties.Values)
                 {
                     var err = GetSchemaError(ent as IInstantiableEntity, ifcProp);
                     if (string.IsNullOrEmpty(err)) continue;
                     if (notIndented)
                     {
-                        itw.WriteLine("#{0} - {1}", ent.EntityLabel, ifcType.Type.Name);
+                        itw.WriteLine("#{0} - {1}", ent.EntityLabel, expressType.Type.Name);
                         itw.Indent++;
                         notIndented = false;
                     }
@@ -509,13 +510,13 @@ namespace Xbim.IO.Esent
             }
             if (validateLevel == ValidationFlags.Inverses || validateLevel == ValidationFlags.All)
             {
-                foreach (var ifcInv in ifcType.Inverses)
+                foreach (var ifcInv in expressType.Inverses)
                 {
                     var err = GetSchemaError(ent as IInstantiableEntity, ifcInv);
                     if (string.IsNullOrEmpty(err)) continue;
                     if (notIndented)
                     {
-                        itw.WriteLine("#{0} - {1}", ent.EntityLabel, ifcType.Type.Name);
+                        itw.WriteLine("#{0} - {1}", ent.EntityLabel, expressType.Type.Name);
                         itw.Indent++;
                         notIndented = false;
                     }
@@ -529,7 +530,7 @@ namespace Xbim.IO.Esent
             {
                 if (notIndented)
                 {
-                    itw.WriteLine("#{0} - {1}", ent.EntityLabel, ifcType.Type.Name);
+                    itw.WriteLine("#{0} - {1}", ent.EntityLabel, expressType.Type.Name);
                     itw.Indent++;
                     notIndented = false;
                 }
@@ -901,7 +902,7 @@ namespace Xbim.IO.Esent
             var entity = InstanceCache.GetInstance(productLabel, false, true);
             if (entity != null)
             {
-                foreach (var item in InstanceCache.GetGeometry(ExpressMetaData.ExpressTypeId(entity), productLabel, geomType))
+                foreach (var item in InstanceCache.GetGeometry(Metadata.ExpressTypeId(entity), productLabel, geomType))
                 {
                     yield return item;
                 }
@@ -1035,7 +1036,7 @@ namespace Xbim.IO.Esent
 
         internal IPersistEntity GetInstanceVolatile(XbimInstanceHandle item)
         {
-          return ((EsentModel)item.Model).GetInstanceVolatile(item.EntityLabel);
+          return item.Model.GetInstanceVolatile(item.EntityLabel);
         }
 
 
@@ -1115,8 +1116,6 @@ namespace Xbim.IO.Esent
                     _transactionReference.Target = value;
             }
         }
-
-        public Module SchemaModule { get; private set; }
 
         #region Federation 
         private readonly XbimReferencedModelCollection _referencedModels = new XbimReferencedModelCollection();

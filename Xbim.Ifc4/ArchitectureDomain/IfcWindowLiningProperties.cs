@@ -11,6 +11,7 @@ using Xbim.Ifc4.Kernel;
 using Xbim.Ifc4.UtilityResource;
 using Xbim.Ifc4.MeasureResource;
 using Xbim.Ifc4.RepresentationResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -19,7 +20,7 @@ namespace Xbim.Ifc4.ArchitectureDomain
 {
 	[ExpressType("IFCWINDOWLININGPROPERTIES", 1145)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcWindowLiningProperties : IfcPreDefinedPropertySet, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcWindowLiningProperties>, System.IEquatable<@IfcWindowLiningProperties>
+	public  partial class @IfcWindowLiningProperties : IfcPreDefinedPropertySet, IInstantiableEntity, IEqualityComparer<@IfcWindowLiningProperties>, IEquatable<@IfcWindowLiningProperties>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcWindowLiningProperties(IModel model) : base(model) 		{ 
@@ -47,10 +48,8 @@ namespace Xbim.Ifc4.ArchitectureDomain
 		{ 
 			get 
 			{
-				if(Activated) return _liningDepth;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _liningDepth;
+				((IPersistEntity)this).Activate(false);
 				return _liningDepth;
 			} 
 			set
@@ -64,10 +63,8 @@ namespace Xbim.Ifc4.ArchitectureDomain
 		{ 
 			get 
 			{
-				if(Activated) return _liningThickness;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _liningThickness;
+				((IPersistEntity)this).Activate(false);
 				return _liningThickness;
 			} 
 			set
@@ -81,10 +78,8 @@ namespace Xbim.Ifc4.ArchitectureDomain
 		{ 
 			get 
 			{
-				if(Activated) return _transomThickness;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _transomThickness;
+				((IPersistEntity)this).Activate(false);
 				return _transomThickness;
 			} 
 			set
@@ -98,10 +93,8 @@ namespace Xbim.Ifc4.ArchitectureDomain
 		{ 
 			get 
 			{
-				if(Activated) return _mullionThickness;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _mullionThickness;
+				((IPersistEntity)this).Activate(false);
 				return _mullionThickness;
 			} 
 			set
@@ -115,10 +108,8 @@ namespace Xbim.Ifc4.ArchitectureDomain
 		{ 
 			get 
 			{
-				if(Activated) return _firstTransomOffset;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _firstTransomOffset;
+				((IPersistEntity)this).Activate(false);
 				return _firstTransomOffset;
 			} 
 			set
@@ -132,10 +123,8 @@ namespace Xbim.Ifc4.ArchitectureDomain
 		{ 
 			get 
 			{
-				if(Activated) return _secondTransomOffset;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _secondTransomOffset;
+				((IPersistEntity)this).Activate(false);
 				return _secondTransomOffset;
 			} 
 			set
@@ -149,10 +138,8 @@ namespace Xbim.Ifc4.ArchitectureDomain
 		{ 
 			get 
 			{
-				if(Activated) return _firstMullionOffset;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _firstMullionOffset;
+				((IPersistEntity)this).Activate(false);
 				return _firstMullionOffset;
 			} 
 			set
@@ -166,10 +153,8 @@ namespace Xbim.Ifc4.ArchitectureDomain
 		{ 
 			get 
 			{
-				if(Activated) return _secondMullionOffset;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _secondMullionOffset;
+				((IPersistEntity)this).Activate(false);
 				return _secondMullionOffset;
 			} 
 			set
@@ -183,10 +168,8 @@ namespace Xbim.Ifc4.ArchitectureDomain
 		{ 
 			get 
 			{
-				if(Activated) return _shapeAspectStyle;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _shapeAspectStyle;
+				((IPersistEntity)this).Activate(false);
 				return _shapeAspectStyle;
 			} 
 			set
@@ -200,10 +183,8 @@ namespace Xbim.Ifc4.ArchitectureDomain
 		{ 
 			get 
 			{
-				if(Activated) return _liningOffset;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _liningOffset;
+				((IPersistEntity)this).Activate(false);
 				return _liningOffset;
 			} 
 			set
@@ -217,10 +198,8 @@ namespace Xbim.Ifc4.ArchitectureDomain
 		{ 
 			get 
 			{
-				if(Activated) return _liningToPanelOffsetX;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _liningToPanelOffsetX;
+				((IPersistEntity)this).Activate(false);
 				return _liningToPanelOffsetX;
 			} 
 			set
@@ -234,10 +213,8 @@ namespace Xbim.Ifc4.ArchitectureDomain
 		{ 
 			get 
 			{
-				if(Activated) return _liningToPanelOffsetY;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _liningToPanelOffsetY;
+				((IPersistEntity)this).Activate(false);
 				return _liningToPanelOffsetY;
 			} 
 			set
@@ -318,6 +295,23 @@ namespace Xbim.Ifc4.ArchitectureDomain
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcWindowLiningProperties
+            var root = (@IfcWindowLiningProperties)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcWindowLiningProperties left, @IfcWindowLiningProperties right)
         {

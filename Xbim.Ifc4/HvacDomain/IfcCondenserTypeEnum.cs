@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.HvacDomain
 {
-	public enum IfcCondenserTypeEnum
+	public enum IfcCondenserTypeEnum : byte
 	{
 		@AIRCOOLED ,
 		@EVAPORATIVECOOLED ,

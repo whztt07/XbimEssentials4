@@ -8,6 +8,7 @@
 // ------------------------------------------------------------------------------
 
 using Xbim.Ifc4.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -16,7 +17,7 @@ namespace Xbim.Ifc4.GeometryResource
 {
 	[ExpressType("IFCRECTANGULARTRIMMEDSURFACE", 889)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcRectangularTrimmedSurface : IfcBoundedSurface, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcRectangularTrimmedSurface>, System.IEquatable<@IfcRectangularTrimmedSurface>
+	public  partial class @IfcRectangularTrimmedSurface : IfcBoundedSurface, IInstantiableEntity, IEqualityComparer<@IfcRectangularTrimmedSurface>, IEquatable<@IfcRectangularTrimmedSurface>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcRectangularTrimmedSurface(IModel model) : base(model) 		{ 
@@ -39,10 +40,8 @@ namespace Xbim.Ifc4.GeometryResource
 		{ 
 			get 
 			{
-				if(Activated) return _basisSurface;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _basisSurface;
+				((IPersistEntity)this).Activate(false);
 				return _basisSurface;
 			} 
 			set
@@ -56,10 +55,8 @@ namespace Xbim.Ifc4.GeometryResource
 		{ 
 			get 
 			{
-				if(Activated) return _u1;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _u1;
+				((IPersistEntity)this).Activate(false);
 				return _u1;
 			} 
 			set
@@ -73,10 +70,8 @@ namespace Xbim.Ifc4.GeometryResource
 		{ 
 			get 
 			{
-				if(Activated) return _v1;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _v1;
+				((IPersistEntity)this).Activate(false);
 				return _v1;
 			} 
 			set
@@ -90,10 +85,8 @@ namespace Xbim.Ifc4.GeometryResource
 		{ 
 			get 
 			{
-				if(Activated) return _u2;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _u2;
+				((IPersistEntity)this).Activate(false);
 				return _u2;
 			} 
 			set
@@ -107,10 +100,8 @@ namespace Xbim.Ifc4.GeometryResource
 		{ 
 			get 
 			{
-				if(Activated) return _v2;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _v2;
+				((IPersistEntity)this).Activate(false);
 				return _v2;
 			} 
 			set
@@ -124,10 +115,8 @@ namespace Xbim.Ifc4.GeometryResource
 		{ 
 			get 
 			{
-				if(Activated) return _usense;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _usense;
+				((IPersistEntity)this).Activate(false);
 				return _usense;
 			} 
 			set
@@ -141,10 +130,8 @@ namespace Xbim.Ifc4.GeometryResource
 		{ 
 			get 
 			{
-				if(Activated) return _vsense;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _vsense;
+				((IPersistEntity)this).Activate(false);
 				return _vsense;
 			} 
 			set
@@ -204,6 +191,23 @@ namespace Xbim.Ifc4.GeometryResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcRectangularTrimmedSurface
+            var root = (@IfcRectangularTrimmedSurface)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcRectangularTrimmedSurface left, @IfcRectangularTrimmedSurface right)
         {

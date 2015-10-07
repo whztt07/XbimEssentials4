@@ -8,6 +8,7 @@
 // ------------------------------------------------------------------------------
 
 using Xbim.Ifc4.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -16,7 +17,7 @@ namespace Xbim.Ifc4.GeometryResource
 {
 	[ExpressType("IFCOFFSETCURVE3D", 780)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcOffsetCurve3D : IfcCurve, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcOffsetCurve3D>, System.IEquatable<@IfcOffsetCurve3D>
+	public  partial class @IfcOffsetCurve3D : IfcCurve, IInstantiableEntity, IEqualityComparer<@IfcOffsetCurve3D>, IEquatable<@IfcOffsetCurve3D>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcOffsetCurve3D(IModel model) : base(model) 		{ 
@@ -36,10 +37,8 @@ namespace Xbim.Ifc4.GeometryResource
 		{ 
 			get 
 			{
-				if(Activated) return _basisCurve;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _basisCurve;
+				((IPersistEntity)this).Activate(false);
 				return _basisCurve;
 			} 
 			set
@@ -53,10 +52,8 @@ namespace Xbim.Ifc4.GeometryResource
 		{ 
 			get 
 			{
-				if(Activated) return _distance;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _distance;
+				((IPersistEntity)this).Activate(false);
 				return _distance;
 			} 
 			set
@@ -70,10 +67,8 @@ namespace Xbim.Ifc4.GeometryResource
 		{ 
 			get 
 			{
-				if(Activated) return _selfIntersect;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _selfIntersect;
+				((IPersistEntity)this).Activate(false);
 				return _selfIntersect;
 			} 
 			set
@@ -87,10 +82,8 @@ namespace Xbim.Ifc4.GeometryResource
 		{ 
 			get 
 			{
-				if(Activated) return _refDirection;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _refDirection;
+				((IPersistEntity)this).Activate(false);
 				return _refDirection;
 			} 
 			set
@@ -138,6 +131,23 @@ namespace Xbim.Ifc4.GeometryResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcOffsetCurve3D
+            var root = (@IfcOffsetCurve3D)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcOffsetCurve3D left, @IfcOffsetCurve3D right)
         {

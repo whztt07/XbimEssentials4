@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.Kernel
 {
-	public enum IfcSimplePropertyTemplateTypeEnum
+	public enum IfcSimplePropertyTemplateTypeEnum : byte
 	{
 		@P_SINGLEVALUE ,
 		@P_ENUMERATEDVALUE ,

@@ -9,6 +9,7 @@
 
 using Xbim.Ifc2x3.PresentationDefinitionResource;
 using Xbim.Ifc2x3.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -17,7 +18,7 @@ namespace Xbim.Ifc2x3.PresentationDimensioningResource
 {
 	[ExpressType("IFCPREDEFINEDTERMINATORSYMBOL", 749)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcPreDefinedTerminatorSymbol : IfcPreDefinedSymbol, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcPreDefinedTerminatorSymbol>, System.IEquatable<@IfcPreDefinedTerminatorSymbol>
+	public  partial class @IfcPreDefinedTerminatorSymbol : IfcPreDefinedSymbol, IInstantiableEntity, IEqualityComparer<@IfcPreDefinedTerminatorSymbol>, IEquatable<@IfcPreDefinedTerminatorSymbol>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcPreDefinedTerminatorSymbol(IModel model) : base(model) 		{ 
@@ -53,6 +54,23 @@ namespace Xbim.Ifc2x3.PresentationDimensioningResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcPreDefinedTerminatorSymbol
+            var root = (@IfcPreDefinedTerminatorSymbol)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcPreDefinedTerminatorSymbol left, @IfcPreDefinedTerminatorSymbol right)
         {

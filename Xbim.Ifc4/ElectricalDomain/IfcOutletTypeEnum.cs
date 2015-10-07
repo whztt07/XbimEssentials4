@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.ElectricalDomain
 {
-	public enum IfcOutletTypeEnum
+	public enum IfcOutletTypeEnum : byte
 	{
 		@AUDIOVISUALOUTLET ,
 		@COMMUNICATIONSOUTLET ,

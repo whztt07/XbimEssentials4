@@ -8,6 +8,7 @@
 // ------------------------------------------------------------------------------
 
 using Xbim.Ifc4.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -16,7 +17,7 @@ namespace Xbim.Ifc4.GeometryResource
 {
 	[ExpressType("IFCREPARAMETRISEDCOMPOSITECURVESEGMENT", 949)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcReparametrisedCompositeCurveSegment : IfcCompositeCurveSegment, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcReparametrisedCompositeCurveSegment>, System.IEquatable<@IfcReparametrisedCompositeCurveSegment>
+	public  partial class @IfcReparametrisedCompositeCurveSegment : IfcCompositeCurveSegment, IInstantiableEntity, IEqualityComparer<@IfcReparametrisedCompositeCurveSegment>, IEquatable<@IfcReparametrisedCompositeCurveSegment>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcReparametrisedCompositeCurveSegment(IModel model) : base(model) 		{ 
@@ -33,10 +34,8 @@ namespace Xbim.Ifc4.GeometryResource
 		{ 
 			get 
 			{
-				if(Activated) return _paramLength;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _paramLength;
+				((IPersistEntity)this).Activate(false);
 				return _paramLength;
 			} 
 			set
@@ -80,6 +79,23 @@ namespace Xbim.Ifc4.GeometryResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcReparametrisedCompositeCurveSegment
+            var root = (@IfcReparametrisedCompositeCurveSegment)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcReparametrisedCompositeCurveSegment left, @IfcReparametrisedCompositeCurveSegment right)
         {

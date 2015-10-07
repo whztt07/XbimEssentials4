@@ -7,6 +7,7 @@
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -15,12 +16,12 @@ namespace Xbim.Ifc4.TopologyResource
 {
 	[ExpressType("IFCPATH", 792)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcPath : IfcTopologicalRepresentationItem, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcPath>, System.IEquatable<@IfcPath>
+	public  partial class @IfcPath : IfcTopologicalRepresentationItem, IInstantiableEntity, IEqualityComparer<@IfcPath>, IEquatable<@IfcPath>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcPath(IModel model) : base(model) 		{ 
 			Model = model; 
-			_edgeList = new ItemSet<IfcOrientedEdge>( this );
+			_edgeList = new ItemSet<IfcOrientedEdge>( this, 0 );
 		}
 
 		#region Explicit attribute fields
@@ -33,10 +34,8 @@ namespace Xbim.Ifc4.TopologyResource
 		{ 
 			get 
 			{
-				if(Activated) return _edgeList;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _edgeList;
+				((IPersistEntity)this).Activate(false);
 				return _edgeList;
 			} 
 		}
@@ -72,6 +71,23 @@ namespace Xbim.Ifc4.TopologyResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcPath
+            var root = (@IfcPath)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcPath left, @IfcPath right)
         {

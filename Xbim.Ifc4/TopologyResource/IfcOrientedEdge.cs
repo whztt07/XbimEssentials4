@@ -7,6 +7,7 @@
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -15,7 +16,7 @@ namespace Xbim.Ifc4.TopologyResource
 {
 	[ExpressType("IFCORIENTEDEDGE", 786)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcOrientedEdge : IfcEdge, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcOrientedEdge>, System.IEquatable<@IfcOrientedEdge>
+	public  partial class @IfcOrientedEdge : IfcEdge, IInstantiableEntity, IEqualityComparer<@IfcOrientedEdge>, IEquatable<@IfcOrientedEdge>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcOrientedEdge(IModel model) : base(model) 		{ 
@@ -33,10 +34,8 @@ namespace Xbim.Ifc4.TopologyResource
 		{ 
 			get 
 			{
-				if(Activated) return _edgeElement;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _edgeElement;
+				((IPersistEntity)this).Activate(false);
 				return _edgeElement;
 			} 
 			set
@@ -50,10 +49,8 @@ namespace Xbim.Ifc4.TopologyResource
 		{ 
 			get 
 			{
-				if(Activated) return _orientation;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _orientation;
+				((IPersistEntity)this).Activate(false);
 				return _orientation;
 			} 
 			set
@@ -99,6 +96,23 @@ namespace Xbim.Ifc4.TopologyResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcOrientedEdge
+            var root = (@IfcOrientedEdge)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcOrientedEdge left, @IfcOrientedEdge right)
         {

@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.ProcessExtension
 {
-	public enum IfcWorkCalendarTypeEnum
+	public enum IfcWorkCalendarTypeEnum : byte
 	{
 		@FIRSTSHIFT ,
 		@SECONDSHIFT ,

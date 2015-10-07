@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.StructuralElementsDomain
 {
-	public enum IfcTendonAnchorTypeEnum
+	public enum IfcTendonAnchorTypeEnum : byte
 	{
 		@COUPLER ,
 		@FIXED_END ,

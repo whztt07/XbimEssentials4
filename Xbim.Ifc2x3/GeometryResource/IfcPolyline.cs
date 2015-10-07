@@ -7,6 +7,7 @@
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -15,12 +16,12 @@ namespace Xbim.Ifc2x3.GeometryResource
 {
 	[ExpressType("IFCPOLYLINE", 500)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcPolyline : IfcBoundedCurve, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcPolyline>, System.IEquatable<@IfcPolyline>
+	public  partial class @IfcPolyline : IfcBoundedCurve, IInstantiableEntity, IEqualityComparer<@IfcPolyline>, IEquatable<@IfcPolyline>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcPolyline(IModel model) : base(model) 		{ 
 			Model = model; 
-			_points = new ItemSet<IfcCartesianPoint>( this );
+			_points = new ItemSet<IfcCartesianPoint>( this, 0 );
 		}
 
 		#region Explicit attribute fields
@@ -33,10 +34,8 @@ namespace Xbim.Ifc2x3.GeometryResource
 		{ 
 			get 
 			{
-				if(Activated) return _points;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _points;
+				((IPersistEntity)this).Activate(false);
 				return _points;
 			} 
 		}
@@ -72,6 +71,23 @@ namespace Xbim.Ifc2x3.GeometryResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcPolyline
+            var root = (@IfcPolyline)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcPolyline left, @IfcPolyline right)
         {

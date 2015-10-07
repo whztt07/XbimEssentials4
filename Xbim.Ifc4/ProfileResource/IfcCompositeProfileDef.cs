@@ -8,6 +8,7 @@
 // ------------------------------------------------------------------------------
 
 using Xbim.Ifc4.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -16,12 +17,12 @@ namespace Xbim.Ifc4.ProfileResource
 {
 	[ExpressType("IFCCOMPOSITEPROFILEDEF", 503)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcCompositeProfileDef : IfcProfileDef, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcCompositeProfileDef>, System.IEquatable<@IfcCompositeProfileDef>
+	public  partial class @IfcCompositeProfileDef : IfcProfileDef, IInstantiableEntity, IEqualityComparer<@IfcCompositeProfileDef>, IEquatable<@IfcCompositeProfileDef>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcCompositeProfileDef(IModel model) : base(model) 		{ 
 			Model = model; 
-			_profiles = new ItemSet<IfcProfileDef>( this );
+			_profiles = new ItemSet<IfcProfileDef>( this, 0 );
 		}
 
 		#region Explicit attribute fields
@@ -35,10 +36,8 @@ namespace Xbim.Ifc4.ProfileResource
 		{ 
 			get 
 			{
-				if(Activated) return _profiles;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _profiles;
+				((IPersistEntity)this).Activate(false);
 				return _profiles;
 			} 
 		}
@@ -48,10 +47,8 @@ namespace Xbim.Ifc4.ProfileResource
 		{ 
 			get 
 			{
-				if(Activated) return _label;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _label;
+				((IPersistEntity)this).Activate(false);
 				return _label;
 			} 
 			set
@@ -99,6 +96,23 @@ namespace Xbim.Ifc4.ProfileResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcCompositeProfileDef
+            var root = (@IfcCompositeProfileDef)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcCompositeProfileDef left, @IfcCompositeProfileDef right)
         {

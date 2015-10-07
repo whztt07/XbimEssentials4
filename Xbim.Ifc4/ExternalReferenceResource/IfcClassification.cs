@@ -10,6 +10,7 @@
 using Xbim.Ifc4.MeasureResource;
 using Xbim.Ifc4.DateTimeResource;
 using Xbim.Ifc4.Kernel;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -19,12 +20,12 @@ namespace Xbim.Ifc4.ExternalReferenceResource
 	[IndexedClass]
 	[ExpressType("IFCCLASSIFICATION", 485)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcClassification : IfcExternalInformation, IfcClassificationReferenceSelect, IfcClassificationSelect, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcClassification>, System.IEquatable<@IfcClassification>
+	public  partial class @IfcClassification : IfcExternalInformation, IfcClassificationReferenceSelect, IfcClassificationSelect, IInstantiableEntity, IEqualityComparer<@IfcClassification>, IEquatable<@IfcClassification>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcClassification(IModel model) : base(model) 		{ 
 			Model = model; 
-			_referenceTokens = new OptionalItemSet<IfcIdentifier>( this );
+			_referenceTokens = new OptionalItemSet<IfcIdentifier>( this, 0 );
 		}
 
 		#region Explicit attribute fields
@@ -43,10 +44,8 @@ namespace Xbim.Ifc4.ExternalReferenceResource
 		{ 
 			get 
 			{
-				if(Activated) return _source;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _source;
+				((IPersistEntity)this).Activate(false);
 				return _source;
 			} 
 			set
@@ -60,10 +59,8 @@ namespace Xbim.Ifc4.ExternalReferenceResource
 		{ 
 			get 
 			{
-				if(Activated) return _edition;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _edition;
+				((IPersistEntity)this).Activate(false);
 				return _edition;
 			} 
 			set
@@ -77,10 +74,8 @@ namespace Xbim.Ifc4.ExternalReferenceResource
 		{ 
 			get 
 			{
-				if(Activated) return _editionDate;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _editionDate;
+				((IPersistEntity)this).Activate(false);
 				return _editionDate;
 			} 
 			set
@@ -94,10 +89,8 @@ namespace Xbim.Ifc4.ExternalReferenceResource
 		{ 
 			get 
 			{
-				if(Activated) return _name;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _name;
+				((IPersistEntity)this).Activate(false);
 				return _name;
 			} 
 			set
@@ -111,10 +104,8 @@ namespace Xbim.Ifc4.ExternalReferenceResource
 		{ 
 			get 
 			{
-				if(Activated) return _description;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _description;
+				((IPersistEntity)this).Activate(false);
 				return _description;
 			} 
 			set
@@ -128,10 +119,8 @@ namespace Xbim.Ifc4.ExternalReferenceResource
 		{ 
 			get 
 			{
-				if(Activated) return _location;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _location;
+				((IPersistEntity)this).Activate(false);
 				return _location;
 			} 
 			set
@@ -145,10 +134,8 @@ namespace Xbim.Ifc4.ExternalReferenceResource
 		{ 
 			get 
 			{
-				if(Activated) return _referenceTokens;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _referenceTokens;
+				((IPersistEntity)this).Activate(false);
 				return _referenceTokens;
 			} 
 		}
@@ -161,7 +148,7 @@ namespace Xbim.Ifc4.ExternalReferenceResource
 		{ 
 			get 
 			{
-				return Model.Instances.Where<IfcRelAssociatesClassification>(e => e.RelatingClassification == this);
+				return Model.Instances.Where<IfcRelAssociatesClassification>(e => (e.RelatingClassification as IfcClassification) == this);
 			} 
 		}
 		[EntityAttribute(-1, EntityAttributeState.Mandatory, EntityAttributeType.Set, EntityAttributeType.Class, -1, -1)]
@@ -169,7 +156,7 @@ namespace Xbim.Ifc4.ExternalReferenceResource
 		{ 
 			get 
 			{
-				return Model.Instances.Where<IfcClassificationReference>(e => e.ReferencedSource == this);
+				return Model.Instances.Where<IfcClassificationReference>(e => (e.ReferencedSource as IfcClassification) == this);
 			} 
 		}
 		#endregion
@@ -219,6 +206,23 @@ namespace Xbim.Ifc4.ExternalReferenceResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcClassification
+            var root = (@IfcClassification)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcClassification left, @IfcClassification right)
         {

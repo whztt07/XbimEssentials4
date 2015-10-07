@@ -8,6 +8,7 @@
 // ------------------------------------------------------------------------------
 
 using Xbim.Ifc2x3.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -16,13 +17,13 @@ namespace Xbim.Ifc2x3.PropertyResource
 {
 	[ExpressType("IFCPROPERTYTABLEVALUE", 557)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcPropertyTableValue : IfcSimpleProperty, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcPropertyTableValue>, System.IEquatable<@IfcPropertyTableValue>
+	public  partial class @IfcPropertyTableValue : IfcSimpleProperty, IInstantiableEntity, IEqualityComparer<@IfcPropertyTableValue>, IEquatable<@IfcPropertyTableValue>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcPropertyTableValue(IModel model) : base(model) 		{ 
 			Model = model; 
-			_definingValues = new ItemSet<IfcValue>( this );
-			_definedValues = new ItemSet<IfcValue>( this );
+			_definingValues = new ItemSet<IfcValue>( this, 0 );
+			_definedValues = new ItemSet<IfcValue>( this, 0 );
 		}
 
 		#region Explicit attribute fields
@@ -39,10 +40,8 @@ namespace Xbim.Ifc2x3.PropertyResource
 		{ 
 			get 
 			{
-				if(Activated) return _definingValues;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _definingValues;
+				((IPersistEntity)this).Activate(false);
 				return _definingValues;
 			} 
 		}
@@ -52,10 +51,8 @@ namespace Xbim.Ifc2x3.PropertyResource
 		{ 
 			get 
 			{
-				if(Activated) return _definedValues;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _definedValues;
+				((IPersistEntity)this).Activate(false);
 				return _definedValues;
 			} 
 		}
@@ -65,10 +62,8 @@ namespace Xbim.Ifc2x3.PropertyResource
 		{ 
 			get 
 			{
-				if(Activated) return _expression;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _expression;
+				((IPersistEntity)this).Activate(false);
 				return _expression;
 			} 
 			set
@@ -82,10 +77,8 @@ namespace Xbim.Ifc2x3.PropertyResource
 		{ 
 			get 
 			{
-				if(Activated) return _definingUnit;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _definingUnit;
+				((IPersistEntity)this).Activate(false);
 				return _definingUnit;
 			} 
 			set
@@ -99,10 +92,8 @@ namespace Xbim.Ifc2x3.PropertyResource
 		{ 
 			get 
 			{
-				if(Activated) return _definedUnit;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _definedUnit;
+				((IPersistEntity)this).Activate(false);
 				return _definedUnit;
 			} 
 			set
@@ -161,6 +152,23 @@ namespace Xbim.Ifc2x3.PropertyResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcPropertyTableValue
+            var root = (@IfcPropertyTableValue)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcPropertyTableValue left, @IfcPropertyTableValue right)
         {

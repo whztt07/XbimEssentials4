@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.StructuralElementsDomain
 {
-	public enum IfcReinforcingBarTypeEnum
+	public enum IfcReinforcingBarTypeEnum : byte
 	{
 		@ANCHORING ,
 		@EDGE ,

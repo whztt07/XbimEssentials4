@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.ProductExtension
 {
-	public enum IfcElementAssemblyTypeEnum
+	public enum IfcElementAssemblyTypeEnum : byte
 	{
 		@ACCESSORY_ASSEMBLY ,
 		@ARCH ,

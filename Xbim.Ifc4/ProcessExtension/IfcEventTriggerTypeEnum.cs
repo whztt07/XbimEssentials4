@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.ProcessExtension
 {
-	public enum IfcEventTriggerTypeEnum
+	public enum IfcEventTriggerTypeEnum : byte
 	{
 		@EVENTRULE ,
 		@EVENTMESSAGE ,

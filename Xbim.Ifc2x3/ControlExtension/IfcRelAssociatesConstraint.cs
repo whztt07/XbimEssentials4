@@ -11,6 +11,7 @@ using Xbim.Ifc2x3.Kernel;
 using Xbim.Ifc2x3.UtilityResource;
 using Xbim.Ifc2x3.MeasureResource;
 using Xbim.Ifc2x3.ConstraintResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -19,7 +20,7 @@ namespace Xbim.Ifc2x3.ControlExtension
 {
 	[ExpressType("IFCRELASSOCIATESCONSTRAINT", 711)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcRelAssociatesConstraint : IfcRelAssociates, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcRelAssociatesConstraint>, System.IEquatable<@IfcRelAssociatesConstraint>
+	public  partial class @IfcRelAssociatesConstraint : IfcRelAssociates, IInstantiableEntity, IEqualityComparer<@IfcRelAssociatesConstraint>, IEquatable<@IfcRelAssociatesConstraint>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcRelAssociatesConstraint(IModel model) : base(model) 		{ 
@@ -37,10 +38,8 @@ namespace Xbim.Ifc2x3.ControlExtension
 		{ 
 			get 
 			{
-				if(Activated) return _intent;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _intent;
+				((IPersistEntity)this).Activate(false);
 				return _intent;
 			} 
 			set
@@ -54,10 +53,8 @@ namespace Xbim.Ifc2x3.ControlExtension
 		{ 
 			get 
 			{
-				if(Activated) return _relatingConstraint;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _relatingConstraint;
+				((IPersistEntity)this).Activate(false);
 				return _relatingConstraint;
 			} 
 			set
@@ -105,6 +102,23 @@ namespace Xbim.Ifc2x3.ControlExtension
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcRelAssociatesConstraint
+            var root = (@IfcRelAssociatesConstraint)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcRelAssociatesConstraint left, @IfcRelAssociatesConstraint right)
         {

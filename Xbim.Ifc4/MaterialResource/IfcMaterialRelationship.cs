@@ -9,6 +9,7 @@
 
 using Xbim.Ifc4.ExternalReferenceResource;
 using Xbim.Ifc4.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -17,12 +18,12 @@ namespace Xbim.Ifc4.MaterialResource
 {
 	[ExpressType("IFCMATERIALRELATIONSHIP", 758)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcMaterialRelationship : IfcResourceLevelRelationship, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcMaterialRelationship>, System.IEquatable<@IfcMaterialRelationship>
+	public  partial class @IfcMaterialRelationship : IfcResourceLevelRelationship, IInstantiableEntity, IEqualityComparer<@IfcMaterialRelationship>, IEquatable<@IfcMaterialRelationship>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcMaterialRelationship(IModel model) : base(model) 		{ 
 			Model = model; 
-			_relatedMaterials = new ItemSet<IfcMaterial>( this );
+			_relatedMaterials = new ItemSet<IfcMaterial>( this, 0 );
 		}
 
 		#region Explicit attribute fields
@@ -38,10 +39,8 @@ namespace Xbim.Ifc4.MaterialResource
 		{ 
 			get 
 			{
-				if(Activated) return _relatingMaterial;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _relatingMaterial;
+				((IPersistEntity)this).Activate(false);
 				return _relatingMaterial;
 			} 
 			set
@@ -56,10 +55,8 @@ namespace Xbim.Ifc4.MaterialResource
 		{ 
 			get 
 			{
-				if(Activated) return _relatedMaterials;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _relatedMaterials;
+				((IPersistEntity)this).Activate(false);
 				return _relatedMaterials;
 			} 
 		}
@@ -69,10 +66,8 @@ namespace Xbim.Ifc4.MaterialResource
 		{ 
 			get 
 			{
-				if(Activated) return _expression;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _expression;
+				((IPersistEntity)this).Activate(false);
 				return _expression;
 			} 
 			set
@@ -121,6 +116,23 @@ namespace Xbim.Ifc4.MaterialResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcMaterialRelationship
+            var root = (@IfcMaterialRelationship)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcMaterialRelationship left, @IfcMaterialRelationship right)
         {

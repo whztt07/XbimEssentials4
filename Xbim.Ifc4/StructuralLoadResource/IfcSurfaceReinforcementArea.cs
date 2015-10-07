@@ -8,6 +8,7 @@
 // ------------------------------------------------------------------------------
 
 using Xbim.Ifc4.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -16,13 +17,13 @@ namespace Xbim.Ifc4.StructuralLoadResource
 {
 	[ExpressType("IFCSURFACEREINFORCEMENTAREA", 1058)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcSurfaceReinforcementArea : IfcStructuralLoadOrResult, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcSurfaceReinforcementArea>, System.IEquatable<@IfcSurfaceReinforcementArea>
+	public  partial class @IfcSurfaceReinforcementArea : IfcStructuralLoadOrResult, IInstantiableEntity, IEqualityComparer<@IfcSurfaceReinforcementArea>, IEquatable<@IfcSurfaceReinforcementArea>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcSurfaceReinforcementArea(IModel model) : base(model) 		{ 
 			Model = model; 
-			_surfaceReinforcement1 = new OptionalItemSet<IfcLengthMeasure>( this );
-			_surfaceReinforcement2 = new OptionalItemSet<IfcLengthMeasure>( this );
+			_surfaceReinforcement1 = new OptionalItemSet<IfcLengthMeasure>( this, 3 );
+			_surfaceReinforcement2 = new OptionalItemSet<IfcLengthMeasure>( this, 3 );
 		}
 
 		#region Explicit attribute fields
@@ -37,10 +38,8 @@ namespace Xbim.Ifc4.StructuralLoadResource
 		{ 
 			get 
 			{
-				if(Activated) return _surfaceReinforcement1;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _surfaceReinforcement1;
+				((IPersistEntity)this).Activate(false);
 				return _surfaceReinforcement1;
 			} 
 		}
@@ -50,10 +49,8 @@ namespace Xbim.Ifc4.StructuralLoadResource
 		{ 
 			get 
 			{
-				if(Activated) return _surfaceReinforcement2;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _surfaceReinforcement2;
+				((IPersistEntity)this).Activate(false);
 				return _surfaceReinforcement2;
 			} 
 		}
@@ -63,10 +60,8 @@ namespace Xbim.Ifc4.StructuralLoadResource
 		{ 
 			get 
 			{
-				if(Activated) return _shearReinforcement;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _shearReinforcement;
+				((IPersistEntity)this).Activate(false);
 				return _shearReinforcement;
 			} 
 			set
@@ -119,6 +114,23 @@ namespace Xbim.Ifc4.StructuralLoadResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcSurfaceReinforcementArea
+            var root = (@IfcSurfaceReinforcementArea)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcSurfaceReinforcementArea left, @IfcSurfaceReinforcementArea right)
         {

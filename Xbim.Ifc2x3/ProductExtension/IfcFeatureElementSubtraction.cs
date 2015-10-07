@@ -7,6 +7,7 @@
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -15,7 +16,7 @@ namespace Xbim.Ifc2x3.ProductExtension
 {
 	[ExpressType("IFCFEATUREELEMENTSUBTRACTION", 499)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public abstract partial class @IfcFeatureElementSubtraction : IfcFeatureElement, System.Collections.Generic.IEqualityComparer<@IfcFeatureElementSubtraction>, System.IEquatable<@IfcFeatureElementSubtraction>
+	public abstract partial class @IfcFeatureElementSubtraction : IfcFeatureElement, IEqualityComparer<@IfcFeatureElementSubtraction>, IEquatable<@IfcFeatureElementSubtraction>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcFeatureElementSubtraction(IModel model) : base(model) 		{ 
@@ -29,7 +30,7 @@ namespace Xbim.Ifc2x3.ProductExtension
 		{ 
 			get 
 			{
-				return Model.Instances.FirstOrDefault<IfcRelVoidsElement>(e => e.RelatedOpeningElement == this);
+				return Model.Instances.FirstOrDefault<IfcRelVoidsElement>(e => (e.RelatedOpeningElement as IfcFeatureElementSubtraction) == this);
 			} 
 		}
 		#endregion
@@ -67,6 +68,23 @@ namespace Xbim.Ifc2x3.ProductExtension
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcFeatureElementSubtraction
+            var root = (@IfcFeatureElementSubtraction)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcFeatureElementSubtraction left, @IfcFeatureElementSubtraction right)
         {

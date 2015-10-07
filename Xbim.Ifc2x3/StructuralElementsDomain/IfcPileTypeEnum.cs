@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc2x3.StructuralElementsDomain
 {
-	public enum IfcPileTypeEnum
+	public enum IfcPileTypeEnum : byte
 	{
 		@COHESION ,
 		@FRICTION ,

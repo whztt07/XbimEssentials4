@@ -14,7 +14,7 @@ namespace Xbim.Ifc2x3.MeasureResource
 {
 	[ExpressType("IFCCONTEXTDEPENDENTMEASURE", 617)]
     // ReSharper disable once PartialTypeWithSinglePart
-	public partial struct IfcContextDependentMeasure : IfcMeasureValue, IExpressValueType
+	public partial struct IfcContextDependentMeasure : IfcMeasureValue, IExpressValueType, System.IEquatable<double>
 	{ 
 		private double _value;
         
@@ -46,6 +46,7 @@ namespace Xbim.Ifc2x3.MeasureResource
         public static implicit operator double(IfcContextDependentMeasure obj)
         {
             return obj._value;
+
         }
 
 
@@ -62,6 +63,11 @@ namespace Xbim.Ifc2x3.MeasureResource
 
             return ((IfcContextDependentMeasure) obj)._value == _value;
         }
+
+		public bool Equals(double other)
+	    {
+	        return this == other;
+	    }
 
         public static bool operator ==(IfcContextDependentMeasure obj1, IfcContextDependentMeasure obj2)
         {

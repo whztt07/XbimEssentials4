@@ -8,6 +8,7 @@
 // ------------------------------------------------------------------------------
 
 using Xbim.Ifc4.SharedBldgElements;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -16,7 +17,7 @@ namespace Xbim.Ifc4.ProductExtension
 {
 	[ExpressType("IFCBUILDINGELEMENT", 448)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public abstract partial class @IfcBuildingElement : IfcElement, System.Collections.Generic.IEqualityComparer<@IfcBuildingElement>, System.IEquatable<@IfcBuildingElement>
+	public abstract partial class @IfcBuildingElement : IfcElement, IEqualityComparer<@IfcBuildingElement>, IEquatable<@IfcBuildingElement>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcBuildingElement(IModel model) : base(model) 		{ 
@@ -30,7 +31,7 @@ namespace Xbim.Ifc4.ProductExtension
 		{ 
 			get 
 			{
-				return Model.Instances.Where<IfcRelCoversBldgElements>(e => e.RelatingBuildingElement == this);
+				return Model.Instances.Where<IfcRelCoversBldgElements>(e => (e.RelatingBuildingElement as IfcBuildingElement) == this);
 			} 
 		}
 		#endregion
@@ -69,6 +70,23 @@ namespace Xbim.Ifc4.ProductExtension
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcBuildingElement
+            var root = (@IfcBuildingElement)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcBuildingElement left, @IfcBuildingElement right)
         {

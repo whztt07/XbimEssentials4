@@ -9,6 +9,7 @@
 
 using Xbim.Ifc4.GeometryResource;
 using Xbim.Ifc4.ProfileResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -17,13 +18,13 @@ namespace Xbim.Ifc4.GeometricModelResource
 {
 	[ExpressType("IFCSECTIONEDSPINE", 973)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcSectionedSpine : IfcGeometricRepresentationItem, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcSectionedSpine>, System.IEquatable<@IfcSectionedSpine>
+	public  partial class @IfcSectionedSpine : IfcGeometricRepresentationItem, IInstantiableEntity, IEqualityComparer<@IfcSectionedSpine>, IEquatable<@IfcSectionedSpine>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcSectionedSpine(IModel model) : base(model) 		{ 
 			Model = model; 
-			_crossSections = new ItemSet<IfcProfileDef>( this );
-			_crossSectionPositions = new ItemSet<IfcAxis2Placement3D>( this );
+			_crossSections = new ItemSet<IfcProfileDef>( this, 0 );
+			_crossSectionPositions = new ItemSet<IfcAxis2Placement3D>( this, 0 );
 		}
 
 		#region Explicit attribute fields
@@ -38,10 +39,8 @@ namespace Xbim.Ifc4.GeometricModelResource
 		{ 
 			get 
 			{
-				if(Activated) return _spineCurve;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _spineCurve;
+				((IPersistEntity)this).Activate(false);
 				return _spineCurve;
 			} 
 			set
@@ -55,10 +54,8 @@ namespace Xbim.Ifc4.GeometricModelResource
 		{ 
 			get 
 			{
-				if(Activated) return _crossSections;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _crossSections;
+				((IPersistEntity)this).Activate(false);
 				return _crossSections;
 			} 
 		}
@@ -68,10 +65,8 @@ namespace Xbim.Ifc4.GeometricModelResource
 		{ 
 			get 
 			{
-				if(Activated) return _crossSectionPositions;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _crossSectionPositions;
+				((IPersistEntity)this).Activate(false);
 				return _crossSectionPositions;
 			} 
 		}
@@ -116,6 +111,23 @@ namespace Xbim.Ifc4.GeometricModelResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcSectionedSpine
+            var root = (@IfcSectionedSpine)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcSectionedSpine left, @IfcSectionedSpine right)
         {

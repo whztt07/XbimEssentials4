@@ -14,7 +14,7 @@ namespace Xbim.Ifc4.MeasureResource
 {
 	[ExpressType("IFCLABEL", 46)]
     // ReSharper disable once PartialTypeWithSinglePart
-	public partial struct IfcLabel : IfcSimpleValue, IExpressValueType
+	public partial struct IfcLabel : IfcSimpleValue, IExpressValueType, System.IEquatable<string>
 	{ 
 		private string _value;
         
@@ -42,6 +42,7 @@ namespace Xbim.Ifc4.MeasureResource
         public static implicit operator string(IfcLabel obj)
         {
             return obj._value;
+
         }
 
 
@@ -58,6 +59,11 @@ namespace Xbim.Ifc4.MeasureResource
 
             return ((IfcLabel) obj)._value == _value;
         }
+
+		public bool Equals(string other)
+	    {
+	        return this == other;
+	    }
 
         public static bool operator ==(IfcLabel obj1, IfcLabel obj2)
         {

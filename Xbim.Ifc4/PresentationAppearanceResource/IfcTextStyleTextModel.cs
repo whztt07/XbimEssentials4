@@ -8,6 +8,7 @@
 // ------------------------------------------------------------------------------
 
 using Xbim.Ifc4.PresentationDefinitionResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -17,7 +18,7 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
 	[IndexedClass]
 	[ExpressType("IFCTEXTSTYLETEXTMODEL", 1097)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcTextStyleTextModel : IfcPresentationItem, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcTextStyleTextModel>, System.IEquatable<@IfcTextStyleTextModel>
+	public  partial class @IfcTextStyleTextModel : IfcPresentationItem, IInstantiableEntity, IEqualityComparer<@IfcTextStyleTextModel>, IEquatable<@IfcTextStyleTextModel>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcTextStyleTextModel(IModel model) : base(model) 		{ 
@@ -40,10 +41,8 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
 		{ 
 			get 
 			{
-				if(Activated) return _textIndent;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _textIndent;
+				((IPersistEntity)this).Activate(false);
 				return _textIndent;
 			} 
 			set
@@ -57,10 +56,8 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
 		{ 
 			get 
 			{
-				if(Activated) return _textAlign;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _textAlign;
+				((IPersistEntity)this).Activate(false);
 				return _textAlign;
 			} 
 			set
@@ -74,10 +71,8 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
 		{ 
 			get 
 			{
-				if(Activated) return _textDecoration;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _textDecoration;
+				((IPersistEntity)this).Activate(false);
 				return _textDecoration;
 			} 
 			set
@@ -91,10 +86,8 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
 		{ 
 			get 
 			{
-				if(Activated) return _letterSpacing;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _letterSpacing;
+				((IPersistEntity)this).Activate(false);
 				return _letterSpacing;
 			} 
 			set
@@ -108,10 +101,8 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
 		{ 
 			get 
 			{
-				if(Activated) return _wordSpacing;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _wordSpacing;
+				((IPersistEntity)this).Activate(false);
 				return _wordSpacing;
 			} 
 			set
@@ -125,10 +116,8 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
 		{ 
 			get 
 			{
-				if(Activated) return _textTransform;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _textTransform;
+				((IPersistEntity)this).Activate(false);
 				return _textTransform;
 			} 
 			set
@@ -142,10 +131,8 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
 		{ 
 			get 
 			{
-				if(Activated) return _lineHeight;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _lineHeight;
+				((IPersistEntity)this).Activate(false);
 				return _lineHeight;
 			} 
 			set
@@ -201,6 +188,23 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcTextStyleTextModel
+            var root = (@IfcTextStyleTextModel)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcTextStyleTextModel left, @IfcTextStyleTextModel right)
         {

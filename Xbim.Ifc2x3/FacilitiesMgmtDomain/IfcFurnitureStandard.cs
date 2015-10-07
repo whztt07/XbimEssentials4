@@ -10,6 +10,7 @@
 using Xbim.Ifc2x3.Kernel;
 using Xbim.Ifc2x3.UtilityResource;
 using Xbim.Ifc2x3.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -18,7 +19,7 @@ namespace Xbim.Ifc2x3.FacilitiesMgmtDomain
 {
 	[ExpressType("IFCFURNITURESTANDARD", 75)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcFurnitureStandard : IfcControl, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcFurnitureStandard>, System.IEquatable<@IfcFurnitureStandard>
+	public  partial class @IfcFurnitureStandard : IfcControl, IInstantiableEntity, IEqualityComparer<@IfcFurnitureStandard>, IEquatable<@IfcFurnitureStandard>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcFurnitureStandard(IModel model) : base(model) 		{ 
@@ -57,6 +58,23 @@ namespace Xbim.Ifc2x3.FacilitiesMgmtDomain
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcFurnitureStandard
+            var root = (@IfcFurnitureStandard)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcFurnitureStandard left, @IfcFurnitureStandard right)
         {

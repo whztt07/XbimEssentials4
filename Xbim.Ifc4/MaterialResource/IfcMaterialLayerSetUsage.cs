@@ -8,6 +8,7 @@
 // ------------------------------------------------------------------------------
 
 using Xbim.Ifc4.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -17,7 +18,7 @@ namespace Xbim.Ifc4.MaterialResource
 	[IndexedClass]
 	[ExpressType("IFCMATERIALLAYERSETUSAGE", 749)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcMaterialLayerSetUsage : IfcMaterialUsageDefinition, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcMaterialLayerSetUsage>, System.IEquatable<@IfcMaterialLayerSetUsage>
+	public  partial class @IfcMaterialLayerSetUsage : IfcMaterialUsageDefinition, IInstantiableEntity, IEqualityComparer<@IfcMaterialLayerSetUsage>, IEquatable<@IfcMaterialLayerSetUsage>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcMaterialLayerSetUsage(IModel model) : base(model) 		{ 
@@ -38,10 +39,8 @@ namespace Xbim.Ifc4.MaterialResource
 		{ 
 			get 
 			{
-				if(Activated) return _forLayerSet;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _forLayerSet;
+				((IPersistEntity)this).Activate(false);
 				return _forLayerSet;
 			} 
 			set
@@ -55,10 +54,8 @@ namespace Xbim.Ifc4.MaterialResource
 		{ 
 			get 
 			{
-				if(Activated) return _layerSetDirection;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _layerSetDirection;
+				((IPersistEntity)this).Activate(false);
 				return _layerSetDirection;
 			} 
 			set
@@ -72,10 +69,8 @@ namespace Xbim.Ifc4.MaterialResource
 		{ 
 			get 
 			{
-				if(Activated) return _directionSense;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _directionSense;
+				((IPersistEntity)this).Activate(false);
 				return _directionSense;
 			} 
 			set
@@ -89,10 +84,8 @@ namespace Xbim.Ifc4.MaterialResource
 		{ 
 			get 
 			{
-				if(Activated) return _offsetFromReferenceLine;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _offsetFromReferenceLine;
+				((IPersistEntity)this).Activate(false);
 				return _offsetFromReferenceLine;
 			} 
 			set
@@ -106,10 +99,8 @@ namespace Xbim.Ifc4.MaterialResource
 		{ 
 			get 
 			{
-				if(Activated) return _referenceExtent;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _referenceExtent;
+				((IPersistEntity)this).Activate(false);
 				return _referenceExtent;
 			} 
 			set
@@ -159,6 +150,23 @@ namespace Xbim.Ifc4.MaterialResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcMaterialLayerSetUsage
+            var root = (@IfcMaterialLayerSetUsage)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcMaterialLayerSetUsage left, @IfcMaterialLayerSetUsage right)
         {

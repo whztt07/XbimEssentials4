@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.SharedBldgElements
 {
-	public enum IfcPlateTypeEnum
+	public enum IfcPlateTypeEnum : byte
 	{
 		@CURTAIN_PANEL ,
 		@SHEET ,

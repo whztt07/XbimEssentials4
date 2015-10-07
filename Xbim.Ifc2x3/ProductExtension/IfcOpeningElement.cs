@@ -11,6 +11,7 @@ using Xbim.Ifc2x3.UtilityResource;
 using Xbim.Ifc2x3.MeasureResource;
 using Xbim.Ifc2x3.GeometricConstraintResource;
 using Xbim.Ifc2x3.RepresentationResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -19,7 +20,7 @@ namespace Xbim.Ifc2x3.ProductExtension
 {
 	[ExpressType("IFCOPENINGELEMENT", 498)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcOpeningElement : IfcFeatureElementSubtraction, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcOpeningElement>, System.IEquatable<@IfcOpeningElement>
+	public  partial class @IfcOpeningElement : IfcFeatureElementSubtraction, IInstantiableEntity, IEqualityComparer<@IfcOpeningElement>, IEquatable<@IfcOpeningElement>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcOpeningElement(IModel model) : base(model) 		{ 
@@ -33,7 +34,7 @@ namespace Xbim.Ifc2x3.ProductExtension
 		{ 
 			get 
 			{
-				return Model.Instances.Where<IfcRelFillsElement>(e => e.RelatingOpeningElement == this);
+				return Model.Instances.Where<IfcRelFillsElement>(e => (e.RelatingOpeningElement as IfcOpeningElement) == this);
 			} 
 		}
 		#endregion
@@ -71,6 +72,23 @@ namespace Xbim.Ifc2x3.ProductExtension
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcOpeningElement
+            var root = (@IfcOpeningElement)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcOpeningElement left, @IfcOpeningElement right)
         {

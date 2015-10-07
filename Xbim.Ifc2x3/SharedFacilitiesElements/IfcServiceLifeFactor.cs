@@ -10,6 +10,7 @@
 using Xbim.Ifc2x3.Kernel;
 using Xbim.Ifc2x3.UtilityResource;
 using Xbim.Ifc2x3.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -18,7 +19,7 @@ namespace Xbim.Ifc2x3.SharedFacilitiesElements
 {
 	[ExpressType("IFCSERVICELIFEFACTOR", 770)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcServiceLifeFactor : IfcPropertySetDefinition, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcServiceLifeFactor>, System.IEquatable<@IfcServiceLifeFactor>
+	public  partial class @IfcServiceLifeFactor : IfcPropertySetDefinition, IInstantiableEntity, IEqualityComparer<@IfcServiceLifeFactor>, IEquatable<@IfcServiceLifeFactor>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcServiceLifeFactor(IModel model) : base(model) 		{ 
@@ -38,10 +39,8 @@ namespace Xbim.Ifc2x3.SharedFacilitiesElements
 		{ 
 			get 
 			{
-				if(Activated) return _predefinedType;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _predefinedType;
+				((IPersistEntity)this).Activate(false);
 				return _predefinedType;
 			} 
 			set
@@ -55,10 +54,8 @@ namespace Xbim.Ifc2x3.SharedFacilitiesElements
 		{ 
 			get 
 			{
-				if(Activated) return _upperValue;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _upperValue;
+				((IPersistEntity)this).Activate(false);
 				return _upperValue;
 			} 
 			set
@@ -72,10 +69,8 @@ namespace Xbim.Ifc2x3.SharedFacilitiesElements
 		{ 
 			get 
 			{
-				if(Activated) return _mostUsedValue;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _mostUsedValue;
+				((IPersistEntity)this).Activate(false);
 				return _mostUsedValue;
 			} 
 			set
@@ -89,10 +84,8 @@ namespace Xbim.Ifc2x3.SharedFacilitiesElements
 		{ 
 			get 
 			{
-				if(Activated) return _lowerValue;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _lowerValue;
+				((IPersistEntity)this).Activate(false);
 				return _lowerValue;
 			} 
 			set
@@ -146,6 +139,23 @@ namespace Xbim.Ifc2x3.SharedFacilitiesElements
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcServiceLifeFactor
+            var root = (@IfcServiceLifeFactor)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcServiceLifeFactor left, @IfcServiceLifeFactor right)
         {

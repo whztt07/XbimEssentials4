@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.PropertyResource
 {
-	public enum IfcCurveInterpolationEnum
+	public enum IfcCurveInterpolationEnum : byte
 	{
 		@LINEAR ,
 		@LOG_LINEAR ,

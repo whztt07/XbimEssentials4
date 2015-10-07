@@ -11,6 +11,7 @@ using Xbim.Ifc4.UtilityResource;
 using Xbim.Ifc4.MeasureResource;
 using Xbim.Ifc4.Kernel;
 using Xbim.Ifc4.GeometryResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -19,12 +20,12 @@ namespace Xbim.Ifc4.StructuralElementsDomain
 {
 	[ExpressType("IFCREINFORCINGMESHTYPE", 900)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcReinforcingMeshType : IfcReinforcingElementType, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcReinforcingMeshType>, System.IEquatable<@IfcReinforcingMeshType>
+	public  partial class @IfcReinforcingMeshType : IfcReinforcingElementType, IInstantiableEntity, IEqualityComparer<@IfcReinforcingMeshType>, IEquatable<@IfcReinforcingMeshType>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcReinforcingMeshType(IModel model) : base(model) 		{ 
 			Model = model; 
-			_bendingParameters = new OptionalItemSet<IfcBendingParameterSelect>( this );
+			_bendingParameters = new OptionalItemSet<IfcBendingParameterSelect>( this, 0 );
 		}
 
 		#region Explicit attribute fields
@@ -47,10 +48,8 @@ namespace Xbim.Ifc4.StructuralElementsDomain
 		{ 
 			get 
 			{
-				if(Activated) return _predefinedType;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _predefinedType;
+				((IPersistEntity)this).Activate(false);
 				return _predefinedType;
 			} 
 			set
@@ -64,10 +63,8 @@ namespace Xbim.Ifc4.StructuralElementsDomain
 		{ 
 			get 
 			{
-				if(Activated) return _meshLength;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _meshLength;
+				((IPersistEntity)this).Activate(false);
 				return _meshLength;
 			} 
 			set
@@ -81,10 +78,8 @@ namespace Xbim.Ifc4.StructuralElementsDomain
 		{ 
 			get 
 			{
-				if(Activated) return _meshWidth;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _meshWidth;
+				((IPersistEntity)this).Activate(false);
 				return _meshWidth;
 			} 
 			set
@@ -98,10 +93,8 @@ namespace Xbim.Ifc4.StructuralElementsDomain
 		{ 
 			get 
 			{
-				if(Activated) return _longitudinalBarNominalDiameter;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _longitudinalBarNominalDiameter;
+				((IPersistEntity)this).Activate(false);
 				return _longitudinalBarNominalDiameter;
 			} 
 			set
@@ -115,10 +108,8 @@ namespace Xbim.Ifc4.StructuralElementsDomain
 		{ 
 			get 
 			{
-				if(Activated) return _transverseBarNominalDiameter;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _transverseBarNominalDiameter;
+				((IPersistEntity)this).Activate(false);
 				return _transverseBarNominalDiameter;
 			} 
 			set
@@ -132,10 +123,8 @@ namespace Xbim.Ifc4.StructuralElementsDomain
 		{ 
 			get 
 			{
-				if(Activated) return _longitudinalBarCrossSectionArea;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _longitudinalBarCrossSectionArea;
+				((IPersistEntity)this).Activate(false);
 				return _longitudinalBarCrossSectionArea;
 			} 
 			set
@@ -149,10 +138,8 @@ namespace Xbim.Ifc4.StructuralElementsDomain
 		{ 
 			get 
 			{
-				if(Activated) return _transverseBarCrossSectionArea;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _transverseBarCrossSectionArea;
+				((IPersistEntity)this).Activate(false);
 				return _transverseBarCrossSectionArea;
 			} 
 			set
@@ -166,10 +153,8 @@ namespace Xbim.Ifc4.StructuralElementsDomain
 		{ 
 			get 
 			{
-				if(Activated) return _longitudinalBarSpacing;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _longitudinalBarSpacing;
+				((IPersistEntity)this).Activate(false);
 				return _longitudinalBarSpacing;
 			} 
 			set
@@ -183,10 +168,8 @@ namespace Xbim.Ifc4.StructuralElementsDomain
 		{ 
 			get 
 			{
-				if(Activated) return _transverseBarSpacing;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _transverseBarSpacing;
+				((IPersistEntity)this).Activate(false);
 				return _transverseBarSpacing;
 			} 
 			set
@@ -200,10 +183,8 @@ namespace Xbim.Ifc4.StructuralElementsDomain
 		{ 
 			get 
 			{
-				if(Activated) return _bendingShapeCode;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _bendingShapeCode;
+				((IPersistEntity)this).Activate(false);
 				return _bendingShapeCode;
 			} 
 			set
@@ -217,10 +198,8 @@ namespace Xbim.Ifc4.StructuralElementsDomain
 		{ 
 			get 
 			{
-				if(Activated) return _bendingParameters;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _bendingParameters;
+				((IPersistEntity)this).Activate(false);
 				return _bendingParameters;
 			} 
 		}
@@ -298,6 +277,23 @@ namespace Xbim.Ifc4.StructuralElementsDomain
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcReinforcingMeshType
+            var root = (@IfcReinforcingMeshType)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcReinforcingMeshType left, @IfcReinforcingMeshType right)
         {

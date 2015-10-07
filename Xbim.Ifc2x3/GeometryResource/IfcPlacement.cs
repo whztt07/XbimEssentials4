@@ -7,6 +7,8 @@
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
+using System;
+using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
 
@@ -14,7 +16,7 @@ namespace Xbim.Ifc2x3.GeometryResource
 {
 	[ExpressType("IFCPLACEMENT", 281)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public abstract partial class @IfcPlacement : IfcGeometricRepresentationItem, System.Collections.Generic.IEqualityComparer<@IfcPlacement>, System.IEquatable<@IfcPlacement>
+	public abstract partial class @IfcPlacement : IfcGeometricRepresentationItem, IEqualityComparer<@IfcPlacement>, IEquatable<@IfcPlacement>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcPlacement(IModel model) : base(model) 		{ 
@@ -31,10 +33,8 @@ namespace Xbim.Ifc2x3.GeometryResource
 		{ 
 			get 
 			{
-				if(Activated) return _location;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _location;
+				((IPersistEntity)this).Activate(false);
 				return _location;
 			} 
 			set
@@ -72,6 +72,23 @@ namespace Xbim.Ifc2x3.GeometryResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcPlacement
+            var root = (@IfcPlacement)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcPlacement left, @IfcPlacement right)
         {

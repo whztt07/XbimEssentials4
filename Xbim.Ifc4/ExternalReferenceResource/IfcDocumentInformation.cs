@@ -11,6 +11,7 @@ using Xbim.Ifc4.MeasureResource;
 using Xbim.Ifc4.ActorResource;
 using Xbim.Ifc4.DateTimeResource;
 using Xbim.Ifc4.Kernel;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -20,12 +21,12 @@ namespace Xbim.Ifc4.ExternalReferenceResource
 	[IndexedClass]
 	[ExpressType("IFCDOCUMENTINFORMATION", 578)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcDocumentInformation : IfcExternalInformation, IfcDocumentSelect, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcDocumentInformation>, System.IEquatable<@IfcDocumentInformation>
+	public  partial class @IfcDocumentInformation : IfcExternalInformation, IfcDocumentSelect, IInstantiableEntity, IEqualityComparer<@IfcDocumentInformation>, IEquatable<@IfcDocumentInformation>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcDocumentInformation(IModel model) : base(model) 		{ 
 			Model = model; 
-			_editors = new OptionalItemSet<IfcActorSelect>( this );
+			_editors = new OptionalItemSet<IfcActorSelect>( this, 0 );
 		}
 
 		#region Explicit attribute fields
@@ -54,10 +55,8 @@ namespace Xbim.Ifc4.ExternalReferenceResource
 		{ 
 			get 
 			{
-				if(Activated) return _identification;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _identification;
+				((IPersistEntity)this).Activate(false);
 				return _identification;
 			} 
 			set
@@ -71,10 +70,8 @@ namespace Xbim.Ifc4.ExternalReferenceResource
 		{ 
 			get 
 			{
-				if(Activated) return _name;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _name;
+				((IPersistEntity)this).Activate(false);
 				return _name;
 			} 
 			set
@@ -88,10 +85,8 @@ namespace Xbim.Ifc4.ExternalReferenceResource
 		{ 
 			get 
 			{
-				if(Activated) return _description;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _description;
+				((IPersistEntity)this).Activate(false);
 				return _description;
 			} 
 			set
@@ -105,10 +100,8 @@ namespace Xbim.Ifc4.ExternalReferenceResource
 		{ 
 			get 
 			{
-				if(Activated) return _location;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _location;
+				((IPersistEntity)this).Activate(false);
 				return _location;
 			} 
 			set
@@ -122,10 +115,8 @@ namespace Xbim.Ifc4.ExternalReferenceResource
 		{ 
 			get 
 			{
-				if(Activated) return _purpose;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _purpose;
+				((IPersistEntity)this).Activate(false);
 				return _purpose;
 			} 
 			set
@@ -139,10 +130,8 @@ namespace Xbim.Ifc4.ExternalReferenceResource
 		{ 
 			get 
 			{
-				if(Activated) return _intendedUse;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _intendedUse;
+				((IPersistEntity)this).Activate(false);
 				return _intendedUse;
 			} 
 			set
@@ -156,10 +145,8 @@ namespace Xbim.Ifc4.ExternalReferenceResource
 		{ 
 			get 
 			{
-				if(Activated) return _scope;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _scope;
+				((IPersistEntity)this).Activate(false);
 				return _scope;
 			} 
 			set
@@ -173,10 +160,8 @@ namespace Xbim.Ifc4.ExternalReferenceResource
 		{ 
 			get 
 			{
-				if(Activated) return _revision;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _revision;
+				((IPersistEntity)this).Activate(false);
 				return _revision;
 			} 
 			set
@@ -190,10 +175,8 @@ namespace Xbim.Ifc4.ExternalReferenceResource
 		{ 
 			get 
 			{
-				if(Activated) return _documentOwner;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _documentOwner;
+				((IPersistEntity)this).Activate(false);
 				return _documentOwner;
 			} 
 			set
@@ -207,10 +190,8 @@ namespace Xbim.Ifc4.ExternalReferenceResource
 		{ 
 			get 
 			{
-				if(Activated) return _editors;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _editors;
+				((IPersistEntity)this).Activate(false);
 				return _editors;
 			} 
 		}
@@ -220,10 +201,8 @@ namespace Xbim.Ifc4.ExternalReferenceResource
 		{ 
 			get 
 			{
-				if(Activated) return _creationTime;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _creationTime;
+				((IPersistEntity)this).Activate(false);
 				return _creationTime;
 			} 
 			set
@@ -237,10 +216,8 @@ namespace Xbim.Ifc4.ExternalReferenceResource
 		{ 
 			get 
 			{
-				if(Activated) return _lastRevisionTime;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _lastRevisionTime;
+				((IPersistEntity)this).Activate(false);
 				return _lastRevisionTime;
 			} 
 			set
@@ -254,10 +231,8 @@ namespace Xbim.Ifc4.ExternalReferenceResource
 		{ 
 			get 
 			{
-				if(Activated) return _electronicFormat;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _electronicFormat;
+				((IPersistEntity)this).Activate(false);
 				return _electronicFormat;
 			} 
 			set
@@ -271,10 +246,8 @@ namespace Xbim.Ifc4.ExternalReferenceResource
 		{ 
 			get 
 			{
-				if(Activated) return _validFrom;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _validFrom;
+				((IPersistEntity)this).Activate(false);
 				return _validFrom;
 			} 
 			set
@@ -288,10 +261,8 @@ namespace Xbim.Ifc4.ExternalReferenceResource
 		{ 
 			get 
 			{
-				if(Activated) return _validUntil;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _validUntil;
+				((IPersistEntity)this).Activate(false);
 				return _validUntil;
 			} 
 			set
@@ -305,10 +276,8 @@ namespace Xbim.Ifc4.ExternalReferenceResource
 		{ 
 			get 
 			{
-				if(Activated) return _confidentiality;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _confidentiality;
+				((IPersistEntity)this).Activate(false);
 				return _confidentiality;
 			} 
 			set
@@ -322,10 +291,8 @@ namespace Xbim.Ifc4.ExternalReferenceResource
 		{ 
 			get 
 			{
-				if(Activated) return _status;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _status;
+				((IPersistEntity)this).Activate(false);
 				return _status;
 			} 
 			set
@@ -342,7 +309,7 @@ namespace Xbim.Ifc4.ExternalReferenceResource
 		{ 
 			get 
 			{
-				return Model.Instances.Where<IfcRelAssociatesDocument>(e => e.RelatingDocument == this);
+				return Model.Instances.Where<IfcRelAssociatesDocument>(e => (e.RelatingDocument as IfcDocumentInformation) == this);
 			} 
 		}
 		[EntityAttribute(-1, EntityAttributeState.Mandatory, EntityAttributeType.Set, EntityAttributeType.Class, -1, -1)]
@@ -350,7 +317,7 @@ namespace Xbim.Ifc4.ExternalReferenceResource
 		{ 
 			get 
 			{
-				return Model.Instances.Where<IfcDocumentReference>(e => e.ReferencedDocument == this);
+				return Model.Instances.Where<IfcDocumentReference>(e => (e.ReferencedDocument as IfcDocumentInformation) == this);
 			} 
 		}
 		[EntityAttribute(-1, EntityAttributeState.Mandatory, EntityAttributeType.Set, EntityAttributeType.Class, -1, -1)]
@@ -366,7 +333,7 @@ namespace Xbim.Ifc4.ExternalReferenceResource
 		{ 
 			get 
 			{
-				return Model.Instances.Where<IfcDocumentInformationRelationship>(e => e.RelatingDocument == this);
+				return Model.Instances.Where<IfcDocumentInformationRelationship>(e => (e.RelatingDocument as IfcDocumentInformation) == this);
 			} 
 		}
 		#endregion
@@ -446,6 +413,23 @@ namespace Xbim.Ifc4.ExternalReferenceResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcDocumentInformation
+            var root = (@IfcDocumentInformation)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcDocumentInformation left, @IfcDocumentInformation right)
         {

@@ -11,6 +11,7 @@ using Xbim.Ifc2x3.Kernel;
 using Xbim.Ifc2x3.UtilityResource;
 using Xbim.Ifc2x3.MeasureResource;
 using Xbim.Ifc2x3.ProductExtension;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -19,7 +20,7 @@ namespace Xbim.Ifc2x3.ArchitectureDomain
 {
 	[ExpressType("IFCSPACEPROGRAM", 709)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcSpaceProgram : IfcControl, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcSpaceProgram>, System.IEquatable<@IfcSpaceProgram>
+	public  partial class @IfcSpaceProgram : IfcControl, IInstantiableEntity, IEqualityComparer<@IfcSpaceProgram>, IEquatable<@IfcSpaceProgram>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcSpaceProgram(IModel model) : base(model) 		{ 
@@ -40,10 +41,8 @@ namespace Xbim.Ifc2x3.ArchitectureDomain
 		{ 
 			get 
 			{
-				if(Activated) return _spaceProgramIdentifier;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _spaceProgramIdentifier;
+				((IPersistEntity)this).Activate(false);
 				return _spaceProgramIdentifier;
 			} 
 			set
@@ -57,10 +56,8 @@ namespace Xbim.Ifc2x3.ArchitectureDomain
 		{ 
 			get 
 			{
-				if(Activated) return _maxRequiredArea;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _maxRequiredArea;
+				((IPersistEntity)this).Activate(false);
 				return _maxRequiredArea;
 			} 
 			set
@@ -74,10 +71,8 @@ namespace Xbim.Ifc2x3.ArchitectureDomain
 		{ 
 			get 
 			{
-				if(Activated) return _minRequiredArea;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _minRequiredArea;
+				((IPersistEntity)this).Activate(false);
 				return _minRequiredArea;
 			} 
 			set
@@ -91,10 +86,8 @@ namespace Xbim.Ifc2x3.ArchitectureDomain
 		{ 
 			get 
 			{
-				if(Activated) return _requestedLocation;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _requestedLocation;
+				((IPersistEntity)this).Activate(false);
 				return _requestedLocation;
 			} 
 			set
@@ -108,10 +101,8 @@ namespace Xbim.Ifc2x3.ArchitectureDomain
 		{ 
 			get 
 			{
-				if(Activated) return _standardRequiredArea;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _standardRequiredArea;
+				((IPersistEntity)this).Activate(false);
 				return _standardRequiredArea;
 			} 
 			set
@@ -128,7 +119,7 @@ namespace Xbim.Ifc2x3.ArchitectureDomain
 		{ 
 			get 
 			{
-				return Model.Instances.Where<IfcRelInteractionRequirements>(e => e.RelatedSpaceProgram == this);
+				return Model.Instances.Where<IfcRelInteractionRequirements>(e => (e.RelatedSpaceProgram as IfcSpaceProgram) == this);
 			} 
 		}
 		[EntityAttribute(-1, EntityAttributeState.Mandatory, EntityAttributeType.Set, EntityAttributeType.Class, -1, -1)]
@@ -136,7 +127,7 @@ namespace Xbim.Ifc2x3.ArchitectureDomain
 		{ 
 			get 
 			{
-				return Model.Instances.Where<IfcRelInteractionRequirements>(e => e.RelatingSpaceProgram == this);
+				return Model.Instances.Where<IfcRelInteractionRequirements>(e => (e.RelatingSpaceProgram as IfcSpaceProgram) == this);
 			} 
 		}
 		#endregion
@@ -186,6 +177,23 @@ namespace Xbim.Ifc2x3.ArchitectureDomain
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcSpaceProgram
+            var root = (@IfcSpaceProgram)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcSpaceProgram left, @IfcSpaceProgram right)
         {

@@ -9,6 +9,7 @@
 
 using Xbim.Ifc2x3.MeasureResource;
 using Xbim.Ifc2x3.GeometryResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -17,7 +18,7 @@ namespace Xbim.Ifc2x3.ProfileResource
 {
 	[ExpressType("IFCCSHAPEPROFILEDEF", 501)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcCShapeProfileDef : IfcParameterizedProfileDef, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcCShapeProfileDef>, System.IEquatable<@IfcCShapeProfileDef>
+	public  partial class @IfcCShapeProfileDef : IfcParameterizedProfileDef, IInstantiableEntity, IEqualityComparer<@IfcCShapeProfileDef>, IEquatable<@IfcCShapeProfileDef>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcCShapeProfileDef(IModel model) : base(model) 		{ 
@@ -39,10 +40,8 @@ namespace Xbim.Ifc2x3.ProfileResource
 		{ 
 			get 
 			{
-				if(Activated) return _depth;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _depth;
+				((IPersistEntity)this).Activate(false);
 				return _depth;
 			} 
 			set
@@ -56,10 +55,8 @@ namespace Xbim.Ifc2x3.ProfileResource
 		{ 
 			get 
 			{
-				if(Activated) return _width;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _width;
+				((IPersistEntity)this).Activate(false);
 				return _width;
 			} 
 			set
@@ -73,10 +70,8 @@ namespace Xbim.Ifc2x3.ProfileResource
 		{ 
 			get 
 			{
-				if(Activated) return _wallThickness;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _wallThickness;
+				((IPersistEntity)this).Activate(false);
 				return _wallThickness;
 			} 
 			set
@@ -90,10 +85,8 @@ namespace Xbim.Ifc2x3.ProfileResource
 		{ 
 			get 
 			{
-				if(Activated) return _girth;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _girth;
+				((IPersistEntity)this).Activate(false);
 				return _girth;
 			} 
 			set
@@ -107,10 +100,8 @@ namespace Xbim.Ifc2x3.ProfileResource
 		{ 
 			get 
 			{
-				if(Activated) return _internalFilletRadius;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _internalFilletRadius;
+				((IPersistEntity)this).Activate(false);
 				return _internalFilletRadius;
 			} 
 			set
@@ -124,10 +115,8 @@ namespace Xbim.Ifc2x3.ProfileResource
 		{ 
 			get 
 			{
-				if(Activated) return _centreOfGravityInX;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _centreOfGravityInX;
+				((IPersistEntity)this).Activate(false);
 				return _centreOfGravityInX;
 			} 
 			set
@@ -188,6 +177,23 @@ namespace Xbim.Ifc2x3.ProfileResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcCShapeProfileDef
+            var root = (@IfcCShapeProfileDef)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcCShapeProfileDef left, @IfcCShapeProfileDef right)
         {

@@ -8,6 +8,7 @@
 // ------------------------------------------------------------------------------
 
 using System.Collections.Generic;
+using System.Linq;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
 
@@ -15,10 +16,23 @@ namespace Xbim.Ifc4.MeasureResource
 {
 	[ExpressType("IFCCOMPLEXNUMBER", 9)]
     // ReSharper disable once PartialTypeWithSinglePart
-	public partial struct IfcComplexNumber : IfcMeasureValue, IExpressComplexType
+	public partial struct IfcComplexNumber : IfcMeasureValue, IExpressComplexType, System.IEquatable<List<double>>
 	{ 
 		private List<double> _value;
         
+		public static void Add(ref IfcComplexNumber comp, double component)
+        {
+            if (comp._value == null)
+                comp.Initialise(component);
+            else
+                comp._value.Add(component);
+        }
+
+		private void Initialise(double comp)
+        {
+            _value = new List<double>{ comp };
+        }
+
 		public object Value
         {
             get { return _value; }
@@ -31,7 +45,8 @@ namespace Xbim.Ifc4.MeasureResource
 
         public IfcComplexNumber(List<double> val)
         {
-            _value = val;
+			//copy items into new inner list
+			_value = new List<double>(val);
         }
 
 
@@ -42,7 +57,9 @@ namespace Xbim.Ifc4.MeasureResource
 
         public static implicit operator List<double>(IfcComplexNumber obj)
         {
-            return obj._value;
+			//return copy so that underlying collection is not exposed
+			return new List<double>(obj._value);
+
         }
 
 
@@ -60,6 +77,11 @@ namespace Xbim.Ifc4.MeasureResource
             return System.Linq.Enumerable.SequenceEqual(((IfcComplexNumber) obj)._value, _value);
         }
 
+		public bool Equals(List<double> other)
+	    {
+	        return this == other;
+	    }
+
         public static bool operator ==(IfcComplexNumber obj1, IfcComplexNumber obj2)
         {
             return Equals(obj1, obj2);
@@ -72,7 +94,7 @@ namespace Xbim.Ifc4.MeasureResource
 
         public override int GetHashCode()
         {
-            return Value != null ? _value.GetHashCode() : base.GetHashCode();
+            return Value != null ? _value.Sum(o => o.GetHashCode()) : base.GetHashCode();
         }
 
 		#region IPersist implementation
@@ -111,13 +133,6 @@ namespace Xbim.Ifc4.MeasureResource
 	                yield return value;
             }
         }
-
-		void IExpressComplexType.Add(object o)
-	    {
-			if (_value == null)
-				_value = new List<double>();
-			 _value.Add((double) o);
-	    }
 		#endregion
 
 	}

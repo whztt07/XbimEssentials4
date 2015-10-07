@@ -8,6 +8,7 @@
 // ------------------------------------------------------------------------------
 
 using Xbim.Ifc4.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -16,7 +17,7 @@ namespace Xbim.Ifc4.PropertyResource
 {
 	[ExpressType("IFCPROPERTYBOUNDEDVALUE", 850)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcPropertyBoundedValue : IfcSimpleProperty, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcPropertyBoundedValue>, System.IEquatable<@IfcPropertyBoundedValue>
+	public  partial class @IfcPropertyBoundedValue : IfcSimpleProperty, IInstantiableEntity, IEqualityComparer<@IfcPropertyBoundedValue>, IEquatable<@IfcPropertyBoundedValue>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcPropertyBoundedValue(IModel model) : base(model) 		{ 
@@ -36,10 +37,8 @@ namespace Xbim.Ifc4.PropertyResource
 		{ 
 			get 
 			{
-				if(Activated) return _upperBoundValue;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _upperBoundValue;
+				((IPersistEntity)this).Activate(false);
 				return _upperBoundValue;
 			} 
 			set
@@ -53,10 +52,8 @@ namespace Xbim.Ifc4.PropertyResource
 		{ 
 			get 
 			{
-				if(Activated) return _lowerBoundValue;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _lowerBoundValue;
+				((IPersistEntity)this).Activate(false);
 				return _lowerBoundValue;
 			} 
 			set
@@ -70,10 +67,8 @@ namespace Xbim.Ifc4.PropertyResource
 		{ 
 			get 
 			{
-				if(Activated) return _unit;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _unit;
+				((IPersistEntity)this).Activate(false);
 				return _unit;
 			} 
 			set
@@ -87,10 +82,8 @@ namespace Xbim.Ifc4.PropertyResource
 		{ 
 			get 
 			{
-				if(Activated) return _setPointValue;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _setPointValue;
+				((IPersistEntity)this).Activate(false);
 				return _setPointValue;
 			} 
 			set
@@ -144,6 +137,23 @@ namespace Xbim.Ifc4.PropertyResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcPropertyBoundedValue
+            var root = (@IfcPropertyBoundedValue)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcPropertyBoundedValue left, @IfcPropertyBoundedValue right)
         {

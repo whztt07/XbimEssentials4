@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.ExternalReferenceResource
 {
-	public enum IfcDocumentConfidentialityEnum
+	public enum IfcDocumentConfidentialityEnum : byte
 	{
 		@PUBLIC ,
 		@RESTRICTED ,

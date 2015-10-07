@@ -10,6 +10,7 @@
 using Xbim.Ifc2x3.UtilityResource;
 using Xbim.Ifc2x3.MeasureResource;
 using Xbim.Ifc2x3.ActorResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -18,7 +19,7 @@ namespace Xbim.Ifc2x3.ConstructionMgmtDomain
 {
 	[ExpressType("IFCSUBCONTRACTRESOURCE", 594)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcSubContractResource : IfcConstructionResource, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcSubContractResource>, System.IEquatable<@IfcSubContractResource>
+	public  partial class @IfcSubContractResource : IfcConstructionResource, IInstantiableEntity, IEqualityComparer<@IfcSubContractResource>, IEquatable<@IfcSubContractResource>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcSubContractResource(IModel model) : base(model) 		{ 
@@ -36,10 +37,8 @@ namespace Xbim.Ifc2x3.ConstructionMgmtDomain
 		{ 
 			get 
 			{
-				if(Activated) return _subContractor;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _subContractor;
+				((IPersistEntity)this).Activate(false);
 				return _subContractor;
 			} 
 			set
@@ -53,10 +52,8 @@ namespace Xbim.Ifc2x3.ConstructionMgmtDomain
 		{ 
 			get 
 			{
-				if(Activated) return _jobDescription;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _jobDescription;
+				((IPersistEntity)this).Activate(false);
 				return _jobDescription;
 			} 
 			set
@@ -108,6 +105,23 @@ namespace Xbim.Ifc2x3.ConstructionMgmtDomain
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcSubContractResource
+            var root = (@IfcSubContractResource)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcSubContractResource left, @IfcSubContractResource right)
         {

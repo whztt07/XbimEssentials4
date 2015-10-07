@@ -13,6 +13,7 @@ using Xbim.Ifc4.GeometricConstraintResource;
 using Xbim.Ifc4.RepresentationResource;
 using Xbim.Ifc4.StructuralLoadResource;
 using Xbim.Ifc4.GeometryResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -21,7 +22,7 @@ namespace Xbim.Ifc4.StructuralAnalysisDomain
 {
 	[ExpressType("IFCSTRUCTURALCURVECONNECTION", 1016)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcStructuralCurveConnection : IfcStructuralConnection, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcStructuralCurveConnection>, System.IEquatable<@IfcStructuralCurveConnection>
+	public  partial class @IfcStructuralCurveConnection : IfcStructuralConnection, IInstantiableEntity, IEqualityComparer<@IfcStructuralCurveConnection>, IEquatable<@IfcStructuralCurveConnection>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcStructuralCurveConnection(IModel model) : base(model) 		{ 
@@ -38,10 +39,8 @@ namespace Xbim.Ifc4.StructuralAnalysisDomain
 		{ 
 			get 
 			{
-				if(Activated) return _axis;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _axis;
+				((IPersistEntity)this).Activate(false);
 				return _axis;
 			} 
 			set
@@ -89,6 +88,23 @@ namespace Xbim.Ifc4.StructuralAnalysisDomain
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcStructuralCurveConnection
+            var root = (@IfcStructuralCurveConnection)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcStructuralCurveConnection left, @IfcStructuralCurveConnection right)
         {

@@ -8,6 +8,7 @@
 // ------------------------------------------------------------------------------
 
 using Xbim.Ifc4.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -17,12 +18,12 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
 	[IndexedClass]
 	[ExpressType("IFCTEXTSTYLEFONTMODEL", 1095)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcTextStyleFontModel : IfcPreDefinedTextFont, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcTextStyleFontModel>, System.IEquatable<@IfcTextStyleFontModel>
+	public  partial class @IfcTextStyleFontModel : IfcPreDefinedTextFont, IInstantiableEntity, IEqualityComparer<@IfcTextStyleFontModel>, IEquatable<@IfcTextStyleFontModel>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcTextStyleFontModel(IModel model) : base(model) 		{ 
 			Model = model; 
-			_fontFamily = new ItemSet<IfcTextFontName>( this );
+			_fontFamily = new ItemSet<IfcTextFontName>( this, 0 );
 		}
 
 		#region Explicit attribute fields
@@ -39,10 +40,8 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
 		{ 
 			get 
 			{
-				if(Activated) return _fontFamily;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _fontFamily;
+				((IPersistEntity)this).Activate(false);
 				return _fontFamily;
 			} 
 		}
@@ -52,10 +51,8 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
 		{ 
 			get 
 			{
-				if(Activated) return _fontStyle;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _fontStyle;
+				((IPersistEntity)this).Activate(false);
 				return _fontStyle;
 			} 
 			set
@@ -69,10 +66,8 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
 		{ 
 			get 
 			{
-				if(Activated) return _fontVariant;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _fontVariant;
+				((IPersistEntity)this).Activate(false);
 				return _fontVariant;
 			} 
 			set
@@ -86,10 +81,8 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
 		{ 
 			get 
 			{
-				if(Activated) return _fontWeight;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _fontWeight;
+				((IPersistEntity)this).Activate(false);
 				return _fontWeight;
 			} 
 			set
@@ -103,10 +96,8 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
 		{ 
 			get 
 			{
-				if(Activated) return _fontSize;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _fontSize;
+				((IPersistEntity)this).Activate(false);
 				return _fontSize;
 			} 
 			set
@@ -161,6 +152,23 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcTextStyleFontModel
+            var root = (@IfcTextStyleFontModel)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcTextStyleFontModel left, @IfcTextStyleFontModel right)
         {

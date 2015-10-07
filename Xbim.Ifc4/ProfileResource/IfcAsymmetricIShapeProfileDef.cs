@@ -9,6 +9,7 @@
 
 using Xbim.Ifc4.MeasureResource;
 using Xbim.Ifc4.GeometryResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -17,7 +18,7 @@ namespace Xbim.Ifc4.ProfileResource
 {
 	[ExpressType("IFCASYMMETRICISHAPEPROFILEDEF", 418)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcAsymmetricIShapeProfileDef : IfcParameterizedProfileDef, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcAsymmetricIShapeProfileDef>, System.IEquatable<@IfcAsymmetricIShapeProfileDef>
+	public  partial class @IfcAsymmetricIShapeProfileDef : IfcParameterizedProfileDef, IInstantiableEntity, IEqualityComparer<@IfcAsymmetricIShapeProfileDef>, IEquatable<@IfcAsymmetricIShapeProfileDef>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcAsymmetricIShapeProfileDef(IModel model) : base(model) 		{ 
@@ -45,10 +46,8 @@ namespace Xbim.Ifc4.ProfileResource
 		{ 
 			get 
 			{
-				if(Activated) return _bottomFlangeWidth;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _bottomFlangeWidth;
+				((IPersistEntity)this).Activate(false);
 				return _bottomFlangeWidth;
 			} 
 			set
@@ -62,10 +61,8 @@ namespace Xbim.Ifc4.ProfileResource
 		{ 
 			get 
 			{
-				if(Activated) return _overallDepth;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _overallDepth;
+				((IPersistEntity)this).Activate(false);
 				return _overallDepth;
 			} 
 			set
@@ -79,10 +76,8 @@ namespace Xbim.Ifc4.ProfileResource
 		{ 
 			get 
 			{
-				if(Activated) return _webThickness;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _webThickness;
+				((IPersistEntity)this).Activate(false);
 				return _webThickness;
 			} 
 			set
@@ -96,10 +91,8 @@ namespace Xbim.Ifc4.ProfileResource
 		{ 
 			get 
 			{
-				if(Activated) return _bottomFlangeThickness;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _bottomFlangeThickness;
+				((IPersistEntity)this).Activate(false);
 				return _bottomFlangeThickness;
 			} 
 			set
@@ -113,10 +106,8 @@ namespace Xbim.Ifc4.ProfileResource
 		{ 
 			get 
 			{
-				if(Activated) return _bottomFlangeFilletRadius;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _bottomFlangeFilletRadius;
+				((IPersistEntity)this).Activate(false);
 				return _bottomFlangeFilletRadius;
 			} 
 			set
@@ -130,10 +121,8 @@ namespace Xbim.Ifc4.ProfileResource
 		{ 
 			get 
 			{
-				if(Activated) return _topFlangeWidth;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _topFlangeWidth;
+				((IPersistEntity)this).Activate(false);
 				return _topFlangeWidth;
 			} 
 			set
@@ -147,10 +136,8 @@ namespace Xbim.Ifc4.ProfileResource
 		{ 
 			get 
 			{
-				if(Activated) return _topFlangeThickness;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _topFlangeThickness;
+				((IPersistEntity)this).Activate(false);
 				return _topFlangeThickness;
 			} 
 			set
@@ -164,10 +151,8 @@ namespace Xbim.Ifc4.ProfileResource
 		{ 
 			get 
 			{
-				if(Activated) return _topFlangeFilletRadius;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _topFlangeFilletRadius;
+				((IPersistEntity)this).Activate(false);
 				return _topFlangeFilletRadius;
 			} 
 			set
@@ -181,10 +166,8 @@ namespace Xbim.Ifc4.ProfileResource
 		{ 
 			get 
 			{
-				if(Activated) return _bottomFlangeEdgeRadius;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _bottomFlangeEdgeRadius;
+				((IPersistEntity)this).Activate(false);
 				return _bottomFlangeEdgeRadius;
 			} 
 			set
@@ -198,10 +181,8 @@ namespace Xbim.Ifc4.ProfileResource
 		{ 
 			get 
 			{
-				if(Activated) return _bottomFlangeSlope;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _bottomFlangeSlope;
+				((IPersistEntity)this).Activate(false);
 				return _bottomFlangeSlope;
 			} 
 			set
@@ -215,10 +196,8 @@ namespace Xbim.Ifc4.ProfileResource
 		{ 
 			get 
 			{
-				if(Activated) return _topFlangeEdgeRadius;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _topFlangeEdgeRadius;
+				((IPersistEntity)this).Activate(false);
 				return _topFlangeEdgeRadius;
 			} 
 			set
@@ -232,10 +211,8 @@ namespace Xbim.Ifc4.ProfileResource
 		{ 
 			get 
 			{
-				if(Activated) return _topFlangeSlope;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _topFlangeSlope;
+				((IPersistEntity)this).Activate(false);
 				return _topFlangeSlope;
 			} 
 			set
@@ -315,6 +292,23 @@ namespace Xbim.Ifc4.ProfileResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcAsymmetricIShapeProfileDef
+            var root = (@IfcAsymmetricIShapeProfileDef)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcAsymmetricIShapeProfileDef left, @IfcAsymmetricIShapeProfileDef right)
         {

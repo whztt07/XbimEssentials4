@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.ProcessExtension
 {
-	public enum IfcEventTypeEnum
+	public enum IfcEventTypeEnum : byte
 	{
 		@STARTEVENT ,
 		@ENDEVENT ,

@@ -11,6 +11,7 @@ using Xbim.Ifc2x3.GeometryResource;
 using Xbim.Ifc2x3.MeasureResource;
 using Xbim.Ifc2x3.RepresentationResource;
 using Xbim.Ifc2x3.PresentationAppearanceResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -19,7 +20,7 @@ namespace Xbim.Ifc2x3.PresentationDefinitionResource
 {
 	[ExpressType("IFCANNOTATIONFILLAREAOCCURRENCE", 544)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcAnnotationFillAreaOccurrence : IfcAnnotationOccurrence, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcAnnotationFillAreaOccurrence>, System.IEquatable<@IfcAnnotationFillAreaOccurrence>
+	public  partial class @IfcAnnotationFillAreaOccurrence : IfcAnnotationOccurrence, IInstantiableEntity, IEqualityComparer<@IfcAnnotationFillAreaOccurrence>, IEquatable<@IfcAnnotationFillAreaOccurrence>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcAnnotationFillAreaOccurrence(IModel model) : base(model) 		{ 
@@ -37,10 +38,8 @@ namespace Xbim.Ifc2x3.PresentationDefinitionResource
 		{ 
 			get 
 			{
-				if(Activated) return _fillStyleTarget;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _fillStyleTarget;
+				((IPersistEntity)this).Activate(false);
 				return _fillStyleTarget;
 			} 
 			set
@@ -54,10 +53,8 @@ namespace Xbim.Ifc2x3.PresentationDefinitionResource
 		{ 
 			get 
 			{
-				if(Activated) return _globalOrLocal;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _globalOrLocal;
+				((IPersistEntity)this).Activate(false);
 				return _globalOrLocal;
 			} 
 			set
@@ -104,6 +101,23 @@ namespace Xbim.Ifc2x3.PresentationDefinitionResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcAnnotationFillAreaOccurrence
+            var root = (@IfcAnnotationFillAreaOccurrence)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcAnnotationFillAreaOccurrence left, @IfcAnnotationFillAreaOccurrence right)
         {

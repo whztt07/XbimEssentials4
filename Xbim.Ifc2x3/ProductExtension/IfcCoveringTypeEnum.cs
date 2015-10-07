@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc2x3.ProductExtension
 {
-	public enum IfcCoveringTypeEnum
+	public enum IfcCoveringTypeEnum : byte
 	{
 		@CEILING ,
 		@FLOORING ,

@@ -11,6 +11,7 @@ using Xbim.Ifc4.UtilityResource;
 using Xbim.Ifc4.MeasureResource;
 using Xbim.Ifc4.GeometricConstraintResource;
 using Xbim.Ifc4.RepresentationResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -19,7 +20,7 @@ namespace Xbim.Ifc4.SharedBldgElements
 {
 	[ExpressType("IFCWALLELEMENTEDCASE", 1139)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcWallElementedCase : IfcWall, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcWallElementedCase>, System.IEquatable<@IfcWallElementedCase>
+	public  partial class @IfcWallElementedCase : IfcWall, IInstantiableEntity, IEqualityComparer<@IfcWallElementedCase>, IEquatable<@IfcWallElementedCase>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcWallElementedCase(IModel model) : base(model) 		{ 
@@ -63,6 +64,23 @@ namespace Xbim.Ifc4.SharedBldgElements
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcWallElementedCase
+            var root = (@IfcWallElementedCase)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcWallElementedCase left, @IfcWallElementedCase right)
         {

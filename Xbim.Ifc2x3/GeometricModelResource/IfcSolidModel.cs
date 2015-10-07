@@ -8,6 +8,8 @@
 // ------------------------------------------------------------------------------
 
 using Xbim.Ifc2x3.GeometryResource;
+using System;
+using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
 
@@ -16,7 +18,7 @@ namespace Xbim.Ifc2x3.GeometricModelResource
 	[IndexedClass]
 	[ExpressType("IFCSOLIDMODEL", 150)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public abstract partial class @IfcSolidModel : IfcGeometricRepresentationItem, IfcBooleanOperand, System.Collections.Generic.IEqualityComparer<@IfcSolidModel>, System.IEquatable<@IfcSolidModel>
+	public abstract partial class @IfcSolidModel : IfcGeometricRepresentationItem, IfcBooleanOperand, IEqualityComparer<@IfcSolidModel>, IEquatable<@IfcSolidModel>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcSolidModel(IModel model) : base(model) 		{ 
@@ -45,6 +47,23 @@ namespace Xbim.Ifc2x3.GeometricModelResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcSolidModel
+            var root = (@IfcSolidModel)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcSolidModel left, @IfcSolidModel right)
         {

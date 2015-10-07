@@ -8,6 +8,7 @@
 // ------------------------------------------------------------------------------
 
 using Xbim.Ifc4.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -16,7 +17,7 @@ namespace Xbim.Ifc4.RepresentationResource
 {
 	[ExpressType("IFCMAPCONVERSION", 739)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcMapConversion : IfcCoordinateOperation, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcMapConversion>, System.IEquatable<@IfcMapConversion>
+	public  partial class @IfcMapConversion : IfcCoordinateOperation, IInstantiableEntity, IEqualityComparer<@IfcMapConversion>, IEquatable<@IfcMapConversion>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcMapConversion(IModel model) : base(model) 		{ 
@@ -38,10 +39,8 @@ namespace Xbim.Ifc4.RepresentationResource
 		{ 
 			get 
 			{
-				if(Activated) return _eastings;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _eastings;
+				((IPersistEntity)this).Activate(false);
 				return _eastings;
 			} 
 			set
@@ -55,10 +54,8 @@ namespace Xbim.Ifc4.RepresentationResource
 		{ 
 			get 
 			{
-				if(Activated) return _northings;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _northings;
+				((IPersistEntity)this).Activate(false);
 				return _northings;
 			} 
 			set
@@ -72,10 +69,8 @@ namespace Xbim.Ifc4.RepresentationResource
 		{ 
 			get 
 			{
-				if(Activated) return _orthogonalHeight;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _orthogonalHeight;
+				((IPersistEntity)this).Activate(false);
 				return _orthogonalHeight;
 			} 
 			set
@@ -89,10 +84,8 @@ namespace Xbim.Ifc4.RepresentationResource
 		{ 
 			get 
 			{
-				if(Activated) return _xAxisAbscissa;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _xAxisAbscissa;
+				((IPersistEntity)this).Activate(false);
 				return _xAxisAbscissa;
 			} 
 			set
@@ -106,10 +99,8 @@ namespace Xbim.Ifc4.RepresentationResource
 		{ 
 			get 
 			{
-				if(Activated) return _xAxisOrdinate;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _xAxisOrdinate;
+				((IPersistEntity)this).Activate(false);
 				return _xAxisOrdinate;
 			} 
 			set
@@ -123,10 +114,8 @@ namespace Xbim.Ifc4.RepresentationResource
 		{ 
 			get 
 			{
-				if(Activated) return _scale;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _scale;
+				((IPersistEntity)this).Activate(false);
 				return _scale;
 			} 
 			set
@@ -183,6 +172,23 @@ namespace Xbim.Ifc4.RepresentationResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcMapConversion
+            var root = (@IfcMapConversion)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcMapConversion left, @IfcMapConversion right)
         {

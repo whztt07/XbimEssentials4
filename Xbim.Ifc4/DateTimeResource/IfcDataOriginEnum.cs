@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.DateTimeResource
 {
-	public enum IfcDataOriginEnum
+	public enum IfcDataOriginEnum : byte
 	{
 		@MEASURED ,
 		@PREDICTED ,

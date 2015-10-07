@@ -8,6 +8,7 @@
 // ------------------------------------------------------------------------------
 
 using Xbim.Ifc2x3.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -16,7 +17,7 @@ namespace Xbim.Ifc2x3.Kernel
 {
 	[ExpressType("IFCOBJECT", 21)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public abstract partial class @IfcObject : IfcObjectDefinition, System.Collections.Generic.IEqualityComparer<@IfcObject>, System.IEquatable<@IfcObject>
+	public abstract partial class @IfcObject : IfcObjectDefinition, IEqualityComparer<@IfcObject>, IEquatable<@IfcObject>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcObject(IModel model) : base(model) 		{ 
@@ -33,10 +34,8 @@ namespace Xbim.Ifc2x3.Kernel
 		{ 
 			get 
 			{
-				if(Activated) return _objectType;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _objectType;
+				((IPersistEntity)this).Activate(false);
 				return _objectType;
 			} 
 			set
@@ -91,6 +90,23 @@ namespace Xbim.Ifc2x3.Kernel
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcObject
+            var root = (@IfcObject)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcObject left, @IfcObject right)
         {

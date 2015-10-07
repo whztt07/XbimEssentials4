@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc2x3.SharedBldgElements
 {
-	public enum IfcMemberTypeEnum
+	public enum IfcMemberTypeEnum : byte
 	{
 		@BRACE ,
 		@CHORD ,

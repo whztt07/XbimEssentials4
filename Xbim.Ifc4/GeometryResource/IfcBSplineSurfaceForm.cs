@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.GeometryResource
 {
-	public enum IfcBSplineSurfaceForm
+	public enum IfcBSplineSurfaceForm : byte
 	{
 		@PLANE_SURF ,
 		@CYLINDRICAL_SURF ,

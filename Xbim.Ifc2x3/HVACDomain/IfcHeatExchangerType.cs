@@ -12,6 +12,7 @@ using Xbim.Ifc2x3.UtilityResource;
 using Xbim.Ifc2x3.MeasureResource;
 using Xbim.Ifc2x3.Kernel;
 using Xbim.Ifc2x3.GeometryResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -20,7 +21,7 @@ namespace Xbim.Ifc2x3.HVACDomain
 {
 	[ExpressType("IFCHEATEXCHANGERTYPE", 365)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcHeatExchangerType : IfcEnergyConversionDeviceType, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcHeatExchangerType>, System.IEquatable<@IfcHeatExchangerType>
+	public  partial class @IfcHeatExchangerType : IfcEnergyConversionDeviceType, IInstantiableEntity, IEqualityComparer<@IfcHeatExchangerType>, IEquatable<@IfcHeatExchangerType>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcHeatExchangerType(IModel model) : base(model) 		{ 
@@ -37,10 +38,8 @@ namespace Xbim.Ifc2x3.HVACDomain
 		{ 
 			get 
 			{
-				if(Activated) return _predefinedType;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _predefinedType;
+				((IPersistEntity)this).Activate(false);
 				return _predefinedType;
 			} 
 			set
@@ -90,6 +89,23 @@ namespace Xbim.Ifc2x3.HVACDomain
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcHeatExchangerType
+            var root = (@IfcHeatExchangerType)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcHeatExchangerType left, @IfcHeatExchangerType right)
         {

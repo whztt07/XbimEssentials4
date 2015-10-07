@@ -8,6 +8,7 @@
 // ------------------------------------------------------------------------------
 
 using Xbim.Ifc2x3.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -16,7 +17,7 @@ namespace Xbim.Ifc2x3.GeometryResource
 {
 	[ExpressType("IFCOFFSETCURVE2D", 687)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcOffsetCurve2D : IfcCurve, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcOffsetCurve2D>, System.IEquatable<@IfcOffsetCurve2D>
+	public  partial class @IfcOffsetCurve2D : IfcCurve, IInstantiableEntity, IEqualityComparer<@IfcOffsetCurve2D>, IEquatable<@IfcOffsetCurve2D>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcOffsetCurve2D(IModel model) : base(model) 		{ 
@@ -35,10 +36,8 @@ namespace Xbim.Ifc2x3.GeometryResource
 		{ 
 			get 
 			{
-				if(Activated) return _basisCurve;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _basisCurve;
+				((IPersistEntity)this).Activate(false);
 				return _basisCurve;
 			} 
 			set
@@ -52,10 +51,8 @@ namespace Xbim.Ifc2x3.GeometryResource
 		{ 
 			get 
 			{
-				if(Activated) return _distance;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _distance;
+				((IPersistEntity)this).Activate(false);
 				return _distance;
 			} 
 			set
@@ -69,10 +66,8 @@ namespace Xbim.Ifc2x3.GeometryResource
 		{ 
 			get 
 			{
-				if(Activated) return _selfIntersect;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _selfIntersect;
+				((IPersistEntity)this).Activate(false);
 				return _selfIntersect;
 			} 
 			set
@@ -117,6 +112,23 @@ namespace Xbim.Ifc2x3.GeometryResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcOffsetCurve2D
+            var root = (@IfcOffsetCurve2D)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcOffsetCurve2D left, @IfcOffsetCurve2D right)
         {

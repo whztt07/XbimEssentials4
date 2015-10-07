@@ -9,6 +9,7 @@
 
 using Xbim.Ifc2x3.GeometryResource;
 using Xbim.Ifc2x3.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -17,12 +18,12 @@ namespace Xbim.Ifc2x3.PresentationAppearanceResource
 {
 	[ExpressType("IFCSTYLEDITEM", 56)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcStyledItem : IfcRepresentationItem, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcStyledItem>, System.IEquatable<@IfcStyledItem>
+	public  partial class @IfcStyledItem : IfcRepresentationItem, IInstantiableEntity, IEqualityComparer<@IfcStyledItem>, IEquatable<@IfcStyledItem>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcStyledItem(IModel model) : base(model) 		{ 
 			Model = model; 
-			_styles = new ItemSet<IfcPresentationStyleAssignment>( this );
+			_styles = new ItemSet<IfcPresentationStyleAssignment>( this, 0 );
 		}
 
 		#region Explicit attribute fields
@@ -38,10 +39,8 @@ namespace Xbim.Ifc2x3.PresentationAppearanceResource
 		{ 
 			get 
 			{
-				if(Activated) return _item;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _item;
+				((IPersistEntity)this).Activate(false);
 				return _item;
 			} 
 			set
@@ -55,10 +54,8 @@ namespace Xbim.Ifc2x3.PresentationAppearanceResource
 		{ 
 			get 
 			{
-				if(Activated) return _styles;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _styles;
+				((IPersistEntity)this).Activate(false);
 				return _styles;
 			} 
 		}
@@ -68,10 +65,8 @@ namespace Xbim.Ifc2x3.PresentationAppearanceResource
 		{ 
 			get 
 			{
-				if(Activated) return _name;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _name;
+				((IPersistEntity)this).Activate(false);
 				return _name;
 			} 
 			set
@@ -118,6 +113,23 @@ namespace Xbim.Ifc2x3.PresentationAppearanceResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcStyledItem
+            var root = (@IfcStyledItem)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcStyledItem left, @IfcStyledItem right)
         {

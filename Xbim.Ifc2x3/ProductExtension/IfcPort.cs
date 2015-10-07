@@ -8,6 +8,7 @@
 // ------------------------------------------------------------------------------
 
 using Xbim.Ifc2x3.Kernel;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -16,7 +17,7 @@ namespace Xbim.Ifc2x3.ProductExtension
 {
 	[ExpressType("IFCPORT", 179)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public abstract partial class @IfcPort : IfcProduct, System.Collections.Generic.IEqualityComparer<@IfcPort>, System.IEquatable<@IfcPort>
+	public abstract partial class @IfcPort : IfcProduct, IEqualityComparer<@IfcPort>, IEquatable<@IfcPort>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcPort(IModel model) : base(model) 		{ 
@@ -30,7 +31,7 @@ namespace Xbim.Ifc2x3.ProductExtension
 		{ 
 			get 
 			{
-				return Model.Instances.FirstOrDefault<IfcRelConnectsPortToElement>(e => e.RelatingPort == this);
+				return Model.Instances.FirstOrDefault<IfcRelConnectsPortToElement>(e => (e.RelatingPort as IfcPort) == this);
 			} 
 		}
 		[EntityAttribute(-1, EntityAttributeState.Mandatory, EntityAttributeType.Set, EntityAttributeType.Class, -1, -1)]
@@ -38,7 +39,7 @@ namespace Xbim.Ifc2x3.ProductExtension
 		{ 
 			get 
 			{
-				return Model.Instances.Where<IfcRelConnectsPorts>(e => e.RelatedPort == this);
+				return Model.Instances.Where<IfcRelConnectsPorts>(e => (e.RelatedPort as IfcPort) == this);
 			} 
 		}
 		[EntityAttribute(-1, EntityAttributeState.Mandatory, EntityAttributeType.Set, EntityAttributeType.Class, -1, -1)]
@@ -46,7 +47,7 @@ namespace Xbim.Ifc2x3.ProductExtension
 		{ 
 			get 
 			{
-				return Model.Instances.Where<IfcRelConnectsPorts>(e => e.RelatingPort == this);
+				return Model.Instances.Where<IfcRelConnectsPorts>(e => (e.RelatingPort as IfcPort) == this);
 			} 
 		}
 		#endregion
@@ -83,6 +84,23 @@ namespace Xbim.Ifc2x3.ProductExtension
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcPort
+            var root = (@IfcPort)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcPort left, @IfcPort right)
         {

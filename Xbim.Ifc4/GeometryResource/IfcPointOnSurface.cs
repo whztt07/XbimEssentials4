@@ -8,6 +8,7 @@
 // ------------------------------------------------------------------------------
 
 using Xbim.Ifc4.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -16,7 +17,7 @@ namespace Xbim.Ifc4.GeometryResource
 {
 	[ExpressType("IFCPOINTONSURFACE", 818)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcPointOnSurface : IfcPoint, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcPointOnSurface>, System.IEquatable<@IfcPointOnSurface>
+	public  partial class @IfcPointOnSurface : IfcPoint, IInstantiableEntity, IEqualityComparer<@IfcPointOnSurface>, IEquatable<@IfcPointOnSurface>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcPointOnSurface(IModel model) : base(model) 		{ 
@@ -35,10 +36,8 @@ namespace Xbim.Ifc4.GeometryResource
 		{ 
 			get 
 			{
-				if(Activated) return _basisSurface;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _basisSurface;
+				((IPersistEntity)this).Activate(false);
 				return _basisSurface;
 			} 
 			set
@@ -52,10 +51,8 @@ namespace Xbim.Ifc4.GeometryResource
 		{ 
 			get 
 			{
-				if(Activated) return _pointParameterU;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _pointParameterU;
+				((IPersistEntity)this).Activate(false);
 				return _pointParameterU;
 			} 
 			set
@@ -69,10 +66,8 @@ namespace Xbim.Ifc4.GeometryResource
 		{ 
 			get 
 			{
-				if(Activated) return _pointParameterV;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _pointParameterV;
+				((IPersistEntity)this).Activate(false);
 				return _pointParameterV;
 			} 
 			set
@@ -116,6 +111,23 @@ namespace Xbim.Ifc4.GeometryResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcPointOnSurface
+            var root = (@IfcPointOnSurface)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcPointOnSurface left, @IfcPointOnSurface right)
         {

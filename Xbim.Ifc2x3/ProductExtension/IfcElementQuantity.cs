@@ -11,6 +11,7 @@ using Xbim.Ifc2x3.Kernel;
 using Xbim.Ifc2x3.UtilityResource;
 using Xbim.Ifc2x3.MeasureResource;
 using Xbim.Ifc2x3.QuantityResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -19,12 +20,12 @@ namespace Xbim.Ifc2x3.ProductExtension
 {
 	[ExpressType("IFCELEMENTQUANTITY", 458)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcElementQuantity : IfcPropertySetDefinition, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcElementQuantity>, System.IEquatable<@IfcElementQuantity>
+	public  partial class @IfcElementQuantity : IfcPropertySetDefinition, IInstantiableEntity, IEqualityComparer<@IfcElementQuantity>, IEquatable<@IfcElementQuantity>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcElementQuantity(IModel model) : base(model) 		{ 
 			Model = model; 
-			_quantities = new ItemSet<IfcPhysicalQuantity>( this );
+			_quantities = new ItemSet<IfcPhysicalQuantity>( this, 0 );
 		}
 
 		#region Explicit attribute fields
@@ -38,10 +39,8 @@ namespace Xbim.Ifc2x3.ProductExtension
 		{ 
 			get 
 			{
-				if(Activated) return _methodOfMeasurement;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _methodOfMeasurement;
+				((IPersistEntity)this).Activate(false);
 				return _methodOfMeasurement;
 			} 
 			set
@@ -55,10 +54,8 @@ namespace Xbim.Ifc2x3.ProductExtension
 		{ 
 			get 
 			{
-				if(Activated) return _quantities;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _quantities;
+				((IPersistEntity)this).Activate(false);
 				return _quantities;
 			} 
 		}
@@ -102,6 +99,23 @@ namespace Xbim.Ifc2x3.ProductExtension
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcElementQuantity
+            var root = (@IfcElementQuantity)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcElementQuantity left, @IfcElementQuantity right)
         {

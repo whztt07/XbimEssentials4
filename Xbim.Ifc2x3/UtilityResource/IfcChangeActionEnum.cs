@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc2x3.UtilityResource
 {
-	public enum IfcChangeActionEnum
+	public enum IfcChangeActionEnum : byte
 	{
 		@NOCHANGE ,
 		@MODIFIED ,

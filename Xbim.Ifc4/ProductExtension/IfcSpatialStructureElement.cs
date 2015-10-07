@@ -7,6 +7,8 @@
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
+using System;
+using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
 
@@ -14,7 +16,7 @@ namespace Xbim.Ifc4.ProductExtension
 {
 	[ExpressType("IFCSPATIALSTRUCTUREELEMENT", 999)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public abstract partial class @IfcSpatialStructureElement : IfcSpatialElement, System.Collections.Generic.IEqualityComparer<@IfcSpatialStructureElement>, System.IEquatable<@IfcSpatialStructureElement>
+	public abstract partial class @IfcSpatialStructureElement : IfcSpatialElement, IEqualityComparer<@IfcSpatialStructureElement>, IEquatable<@IfcSpatialStructureElement>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcSpatialStructureElement(IModel model) : base(model) 		{ 
@@ -31,10 +33,8 @@ namespace Xbim.Ifc4.ProductExtension
 		{ 
 			get 
 			{
-				if(Activated) return _compositionType;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _compositionType;
+				((IPersistEntity)this).Activate(false);
 				return _compositionType;
 			} 
 			set
@@ -83,6 +83,23 @@ namespace Xbim.Ifc4.ProductExtension
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcSpatialStructureElement
+            var root = (@IfcSpatialStructureElement)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcSpatialStructureElement left, @IfcSpatialStructureElement right)
         {

@@ -11,6 +11,7 @@ using Xbim.Ifc4.Kernel;
 using Xbim.Ifc4.UtilityResource;
 using Xbim.Ifc4.MeasureResource;
 using Xbim.Ifc4.ProfileResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -19,12 +20,12 @@ namespace Xbim.Ifc4.StructuralElementsDomain
 {
 	[ExpressType("IFCREINFORCEMENTDEFINITIONPROPERTIES", 894)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcReinforcementDefinitionProperties : IfcPreDefinedPropertySet, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcReinforcementDefinitionProperties>, System.IEquatable<@IfcReinforcementDefinitionProperties>
+	public  partial class @IfcReinforcementDefinitionProperties : IfcPreDefinedPropertySet, IInstantiableEntity, IEqualityComparer<@IfcReinforcementDefinitionProperties>, IEquatable<@IfcReinforcementDefinitionProperties>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcReinforcementDefinitionProperties(IModel model) : base(model) 		{ 
 			Model = model; 
-			_reinforcementSectionDefinitions = new ItemSet<IfcSectionReinforcementProperties>( this );
+			_reinforcementSectionDefinitions = new ItemSet<IfcSectionReinforcementProperties>( this, 0 );
 		}
 
 		#region Explicit attribute fields
@@ -38,10 +39,8 @@ namespace Xbim.Ifc4.StructuralElementsDomain
 		{ 
 			get 
 			{
-				if(Activated) return _definitionType;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _definitionType;
+				((IPersistEntity)this).Activate(false);
 				return _definitionType;
 			} 
 			set
@@ -55,10 +54,8 @@ namespace Xbim.Ifc4.StructuralElementsDomain
 		{ 
 			get 
 			{
-				if(Activated) return _reinforcementSectionDefinitions;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _reinforcementSectionDefinitions;
+				((IPersistEntity)this).Activate(false);
 				return _reinforcementSectionDefinitions;
 			} 
 		}
@@ -102,6 +99,23 @@ namespace Xbim.Ifc4.StructuralElementsDomain
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcReinforcementDefinitionProperties
+            var root = (@IfcReinforcementDefinitionProperties)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcReinforcementDefinitionProperties left, @IfcReinforcementDefinitionProperties right)
         {

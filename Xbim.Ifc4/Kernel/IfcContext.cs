@@ -9,6 +9,7 @@
 
 using Xbim.Ifc4.MeasureResource;
 using Xbim.Ifc4.RepresentationResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -17,12 +18,12 @@ namespace Xbim.Ifc4.Kernel
 {
 	[ExpressType("IFCCONTEXT", 525)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public abstract partial class @IfcContext : IfcObjectDefinition, System.Collections.Generic.IEqualityComparer<@IfcContext>, System.IEquatable<@IfcContext>
+	public abstract partial class @IfcContext : IfcObjectDefinition, IEqualityComparer<@IfcContext>, IEquatable<@IfcContext>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcContext(IModel model) : base(model) 		{ 
 			Model = model; 
-			_representationContexts = new OptionalItemSet<IfcRepresentationContext>( this );
+			_representationContexts = new OptionalItemSet<IfcRepresentationContext>( this, 0 );
 		}
 
 		#region Explicit attribute fields
@@ -39,10 +40,8 @@ namespace Xbim.Ifc4.Kernel
 		{ 
 			get 
 			{
-				if(Activated) return _objectType;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _objectType;
+				((IPersistEntity)this).Activate(false);
 				return _objectType;
 			} 
 			set
@@ -56,10 +55,8 @@ namespace Xbim.Ifc4.Kernel
 		{ 
 			get 
 			{
-				if(Activated) return _longName;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _longName;
+				((IPersistEntity)this).Activate(false);
 				return _longName;
 			} 
 			set
@@ -73,10 +70,8 @@ namespace Xbim.Ifc4.Kernel
 		{ 
 			get 
 			{
-				if(Activated) return _phase;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _phase;
+				((IPersistEntity)this).Activate(false);
 				return _phase;
 			} 
 			set
@@ -90,10 +85,8 @@ namespace Xbim.Ifc4.Kernel
 		{ 
 			get 
 			{
-				if(Activated) return _representationContexts;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _representationContexts;
+				((IPersistEntity)this).Activate(false);
 				return _representationContexts;
 			} 
 		}
@@ -103,10 +96,8 @@ namespace Xbim.Ifc4.Kernel
 		{ 
 			get 
 			{
-				if(Activated) return _unitsInContext;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _unitsInContext;
+				((IPersistEntity)this).Activate(false);
 				return _unitsInContext;
 			} 
 			set
@@ -131,7 +122,7 @@ namespace Xbim.Ifc4.Kernel
 		{ 
 			get 
 			{
-				return Model.Instances.Where<IfcRelDeclares>(e => e.RelatingContext == this);
+				return Model.Instances.Where<IfcRelDeclares>(e => (e.RelatingContext as IfcContext) == this);
 			} 
 		}
 		#endregion
@@ -181,6 +172,23 @@ namespace Xbim.Ifc4.Kernel
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcContext
+            var root = (@IfcContext)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcContext left, @IfcContext right)
         {

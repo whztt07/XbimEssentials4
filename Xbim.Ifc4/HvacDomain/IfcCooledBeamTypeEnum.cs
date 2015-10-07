@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.HvacDomain
 {
-	public enum IfcCooledBeamTypeEnum
+	public enum IfcCooledBeamTypeEnum : byte
 	{
 		@ACTIVE ,
 		@PASSIVE ,

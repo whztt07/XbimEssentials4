@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.ConstructionMgmtDomain
 {
-	public enum IfcConstructionEquipmentResourceTypeEnum
+	public enum IfcConstructionEquipmentResourceTypeEnum : byte
 	{
 		@DEMOLISHING ,
 		@EARTHMOVING ,

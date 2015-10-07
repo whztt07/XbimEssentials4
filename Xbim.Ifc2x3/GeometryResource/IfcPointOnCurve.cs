@@ -8,6 +8,7 @@
 // ------------------------------------------------------------------------------
 
 using Xbim.Ifc2x3.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -16,7 +17,7 @@ namespace Xbim.Ifc2x3.GeometryResource
 {
 	[ExpressType("IFCPOINTONCURVE", 654)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcPointOnCurve : IfcPoint, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcPointOnCurve>, System.IEquatable<@IfcPointOnCurve>
+	public  partial class @IfcPointOnCurve : IfcPoint, IInstantiableEntity, IEqualityComparer<@IfcPointOnCurve>, IEquatable<@IfcPointOnCurve>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcPointOnCurve(IModel model) : base(model) 		{ 
@@ -34,10 +35,8 @@ namespace Xbim.Ifc2x3.GeometryResource
 		{ 
 			get 
 			{
-				if(Activated) return _basisCurve;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _basisCurve;
+				((IPersistEntity)this).Activate(false);
 				return _basisCurve;
 			} 
 			set
@@ -51,10 +50,8 @@ namespace Xbim.Ifc2x3.GeometryResource
 		{ 
 			get 
 			{
-				if(Activated) return _pointParameter;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _pointParameter;
+				((IPersistEntity)this).Activate(false);
 				return _pointParameter;
 			} 
 			set
@@ -95,6 +92,23 @@ namespace Xbim.Ifc2x3.GeometryResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcPointOnCurve
+            var root = (@IfcPointOnCurve)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcPointOnCurve left, @IfcPointOnCurve right)
         {

@@ -9,6 +9,7 @@
 
 using Xbim.Ifc2x3.GeometryResource;
 using Xbim.Ifc2x3.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -17,7 +18,7 @@ namespace Xbim.Ifc2x3.PresentationAppearanceResource
 {
 	[ExpressType("IFCFILLAREASTYLEHATCHING", 462)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcFillAreaStyleHatching : IfcGeometricRepresentationItem, IfcFillStyleSelect, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcFillAreaStyleHatching>, System.IEquatable<@IfcFillAreaStyleHatching>
+	public  partial class @IfcFillAreaStyleHatching : IfcGeometricRepresentationItem, IfcFillStyleSelect, IInstantiableEntity, IEqualityComparer<@IfcFillAreaStyleHatching>, IEquatable<@IfcFillAreaStyleHatching>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcFillAreaStyleHatching(IModel model) : base(model) 		{ 
@@ -38,10 +39,8 @@ namespace Xbim.Ifc2x3.PresentationAppearanceResource
 		{ 
 			get 
 			{
-				if(Activated) return _hatchLineAppearance;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _hatchLineAppearance;
+				((IPersistEntity)this).Activate(false);
 				return _hatchLineAppearance;
 			} 
 			set
@@ -55,10 +54,8 @@ namespace Xbim.Ifc2x3.PresentationAppearanceResource
 		{ 
 			get 
 			{
-				if(Activated) return _startOfNextHatchLine;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _startOfNextHatchLine;
+				((IPersistEntity)this).Activate(false);
 				return _startOfNextHatchLine;
 			} 
 			set
@@ -72,10 +69,8 @@ namespace Xbim.Ifc2x3.PresentationAppearanceResource
 		{ 
 			get 
 			{
-				if(Activated) return _pointOfReferenceHatchLine;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _pointOfReferenceHatchLine;
+				((IPersistEntity)this).Activate(false);
 				return _pointOfReferenceHatchLine;
 			} 
 			set
@@ -89,10 +84,8 @@ namespace Xbim.Ifc2x3.PresentationAppearanceResource
 		{ 
 			get 
 			{
-				if(Activated) return _patternStart;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _patternStart;
+				((IPersistEntity)this).Activate(false);
 				return _patternStart;
 			} 
 			set
@@ -106,10 +99,8 @@ namespace Xbim.Ifc2x3.PresentationAppearanceResource
 		{ 
 			get 
 			{
-				if(Activated) return _hatchLineAngle;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _hatchLineAngle;
+				((IPersistEntity)this).Activate(false);
 				return _hatchLineAngle;
 			} 
 			set
@@ -162,6 +153,23 @@ namespace Xbim.Ifc2x3.PresentationAppearanceResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcFillAreaStyleHatching
+            var root = (@IfcFillAreaStyleHatching)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcFillAreaStyleHatching left, @IfcFillAreaStyleHatching right)
         {

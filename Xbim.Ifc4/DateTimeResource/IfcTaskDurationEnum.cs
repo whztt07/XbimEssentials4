@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.DateTimeResource
 {
-	public enum IfcTaskDurationEnum
+	public enum IfcTaskDurationEnum : byte
 	{
 		@ELAPSEDTIME ,
 		@WORKTIME ,

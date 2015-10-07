@@ -10,6 +10,7 @@
 using Xbim.Ifc4.UtilityResource;
 using Xbim.Ifc4.MeasureResource;
 using Xbim.Ifc4.GeometricConstraintResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -18,7 +19,7 @@ namespace Xbim.Ifc4.ProductExtension
 {
 	[ExpressType("IFCRELSPACEBOUNDARY2NDLEVEL", 946)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcRelSpaceBoundary2ndLevel : IfcRelSpaceBoundary1stLevel, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcRelSpaceBoundary2ndLevel>, System.IEquatable<@IfcRelSpaceBoundary2ndLevel>
+	public  partial class @IfcRelSpaceBoundary2ndLevel : IfcRelSpaceBoundary1stLevel, IInstantiableEntity, IEqualityComparer<@IfcRelSpaceBoundary2ndLevel>, IEquatable<@IfcRelSpaceBoundary2ndLevel>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcRelSpaceBoundary2ndLevel(IModel model) : base(model) 		{ 
@@ -36,10 +37,8 @@ namespace Xbim.Ifc4.ProductExtension
 		{ 
 			get 
 			{
-				if(Activated) return _correspondingBoundary;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _correspondingBoundary;
+				((IPersistEntity)this).Activate(false);
 				return _correspondingBoundary;
 			} 
 			set
@@ -56,7 +55,7 @@ namespace Xbim.Ifc4.ProductExtension
 		{ 
 			get 
 			{
-				return Model.Instances.Where<IfcRelSpaceBoundary2ndLevel>(e => e.CorrespondingBoundary == this);
+				return Model.Instances.Where<IfcRelSpaceBoundary2ndLevel>(e => (e.CorrespondingBoundary as IfcRelSpaceBoundary2ndLevel) == this);
 			} 
 		}
 		#endregion
@@ -99,6 +98,23 @@ namespace Xbim.Ifc4.ProductExtension
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcRelSpaceBoundary2ndLevel
+            var root = (@IfcRelSpaceBoundary2ndLevel)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcRelSpaceBoundary2ndLevel left, @IfcRelSpaceBoundary2ndLevel right)
         {

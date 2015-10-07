@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc2x3.ProductExtension
 {
-	public enum IfcElementCompositionEnum
+	public enum IfcElementCompositionEnum : byte
 	{
 		@COMPLEX ,
 		@ELEMENT ,

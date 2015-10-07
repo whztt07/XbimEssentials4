@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.ConstructionMgmtDomain
 {
-	public enum IfcLaborResourceTypeEnum
+	public enum IfcLaborResourceTypeEnum : byte
 	{
 		@ADMINISTRATION ,
 		@CARPENTRY ,

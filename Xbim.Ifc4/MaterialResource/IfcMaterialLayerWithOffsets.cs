@@ -8,6 +8,7 @@
 // ------------------------------------------------------------------------------
 
 using Xbim.Ifc4.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -16,12 +17,12 @@ namespace Xbim.Ifc4.MaterialResource
 {
 	[ExpressType("IFCMATERIALLAYERWITHOFFSETS", 750)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcMaterialLayerWithOffsets : IfcMaterialLayer, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcMaterialLayerWithOffsets>, System.IEquatable<@IfcMaterialLayerWithOffsets>
+	public  partial class @IfcMaterialLayerWithOffsets : IfcMaterialLayer, IInstantiableEntity, IEqualityComparer<@IfcMaterialLayerWithOffsets>, IEquatable<@IfcMaterialLayerWithOffsets>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcMaterialLayerWithOffsets(IModel model) : base(model) 		{ 
 			Model = model; 
-			_offsetValues = new ItemSet<IfcLengthMeasure>( this );
+			_offsetValues = new ItemSet<IfcLengthMeasure>( this, 2 );
 		}
 
 		#region Explicit attribute fields
@@ -35,10 +36,8 @@ namespace Xbim.Ifc4.MaterialResource
 		{ 
 			get 
 			{
-				if(Activated) return _offsetDirection;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _offsetDirection;
+				((IPersistEntity)this).Activate(false);
 				return _offsetDirection;
 			} 
 			set
@@ -52,10 +51,8 @@ namespace Xbim.Ifc4.MaterialResource
 		{ 
 			get 
 			{
-				if(Activated) return _offsetValues;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _offsetValues;
+				((IPersistEntity)this).Activate(false);
 				return _offsetValues;
 			} 
 		}
@@ -102,6 +99,23 @@ namespace Xbim.Ifc4.MaterialResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcMaterialLayerWithOffsets
+            var root = (@IfcMaterialLayerWithOffsets)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcMaterialLayerWithOffsets left, @IfcMaterialLayerWithOffsets right)
         {

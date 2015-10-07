@@ -9,6 +9,7 @@
 
 using Xbim.Ifc2x3.MaterialResource;
 using Xbim.Ifc2x3.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -17,7 +18,7 @@ namespace Xbim.Ifc2x3.MaterialPropertyResource
 {
 	[ExpressType("IFCTHERMALMATERIALPROPERTIES", 720)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcThermalMaterialProperties : IfcMaterialProperties, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcThermalMaterialProperties>, System.IEquatable<@IfcThermalMaterialProperties>
+	public  partial class @IfcThermalMaterialProperties : IfcMaterialProperties, IInstantiableEntity, IEqualityComparer<@IfcThermalMaterialProperties>, IEquatable<@IfcThermalMaterialProperties>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcThermalMaterialProperties(IModel model) : base(model) 		{ 
@@ -37,10 +38,8 @@ namespace Xbim.Ifc2x3.MaterialPropertyResource
 		{ 
 			get 
 			{
-				if(Activated) return _specificHeatCapacity;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _specificHeatCapacity;
+				((IPersistEntity)this).Activate(false);
 				return _specificHeatCapacity;
 			} 
 			set
@@ -54,10 +53,8 @@ namespace Xbim.Ifc2x3.MaterialPropertyResource
 		{ 
 			get 
 			{
-				if(Activated) return _boilingPoint;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _boilingPoint;
+				((IPersistEntity)this).Activate(false);
 				return _boilingPoint;
 			} 
 			set
@@ -71,10 +68,8 @@ namespace Xbim.Ifc2x3.MaterialPropertyResource
 		{ 
 			get 
 			{
-				if(Activated) return _freezingPoint;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _freezingPoint;
+				((IPersistEntity)this).Activate(false);
 				return _freezingPoint;
 			} 
 			set
@@ -88,10 +83,8 @@ namespace Xbim.Ifc2x3.MaterialPropertyResource
 		{ 
 			get 
 			{
-				if(Activated) return _thermalConductivity;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _thermalConductivity;
+				((IPersistEntity)this).Activate(false);
 				return _thermalConductivity;
 			} 
 			set
@@ -141,6 +134,23 @@ namespace Xbim.Ifc2x3.MaterialPropertyResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcThermalMaterialProperties
+            var root = (@IfcThermalMaterialProperties)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcThermalMaterialProperties left, @IfcThermalMaterialProperties right)
         {

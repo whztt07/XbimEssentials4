@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.ProfileResource
 {
-	public enum IfcProfileTypeEnum
+	public enum IfcProfileTypeEnum : byte
 	{
 		@CURVE ,
 		@AREA 

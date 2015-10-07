@@ -8,6 +8,7 @@
 // ------------------------------------------------------------------------------
 
 using Xbim.Ifc4.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -16,7 +17,7 @@ namespace Xbim.Ifc4.StructuralLoadResource
 {
 	[ExpressType("IFCBOUNDARYNODECONDITION", 441)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcBoundaryNodeCondition : IfcBoundaryCondition, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcBoundaryNodeCondition>, System.IEquatable<@IfcBoundaryNodeCondition>
+	public  partial class @IfcBoundaryNodeCondition : IfcBoundaryCondition, IInstantiableEntity, IEqualityComparer<@IfcBoundaryNodeCondition>, IEquatable<@IfcBoundaryNodeCondition>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcBoundaryNodeCondition(IModel model) : base(model) 		{ 
@@ -38,10 +39,8 @@ namespace Xbim.Ifc4.StructuralLoadResource
 		{ 
 			get 
 			{
-				if(Activated) return _translationalStiffnessX;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _translationalStiffnessX;
+				((IPersistEntity)this).Activate(false);
 				return _translationalStiffnessX;
 			} 
 			set
@@ -55,10 +54,8 @@ namespace Xbim.Ifc4.StructuralLoadResource
 		{ 
 			get 
 			{
-				if(Activated) return _translationalStiffnessY;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _translationalStiffnessY;
+				((IPersistEntity)this).Activate(false);
 				return _translationalStiffnessY;
 			} 
 			set
@@ -72,10 +69,8 @@ namespace Xbim.Ifc4.StructuralLoadResource
 		{ 
 			get 
 			{
-				if(Activated) return _translationalStiffnessZ;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _translationalStiffnessZ;
+				((IPersistEntity)this).Activate(false);
 				return _translationalStiffnessZ;
 			} 
 			set
@@ -89,10 +84,8 @@ namespace Xbim.Ifc4.StructuralLoadResource
 		{ 
 			get 
 			{
-				if(Activated) return _rotationalStiffnessX;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _rotationalStiffnessX;
+				((IPersistEntity)this).Activate(false);
 				return _rotationalStiffnessX;
 			} 
 			set
@@ -106,10 +99,8 @@ namespace Xbim.Ifc4.StructuralLoadResource
 		{ 
 			get 
 			{
-				if(Activated) return _rotationalStiffnessY;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _rotationalStiffnessY;
+				((IPersistEntity)this).Activate(false);
 				return _rotationalStiffnessY;
 			} 
 			set
@@ -123,10 +114,8 @@ namespace Xbim.Ifc4.StructuralLoadResource
 		{ 
 			get 
 			{
-				if(Activated) return _rotationalStiffnessZ;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _rotationalStiffnessZ;
+				((IPersistEntity)this).Activate(false);
 				return _rotationalStiffnessZ;
 			} 
 			set
@@ -182,6 +171,23 @@ namespace Xbim.Ifc4.StructuralLoadResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcBoundaryNodeCondition
+            var root = (@IfcBoundaryNodeCondition)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcBoundaryNodeCondition left, @IfcBoundaryNodeCondition right)
         {

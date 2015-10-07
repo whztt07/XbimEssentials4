@@ -11,6 +11,7 @@ using Xbim.Ifc2x3.ProductExtension;
 using Xbim.Ifc2x3.UtilityResource;
 using Xbim.Ifc2x3.MeasureResource;
 using Xbim.Ifc2x3.GeometryResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -19,13 +20,13 @@ namespace Xbim.Ifc2x3.StructuralAnalysisDomain
 {
 	[ExpressType("IFCSTRUCTURALANALYSISMODEL", 230)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcStructuralAnalysisModel : IfcSystem, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcStructuralAnalysisModel>, System.IEquatable<@IfcStructuralAnalysisModel>
+	public  partial class @IfcStructuralAnalysisModel : IfcSystem, IInstantiableEntity, IEqualityComparer<@IfcStructuralAnalysisModel>, IEquatable<@IfcStructuralAnalysisModel>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcStructuralAnalysisModel(IModel model) : base(model) 		{ 
 			Model = model; 
-			_loadedBy = new OptionalItemSet<IfcStructuralLoadGroup>( this );
-			_hasResults = new OptionalItemSet<IfcStructuralResultGroup>( this );
+			_loadedBy = new OptionalItemSet<IfcStructuralLoadGroup>( this, 0 );
+			_hasResults = new OptionalItemSet<IfcStructuralResultGroup>( this, 0 );
 		}
 
 		#region Explicit attribute fields
@@ -41,10 +42,8 @@ namespace Xbim.Ifc2x3.StructuralAnalysisDomain
 		{ 
 			get 
 			{
-				if(Activated) return _predefinedType;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _predefinedType;
+				((IPersistEntity)this).Activate(false);
 				return _predefinedType;
 			} 
 			set
@@ -58,10 +57,8 @@ namespace Xbim.Ifc2x3.StructuralAnalysisDomain
 		{ 
 			get 
 			{
-				if(Activated) return _orientationOf2DPlane;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _orientationOf2DPlane;
+				((IPersistEntity)this).Activate(false);
 				return _orientationOf2DPlane;
 			} 
 			set
@@ -76,10 +73,8 @@ namespace Xbim.Ifc2x3.StructuralAnalysisDomain
 		{ 
 			get 
 			{
-				if(Activated) return _loadedBy;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _loadedBy;
+				((IPersistEntity)this).Activate(false);
 				return _loadedBy;
 			} 
 		}
@@ -90,10 +85,8 @@ namespace Xbim.Ifc2x3.StructuralAnalysisDomain
 		{ 
 			get 
 			{
-				if(Activated) return _hasResults;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _hasResults;
+				((IPersistEntity)this).Activate(false);
 				return _hasResults;
 			} 
 		}
@@ -145,6 +138,23 @@ namespace Xbim.Ifc2x3.StructuralAnalysisDomain
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcStructuralAnalysisModel
+            var root = (@IfcStructuralAnalysisModel)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcStructuralAnalysisModel left, @IfcStructuralAnalysisModel right)
         {

@@ -12,6 +12,7 @@ using Xbim.Ifc2x3.UtilityResource;
 using Xbim.Ifc2x3.MeasureResource;
 using Xbim.Ifc2x3.ProfilePropertyResource;
 using Xbim.Ifc2x3.RepresentationResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -20,7 +21,7 @@ namespace Xbim.Ifc2x3.StructuralAnalysisDomain
 {
 	[ExpressType("IFCRELASSOCIATESPROFILEPROPERTIES", 676)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcRelAssociatesProfileProperties : IfcRelAssociates, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcRelAssociatesProfileProperties>, System.IEquatable<@IfcRelAssociatesProfileProperties>
+	public  partial class @IfcRelAssociatesProfileProperties : IfcRelAssociates, IInstantiableEntity, IEqualityComparer<@IfcRelAssociatesProfileProperties>, IEquatable<@IfcRelAssociatesProfileProperties>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcRelAssociatesProfileProperties(IModel model) : base(model) 		{ 
@@ -39,10 +40,8 @@ namespace Xbim.Ifc2x3.StructuralAnalysisDomain
 		{ 
 			get 
 			{
-				if(Activated) return _relatingProfileProperties;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _relatingProfileProperties;
+				((IPersistEntity)this).Activate(false);
 				return _relatingProfileProperties;
 			} 
 			set
@@ -56,10 +55,8 @@ namespace Xbim.Ifc2x3.StructuralAnalysisDomain
 		{ 
 			get 
 			{
-				if(Activated) return _profileSectionLocation;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _profileSectionLocation;
+				((IPersistEntity)this).Activate(false);
 				return _profileSectionLocation;
 			} 
 			set
@@ -73,10 +70,8 @@ namespace Xbim.Ifc2x3.StructuralAnalysisDomain
 		{ 
 			get 
 			{
-				if(Activated) return _profileOrientation;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _profileOrientation;
+				((IPersistEntity)this).Activate(false);
 				return _profileOrientation;
 			} 
 			set
@@ -127,6 +122,23 @@ namespace Xbim.Ifc2x3.StructuralAnalysisDomain
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcRelAssociatesProfileProperties
+            var root = (@IfcRelAssociatesProfileProperties)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcRelAssociatesProfileProperties left, @IfcRelAssociatesProfileProperties right)
         {

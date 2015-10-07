@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc2x3.MeasureResource
 {
-	public enum IfcDerivedUnitEnum
+	public enum IfcDerivedUnitEnum : byte
 	{
 		@ANGULARVELOCITYUNIT ,
 		@COMPOUNDPLANEANGLEUNIT ,

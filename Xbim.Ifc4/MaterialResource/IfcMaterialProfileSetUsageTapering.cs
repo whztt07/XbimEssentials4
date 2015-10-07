@@ -8,6 +8,7 @@
 // ------------------------------------------------------------------------------
 
 using Xbim.Ifc4.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -16,7 +17,7 @@ namespace Xbim.Ifc4.MaterialResource
 {
 	[ExpressType("IFCMATERIALPROFILESETUSAGETAPERING", 755)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcMaterialProfileSetUsageTapering : IfcMaterialProfileSetUsage, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcMaterialProfileSetUsageTapering>, System.IEquatable<@IfcMaterialProfileSetUsageTapering>
+	public  partial class @IfcMaterialProfileSetUsageTapering : IfcMaterialProfileSetUsage, IInstantiableEntity, IEqualityComparer<@IfcMaterialProfileSetUsageTapering>, IEquatable<@IfcMaterialProfileSetUsageTapering>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcMaterialProfileSetUsageTapering(IModel model) : base(model) 		{ 
@@ -34,10 +35,8 @@ namespace Xbim.Ifc4.MaterialResource
 		{ 
 			get 
 			{
-				if(Activated) return _forProfileEndSet;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _forProfileEndSet;
+				((IPersistEntity)this).Activate(false);
 				return _forProfileEndSet;
 			} 
 			set
@@ -51,10 +50,8 @@ namespace Xbim.Ifc4.MaterialResource
 		{ 
 			get 
 			{
-				if(Activated) return _cardinalEndPoint;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _cardinalEndPoint;
+				((IPersistEntity)this).Activate(false);
 				return _cardinalEndPoint;
 			} 
 			set
@@ -100,6 +97,23 @@ namespace Xbim.Ifc4.MaterialResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcMaterialProfileSetUsageTapering
+            var root = (@IfcMaterialProfileSetUsageTapering)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcMaterialProfileSetUsageTapering left, @IfcMaterialProfileSetUsageTapering right)
         {

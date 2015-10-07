@@ -7,6 +7,8 @@
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
+using System;
+using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
 
@@ -14,12 +16,12 @@ namespace Xbim.Ifc2x3.GeometryResource
 {
 	[ExpressType("IFCBSPLINECURVE", 167)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public abstract partial class @IfcBSplineCurve : IfcBoundedCurve, System.Collections.Generic.IEqualityComparer<@IfcBSplineCurve>, System.IEquatable<@IfcBSplineCurve>
+	public abstract partial class @IfcBSplineCurve : IfcBoundedCurve, IEqualityComparer<@IfcBSplineCurve>, IEquatable<@IfcBSplineCurve>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcBSplineCurve(IModel model) : base(model) 		{ 
 			Model = model; 
-			_controlPointsList = new ItemSet<IfcCartesianPoint>( this );
+			_controlPointsList = new ItemSet<IfcCartesianPoint>( this, 0 );
 		}
 
 		#region Explicit attribute fields
@@ -36,10 +38,8 @@ namespace Xbim.Ifc2x3.GeometryResource
 		{ 
 			get 
 			{
-				if(Activated) return _degree;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _degree;
+				((IPersistEntity)this).Activate(false);
 				return _degree;
 			} 
 			set
@@ -53,10 +53,8 @@ namespace Xbim.Ifc2x3.GeometryResource
 		{ 
 			get 
 			{
-				if(Activated) return _controlPointsList;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _controlPointsList;
+				((IPersistEntity)this).Activate(false);
 				return _controlPointsList;
 			} 
 		}
@@ -66,10 +64,8 @@ namespace Xbim.Ifc2x3.GeometryResource
 		{ 
 			get 
 			{
-				if(Activated) return _curveForm;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _curveForm;
+				((IPersistEntity)this).Activate(false);
 				return _curveForm;
 			} 
 			set
@@ -83,10 +79,8 @@ namespace Xbim.Ifc2x3.GeometryResource
 		{ 
 			get 
 			{
-				if(Activated) return _closedCurve;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _closedCurve;
+				((IPersistEntity)this).Activate(false);
 				return _closedCurve;
 			} 
 			set
@@ -100,10 +94,8 @@ namespace Xbim.Ifc2x3.GeometryResource
 		{ 
 			get 
 			{
-				if(Activated) return _selfIntersect;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _selfIntersect;
+				((IPersistEntity)this).Activate(false);
 				return _selfIntersect;
 			} 
 			set
@@ -155,6 +147,23 @@ namespace Xbim.Ifc2x3.GeometryResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcBSplineCurve
+            var root = (@IfcBSplineCurve)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcBSplineCurve left, @IfcBSplineCurve right)
         {

@@ -7,6 +7,7 @@
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -15,7 +16,7 @@ namespace Xbim.Ifc2x3.GeometryResource
 {
 	[ExpressType("IFCCOMPOSITECURVESEGMENT", 460)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcCompositeCurveSegment : IfcGeometricRepresentationItem, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcCompositeCurveSegment>, System.IEquatable<@IfcCompositeCurveSegment>
+	public  partial class @IfcCompositeCurveSegment : IfcGeometricRepresentationItem, IInstantiableEntity, IEqualityComparer<@IfcCompositeCurveSegment>, IEquatable<@IfcCompositeCurveSegment>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcCompositeCurveSegment(IModel model) : base(model) 		{ 
@@ -34,10 +35,8 @@ namespace Xbim.Ifc2x3.GeometryResource
 		{ 
 			get 
 			{
-				if(Activated) return _transition;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _transition;
+				((IPersistEntity)this).Activate(false);
 				return _transition;
 			} 
 			set
@@ -51,10 +50,8 @@ namespace Xbim.Ifc2x3.GeometryResource
 		{ 
 			get 
 			{
-				if(Activated) return _sameSense;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _sameSense;
+				((IPersistEntity)this).Activate(false);
 				return _sameSense;
 			} 
 			set
@@ -68,10 +65,8 @@ namespace Xbim.Ifc2x3.GeometryResource
 		{ 
 			get 
 			{
-				if(Activated) return _parentCurve;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _parentCurve;
+				((IPersistEntity)this).Activate(false);
 				return _parentCurve;
 			} 
 			set
@@ -126,6 +121,23 @@ namespace Xbim.Ifc2x3.GeometryResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcCompositeCurveSegment
+            var root = (@IfcCompositeCurveSegment)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcCompositeCurveSegment left, @IfcCompositeCurveSegment right)
         {

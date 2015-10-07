@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.SharedBldgElements
 {
-	public enum IfcRampTypeEnum
+	public enum IfcRampTypeEnum : byte
 	{
 		@STRAIGHT_RUN_RAMP ,
 		@TWO_STRAIGHT_RUN_RAMP ,

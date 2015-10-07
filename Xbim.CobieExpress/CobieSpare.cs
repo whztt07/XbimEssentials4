@@ -7,6 +7,7 @@
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -16,12 +17,12 @@ namespace Xbim.CobieExpress
 	[IndexedClass]
 	[ExpressType("SPARE", 27)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @CobieSpare : CobieReferencedObject, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@CobieSpare>, System.IEquatable<@CobieSpare>
+	public  partial class @CobieSpare : CobieReferencedObject, IInstantiableEntity, IEqualityComparer<@CobieSpare>, IEquatable<@CobieSpare>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal CobieSpare(IModel model) : base(model) 		{ 
 			Model = model; 
-			_suppliers = new ItemSet<CobieContact>( this );
+			_suppliers = new ItemSet<CobieContact>( this, 0 );
 		}
 
 		#region Explicit attribute fields
@@ -40,10 +41,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _name;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _name;
+				((IPersistEntity)this).Activate(false);
 				return _name;
 			} 
 			set
@@ -57,10 +56,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _description;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _description;
+				((IPersistEntity)this).Activate(false);
 				return _description;
 			} 
 			set
@@ -74,10 +71,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _spareType;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _spareType;
+				((IPersistEntity)this).Activate(false);
 				return _spareType;
 			} 
 			set
@@ -92,10 +87,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _type;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _type;
+				((IPersistEntity)this).Activate(false);
 				return _type;
 			} 
 			set
@@ -109,10 +102,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _suppliers;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _suppliers;
+				((IPersistEntity)this).Activate(false);
 				return _suppliers;
 			} 
 		}
@@ -122,10 +113,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _setNumber;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _setNumber;
+				((IPersistEntity)this).Activate(false);
 				return _setNumber;
 			} 
 			set
@@ -139,10 +128,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _partNumber;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _partNumber;
+				((IPersistEntity)this).Activate(false);
 				return _partNumber;
 			} 
 			set
@@ -205,6 +192,23 @@ namespace Xbim.CobieExpress
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @CobieSpare
+            var root = (@CobieSpare)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@CobieSpare left, @CobieSpare right)
         {

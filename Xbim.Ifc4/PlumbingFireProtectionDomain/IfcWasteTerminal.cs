@@ -12,6 +12,7 @@ using Xbim.Ifc4.UtilityResource;
 using Xbim.Ifc4.MeasureResource;
 using Xbim.Ifc4.GeometricConstraintResource;
 using Xbim.Ifc4.RepresentationResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -20,7 +21,7 @@ namespace Xbim.Ifc4.PlumbingFireProtectionDomain
 {
 	[ExpressType("IFCWASTETERMINAL", 1142)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcWasteTerminal : IfcFlowTerminal, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcWasteTerminal>, System.IEquatable<@IfcWasteTerminal>
+	public  partial class @IfcWasteTerminal : IfcFlowTerminal, IInstantiableEntity, IEqualityComparer<@IfcWasteTerminal>, IEquatable<@IfcWasteTerminal>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcWasteTerminal(IModel model) : base(model) 		{ 
@@ -37,10 +38,8 @@ namespace Xbim.Ifc4.PlumbingFireProtectionDomain
 		{ 
 			get 
 			{
-				if(Activated) return _predefinedType;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _predefinedType;
+				((IPersistEntity)this).Activate(false);
 				return _predefinedType;
 			} 
 			set
@@ -90,6 +89,23 @@ namespace Xbim.Ifc4.PlumbingFireProtectionDomain
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcWasteTerminal
+            var root = (@IfcWasteTerminal)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcWasteTerminal left, @IfcWasteTerminal right)
         {

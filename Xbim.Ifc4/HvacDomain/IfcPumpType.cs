@@ -12,6 +12,7 @@ using Xbim.Ifc4.UtilityResource;
 using Xbim.Ifc4.MeasureResource;
 using Xbim.Ifc4.Kernel;
 using Xbim.Ifc4.GeometryResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -20,7 +21,7 @@ namespace Xbim.Ifc4.HvacDomain
 {
 	[ExpressType("IFCPUMPTYPE", 870)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcPumpType : IfcFlowMovingDeviceType, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcPumpType>, System.IEquatable<@IfcPumpType>
+	public  partial class @IfcPumpType : IfcFlowMovingDeviceType, IInstantiableEntity, IEqualityComparer<@IfcPumpType>, IEquatable<@IfcPumpType>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcPumpType(IModel model) : base(model) 		{ 
@@ -37,10 +38,8 @@ namespace Xbim.Ifc4.HvacDomain
 		{ 
 			get 
 			{
-				if(Activated) return _predefinedType;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _predefinedType;
+				((IPersistEntity)this).Activate(false);
 				return _predefinedType;
 			} 
 			set
@@ -90,6 +89,23 @@ namespace Xbim.Ifc4.HvacDomain
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcPumpType
+            var root = (@IfcPumpType)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcPumpType left, @IfcPumpType right)
         {

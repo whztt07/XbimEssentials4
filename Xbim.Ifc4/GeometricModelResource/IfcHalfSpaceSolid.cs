@@ -8,6 +8,7 @@
 // ------------------------------------------------------------------------------
 
 using Xbim.Ifc4.GeometryResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -16,7 +17,7 @@ namespace Xbim.Ifc4.GeometricModelResource
 {
 	[ExpressType("IFCHALFSPACESOLID", 700)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcHalfSpaceSolid : IfcGeometricRepresentationItem, IfcBooleanOperand, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcHalfSpaceSolid>, System.IEquatable<@IfcHalfSpaceSolid>
+	public  partial class @IfcHalfSpaceSolid : IfcGeometricRepresentationItem, IfcBooleanOperand, IInstantiableEntity, IEqualityComparer<@IfcHalfSpaceSolid>, IEquatable<@IfcHalfSpaceSolid>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcHalfSpaceSolid(IModel model) : base(model) 		{ 
@@ -34,10 +35,8 @@ namespace Xbim.Ifc4.GeometricModelResource
 		{ 
 			get 
 			{
-				if(Activated) return _baseSurface;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _baseSurface;
+				((IPersistEntity)this).Activate(false);
 				return _baseSurface;
 			} 
 			set
@@ -51,10 +50,8 @@ namespace Xbim.Ifc4.GeometricModelResource
 		{ 
 			get 
 			{
-				if(Activated) return _agreementFlag;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _agreementFlag;
+				((IPersistEntity)this).Activate(false);
 				return _agreementFlag;
 			} 
 			set
@@ -95,6 +92,23 @@ namespace Xbim.Ifc4.GeometricModelResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcHalfSpaceSolid
+            var root = (@IfcHalfSpaceSolid)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcHalfSpaceSolid left, @IfcHalfSpaceSolid right)
         {

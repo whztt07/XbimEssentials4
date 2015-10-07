@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.SharedBldgElements
 {
-	public enum IfcWindowTypeEnum
+	public enum IfcWindowTypeEnum : byte
 	{
 		@WINDOW ,
 		@SKYLIGHT ,

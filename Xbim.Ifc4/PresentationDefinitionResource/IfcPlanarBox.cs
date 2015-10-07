@@ -9,6 +9,7 @@
 
 using Xbim.Ifc4.MeasureResource;
 using Xbim.Ifc4.GeometryResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -17,7 +18,7 @@ namespace Xbim.Ifc4.PresentationDefinitionResource
 {
 	[ExpressType("IFCPLANARBOX", 810)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcPlanarBox : IfcPlanarExtent, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcPlanarBox>, System.IEquatable<@IfcPlanarBox>
+	public  partial class @IfcPlanarBox : IfcPlanarExtent, IInstantiableEntity, IEqualityComparer<@IfcPlanarBox>, IEquatable<@IfcPlanarBox>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcPlanarBox(IModel model) : base(model) 		{ 
@@ -34,10 +35,8 @@ namespace Xbim.Ifc4.PresentationDefinitionResource
 		{ 
 			get 
 			{
-				if(Activated) return _placement;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _placement;
+				((IPersistEntity)this).Activate(false);
 				return _placement;
 			} 
 			set
@@ -79,6 +78,23 @@ namespace Xbim.Ifc4.PresentationDefinitionResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcPlanarBox
+            var root = (@IfcPlanarBox)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcPlanarBox left, @IfcPlanarBox right)
         {

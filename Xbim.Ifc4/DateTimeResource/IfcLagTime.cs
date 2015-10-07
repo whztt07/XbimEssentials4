@@ -8,6 +8,7 @@
 // ------------------------------------------------------------------------------
 
 using Xbim.Ifc4.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -16,7 +17,7 @@ namespace Xbim.Ifc4.DateTimeResource
 {
 	[ExpressType("IFCLAGTIME", 720)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcLagTime : IfcSchedulingTime, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcLagTime>, System.IEquatable<@IfcLagTime>
+	public  partial class @IfcLagTime : IfcSchedulingTime, IInstantiableEntity, IEqualityComparer<@IfcLagTime>, IEquatable<@IfcLagTime>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcLagTime(IModel model) : base(model) 		{ 
@@ -34,10 +35,8 @@ namespace Xbim.Ifc4.DateTimeResource
 		{ 
 			get 
 			{
-				if(Activated) return _lagValue;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _lagValue;
+				((IPersistEntity)this).Activate(false);
 				return _lagValue;
 			} 
 			set
@@ -51,10 +50,8 @@ namespace Xbim.Ifc4.DateTimeResource
 		{ 
 			get 
 			{
-				if(Activated) return _durationType;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _durationType;
+				((IPersistEntity)this).Activate(false);
 				return _durationType;
 			} 
 			set
@@ -100,6 +97,23 @@ namespace Xbim.Ifc4.DateTimeResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcLagTime
+            var root = (@IfcLagTime)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcLagTime left, @IfcLagTime right)
         {

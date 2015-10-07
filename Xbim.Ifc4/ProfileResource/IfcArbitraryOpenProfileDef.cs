@@ -9,6 +9,7 @@
 
 using Xbim.Ifc4.MeasureResource;
 using Xbim.Ifc4.GeometryResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -17,7 +18,7 @@ namespace Xbim.Ifc4.ProfileResource
 {
 	[ExpressType("IFCARBITRARYOPENPROFILEDEF", 415)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcArbitraryOpenProfileDef : IfcProfileDef, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcArbitraryOpenProfileDef>, System.IEquatable<@IfcArbitraryOpenProfileDef>
+	public  partial class @IfcArbitraryOpenProfileDef : IfcProfileDef, IInstantiableEntity, IEqualityComparer<@IfcArbitraryOpenProfileDef>, IEquatable<@IfcArbitraryOpenProfileDef>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcArbitraryOpenProfileDef(IModel model) : base(model) 		{ 
@@ -34,10 +35,8 @@ namespace Xbim.Ifc4.ProfileResource
 		{ 
 			get 
 			{
-				if(Activated) return _curve;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _curve;
+				((IPersistEntity)this).Activate(false);
 				return _curve;
 			} 
 			set
@@ -81,6 +80,23 @@ namespace Xbim.Ifc4.ProfileResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcArbitraryOpenProfileDef
+            var root = (@IfcArbitraryOpenProfileDef)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcArbitraryOpenProfileDef left, @IfcArbitraryOpenProfileDef right)
         {

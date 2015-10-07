@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc2x3.ActorResource
 {
-	public enum IfcAddressTypeEnum
+	public enum IfcAddressTypeEnum : byte
 	{
 		@OFFICE ,
 		@SITE ,

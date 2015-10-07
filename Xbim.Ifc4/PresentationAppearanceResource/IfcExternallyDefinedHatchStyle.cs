@@ -9,6 +9,7 @@
 
 using Xbim.Ifc4.ExternalReferenceResource;
 using Xbim.Ifc4.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -17,7 +18,7 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
 {
 	[ExpressType("IFCEXTERNALLYDEFINEDHATCHSTYLE", 637)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcExternallyDefinedHatchStyle : IfcExternalReference, IfcFillStyleSelect, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcExternallyDefinedHatchStyle>, System.IEquatable<@IfcExternallyDefinedHatchStyle>
+	public  partial class @IfcExternallyDefinedHatchStyle : IfcExternalReference, IfcFillStyleSelect, IInstantiableEntity, IEqualityComparer<@IfcExternallyDefinedHatchStyle>, IEquatable<@IfcExternallyDefinedHatchStyle>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcExternallyDefinedHatchStyle(IModel model) : base(model) 		{ 
@@ -54,6 +55,23 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcExternallyDefinedHatchStyle
+            var root = (@IfcExternallyDefinedHatchStyle)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcExternallyDefinedHatchStyle left, @IfcExternallyDefinedHatchStyle right)
         {

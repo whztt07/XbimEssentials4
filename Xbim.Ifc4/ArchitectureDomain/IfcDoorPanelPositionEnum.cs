@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.ArchitectureDomain
 {
-	public enum IfcDoorPanelPositionEnum
+	public enum IfcDoorPanelPositionEnum : byte
 	{
 		@LEFT ,
 		@MIDDLE ,

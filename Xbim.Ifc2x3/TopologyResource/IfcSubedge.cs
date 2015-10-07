@@ -7,6 +7,7 @@
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -15,7 +16,7 @@ namespace Xbim.Ifc2x3.TopologyResource
 {
 	[ExpressType("IFCSUBEDGE", 487)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcSubedge : IfcEdge, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcSubedge>, System.IEquatable<@IfcSubedge>
+	public  partial class @IfcSubedge : IfcEdge, IInstantiableEntity, IEqualityComparer<@IfcSubedge>, IEquatable<@IfcSubedge>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcSubedge(IModel model) : base(model) 		{ 
@@ -32,10 +33,8 @@ namespace Xbim.Ifc2x3.TopologyResource
 		{ 
 			get 
 			{
-				if(Activated) return _parentEdge;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _parentEdge;
+				((IPersistEntity)this).Activate(false);
 				return _parentEdge;
 			} 
 			set
@@ -77,6 +76,23 @@ namespace Xbim.Ifc2x3.TopologyResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcSubedge
+            var root = (@IfcSubedge)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcSubedge left, @IfcSubedge right)
         {

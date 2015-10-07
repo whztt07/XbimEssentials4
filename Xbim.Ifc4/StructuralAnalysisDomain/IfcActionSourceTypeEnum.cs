@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.StructuralAnalysisDomain
 {
-	public enum IfcActionSourceTypeEnum
+	public enum IfcActionSourceTypeEnum : byte
 	{
 		@DEAD_LOAD_G ,
 		@COMPLETION_G1 ,

@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.ArchitectureDomain
 {
-	public enum IfcPermeableCoveringOperationEnum
+	public enum IfcPermeableCoveringOperationEnum : byte
 	{
 		@GRILL ,
 		@LOUVER ,

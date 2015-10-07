@@ -7,6 +7,7 @@
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -15,12 +16,12 @@ namespace Xbim.Ifc2x3.TopologyResource
 {
 	[ExpressType("IFCEDGELOOP", 302)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcEdgeLoop : IfcLoop, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcEdgeLoop>, System.IEquatable<@IfcEdgeLoop>
+	public  partial class @IfcEdgeLoop : IfcLoop, IInstantiableEntity, IEqualityComparer<@IfcEdgeLoop>, IEquatable<@IfcEdgeLoop>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcEdgeLoop(IModel model) : base(model) 		{ 
 			Model = model; 
-			_edgeList = new ItemSet<IfcOrientedEdge>( this );
+			_edgeList = new ItemSet<IfcOrientedEdge>( this, 0 );
 		}
 
 		#region Explicit attribute fields
@@ -33,10 +34,8 @@ namespace Xbim.Ifc2x3.TopologyResource
 		{ 
 			get 
 			{
-				if(Activated) return _edgeList;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _edgeList;
+				((IPersistEntity)this).Activate(false);
 				return _edgeList;
 			} 
 		}
@@ -73,6 +72,23 @@ namespace Xbim.Ifc2x3.TopologyResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcEdgeLoop
+            var root = (@IfcEdgeLoop)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcEdgeLoop left, @IfcEdgeLoop right)
         {

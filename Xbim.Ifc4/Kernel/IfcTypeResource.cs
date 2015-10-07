@@ -8,6 +8,7 @@
 // ------------------------------------------------------------------------------
 
 using Xbim.Ifc4.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -16,7 +17,7 @@ namespace Xbim.Ifc4.Kernel
 {
 	[ExpressType("IFCTYPERESOURCE", 1120)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public abstract partial class @IfcTypeResource : IfcTypeObject, IfcResourceSelect, System.Collections.Generic.IEqualityComparer<@IfcTypeResource>, System.IEquatable<@IfcTypeResource>
+	public abstract partial class @IfcTypeResource : IfcTypeObject, IfcResourceSelect, IEqualityComparer<@IfcTypeResource>, IEquatable<@IfcTypeResource>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcTypeResource(IModel model) : base(model) 		{ 
@@ -35,10 +36,8 @@ namespace Xbim.Ifc4.Kernel
 		{ 
 			get 
 			{
-				if(Activated) return _identification;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _identification;
+				((IPersistEntity)this).Activate(false);
 				return _identification;
 			} 
 			set
@@ -52,10 +51,8 @@ namespace Xbim.Ifc4.Kernel
 		{ 
 			get 
 			{
-				if(Activated) return _longDescription;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _longDescription;
+				((IPersistEntity)this).Activate(false);
 				return _longDescription;
 			} 
 			set
@@ -69,10 +66,8 @@ namespace Xbim.Ifc4.Kernel
 		{ 
 			get 
 			{
-				if(Activated) return _resourceType;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _resourceType;
+				((IPersistEntity)this).Activate(false);
 				return _resourceType;
 			} 
 			set
@@ -89,7 +84,7 @@ namespace Xbim.Ifc4.Kernel
 		{ 
 			get 
 			{
-				return Model.Instances.Where<IfcRelAssignsToResource>(e => e.RelatingResource == this);
+				return Model.Instances.Where<IfcRelAssignsToResource>(e => (e.RelatingResource as IfcTypeResource) == this);
 			} 
 		}
 		#endregion
@@ -134,6 +129,23 @@ namespace Xbim.Ifc4.Kernel
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcTypeResource
+            var root = (@IfcTypeResource)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcTypeResource left, @IfcTypeResource right)
         {

@@ -8,6 +8,7 @@
 // ------------------------------------------------------------------------------
 
 using Xbim.Ifc4.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -16,7 +17,7 @@ namespace Xbim.Ifc4.DateTimeResource
 {
 	[ExpressType("IFCRESOURCETIME", 958)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcResourceTime : IfcSchedulingTime, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcResourceTime>, System.IEquatable<@IfcResourceTime>
+	public  partial class @IfcResourceTime : IfcSchedulingTime, IInstantiableEntity, IEqualityComparer<@IfcResourceTime>, IEquatable<@IfcResourceTime>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcResourceTime(IModel model) : base(model) 		{ 
@@ -47,10 +48,8 @@ namespace Xbim.Ifc4.DateTimeResource
 		{ 
 			get 
 			{
-				if(Activated) return _scheduleWork;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _scheduleWork;
+				((IPersistEntity)this).Activate(false);
 				return _scheduleWork;
 			} 
 			set
@@ -64,10 +63,8 @@ namespace Xbim.Ifc4.DateTimeResource
 		{ 
 			get 
 			{
-				if(Activated) return _scheduleUsage;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _scheduleUsage;
+				((IPersistEntity)this).Activate(false);
 				return _scheduleUsage;
 			} 
 			set
@@ -81,10 +78,8 @@ namespace Xbim.Ifc4.DateTimeResource
 		{ 
 			get 
 			{
-				if(Activated) return _scheduleStart;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _scheduleStart;
+				((IPersistEntity)this).Activate(false);
 				return _scheduleStart;
 			} 
 			set
@@ -98,10 +93,8 @@ namespace Xbim.Ifc4.DateTimeResource
 		{ 
 			get 
 			{
-				if(Activated) return _scheduleFinish;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _scheduleFinish;
+				((IPersistEntity)this).Activate(false);
 				return _scheduleFinish;
 			} 
 			set
@@ -115,10 +108,8 @@ namespace Xbim.Ifc4.DateTimeResource
 		{ 
 			get 
 			{
-				if(Activated) return _scheduleContour;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _scheduleContour;
+				((IPersistEntity)this).Activate(false);
 				return _scheduleContour;
 			} 
 			set
@@ -132,10 +123,8 @@ namespace Xbim.Ifc4.DateTimeResource
 		{ 
 			get 
 			{
-				if(Activated) return _levelingDelay;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _levelingDelay;
+				((IPersistEntity)this).Activate(false);
 				return _levelingDelay;
 			} 
 			set
@@ -149,10 +138,8 @@ namespace Xbim.Ifc4.DateTimeResource
 		{ 
 			get 
 			{
-				if(Activated) return _isOverAllocated;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _isOverAllocated;
+				((IPersistEntity)this).Activate(false);
 				return _isOverAllocated;
 			} 
 			set
@@ -166,10 +153,8 @@ namespace Xbim.Ifc4.DateTimeResource
 		{ 
 			get 
 			{
-				if(Activated) return _statusTime;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _statusTime;
+				((IPersistEntity)this).Activate(false);
 				return _statusTime;
 			} 
 			set
@@ -183,10 +168,8 @@ namespace Xbim.Ifc4.DateTimeResource
 		{ 
 			get 
 			{
-				if(Activated) return _actualWork;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _actualWork;
+				((IPersistEntity)this).Activate(false);
 				return _actualWork;
 			} 
 			set
@@ -200,10 +183,8 @@ namespace Xbim.Ifc4.DateTimeResource
 		{ 
 			get 
 			{
-				if(Activated) return _actualUsage;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _actualUsage;
+				((IPersistEntity)this).Activate(false);
 				return _actualUsage;
 			} 
 			set
@@ -217,10 +198,8 @@ namespace Xbim.Ifc4.DateTimeResource
 		{ 
 			get 
 			{
-				if(Activated) return _actualStart;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _actualStart;
+				((IPersistEntity)this).Activate(false);
 				return _actualStart;
 			} 
 			set
@@ -234,10 +213,8 @@ namespace Xbim.Ifc4.DateTimeResource
 		{ 
 			get 
 			{
-				if(Activated) return _actualFinish;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _actualFinish;
+				((IPersistEntity)this).Activate(false);
 				return _actualFinish;
 			} 
 			set
@@ -251,10 +228,8 @@ namespace Xbim.Ifc4.DateTimeResource
 		{ 
 			get 
 			{
-				if(Activated) return _remainingWork;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _remainingWork;
+				((IPersistEntity)this).Activate(false);
 				return _remainingWork;
 			} 
 			set
@@ -268,10 +243,8 @@ namespace Xbim.Ifc4.DateTimeResource
 		{ 
 			get 
 			{
-				if(Activated) return _remainingUsage;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _remainingUsage;
+				((IPersistEntity)this).Activate(false);
 				return _remainingUsage;
 			} 
 			set
@@ -285,10 +258,8 @@ namespace Xbim.Ifc4.DateTimeResource
 		{ 
 			get 
 			{
-				if(Activated) return _completion;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _completion;
+				((IPersistEntity)this).Activate(false);
 				return _completion;
 			} 
 			set
@@ -373,6 +344,23 @@ namespace Xbim.Ifc4.DateTimeResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcResourceTime
+            var root = (@IfcResourceTime)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcResourceTime left, @IfcResourceTime right)
         {

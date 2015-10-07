@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.PlumbingFireProtectionDomain
 {
-	public enum IfcInterceptorTypeEnum
+	public enum IfcInterceptorTypeEnum : byte
 	{
 		@CYCLONIC ,
 		@GREASE ,

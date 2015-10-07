@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.ProductExtension
 {
-	public enum IfcGridTypeEnum
+	public enum IfcGridTypeEnum : byte
 	{
 		@RECTANGULAR ,
 		@RADIAL ,

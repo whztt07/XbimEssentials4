@@ -9,6 +9,7 @@
 
 using Xbim.Ifc4.GeometryResource;
 using Xbim.Ifc4.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -17,7 +18,7 @@ namespace Xbim.Ifc4.PresentationDefinitionResource
 {
 	[ExpressType("IFCPLANAREXTENT", 811)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcPlanarExtent : IfcGeometricRepresentationItem, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcPlanarExtent>, System.IEquatable<@IfcPlanarExtent>
+	public  partial class @IfcPlanarExtent : IfcGeometricRepresentationItem, IInstantiableEntity, IEqualityComparer<@IfcPlanarExtent>, IEquatable<@IfcPlanarExtent>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcPlanarExtent(IModel model) : base(model) 		{ 
@@ -35,10 +36,8 @@ namespace Xbim.Ifc4.PresentationDefinitionResource
 		{ 
 			get 
 			{
-				if(Activated) return _sizeInX;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _sizeInX;
+				((IPersistEntity)this).Activate(false);
 				return _sizeInX;
 			} 
 			set
@@ -52,10 +51,8 @@ namespace Xbim.Ifc4.PresentationDefinitionResource
 		{ 
 			get 
 			{
-				if(Activated) return _sizeInY;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _sizeInY;
+				((IPersistEntity)this).Activate(false);
 				return _sizeInY;
 			} 
 			set
@@ -96,6 +93,23 @@ namespace Xbim.Ifc4.PresentationDefinitionResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcPlanarExtent
+            var root = (@IfcPlanarExtent)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcPlanarExtent left, @IfcPlanarExtent right)
         {

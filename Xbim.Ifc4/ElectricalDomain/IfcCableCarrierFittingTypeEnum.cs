@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.ElectricalDomain
 {
-	public enum IfcCableCarrierFittingTypeEnum
+	public enum IfcCableCarrierFittingTypeEnum : byte
 	{
 		@BEND ,
 		@CROSS ,

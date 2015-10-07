@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.BuildingControlsDomain
 {
-	public enum IfcActuatorTypeEnum
+	public enum IfcActuatorTypeEnum : byte
 	{
 		@ELECTRICACTUATOR ,
 		@HANDOPERATEDACTUATOR ,

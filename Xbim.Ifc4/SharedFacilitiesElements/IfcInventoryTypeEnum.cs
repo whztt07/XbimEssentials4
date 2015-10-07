@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.SharedFacilitiesElements
 {
-	public enum IfcInventoryTypeEnum
+	public enum IfcInventoryTypeEnum : byte
 	{
 		@ASSETINVENTORY ,
 		@SPACEINVENTORY ,

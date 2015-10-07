@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.ElectricalDomain
 {
-	public enum IfcAudioVisualApplianceTypeEnum
+	public enum IfcAudioVisualApplianceTypeEnum : byte
 	{
 		@AMPLIFIER ,
 		@CAMERA ,

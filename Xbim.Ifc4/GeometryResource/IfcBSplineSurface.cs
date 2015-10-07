@@ -7,6 +7,8 @@
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
+using System;
+using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
 
@@ -14,12 +16,12 @@ namespace Xbim.Ifc4.GeometryResource
 {
 	[ExpressType("IFCBSPLINESURFACE", 426)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public abstract partial class @IfcBSplineSurface : IfcBoundedSurface, System.Collections.Generic.IEqualityComparer<@IfcBSplineSurface>, System.IEquatable<@IfcBSplineSurface>
+	public abstract partial class @IfcBSplineSurface : IfcBoundedSurface, IEqualityComparer<@IfcBSplineSurface>, IEquatable<@IfcBSplineSurface>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcBSplineSurface(IModel model) : base(model) 		{ 
 			Model = model; 
-			_controlPointsList = new ItemSet<ItemSet<IfcCartesianPoint>>( this );
+			_controlPointsList = new ItemSet<ItemSet<IfcCartesianPoint>>( this, 0 );
 		}
 
 		#region Explicit attribute fields
@@ -38,10 +40,8 @@ namespace Xbim.Ifc4.GeometryResource
 		{ 
 			get 
 			{
-				if(Activated) return _uDegree;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _uDegree;
+				((IPersistEntity)this).Activate(false);
 				return _uDegree;
 			} 
 			set
@@ -55,10 +55,8 @@ namespace Xbim.Ifc4.GeometryResource
 		{ 
 			get 
 			{
-				if(Activated) return _vDegree;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _vDegree;
+				((IPersistEntity)this).Activate(false);
 				return _vDegree;
 			} 
 			set
@@ -72,10 +70,8 @@ namespace Xbim.Ifc4.GeometryResource
 		{ 
 			get 
 			{
-				if(Activated) return _controlPointsList;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _controlPointsList;
+				((IPersistEntity)this).Activate(false);
 				return _controlPointsList;
 			} 
 		}
@@ -85,10 +81,8 @@ namespace Xbim.Ifc4.GeometryResource
 		{ 
 			get 
 			{
-				if(Activated) return _surfaceForm;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _surfaceForm;
+				((IPersistEntity)this).Activate(false);
 				return _surfaceForm;
 			} 
 			set
@@ -102,10 +96,8 @@ namespace Xbim.Ifc4.GeometryResource
 		{ 
 			get 
 			{
-				if(Activated) return _uClosed;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _uClosed;
+				((IPersistEntity)this).Activate(false);
 				return _uClosed;
 			} 
 			set
@@ -119,10 +111,8 @@ namespace Xbim.Ifc4.GeometryResource
 		{ 
 			get 
 			{
-				if(Activated) return _vClosed;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _vClosed;
+				((IPersistEntity)this).Activate(false);
 				return _vClosed;
 			} 
 			set
@@ -136,10 +126,8 @@ namespace Xbim.Ifc4.GeometryResource
 		{ 
 			get 
 			{
-				if(Activated) return _selfIntersect;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _selfIntersect;
+				((IPersistEntity)this).Activate(false);
 				return _selfIntersect;
 			} 
 			set
@@ -197,6 +185,23 @@ namespace Xbim.Ifc4.GeometryResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcBSplineSurface
+            var root = (@IfcBSplineSurface)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcBSplineSurface left, @IfcBSplineSurface right)
         {

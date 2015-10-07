@@ -14,7 +14,7 @@ namespace Xbim.Ifc2x3.MeasureResource
 {
 	[ExpressType("IFCMAGNETICFLUXMEASURE", 433)]
     // ReSharper disable once PartialTypeWithSinglePart
-	public partial struct IfcMagneticFluxMeasure : IfcDerivedMeasureValue, IExpressValueType
+	public partial struct IfcMagneticFluxMeasure : IfcDerivedMeasureValue, IExpressValueType, System.IEquatable<double>
 	{ 
 		private double _value;
         
@@ -46,6 +46,7 @@ namespace Xbim.Ifc2x3.MeasureResource
         public static implicit operator double(IfcMagneticFluxMeasure obj)
         {
             return obj._value;
+
         }
 
 
@@ -62,6 +63,11 @@ namespace Xbim.Ifc2x3.MeasureResource
 
             return ((IfcMagneticFluxMeasure) obj)._value == _value;
         }
+
+		public bool Equals(double other)
+	    {
+	        return this == other;
+	    }
 
         public static bool operator ==(IfcMagneticFluxMeasure obj1, IfcMagneticFluxMeasure obj2)
         {

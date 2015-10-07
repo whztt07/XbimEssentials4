@@ -9,6 +9,7 @@
 
 using Xbim.Ifc2x3.UtilityResource;
 using Xbim.Ifc2x3.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -17,12 +18,12 @@ namespace Xbim.Ifc2x3.Kernel
 {
 	[ExpressType("IFCTYPEOBJECT", 42)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcTypeObject : IfcObjectDefinition, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcTypeObject>, System.IEquatable<@IfcTypeObject>
+	public  partial class @IfcTypeObject : IfcObjectDefinition, IInstantiableEntity, IEqualityComparer<@IfcTypeObject>, IEquatable<@IfcTypeObject>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcTypeObject(IModel model) : base(model) 		{ 
 			Model = model; 
-			_hasPropertySets = new OptionalItemSet<IfcPropertySetDefinition>( this );
+			_hasPropertySets = new OptionalItemSet<IfcPropertySetDefinition>( this, 0 );
 		}
 
 		#region Explicit attribute fields
@@ -36,10 +37,8 @@ namespace Xbim.Ifc2x3.Kernel
 		{ 
 			get 
 			{
-				if(Activated) return _applicableOccurrence;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _applicableOccurrence;
+				((IPersistEntity)this).Activate(false);
 				return _applicableOccurrence;
 			} 
 			set
@@ -54,10 +53,8 @@ namespace Xbim.Ifc2x3.Kernel
 		{ 
 			get 
 			{
-				if(Activated) return _hasPropertySets;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _hasPropertySets;
+				((IPersistEntity)this).Activate(false);
 				return _hasPropertySets;
 			} 
 		}
@@ -70,7 +67,7 @@ namespace Xbim.Ifc2x3.Kernel
 		{ 
 			get 
 			{
-				return Model.Instances.Where<IfcRelDefinesByType>(e => e.RelatingType == this);
+				return Model.Instances.Where<IfcRelDefinesByType>(e => (e.RelatingType as IfcTypeObject) == this);
 			} 
 		}
 		#endregion
@@ -112,6 +109,23 @@ namespace Xbim.Ifc2x3.Kernel
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcTypeObject
+            var root = (@IfcTypeObject)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcTypeObject left, @IfcTypeObject right)
         {

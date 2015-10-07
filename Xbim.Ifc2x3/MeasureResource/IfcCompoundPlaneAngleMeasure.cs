@@ -8,6 +8,7 @@
 // ------------------------------------------------------------------------------
 
 using System.Collections.Generic;
+using System.Linq;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
 
@@ -15,41 +16,23 @@ namespace Xbim.Ifc2x3.MeasureResource
 {
 	[ExpressType("IFCCOMPOUNDPLANEANGLEMEASURE", 255)]
     // ReSharper disable once PartialTypeWithSinglePart
-	public partial struct IfcCompoundPlaneAngleMeasure : IfcDerivedMeasureValue, IExpressComplexType
+	public partial struct IfcCompoundPlaneAngleMeasure : IfcDerivedMeasureValue, IExpressComplexType, System.IEquatable<List<long>>
 	{ 
-        static public void Add(ref IfcCompoundPlaneAngleMeasure? compound, long angleComponent)
-        {
-            
-            if (compound.HasValue)
-            {
-                var comp = compound.Value;
-                if (comp._value == null)
-                    comp.Initialise(angleComponent);
-                else
-                    comp._value.Add(angleComponent);
-
-                compound = comp;
-            }
-            else
-                throw new System.Exception("IfcCompoundPlaneAngleMeasure cannot be null");
-        }
-
-        static public void Add(ref IfcCompoundPlaneAngleMeasure comp, long angleComponent)
+		private List<long> _value;
+        
+		public static void Add(ref IfcCompoundPlaneAngleMeasure comp, long component)
         {
             if (comp._value == null)
-                comp.Initialise(angleComponent);
+                comp.Initialise(component);
             else
-                comp._value.Add(angleComponent);
+                comp._value.Add(component);
         }
 
-
-        private List<long> _value;
-        
-        private void Initialise(long comp)
+		private void Initialise(long comp)
         {
-            _value = new List<long>();
-            _value.Add(comp);
+            _value = new List<long>{ comp };
         }
+
 		public object Value
         {
             get { return _value; }
@@ -60,9 +43,10 @@ namespace Xbim.Ifc2x3.MeasureResource
             return Value != null ? Value.ToString() : typeof(List<long>).Name;
         }
 
-        public IfcCompoundPlaneAngleMeasure(IEnumerable<long> val)
+        public IfcCompoundPlaneAngleMeasure(List<long> val)
         {
-            _value = new List<long>(val);
+			//copy items into new inner list
+			_value = new List<long>(val);
         }
 
 
@@ -73,7 +57,9 @@ namespace Xbim.Ifc2x3.MeasureResource
 
         public static implicit operator List<long>(IfcCompoundPlaneAngleMeasure obj)
         {
-            return new List<long>(obj._value);
+			//return copy so that underlying collection is not exposed
+			return new List<long>(obj._value);
+
         }
 
 
@@ -91,6 +77,11 @@ namespace Xbim.Ifc2x3.MeasureResource
             return System.Linq.Enumerable.SequenceEqual(((IfcCompoundPlaneAngleMeasure) obj)._value, _value);
         }
 
+		public bool Equals(List<long> other)
+	    {
+	        return this == other;
+	    }
+
         public static bool operator ==(IfcCompoundPlaneAngleMeasure obj1, IfcCompoundPlaneAngleMeasure obj2)
         {
             return Equals(obj1, obj2);
@@ -103,7 +94,7 @@ namespace Xbim.Ifc2x3.MeasureResource
 
         public override int GetHashCode()
         {
-            return Value != null ? _value.GetHashCode() : base.GetHashCode();
+            return Value != null ? _value.Sum(o => o.GetHashCode()) : base.GetHashCode();
         }
 
 		#region IPersist implementation
@@ -142,13 +133,6 @@ namespace Xbim.Ifc2x3.MeasureResource
 	                yield return value;
             }
         }
-
-		void IExpressComplexType.Add(object o)
-	    {
-			if (_value == null)
-				_value = new List<long>();
-			 _value.Add((long) o);
-	    }
 		#endregion
 
 	}

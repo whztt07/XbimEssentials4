@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.PresentationOrganizationResource
 {
-	public enum IfcLightDistributionCurveEnum
+	public enum IfcLightDistributionCurveEnum : byte
 	{
 		@TYPE_A ,
 		@TYPE_B ,

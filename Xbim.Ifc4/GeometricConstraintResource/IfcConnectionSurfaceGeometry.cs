@@ -7,6 +7,7 @@
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -16,7 +17,7 @@ namespace Xbim.Ifc4.GeometricConstraintResource
 	[IndexedClass]
 	[ExpressType("IFCCONNECTIONSURFACEGEOMETRY", 514)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcConnectionSurfaceGeometry : IfcConnectionGeometry, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcConnectionSurfaceGeometry>, System.IEquatable<@IfcConnectionSurfaceGeometry>
+	public  partial class @IfcConnectionSurfaceGeometry : IfcConnectionGeometry, IInstantiableEntity, IEqualityComparer<@IfcConnectionSurfaceGeometry>, IEquatable<@IfcConnectionSurfaceGeometry>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcConnectionSurfaceGeometry(IModel model) : base(model) 		{ 
@@ -34,10 +35,8 @@ namespace Xbim.Ifc4.GeometricConstraintResource
 		{ 
 			get 
 			{
-				if(Activated) return _surfaceOnRelatingElement;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _surfaceOnRelatingElement;
+				((IPersistEntity)this).Activate(false);
 				return _surfaceOnRelatingElement;
 			} 
 			set
@@ -51,10 +50,8 @@ namespace Xbim.Ifc4.GeometricConstraintResource
 		{ 
 			get 
 			{
-				if(Activated) return _surfaceOnRelatedElement;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _surfaceOnRelatedElement;
+				((IPersistEntity)this).Activate(false);
 				return _surfaceOnRelatedElement;
 			} 
 			set
@@ -95,6 +92,23 @@ namespace Xbim.Ifc4.GeometricConstraintResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcConnectionSurfaceGeometry
+            var root = (@IfcConnectionSurfaceGeometry)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcConnectionSurfaceGeometry left, @IfcConnectionSurfaceGeometry right)
         {

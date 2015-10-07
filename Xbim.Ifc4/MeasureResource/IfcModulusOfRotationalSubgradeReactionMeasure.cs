@@ -15,7 +15,7 @@ namespace Xbim.Ifc4.MeasureResource
 {
 	[ExpressType("IFCMODULUSOFROTATIONALSUBGRADEREACTIONMEASURE", 65)]
     // ReSharper disable once PartialTypeWithSinglePart
-	public partial struct IfcModulusOfRotationalSubgradeReactionMeasure : IfcDerivedMeasureValue, IfcModulusOfRotationalSubgradeReactionSelect, IExpressValueType
+	public partial struct IfcModulusOfRotationalSubgradeReactionMeasure : IfcDerivedMeasureValue, IfcModulusOfRotationalSubgradeReactionSelect, IExpressValueType, System.IEquatable<double>
 	{ 
 		private double _value;
         
@@ -47,6 +47,7 @@ namespace Xbim.Ifc4.MeasureResource
         public static implicit operator double(IfcModulusOfRotationalSubgradeReactionMeasure obj)
         {
             return obj._value;
+
         }
 
 
@@ -63,6 +64,11 @@ namespace Xbim.Ifc4.MeasureResource
 
             return ((IfcModulusOfRotationalSubgradeReactionMeasure) obj)._value == _value;
         }
+
+		public bool Equals(double other)
+	    {
+	        return this == other;
+	    }
 
         public static bool operator ==(IfcModulusOfRotationalSubgradeReactionMeasure obj1, IfcModulusOfRotationalSubgradeReactionMeasure obj2)
         {

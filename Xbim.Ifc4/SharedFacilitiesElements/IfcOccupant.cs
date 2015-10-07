@@ -11,6 +11,7 @@ using Xbim.Ifc4.Kernel;
 using Xbim.Ifc4.UtilityResource;
 using Xbim.Ifc4.MeasureResource;
 using Xbim.Ifc4.ActorResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -19,7 +20,7 @@ namespace Xbim.Ifc4.SharedFacilitiesElements
 {
 	[ExpressType("IFCOCCUPANT", 778)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcOccupant : IfcActor, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcOccupant>, System.IEquatable<@IfcOccupant>
+	public  partial class @IfcOccupant : IfcActor, IInstantiableEntity, IEqualityComparer<@IfcOccupant>, IEquatable<@IfcOccupant>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcOccupant(IModel model) : base(model) 		{ 
@@ -36,10 +37,8 @@ namespace Xbim.Ifc4.SharedFacilitiesElements
 		{ 
 			get 
 			{
-				if(Activated) return _predefinedType;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _predefinedType;
+				((IPersistEntity)this).Activate(false);
 				return _predefinedType;
 			} 
 			set
@@ -86,6 +85,23 @@ namespace Xbim.Ifc4.SharedFacilitiesElements
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcOccupant
+            var root = (@IfcOccupant)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcOccupant left, @IfcOccupant right)
         {

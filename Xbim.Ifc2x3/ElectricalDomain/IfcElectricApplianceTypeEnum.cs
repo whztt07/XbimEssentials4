@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc2x3.ElectricalDomain
 {
-	public enum IfcElectricApplianceTypeEnum
+	public enum IfcElectricApplianceTypeEnum : byte
 	{
 		@COMPUTER ,
 		@DIRECTWATERHEATER ,

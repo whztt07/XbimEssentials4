@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.Kernel
 {
-	public enum IfcPropertySetTemplateTypeEnum
+	public enum IfcPropertySetTemplateTypeEnum : byte
 	{
 		@PSET_TYPEDRIVENONLY ,
 		@PSET_TYPEDRIVENOVERRIDE ,

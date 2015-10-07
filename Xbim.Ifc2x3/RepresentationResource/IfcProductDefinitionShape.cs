@@ -9,6 +9,7 @@
 
 using Xbim.Ifc2x3.MeasureResource;
 using Xbim.Ifc2x3.Kernel;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -18,7 +19,7 @@ namespace Xbim.Ifc2x3.RepresentationResource
 	[IndexedClass]
 	[ExpressType("IFCPRODUCTDEFINITIONSHAPE", 90)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcProductDefinitionShape : IfcProductRepresentation, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcProductDefinitionShape>, System.IEquatable<@IfcProductDefinitionShape>
+	public  partial class @IfcProductDefinitionShape : IfcProductRepresentation, IInstantiableEntity, IEqualityComparer<@IfcProductDefinitionShape>, IEquatable<@IfcProductDefinitionShape>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcProductDefinitionShape(IModel model) : base(model) 		{ 
@@ -32,7 +33,7 @@ namespace Xbim.Ifc2x3.RepresentationResource
 		{ 
 			get 
 			{
-				return Model.Instances.Where<IfcProduct>(e => e.Representation == this);
+				return Model.Instances.Where<IfcProduct>(e => (e.Representation as IfcProductDefinitionShape) == this);
 			} 
 		}
 		[EntityAttribute(-1, EntityAttributeState.Mandatory, EntityAttributeType.Set, EntityAttributeType.Class, -1, -1)]
@@ -40,7 +41,7 @@ namespace Xbim.Ifc2x3.RepresentationResource
 		{ 
 			get 
 			{
-				return Model.Instances.Where<IfcShapeAspect>(e => e.PartOfProductDefinitionShape == this);
+				return Model.Instances.Where<IfcShapeAspect>(e => (e.PartOfProductDefinitionShape as IfcProductDefinitionShape) == this);
 			} 
 		}
 		#endregion
@@ -74,6 +75,23 @@ namespace Xbim.Ifc2x3.RepresentationResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcProductDefinitionShape
+            var root = (@IfcProductDefinitionShape)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcProductDefinitionShape left, @IfcProductDefinitionShape right)
         {

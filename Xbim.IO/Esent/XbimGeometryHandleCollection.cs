@@ -11,18 +11,17 @@ namespace Xbim.IO.Esent
     /// </summary>
     public class XbimGeometryHandleCollection : List<XbimGeometryHandle>
     {
-        private readonly Module _schemaModule;
+        private readonly ExpressMetaData _metadata;
 
-        public XbimGeometryHandleCollection(IEnumerable<XbimGeometryHandle> enumerable, Module module)
+        public XbimGeometryHandleCollection(IEnumerable<XbimGeometryHandle> enumerable, ExpressMetaData metadata)
             : base(enumerable)
         {
-            _schemaModule = module;
+            _metadata = metadata;
         }
 
-        public XbimGeometryHandleCollection(Module module)
+        public XbimGeometryHandleCollection()
             : base()
         {
-            _schemaModule = module;
             // TODO: Complete member initialization
         }
         /// <summary>
@@ -50,11 +49,11 @@ namespace Xbim.IO.Esent
             foreach (var ex in exclude)
             {
                 
-                var type = ExpressMetaData.ExpressType((short)ex, _schemaModule);
+                var type = _metadata.ExpressType((short)ex);
                 // bugfix here: loop did not use to include all implementations, but only first level down.
                 foreach (var sub in type.NonAbstractSubTypes)
                 {
-                    var ifcSub = ExpressMetaData.ExpressType(sub);
+                    var ifcSub = _metadata.ExpressType(sub);
                         excludeSet.Add(ifcSub.TypeId);
                 }
             }
@@ -72,7 +71,7 @@ namespace Xbim.IO.Esent
             var includeSet = new HashSet<int>(include);
             foreach (var inc in include)
             {
-                var type = ExpressMetaData.ExpressType((short)inc, _schemaModule);
+                var type = _metadata.ExpressType((short)inc);
                 foreach (var sub in type.SubTypes)
                     includeSet.Add(sub.TypeId);
             }
@@ -100,7 +99,7 @@ namespace Xbim.IO.Esent
             var result = new XbimSurfaceStyleMap();
             foreach (var style in GetSurfaceStyles())
             {
-                result.Add(style, new XbimGeometryHandleCollection(module));
+                result.Add(style, new XbimGeometryHandleCollection());
             }
             foreach (var item in this)
             {

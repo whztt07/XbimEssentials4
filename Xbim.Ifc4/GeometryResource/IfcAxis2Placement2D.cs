@@ -7,6 +7,7 @@
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -15,7 +16,7 @@ namespace Xbim.Ifc4.GeometryResource
 {
 	[ExpressType("IFCAXIS2PLACEMENT2D", 422)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcAxis2Placement2D : IfcPlacement, IfcAxis2Placement, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcAxis2Placement2D>, System.IEquatable<@IfcAxis2Placement2D>
+	public  partial class @IfcAxis2Placement2D : IfcPlacement, IfcAxis2Placement, IInstantiableEntity, IEqualityComparer<@IfcAxis2Placement2D>, IEquatable<@IfcAxis2Placement2D>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcAxis2Placement2D(IModel model) : base(model) 		{ 
@@ -32,10 +33,8 @@ namespace Xbim.Ifc4.GeometryResource
 		{ 
 			get 
 			{
-				if(Activated) return _refDirection;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _refDirection;
+				((IPersistEntity)this).Activate(false);
 				return _refDirection;
 			} 
 			set
@@ -78,6 +77,23 @@ namespace Xbim.Ifc4.GeometryResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcAxis2Placement2D
+            var root = (@IfcAxis2Placement2D)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcAxis2Placement2D left, @IfcAxis2Placement2D right)
         {

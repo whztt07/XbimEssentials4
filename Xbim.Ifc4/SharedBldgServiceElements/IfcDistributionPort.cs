@@ -12,6 +12,7 @@ using Xbim.Ifc4.UtilityResource;
 using Xbim.Ifc4.MeasureResource;
 using Xbim.Ifc4.GeometricConstraintResource;
 using Xbim.Ifc4.RepresentationResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -20,7 +21,7 @@ namespace Xbim.Ifc4.SharedBldgServiceElements
 {
 	[ExpressType("IFCDISTRIBUTIONPORT", 576)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcDistributionPort : IfcPort, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcDistributionPort>, System.IEquatable<@IfcDistributionPort>
+	public  partial class @IfcDistributionPort : IfcPort, IInstantiableEntity, IEqualityComparer<@IfcDistributionPort>, IEquatable<@IfcDistributionPort>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcDistributionPort(IModel model) : base(model) 		{ 
@@ -39,10 +40,8 @@ namespace Xbim.Ifc4.SharedBldgServiceElements
 		{ 
 			get 
 			{
-				if(Activated) return _flowDirection;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _flowDirection;
+				((IPersistEntity)this).Activate(false);
 				return _flowDirection;
 			} 
 			set
@@ -56,10 +55,8 @@ namespace Xbim.Ifc4.SharedBldgServiceElements
 		{ 
 			get 
 			{
-				if(Activated) return _predefinedType;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _predefinedType;
+				((IPersistEntity)this).Activate(false);
 				return _predefinedType;
 			} 
 			set
@@ -73,10 +70,8 @@ namespace Xbim.Ifc4.SharedBldgServiceElements
 		{ 
 			get 
 			{
-				if(Activated) return _systemType;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _systemType;
+				((IPersistEntity)this).Activate(false);
 				return _systemType;
 			} 
 			set
@@ -129,6 +124,23 @@ namespace Xbim.Ifc4.SharedBldgServiceElements
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcDistributionPort
+            var root = (@IfcDistributionPort)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcDistributionPort left, @IfcDistributionPort right)
         {

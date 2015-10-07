@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc2x3.HVACDomain
 {
-	public enum IfcCondenserTypeEnum
+	public enum IfcCondenserTypeEnum : byte
 	{
 		@WATERCOOLEDSHELLTUBE ,
 		@WATERCOOLEDSHELLCOIL ,

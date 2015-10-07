@@ -8,6 +8,7 @@
 // ------------------------------------------------------------------------------
 
 using Xbim.Ifc2x3.GeometryResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -16,12 +17,12 @@ namespace Xbim.Ifc2x3.PresentationDimensioningResource
 {
 	[ExpressType("IFCDRAUGHTINGCALLOUT", 222)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcDraughtingCallout : IfcGeometricRepresentationItem, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcDraughtingCallout>, System.IEquatable<@IfcDraughtingCallout>
+	public  partial class @IfcDraughtingCallout : IfcGeometricRepresentationItem, IInstantiableEntity, IEqualityComparer<@IfcDraughtingCallout>, IEquatable<@IfcDraughtingCallout>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcDraughtingCallout(IModel model) : base(model) 		{ 
 			Model = model; 
-			_contents = new ItemSet<IfcDraughtingCalloutElement>( this );
+			_contents = new ItemSet<IfcDraughtingCalloutElement>( this, 0 );
 		}
 
 		#region Explicit attribute fields
@@ -34,10 +35,8 @@ namespace Xbim.Ifc2x3.PresentationDimensioningResource
 		{ 
 			get 
 			{
-				if(Activated) return _contents;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _contents;
+				((IPersistEntity)this).Activate(false);
 				return _contents;
 			} 
 		}
@@ -50,7 +49,7 @@ namespace Xbim.Ifc2x3.PresentationDimensioningResource
 		{ 
 			get 
 			{
-				return Model.Instances.Where<IfcDraughtingCalloutRelationship>(e => e.RelatedDraughtingCallout == this);
+				return Model.Instances.Where<IfcDraughtingCalloutRelationship>(e => (e.RelatedDraughtingCallout as IfcDraughtingCallout) == this);
 			} 
 		}
 		[EntityAttribute(-1, EntityAttributeState.Mandatory, EntityAttributeType.Set, EntityAttributeType.Class, -1, -1)]
@@ -58,7 +57,7 @@ namespace Xbim.Ifc2x3.PresentationDimensioningResource
 		{ 
 			get 
 			{
-				return Model.Instances.Where<IfcDraughtingCalloutRelationship>(e => e.RelatingDraughtingCallout == this);
+				return Model.Instances.Where<IfcDraughtingCalloutRelationship>(e => (e.RelatingDraughtingCallout as IfcDraughtingCallout) == this);
 			} 
 		}
 		#endregion
@@ -90,6 +89,23 @@ namespace Xbim.Ifc2x3.PresentationDimensioningResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcDraughtingCallout
+            var root = (@IfcDraughtingCallout)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcDraughtingCallout left, @IfcDraughtingCallout right)
         {

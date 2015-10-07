@@ -7,6 +7,7 @@
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -15,7 +16,7 @@ namespace Xbim.Ifc4.GeometricConstraintResource
 {
 	[ExpressType("IFCCONNECTIONVOLUMEGEOMETRY", 515)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcConnectionVolumeGeometry : IfcConnectionGeometry, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcConnectionVolumeGeometry>, System.IEquatable<@IfcConnectionVolumeGeometry>
+	public  partial class @IfcConnectionVolumeGeometry : IfcConnectionGeometry, IInstantiableEntity, IEqualityComparer<@IfcConnectionVolumeGeometry>, IEquatable<@IfcConnectionVolumeGeometry>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcConnectionVolumeGeometry(IModel model) : base(model) 		{ 
@@ -33,10 +34,8 @@ namespace Xbim.Ifc4.GeometricConstraintResource
 		{ 
 			get 
 			{
-				if(Activated) return _volumeOnRelatingElement;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _volumeOnRelatingElement;
+				((IPersistEntity)this).Activate(false);
 				return _volumeOnRelatingElement;
 			} 
 			set
@@ -50,10 +49,8 @@ namespace Xbim.Ifc4.GeometricConstraintResource
 		{ 
 			get 
 			{
-				if(Activated) return _volumeOnRelatedElement;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _volumeOnRelatedElement;
+				((IPersistEntity)this).Activate(false);
 				return _volumeOnRelatedElement;
 			} 
 			set
@@ -94,6 +91,23 @@ namespace Xbim.Ifc4.GeometricConstraintResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcConnectionVolumeGeometry
+            var root = (@IfcConnectionVolumeGeometry)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcConnectionVolumeGeometry left, @IfcConnectionVolumeGeometry right)
         {

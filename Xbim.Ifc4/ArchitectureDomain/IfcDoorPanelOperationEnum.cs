@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.ArchitectureDomain
 {
-	public enum IfcDoorPanelOperationEnum
+	public enum IfcDoorPanelOperationEnum : byte
 	{
 		@SWINGING ,
 		@DOUBLE_ACTING ,

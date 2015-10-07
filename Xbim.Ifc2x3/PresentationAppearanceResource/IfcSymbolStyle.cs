@@ -8,6 +8,7 @@
 // ------------------------------------------------------------------------------
 
 using Xbim.Ifc2x3.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -16,7 +17,7 @@ namespace Xbim.Ifc2x3.PresentationAppearanceResource
 {
 	[ExpressType("IFCSYMBOLSTYLE", 729)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcSymbolStyle : IfcPresentationStyle, IfcPresentationStyleSelect, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcSymbolStyle>, System.IEquatable<@IfcSymbolStyle>
+	public  partial class @IfcSymbolStyle : IfcPresentationStyle, IfcPresentationStyleSelect, IInstantiableEntity, IEqualityComparer<@IfcSymbolStyle>, IEquatable<@IfcSymbolStyle>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcSymbolStyle(IModel model) : base(model) 		{ 
@@ -33,10 +34,8 @@ namespace Xbim.Ifc2x3.PresentationAppearanceResource
 		{ 
 			get 
 			{
-				if(Activated) return _styleOfSymbol;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _styleOfSymbol;
+				((IPersistEntity)this).Activate(false);
 				return _styleOfSymbol;
 			} 
 			set
@@ -77,6 +76,23 @@ namespace Xbim.Ifc2x3.PresentationAppearanceResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcSymbolStyle
+            var root = (@IfcSymbolStyle)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcSymbolStyle left, @IfcSymbolStyle right)
         {

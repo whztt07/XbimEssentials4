@@ -9,6 +9,7 @@
 
 using Xbim.Ifc4.UtilityResource;
 using Xbim.Ifc4.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -17,12 +18,12 @@ namespace Xbim.Ifc4.Kernel
 {
 	[ExpressType("IFCRELDEFINESBYPROPERTIES", 933)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcRelDefinesByProperties : IfcRelDefines, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcRelDefinesByProperties>, System.IEquatable<@IfcRelDefinesByProperties>
+	public  partial class @IfcRelDefinesByProperties : IfcRelDefines, IInstantiableEntity, IEqualityComparer<@IfcRelDefinesByProperties>, IEquatable<@IfcRelDefinesByProperties>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcRelDefinesByProperties(IModel model) : base(model) 		{ 
 			Model = model; 
-			_relatedObjects = new ItemSet<IfcObjectDefinition>( this );
+			_relatedObjects = new ItemSet<IfcObjectDefinition>( this, 1 );
 		}
 
 		#region Explicit attribute fields
@@ -37,10 +38,8 @@ namespace Xbim.Ifc4.Kernel
 		{ 
 			get 
 			{
-				if(Activated) return _relatedObjects;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _relatedObjects;
+				((IPersistEntity)this).Activate(false);
 				return _relatedObjects;
 			} 
 		}
@@ -51,10 +50,8 @@ namespace Xbim.Ifc4.Kernel
 		{ 
 			get 
 			{
-				if(Activated) return _relatingPropertyDefinition;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _relatingPropertyDefinition;
+				((IPersistEntity)this).Activate(false);
 				return _relatingPropertyDefinition;
 			} 
 			set
@@ -102,6 +99,23 @@ namespace Xbim.Ifc4.Kernel
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcRelDefinesByProperties
+            var root = (@IfcRelDefinesByProperties)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcRelDefinesByProperties left, @IfcRelDefinesByProperties right)
         {

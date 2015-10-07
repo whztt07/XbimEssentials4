@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc2x3.GeometryResource
 {
-	public enum IfcBSplineCurveForm
+	public enum IfcBSplineCurveForm : byte
 	{
 		@POLYLINE_FORM ,
 		@CIRCULAR_ARC ,

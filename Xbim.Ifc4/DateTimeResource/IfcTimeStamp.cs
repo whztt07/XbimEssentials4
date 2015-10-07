@@ -15,7 +15,7 @@ namespace Xbim.Ifc4.DateTimeResource
 {
 	[ExpressType("IFCTIMESTAMP", 118)]
     // ReSharper disable once PartialTypeWithSinglePart
-	public partial struct IfcTimeStamp : IfcSimpleValue, IExpressValueType
+	public partial struct IfcTimeStamp : IfcSimpleValue, IExpressValueType, System.IEquatable<long>
 	{ 
 		private long _value;
         
@@ -47,6 +47,7 @@ namespace Xbim.Ifc4.DateTimeResource
         public static implicit operator long(IfcTimeStamp obj)
         {
             return obj._value;
+
         }
 
 
@@ -63,6 +64,11 @@ namespace Xbim.Ifc4.DateTimeResource
 
             return ((IfcTimeStamp) obj)._value == _value;
         }
+
+		public bool Equals(long other)
+	    {
+	        return this == other;
+	    }
 
         public static bool operator ==(IfcTimeStamp obj1, IfcTimeStamp obj2)
         {

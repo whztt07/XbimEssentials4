@@ -8,6 +8,8 @@
 // ------------------------------------------------------------------------------
 
 using Xbim.Ifc4.TopologyResource;
+using System;
+using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
 
@@ -15,7 +17,7 @@ namespace Xbim.Ifc4.GeometricModelResource
 {
 	[ExpressType("IFCMANIFOLDSOLIDBREP", 738)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public abstract partial class @IfcManifoldSolidBrep : IfcSolidModel, System.Collections.Generic.IEqualityComparer<@IfcManifoldSolidBrep>, System.IEquatable<@IfcManifoldSolidBrep>
+	public abstract partial class @IfcManifoldSolidBrep : IfcSolidModel, IEqualityComparer<@IfcManifoldSolidBrep>, IEquatable<@IfcManifoldSolidBrep>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcManifoldSolidBrep(IModel model) : base(model) 		{ 
@@ -32,10 +34,8 @@ namespace Xbim.Ifc4.GeometricModelResource
 		{ 
 			get 
 			{
-				if(Activated) return _outer;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _outer;
+				((IPersistEntity)this).Activate(false);
 				return _outer;
 			} 
 			set
@@ -73,6 +73,23 @@ namespace Xbim.Ifc4.GeometricModelResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcManifoldSolidBrep
+            var root = (@IfcManifoldSolidBrep)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcManifoldSolidBrep left, @IfcManifoldSolidBrep right)
         {

@@ -14,7 +14,7 @@ namespace Xbim.Ifc4.MeasureResource
 {
 	[ExpressType("IFCISOTHERMALMOISTURECAPACITYMEASURE", 44)]
     // ReSharper disable once PartialTypeWithSinglePart
-	public partial struct IfcIsothermalMoistureCapacityMeasure : IfcDerivedMeasureValue, IExpressValueType
+	public partial struct IfcIsothermalMoistureCapacityMeasure : IfcDerivedMeasureValue, IExpressValueType, System.IEquatable<double>
 	{ 
 		private double _value;
         
@@ -46,6 +46,7 @@ namespace Xbim.Ifc4.MeasureResource
         public static implicit operator double(IfcIsothermalMoistureCapacityMeasure obj)
         {
             return obj._value;
+
         }
 
 
@@ -62,6 +63,11 @@ namespace Xbim.Ifc4.MeasureResource
 
             return ((IfcIsothermalMoistureCapacityMeasure) obj)._value == _value;
         }
+
+		public bool Equals(double other)
+	    {
+	        return this == other;
+	    }
 
         public static bool operator ==(IfcIsothermalMoistureCapacityMeasure obj1, IfcIsothermalMoistureCapacityMeasure obj2)
         {

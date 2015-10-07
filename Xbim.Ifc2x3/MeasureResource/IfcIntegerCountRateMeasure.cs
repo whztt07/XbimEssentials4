@@ -14,7 +14,7 @@ namespace Xbim.Ifc2x3.MeasureResource
 {
 	[ExpressType("IFCINTEGERCOUNTRATEMEASURE", 129)]
     // ReSharper disable once PartialTypeWithSinglePart
-	public partial struct IfcIntegerCountRateMeasure : IfcDerivedMeasureValue, IExpressValueType
+	public partial struct IfcIntegerCountRateMeasure : IfcDerivedMeasureValue, IExpressValueType, System.IEquatable<long>
 	{ 
 		private long _value;
         
@@ -46,6 +46,7 @@ namespace Xbim.Ifc2x3.MeasureResource
         public static implicit operator long(IfcIntegerCountRateMeasure obj)
         {
             return obj._value;
+
         }
 
 
@@ -62,6 +63,11 @@ namespace Xbim.Ifc2x3.MeasureResource
 
             return ((IfcIntegerCountRateMeasure) obj)._value == _value;
         }
+
+		public bool Equals(long other)
+	    {
+	        return this == other;
+	    }
 
         public static bool operator ==(IfcIntegerCountRateMeasure obj1, IfcIntegerCountRateMeasure obj2)
         {

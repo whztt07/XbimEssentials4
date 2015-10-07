@@ -12,6 +12,7 @@ using Xbim.Ifc2x3.UtilityResource;
 using Xbim.Ifc2x3.MeasureResource;
 using Xbim.Ifc2x3.GeometricConstraintResource;
 using Xbim.Ifc2x3.RepresentationResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -20,7 +21,7 @@ namespace Xbim.Ifc2x3.SharedBldgServiceElements
 {
 	[ExpressType("IFCDISTRIBUTIONFLOWELEMENT", 45)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcDistributionFlowElement : IfcDistributionElement, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcDistributionFlowElement>, System.IEquatable<@IfcDistributionFlowElement>
+	public  partial class @IfcDistributionFlowElement : IfcDistributionElement, IInstantiableEntity, IEqualityComparer<@IfcDistributionFlowElement>, IEquatable<@IfcDistributionFlowElement>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcDistributionFlowElement(IModel model) : base(model) 		{ 
@@ -34,7 +35,7 @@ namespace Xbim.Ifc2x3.SharedBldgServiceElements
 		{ 
 			get 
 			{
-				return Model.Instances.Where<IfcRelFlowControlElements>(e => e.RelatingFlowElement == this);
+				return Model.Instances.Where<IfcRelFlowControlElements>(e => (e.RelatingFlowElement as IfcDistributionFlowElement) == this);
 			} 
 		}
 		#endregion
@@ -72,6 +73,23 @@ namespace Xbim.Ifc2x3.SharedBldgServiceElements
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcDistributionFlowElement
+            var root = (@IfcDistributionFlowElement)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcDistributionFlowElement left, @IfcDistributionFlowElement right)
         {

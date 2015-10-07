@@ -8,6 +8,7 @@
 // ------------------------------------------------------------------------------
 
 using Xbim.Ifc4.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -16,12 +17,12 @@ namespace Xbim.Ifc4.GeometryResource
 {
 	[ExpressType("IFCRATIONALBSPLINECURVEWITHKNOTS", 884)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcRationalBSplineCurveWithKnots : IfcBSplineCurveWithKnots, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcRationalBSplineCurveWithKnots>, System.IEquatable<@IfcRationalBSplineCurveWithKnots>
+	public  partial class @IfcRationalBSplineCurveWithKnots : IfcBSplineCurveWithKnots, IInstantiableEntity, IEqualityComparer<@IfcRationalBSplineCurveWithKnots>, IEquatable<@IfcRationalBSplineCurveWithKnots>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcRationalBSplineCurveWithKnots(IModel model) : base(model) 		{ 
 			Model = model; 
-			_weightsData = new ItemSet<double>( this );
+			_weightsData = new ItemSet<double>( this, 0 );
 		}
 
 		#region Explicit attribute fields
@@ -34,10 +35,8 @@ namespace Xbim.Ifc4.GeometryResource
 		{ 
 			get 
 			{
-				if(Activated) return _weightsData;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _weightsData;
+				((IPersistEntity)this).Activate(false);
 				return _weightsData;
 			} 
 		}
@@ -84,6 +83,23 @@ namespace Xbim.Ifc4.GeometryResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcRationalBSplineCurveWithKnots
+            var root = (@IfcRationalBSplineCurveWithKnots)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcRationalBSplineCurveWithKnots left, @IfcRationalBSplineCurveWithKnots right)
         {

@@ -7,6 +7,7 @@
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -16,7 +17,7 @@ namespace Xbim.Ifc4.GeometricConstraintResource
 	[IndexedClass]
 	[ExpressType("IFCCONNECTIONPOINTGEOMETRY", 513)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcConnectionPointGeometry : IfcConnectionGeometry, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcConnectionPointGeometry>, System.IEquatable<@IfcConnectionPointGeometry>
+	public  partial class @IfcConnectionPointGeometry : IfcConnectionGeometry, IInstantiableEntity, IEqualityComparer<@IfcConnectionPointGeometry>, IEquatable<@IfcConnectionPointGeometry>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcConnectionPointGeometry(IModel model) : base(model) 		{ 
@@ -34,10 +35,8 @@ namespace Xbim.Ifc4.GeometricConstraintResource
 		{ 
 			get 
 			{
-				if(Activated) return _pointOnRelatingElement;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _pointOnRelatingElement;
+				((IPersistEntity)this).Activate(false);
 				return _pointOnRelatingElement;
 			} 
 			set
@@ -51,10 +50,8 @@ namespace Xbim.Ifc4.GeometricConstraintResource
 		{ 
 			get 
 			{
-				if(Activated) return _pointOnRelatedElement;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _pointOnRelatedElement;
+				((IPersistEntity)this).Activate(false);
 				return _pointOnRelatedElement;
 			} 
 			set
@@ -95,6 +92,23 @@ namespace Xbim.Ifc4.GeometricConstraintResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcConnectionPointGeometry
+            var root = (@IfcConnectionPointGeometry)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcConnectionPointGeometry left, @IfcConnectionPointGeometry right)
         {

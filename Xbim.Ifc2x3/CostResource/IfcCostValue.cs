@@ -10,6 +10,7 @@
 using Xbim.Ifc2x3.ConstraintResource;
 using Xbim.Ifc2x3.MeasureResource;
 using Xbim.Ifc2x3.DateTimeResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -18,7 +19,7 @@ namespace Xbim.Ifc2x3.CostResource
 {
 	[ExpressType("IFCCOSTVALUE", 658)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcCostValue : IfcAppliedValue, IfcMetricValueSelect, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcCostValue>, System.IEquatable<@IfcCostValue>
+	public  partial class @IfcCostValue : IfcAppliedValue, IfcMetricValueSelect, IInstantiableEntity, IEqualityComparer<@IfcCostValue>, IEquatable<@IfcCostValue>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcCostValue(IModel model) : base(model) 		{ 
@@ -36,10 +37,8 @@ namespace Xbim.Ifc2x3.CostResource
 		{ 
 			get 
 			{
-				if(Activated) return _costType;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _costType;
+				((IPersistEntity)this).Activate(false);
 				return _costType;
 			} 
 			set
@@ -53,10 +52,8 @@ namespace Xbim.Ifc2x3.CostResource
 		{ 
 			get 
 			{
-				if(Activated) return _condition;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _condition;
+				((IPersistEntity)this).Activate(false);
 				return _condition;
 			} 
 			set
@@ -105,6 +102,23 @@ namespace Xbim.Ifc2x3.CostResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcCostValue
+            var root = (@IfcCostValue)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcCostValue left, @IfcCostValue right)
         {

@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc2x3.PlumbingFireProtectionDomain
 {
-	public enum IfcWasteTerminalTypeEnum
+	public enum IfcWasteTerminalTypeEnum : byte
 	{
 		@FLOORTRAP ,
 		@FLOORWASTE ,

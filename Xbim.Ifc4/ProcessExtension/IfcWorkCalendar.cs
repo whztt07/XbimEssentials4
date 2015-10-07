@@ -11,6 +11,7 @@ using Xbim.Ifc4.Kernel;
 using Xbim.Ifc4.UtilityResource;
 using Xbim.Ifc4.MeasureResource;
 using Xbim.Ifc4.DateTimeResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -19,13 +20,13 @@ namespace Xbim.Ifc4.ProcessExtension
 {
 	[ExpressType("IFCWORKCALENDAR", 1150)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcWorkCalendar : IfcControl, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcWorkCalendar>, System.IEquatable<@IfcWorkCalendar>
+	public  partial class @IfcWorkCalendar : IfcControl, IInstantiableEntity, IEqualityComparer<@IfcWorkCalendar>, IEquatable<@IfcWorkCalendar>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcWorkCalendar(IModel model) : base(model) 		{ 
 			Model = model; 
-			_workingTimes = new OptionalItemSet<IfcWorkTime>( this );
-			_exceptionTimes = new OptionalItemSet<IfcWorkTime>( this );
+			_workingTimes = new OptionalItemSet<IfcWorkTime>( this, 0 );
+			_exceptionTimes = new OptionalItemSet<IfcWorkTime>( this, 0 );
 		}
 
 		#region Explicit attribute fields
@@ -40,10 +41,8 @@ namespace Xbim.Ifc4.ProcessExtension
 		{ 
 			get 
 			{
-				if(Activated) return _workingTimes;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _workingTimes;
+				((IPersistEntity)this).Activate(false);
 				return _workingTimes;
 			} 
 		}
@@ -53,10 +52,8 @@ namespace Xbim.Ifc4.ProcessExtension
 		{ 
 			get 
 			{
-				if(Activated) return _exceptionTimes;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _exceptionTimes;
+				((IPersistEntity)this).Activate(false);
 				return _exceptionTimes;
 			} 
 		}
@@ -66,10 +63,8 @@ namespace Xbim.Ifc4.ProcessExtension
 		{ 
 			get 
 			{
-				if(Activated) return _predefinedType;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _predefinedType;
+				((IPersistEntity)this).Activate(false);
 				return _predefinedType;
 			} 
 			set
@@ -124,6 +119,23 @@ namespace Xbim.Ifc4.ProcessExtension
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcWorkCalendar
+            var root = (@IfcWorkCalendar)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcWorkCalendar left, @IfcWorkCalendar right)
         {

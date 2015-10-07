@@ -14,7 +14,7 @@ namespace Xbim.Ifc4.MeasureResource
 {
 	[ExpressType("IFCSHEARMODULUSMEASURE", 94)]
     // ReSharper disable once PartialTypeWithSinglePart
-	public partial struct IfcShearModulusMeasure : IfcDerivedMeasureValue, IExpressValueType
+	public partial struct IfcShearModulusMeasure : IfcDerivedMeasureValue, IExpressValueType, System.IEquatable<double>
 	{ 
 		private double _value;
         
@@ -46,6 +46,7 @@ namespace Xbim.Ifc4.MeasureResource
         public static implicit operator double(IfcShearModulusMeasure obj)
         {
             return obj._value;
+
         }
 
 
@@ -62,6 +63,11 @@ namespace Xbim.Ifc4.MeasureResource
 
             return ((IfcShearModulusMeasure) obj)._value == _value;
         }
+
+		public bool Equals(double other)
+	    {
+	        return this == other;
+	    }
 
         public static bool operator ==(IfcShearModulusMeasure obj1, IfcShearModulusMeasure obj2)
         {

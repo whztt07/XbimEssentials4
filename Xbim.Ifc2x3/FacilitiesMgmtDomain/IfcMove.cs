@@ -11,6 +11,7 @@ using Xbim.Ifc2x3.ProcessExtension;
 using Xbim.Ifc2x3.UtilityResource;
 using Xbim.Ifc2x3.MeasureResource;
 using Xbim.Ifc2x3.ProductExtension;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -19,12 +20,12 @@ namespace Xbim.Ifc2x3.FacilitiesMgmtDomain
 {
 	[ExpressType("IFCMOVE", 74)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcMove : IfcTask, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcMove>, System.IEquatable<@IfcMove>
+	public  partial class @IfcMove : IfcTask, IInstantiableEntity, IEqualityComparer<@IfcMove>, IEquatable<@IfcMove>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcMove(IModel model) : base(model) 		{ 
 			Model = model; 
-			_punchList = new OptionalItemSet<IfcText>( this );
+			_punchList = new OptionalItemSet<IfcText>( this, 0 );
 		}
 
 		#region Explicit attribute fields
@@ -39,10 +40,8 @@ namespace Xbim.Ifc2x3.FacilitiesMgmtDomain
 		{ 
 			get 
 			{
-				if(Activated) return _moveFrom;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _moveFrom;
+				((IPersistEntity)this).Activate(false);
 				return _moveFrom;
 			} 
 			set
@@ -56,10 +55,8 @@ namespace Xbim.Ifc2x3.FacilitiesMgmtDomain
 		{ 
 			get 
 			{
-				if(Activated) return _moveTo;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _moveTo;
+				((IPersistEntity)this).Activate(false);
 				return _moveTo;
 			} 
 			set
@@ -73,10 +70,8 @@ namespace Xbim.Ifc2x3.FacilitiesMgmtDomain
 		{ 
 			get 
 			{
-				if(Activated) return _punchList;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _punchList;
+				((IPersistEntity)this).Activate(false);
 				return _punchList;
 			} 
 		}
@@ -132,6 +127,23 @@ namespace Xbim.Ifc2x3.FacilitiesMgmtDomain
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcMove
+            var root = (@IfcMove)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcMove left, @IfcMove right)
         {

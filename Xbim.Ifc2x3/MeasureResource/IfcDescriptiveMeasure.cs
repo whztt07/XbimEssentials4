@@ -15,7 +15,7 @@ namespace Xbim.Ifc2x3.MeasureResource
 {
 	[ExpressType("IFCDESCRIPTIVEMEASURE", 131)]
     // ReSharper disable once PartialTypeWithSinglePart
-	public partial struct IfcDescriptiveMeasure : IfcMeasureValue, IfcSizeSelect, IExpressValueType
+	public partial struct IfcDescriptiveMeasure : IfcMeasureValue, IfcSizeSelect, IExpressValueType, System.IEquatable<string>
 	{ 
 		private string _value;
         
@@ -43,6 +43,7 @@ namespace Xbim.Ifc2x3.MeasureResource
         public static implicit operator string(IfcDescriptiveMeasure obj)
         {
             return obj._value;
+
         }
 
 
@@ -59,6 +60,11 @@ namespace Xbim.Ifc2x3.MeasureResource
 
             return ((IfcDescriptiveMeasure) obj)._value == _value;
         }
+
+		public bool Equals(string other)
+	    {
+	        return this == other;
+	    }
 
         public static bool operator ==(IfcDescriptiveMeasure obj1, IfcDescriptiveMeasure obj2)
         {

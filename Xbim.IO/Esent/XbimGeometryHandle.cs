@@ -31,7 +31,6 @@ namespace Xbim.IO.Esent
         /// </summary>
         public int? GeometryHashCode;
 
-        private readonly Module _module;
 
         /// <summary>
         /// A handle to a geometry object
@@ -42,7 +41,7 @@ namespace Xbim.IO.Esent
         /// <param name="expressTypeId">The id of the Ifc Type of the Product represented</param>
         /// <param name="surfaceStyleLabel">The label of the Ifc Entity that holds the surface style render</param>
         /// <param name="geometryHashCode"></param>
-        public XbimGeometryHandle(int geometryLabel, XbimGeometryType geometryType, int productLabel, short expressTypeId, int surfaceStyleLabel, int? geometryHashCode, Module module)
+        public XbimGeometryHandle(int geometryLabel, XbimGeometryType geometryType, int productLabel, short expressTypeId, int surfaceStyleLabel, int? geometryHashCode)
         {
             GeometryLabel = geometryLabel;
             SurfaceStyleLabel = surfaceStyleLabel;
@@ -50,10 +49,9 @@ namespace Xbim.IO.Esent
             ExpressTypeId = expressTypeId;
             GeometryType = geometryType;
             GeometryHashCode = geometryHashCode;
-            _module = module;
         }
-        public XbimGeometryHandle(int geometryLabel, XbimGeometryType geometryType, int productLabel, short expressTypeId, int surfaceStyleLabel, Module module)
-            : this(geometryLabel, geometryType, productLabel, expressTypeId, surfaceStyleLabel, null, module)
+        public XbimGeometryHandle(int geometryLabel, XbimGeometryType geometryType, int productLabel, short expressTypeId, int surfaceStyleLabel)
+            : this(geometryLabel, geometryType, productLabel, expressTypeId, surfaceStyleLabel, null)
         {
         }
 
@@ -65,7 +63,6 @@ namespace Xbim.IO.Esent
             ProductLabel = 0;
             ExpressTypeId = 0;
             GeometryHashCode = null;
-            _module = null;
         }
 
         /// <summary>
@@ -75,7 +72,7 @@ namespace Xbim.IO.Esent
         {
             get
             {
-                return new XbimSurfaceStyle(ExpressTypeId, SurfaceStyleLabel, _module);
+                return new XbimSurfaceStyle(ExpressTypeId, SurfaceStyleLabel);
             }
         }
     }

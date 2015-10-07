@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.ArchitectureDomain
 {
-	public enum IfcWindowStyleOperationEnum
+	public enum IfcWindowStyleOperationEnum : byte
 	{
 		@SINGLE_PANEL ,
 		@DOUBLE_PANEL_VERTICAL ,

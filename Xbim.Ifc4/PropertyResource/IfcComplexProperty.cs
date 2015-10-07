@@ -8,6 +8,7 @@
 // ------------------------------------------------------------------------------
 
 using Xbim.Ifc4.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -16,12 +17,12 @@ namespace Xbim.Ifc4.PropertyResource
 {
 	[ExpressType("IFCCOMPLEXPROPERTY", 498)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcComplexProperty : IfcProperty, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcComplexProperty>, System.IEquatable<@IfcComplexProperty>
+	public  partial class @IfcComplexProperty : IfcProperty, IInstantiableEntity, IEqualityComparer<@IfcComplexProperty>, IEquatable<@IfcComplexProperty>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcComplexProperty(IModel model) : base(model) 		{ 
 			Model = model; 
-			_hasProperties = new ItemSet<IfcProperty>( this );
+			_hasProperties = new ItemSet<IfcProperty>( this, 0 );
 		}
 
 		#region Explicit attribute fields
@@ -35,10 +36,8 @@ namespace Xbim.Ifc4.PropertyResource
 		{ 
 			get 
 			{
-				if(Activated) return _usageName;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _usageName;
+				((IPersistEntity)this).Activate(false);
 				return _usageName;
 			} 
 			set
@@ -53,10 +52,8 @@ namespace Xbim.Ifc4.PropertyResource
 		{ 
 			get 
 			{
-				if(Activated) return _hasProperties;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _hasProperties;
+				((IPersistEntity)this).Activate(false);
 				return _hasProperties;
 			} 
 		}
@@ -100,6 +97,23 @@ namespace Xbim.Ifc4.PropertyResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcComplexProperty
+            var root = (@IfcComplexProperty)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcComplexProperty left, @IfcComplexProperty right)
         {

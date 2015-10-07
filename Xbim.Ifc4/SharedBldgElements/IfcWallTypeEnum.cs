@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.SharedBldgElements
 {
-	public enum IfcWallTypeEnum
+	public enum IfcWallTypeEnum : byte
 	{
 		@MOVABLE ,
 		@PARAPET ,

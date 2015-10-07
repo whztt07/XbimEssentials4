@@ -8,6 +8,8 @@
 // ------------------------------------------------------------------------------
 
 using Xbim.Ifc2x3.GeometricConstraintResource;
+using System;
+using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
 
@@ -15,7 +17,7 @@ namespace Xbim.Ifc2x3.GeometryResource
 {
 	[ExpressType("IFCBOUNDEDCURVE", 144)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public abstract partial class @IfcBoundedCurve : IfcCurve, IfcCurveOrEdgeCurve, System.Collections.Generic.IEqualityComparer<@IfcBoundedCurve>, System.IEquatable<@IfcBoundedCurve>
+	public abstract partial class @IfcBoundedCurve : IfcCurve, IfcCurveOrEdgeCurve, IEqualityComparer<@IfcBoundedCurve>, IEquatable<@IfcBoundedCurve>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcBoundedCurve(IModel model) : base(model) 		{ 
@@ -44,6 +46,23 @@ namespace Xbim.Ifc2x3.GeometryResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcBoundedCurve
+            var root = (@IfcBoundedCurve)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcBoundedCurve left, @IfcBoundedCurve right)
         {

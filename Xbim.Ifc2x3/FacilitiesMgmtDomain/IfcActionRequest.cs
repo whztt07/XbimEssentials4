@@ -10,6 +10,7 @@
 using Xbim.Ifc2x3.Kernel;
 using Xbim.Ifc2x3.UtilityResource;
 using Xbim.Ifc2x3.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -18,7 +19,7 @@ namespace Xbim.Ifc2x3.FacilitiesMgmtDomain
 {
 	[ExpressType("IFCACTIONREQUEST", 516)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcActionRequest : IfcControl, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcActionRequest>, System.IEquatable<@IfcActionRequest>
+	public  partial class @IfcActionRequest : IfcControl, IInstantiableEntity, IEqualityComparer<@IfcActionRequest>, IEquatable<@IfcActionRequest>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcActionRequest(IModel model) : base(model) 		{ 
@@ -35,10 +36,8 @@ namespace Xbim.Ifc2x3.FacilitiesMgmtDomain
 		{ 
 			get 
 			{
-				if(Activated) return _requestID;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _requestID;
+				((IPersistEntity)this).Activate(false);
 				return _requestID;
 			} 
 			set
@@ -83,6 +82,23 @@ namespace Xbim.Ifc2x3.FacilitiesMgmtDomain
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcActionRequest
+            var root = (@IfcActionRequest)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcActionRequest left, @IfcActionRequest right)
         {

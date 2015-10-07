@@ -148,7 +148,7 @@ namespace Xbim.Ifc2x3.IO
 
         public IEnumerable<XbimGeometryData> GetGeometryData(IfcProduct product, XbimGeometryType geomType)
         {
-            return InstanceCache.GetGeometry(ExpressMetaData.ExpressTypeId(product), product.EntityLabel, geomType);
+            return InstanceCache.GetGeometry(Metadata.ExpressTypeId(product), product.EntityLabel, geomType);
         }
         #endregion
 

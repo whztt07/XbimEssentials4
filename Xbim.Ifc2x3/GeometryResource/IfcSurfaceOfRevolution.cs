@@ -8,6 +8,7 @@
 // ------------------------------------------------------------------------------
 
 using Xbim.Ifc2x3.ProfileResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -16,7 +17,7 @@ namespace Xbim.Ifc2x3.GeometryResource
 {
 	[ExpressType("IFCSURFACEOFREVOLUTION", 109)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcSurfaceOfRevolution : IfcSweptSurface, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcSurfaceOfRevolution>, System.IEquatable<@IfcSurfaceOfRevolution>
+	public  partial class @IfcSurfaceOfRevolution : IfcSweptSurface, IInstantiableEntity, IEqualityComparer<@IfcSurfaceOfRevolution>, IEquatable<@IfcSurfaceOfRevolution>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcSurfaceOfRevolution(IModel model) : base(model) 		{ 
@@ -33,10 +34,8 @@ namespace Xbim.Ifc2x3.GeometryResource
 		{ 
 			get 
 			{
-				if(Activated) return _axisPosition;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _axisPosition;
+				((IPersistEntity)this).Activate(false);
 				return _axisPosition;
 			} 
 			set
@@ -78,6 +77,23 @@ namespace Xbim.Ifc2x3.GeometryResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcSurfaceOfRevolution
+            var root = (@IfcSurfaceOfRevolution)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcSurfaceOfRevolution left, @IfcSurfaceOfRevolution right)
         {

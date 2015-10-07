@@ -845,17 +845,17 @@ namespace Xbim.IO.Esent
         private long CountOf(Type theType)
         {
             var entityLabels = new HashSet<int>();
-            var ifcType = ExpressMetaData.ExpressType(theType);
+            var expressType = Model.Metadata.ExpressType(theType);
             var entityTable = GetEntityTable();
             var typeIds = new HashSet<short>();
             //get all the type ids we are going to check for
-            foreach (var t in ifcType.NonAbstractSubTypes)
-                typeIds.Add(ExpressMetaData.ExpressTypeId(t));
+            foreach (var t in expressType.NonAbstractSubTypes)
+                typeIds.Add(Model.Metadata.ExpressTypeId(t));
             try
             {
 
                 XbimInstanceHandle ih;
-                if (ifcType.IndexedClass)
+                if (expressType.IndexedClass)
                 {
                     foreach (var typeId in typeIds)
                     {
@@ -894,13 +894,13 @@ namespace Xbim.IO.Esent
 
         public bool Any<TIfcType>() where TIfcType : IPersistEntity
         {
-            var ifcType = ExpressMetaData.ExpressType(typeof(TIfcType));
+            var expressType = Model.Metadata.ExpressType(typeof(TIfcType));
             var entityTable = GetEntityTable();
             try
             {
-                foreach (var t in ifcType.NonAbstractSubTypes)
+                foreach (var t in expressType.NonAbstractSubTypes)
                 {
-                    var typeId = ExpressMetaData.ExpressTypeId(t);
+                    var typeId = Model.Metadata.ExpressTypeId(t);
                     XbimInstanceHandle ih;
                     if (!entityTable.TrySeekEntityType(typeId,out ih))
                         return true;
@@ -1035,13 +1035,13 @@ namespace Xbim.IO.Esent
         public IEnumerable<XbimInstanceHandle> InstanceHandlesOfType<TIfcType>()
         {
             var reqType = typeof(TIfcType);
-            var ifcType = ExpressMetaData.ExpressType(reqType);
+            var expressType = Model.Metadata.ExpressType(reqType);
             var entityTable = GetEntityTable();
             try
             {
-                foreach (var t in ifcType.NonAbstractSubTypes)
+                foreach (var t in expressType.NonAbstractSubTypes)
                 {
-                    var typeId = ExpressMetaData.ExpressTypeId(t);
+                    var typeId = Model.Metadata.ExpressTypeId(t);
                     XbimInstanceHandle ih;
                     if (entityTable.TrySeekEntityType(typeId, out ih))
                     {
@@ -1129,15 +1129,14 @@ namespace Xbim.IO.Esent
                         if (currentIfcTypeId == 0) // this should never happen (there's a test for it, but old xbim files might be incorrectly identified)
                             return null;
                         IPersistEntity entity;
-                        var entityType = ExpressMetaData.GetType(currentIfcTypeId, Model.SchemaModule);
                         if (loadProperties)
                         {
                             var properties = entityTable.GetProperties();
-                            entity = _factory.New(_model, entityType, entityLabel, true);
+                            entity = _factory.New(_model, currentIfcTypeId, entityLabel, true);
                             entity.ReadEntityProperties(this, new BinaryReader(new MemoryStream(properties)), unCached);
                         }
                         else
-                            entity = _factory.New(_model, entityType, entityLabel, false);
+                            entity = _factory.New(_model, currentIfcTypeId, entityLabel, false);
                         if (_caching && !unCached)
                             entity = _read.GetOrAdd(entityLabel, entity);
                         return entity;
@@ -1183,7 +1182,7 @@ namespace Xbim.IO.Esent
                 //get all the type ids we are going to check for
                 var typeIds = new HashSet<short>();
                 foreach (var t in expressType.NonAbstractSubTypes)
-                    typeIds.Add(ExpressMetaData.ExpressTypeId(t));
+                    typeIds.Add(Model.Metadata.ExpressTypeId(t));
                 using (entityTable.BeginReadOnlyTransaction())
                 {
                     entityTable.MoveBeforeFirst();
@@ -1195,7 +1194,7 @@ namespace Xbim.IO.Esent
                             IPersistEntity entity;
                             if (_caching && _read.TryGetValue(ih.EntityLabel, out entity))
                             {
-                                if (activate && !entity.Activated) //activate if required and not already done
+                                if (activate && entity.ActivationStatus == ActivationStatus.NotActivated) //activate if required and not already done
                                 {
                                     entity.Activate(() =>
                                     {
@@ -1250,7 +1249,7 @@ namespace Xbim.IO.Esent
         /// <typeparam name="TIfcType"></typeparam>
         /// <param name="activate">if true loads the properties of the entity</param>
         /// <param name="indexKey">if the entity has a key object, optimises to search for this handle</param>
-        /// <param name="overrideType">if specified this parameter overrides the ifcType used internally (but not TIfcType) for filtering purposes</param>
+        /// <param name="overrideType">if specified this parameter overrides the expressType used internally (but not TIfcType) for filtering purposes</param>
         /// <returns></returns>
         public IEnumerable<TIfcType> OfType<TIfcType>(bool activate = false, int? indexKey = null, ExpressType overrideType = null) where TIfcType:IPersistEntity 
         {
@@ -1258,13 +1257,13 @@ namespace Xbim.IO.Esent
             int indexKeyAsInt;
             if (indexKey.HasValue) indexKeyAsInt = indexKey.Value; //this is lossy and needs to be fixed if we get large databases
             else indexKeyAsInt = -1;
-            var searchingIfcType = overrideType ?? ExpressMetaData.ExpressType(typeof(TIfcType));
+            var searchingIfcType = overrideType ?? Model.Metadata.ExpressType(typeof(TIfcType));
             
             // when searching for Interface types SearchingIfcType is null
             //
             var typesToSearch = 
-                searchingIfcType == null ? 
-                ExpressMetaData.TypesImplementing(typeof(TIfcType)) : 
+                searchingIfcType == null ?
+                Model.Metadata.TypesImplementing(typeof(TIfcType)) : 
                 searchingIfcType.NonAbstractSubTypes;
 
             if (searchingIfcType == null || searchingIfcType.IndexedClass)
@@ -1279,7 +1278,7 @@ namespace Xbim.IO.Esent
                     {
                         foreach (var t in typesToSearch)
                         {
-                            var typeId = ExpressMetaData.ExpressTypeId(t);
+                            var typeId = Model.Metadata.ExpressTypeId(t);
                             XbimInstanceHandle ih;
                             if (entityTable.TrySeekEntityType(typeId, out ih, indexKeyAsInt) && entityTable.TrySeekEntityLabel(ih.EntityLabel)) //we have the first instance
                             {
@@ -1288,7 +1287,7 @@ namespace Xbim.IO.Esent
                                     IPersistEntity entity;
                                     if (_caching && _read.TryGetValue(ih.EntityLabel, out entity))
                                     {
-                                        if (activate && !entity.Activated) //activate if required and not already done
+                                        if (activate && entity.ActivationStatus == ActivationStatus.NotActivated) //activate if required and not already done
                                         {
                                             var properties = entityTable.GetProperties();
                                             entity = _factory.New(_model, ih.EntityType, ih.EntityLabel, true);
@@ -1481,7 +1480,7 @@ namespace Xbim.IO.Esent
                     using (TextWriter tw = new StreamWriter(zipStream))
                     {
                         var p21 = new Part21FileWriter();
-                        p21.Write(_model, tw);
+                        p21.Write(_model, tw, Model.Metadata);
                         tw.Flush();
                     }
                 }
@@ -1512,7 +1511,7 @@ namespace Xbim.IO.Esent
                     using (TextWriter tw = new StreamWriter(storageFileName))
                     {
                         var p21 = new Part21FileWriter();
-                        p21.Write(_model, tw,map);
+                        p21.Write(_model, tw, Model.Metadata, map);
                         tw.Flush();
                     }  
                 }
@@ -1618,10 +1617,10 @@ namespace Xbim.IO.Esent
         {
             var indexFound = false;
             var type = typeof(T);
-            var ifcType = ExpressMetaData.ExpressType(type);
+            var expressType = Model.Metadata.ExpressType(type);
            
             var predicate = expr.Compile();
-            if (ifcType.HasIndexedAttribute) //we can use a secondary index to look up
+            if (expressType.HasIndexedAttribute) //we can use a secondary index to look up
             {
                 //our indexes work from the hash values of that which is indexed, regardless of type
 
@@ -1645,7 +1644,7 @@ namespace Xbim.IO.Esent
                             //cast to MemberExpression - it allows us to get the property
                             var propExp = returnedEx;
                         
-                            if (ifcType.IndexedProperties.Contains(propExp.Member)) //we have a primary key match
+                            if (expressType.IndexedProperties.Contains(propExp.Member)) //we have a primary key match
                             {
                                 var entity = hashRight as IPersistEntity;
                                 if (entity != null)
@@ -1672,7 +1671,7 @@ namespace Xbim.IO.Esent
                                 {
                                     var memExp = (MemberExpression)callExp.Object;
                                     var pInfo = (PropertyInfo)(memExp.Member);
-                                    if (ifcType.IndexedProperties.Contains(pInfo, ComparePropInfo)) //we have a primary key match
+                                    if (expressType.IndexedProperties.Contains(pInfo, ComparePropInfo)) //we have a primary key match
                                     {
                                         var entity = key as IPersistEntity;
                                         if (entity != null)
@@ -1770,19 +1769,20 @@ namespace Xbim.IO.Esent
                 return (T)v;
             }
             txn.Pulse();
-            var ifcType = ExpressMetaData.ExpressType(toCopy);
+            var expressType = Model.Metadata.ExpressType(toCopy);
             var copyLabel = toCopy.EntityLabel;
-            copyHandle = InsertNew(ifcType.Type, copyLabel);
+            copyHandle = InsertNew(expressType.Type, copyLabel);
             mappings.Add(toCopyHandle, copyHandle);
 
             var theCopy = _factory.New(_model, copyHandle.EntityType, copyHandle.EntityLabel, true);
             _read.TryAdd(copyHandle.EntityLabel, theCopy);
             CreatedNew.TryAdd(copyHandle.EntityLabel, theCopy);
-          //  ModifiedEntities.TryAdd(copyHandle.EntityLabel, theCopy);
+            ModifiedEntities.TryAdd(copyHandle.EntityLabel, theCopy);
 
-            var props = ifcType.Properties.Values.Where(p => !p.EntityAttribute.IsDerivedOverride);
-            if (false)
-                props = props.Union(ifcType.Inverses);
+            
+            var props = expressType.Properties.Values.Where(p => !p.EntityAttribute.IsDerivedOverride);
+            if (includeInverses)
+                props = props.Union(expressType.Inverses);
             
             foreach (var prop in props)
             {
@@ -1801,13 +1801,14 @@ namespace Xbim.IO.Esent
                 //else 
                 else if (!isInverse && typeof(IPersistEntity).IsAssignableFrom(theType))
                 {
-                    prop.PropertyInfo.SetValue(theCopy, InsertCopy((IPersistEntity)value, mappings, txn, false, propTransform), null);
+                    prop.PropertyInfo.SetValue(theCopy, InsertCopy((IPersistEntity)value, mappings, txn, includeInverses, propTransform), null);
                 }
                 else if (!isInverse && typeof(IList).IsAssignableFrom(theType))
                 {
                     var itemType = theType.GetItemTypeFromGenericType();
+
                     var copyColl = prop.PropertyInfo.GetValue(theCopy, null) as IList;
-                    if (copyColl == null)
+                    if(copyColl == null)
                         throw new XbimException(string.Format("Unexpected collection type ({0}) found", itemType.Name));
 
                     foreach (var item in (IExpressEnumerable)value)
@@ -1817,7 +1818,7 @@ namespace Xbim.IO.Esent
                             copyColl.Add(item);
                         else if (typeof(IPersistEntity).IsAssignableFrom(actualItemType))
                         {
-                            var cpy = InsertCopy((IPersistEntity)item, mappings, txn, false, propTransform);
+                            var cpy = InsertCopy((IPersistEntity)item, mappings, txn, includeInverses, propTransform);
                             copyColl.Add(cpy);
                         }
                         else
@@ -1830,7 +1831,7 @@ namespace Xbim.IO.Esent
                     {
                         XbimInstanceHandle h;
                         if (!mappings.TryGetValue(ent.GetHandle(), out h))
-                            InsertCopy(ent, mappings, txn, false, propTransform);
+                            InsertCopy(ent, mappings, txn, includeInverses, propTransform);
                     }
                 }
                 else if (isInverse && value is IPersistEntity) //it is an inverse and has a single value
@@ -1838,13 +1839,12 @@ namespace Xbim.IO.Esent
                     XbimInstanceHandle h;
                     var v = (IPersistEntity)value;
                     if (!mappings.TryGetValue(v.GetHandle(), out h))
-                        InsertCopy(v, mappings, txn, false, propTransform);
+                        InsertCopy(v, mappings, txn, includeInverses, propTransform);
                 }
                 else
                     throw new XbimException(string.Format("Unexpected item type ({0})  found", theType.Name));
             }
             //  if (rt != null) rt.OwnerHistory = this.OwnerHistoryAddObject;
-            ModifiedEntities.TryAdd(copyHandle.EntityLabel, theCopy);
             return (T)theCopy;
         }
 
@@ -2032,12 +2032,12 @@ namespace Xbim.IO.Esent
         internal IEnumerable<IPersistEntity> OfType(string stringType, bool activate)
         {
 
-            var ot = ExpressMetaData.ExpressType(stringType.ToUpper(), Model.SchemaModule);
+            var ot = Model.Metadata.ExpressType(stringType.ToUpper());
             if (ot == null)
             {
                 // it could be that we're searching for an interface
                 //
-                var implementingTypes = ExpressMetaData.TypesImplementing(stringType, Model.SchemaModule);
+                var implementingTypes = Model.Metadata.TypesImplementing(stringType);
                 foreach (var implementingType in implementingTypes)
                 {
                     foreach (var item in OfType<IPersistEntity>(activate: activate, overrideType: implementingType))

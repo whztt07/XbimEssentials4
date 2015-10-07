@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc2x3.ElectricalDomain
 {
-	public enum IfcCableSegmentTypeEnum
+	public enum IfcCableSegmentTypeEnum : byte
 	{
 		@CABLESEGMENT ,
 		@CONDUCTORSEGMENT ,

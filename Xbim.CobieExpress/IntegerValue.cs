@@ -14,7 +14,7 @@ namespace Xbim.CobieExpress
 {
 	[ExpressType("INTEGERVALUE", 3)]
     // ReSharper disable once PartialTypeWithSinglePart
-	public partial struct IntegerValue : AttributeValue, IExpressValueType
+	public partial struct IntegerValue : AttributeValue, IExpressValueType, System.IEquatable<long>
 	{ 
 		private long _value;
         
@@ -46,6 +46,7 @@ namespace Xbim.CobieExpress
         public static implicit operator long(IntegerValue obj)
         {
             return obj._value;
+
         }
 
 
@@ -62,6 +63,11 @@ namespace Xbim.CobieExpress
 
             return ((IntegerValue) obj)._value == _value;
         }
+
+		public bool Equals(long other)
+	    {
+	        return this == other;
+	    }
 
         public static bool operator ==(IntegerValue obj1, IntegerValue obj2)
         {

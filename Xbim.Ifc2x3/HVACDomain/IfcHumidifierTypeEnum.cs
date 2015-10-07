@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc2x3.HVACDomain
 {
-	public enum IfcHumidifierTypeEnum
+	public enum IfcHumidifierTypeEnum : byte
 	{
 		@STEAMINJECTION ,
 		@ADIABATICAIRWASHER ,

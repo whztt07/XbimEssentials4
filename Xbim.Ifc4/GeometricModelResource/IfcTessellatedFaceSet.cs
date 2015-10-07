@@ -9,6 +9,7 @@
 
 using Xbim.Ifc4.MeasureResource;
 using Xbim.Ifc4.PresentationAppearanceResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -17,12 +18,12 @@ namespace Xbim.Ifc4.GeometricModelResource
 {
 	[ExpressType("IFCTESSELLATEDFACESET", 1090)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public abstract partial class @IfcTessellatedFaceSet : IfcTessellatedItem, System.Collections.Generic.IEqualityComparer<@IfcTessellatedFaceSet>, System.IEquatable<@IfcTessellatedFaceSet>
+	public abstract partial class @IfcTessellatedFaceSet : IfcTessellatedItem, IEqualityComparer<@IfcTessellatedFaceSet>, IEquatable<@IfcTessellatedFaceSet>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcTessellatedFaceSet(IModel model) : base(model) 		{ 
 			Model = model; 
-			_normals = new OptionalItemSet<ItemSet<IfcParameterValue>>( this );
+			_normals = new OptionalItemSet<ItemSet<IfcParameterValue>>( this, 0 );
 		}
 
 		#region Explicit attribute fields
@@ -37,10 +38,8 @@ namespace Xbim.Ifc4.GeometricModelResource
 		{ 
 			get 
 			{
-				if(Activated) return _coordinates;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _coordinates;
+				((IPersistEntity)this).Activate(false);
 				return _coordinates;
 			} 
 			set
@@ -54,10 +53,8 @@ namespace Xbim.Ifc4.GeometricModelResource
 		{ 
 			get 
 			{
-				if(Activated) return _normals;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _normals;
+				((IPersistEntity)this).Activate(false);
 				return _normals;
 			} 
 		}
@@ -67,10 +64,8 @@ namespace Xbim.Ifc4.GeometricModelResource
 		{ 
 			get 
 			{
-				if(Activated) return _closed;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _closed;
+				((IPersistEntity)this).Activate(false);
 				return _closed;
 			} 
 			set
@@ -87,7 +82,7 @@ namespace Xbim.Ifc4.GeometricModelResource
 		{ 
 			get 
 			{
-				return Model.Instances.Where<IfcIndexedColourMap>(e => e.MappedTo == this);
+				return Model.Instances.Where<IfcIndexedColourMap>(e => (e.MappedTo as IfcTessellatedFaceSet) == this);
 			} 
 		}
 		[EntityAttribute(-1, EntityAttributeState.Mandatory, EntityAttributeType.Set, EntityAttributeType.Class, -1, -1)]
@@ -95,7 +90,7 @@ namespace Xbim.Ifc4.GeometricModelResource
 		{ 
 			get 
 			{
-				return Model.Instances.Where<IfcIndexedTextureMap>(e => e.MappedTo == this);
+				return Model.Instances.Where<IfcIndexedTextureMap>(e => (e.MappedTo as IfcTessellatedFaceSet) == this);
 			} 
 		}
 		#endregion
@@ -134,6 +129,23 @@ namespace Xbim.Ifc4.GeometricModelResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcTessellatedFaceSet
+            var root = (@IfcTessellatedFaceSet)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcTessellatedFaceSet left, @IfcTessellatedFaceSet right)
         {

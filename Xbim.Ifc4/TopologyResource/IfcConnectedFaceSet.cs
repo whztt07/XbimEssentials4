@@ -7,6 +7,7 @@
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -15,12 +16,12 @@ namespace Xbim.Ifc4.TopologyResource
 {
 	[ExpressType("IFCCONNECTEDFACESET", 509)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcConnectedFaceSet : IfcTopologicalRepresentationItem, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcConnectedFaceSet>, System.IEquatable<@IfcConnectedFaceSet>
+	public  partial class @IfcConnectedFaceSet : IfcTopologicalRepresentationItem, IInstantiableEntity, IEqualityComparer<@IfcConnectedFaceSet>, IEquatable<@IfcConnectedFaceSet>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcConnectedFaceSet(IModel model) : base(model) 		{ 
 			Model = model; 
-			_cfsFaces = new ItemSet<IfcFace>( this );
+			_cfsFaces = new ItemSet<IfcFace>( this, 0 );
 		}
 
 		#region Explicit attribute fields
@@ -33,10 +34,8 @@ namespace Xbim.Ifc4.TopologyResource
 		{ 
 			get 
 			{
-				if(Activated) return _cfsFaces;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _cfsFaces;
+				((IPersistEntity)this).Activate(false);
 				return _cfsFaces;
 			} 
 		}
@@ -71,6 +70,23 @@ namespace Xbim.Ifc4.TopologyResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcConnectedFaceSet
+            var root = (@IfcConnectedFaceSet)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcConnectedFaceSet left, @IfcConnectedFaceSet right)
         {

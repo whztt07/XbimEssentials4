@@ -21,7 +21,7 @@ namespace Xbim.Common
 
 	    IEntityCollection Instances { get; }
 
-	    int Activate(IPersistEntity owningEntity, bool write);
+	    bool Activate(IPersistEntity owningEntity, bool write);
 
 		void Delete (IPersistEntity entity);
 		
@@ -34,7 +34,7 @@ namespace Xbim.Common
         /// </summary>
 		ITransaction CurrentTransaction { get; }
 
-		System.Reflection.Module SchemaModule { get; }
+		ExpressMetaData Metadata { get; }
 
 		IModelFactors ModelFactors { get; }
 

@@ -8,6 +8,7 @@
 // ------------------------------------------------------------------------------
 
 using Xbim.Ifc4.PresentationDefinitionResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -16,7 +17,7 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
 {
 	[ExpressType("IFCSURFACESTYLELIGHTING", 1060)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcSurfaceStyleLighting : IfcPresentationItem, IfcSurfaceStyleElementSelect, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcSurfaceStyleLighting>, System.IEquatable<@IfcSurfaceStyleLighting>
+	public  partial class @IfcSurfaceStyleLighting : IfcPresentationItem, IfcSurfaceStyleElementSelect, IInstantiableEntity, IEqualityComparer<@IfcSurfaceStyleLighting>, IEquatable<@IfcSurfaceStyleLighting>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcSurfaceStyleLighting(IModel model) : base(model) 		{ 
@@ -36,10 +37,8 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
 		{ 
 			get 
 			{
-				if(Activated) return _diffuseTransmissionColour;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _diffuseTransmissionColour;
+				((IPersistEntity)this).Activate(false);
 				return _diffuseTransmissionColour;
 			} 
 			set
@@ -53,10 +52,8 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
 		{ 
 			get 
 			{
-				if(Activated) return _diffuseReflectionColour;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _diffuseReflectionColour;
+				((IPersistEntity)this).Activate(false);
 				return _diffuseReflectionColour;
 			} 
 			set
@@ -70,10 +67,8 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
 		{ 
 			get 
 			{
-				if(Activated) return _transmissionColour;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _transmissionColour;
+				((IPersistEntity)this).Activate(false);
 				return _transmissionColour;
 			} 
 			set
@@ -87,10 +82,8 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
 		{ 
 			get 
 			{
-				if(Activated) return _reflectanceColour;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _reflectanceColour;
+				((IPersistEntity)this).Activate(false);
 				return _reflectanceColour;
 			} 
 			set
@@ -137,6 +130,23 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcSurfaceStyleLighting
+            var root = (@IfcSurfaceStyleLighting)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcSurfaceStyleLighting left, @IfcSurfaceStyleLighting right)
         {

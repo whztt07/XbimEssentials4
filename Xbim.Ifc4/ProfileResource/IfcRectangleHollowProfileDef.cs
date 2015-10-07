@@ -9,6 +9,7 @@
 
 using Xbim.Ifc4.MeasureResource;
 using Xbim.Ifc4.GeometryResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -17,7 +18,7 @@ namespace Xbim.Ifc4.ProfileResource
 {
 	[ExpressType("IFCRECTANGLEHOLLOWPROFILEDEF", 886)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcRectangleHollowProfileDef : IfcRectangleProfileDef, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcRectangleHollowProfileDef>, System.IEquatable<@IfcRectangleHollowProfileDef>
+	public  partial class @IfcRectangleHollowProfileDef : IfcRectangleProfileDef, IInstantiableEntity, IEqualityComparer<@IfcRectangleHollowProfileDef>, IEquatable<@IfcRectangleHollowProfileDef>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcRectangleHollowProfileDef(IModel model) : base(model) 		{ 
@@ -36,10 +37,8 @@ namespace Xbim.Ifc4.ProfileResource
 		{ 
 			get 
 			{
-				if(Activated) return _wallThickness;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _wallThickness;
+				((IPersistEntity)this).Activate(false);
 				return _wallThickness;
 			} 
 			set
@@ -53,10 +52,8 @@ namespace Xbim.Ifc4.ProfileResource
 		{ 
 			get 
 			{
-				if(Activated) return _innerFilletRadius;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _innerFilletRadius;
+				((IPersistEntity)this).Activate(false);
 				return _innerFilletRadius;
 			} 
 			set
@@ -70,10 +67,8 @@ namespace Xbim.Ifc4.ProfileResource
 		{ 
 			get 
 			{
-				if(Activated) return _outerFilletRadius;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _outerFilletRadius;
+				((IPersistEntity)this).Activate(false);
 				return _outerFilletRadius;
 			} 
 			set
@@ -127,6 +122,23 @@ namespace Xbim.Ifc4.ProfileResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcRectangleHollowProfileDef
+            var root = (@IfcRectangleHollowProfileDef)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcRectangleHollowProfileDef left, @IfcRectangleHollowProfileDef right)
         {

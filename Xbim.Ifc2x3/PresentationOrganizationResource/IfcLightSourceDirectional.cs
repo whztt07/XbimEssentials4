@@ -10,6 +10,7 @@
 using Xbim.Ifc2x3.MeasureResource;
 using Xbim.Ifc2x3.PresentationResource;
 using Xbim.Ifc2x3.GeometryResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -18,7 +19,7 @@ namespace Xbim.Ifc2x3.PresentationOrganizationResource
 {
 	[ExpressType("IFCLIGHTSOURCEDIRECTIONAL", 757)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcLightSourceDirectional : IfcLightSource, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcLightSourceDirectional>, System.IEquatable<@IfcLightSourceDirectional>
+	public  partial class @IfcLightSourceDirectional : IfcLightSource, IInstantiableEntity, IEqualityComparer<@IfcLightSourceDirectional>, IEquatable<@IfcLightSourceDirectional>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcLightSourceDirectional(IModel model) : base(model) 		{ 
@@ -35,10 +36,8 @@ namespace Xbim.Ifc2x3.PresentationOrganizationResource
 		{ 
 			get 
 			{
-				if(Activated) return _orientation;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _orientation;
+				((IPersistEntity)this).Activate(false);
 				return _orientation;
 			} 
 			set
@@ -82,6 +81,23 @@ namespace Xbim.Ifc2x3.PresentationOrganizationResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcLightSourceDirectional
+            var root = (@IfcLightSourceDirectional)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcLightSourceDirectional left, @IfcLightSourceDirectional right)
         {

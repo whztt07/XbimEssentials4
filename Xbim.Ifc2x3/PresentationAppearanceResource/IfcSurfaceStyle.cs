@@ -8,6 +8,7 @@
 // ------------------------------------------------------------------------------
 
 using Xbim.Ifc2x3.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -16,12 +17,12 @@ namespace Xbim.Ifc2x3.PresentationAppearanceResource
 {
 	[ExpressType("IFCSURFACESTYLE", 260)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcSurfaceStyle : IfcPresentationStyle, IfcPresentationStyleSelect, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcSurfaceStyle>, System.IEquatable<@IfcSurfaceStyle>
+	public  partial class @IfcSurfaceStyle : IfcPresentationStyle, IfcPresentationStyleSelect, IInstantiableEntity, IEqualityComparer<@IfcSurfaceStyle>, IEquatable<@IfcSurfaceStyle>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcSurfaceStyle(IModel model) : base(model) 		{ 
 			Model = model; 
-			_styles = new ItemSet<IfcSurfaceStyleElementSelect>( this );
+			_styles = new ItemSet<IfcSurfaceStyleElementSelect>( this, 5 );
 		}
 
 		#region Explicit attribute fields
@@ -35,10 +36,8 @@ namespace Xbim.Ifc2x3.PresentationAppearanceResource
 		{ 
 			get 
 			{
-				if(Activated) return _side;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _side;
+				((IPersistEntity)this).Activate(false);
 				return _side;
 			} 
 			set
@@ -52,10 +51,8 @@ namespace Xbim.Ifc2x3.PresentationAppearanceResource
 		{ 
 			get 
 			{
-				if(Activated) return _styles;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _styles;
+				((IPersistEntity)this).Activate(false);
 				return _styles;
 			} 
 		}
@@ -101,6 +98,23 @@ namespace Xbim.Ifc2x3.PresentationAppearanceResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcSurfaceStyle
+            var root = (@IfcSurfaceStyle)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcSurfaceStyle left, @IfcSurfaceStyle right)
         {

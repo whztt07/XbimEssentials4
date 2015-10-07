@@ -14,7 +14,7 @@ namespace Xbim.Ifc4.MeasureResource
 {
 	[ExpressType("IFCWARPINGCONSTANTMEASURE", 124)]
     // ReSharper disable once PartialTypeWithSinglePart
-	public partial struct IfcWarpingConstantMeasure : IfcDerivedMeasureValue, IExpressValueType
+	public partial struct IfcWarpingConstantMeasure : IfcDerivedMeasureValue, IExpressValueType, System.IEquatable<double>
 	{ 
 		private double _value;
         
@@ -46,6 +46,7 @@ namespace Xbim.Ifc4.MeasureResource
         public static implicit operator double(IfcWarpingConstantMeasure obj)
         {
             return obj._value;
+
         }
 
 
@@ -62,6 +63,11 @@ namespace Xbim.Ifc4.MeasureResource
 
             return ((IfcWarpingConstantMeasure) obj)._value == _value;
         }
+
+		public bool Equals(double other)
+	    {
+	        return this == other;
+	    }
 
         public static bool operator ==(IfcWarpingConstantMeasure obj1, IfcWarpingConstantMeasure obj2)
         {

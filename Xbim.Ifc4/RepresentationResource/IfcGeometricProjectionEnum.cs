@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.RepresentationResource
 {
-	public enum IfcGeometricProjectionEnum
+	public enum IfcGeometricProjectionEnum : byte
 	{
 		@GRAPH_VIEW ,
 		@SKETCH_VIEW ,

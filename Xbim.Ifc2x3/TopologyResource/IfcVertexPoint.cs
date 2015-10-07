@@ -9,6 +9,7 @@
 
 using Xbim.Ifc2x3.GeometricConstraintResource;
 using Xbim.Ifc2x3.GeometryResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -17,7 +18,7 @@ namespace Xbim.Ifc2x3.TopologyResource
 {
 	[ExpressType("IFCVERTEXPOINT", 521)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcVertexPoint : IfcVertex, IfcPointOrVertexPoint, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcVertexPoint>, System.IEquatable<@IfcVertexPoint>
+	public  partial class @IfcVertexPoint : IfcVertex, IfcPointOrVertexPoint, IInstantiableEntity, IEqualityComparer<@IfcVertexPoint>, IEquatable<@IfcVertexPoint>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcVertexPoint(IModel model) : base(model) 		{ 
@@ -34,10 +35,8 @@ namespace Xbim.Ifc2x3.TopologyResource
 		{ 
 			get 
 			{
-				if(Activated) return _vertexGeometry;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _vertexGeometry;
+				((IPersistEntity)this).Activate(false);
 				return _vertexGeometry;
 			} 
 			set
@@ -75,6 +74,23 @@ namespace Xbim.Ifc2x3.TopologyResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcVertexPoint
+            var root = (@IfcVertexPoint)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcVertexPoint left, @IfcVertexPoint right)
         {

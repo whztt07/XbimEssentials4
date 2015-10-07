@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.ProductExtension
 {
-	public enum IfcPhysicalOrVirtualEnum
+	public enum IfcPhysicalOrVirtualEnum : byte
 	{
 		@PHYSICAL ,
 		@VIRTUAL ,

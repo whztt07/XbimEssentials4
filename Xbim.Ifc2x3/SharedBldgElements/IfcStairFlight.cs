@@ -12,6 +12,7 @@ using Xbim.Ifc2x3.UtilityResource;
 using Xbim.Ifc2x3.MeasureResource;
 using Xbim.Ifc2x3.GeometricConstraintResource;
 using Xbim.Ifc2x3.RepresentationResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -20,7 +21,7 @@ namespace Xbim.Ifc2x3.SharedBldgElements
 {
 	[ExpressType("IFCSTAIRFLIGHT", 25)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcStairFlight : IfcBuildingElement, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcStairFlight>, System.IEquatable<@IfcStairFlight>
+	public  partial class @IfcStairFlight : IfcBuildingElement, IInstantiableEntity, IEqualityComparer<@IfcStairFlight>, IEquatable<@IfcStairFlight>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcStairFlight(IModel model) : base(model) 		{ 
@@ -40,10 +41,8 @@ namespace Xbim.Ifc2x3.SharedBldgElements
 		{ 
 			get 
 			{
-				if(Activated) return _numberOfRiser;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _numberOfRiser;
+				((IPersistEntity)this).Activate(false);
 				return _numberOfRiser;
 			} 
 			set
@@ -57,10 +56,8 @@ namespace Xbim.Ifc2x3.SharedBldgElements
 		{ 
 			get 
 			{
-				if(Activated) return _numberOfTreads;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _numberOfTreads;
+				((IPersistEntity)this).Activate(false);
 				return _numberOfTreads;
 			} 
 			set
@@ -74,10 +71,8 @@ namespace Xbim.Ifc2x3.SharedBldgElements
 		{ 
 			get 
 			{
-				if(Activated) return _riserHeight;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _riserHeight;
+				((IPersistEntity)this).Activate(false);
 				return _riserHeight;
 			} 
 			set
@@ -91,10 +86,8 @@ namespace Xbim.Ifc2x3.SharedBldgElements
 		{ 
 			get 
 			{
-				if(Activated) return _treadLength;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _treadLength;
+				((IPersistEntity)this).Activate(false);
 				return _treadLength;
 			} 
 			set
@@ -151,6 +144,23 @@ namespace Xbim.Ifc2x3.SharedBldgElements
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcStairFlight
+            var root = (@IfcStairFlight)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcStairFlight left, @IfcStairFlight right)
         {

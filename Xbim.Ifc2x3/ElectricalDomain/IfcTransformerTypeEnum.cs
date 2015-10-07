@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc2x3.ElectricalDomain
 {
-	public enum IfcTransformerTypeEnum
+	public enum IfcTransformerTypeEnum : byte
 	{
 		@CURRENT ,
 		@FREQUENCY ,

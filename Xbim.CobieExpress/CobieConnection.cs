@@ -7,6 +7,7 @@
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -16,7 +17,7 @@ namespace Xbim.CobieExpress
 	[IndexedClass]
 	[ExpressType("CONNECTION", 26)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @CobieConnection : CobieReferencedObject, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@CobieConnection>, System.IEquatable<@CobieConnection>
+	public  partial class @CobieConnection : CobieReferencedObject, IInstantiableEntity, IEqualityComparer<@CobieConnection>, IEquatable<@CobieConnection>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal CobieConnection(IModel model) : base(model) 		{ 
@@ -40,10 +41,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _name;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _name;
+				((IPersistEntity)this).Activate(false);
 				return _name;
 			} 
 			set
@@ -57,10 +56,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _description;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _description;
+				((IPersistEntity)this).Activate(false);
 				return _description;
 			} 
 			set
@@ -74,10 +71,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _connectionType;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _connectionType;
+				((IPersistEntity)this).Activate(false);
 				return _connectionType;
 			} 
 			set
@@ -92,10 +87,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _componentA;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _componentA;
+				((IPersistEntity)this).Activate(false);
 				return _componentA;
 			} 
 			set
@@ -110,10 +103,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _componentB;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _componentB;
+				((IPersistEntity)this).Activate(false);
 				return _componentB;
 			} 
 			set
@@ -128,10 +119,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _realizingComponent;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _realizingComponent;
+				((IPersistEntity)this).Activate(false);
 				return _realizingComponent;
 			} 
 			set
@@ -145,10 +134,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _portNameA;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _portNameA;
+				((IPersistEntity)this).Activate(false);
 				return _portNameA;
 			} 
 			set
@@ -162,10 +149,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _portNameB;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _portNameB;
+				((IPersistEntity)this).Activate(false);
 				return _portNameB;
 			} 
 			set
@@ -230,6 +215,23 @@ namespace Xbim.CobieExpress
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @CobieConnection
+            var root = (@CobieConnection)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@CobieConnection left, @CobieConnection right)
         {

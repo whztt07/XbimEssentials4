@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.StructuralElementsDomain
 {
-	public enum IfcPileConstructionEnum
+	public enum IfcPileConstructionEnum : byte
 	{
 		@CAST_IN_PLACE ,
 		@COMPOSITE ,

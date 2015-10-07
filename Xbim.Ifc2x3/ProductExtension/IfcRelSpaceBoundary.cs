@@ -11,6 +11,7 @@ using Xbim.Ifc2x3.Kernel;
 using Xbim.Ifc2x3.UtilityResource;
 using Xbim.Ifc2x3.MeasureResource;
 using Xbim.Ifc2x3.GeometricConstraintResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -19,7 +20,7 @@ namespace Xbim.Ifc2x3.ProductExtension
 {
 	[ExpressType("IFCRELSPACEBOUNDARY", 15)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcRelSpaceBoundary : IfcRelConnects, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcRelSpaceBoundary>, System.IEquatable<@IfcRelSpaceBoundary>
+	public  partial class @IfcRelSpaceBoundary : IfcRelConnects, IInstantiableEntity, IEqualityComparer<@IfcRelSpaceBoundary>, IEquatable<@IfcRelSpaceBoundary>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcRelSpaceBoundary(IModel model) : base(model) 		{ 
@@ -41,10 +42,8 @@ namespace Xbim.Ifc2x3.ProductExtension
 		{ 
 			get 
 			{
-				if(Activated) return _relatingSpace;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _relatingSpace;
+				((IPersistEntity)this).Activate(false);
 				return _relatingSpace;
 			} 
 			set
@@ -59,10 +58,8 @@ namespace Xbim.Ifc2x3.ProductExtension
 		{ 
 			get 
 			{
-				if(Activated) return _relatedBuildingElement;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _relatedBuildingElement;
+				((IPersistEntity)this).Activate(false);
 				return _relatedBuildingElement;
 			} 
 			set
@@ -76,10 +73,8 @@ namespace Xbim.Ifc2x3.ProductExtension
 		{ 
 			get 
 			{
-				if(Activated) return _connectionGeometry;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _connectionGeometry;
+				((IPersistEntity)this).Activate(false);
 				return _connectionGeometry;
 			} 
 			set
@@ -93,10 +88,8 @@ namespace Xbim.Ifc2x3.ProductExtension
 		{ 
 			get 
 			{
-				if(Activated) return _physicalOrVirtualBoundary;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _physicalOrVirtualBoundary;
+				((IPersistEntity)this).Activate(false);
 				return _physicalOrVirtualBoundary;
 			} 
 			set
@@ -110,10 +103,8 @@ namespace Xbim.Ifc2x3.ProductExtension
 		{ 
 			get 
 			{
-				if(Activated) return _internalOrExternalBoundary;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _internalOrExternalBoundary;
+				((IPersistEntity)this).Activate(false);
 				return _internalOrExternalBoundary;
 			} 
 			set
@@ -170,6 +161,23 @@ namespace Xbim.Ifc2x3.ProductExtension
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcRelSpaceBoundary
+            var root = (@IfcRelSpaceBoundary)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcRelSpaceBoundary left, @IfcRelSpaceBoundary right)
         {

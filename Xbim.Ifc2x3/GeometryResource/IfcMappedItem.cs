@@ -7,6 +7,7 @@
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -16,7 +17,7 @@ namespace Xbim.Ifc2x3.GeometryResource
 	[IndexedClass]
 	[ExpressType("IFCMAPPEDITEM", 333)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcMappedItem : IfcRepresentationItem, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcMappedItem>, System.IEquatable<@IfcMappedItem>
+	public  partial class @IfcMappedItem : IfcRepresentationItem, IInstantiableEntity, IEqualityComparer<@IfcMappedItem>, IEquatable<@IfcMappedItem>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcMappedItem(IModel model) : base(model) 		{ 
@@ -35,10 +36,8 @@ namespace Xbim.Ifc2x3.GeometryResource
 		{ 
 			get 
 			{
-				if(Activated) return _mappingSource;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _mappingSource;
+				((IPersistEntity)this).Activate(false);
 				return _mappingSource;
 			} 
 			set
@@ -52,10 +51,8 @@ namespace Xbim.Ifc2x3.GeometryResource
 		{ 
 			get 
 			{
-				if(Activated) return _mappingTarget;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _mappingTarget;
+				((IPersistEntity)this).Activate(false);
 				return _mappingTarget;
 			} 
 			set
@@ -96,6 +93,23 @@ namespace Xbim.Ifc2x3.GeometryResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcMappedItem
+            var root = (@IfcMappedItem)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcMappedItem left, @IfcMappedItem right)
         {

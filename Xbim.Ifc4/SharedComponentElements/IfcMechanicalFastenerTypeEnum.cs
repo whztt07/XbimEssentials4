@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.SharedComponentElements
 {
-	public enum IfcMechanicalFastenerTypeEnum
+	public enum IfcMechanicalFastenerTypeEnum : byte
 	{
 		@ANCHORBOLT ,
 		@BOLT ,

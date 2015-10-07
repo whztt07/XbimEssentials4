@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.ProductExtension
 {
-	public enum IfcSpatialZoneTypeEnum
+	public enum IfcSpatialZoneTypeEnum : byte
 	{
 		@CONSTRUCTION ,
 		@FIRESAFETY ,

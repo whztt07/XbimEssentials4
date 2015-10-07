@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc2x3.GeometryResource
 {
-	public enum IfcTrimmingPreference
+	public enum IfcTrimmingPreference : byte
 	{
 		@CARTESIAN ,
 		@PARAMETER ,

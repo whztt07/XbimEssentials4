@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.ProductExtension
 {
-	public enum IfcOpeningElementTypeEnum
+	public enum IfcOpeningElementTypeEnum : byte
 	{
 		@OPENING ,
 		@RECESS ,

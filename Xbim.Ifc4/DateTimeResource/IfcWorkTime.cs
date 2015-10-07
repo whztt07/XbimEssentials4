@@ -8,6 +8,7 @@
 // ------------------------------------------------------------------------------
 
 using Xbim.Ifc4.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -16,7 +17,7 @@ namespace Xbim.Ifc4.DateTimeResource
 {
 	[ExpressType("IFCWORKTIME", 1154)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcWorkTime : IfcSchedulingTime, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcWorkTime>, System.IEquatable<@IfcWorkTime>
+	public  partial class @IfcWorkTime : IfcSchedulingTime, IInstantiableEntity, IEqualityComparer<@IfcWorkTime>, IEquatable<@IfcWorkTime>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcWorkTime(IModel model) : base(model) 		{ 
@@ -35,10 +36,8 @@ namespace Xbim.Ifc4.DateTimeResource
 		{ 
 			get 
 			{
-				if(Activated) return _recurrencePattern;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _recurrencePattern;
+				((IPersistEntity)this).Activate(false);
 				return _recurrencePattern;
 			} 
 			set
@@ -52,10 +51,8 @@ namespace Xbim.Ifc4.DateTimeResource
 		{ 
 			get 
 			{
-				if(Activated) return _start;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _start;
+				((IPersistEntity)this).Activate(false);
 				return _start;
 			} 
 			set
@@ -69,10 +66,8 @@ namespace Xbim.Ifc4.DateTimeResource
 		{ 
 			get 
 			{
-				if(Activated) return _finish;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _finish;
+				((IPersistEntity)this).Activate(false);
 				return _finish;
 			} 
 			set
@@ -121,6 +116,23 @@ namespace Xbim.Ifc4.DateTimeResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcWorkTime
+            var root = (@IfcWorkTime)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcWorkTime left, @IfcWorkTime right)
         {

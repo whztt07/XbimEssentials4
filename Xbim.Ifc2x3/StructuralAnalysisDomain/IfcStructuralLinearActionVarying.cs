@@ -12,6 +12,7 @@ using Xbim.Ifc2x3.MeasureResource;
 using Xbim.Ifc2x3.GeometricConstraintResource;
 using Xbim.Ifc2x3.RepresentationResource;
 using Xbim.Ifc2x3.StructuralLoadResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -20,12 +21,12 @@ namespace Xbim.Ifc2x3.StructuralAnalysisDomain
 {
 	[ExpressType("IFCSTRUCTURALLINEARACTIONVARYING", 464)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcStructuralLinearActionVarying : IfcStructuralLinearAction, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcStructuralLinearActionVarying>, System.IEquatable<@IfcStructuralLinearActionVarying>
+	public  partial class @IfcStructuralLinearActionVarying : IfcStructuralLinearAction, IInstantiableEntity, IEqualityComparer<@IfcStructuralLinearActionVarying>, IEquatable<@IfcStructuralLinearActionVarying>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcStructuralLinearActionVarying(IModel model) : base(model) 		{ 
 			Model = model; 
-			_subsequentAppliedLoads = new ItemSet<IfcStructuralLoad>( this );
+			_subsequentAppliedLoads = new ItemSet<IfcStructuralLoad>( this, 0 );
 		}
 
 		#region Explicit attribute fields
@@ -39,10 +40,8 @@ namespace Xbim.Ifc2x3.StructuralAnalysisDomain
 		{ 
 			get 
 			{
-				if(Activated) return _varyingAppliedLoadLocation;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _varyingAppliedLoadLocation;
+				((IPersistEntity)this).Activate(false);
 				return _varyingAppliedLoadLocation;
 			} 
 			set
@@ -56,10 +55,8 @@ namespace Xbim.Ifc2x3.StructuralAnalysisDomain
 		{ 
 			get 
 			{
-				if(Activated) return _subsequentAppliedLoads;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _subsequentAppliedLoads;
+				((IPersistEntity)this).Activate(false);
 				return _subsequentAppliedLoads;
 			} 
 		}
@@ -111,6 +108,23 @@ namespace Xbim.Ifc2x3.StructuralAnalysisDomain
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcStructuralLinearActionVarying
+            var root = (@IfcStructuralLinearActionVarying)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcStructuralLinearActionVarying left, @IfcStructuralLinearActionVarying right)
         {

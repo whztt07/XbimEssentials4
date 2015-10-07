@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.HvacDomain
 {
-	public enum IfcPumpTypeEnum
+	public enum IfcPumpTypeEnum : byte
 	{
 		@CIRCULATOR ,
 		@ENDSUCTION ,

@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.ProductExtension
 {
-	public enum IfcInternalOrExternalEnum
+	public enum IfcInternalOrExternalEnum : byte
 	{
 		@INTERNAL ,
 		@EXTERNAL ,

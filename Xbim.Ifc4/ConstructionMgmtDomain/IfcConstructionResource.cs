@@ -11,6 +11,8 @@ using Xbim.Ifc4.Kernel;
 using Xbim.Ifc4.DateTimeResource;
 using Xbim.Ifc4.QuantityResource;
 using Xbim.Ifc4.CostResource;
+using System;
+using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
 
@@ -18,12 +20,12 @@ namespace Xbim.Ifc4.ConstructionMgmtDomain
 {
 	[ExpressType("IFCCONSTRUCTIONRESOURCE", 523)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public abstract partial class @IfcConstructionResource : IfcResource, System.Collections.Generic.IEqualityComparer<@IfcConstructionResource>, System.IEquatable<@IfcConstructionResource>
+	public abstract partial class @IfcConstructionResource : IfcResource, IEqualityComparer<@IfcConstructionResource>, IEquatable<@IfcConstructionResource>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcConstructionResource(IModel model) : base(model) 		{ 
 			Model = model; 
-			_baseCosts = new OptionalItemSet<IfcAppliedValue>( this );
+			_baseCosts = new OptionalItemSet<IfcAppliedValue>( this, 0 );
 		}
 
 		#region Explicit attribute fields
@@ -38,10 +40,8 @@ namespace Xbim.Ifc4.ConstructionMgmtDomain
 		{ 
 			get 
 			{
-				if(Activated) return _usage;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _usage;
+				((IPersistEntity)this).Activate(false);
 				return _usage;
 			} 
 			set
@@ -55,10 +55,8 @@ namespace Xbim.Ifc4.ConstructionMgmtDomain
 		{ 
 			get 
 			{
-				if(Activated) return _baseCosts;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _baseCosts;
+				((IPersistEntity)this).Activate(false);
 				return _baseCosts;
 			} 
 		}
@@ -68,10 +66,8 @@ namespace Xbim.Ifc4.ConstructionMgmtDomain
 		{ 
 			get 
 			{
-				if(Activated) return _baseQuantity;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _baseQuantity;
+				((IPersistEntity)this).Activate(false);
 				return _baseQuantity;
 			} 
 			set
@@ -125,6 +121,23 @@ namespace Xbim.Ifc4.ConstructionMgmtDomain
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcConstructionResource
+            var root = (@IfcConstructionResource)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcConstructionResource left, @IfcConstructionResource right)
         {

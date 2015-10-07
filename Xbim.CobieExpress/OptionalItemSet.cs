@@ -18,7 +18,7 @@ namespace Xbim.CobieExpress
             Initialized = false;
         }
 
-        internal OptionalItemSet(IPersistEntity entity, int count) : base(entity, count)
+        internal OptionalItemSet(IPersistEntity entity, int capacity) : base(entity, capacity)
         {
             Initialized = false;
         }

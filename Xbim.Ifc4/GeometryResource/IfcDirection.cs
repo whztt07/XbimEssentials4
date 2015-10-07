@@ -8,6 +8,7 @@
 // ------------------------------------------------------------------------------
 
 using Xbim.Ifc4.GeometricConstraintResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -16,12 +17,12 @@ namespace Xbim.Ifc4.GeometryResource
 {
 	[ExpressType("IFCDIRECTION", 564)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcDirection : IfcGeometricRepresentationItem, IfcGridPlacementDirectionSelect, IfcVectorOrDirection, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcDirection>, System.IEquatable<@IfcDirection>
+	public  partial class @IfcDirection : IfcGeometricRepresentationItem, IfcGridPlacementDirectionSelect, IfcVectorOrDirection, IInstantiableEntity, IEqualityComparer<@IfcDirection>, IEquatable<@IfcDirection>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcDirection(IModel model) : base(model) 		{ 
 			Model = model; 
-			_directionRatios = new ItemSet<double>( this );
+			_directionRatios = new ItemSet<double>( this, 3 );
 		}
 
 		#region Explicit attribute fields
@@ -34,10 +35,8 @@ namespace Xbim.Ifc4.GeometryResource
 		{ 
 			get 
 			{
-				if(Activated) return _directionRatios;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _directionRatios;
+				((IPersistEntity)this).Activate(false);
 				return _directionRatios;
 			} 
 		}
@@ -73,6 +72,23 @@ namespace Xbim.Ifc4.GeometryResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcDirection
+            var root = (@IfcDirection)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcDirection left, @IfcDirection right)
         {

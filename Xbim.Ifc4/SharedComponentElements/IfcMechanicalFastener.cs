@@ -11,6 +11,7 @@ using Xbim.Ifc4.UtilityResource;
 using Xbim.Ifc4.MeasureResource;
 using Xbim.Ifc4.GeometricConstraintResource;
 using Xbim.Ifc4.RepresentationResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -19,7 +20,7 @@ namespace Xbim.Ifc4.SharedComponentElements
 {
 	[ExpressType("IFCMECHANICALFASTENER", 761)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcMechanicalFastener : IfcElementComponent, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcMechanicalFastener>, System.IEquatable<@IfcMechanicalFastener>
+	public  partial class @IfcMechanicalFastener : IfcElementComponent, IInstantiableEntity, IEqualityComparer<@IfcMechanicalFastener>, IEquatable<@IfcMechanicalFastener>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcMechanicalFastener(IModel model) : base(model) 		{ 
@@ -38,10 +39,8 @@ namespace Xbim.Ifc4.SharedComponentElements
 		{ 
 			get 
 			{
-				if(Activated) return _nominalDiameter;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _nominalDiameter;
+				((IPersistEntity)this).Activate(false);
 				return _nominalDiameter;
 			} 
 			set
@@ -55,10 +54,8 @@ namespace Xbim.Ifc4.SharedComponentElements
 		{ 
 			get 
 			{
-				if(Activated) return _nominalLength;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _nominalLength;
+				((IPersistEntity)this).Activate(false);
 				return _nominalLength;
 			} 
 			set
@@ -72,10 +69,8 @@ namespace Xbim.Ifc4.SharedComponentElements
 		{ 
 			get 
 			{
-				if(Activated) return _predefinedType;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _predefinedType;
+				((IPersistEntity)this).Activate(false);
 				return _predefinedType;
 			} 
 			set
@@ -131,6 +126,23 @@ namespace Xbim.Ifc4.SharedComponentElements
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcMechanicalFastener
+            var root = (@IfcMechanicalFastener)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcMechanicalFastener left, @IfcMechanicalFastener right)
         {

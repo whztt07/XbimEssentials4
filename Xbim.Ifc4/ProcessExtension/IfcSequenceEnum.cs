@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.ProcessExtension
 {
-	public enum IfcSequenceEnum
+	public enum IfcSequenceEnum : byte
 	{
 		@START_START ,
 		@START_FINISH ,

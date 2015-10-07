@@ -14,7 +14,7 @@ namespace Xbim.Ifc2x3.MeasureResource
 {
 	[ExpressType("IFCROTATIONALFREQUENCYMEASURE", 430)]
     // ReSharper disable once PartialTypeWithSinglePart
-	public partial struct IfcRotationalFrequencyMeasure : IfcDerivedMeasureValue, IExpressValueType
+	public partial struct IfcRotationalFrequencyMeasure : IfcDerivedMeasureValue, IExpressValueType, System.IEquatable<double>
 	{ 
 		private double _value;
         
@@ -46,6 +46,7 @@ namespace Xbim.Ifc2x3.MeasureResource
         public static implicit operator double(IfcRotationalFrequencyMeasure obj)
         {
             return obj._value;
+
         }
 
 
@@ -62,6 +63,11 @@ namespace Xbim.Ifc2x3.MeasureResource
 
             return ((IfcRotationalFrequencyMeasure) obj)._value == _value;
         }
+
+		public bool Equals(double other)
+	    {
+	        return this == other;
+	    }
 
         public static bool operator ==(IfcRotationalFrequencyMeasure obj1, IfcRotationalFrequencyMeasure obj2)
         {

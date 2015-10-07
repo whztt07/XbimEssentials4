@@ -13,6 +13,7 @@ using Xbim.Ifc4.MeasureResource;
 using Xbim.Ifc4.ActorResource;
 using Xbim.Ifc4.DateTimeResource;
 using Xbim.Ifc4.CostResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -21,12 +22,12 @@ namespace Xbim.Ifc4.SharedFacilitiesElements
 {
 	[ExpressType("IFCINVENTORY", 712)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcInventory : IfcGroup, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcInventory>, System.IEquatable<@IfcInventory>
+	public  partial class @IfcInventory : IfcGroup, IInstantiableEntity, IEqualityComparer<@IfcInventory>, IEquatable<@IfcInventory>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcInventory(IModel model) : base(model) 		{ 
 			Model = model; 
-			_responsiblePersons = new OptionalItemSet<IfcPerson>( this );
+			_responsiblePersons = new OptionalItemSet<IfcPerson>( this, 0 );
 		}
 
 		#region Explicit attribute fields
@@ -44,10 +45,8 @@ namespace Xbim.Ifc4.SharedFacilitiesElements
 		{ 
 			get 
 			{
-				if(Activated) return _predefinedType;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _predefinedType;
+				((IPersistEntity)this).Activate(false);
 				return _predefinedType;
 			} 
 			set
@@ -61,10 +60,8 @@ namespace Xbim.Ifc4.SharedFacilitiesElements
 		{ 
 			get 
 			{
-				if(Activated) return _jurisdiction;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _jurisdiction;
+				((IPersistEntity)this).Activate(false);
 				return _jurisdiction;
 			} 
 			set
@@ -78,10 +75,8 @@ namespace Xbim.Ifc4.SharedFacilitiesElements
 		{ 
 			get 
 			{
-				if(Activated) return _responsiblePersons;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _responsiblePersons;
+				((IPersistEntity)this).Activate(false);
 				return _responsiblePersons;
 			} 
 		}
@@ -91,10 +86,8 @@ namespace Xbim.Ifc4.SharedFacilitiesElements
 		{ 
 			get 
 			{
-				if(Activated) return _lastUpdateDate;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _lastUpdateDate;
+				((IPersistEntity)this).Activate(false);
 				return _lastUpdateDate;
 			} 
 			set
@@ -108,10 +101,8 @@ namespace Xbim.Ifc4.SharedFacilitiesElements
 		{ 
 			get 
 			{
-				if(Activated) return _currentValue;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _currentValue;
+				((IPersistEntity)this).Activate(false);
 				return _currentValue;
 			} 
 			set
@@ -125,10 +116,8 @@ namespace Xbim.Ifc4.SharedFacilitiesElements
 		{ 
 			get 
 			{
-				if(Activated) return _originalValue;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _originalValue;
+				((IPersistEntity)this).Activate(false);
 				return _originalValue;
 			} 
 			set
@@ -189,6 +178,23 @@ namespace Xbim.Ifc4.SharedFacilitiesElements
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcInventory
+            var root = (@IfcInventory)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcInventory left, @IfcInventory right)
         {

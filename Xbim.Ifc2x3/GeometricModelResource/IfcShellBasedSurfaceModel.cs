@@ -9,6 +9,7 @@
 
 using Xbim.Ifc2x3.GeometryResource;
 using Xbim.Ifc2x3.TopologyResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -17,12 +18,12 @@ namespace Xbim.Ifc2x3.GeometricModelResource
 {
 	[ExpressType("IFCSHELLBASEDSURFACEMODEL", 235)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcShellBasedSurfaceModel : IfcGeometricRepresentationItem, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcShellBasedSurfaceModel>, System.IEquatable<@IfcShellBasedSurfaceModel>
+	public  partial class @IfcShellBasedSurfaceModel : IfcGeometricRepresentationItem, IInstantiableEntity, IEqualityComparer<@IfcShellBasedSurfaceModel>, IEquatable<@IfcShellBasedSurfaceModel>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcShellBasedSurfaceModel(IModel model) : base(model) 		{ 
 			Model = model; 
-			_sbsmBoundary = new ItemSet<IfcShell>( this );
+			_sbsmBoundary = new ItemSet<IfcShell>( this, 0 );
 		}
 
 		#region Explicit attribute fields
@@ -35,10 +36,8 @@ namespace Xbim.Ifc2x3.GeometricModelResource
 		{ 
 			get 
 			{
-				if(Activated) return _sbsmBoundary;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _sbsmBoundary;
+				((IPersistEntity)this).Activate(false);
 				return _sbsmBoundary;
 			} 
 		}
@@ -73,6 +72,23 @@ namespace Xbim.Ifc2x3.GeometricModelResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcShellBasedSurfaceModel
+            var root = (@IfcShellBasedSurfaceModel)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcShellBasedSurfaceModel left, @IfcShellBasedSurfaceModel right)
         {

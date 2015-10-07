@@ -7,6 +7,7 @@
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -16,7 +17,7 @@ namespace Xbim.CobieExpress
 	[IndexedClass]
 	[ExpressType("FACILITY", 16)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @CobieFacility : CobieAsset, SpatialDivision, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@CobieFacility>, System.IEquatable<@CobieFacility>
+	public  partial class @CobieFacility : CobieAsset, SpatialDivision, IInstantiableEntity, IEqualityComparer<@CobieFacility>, IEquatable<@CobieFacility>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal CobieFacility(IModel model) : base(model) 		{ 
@@ -40,10 +41,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _linearUnits;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _linearUnits;
+				((IPersistEntity)this).Activate(false);
 				return _linearUnits;
 			} 
 			set
@@ -57,10 +56,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _areaUnits;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _areaUnits;
+				((IPersistEntity)this).Activate(false);
 				return _areaUnits;
 			} 
 			set
@@ -74,10 +71,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _volumeUnits;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _volumeUnits;
+				((IPersistEntity)this).Activate(false);
 				return _volumeUnits;
 			} 
 			set
@@ -91,10 +86,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _currencyUnit;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _currencyUnit;
+				((IPersistEntity)this).Activate(false);
 				return _currencyUnit;
 			} 
 			set
@@ -108,10 +101,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _areaMeasurement;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _areaMeasurement;
+				((IPersistEntity)this).Activate(false);
 				return _areaMeasurement;
 			} 
 			set
@@ -126,10 +117,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _project;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _project;
+				((IPersistEntity)this).Activate(false);
 				return _project;
 			} 
 			set
@@ -144,10 +133,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _site;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _site;
+				((IPersistEntity)this).Activate(false);
 				return _site;
 			} 
 			set
@@ -161,10 +148,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _phase;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _phase;
+				((IPersistEntity)this).Activate(false);
 				return _phase;
 			} 
 			set
@@ -181,7 +166,7 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				return Model.Instances.Where<CobieFloor>(e => e.Facility == this);
+				return Model.Instances.Where<CobieFloor>(e => (e.Facility as CobieFacility) == this);
 			} 
 		}
 		#endregion
@@ -245,6 +230,23 @@ namespace Xbim.CobieExpress
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @CobieFacility
+            var root = (@CobieFacility)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@CobieFacility left, @CobieFacility right)
         {

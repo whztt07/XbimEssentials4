@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc2x3.HVACDomain
 {
-	public enum IfcAirTerminalTypeEnum
+	public enum IfcAirTerminalTypeEnum : byte
 	{
 		@GRILLE ,
 		@REGISTER ,

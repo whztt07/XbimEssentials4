@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.BuildingControlsDomain
 {
-	public enum IfcAlarmTypeEnum
+	public enum IfcAlarmTypeEnum : byte
 	{
 		@BELL ,
 		@BREAKGLASSBUTTON ,

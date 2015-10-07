@@ -8,6 +8,7 @@
 // ------------------------------------------------------------------------------
 
 using Xbim.Ifc4.GeometryResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -16,12 +17,12 @@ namespace Xbim.Ifc4.PresentationDefinitionResource
 {
 	[ExpressType("IFCANNOTATIONFILLAREA", 409)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcAnnotationFillArea : IfcGeometricRepresentationItem, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcAnnotationFillArea>, System.IEquatable<@IfcAnnotationFillArea>
+	public  partial class @IfcAnnotationFillArea : IfcGeometricRepresentationItem, IInstantiableEntity, IEqualityComparer<@IfcAnnotationFillArea>, IEquatable<@IfcAnnotationFillArea>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcAnnotationFillArea(IModel model) : base(model) 		{ 
 			Model = model; 
-			_innerBoundaries = new OptionalItemSet<IfcCurve>( this );
+			_innerBoundaries = new OptionalItemSet<IfcCurve>( this, 0 );
 		}
 
 		#region Explicit attribute fields
@@ -35,10 +36,8 @@ namespace Xbim.Ifc4.PresentationDefinitionResource
 		{ 
 			get 
 			{
-				if(Activated) return _outerBoundary;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _outerBoundary;
+				((IPersistEntity)this).Activate(false);
 				return _outerBoundary;
 			} 
 			set
@@ -52,10 +51,8 @@ namespace Xbim.Ifc4.PresentationDefinitionResource
 		{ 
 			get 
 			{
-				if(Activated) return _innerBoundaries;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _innerBoundaries;
+				((IPersistEntity)this).Activate(false);
 				return _innerBoundaries;
 			} 
 		}
@@ -93,6 +90,23 @@ namespace Xbim.Ifc4.PresentationDefinitionResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcAnnotationFillArea
+            var root = (@IfcAnnotationFillArea)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcAnnotationFillArea left, @IfcAnnotationFillArea right)
         {

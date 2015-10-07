@@ -7,6 +7,7 @@
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -15,7 +16,7 @@ namespace Xbim.Ifc4.GeometricConstraintResource
 {
 	[ExpressType("IFCGRIDPLACEMENT", 698)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcGridPlacement : IfcObjectPlacement, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcGridPlacement>, System.IEquatable<@IfcGridPlacement>
+	public  partial class @IfcGridPlacement : IfcObjectPlacement, IInstantiableEntity, IEqualityComparer<@IfcGridPlacement>, IEquatable<@IfcGridPlacement>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcGridPlacement(IModel model) : base(model) 		{ 
@@ -33,10 +34,8 @@ namespace Xbim.Ifc4.GeometricConstraintResource
 		{ 
 			get 
 			{
-				if(Activated) return _placementLocation;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _placementLocation;
+				((IPersistEntity)this).Activate(false);
 				return _placementLocation;
 			} 
 			set
@@ -50,10 +49,8 @@ namespace Xbim.Ifc4.GeometricConstraintResource
 		{ 
 			get 
 			{
-				if(Activated) return _placementRefDirection;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _placementRefDirection;
+				((IPersistEntity)this).Activate(false);
 				return _placementRefDirection;
 			} 
 			set
@@ -94,6 +91,23 @@ namespace Xbim.Ifc4.GeometricConstraintResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcGridPlacement
+            var root = (@IfcGridPlacement)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcGridPlacement left, @IfcGridPlacement right)
         {

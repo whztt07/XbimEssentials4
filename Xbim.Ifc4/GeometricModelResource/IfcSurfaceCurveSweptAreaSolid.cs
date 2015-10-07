@@ -10,6 +10,7 @@
 using Xbim.Ifc4.ProfileResource;
 using Xbim.Ifc4.GeometryResource;
 using Xbim.Ifc4.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -18,7 +19,7 @@ namespace Xbim.Ifc4.GeometricModelResource
 {
 	[ExpressType("IFCSURFACECURVESWEPTAREASOLID", 1054)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcSurfaceCurveSweptAreaSolid : IfcSweptAreaSolid, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcSurfaceCurveSweptAreaSolid>, System.IEquatable<@IfcSurfaceCurveSweptAreaSolid>
+	public  partial class @IfcSurfaceCurveSweptAreaSolid : IfcSweptAreaSolid, IInstantiableEntity, IEqualityComparer<@IfcSurfaceCurveSweptAreaSolid>, IEquatable<@IfcSurfaceCurveSweptAreaSolid>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcSurfaceCurveSweptAreaSolid(IModel model) : base(model) 		{ 
@@ -38,10 +39,8 @@ namespace Xbim.Ifc4.GeometricModelResource
 		{ 
 			get 
 			{
-				if(Activated) return _directrix;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _directrix;
+				((IPersistEntity)this).Activate(false);
 				return _directrix;
 			} 
 			set
@@ -55,10 +54,8 @@ namespace Xbim.Ifc4.GeometricModelResource
 		{ 
 			get 
 			{
-				if(Activated) return _startParam;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _startParam;
+				((IPersistEntity)this).Activate(false);
 				return _startParam;
 			} 
 			set
@@ -72,10 +69,8 @@ namespace Xbim.Ifc4.GeometricModelResource
 		{ 
 			get 
 			{
-				if(Activated) return _endParam;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _endParam;
+				((IPersistEntity)this).Activate(false);
 				return _endParam;
 			} 
 			set
@@ -89,10 +84,8 @@ namespace Xbim.Ifc4.GeometricModelResource
 		{ 
 			get 
 			{
-				if(Activated) return _referenceSurface;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _referenceSurface;
+				((IPersistEntity)this).Activate(false);
 				return _referenceSurface;
 			} 
 			set
@@ -144,6 +137,23 @@ namespace Xbim.Ifc4.GeometricModelResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcSurfaceCurveSweptAreaSolid
+            var root = (@IfcSurfaceCurveSweptAreaSolid)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcSurfaceCurveSweptAreaSolid left, @IfcSurfaceCurveSweptAreaSolid right)
         {

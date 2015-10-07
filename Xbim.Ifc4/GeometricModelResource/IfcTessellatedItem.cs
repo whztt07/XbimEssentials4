@@ -8,6 +8,8 @@
 // ------------------------------------------------------------------------------
 
 using Xbim.Ifc4.GeometryResource;
+using System;
+using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
 
@@ -15,7 +17,7 @@ namespace Xbim.Ifc4.GeometricModelResource
 {
 	[ExpressType("IFCTESSELLATEDITEM", 1091)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public abstract partial class @IfcTessellatedItem : IfcGeometricRepresentationItem, System.Collections.Generic.IEqualityComparer<@IfcTessellatedItem>, System.IEquatable<@IfcTessellatedItem>
+	public abstract partial class @IfcTessellatedItem : IfcGeometricRepresentationItem, IEqualityComparer<@IfcTessellatedItem>, IEquatable<@IfcTessellatedItem>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcTessellatedItem(IModel model) : base(model) 		{ 
@@ -44,6 +46,23 @@ namespace Xbim.Ifc4.GeometricModelResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcTessellatedItem
+            var root = (@IfcTessellatedItem)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcTessellatedItem left, @IfcTessellatedItem right)
         {

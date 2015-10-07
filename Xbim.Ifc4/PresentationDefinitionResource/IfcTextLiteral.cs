@@ -9,6 +9,7 @@
 
 using Xbim.Ifc4.GeometryResource;
 using Xbim.Ifc4.PresentationAppearanceResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -17,7 +18,7 @@ namespace Xbim.Ifc4.PresentationDefinitionResource
 {
 	[ExpressType("IFCTEXTLITERAL", 1092)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcTextLiteral : IfcGeometricRepresentationItem, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcTextLiteral>, System.IEquatable<@IfcTextLiteral>
+	public  partial class @IfcTextLiteral : IfcGeometricRepresentationItem, IInstantiableEntity, IEqualityComparer<@IfcTextLiteral>, IEquatable<@IfcTextLiteral>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcTextLiteral(IModel model) : base(model) 		{ 
@@ -36,10 +37,8 @@ namespace Xbim.Ifc4.PresentationDefinitionResource
 		{ 
 			get 
 			{
-				if(Activated) return _literal;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _literal;
+				((IPersistEntity)this).Activate(false);
 				return _literal;
 			} 
 			set
@@ -53,10 +52,8 @@ namespace Xbim.Ifc4.PresentationDefinitionResource
 		{ 
 			get 
 			{
-				if(Activated) return _placement;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _placement;
+				((IPersistEntity)this).Activate(false);
 				return _placement;
 			} 
 			set
@@ -70,10 +67,8 @@ namespace Xbim.Ifc4.PresentationDefinitionResource
 		{ 
 			get 
 			{
-				if(Activated) return _path;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _path;
+				((IPersistEntity)this).Activate(false);
 				return _path;
 			} 
 			set
@@ -117,6 +112,23 @@ namespace Xbim.Ifc4.PresentationDefinitionResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcTextLiteral
+            var root = (@IfcTextLiteral)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcTextLiteral left, @IfcTextLiteral right)
         {

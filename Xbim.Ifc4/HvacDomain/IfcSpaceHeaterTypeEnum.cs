@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.HvacDomain
 {
-	public enum IfcSpaceHeaterTypeEnum
+	public enum IfcSpaceHeaterTypeEnum : byte
 	{
 		@CONVECTOR ,
 		@RADIATOR ,

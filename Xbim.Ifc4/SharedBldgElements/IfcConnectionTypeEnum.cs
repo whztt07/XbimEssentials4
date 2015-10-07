@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.SharedBldgElements
 {
-	public enum IfcConnectionTypeEnum
+	public enum IfcConnectionTypeEnum : byte
 	{
 		@ATPATH ,
 		@ATSTART ,

@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.PlumbingFireProtectionDomain
 {
-	public enum IfcStackTerminalTypeEnum
+	public enum IfcStackTerminalTypeEnum : byte
 	{
 		@BIRDCAGE ,
 		@COWL ,

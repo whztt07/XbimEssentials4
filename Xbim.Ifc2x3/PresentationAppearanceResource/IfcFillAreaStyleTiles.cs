@@ -9,6 +9,7 @@
 
 using Xbim.Ifc2x3.GeometryResource;
 using Xbim.Ifc2x3.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -17,12 +18,12 @@ namespace Xbim.Ifc2x3.PresentationAppearanceResource
 {
 	[ExpressType("IFCFILLAREASTYLETILES", 725)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcFillAreaStyleTiles : IfcGeometricRepresentationItem, IfcFillStyleSelect, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcFillAreaStyleTiles>, System.IEquatable<@IfcFillAreaStyleTiles>
+	public  partial class @IfcFillAreaStyleTiles : IfcGeometricRepresentationItem, IfcFillStyleSelect, IInstantiableEntity, IEqualityComparer<@IfcFillAreaStyleTiles>, IEquatable<@IfcFillAreaStyleTiles>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcFillAreaStyleTiles(IModel model) : base(model) 		{ 
 			Model = model; 
-			_tiles = new ItemSet<IfcFillAreaStyleTileShapeSelect>( this );
+			_tiles = new ItemSet<IfcFillAreaStyleTileShapeSelect>( this, 0 );
 		}
 
 		#region Explicit attribute fields
@@ -37,10 +38,8 @@ namespace Xbim.Ifc2x3.PresentationAppearanceResource
 		{ 
 			get 
 			{
-				if(Activated) return _tilingPattern;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _tilingPattern;
+				((IPersistEntity)this).Activate(false);
 				return _tilingPattern;
 			} 
 			set
@@ -54,10 +53,8 @@ namespace Xbim.Ifc2x3.PresentationAppearanceResource
 		{ 
 			get 
 			{
-				if(Activated) return _tiles;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _tiles;
+				((IPersistEntity)this).Activate(false);
 				return _tiles;
 			} 
 		}
@@ -67,10 +64,8 @@ namespace Xbim.Ifc2x3.PresentationAppearanceResource
 		{ 
 			get 
 			{
-				if(Activated) return _tilingScale;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _tilingScale;
+				((IPersistEntity)this).Activate(false);
 				return _tilingScale;
 			} 
 			set
@@ -115,6 +110,23 @@ namespace Xbim.Ifc2x3.PresentationAppearanceResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcFillAreaStyleTiles
+            var root = (@IfcFillAreaStyleTiles)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcFillAreaStyleTiles left, @IfcFillAreaStyleTiles right)
         {

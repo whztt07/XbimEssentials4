@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc2x3.StructuralAnalysisDomain
 {
-	public enum IfcStructuralCurveTypeEnum
+	public enum IfcStructuralCurveTypeEnum : byte
 	{
 		@RIGID_JOINED_MEMBER ,
 		@PIN_JOINED_MEMBER ,

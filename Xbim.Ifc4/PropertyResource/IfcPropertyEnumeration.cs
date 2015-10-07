@@ -8,6 +8,7 @@
 // ------------------------------------------------------------------------------
 
 using Xbim.Ifc4.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -16,12 +17,12 @@ namespace Xbim.Ifc4.PropertyResource
 {
 	[ExpressType("IFCPROPERTYENUMERATION", 854)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcPropertyEnumeration : IfcPropertyAbstraction, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcPropertyEnumeration>, System.IEquatable<@IfcPropertyEnumeration>
+	public  partial class @IfcPropertyEnumeration : IfcPropertyAbstraction, IInstantiableEntity, IEqualityComparer<@IfcPropertyEnumeration>, IEquatable<@IfcPropertyEnumeration>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcPropertyEnumeration(IModel model) : base(model) 		{ 
 			Model = model; 
-			_enumerationValues = new ItemSet<IfcValue>( this );
+			_enumerationValues = new ItemSet<IfcValue>( this, 0 );
 		}
 
 		#region Explicit attribute fields
@@ -36,10 +37,8 @@ namespace Xbim.Ifc4.PropertyResource
 		{ 
 			get 
 			{
-				if(Activated) return _name;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _name;
+				((IPersistEntity)this).Activate(false);
 				return _name;
 			} 
 			set
@@ -53,10 +52,8 @@ namespace Xbim.Ifc4.PropertyResource
 		{ 
 			get 
 			{
-				if(Activated) return _enumerationValues;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _enumerationValues;
+				((IPersistEntity)this).Activate(false);
 				return _enumerationValues;
 			} 
 		}
@@ -66,10 +63,8 @@ namespace Xbim.Ifc4.PropertyResource
 		{ 
 			get 
 			{
-				if(Activated) return _unit;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _unit;
+				((IPersistEntity)this).Activate(false);
 				return _unit;
 			} 
 			set
@@ -115,6 +110,23 @@ namespace Xbim.Ifc4.PropertyResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcPropertyEnumeration
+            var root = (@IfcPropertyEnumeration)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcPropertyEnumeration left, @IfcPropertyEnumeration right)
         {

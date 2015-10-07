@@ -11,7 +11,6 @@ namespace Xbim.IO.Esent
     {
         private readonly int _styleId;
         private readonly short _expressTypeId;
-        private readonly Module _module;
 
         /// <summary>
         /// Holds the material used by the graphics engine to render the surface style
@@ -29,12 +28,11 @@ namespace Xbim.IO.Esent
             get { return _expressTypeId; }
         }
 
-        public XbimSurfaceStyle(short expressTypeId, int ifcSurfaceStyleId, Module module)
+        public XbimSurfaceStyle(short expressTypeId, int ifcSurfaceStyleId)
         {
 
             _expressTypeId = expressTypeId;
             _styleId = ifcSurfaceStyleId;
-            _module = module;
             TagRenderMaterial = null;
         }
 
@@ -49,12 +47,6 @@ namespace Xbim.IO.Esent
         {
             if (IsIfcSurfaceStyle) return (T)model.Instances[_styleId]; 
             return null;
-        }
-
-        public ExpressType ExpressType
-        {
-            get { return ExpressMetaData.ExpressType(_expressTypeId, _module); }
-           
         }
 
         public bool IsIfcSurfaceStyle

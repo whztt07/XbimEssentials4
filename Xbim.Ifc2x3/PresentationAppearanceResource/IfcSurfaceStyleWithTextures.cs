@@ -7,9 +7,9 @@
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
 
@@ -17,9 +17,10 @@ namespace Xbim.Ifc2x3.PresentationAppearanceResource
 {
 	[ExpressType("IFCSURFACESTYLEWITHTEXTURES", 392)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcSurfaceStyleWithTextures : IPersistEntity, INotifyPropertyChanged, IfcSurfaceStyleElementSelect, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcSurfaceStyleWithTextures>, System.IEquatable<@IfcSurfaceStyleWithTextures>
+	public  partial class @IfcSurfaceStyleWithTextures : INotifyPropertyChanged, IfcSurfaceStyleElementSelect, IInstantiableEntity, IEqualityComparer<@IfcSurfaceStyleWithTextures>, IEquatable<@IfcSurfaceStyleWithTextures>
 	{
 		#region Implementation of IPersistEntity
+
 		public int EntityLabel {get; internal set;}
 		
 		public IModel Model { get; internal set; }
@@ -30,29 +31,54 @@ namespace Xbim.Ifc2x3.PresentationAppearanceResource
 		[Obsolete("This property is deprecated and likely to be removed. Use just 'Model' instead.")]
         public IModel ModelOf { get { return Model; } }
 		
-		public bool Activated { get; internal set; }
+	    internal ActivationStatus ActivationStatus = ActivationStatus.NotActivated;
 
+	    ActivationStatus IPersistEntity.ActivationStatus { get { return ActivationStatus; } }
+		
 		void IPersistEntity.Activate(bool write)
 		{
-			if (Activated) return; //activation can only happen once in a lifetime of the object
-
-			Model.Activate(this, write);
-			Activated = true;
+			switch (ActivationStatus)
+		    {
+		        case ActivationStatus.ActivatedReadWrite:
+		            return;
+		        case ActivationStatus.NotActivated:
+		            lock (this)
+		            {
+                        //check again in the lock
+		                if (ActivationStatus == ActivationStatus.NotActivated)
+		                {
+		                    if (Model.Activate(this, write))
+		                    {
+		                        ActivationStatus = write
+		                            ? ActivationStatus.ActivatedReadWrite
+		                            : ActivationStatus.ActivatedRead;
+		                    }
+		                }
+		            }
+		            break;
+		        case ActivationStatus.ActivatedRead:
+		            if (!write) return;
+		            if (Model.Activate(this, true))
+                        ActivationStatus = ActivationStatus.ActivatedReadWrite;
+		            break;
+		        default:
+		            throw new ArgumentOutOfRangeException();
+		    }
 		}
 
 		void IPersistEntity.Activate (Action activation)
 		{
-			if (Activated) return; //activation can only happen once in a lifetime of the object
+			if (ActivationStatus != ActivationStatus.NotActivated) return; //activation can only happen once in a lifetime of the object
 			
 			activation();
-			Activated = true;
+			ActivationStatus = ActivationStatus.ActivatedRead;
 		}
 		#endregion
 
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcSurfaceStyleWithTextures(IModel model) 		{ 
 			Model = model; 
-			_textures = new ItemSet<IfcSurfaceTexture>( this );
+			_textures = new ItemSet<IfcSurfaceTexture>( this, 0 );
 		}
 
 		#region Explicit attribute fields
@@ -65,10 +91,8 @@ namespace Xbim.Ifc2x3.PresentationAppearanceResource
 		{ 
 			get 
 			{
-				if(Activated) return _textures;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _textures;
+				((IPersistEntity)this).Activate(false);
 				return _textures;
 			} 
 		}
@@ -94,7 +118,11 @@ namespace Xbim.Ifc2x3.PresentationAppearanceResource
 
 		protected void SetValue<TProperty>(Action<TProperty> setter, TProperty oldValue, TProperty newValue, string notifyPropertyName)
 		{
+			//activate for write if it is not activated yet
+			if (ActivationStatus != ActivationStatus.ActivatedReadWrite)
+				((IPersistEntity)this).Activate(true);
 
+			//just set the value if the model is marked as non-transactional
 			if (!Model.IsTransactional)
 			{
 				setter(newValue);
@@ -106,13 +134,18 @@ namespace Xbim.Ifc2x3.PresentationAppearanceResource
 			var txn = Model.CurrentTransaction;
 			if (txn == null) throw new Exception("Operation out of transaction.");
 
-			Action doAction = () => setter(newValue);
-			Action undoAction = () => setter(oldValue);
-			setter(newValue);
+			Action doAction = () => {
+				setter(newValue);
+				NotifyPropertyChanged(notifyPropertyName);
+			};
+			Action undoAction = () => {
+				setter(oldValue);
+				NotifyPropertyChanged(notifyPropertyName);
+			};
+			doAction();
 
 			//do action and THAN add to transaction so that it gets the object in new state
 			txn.AddReversibleAction(doAction, undoAction, this, ChangeType.Modified);
-			NotifyPropertyChanged(notifyPropertyName);
 		}
 
 		#endregion

@@ -12,6 +12,7 @@ using Xbim.Ifc4.MeasureResource;
 using Xbim.Ifc4.GeometricConstraintResource;
 using Xbim.Ifc4.RepresentationResource;
 using Xbim.Ifc4.ActorResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -20,7 +21,7 @@ namespace Xbim.Ifc4.ProductExtension
 {
 	[ExpressType("IFCSITE", 984)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcSite : IfcSpatialStructureElement, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcSite>, System.IEquatable<@IfcSite>
+	public  partial class @IfcSite : IfcSpatialStructureElement, IInstantiableEntity, IEqualityComparer<@IfcSite>, IEquatable<@IfcSite>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcSite(IModel model) : base(model) 		{ 
@@ -41,10 +42,8 @@ namespace Xbim.Ifc4.ProductExtension
 		{ 
 			get 
 			{
-				if(Activated) return _refLatitude;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _refLatitude;
+				((IPersistEntity)this).Activate(false);
 				return _refLatitude;
 			} 
 			set
@@ -58,10 +57,8 @@ namespace Xbim.Ifc4.ProductExtension
 		{ 
 			get 
 			{
-				if(Activated) return _refLongitude;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _refLongitude;
+				((IPersistEntity)this).Activate(false);
 				return _refLongitude;
 			} 
 			set
@@ -75,10 +72,8 @@ namespace Xbim.Ifc4.ProductExtension
 		{ 
 			get 
 			{
-				if(Activated) return _refElevation;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _refElevation;
+				((IPersistEntity)this).Activate(false);
 				return _refElevation;
 			} 
 			set
@@ -92,10 +87,8 @@ namespace Xbim.Ifc4.ProductExtension
 		{ 
 			get 
 			{
-				if(Activated) return _landTitleNumber;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _landTitleNumber;
+				((IPersistEntity)this).Activate(false);
 				return _landTitleNumber;
 			} 
 			set
@@ -109,10 +102,8 @@ namespace Xbim.Ifc4.ProductExtension
 		{ 
 			get 
 			{
-				if(Activated) return _siteAddress;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _siteAddress;
+				((IPersistEntity)this).Activate(false);
 				return _siteAddress;
 			} 
 			set
@@ -143,13 +134,15 @@ namespace Xbim.Ifc4.ProductExtension
 					return;
 				case 9: 
 					if (!_refLatitude.HasValue) _refLatitude = new IfcCompoundPlaneAngleMeasure();
-			        // ReSharper disable once PossibleNullReferenceException
-					((IExpressComplexType)_refLatitude).Add(value.IntegerVal);
+			        var refLatitude = _refLatitude.Value;
+					IfcCompoundPlaneAngleMeasure.Add(ref refLatitude, value.IntegerVal);
+					_refLatitude = refLatitude;
 					return;
 				case 10: 
 					if (!_refLongitude.HasValue) _refLongitude = new IfcCompoundPlaneAngleMeasure();
-			        // ReSharper disable once PossibleNullReferenceException
-					((IExpressComplexType)_refLongitude).Add(value.IntegerVal);
+			        var refLongitude = _refLongitude.Value;
+					IfcCompoundPlaneAngleMeasure.Add(ref refLongitude, value.IntegerVal);
+					_refLongitude = refLongitude;
 					return;
 				case 11: 
 					_refElevation = value.RealVal;
@@ -177,6 +170,23 @@ namespace Xbim.Ifc4.ProductExtension
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcSite
+            var root = (@IfcSite)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcSite left, @IfcSite right)
         {

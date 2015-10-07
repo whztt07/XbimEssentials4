@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc2x3.HVACDomain
 {
-	public enum IfcDamperTypeEnum
+	public enum IfcDamperTypeEnum : byte
 	{
 		@CONTROLDAMPER ,
 		@FIREDAMPER ,

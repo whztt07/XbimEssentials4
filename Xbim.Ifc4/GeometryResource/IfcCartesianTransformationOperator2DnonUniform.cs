@@ -7,6 +7,7 @@
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -15,7 +16,7 @@ namespace Xbim.Ifc4.GeometryResource
 {
 	[ExpressType("IFCCARTESIANTRANSFORMATIONOPERATOR2DNONUNIFORM", 472)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcCartesianTransformationOperator2DnonUniform : IfcCartesianTransformationOperator2D, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcCartesianTransformationOperator2DnonUniform>, System.IEquatable<@IfcCartesianTransformationOperator2DnonUniform>
+	public  partial class @IfcCartesianTransformationOperator2DnonUniform : IfcCartesianTransformationOperator2D, IInstantiableEntity, IEqualityComparer<@IfcCartesianTransformationOperator2DnonUniform>, IEquatable<@IfcCartesianTransformationOperator2DnonUniform>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcCartesianTransformationOperator2DnonUniform(IModel model) : base(model) 		{ 
@@ -32,10 +33,8 @@ namespace Xbim.Ifc4.GeometryResource
 		{ 
 			get 
 			{
-				if(Activated) return _scale2;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _scale2;
+				((IPersistEntity)this).Activate(false);
 				return _scale2;
 			} 
 			set
@@ -80,6 +79,23 @@ namespace Xbim.Ifc4.GeometryResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcCartesianTransformationOperator2DnonUniform
+            var root = (@IfcCartesianTransformationOperator2DnonUniform)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcCartesianTransformationOperator2DnonUniform left, @IfcCartesianTransformationOperator2DnonUniform right)
         {

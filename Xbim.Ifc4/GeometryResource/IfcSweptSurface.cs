@@ -8,6 +8,8 @@
 // ------------------------------------------------------------------------------
 
 using Xbim.Ifc4.ProfileResource;
+using System;
+using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
 
@@ -15,7 +17,7 @@ namespace Xbim.Ifc4.GeometryResource
 {
 	[ExpressType("IFCSWEPTSURFACE", 1069)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public abstract partial class @IfcSweptSurface : IfcSurface, System.Collections.Generic.IEqualityComparer<@IfcSweptSurface>, System.IEquatable<@IfcSweptSurface>
+	public abstract partial class @IfcSweptSurface : IfcSurface, IEqualityComparer<@IfcSweptSurface>, IEquatable<@IfcSweptSurface>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcSweptSurface(IModel model) : base(model) 		{ 
@@ -33,10 +35,8 @@ namespace Xbim.Ifc4.GeometryResource
 		{ 
 			get 
 			{
-				if(Activated) return _sweptCurve;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _sweptCurve;
+				((IPersistEntity)this).Activate(false);
 				return _sweptCurve;
 			} 
 			set
@@ -50,10 +50,8 @@ namespace Xbim.Ifc4.GeometryResource
 		{ 
 			get 
 			{
-				if(Activated) return _position;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _position;
+				((IPersistEntity)this).Activate(false);
 				return _position;
 			} 
 			set
@@ -95,6 +93,23 @@ namespace Xbim.Ifc4.GeometryResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcSweptSurface
+            var root = (@IfcSweptSurface)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcSweptSurface left, @IfcSweptSurface right)
         {

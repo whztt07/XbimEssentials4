@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.ElectricalDomain
 {
-	public enum IfcCableFittingTypeEnum
+	public enum IfcCableFittingTypeEnum : byte
 	{
 		@CONNECTOR ,
 		@ENTRY ,

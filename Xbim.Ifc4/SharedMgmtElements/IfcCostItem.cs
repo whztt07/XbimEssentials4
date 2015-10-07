@@ -12,6 +12,7 @@ using Xbim.Ifc4.UtilityResource;
 using Xbim.Ifc4.MeasureResource;
 using Xbim.Ifc4.CostResource;
 using Xbim.Ifc4.QuantityResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -20,13 +21,13 @@ namespace Xbim.Ifc4.SharedMgmtElements
 {
 	[ExpressType("IFCCOSTITEM", 538)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcCostItem : IfcControl, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcCostItem>, System.IEquatable<@IfcCostItem>
+	public  partial class @IfcCostItem : IfcControl, IInstantiableEntity, IEqualityComparer<@IfcCostItem>, IEquatable<@IfcCostItem>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcCostItem(IModel model) : base(model) 		{ 
 			Model = model; 
-			_costValues = new OptionalItemSet<IfcCostValue>( this );
-			_costQuantities = new OptionalItemSet<IfcPhysicalQuantity>( this );
+			_costValues = new OptionalItemSet<IfcCostValue>( this, 0 );
+			_costQuantities = new OptionalItemSet<IfcPhysicalQuantity>( this, 0 );
 		}
 
 		#region Explicit attribute fields
@@ -41,10 +42,8 @@ namespace Xbim.Ifc4.SharedMgmtElements
 		{ 
 			get 
 			{
-				if(Activated) return _predefinedType;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _predefinedType;
+				((IPersistEntity)this).Activate(false);
 				return _predefinedType;
 			} 
 			set
@@ -58,10 +57,8 @@ namespace Xbim.Ifc4.SharedMgmtElements
 		{ 
 			get 
 			{
-				if(Activated) return _costValues;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _costValues;
+				((IPersistEntity)this).Activate(false);
 				return _costValues;
 			} 
 		}
@@ -71,10 +68,8 @@ namespace Xbim.Ifc4.SharedMgmtElements
 		{ 
 			get 
 			{
-				if(Activated) return _costQuantities;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _costQuantities;
+				((IPersistEntity)this).Activate(false);
 				return _costQuantities;
 			} 
 		}
@@ -124,6 +119,23 @@ namespace Xbim.Ifc4.SharedMgmtElements
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcCostItem
+            var root = (@IfcCostItem)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcCostItem left, @IfcCostItem right)
         {

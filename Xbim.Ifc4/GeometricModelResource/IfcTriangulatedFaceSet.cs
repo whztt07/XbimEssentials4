@@ -8,6 +8,7 @@
 // ------------------------------------------------------------------------------
 
 using Xbim.Ifc4.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -16,13 +17,13 @@ namespace Xbim.Ifc4.GeometricModelResource
 {
 	[ExpressType("IFCTRIANGULATEDFACESET", 1113)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcTriangulatedFaceSet : IfcTessellatedFaceSet, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcTriangulatedFaceSet>, System.IEquatable<@IfcTriangulatedFaceSet>
+	public  partial class @IfcTriangulatedFaceSet : IfcTessellatedFaceSet, IInstantiableEntity, IEqualityComparer<@IfcTriangulatedFaceSet>, IEquatable<@IfcTriangulatedFaceSet>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcTriangulatedFaceSet(IModel model) : base(model) 		{ 
 			Model = model; 
-			_coordIndex = new ItemSet<ItemSet<long>>( this );
-			_normalIndex = new OptionalItemSet<ItemSet<long>>( this );
+			_coordIndex = new ItemSet<ItemSet<long>>( this, 0 );
+			_normalIndex = new OptionalItemSet<ItemSet<long>>( this, 0 );
 		}
 
 		#region Explicit attribute fields
@@ -36,10 +37,8 @@ namespace Xbim.Ifc4.GeometricModelResource
 		{ 
 			get 
 			{
-				if(Activated) return _coordIndex;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _coordIndex;
+				((IPersistEntity)this).Activate(false);
 				return _coordIndex;
 			} 
 		}
@@ -49,10 +48,8 @@ namespace Xbim.Ifc4.GeometricModelResource
 		{ 
 			get 
 			{
-				if(Activated) return _normalIndex;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _normalIndex;
+				((IPersistEntity)this).Activate(false);
 				return _normalIndex;
 			} 
 		}
@@ -98,6 +95,23 @@ namespace Xbim.Ifc4.GeometricModelResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcTriangulatedFaceSet
+            var root = (@IfcTriangulatedFaceSet)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcTriangulatedFaceSet left, @IfcTriangulatedFaceSet right)
         {

@@ -11,6 +11,7 @@ using Xbim.Ifc2x3.Kernel;
 using Xbim.Ifc2x3.UtilityResource;
 using Xbim.Ifc2x3.MeasureResource;
 using Xbim.Ifc2x3.TimeSeriesResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -19,7 +20,7 @@ namespace Xbim.Ifc2x3.SharedBldgServiceElements
 {
 	[ExpressType("IFCSPACETHERMALLOADPROPERTIES", 610)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcSpaceThermalLoadProperties : IfcPropertySetDefinition, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcSpaceThermalLoadProperties>, System.IEquatable<@IfcSpaceThermalLoadProperties>
+	public  partial class @IfcSpaceThermalLoadProperties : IfcPropertySetDefinition, IInstantiableEntity, IEqualityComparer<@IfcSpaceThermalLoadProperties>, IEquatable<@IfcSpaceThermalLoadProperties>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcSpaceThermalLoadProperties(IModel model) : base(model) 		{ 
@@ -45,10 +46,8 @@ namespace Xbim.Ifc2x3.SharedBldgServiceElements
 		{ 
 			get 
 			{
-				if(Activated) return _applicableValueRatio;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _applicableValueRatio;
+				((IPersistEntity)this).Activate(false);
 				return _applicableValueRatio;
 			} 
 			set
@@ -62,10 +61,8 @@ namespace Xbim.Ifc2x3.SharedBldgServiceElements
 		{ 
 			get 
 			{
-				if(Activated) return _thermalLoadSource;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _thermalLoadSource;
+				((IPersistEntity)this).Activate(false);
 				return _thermalLoadSource;
 			} 
 			set
@@ -79,10 +76,8 @@ namespace Xbim.Ifc2x3.SharedBldgServiceElements
 		{ 
 			get 
 			{
-				if(Activated) return _propertySource;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _propertySource;
+				((IPersistEntity)this).Activate(false);
 				return _propertySource;
 			} 
 			set
@@ -96,10 +91,8 @@ namespace Xbim.Ifc2x3.SharedBldgServiceElements
 		{ 
 			get 
 			{
-				if(Activated) return _sourceDescription;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _sourceDescription;
+				((IPersistEntity)this).Activate(false);
 				return _sourceDescription;
 			} 
 			set
@@ -113,10 +106,8 @@ namespace Xbim.Ifc2x3.SharedBldgServiceElements
 		{ 
 			get 
 			{
-				if(Activated) return _maximumValue;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _maximumValue;
+				((IPersistEntity)this).Activate(false);
 				return _maximumValue;
 			} 
 			set
@@ -130,10 +121,8 @@ namespace Xbim.Ifc2x3.SharedBldgServiceElements
 		{ 
 			get 
 			{
-				if(Activated) return _minimumValue;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _minimumValue;
+				((IPersistEntity)this).Activate(false);
 				return _minimumValue;
 			} 
 			set
@@ -147,10 +136,8 @@ namespace Xbim.Ifc2x3.SharedBldgServiceElements
 		{ 
 			get 
 			{
-				if(Activated) return _thermalLoadTimeSeriesValues;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _thermalLoadTimeSeriesValues;
+				((IPersistEntity)this).Activate(false);
 				return _thermalLoadTimeSeriesValues;
 			} 
 			set
@@ -164,10 +151,8 @@ namespace Xbim.Ifc2x3.SharedBldgServiceElements
 		{ 
 			get 
 			{
-				if(Activated) return _userDefinedThermalLoadSource;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _userDefinedThermalLoadSource;
+				((IPersistEntity)this).Activate(false);
 				return _userDefinedThermalLoadSource;
 			} 
 			set
@@ -181,10 +166,8 @@ namespace Xbim.Ifc2x3.SharedBldgServiceElements
 		{ 
 			get 
 			{
-				if(Activated) return _userDefinedPropertySource;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _userDefinedPropertySource;
+				((IPersistEntity)this).Activate(false);
 				return _userDefinedPropertySource;
 			} 
 			set
@@ -198,10 +181,8 @@ namespace Xbim.Ifc2x3.SharedBldgServiceElements
 		{ 
 			get 
 			{
-				if(Activated) return _thermalLoadType;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _thermalLoadType;
+				((IPersistEntity)this).Activate(false);
 				return _thermalLoadType;
 			} 
 			set
@@ -272,6 +253,23 @@ namespace Xbim.Ifc2x3.SharedBldgServiceElements
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcSpaceThermalLoadProperties
+            var root = (@IfcSpaceThermalLoadProperties)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcSpaceThermalLoadProperties left, @IfcSpaceThermalLoadProperties right)
         {

@@ -7,6 +7,7 @@
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -16,12 +17,12 @@ namespace Xbim.CobieExpress
 	[IndexedClass]
 	[ExpressType("JOB", 29)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @CobieJob : CobieReferencedObject, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@CobieJob>, System.IEquatable<@CobieJob>
+	public  partial class @CobieJob : CobieReferencedObject, IInstantiableEntity, IEqualityComparer<@CobieJob>, IEquatable<@CobieJob>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal CobieJob(IModel model) : base(model) 		{ 
 			Model = model; 
-			_resources = new ItemSet<CobieResource>( this );
+			_resources = new ItemSet<CobieResource>( this, 0 );
 		}
 
 		#region Explicit attribute fields
@@ -46,10 +47,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _taskNumber;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _taskNumber;
+				((IPersistEntity)this).Activate(false);
 				return _taskNumber;
 			} 
 			set
@@ -63,10 +62,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _name;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _name;
+				((IPersistEntity)this).Activate(false);
 				return _name;
 			} 
 			set
@@ -80,10 +77,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _description;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _description;
+				((IPersistEntity)this).Activate(false);
 				return _description;
 			} 
 			set
@@ -97,10 +92,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _jobType;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _jobType;
+				((IPersistEntity)this).Activate(false);
 				return _jobType;
 			} 
 			set
@@ -114,10 +107,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _jobStatusType;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _jobStatusType;
+				((IPersistEntity)this).Activate(false);
 				return _jobStatusType;
 			} 
 			set
@@ -131,10 +122,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _duration;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _duration;
+				((IPersistEntity)this).Activate(false);
 				return _duration;
 			} 
 			set
@@ -148,10 +137,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _durationUnit;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _durationUnit;
+				((IPersistEntity)this).Activate(false);
 				return _durationUnit;
 			} 
 			set
@@ -165,10 +152,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _start;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _start;
+				((IPersistEntity)this).Activate(false);
 				return _start;
 			} 
 			set
@@ -182,10 +167,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _startUnit;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _startUnit;
+				((IPersistEntity)this).Activate(false);
 				return _startUnit;
 			} 
 			set
@@ -199,10 +182,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _frequency;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _frequency;
+				((IPersistEntity)this).Activate(false);
 				return _frequency;
 			} 
 			set
@@ -216,10 +197,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _frequencyUnit;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _frequencyUnit;
+				((IPersistEntity)this).Activate(false);
 				return _frequencyUnit;
 			} 
 			set
@@ -233,10 +212,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _priors;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _priors;
+				((IPersistEntity)this).Activate(false);
 				return _priors;
 			} 
 			set
@@ -250,10 +227,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _resources;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _resources;
+				((IPersistEntity)this).Activate(false);
 				return _resources;
 			} 
 		}
@@ -340,6 +315,23 @@ namespace Xbim.CobieExpress
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @CobieJob
+            var root = (@CobieJob)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@CobieJob left, @CobieJob right)
         {

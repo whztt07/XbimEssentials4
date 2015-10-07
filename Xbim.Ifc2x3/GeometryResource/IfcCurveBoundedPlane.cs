@@ -7,6 +7,7 @@
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -15,12 +16,12 @@ namespace Xbim.Ifc2x3.GeometryResource
 {
 	[ExpressType("IFCCURVEBOUNDEDPLANE", 334)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcCurveBoundedPlane : IfcBoundedSurface, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcCurveBoundedPlane>, System.IEquatable<@IfcCurveBoundedPlane>
+	public  partial class @IfcCurveBoundedPlane : IfcBoundedSurface, IInstantiableEntity, IEqualityComparer<@IfcCurveBoundedPlane>, IEquatable<@IfcCurveBoundedPlane>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcCurveBoundedPlane(IModel model) : base(model) 		{ 
 			Model = model; 
-			_innerBoundaries = new ItemSet<IfcCurve>( this );
+			_innerBoundaries = new ItemSet<IfcCurve>( this, 0 );
 		}
 
 		#region Explicit attribute fields
@@ -35,10 +36,8 @@ namespace Xbim.Ifc2x3.GeometryResource
 		{ 
 			get 
 			{
-				if(Activated) return _basisSurface;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _basisSurface;
+				((IPersistEntity)this).Activate(false);
 				return _basisSurface;
 			} 
 			set
@@ -52,10 +51,8 @@ namespace Xbim.Ifc2x3.GeometryResource
 		{ 
 			get 
 			{
-				if(Activated) return _outerBoundary;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _outerBoundary;
+				((IPersistEntity)this).Activate(false);
 				return _outerBoundary;
 			} 
 			set
@@ -69,10 +66,8 @@ namespace Xbim.Ifc2x3.GeometryResource
 		{ 
 			get 
 			{
-				if(Activated) return _innerBoundaries;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _innerBoundaries;
+				((IPersistEntity)this).Activate(false);
 				return _innerBoundaries;
 			} 
 		}
@@ -113,6 +108,23 @@ namespace Xbim.Ifc2x3.GeometryResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcCurveBoundedPlane
+            var root = (@IfcCurveBoundedPlane)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcCurveBoundedPlane left, @IfcCurveBoundedPlane right)
         {

@@ -12,6 +12,7 @@ using Xbim.Ifc4.MeasureResource;
 using Xbim.Ifc4.GeometricConstraintResource;
 using Xbim.Ifc4.RepresentationResource;
 using Xbim.Ifc4.ActorResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -20,7 +21,7 @@ namespace Xbim.Ifc4.ProductExtension
 {
 	[ExpressType("IFCBUILDING", 447)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcBuilding : IfcSpatialStructureElement, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcBuilding>, System.IEquatable<@IfcBuilding>
+	public  partial class @IfcBuilding : IfcSpatialStructureElement, IInstantiableEntity, IEqualityComparer<@IfcBuilding>, IEquatable<@IfcBuilding>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcBuilding(IModel model) : base(model) 		{ 
@@ -39,10 +40,8 @@ namespace Xbim.Ifc4.ProductExtension
 		{ 
 			get 
 			{
-				if(Activated) return _elevationOfRefHeight;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _elevationOfRefHeight;
+				((IPersistEntity)this).Activate(false);
 				return _elevationOfRefHeight;
 			} 
 			set
@@ -56,10 +55,8 @@ namespace Xbim.Ifc4.ProductExtension
 		{ 
 			get 
 			{
-				if(Activated) return _elevationOfTerrain;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _elevationOfTerrain;
+				((IPersistEntity)this).Activate(false);
 				return _elevationOfTerrain;
 			} 
 			set
@@ -73,10 +70,8 @@ namespace Xbim.Ifc4.ProductExtension
 		{ 
 			get 
 			{
-				if(Activated) return _buildingAddress;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _buildingAddress;
+				((IPersistEntity)this).Activate(false);
 				return _buildingAddress;
 			} 
 			set
@@ -131,6 +126,23 @@ namespace Xbim.Ifc4.ProductExtension
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcBuilding
+            var root = (@IfcBuilding)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcBuilding left, @IfcBuilding right)
         {

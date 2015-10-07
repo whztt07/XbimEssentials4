@@ -9,6 +9,7 @@
 
 using Xbim.Ifc4.MeasureResource;
 using Xbim.Ifc4.ProfileResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -17,12 +18,12 @@ namespace Xbim.Ifc4.MaterialResource
 {
 	[ExpressType("IFCMATERIALPROFILEWITHOFFSETS", 756)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcMaterialProfileWithOffsets : IfcMaterialProfile, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcMaterialProfileWithOffsets>, System.IEquatable<@IfcMaterialProfileWithOffsets>
+	public  partial class @IfcMaterialProfileWithOffsets : IfcMaterialProfile, IInstantiableEntity, IEqualityComparer<@IfcMaterialProfileWithOffsets>, IEquatable<@IfcMaterialProfileWithOffsets>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcMaterialProfileWithOffsets(IModel model) : base(model) 		{ 
 			Model = model; 
-			_offsetValues = new ItemSet<IfcLengthMeasure>( this );
+			_offsetValues = new ItemSet<IfcLengthMeasure>( this, 2 );
 		}
 
 		#region Explicit attribute fields
@@ -35,10 +36,8 @@ namespace Xbim.Ifc4.MaterialResource
 		{ 
 			get 
 			{
-				if(Activated) return _offsetValues;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _offsetValues;
+				((IPersistEntity)this).Activate(false);
 				return _offsetValues;
 			} 
 		}
@@ -81,6 +80,23 @@ namespace Xbim.Ifc4.MaterialResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcMaterialProfileWithOffsets
+            var root = (@IfcMaterialProfileWithOffsets)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcMaterialProfileWithOffsets left, @IfcMaterialProfileWithOffsets right)
         {

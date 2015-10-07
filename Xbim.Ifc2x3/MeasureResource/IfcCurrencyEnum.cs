@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc2x3.MeasureResource
 {
-	public enum IfcCurrencyEnum
+	public enum IfcCurrencyEnum : byte
 	{
 		@AED ,
 		@AES ,

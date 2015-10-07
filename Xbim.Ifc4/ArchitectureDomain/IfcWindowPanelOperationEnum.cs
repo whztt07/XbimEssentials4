@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.ArchitectureDomain
 {
-	public enum IfcWindowPanelOperationEnum
+	public enum IfcWindowPanelOperationEnum : byte
 	{
 		@SIDEHUNGRIGHTHAND ,
 		@SIDEHUNGLEFTHAND ,

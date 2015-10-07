@@ -12,9 +12,9 @@ using Xbim.Ifc4.PropertyResource;
 using Xbim.Ifc4.ExternalReferenceResource;
 using Xbim.Ifc4.MeasureResource;
 using Xbim.Ifc4.DateTimeResource;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
 
@@ -23,9 +23,10 @@ namespace Xbim.Ifc4.CostResource
 	[IndexedClass]
 	[ExpressType("IFCAPPLIEDVALUE", 411)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcAppliedValue : IPersistEntity, INotifyPropertyChanged, IfcMetricValueSelect, IfcObjectReferenceSelect, IfcResourceObjectSelect, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcAppliedValue>, System.IEquatable<@IfcAppliedValue>
+	public  partial class @IfcAppliedValue : INotifyPropertyChanged, IfcMetricValueSelect, IfcObjectReferenceSelect, IfcResourceObjectSelect, IInstantiableEntity, IEqualityComparer<@IfcAppliedValue>, IEquatable<@IfcAppliedValue>
 	{
 		#region Implementation of IPersistEntity
+
 		public int EntityLabel {get; internal set;}
 		
 		public IModel Model { get; internal set; }
@@ -36,29 +37,54 @@ namespace Xbim.Ifc4.CostResource
 		[Obsolete("This property is deprecated and likely to be removed. Use just 'Model' instead.")]
         public IModel ModelOf { get { return Model; } }
 		
-		public bool Activated { get; internal set; }
+	    internal ActivationStatus ActivationStatus = ActivationStatus.NotActivated;
 
+	    ActivationStatus IPersistEntity.ActivationStatus { get { return ActivationStatus; } }
+		
 		void IPersistEntity.Activate(bool write)
 		{
-			if (Activated) return; //activation can only happen once in a lifetime of the object
-
-			Model.Activate(this, write);
-			Activated = true;
+			switch (ActivationStatus)
+		    {
+		        case ActivationStatus.ActivatedReadWrite:
+		            return;
+		        case ActivationStatus.NotActivated:
+		            lock (this)
+		            {
+                        //check again in the lock
+		                if (ActivationStatus == ActivationStatus.NotActivated)
+		                {
+		                    if (Model.Activate(this, write))
+		                    {
+		                        ActivationStatus = write
+		                            ? ActivationStatus.ActivatedReadWrite
+		                            : ActivationStatus.ActivatedRead;
+		                    }
+		                }
+		            }
+		            break;
+		        case ActivationStatus.ActivatedRead:
+		            if (!write) return;
+		            if (Model.Activate(this, true))
+                        ActivationStatus = ActivationStatus.ActivatedReadWrite;
+		            break;
+		        default:
+		            throw new ArgumentOutOfRangeException();
+		    }
 		}
 
 		void IPersistEntity.Activate (Action activation)
 		{
-			if (Activated) return; //activation can only happen once in a lifetime of the object
+			if (ActivationStatus != ActivationStatus.NotActivated) return; //activation can only happen once in a lifetime of the object
 			
 			activation();
-			Activated = true;
+			ActivationStatus = ActivationStatus.ActivatedRead;
 		}
 		#endregion
 
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcAppliedValue(IModel model) 		{ 
 			Model = model; 
-			_components = new OptionalItemSet<IfcAppliedValue>( this );
+			_components = new OptionalItemSet<IfcAppliedValue>( this, 0 );
 		}
 
 		#region Explicit attribute fields
@@ -80,10 +106,8 @@ namespace Xbim.Ifc4.CostResource
 		{ 
 			get 
 			{
-				if(Activated) return _name;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _name;
+				((IPersistEntity)this).Activate(false);
 				return _name;
 			} 
 			set
@@ -97,10 +121,8 @@ namespace Xbim.Ifc4.CostResource
 		{ 
 			get 
 			{
-				if(Activated) return _description;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _description;
+				((IPersistEntity)this).Activate(false);
 				return _description;
 			} 
 			set
@@ -114,10 +136,8 @@ namespace Xbim.Ifc4.CostResource
 		{ 
 			get 
 			{
-				if(Activated) return _appliedValue;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _appliedValue;
+				((IPersistEntity)this).Activate(false);
 				return _appliedValue;
 			} 
 			set
@@ -131,10 +151,8 @@ namespace Xbim.Ifc4.CostResource
 		{ 
 			get 
 			{
-				if(Activated) return _unitBasis;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _unitBasis;
+				((IPersistEntity)this).Activate(false);
 				return _unitBasis;
 			} 
 			set
@@ -148,10 +166,8 @@ namespace Xbim.Ifc4.CostResource
 		{ 
 			get 
 			{
-				if(Activated) return _applicableDate;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _applicableDate;
+				((IPersistEntity)this).Activate(false);
 				return _applicableDate;
 			} 
 			set
@@ -165,10 +181,8 @@ namespace Xbim.Ifc4.CostResource
 		{ 
 			get 
 			{
-				if(Activated) return _fixedUntilDate;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _fixedUntilDate;
+				((IPersistEntity)this).Activate(false);
 				return _fixedUntilDate;
 			} 
 			set
@@ -182,10 +196,8 @@ namespace Xbim.Ifc4.CostResource
 		{ 
 			get 
 			{
-				if(Activated) return _category;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _category;
+				((IPersistEntity)this).Activate(false);
 				return _category;
 			} 
 			set
@@ -199,10 +211,8 @@ namespace Xbim.Ifc4.CostResource
 		{ 
 			get 
 			{
-				if(Activated) return _condition;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _condition;
+				((IPersistEntity)this).Activate(false);
 				return _condition;
 			} 
 			set
@@ -216,10 +226,8 @@ namespace Xbim.Ifc4.CostResource
 		{ 
 			get 
 			{
-				if(Activated) return _arithmeticOperator;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _arithmeticOperator;
+				((IPersistEntity)this).Activate(false);
 				return _arithmeticOperator;
 			} 
 			set
@@ -233,10 +241,8 @@ namespace Xbim.Ifc4.CostResource
 		{ 
 			get 
 			{
-				if(Activated) return _components;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _components;
+				((IPersistEntity)this).Activate(false);
 				return _components;
 			} 
 		}
@@ -272,7 +278,11 @@ namespace Xbim.Ifc4.CostResource
 
 		protected void SetValue<TProperty>(Action<TProperty> setter, TProperty oldValue, TProperty newValue, string notifyPropertyName)
 		{
+			//activate for write if it is not activated yet
+			if (ActivationStatus != ActivationStatus.ActivatedReadWrite)
+				((IPersistEntity)this).Activate(true);
 
+			//just set the value if the model is marked as non-transactional
 			if (!Model.IsTransactional)
 			{
 				setter(newValue);
@@ -284,13 +294,18 @@ namespace Xbim.Ifc4.CostResource
 			var txn = Model.CurrentTransaction;
 			if (txn == null) throw new Exception("Operation out of transaction.");
 
-			Action doAction = () => setter(newValue);
-			Action undoAction = () => setter(oldValue);
-			setter(newValue);
+			Action doAction = () => {
+				setter(newValue);
+				NotifyPropertyChanged(notifyPropertyName);
+			};
+			Action undoAction = () => {
+				setter(oldValue);
+				NotifyPropertyChanged(notifyPropertyName);
+			};
+			doAction();
 
 			//do action and THAN add to transaction so that it gets the object in new state
 			txn.AddReversibleAction(doAction, undoAction, this, ChangeType.Modified);
-			NotifyPropertyChanged(notifyPropertyName);
 		}
 
 		#endregion

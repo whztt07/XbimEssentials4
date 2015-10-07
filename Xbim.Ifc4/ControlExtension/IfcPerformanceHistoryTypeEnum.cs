@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.ControlExtension
 {
-	public enum IfcPerformanceHistoryTypeEnum
+	public enum IfcPerformanceHistoryTypeEnum : byte
 	{
 		@USERDEFINED ,
 		@NOTDEFINED 

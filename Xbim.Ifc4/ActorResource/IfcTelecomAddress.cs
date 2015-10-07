@@ -9,6 +9,7 @@
 
 using Xbim.Ifc4.MeasureResource;
 using Xbim.Ifc4.ExternalReferenceResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -17,15 +18,15 @@ namespace Xbim.Ifc4.ActorResource
 {
 	[ExpressType("IFCTELECOMADDRESS", 1085)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcTelecomAddress : IfcAddress, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcTelecomAddress>, System.IEquatable<@IfcTelecomAddress>
+	public  partial class @IfcTelecomAddress : IfcAddress, IInstantiableEntity, IEqualityComparer<@IfcTelecomAddress>, IEquatable<@IfcTelecomAddress>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcTelecomAddress(IModel model) : base(model) 		{ 
 			Model = model; 
-			_telephoneNumbers = new OptionalItemSet<IfcLabel>( this );
-			_facsimileNumbers = new OptionalItemSet<IfcLabel>( this );
-			_electronicMailAddresses = new OptionalItemSet<IfcLabel>( this );
-			_messagingIDs = new OptionalItemSet<IfcURIReference>( this );
+			_telephoneNumbers = new OptionalItemSet<IfcLabel>( this, 0 );
+			_facsimileNumbers = new OptionalItemSet<IfcLabel>( this, 0 );
+			_electronicMailAddresses = new OptionalItemSet<IfcLabel>( this, 0 );
+			_messagingIDs = new OptionalItemSet<IfcURIReference>( this, 0 );
 		}
 
 		#region Explicit attribute fields
@@ -43,10 +44,8 @@ namespace Xbim.Ifc4.ActorResource
 		{ 
 			get 
 			{
-				if(Activated) return _telephoneNumbers;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _telephoneNumbers;
+				((IPersistEntity)this).Activate(false);
 				return _telephoneNumbers;
 			} 
 		}
@@ -56,10 +55,8 @@ namespace Xbim.Ifc4.ActorResource
 		{ 
 			get 
 			{
-				if(Activated) return _facsimileNumbers;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _facsimileNumbers;
+				((IPersistEntity)this).Activate(false);
 				return _facsimileNumbers;
 			} 
 		}
@@ -69,10 +66,8 @@ namespace Xbim.Ifc4.ActorResource
 		{ 
 			get 
 			{
-				if(Activated) return _pagerNumber;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _pagerNumber;
+				((IPersistEntity)this).Activate(false);
 				return _pagerNumber;
 			} 
 			set
@@ -86,10 +81,8 @@ namespace Xbim.Ifc4.ActorResource
 		{ 
 			get 
 			{
-				if(Activated) return _electronicMailAddresses;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _electronicMailAddresses;
+				((IPersistEntity)this).Activate(false);
 				return _electronicMailAddresses;
 			} 
 		}
@@ -99,10 +92,8 @@ namespace Xbim.Ifc4.ActorResource
 		{ 
 			get 
 			{
-				if(Activated) return _wWWHomePageURL;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _wWWHomePageURL;
+				((IPersistEntity)this).Activate(false);
 				return _wWWHomePageURL;
 			} 
 			set
@@ -116,10 +107,8 @@ namespace Xbim.Ifc4.ActorResource
 		{ 
 			get 
 			{
-				if(Activated) return _messagingIDs;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _messagingIDs;
+				((IPersistEntity)this).Activate(false);
 				return _messagingIDs;
 			} 
 		}
@@ -178,6 +167,23 @@ namespace Xbim.Ifc4.ActorResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcTelecomAddress
+            var root = (@IfcTelecomAddress)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcTelecomAddress left, @IfcTelecomAddress right)
         {

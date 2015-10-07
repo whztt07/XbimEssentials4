@@ -10,6 +10,7 @@
 using Xbim.Ifc2x3.Kernel;
 using Xbim.Ifc2x3.UtilityResource;
 using Xbim.Ifc2x3.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -18,7 +19,7 @@ namespace Xbim.Ifc2x3.SharedBldgServiceElements
 {
 	[ExpressType("IFCENERGYPROPERTIES", 176)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcEnergyProperties : IfcPropertySetDefinition, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcEnergyProperties>, System.IEquatable<@IfcEnergyProperties>
+	public  partial class @IfcEnergyProperties : IfcPropertySetDefinition, IInstantiableEntity, IEqualityComparer<@IfcEnergyProperties>, IEquatable<@IfcEnergyProperties>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcEnergyProperties(IModel model) : base(model) 		{ 
@@ -36,10 +37,8 @@ namespace Xbim.Ifc2x3.SharedBldgServiceElements
 		{ 
 			get 
 			{
-				if(Activated) return _energySequence;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _energySequence;
+				((IPersistEntity)this).Activate(false);
 				return _energySequence;
 			} 
 			set
@@ -53,10 +52,8 @@ namespace Xbim.Ifc2x3.SharedBldgServiceElements
 		{ 
 			get 
 			{
-				if(Activated) return _userDefinedEnergySequence;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _userDefinedEnergySequence;
+				((IPersistEntity)this).Activate(false);
 				return _userDefinedEnergySequence;
 			} 
 			set
@@ -103,6 +100,23 @@ namespace Xbim.Ifc2x3.SharedBldgServiceElements
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcEnergyProperties
+            var root = (@IfcEnergyProperties)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcEnergyProperties left, @IfcEnergyProperties right)
         {

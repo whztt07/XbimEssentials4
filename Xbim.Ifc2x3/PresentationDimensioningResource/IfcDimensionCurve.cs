@@ -11,6 +11,7 @@ using Xbim.Ifc2x3.PresentationDefinitionResource;
 using Xbim.Ifc2x3.GeometryResource;
 using Xbim.Ifc2x3.MeasureResource;
 using Xbim.Ifc2x3.PresentationAppearanceResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -19,7 +20,7 @@ namespace Xbim.Ifc2x3.PresentationDimensioningResource
 {
 	[ExpressType("IFCDIMENSIONCURVE", 742)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcDimensionCurve : IfcAnnotationCurveOccurrence, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcDimensionCurve>, System.IEquatable<@IfcDimensionCurve>
+	public  partial class @IfcDimensionCurve : IfcAnnotationCurveOccurrence, IInstantiableEntity, IEqualityComparer<@IfcDimensionCurve>, IEquatable<@IfcDimensionCurve>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcDimensionCurve(IModel model) : base(model) 		{ 
@@ -33,7 +34,7 @@ namespace Xbim.Ifc2x3.PresentationDimensioningResource
 		{ 
 			get 
 			{
-				return Model.Instances.Where<IfcTerminatorSymbol>(e => e.AnnotatedCurve == this);
+				return Model.Instances.Where<IfcTerminatorSymbol>(e => (e.AnnotatedCurve as IfcDimensionCurve) == this);
 			} 
 		}
 		#endregion
@@ -69,6 +70,23 @@ namespace Xbim.Ifc2x3.PresentationDimensioningResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcDimensionCurve
+            var root = (@IfcDimensionCurve)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcDimensionCurve left, @IfcDimensionCurve right)
         {

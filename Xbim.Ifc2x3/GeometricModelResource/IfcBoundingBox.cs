@@ -9,6 +9,7 @@
 
 using Xbim.Ifc2x3.GeometryResource;
 using Xbim.Ifc2x3.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -17,7 +18,7 @@ namespace Xbim.Ifc2x3.GeometricModelResource
 {
 	[ExpressType("IFCBOUNDINGBOX", 151)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcBoundingBox : IfcGeometricRepresentationItem, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcBoundingBox>, System.IEquatable<@IfcBoundingBox>
+	public  partial class @IfcBoundingBox : IfcGeometricRepresentationItem, IInstantiableEntity, IEqualityComparer<@IfcBoundingBox>, IEquatable<@IfcBoundingBox>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcBoundingBox(IModel model) : base(model) 		{ 
@@ -37,10 +38,8 @@ namespace Xbim.Ifc2x3.GeometricModelResource
 		{ 
 			get 
 			{
-				if(Activated) return _corner;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _corner;
+				((IPersistEntity)this).Activate(false);
 				return _corner;
 			} 
 			set
@@ -54,10 +53,8 @@ namespace Xbim.Ifc2x3.GeometricModelResource
 		{ 
 			get 
 			{
-				if(Activated) return _xDim;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _xDim;
+				((IPersistEntity)this).Activate(false);
 				return _xDim;
 			} 
 			set
@@ -71,10 +68,8 @@ namespace Xbim.Ifc2x3.GeometricModelResource
 		{ 
 			get 
 			{
-				if(Activated) return _yDim;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _yDim;
+				((IPersistEntity)this).Activate(false);
 				return _yDim;
 			} 
 			set
@@ -88,10 +83,8 @@ namespace Xbim.Ifc2x3.GeometricModelResource
 		{ 
 			get 
 			{
-				if(Activated) return _zDim;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _zDim;
+				((IPersistEntity)this).Activate(false);
 				return _zDim;
 			} 
 			set
@@ -138,6 +131,23 @@ namespace Xbim.Ifc2x3.GeometricModelResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcBoundingBox
+            var root = (@IfcBoundingBox)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcBoundingBox left, @IfcBoundingBox right)
         {

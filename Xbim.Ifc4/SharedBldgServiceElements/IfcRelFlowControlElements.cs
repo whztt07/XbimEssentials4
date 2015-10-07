@@ -10,6 +10,7 @@
 using Xbim.Ifc4.Kernel;
 using Xbim.Ifc4.UtilityResource;
 using Xbim.Ifc4.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -18,12 +19,12 @@ namespace Xbim.Ifc4.SharedBldgServiceElements
 {
 	[ExpressType("IFCRELFLOWCONTROLELEMENTS", 937)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcRelFlowControlElements : IfcRelConnects, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcRelFlowControlElements>, System.IEquatable<@IfcRelFlowControlElements>
+	public  partial class @IfcRelFlowControlElements : IfcRelConnects, IInstantiableEntity, IEqualityComparer<@IfcRelFlowControlElements>, IEquatable<@IfcRelFlowControlElements>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcRelFlowControlElements(IModel model) : base(model) 		{ 
 			Model = model; 
-			_relatedControlElements = new ItemSet<IfcDistributionControlElement>( this );
+			_relatedControlElements = new ItemSet<IfcDistributionControlElement>( this, 0 );
 		}
 
 		#region Explicit attribute fields
@@ -38,10 +39,8 @@ namespace Xbim.Ifc4.SharedBldgServiceElements
 		{ 
 			get 
 			{
-				if(Activated) return _relatedControlElements;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _relatedControlElements;
+				((IPersistEntity)this).Activate(false);
 				return _relatedControlElements;
 			} 
 		}
@@ -52,10 +51,8 @@ namespace Xbim.Ifc4.SharedBldgServiceElements
 		{ 
 			get 
 			{
-				if(Activated) return _relatingFlowElement;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _relatingFlowElement;
+				((IPersistEntity)this).Activate(false);
 				return _relatingFlowElement;
 			} 
 			set
@@ -103,6 +100,23 @@ namespace Xbim.Ifc4.SharedBldgServiceElements
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcRelFlowControlElements
+            var root = (@IfcRelFlowControlElements)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcRelFlowControlElements left, @IfcRelFlowControlElements right)
         {

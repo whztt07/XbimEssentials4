@@ -11,6 +11,7 @@ using Xbim.Ifc2x3.Kernel;
 using Xbim.Ifc2x3.UtilityResource;
 using Xbim.Ifc2x3.MeasureResource;
 using Xbim.Ifc2x3.ProductExtension;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -19,7 +20,7 @@ namespace Xbim.Ifc2x3.ArchitectureDomain
 {
 	[ExpressType("IFCRELINTERACTIONREQUIREMENTS", 708)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcRelInteractionRequirements : IfcRelConnects, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcRelInteractionRequirements>, System.IEquatable<@IfcRelInteractionRequirements>
+	public  partial class @IfcRelInteractionRequirements : IfcRelConnects, IInstantiableEntity, IEqualityComparer<@IfcRelInteractionRequirements>, IEquatable<@IfcRelInteractionRequirements>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcRelInteractionRequirements(IModel model) : base(model) 		{ 
@@ -40,10 +41,8 @@ namespace Xbim.Ifc2x3.ArchitectureDomain
 		{ 
 			get 
 			{
-				if(Activated) return _dailyInteraction;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _dailyInteraction;
+				((IPersistEntity)this).Activate(false);
 				return _dailyInteraction;
 			} 
 			set
@@ -57,10 +56,8 @@ namespace Xbim.Ifc2x3.ArchitectureDomain
 		{ 
 			get 
 			{
-				if(Activated) return _importanceRating;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _importanceRating;
+				((IPersistEntity)this).Activate(false);
 				return _importanceRating;
 			} 
 			set
@@ -74,10 +71,8 @@ namespace Xbim.Ifc2x3.ArchitectureDomain
 		{ 
 			get 
 			{
-				if(Activated) return _locationOfInteraction;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _locationOfInteraction;
+				((IPersistEntity)this).Activate(false);
 				return _locationOfInteraction;
 			} 
 			set
@@ -92,10 +87,8 @@ namespace Xbim.Ifc2x3.ArchitectureDomain
 		{ 
 			get 
 			{
-				if(Activated) return _relatedSpaceProgram;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _relatedSpaceProgram;
+				((IPersistEntity)this).Activate(false);
 				return _relatedSpaceProgram;
 			} 
 			set
@@ -110,10 +103,8 @@ namespace Xbim.Ifc2x3.ArchitectureDomain
 		{ 
 			get 
 			{
-				if(Activated) return _relatingSpaceProgram;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _relatingSpaceProgram;
+				((IPersistEntity)this).Activate(false);
 				return _relatingSpaceProgram;
 			} 
 			set
@@ -169,6 +160,23 @@ namespace Xbim.Ifc2x3.ArchitectureDomain
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcRelInteractionRequirements
+            var root = (@IfcRelInteractionRequirements)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcRelInteractionRequirements left, @IfcRelInteractionRequirements right)
         {

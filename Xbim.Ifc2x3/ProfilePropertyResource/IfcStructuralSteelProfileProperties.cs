@@ -9,6 +9,7 @@
 
 using Xbim.Ifc2x3.MeasureResource;
 using Xbim.Ifc2x3.ProfileResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -17,7 +18,7 @@ namespace Xbim.Ifc2x3.ProfilePropertyResource
 {
 	[ExpressType("IFCSTRUCTURALSTEELPROFILEPROPERTIES", 692)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcStructuralSteelProfileProperties : IfcStructuralProfileProperties, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcStructuralSteelProfileProperties>, System.IEquatable<@IfcStructuralSteelProfileProperties>
+	public  partial class @IfcStructuralSteelProfileProperties : IfcStructuralProfileProperties, IInstantiableEntity, IEqualityComparer<@IfcStructuralSteelProfileProperties>, IEquatable<@IfcStructuralSteelProfileProperties>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcStructuralSteelProfileProperties(IModel model) : base(model) 		{ 
@@ -37,10 +38,8 @@ namespace Xbim.Ifc2x3.ProfilePropertyResource
 		{ 
 			get 
 			{
-				if(Activated) return _shearAreaZ;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _shearAreaZ;
+				((IPersistEntity)this).Activate(false);
 				return _shearAreaZ;
 			} 
 			set
@@ -54,10 +53,8 @@ namespace Xbim.Ifc2x3.ProfilePropertyResource
 		{ 
 			get 
 			{
-				if(Activated) return _shearAreaY;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _shearAreaY;
+				((IPersistEntity)this).Activate(false);
 				return _shearAreaY;
 			} 
 			set
@@ -71,10 +68,8 @@ namespace Xbim.Ifc2x3.ProfilePropertyResource
 		{ 
 			get 
 			{
-				if(Activated) return _plasticShapeFactorY;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _plasticShapeFactorY;
+				((IPersistEntity)this).Activate(false);
 				return _plasticShapeFactorY;
 			} 
 			set
@@ -88,10 +83,8 @@ namespace Xbim.Ifc2x3.ProfilePropertyResource
 		{ 
 			get 
 			{
-				if(Activated) return _plasticShapeFactorZ;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _plasticShapeFactorZ;
+				((IPersistEntity)this).Activate(false);
 				return _plasticShapeFactorZ;
 			} 
 			set
@@ -165,6 +158,23 @@ namespace Xbim.Ifc2x3.ProfilePropertyResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcStructuralSteelProfileProperties
+            var root = (@IfcStructuralSteelProfileProperties)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcStructuralSteelProfileProperties left, @IfcStructuralSteelProfileProperties right)
         {

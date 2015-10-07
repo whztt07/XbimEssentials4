@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.PresentationAppearanceResource
 {
-	public enum IfcNullStyle
+	public enum IfcNullStyle : byte
 	{
 		@NULL 
 	}

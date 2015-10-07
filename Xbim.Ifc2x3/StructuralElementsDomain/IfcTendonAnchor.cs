@@ -11,6 +11,7 @@ using Xbim.Ifc2x3.UtilityResource;
 using Xbim.Ifc2x3.MeasureResource;
 using Xbim.Ifc2x3.GeometricConstraintResource;
 using Xbim.Ifc2x3.RepresentationResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -19,7 +20,7 @@ namespace Xbim.Ifc2x3.StructuralElementsDomain
 {
 	[ExpressType("IFCTENDONANCHOR", 675)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcTendonAnchor : IfcReinforcingElement, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcTendonAnchor>, System.IEquatable<@IfcTendonAnchor>
+	public  partial class @IfcTendonAnchor : IfcReinforcingElement, IInstantiableEntity, IEqualityComparer<@IfcTendonAnchor>, IEquatable<@IfcTendonAnchor>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcTendonAnchor(IModel model) : base(model) 		{ 
@@ -62,6 +63,23 @@ namespace Xbim.Ifc2x3.StructuralElementsDomain
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcTendonAnchor
+            var root = (@IfcTendonAnchor)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcTendonAnchor left, @IfcTendonAnchor right)
         {

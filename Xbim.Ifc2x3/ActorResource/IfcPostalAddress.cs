@@ -8,6 +8,7 @@
 // ------------------------------------------------------------------------------
 
 using Xbim.Ifc2x3.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -16,12 +17,12 @@ namespace Xbim.Ifc2x3.ActorResource
 {
 	[ExpressType("IFCPOSTALADDRESS", 662)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcPostalAddress : IfcAddress, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcPostalAddress>, System.IEquatable<@IfcPostalAddress>
+	public  partial class @IfcPostalAddress : IfcAddress, IInstantiableEntity, IEqualityComparer<@IfcPostalAddress>, IEquatable<@IfcPostalAddress>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcPostalAddress(IModel model) : base(model) 		{ 
 			Model = model; 
-			_addressLines = new OptionalItemSet<IfcLabel>( this );
+			_addressLines = new OptionalItemSet<IfcLabel>( this, 0 );
 		}
 
 		#region Explicit attribute fields
@@ -40,10 +41,8 @@ namespace Xbim.Ifc2x3.ActorResource
 		{ 
 			get 
 			{
-				if(Activated) return _internalLocation;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _internalLocation;
+				((IPersistEntity)this).Activate(false);
 				return _internalLocation;
 			} 
 			set
@@ -57,10 +56,8 @@ namespace Xbim.Ifc2x3.ActorResource
 		{ 
 			get 
 			{
-				if(Activated) return _addressLines;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _addressLines;
+				((IPersistEntity)this).Activate(false);
 				return _addressLines;
 			} 
 		}
@@ -70,10 +67,8 @@ namespace Xbim.Ifc2x3.ActorResource
 		{ 
 			get 
 			{
-				if(Activated) return _postalBox;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _postalBox;
+				((IPersistEntity)this).Activate(false);
 				return _postalBox;
 			} 
 			set
@@ -87,10 +82,8 @@ namespace Xbim.Ifc2x3.ActorResource
 		{ 
 			get 
 			{
-				if(Activated) return _town;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _town;
+				((IPersistEntity)this).Activate(false);
 				return _town;
 			} 
 			set
@@ -104,10 +97,8 @@ namespace Xbim.Ifc2x3.ActorResource
 		{ 
 			get 
 			{
-				if(Activated) return _region;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _region;
+				((IPersistEntity)this).Activate(false);
 				return _region;
 			} 
 			set
@@ -121,10 +112,8 @@ namespace Xbim.Ifc2x3.ActorResource
 		{ 
 			get 
 			{
-				if(Activated) return _postalCode;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _postalCode;
+				((IPersistEntity)this).Activate(false);
 				return _postalCode;
 			} 
 			set
@@ -138,10 +127,8 @@ namespace Xbim.Ifc2x3.ActorResource
 		{ 
 			get 
 			{
-				if(Activated) return _country;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _country;
+				((IPersistEntity)this).Activate(false);
 				return _country;
 			} 
 			set
@@ -204,6 +191,23 @@ namespace Xbim.Ifc2x3.ActorResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcPostalAddress
+            var root = (@IfcPostalAddress)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcPostalAddress left, @IfcPostalAddress right)
         {

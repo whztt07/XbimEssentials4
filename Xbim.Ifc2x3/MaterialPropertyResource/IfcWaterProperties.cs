@@ -9,6 +9,7 @@
 
 using Xbim.Ifc2x3.MaterialResource;
 using Xbim.Ifc2x3.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -17,7 +18,7 @@ namespace Xbim.Ifc2x3.MaterialPropertyResource
 {
 	[ExpressType("IFCWATERPROPERTIES", 721)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcWaterProperties : IfcMaterialProperties, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcWaterProperties>, System.IEquatable<@IfcWaterProperties>
+	public  partial class @IfcWaterProperties : IfcMaterialProperties, IInstantiableEntity, IEqualityComparer<@IfcWaterProperties>, IEquatable<@IfcWaterProperties>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcWaterProperties(IModel model) : base(model) 		{ 
@@ -40,10 +41,8 @@ namespace Xbim.Ifc2x3.MaterialPropertyResource
 		{ 
 			get 
 			{
-				if(Activated) return _isPotable;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _isPotable;
+				((IPersistEntity)this).Activate(false);
 				return _isPotable;
 			} 
 			set
@@ -57,10 +56,8 @@ namespace Xbim.Ifc2x3.MaterialPropertyResource
 		{ 
 			get 
 			{
-				if(Activated) return _hardness;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _hardness;
+				((IPersistEntity)this).Activate(false);
 				return _hardness;
 			} 
 			set
@@ -74,10 +71,8 @@ namespace Xbim.Ifc2x3.MaterialPropertyResource
 		{ 
 			get 
 			{
-				if(Activated) return _alkalinityConcentration;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _alkalinityConcentration;
+				((IPersistEntity)this).Activate(false);
 				return _alkalinityConcentration;
 			} 
 			set
@@ -91,10 +86,8 @@ namespace Xbim.Ifc2x3.MaterialPropertyResource
 		{ 
 			get 
 			{
-				if(Activated) return _acidityConcentration;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _acidityConcentration;
+				((IPersistEntity)this).Activate(false);
 				return _acidityConcentration;
 			} 
 			set
@@ -108,10 +101,8 @@ namespace Xbim.Ifc2x3.MaterialPropertyResource
 		{ 
 			get 
 			{
-				if(Activated) return _impuritiesContent;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _impuritiesContent;
+				((IPersistEntity)this).Activate(false);
 				return _impuritiesContent;
 			} 
 			set
@@ -125,10 +116,8 @@ namespace Xbim.Ifc2x3.MaterialPropertyResource
 		{ 
 			get 
 			{
-				if(Activated) return _pHLevel;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _pHLevel;
+				((IPersistEntity)this).Activate(false);
 				return _pHLevel;
 			} 
 			set
@@ -142,10 +131,8 @@ namespace Xbim.Ifc2x3.MaterialPropertyResource
 		{ 
 			get 
 			{
-				if(Activated) return _dissolvedSolidsContent;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _dissolvedSolidsContent;
+				((IPersistEntity)this).Activate(false);
 				return _dissolvedSolidsContent;
 			} 
 			set
@@ -204,6 +191,23 @@ namespace Xbim.Ifc2x3.MaterialPropertyResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcWaterProperties
+            var root = (@IfcWaterProperties)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcWaterProperties left, @IfcWaterProperties right)
         {

@@ -7,6 +7,8 @@
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
+using System;
+using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
 
@@ -14,7 +16,7 @@ namespace Xbim.Ifc4.StructuralLoadResource
 {
 	[ExpressType("IFCSTRUCTURALLOADORRESULT", 1027)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public abstract partial class @IfcStructuralLoadOrResult : IfcStructuralLoad, System.Collections.Generic.IEqualityComparer<@IfcStructuralLoadOrResult>, System.IEquatable<@IfcStructuralLoadOrResult>
+	public abstract partial class @IfcStructuralLoadOrResult : IfcStructuralLoad, IEqualityComparer<@IfcStructuralLoadOrResult>, IEquatable<@IfcStructuralLoadOrResult>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcStructuralLoadOrResult(IModel model) : base(model) 		{ 
@@ -49,6 +51,23 @@ namespace Xbim.Ifc4.StructuralLoadResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcStructuralLoadOrResult
+            var root = (@IfcStructuralLoadOrResult)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcStructuralLoadOrResult left, @IfcStructuralLoadOrResult right)
         {

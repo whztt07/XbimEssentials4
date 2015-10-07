@@ -9,6 +9,7 @@
 
 using Xbim.Ifc4.MeasureResource;
 using Xbim.Ifc4.GeometryResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -17,7 +18,7 @@ namespace Xbim.Ifc4.RepresentationResource
 {
 	[ExpressType("IFCSTYLEDREPRESENTATION", 1049)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcStyledRepresentation : IfcStyleModel, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcStyledRepresentation>, System.IEquatable<@IfcStyledRepresentation>
+	public  partial class @IfcStyledRepresentation : IfcStyleModel, IInstantiableEntity, IEqualityComparer<@IfcStyledRepresentation>, IEquatable<@IfcStyledRepresentation>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcStyledRepresentation(IModel model) : base(model) 		{ 
@@ -56,6 +57,23 @@ namespace Xbim.Ifc4.RepresentationResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcStyledRepresentation
+            var root = (@IfcStyledRepresentation)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcStyledRepresentation left, @IfcStyledRepresentation right)
         {

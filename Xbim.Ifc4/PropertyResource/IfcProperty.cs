@@ -9,6 +9,7 @@
 
 using Xbim.Ifc4.MeasureResource;
 using Xbim.Ifc4.Kernel;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -18,7 +19,7 @@ namespace Xbim.Ifc4.PropertyResource
 	[IndexedClass]
 	[ExpressType("IFCPROPERTY", 848)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public abstract partial class @IfcProperty : IfcPropertyAbstraction, System.Collections.Generic.IEqualityComparer<@IfcProperty>, System.IEquatable<@IfcProperty>
+	public abstract partial class @IfcProperty : IfcPropertyAbstraction, IEqualityComparer<@IfcProperty>, IEquatable<@IfcProperty>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcProperty(IModel model) : base(model) 		{ 
@@ -36,10 +37,8 @@ namespace Xbim.Ifc4.PropertyResource
 		{ 
 			get 
 			{
-				if(Activated) return _name;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _name;
+				((IPersistEntity)this).Activate(false);
 				return _name;
 			} 
 			set
@@ -53,10 +52,8 @@ namespace Xbim.Ifc4.PropertyResource
 		{ 
 			get 
 			{
-				if(Activated) return _description;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _description;
+				((IPersistEntity)this).Activate(false);
 				return _description;
 			} 
 			set
@@ -81,7 +78,7 @@ namespace Xbim.Ifc4.PropertyResource
 		{ 
 			get 
 			{
-				return Model.Instances.Where<IfcPropertyDependencyRelationship>(e => e.DependingProperty == this);
+				return Model.Instances.Where<IfcPropertyDependencyRelationship>(e => (e.DependingProperty as IfcProperty) == this);
 			} 
 		}
 		[EntityAttribute(-1, EntityAttributeState.Mandatory, EntityAttributeType.Set, EntityAttributeType.Class, -1, -1)]
@@ -89,7 +86,7 @@ namespace Xbim.Ifc4.PropertyResource
 		{ 
 			get 
 			{
-				return Model.Instances.Where<IfcPropertyDependencyRelationship>(e => e.DependantProperty == this);
+				return Model.Instances.Where<IfcPropertyDependencyRelationship>(e => (e.DependantProperty as IfcProperty) == this);
 			} 
 		}
 		[EntityAttribute(-1, EntityAttributeState.Mandatory, EntityAttributeType.Set, EntityAttributeType.Class, -1, -1)]
@@ -131,6 +128,23 @@ namespace Xbim.Ifc4.PropertyResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcProperty
+            var root = (@IfcProperty)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcProperty left, @IfcProperty right)
         {

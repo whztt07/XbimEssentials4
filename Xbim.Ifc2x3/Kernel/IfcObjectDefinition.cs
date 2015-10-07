@@ -7,6 +7,7 @@
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -15,7 +16,7 @@ namespace Xbim.Ifc2x3.Kernel
 {
 	[ExpressType("IFCOBJECTDEFINITION", 22)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public abstract partial class @IfcObjectDefinition : IfcRoot, System.Collections.Generic.IEqualityComparer<@IfcObjectDefinition>, System.IEquatable<@IfcObjectDefinition>
+	public abstract partial class @IfcObjectDefinition : IfcRoot, IEqualityComparer<@IfcObjectDefinition>, IEquatable<@IfcObjectDefinition>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcObjectDefinition(IModel model) : base(model) 		{ 
@@ -37,7 +38,7 @@ namespace Xbim.Ifc2x3.Kernel
 		{ 
 			get 
 			{
-				return Model.Instances.Where<IfcRelDecomposes>(e => e.RelatingObject == this);
+				return Model.Instances.Where<IfcRelDecomposes>(e => (e.RelatingObject as IfcObjectDefinition) == this);
 			} 
 		}
 		[EntityAttribute(-1, EntityAttributeState.Mandatory, EntityAttributeType.Set, EntityAttributeType.Class, -1, -1)]
@@ -87,6 +88,23 @@ namespace Xbim.Ifc2x3.Kernel
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcObjectDefinition
+            var root = (@IfcObjectDefinition)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcObjectDefinition left, @IfcObjectDefinition right)
         {

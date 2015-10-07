@@ -22,11 +22,6 @@ namespace Xbim.IO
             }
         }
 
-        internal static short? ExpressTypeId(this Type type)
-        {
-            return ExpressMetaData.ExpressTypeId(type);
-        }
-
         #region Extensions for .Net40 compatibility
 
         internal static bool GenericTypeArgumentIsAssignableFrom(this Type genericType, Type assignableType)

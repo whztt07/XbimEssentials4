@@ -14,7 +14,7 @@ namespace Xbim.Ifc2x3.DateTimeResource
 {
 	[ExpressType("IFCDAYLIGHTSAVINGHOUR", 624)]
     // ReSharper disable once PartialTypeWithSinglePart
-	public partial struct IfcDaylightSavingHour : IExpressValueType
+	public partial struct IfcDaylightSavingHour : IExpressValueType, System.IEquatable<long>
 	{ 
 		private long _value;
         
@@ -46,6 +46,7 @@ namespace Xbim.Ifc2x3.DateTimeResource
         public static implicit operator long(IfcDaylightSavingHour obj)
         {
             return obj._value;
+
         }
 
 
@@ -62,6 +63,11 @@ namespace Xbim.Ifc2x3.DateTimeResource
 
             return ((IfcDaylightSavingHour) obj)._value == _value;
         }
+
+		public bool Equals(long other)
+	    {
+	        return this == other;
+	    }
 
         public static bool operator ==(IfcDaylightSavingHour obj1, IfcDaylightSavingHour obj2)
         {

@@ -7,6 +7,7 @@
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -15,12 +16,12 @@ namespace Xbim.Ifc2x3.PresentationDefinitionResource
 {
 	[ExpressType("IFCTEXTUREMAP", 734)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcTextureMap : IfcTextureCoordinate, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcTextureMap>, System.IEquatable<@IfcTextureMap>
+	public  partial class @IfcTextureMap : IfcTextureCoordinate, IInstantiableEntity, IEqualityComparer<@IfcTextureMap>, IEquatable<@IfcTextureMap>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcTextureMap(IModel model) : base(model) 		{ 
 			Model = model; 
-			_textureMaps = new ItemSet<IfcVertexBasedTextureMap>( this );
+			_textureMaps = new ItemSet<IfcVertexBasedTextureMap>( this, 0 );
 		}
 
 		#region Explicit attribute fields
@@ -33,10 +34,8 @@ namespace Xbim.Ifc2x3.PresentationDefinitionResource
 		{ 
 			get 
 			{
-				if(Activated) return _textureMaps;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _textureMaps;
+				((IPersistEntity)this).Activate(false);
 				return _textureMaps;
 			} 
 		}
@@ -72,6 +71,23 @@ namespace Xbim.Ifc2x3.PresentationDefinitionResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcTextureMap
+            var root = (@IfcTextureMap)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcTextureMap left, @IfcTextureMap right)
         {

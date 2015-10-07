@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc2x3.ActorResource
 {
-	public enum IfcRoleEnum
+	public enum IfcRoleEnum : byte
 	{
 		@SUPPLIER ,
 		@MANUFACTURER ,

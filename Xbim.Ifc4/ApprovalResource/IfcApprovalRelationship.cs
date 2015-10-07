@@ -9,6 +9,7 @@
 
 using Xbim.Ifc4.ExternalReferenceResource;
 using Xbim.Ifc4.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -18,12 +19,12 @@ namespace Xbim.Ifc4.ApprovalResource
 	[IndexedClass]
 	[ExpressType("IFCAPPROVALRELATIONSHIP", 413)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcApprovalRelationship : IfcResourceLevelRelationship, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcApprovalRelationship>, System.IEquatable<@IfcApprovalRelationship>
+	public  partial class @IfcApprovalRelationship : IfcResourceLevelRelationship, IInstantiableEntity, IEqualityComparer<@IfcApprovalRelationship>, IEquatable<@IfcApprovalRelationship>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcApprovalRelationship(IModel model) : base(model) 		{ 
 			Model = model; 
-			_relatedApprovals = new ItemSet<IfcApproval>( this );
+			_relatedApprovals = new ItemSet<IfcApproval>( this, 0 );
 		}
 
 		#region Explicit attribute fields
@@ -38,10 +39,8 @@ namespace Xbim.Ifc4.ApprovalResource
 		{ 
 			get 
 			{
-				if(Activated) return _relatingApproval;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _relatingApproval;
+				((IPersistEntity)this).Activate(false);
 				return _relatingApproval;
 			} 
 			set
@@ -56,10 +55,8 @@ namespace Xbim.Ifc4.ApprovalResource
 		{ 
 			get 
 			{
-				if(Activated) return _relatedApprovals;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _relatedApprovals;
+				((IPersistEntity)this).Activate(false);
 				return _relatedApprovals;
 			} 
 		}
@@ -101,6 +98,23 @@ namespace Xbim.Ifc4.ApprovalResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcApprovalRelationship
+            var root = (@IfcApprovalRelationship)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcApprovalRelationship left, @IfcApprovalRelationship right)
         {

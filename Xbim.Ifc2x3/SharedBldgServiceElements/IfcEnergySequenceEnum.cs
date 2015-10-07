@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc2x3.SharedBldgServiceElements
 {
-	public enum IfcEnergySequenceEnum
+	public enum IfcEnergySequenceEnum : byte
 	{
 		@PRIMARY ,
 		@SECONDARY ,

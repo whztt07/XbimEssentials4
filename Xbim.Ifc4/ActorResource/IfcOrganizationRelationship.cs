@@ -9,6 +9,7 @@
 
 using Xbim.Ifc4.ExternalReferenceResource;
 using Xbim.Ifc4.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -18,12 +19,12 @@ namespace Xbim.Ifc4.ActorResource
 	[IndexedClass]
 	[ExpressType("IFCORGANIZATIONRELATIONSHIP", 785)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcOrganizationRelationship : IfcResourceLevelRelationship, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcOrganizationRelationship>, System.IEquatable<@IfcOrganizationRelationship>
+	public  partial class @IfcOrganizationRelationship : IfcResourceLevelRelationship, IInstantiableEntity, IEqualityComparer<@IfcOrganizationRelationship>, IEquatable<@IfcOrganizationRelationship>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcOrganizationRelationship(IModel model) : base(model) 		{ 
 			Model = model; 
-			_relatedOrganizations = new ItemSet<IfcOrganization>( this );
+			_relatedOrganizations = new ItemSet<IfcOrganization>( this, 0 );
 		}
 
 		#region Explicit attribute fields
@@ -38,10 +39,8 @@ namespace Xbim.Ifc4.ActorResource
 		{ 
 			get 
 			{
-				if(Activated) return _relatingOrganization;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _relatingOrganization;
+				((IPersistEntity)this).Activate(false);
 				return _relatingOrganization;
 			} 
 			set
@@ -56,10 +55,8 @@ namespace Xbim.Ifc4.ActorResource
 		{ 
 			get 
 			{
-				if(Activated) return _relatedOrganizations;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _relatedOrganizations;
+				((IPersistEntity)this).Activate(false);
 				return _relatedOrganizations;
 			} 
 		}
@@ -101,6 +98,23 @@ namespace Xbim.Ifc4.ActorResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcOrganizationRelationship
+            var root = (@IfcOrganizationRelationship)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcOrganizationRelationship left, @IfcOrganizationRelationship right)
         {

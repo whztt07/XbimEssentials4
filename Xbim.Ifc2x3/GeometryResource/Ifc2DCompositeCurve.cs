@@ -7,6 +7,7 @@
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -15,7 +16,7 @@ namespace Xbim.Ifc2x3.GeometryResource
 {
 	[ExpressType("IFC2DCOMPOSITECURVE", 524)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @Ifc2DCompositeCurve : IfcCompositeCurve, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@Ifc2DCompositeCurve>, System.IEquatable<@Ifc2DCompositeCurve>
+	public  partial class @Ifc2DCompositeCurve : IfcCompositeCurve, IInstantiableEntity, IEqualityComparer<@Ifc2DCompositeCurve>, IEquatable<@Ifc2DCompositeCurve>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal Ifc2DCompositeCurve(IModel model) : base(model) 		{ 
@@ -53,6 +54,23 @@ namespace Xbim.Ifc2x3.GeometryResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @Ifc2DCompositeCurve
+            var root = (@Ifc2DCompositeCurve)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@Ifc2DCompositeCurve left, @Ifc2DCompositeCurve right)
         {

@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.GeometryResource
 {
-	public enum IfcKnotType
+	public enum IfcKnotType : byte
 	{
 		@UNIFORM_KNOTS ,
 		@QUASI_UNIFORM_KNOTS ,

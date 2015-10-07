@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.GeometryResource
 {
-	public enum IfcTransitionCode
+	public enum IfcTransitionCode : byte
 	{
 		@DISCONTINUOUS ,
 		@CONTINUOUS ,

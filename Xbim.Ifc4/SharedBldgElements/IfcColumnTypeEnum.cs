@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.SharedBldgElements
 {
-	public enum IfcColumnTypeEnum
+	public enum IfcColumnTypeEnum : byte
 	{
 		@COLUMN ,
 		@PILASTER ,

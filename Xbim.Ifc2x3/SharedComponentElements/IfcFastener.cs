@@ -11,6 +11,7 @@ using Xbim.Ifc2x3.UtilityResource;
 using Xbim.Ifc2x3.MeasureResource;
 using Xbim.Ifc2x3.GeometricConstraintResource;
 using Xbim.Ifc2x3.RepresentationResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -19,7 +20,7 @@ namespace Xbim.Ifc2x3.SharedComponentElements
 {
 	[ExpressType("IFCFASTENER", 535)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcFastener : IfcElementComponent, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcFastener>, System.IEquatable<@IfcFastener>
+	public  partial class @IfcFastener : IfcElementComponent, IInstantiableEntity, IEqualityComparer<@IfcFastener>, IEquatable<@IfcFastener>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcFastener(IModel model) : base(model) 		{ 
@@ -61,6 +62,23 @@ namespace Xbim.Ifc2x3.SharedComponentElements
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcFastener
+            var root = (@IfcFastener)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcFastener left, @IfcFastener right)
         {

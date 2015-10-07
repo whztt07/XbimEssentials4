@@ -11,6 +11,7 @@ using Xbim.Ifc2x3.UtilityResource;
 using Xbim.Ifc2x3.MeasureResource;
 using Xbim.Ifc2x3.GeometricConstraintResource;
 using Xbim.Ifc2x3.RepresentationResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -19,7 +20,7 @@ namespace Xbim.Ifc2x3.SharedComponentElements
 {
 	[ExpressType("IFCROUNDEDEDGEFEATURE", 766)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcRoundedEdgeFeature : IfcEdgeFeature, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcRoundedEdgeFeature>, System.IEquatable<@IfcRoundedEdgeFeature>
+	public  partial class @IfcRoundedEdgeFeature : IfcEdgeFeature, IInstantiableEntity, IEqualityComparer<@IfcRoundedEdgeFeature>, IEquatable<@IfcRoundedEdgeFeature>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcRoundedEdgeFeature(IModel model) : base(model) 		{ 
@@ -36,10 +37,8 @@ namespace Xbim.Ifc2x3.SharedComponentElements
 		{ 
 			get 
 			{
-				if(Activated) return _radius;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _radius;
+				((IPersistEntity)this).Activate(false);
 				return _radius;
 			} 
 			set
@@ -88,6 +87,23 @@ namespace Xbim.Ifc2x3.SharedComponentElements
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcRoundedEdgeFeature
+            var root = (@IfcRoundedEdgeFeature)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcRoundedEdgeFeature left, @IfcRoundedEdgeFeature right)
         {

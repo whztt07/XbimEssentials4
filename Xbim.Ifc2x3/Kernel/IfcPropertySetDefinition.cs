@@ -7,6 +7,7 @@
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -15,7 +16,7 @@ namespace Xbim.Ifc2x3.Kernel
 {
 	[ExpressType("IFCPROPERTYSETDEFINITION", 97)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public abstract partial class @IfcPropertySetDefinition : IfcPropertyDefinition, System.Collections.Generic.IEqualityComparer<@IfcPropertySetDefinition>, System.IEquatable<@IfcPropertySetDefinition>
+	public abstract partial class @IfcPropertySetDefinition : IfcPropertyDefinition, IEqualityComparer<@IfcPropertySetDefinition>, IEquatable<@IfcPropertySetDefinition>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcPropertySetDefinition(IModel model) : base(model) 		{ 
@@ -29,7 +30,7 @@ namespace Xbim.Ifc2x3.Kernel
 		{ 
 			get 
 			{
-				return Model.Instances.Where<IfcRelDefinesByProperties>(e => e.RelatingPropertyDefinition == this);
+				return Model.Instances.Where<IfcRelDefinesByProperties>(e => (e.RelatingPropertyDefinition as IfcPropertySetDefinition) == this);
 			} 
 		}
 		[EntityAttribute(-1, EntityAttributeState.Mandatory, EntityAttributeType.Set, EntityAttributeType.Class, -1, -1)]
@@ -71,6 +72,23 @@ namespace Xbim.Ifc2x3.Kernel
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcPropertySetDefinition
+            var root = (@IfcPropertySetDefinition)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcPropertySetDefinition left, @IfcPropertySetDefinition right)
         {

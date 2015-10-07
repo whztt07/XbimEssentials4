@@ -8,6 +8,7 @@
 // ------------------------------------------------------------------------------
 
 using Xbim.Ifc4.GeometryResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -17,7 +18,7 @@ namespace Xbim.Ifc4.GeometricModelResource
 	[IndexedClass]
 	[ExpressType("IFCBOOLEANRESULT", 436)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcBooleanResult : IfcGeometricRepresentationItem, IfcBooleanOperand, IfcCsgSelect, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcBooleanResult>, System.IEquatable<@IfcBooleanResult>
+	public  partial class @IfcBooleanResult : IfcGeometricRepresentationItem, IfcBooleanOperand, IfcCsgSelect, IInstantiableEntity, IEqualityComparer<@IfcBooleanResult>, IEquatable<@IfcBooleanResult>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcBooleanResult(IModel model) : base(model) 		{ 
@@ -36,10 +37,8 @@ namespace Xbim.Ifc4.GeometricModelResource
 		{ 
 			get 
 			{
-				if(Activated) return _operator;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _operator;
+				((IPersistEntity)this).Activate(false);
 				return _operator;
 			} 
 			set
@@ -53,10 +52,8 @@ namespace Xbim.Ifc4.GeometricModelResource
 		{ 
 			get 
 			{
-				if(Activated) return _firstOperand;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _firstOperand;
+				((IPersistEntity)this).Activate(false);
 				return _firstOperand;
 			} 
 			set
@@ -70,10 +67,8 @@ namespace Xbim.Ifc4.GeometricModelResource
 		{ 
 			get 
 			{
-				if(Activated) return _secondOperand;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _secondOperand;
+				((IPersistEntity)this).Activate(false);
 				return _secondOperand;
 			} 
 			set
@@ -118,6 +113,23 @@ namespace Xbim.Ifc4.GeometricModelResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcBooleanResult
+            var root = (@IfcBooleanResult)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcBooleanResult left, @IfcBooleanResult right)
         {

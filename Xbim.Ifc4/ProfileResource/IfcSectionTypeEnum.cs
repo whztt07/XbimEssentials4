@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.ProfileResource
 {
-	public enum IfcSectionTypeEnum
+	public enum IfcSectionTypeEnum : byte
 	{
 		@UNIFORM ,
 		@TAPERED 

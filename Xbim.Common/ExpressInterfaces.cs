@@ -33,6 +33,5 @@ namespace Xbim.Common
 	public interface IExpressComplexType : IExpressValueType
     {
         IEnumerable<object> Properties { get; }
-        void Add(object o);
     }
 }

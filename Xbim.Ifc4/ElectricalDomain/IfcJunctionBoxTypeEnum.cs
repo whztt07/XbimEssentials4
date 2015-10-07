@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.ElectricalDomain
 {
-	public enum IfcJunctionBoxTypeEnum
+	public enum IfcJunctionBoxTypeEnum : byte
 	{
 		@DATA ,
 		@POWER ,

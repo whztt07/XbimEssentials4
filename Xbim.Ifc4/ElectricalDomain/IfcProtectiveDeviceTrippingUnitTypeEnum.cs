@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.ElectricalDomain
 {
-	public enum IfcProtectiveDeviceTrippingUnitTypeEnum
+	public enum IfcProtectiveDeviceTrippingUnitTypeEnum : byte
 	{
 		@ELECTRONIC ,
 		@ELECTROMAGNETIC ,

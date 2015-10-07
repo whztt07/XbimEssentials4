@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.HvacDomain
 {
-	public enum IfcAirToAirHeatRecoveryTypeEnum
+	public enum IfcAirToAirHeatRecoveryTypeEnum : byte
 	{
 		@FIXEDPLATECOUNTERFLOWEXCHANGER ,
 		@FIXEDPLATECROSSFLOWEXCHANGER ,

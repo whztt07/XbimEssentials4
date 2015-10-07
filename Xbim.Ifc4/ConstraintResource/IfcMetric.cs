@@ -10,6 +10,7 @@
 using Xbim.Ifc4.MeasureResource;
 using Xbim.Ifc4.ActorResource;
 using Xbim.Ifc4.DateTimeResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -18,7 +19,7 @@ namespace Xbim.Ifc4.ConstraintResource
 {
 	[ExpressType("IFCMETRIC", 768)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcMetric : IfcConstraint, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcMetric>, System.IEquatable<@IfcMetric>
+	public  partial class @IfcMetric : IfcConstraint, IInstantiableEntity, IEqualityComparer<@IfcMetric>, IEquatable<@IfcMetric>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcMetric(IModel model) : base(model) 		{ 
@@ -38,10 +39,8 @@ namespace Xbim.Ifc4.ConstraintResource
 		{ 
 			get 
 			{
-				if(Activated) return _benchmark;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _benchmark;
+				((IPersistEntity)this).Activate(false);
 				return _benchmark;
 			} 
 			set
@@ -55,10 +54,8 @@ namespace Xbim.Ifc4.ConstraintResource
 		{ 
 			get 
 			{
-				if(Activated) return _valueSource;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _valueSource;
+				((IPersistEntity)this).Activate(false);
 				return _valueSource;
 			} 
 			set
@@ -72,10 +69,8 @@ namespace Xbim.Ifc4.ConstraintResource
 		{ 
 			get 
 			{
-				if(Activated) return _dataValue;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _dataValue;
+				((IPersistEntity)this).Activate(false);
 				return _dataValue;
 			} 
 			set
@@ -89,10 +84,8 @@ namespace Xbim.Ifc4.ConstraintResource
 		{ 
 			get 
 			{
-				if(Activated) return _referencePath;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _referencePath;
+				((IPersistEntity)this).Activate(false);
 				return _referencePath;
 			} 
 			set
@@ -148,6 +141,23 @@ namespace Xbim.Ifc4.ConstraintResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcMetric
+            var root = (@IfcMetric)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcMetric left, @IfcMetric right)
         {

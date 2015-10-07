@@ -7,6 +7,7 @@
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -16,7 +17,7 @@ namespace Xbim.CobieExpress
 	[IndexedClass]
 	[ExpressType("SPACE", 20)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @CobieSpace : CobieAsset, SpatialDivision, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@CobieSpace>, System.IEquatable<@CobieSpace>
+	public  partial class @CobieSpace : CobieAsset, SpatialDivision, IInstantiableEntity, IEqualityComparer<@CobieSpace>, IEquatable<@CobieSpace>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal CobieSpace(IModel model) : base(model) 		{ 
@@ -37,10 +38,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _roomTag;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _roomTag;
+				((IPersistEntity)this).Activate(false);
 				return _roomTag;
 			} 
 			set
@@ -54,10 +53,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _usableHeight;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _usableHeight;
+				((IPersistEntity)this).Activate(false);
 				return _usableHeight;
 			} 
 			set
@@ -71,10 +68,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _grossArea;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _grossArea;
+				((IPersistEntity)this).Activate(false);
 				return _grossArea;
 			} 
 			set
@@ -88,10 +83,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _netArea;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _netArea;
+				((IPersistEntity)this).Activate(false);
 				return _netArea;
 			} 
 			set
@@ -106,10 +99,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _floor;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _floor;
+				((IPersistEntity)this).Activate(false);
 				return _floor;
 			} 
 			set
@@ -126,7 +117,7 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				return Model.Instances.Where<CobieComponent>(e => e.Space == this);
+				return Model.Instances.Where<CobieComponent>(e => (e.Space as CobieSpace) == this);
 			} 
 		}
 		[EntityAttribute(-1, EntityAttributeState.Mandatory, EntityAttributeType.Set, EntityAttributeType.Class, -1, -1)]
@@ -189,6 +180,23 @@ namespace Xbim.CobieExpress
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @CobieSpace
+            var root = (@CobieSpace)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@CobieSpace left, @CobieSpace right)
         {

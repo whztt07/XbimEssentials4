@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc2x3.SharedBldgElements
 {
-	public enum IfcBeamTypeEnum
+	public enum IfcBeamTypeEnum : byte
 	{
 		@BEAM ,
 		@JOIST ,

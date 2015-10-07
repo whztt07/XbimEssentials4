@@ -12,6 +12,7 @@ using Xbim.Ifc2x3.UtilityResource;
 using Xbim.Ifc2x3.MeasureResource;
 using Xbim.Ifc2x3.TimeSeriesResource;
 using Xbim.Ifc2x3.DateTimeResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -20,12 +21,12 @@ namespace Xbim.Ifc2x3.ControlExtension
 {
 	[ExpressType("IFCTIMESERIESSCHEDULE", 712)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcTimeSeriesSchedule : IfcControl, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcTimeSeriesSchedule>, System.IEquatable<@IfcTimeSeriesSchedule>
+	public  partial class @IfcTimeSeriesSchedule : IfcControl, IInstantiableEntity, IEqualityComparer<@IfcTimeSeriesSchedule>, IEquatable<@IfcTimeSeriesSchedule>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcTimeSeriesSchedule(IModel model) : base(model) 		{ 
 			Model = model; 
-			_applicableDates = new OptionalItemSet<IfcDateTimeSelect>( this );
+			_applicableDates = new OptionalItemSet<IfcDateTimeSelect>( this, 0 );
 		}
 
 		#region Explicit attribute fields
@@ -40,10 +41,8 @@ namespace Xbim.Ifc2x3.ControlExtension
 		{ 
 			get 
 			{
-				if(Activated) return _applicableDates;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _applicableDates;
+				((IPersistEntity)this).Activate(false);
 				return _applicableDates;
 			} 
 		}
@@ -53,10 +52,8 @@ namespace Xbim.Ifc2x3.ControlExtension
 		{ 
 			get 
 			{
-				if(Activated) return _timeSeriesScheduleType;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _timeSeriesScheduleType;
+				((IPersistEntity)this).Activate(false);
 				return _timeSeriesScheduleType;
 			} 
 			set
@@ -70,10 +67,8 @@ namespace Xbim.Ifc2x3.ControlExtension
 		{ 
 			get 
 			{
-				if(Activated) return _timeSeries;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _timeSeries;
+				((IPersistEntity)this).Activate(false);
 				return _timeSeries;
 			} 
 			set
@@ -126,6 +121,23 @@ namespace Xbim.Ifc2x3.ControlExtension
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcTimeSeriesSchedule
+            var root = (@IfcTimeSeriesSchedule)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcTimeSeriesSchedule left, @IfcTimeSeriesSchedule right)
         {

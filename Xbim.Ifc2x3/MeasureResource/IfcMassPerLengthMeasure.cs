@@ -14,7 +14,7 @@ namespace Xbim.Ifc2x3.MeasureResource
 {
 	[ExpressType("IFCMASSPERLENGTHMEASURE", 432)]
     // ReSharper disable once PartialTypeWithSinglePart
-	public partial struct IfcMassPerLengthMeasure : IfcDerivedMeasureValue, IExpressValueType
+	public partial struct IfcMassPerLengthMeasure : IfcDerivedMeasureValue, IExpressValueType, System.IEquatable<double>
 	{ 
 		private double _value;
         
@@ -46,6 +46,7 @@ namespace Xbim.Ifc2x3.MeasureResource
         public static implicit operator double(IfcMassPerLengthMeasure obj)
         {
             return obj._value;
+
         }
 
 
@@ -62,6 +63,11 @@ namespace Xbim.Ifc2x3.MeasureResource
 
             return ((IfcMassPerLengthMeasure) obj)._value == _value;
         }
+
+		public bool Equals(double other)
+	    {
+	        return this == other;
+	    }
 
         public static bool operator ==(IfcMassPerLengthMeasure obj1, IfcMassPerLengthMeasure obj2)
         {

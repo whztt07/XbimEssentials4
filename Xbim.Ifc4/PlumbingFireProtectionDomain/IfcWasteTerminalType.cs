@@ -12,6 +12,7 @@ using Xbim.Ifc4.UtilityResource;
 using Xbim.Ifc4.MeasureResource;
 using Xbim.Ifc4.Kernel;
 using Xbim.Ifc4.GeometryResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -20,7 +21,7 @@ namespace Xbim.Ifc4.PlumbingFireProtectionDomain
 {
 	[ExpressType("IFCWASTETERMINALTYPE", 1143)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcWasteTerminalType : IfcFlowTerminalType, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcWasteTerminalType>, System.IEquatable<@IfcWasteTerminalType>
+	public  partial class @IfcWasteTerminalType : IfcFlowTerminalType, IInstantiableEntity, IEqualityComparer<@IfcWasteTerminalType>, IEquatable<@IfcWasteTerminalType>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcWasteTerminalType(IModel model) : base(model) 		{ 
@@ -37,10 +38,8 @@ namespace Xbim.Ifc4.PlumbingFireProtectionDomain
 		{ 
 			get 
 			{
-				if(Activated) return _predefinedType;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _predefinedType;
+				((IPersistEntity)this).Activate(false);
 				return _predefinedType;
 			} 
 			set
@@ -90,6 +89,23 @@ namespace Xbim.Ifc4.PlumbingFireProtectionDomain
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcWasteTerminalType
+            var root = (@IfcWasteTerminalType)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcWasteTerminalType left, @IfcWasteTerminalType right)
         {

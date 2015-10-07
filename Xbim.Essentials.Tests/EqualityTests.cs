@@ -34,11 +34,12 @@ namespace Xbim.Essentials.Tests
             Assert.IsTrue(wall1 == wall2);
             Assert.IsTrue(wall2 == wall1);
             Assert.IsTrue(wall1.Equals(wall2));
+            Assert.IsTrue(((IEquatable<IfcWall>)wall1).Equals(wall2));
             Assert.AreEqual(wall2, wall1);
 
             //different model
             Assert.IsFalse(wall2 == wall3);
-            Assert.IsFalse(wall2.Equals(wall3));
+            Assert.IsFalse(((IEquatable<IfcWall>)wall2).Equals(wall3));
 
             //different label
             Assert.IsFalse(wall3 == wall4);

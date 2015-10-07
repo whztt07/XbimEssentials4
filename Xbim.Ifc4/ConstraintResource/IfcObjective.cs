@@ -10,6 +10,7 @@
 using Xbim.Ifc4.MeasureResource;
 using Xbim.Ifc4.ActorResource;
 using Xbim.Ifc4.DateTimeResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -18,12 +19,12 @@ namespace Xbim.Ifc4.ConstraintResource
 {
 	[ExpressType("IFCOBJECTIVE", 777)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcObjective : IfcConstraint, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcObjective>, System.IEquatable<@IfcObjective>
+	public  partial class @IfcObjective : IfcConstraint, IInstantiableEntity, IEqualityComparer<@IfcObjective>, IEquatable<@IfcObjective>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcObjective(IModel model) : base(model) 		{ 
 			Model = model; 
-			_benchmarkValues = new OptionalItemSet<IfcConstraint>( this );
+			_benchmarkValues = new OptionalItemSet<IfcConstraint>( this, 0 );
 		}
 
 		#region Explicit attribute fields
@@ -39,10 +40,8 @@ namespace Xbim.Ifc4.ConstraintResource
 		{ 
 			get 
 			{
-				if(Activated) return _benchmarkValues;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _benchmarkValues;
+				((IPersistEntity)this).Activate(false);
 				return _benchmarkValues;
 			} 
 		}
@@ -52,10 +51,8 @@ namespace Xbim.Ifc4.ConstraintResource
 		{ 
 			get 
 			{
-				if(Activated) return _logicalAggregator;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _logicalAggregator;
+				((IPersistEntity)this).Activate(false);
 				return _logicalAggregator;
 			} 
 			set
@@ -69,10 +66,8 @@ namespace Xbim.Ifc4.ConstraintResource
 		{ 
 			get 
 			{
-				if(Activated) return _objectiveQualifier;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _objectiveQualifier;
+				((IPersistEntity)this).Activate(false);
 				return _objectiveQualifier;
 			} 
 			set
@@ -86,10 +81,8 @@ namespace Xbim.Ifc4.ConstraintResource
 		{ 
 			get 
 			{
-				if(Activated) return _userDefinedQualifier;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _userDefinedQualifier;
+				((IPersistEntity)this).Activate(false);
 				return _userDefinedQualifier;
 			} 
 			set
@@ -147,6 +140,23 @@ namespace Xbim.Ifc4.ConstraintResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcObjective
+            var root = (@IfcObjective)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcObjective left, @IfcObjective right)
         {

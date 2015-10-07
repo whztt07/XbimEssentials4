@@ -63,7 +63,7 @@ namespace Xbim.IO.Esent
 
         public IEnumerable<TIfc> OfType<TIfc>() where TIfc : IPersistEntity
         {
-            return Cache.OfType<TIfc>().Select(item => item);
+            return Cache.OfType<TIfc>();
         }
 
         //public IEnumerable<TIfcType> OfType<TIfcType>() where TIfcType : IPersistEntity

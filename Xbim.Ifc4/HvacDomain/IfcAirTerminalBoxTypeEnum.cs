@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.HvacDomain
 {
-	public enum IfcAirTerminalBoxTypeEnum
+	public enum IfcAirTerminalBoxTypeEnum : byte
 	{
 		@CONSTANTFLOW ,
 		@VARIABLEFLOWPRESSUREDEPENDANT ,

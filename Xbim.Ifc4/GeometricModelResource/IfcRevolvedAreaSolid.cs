@@ -10,6 +10,7 @@
 using Xbim.Ifc4.ProfileResource;
 using Xbim.Ifc4.GeometryResource;
 using Xbim.Ifc4.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -18,7 +19,7 @@ namespace Xbim.Ifc4.GeometricModelResource
 {
 	[ExpressType("IFCREVOLVEDAREASOLID", 959)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcRevolvedAreaSolid : IfcSweptAreaSolid, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcRevolvedAreaSolid>, System.IEquatable<@IfcRevolvedAreaSolid>
+	public  partial class @IfcRevolvedAreaSolid : IfcSweptAreaSolid, IInstantiableEntity, IEqualityComparer<@IfcRevolvedAreaSolid>, IEquatable<@IfcRevolvedAreaSolid>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcRevolvedAreaSolid(IModel model) : base(model) 		{ 
@@ -36,10 +37,8 @@ namespace Xbim.Ifc4.GeometricModelResource
 		{ 
 			get 
 			{
-				if(Activated) return _axis;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _axis;
+				((IPersistEntity)this).Activate(false);
 				return _axis;
 			} 
 			set
@@ -53,10 +52,8 @@ namespace Xbim.Ifc4.GeometricModelResource
 		{ 
 			get 
 			{
-				if(Activated) return _angle;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _angle;
+				((IPersistEntity)this).Activate(false);
 				return _angle;
 			} 
 			set
@@ -103,6 +100,23 @@ namespace Xbim.Ifc4.GeometricModelResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcRevolvedAreaSolid
+            var root = (@IfcRevolvedAreaSolid)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcRevolvedAreaSolid left, @IfcRevolvedAreaSolid right)
         {

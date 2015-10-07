@@ -12,6 +12,7 @@ using Xbim.Ifc2x3.UtilityResource;
 using Xbim.Ifc2x3.MeasureResource;
 using Xbim.Ifc2x3.StructuralLoadResource;
 using Xbim.Ifc2x3.GeometryResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -20,7 +21,7 @@ namespace Xbim.Ifc2x3.StructuralAnalysisDomain
 {
 	[ExpressType("IFCRELCONNECTSSTRUCTURALMEMBER", 321)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcRelConnectsStructuralMember : IfcRelConnects, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcRelConnectsStructuralMember>, System.IEquatable<@IfcRelConnectsStructuralMember>
+	public  partial class @IfcRelConnectsStructuralMember : IfcRelConnects, IInstantiableEntity, IEqualityComparer<@IfcRelConnectsStructuralMember>, IEquatable<@IfcRelConnectsStructuralMember>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcRelConnectsStructuralMember(IModel model) : base(model) 		{ 
@@ -43,10 +44,8 @@ namespace Xbim.Ifc2x3.StructuralAnalysisDomain
 		{ 
 			get 
 			{
-				if(Activated) return _relatingStructuralMember;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _relatingStructuralMember;
+				((IPersistEntity)this).Activate(false);
 				return _relatingStructuralMember;
 			} 
 			set
@@ -61,10 +60,8 @@ namespace Xbim.Ifc2x3.StructuralAnalysisDomain
 		{ 
 			get 
 			{
-				if(Activated) return _relatedStructuralConnection;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _relatedStructuralConnection;
+				((IPersistEntity)this).Activate(false);
 				return _relatedStructuralConnection;
 			} 
 			set
@@ -78,10 +75,8 @@ namespace Xbim.Ifc2x3.StructuralAnalysisDomain
 		{ 
 			get 
 			{
-				if(Activated) return _appliedCondition;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _appliedCondition;
+				((IPersistEntity)this).Activate(false);
 				return _appliedCondition;
 			} 
 			set
@@ -95,10 +90,8 @@ namespace Xbim.Ifc2x3.StructuralAnalysisDomain
 		{ 
 			get 
 			{
-				if(Activated) return _additionalConditions;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _additionalConditions;
+				((IPersistEntity)this).Activate(false);
 				return _additionalConditions;
 			} 
 			set
@@ -112,10 +105,8 @@ namespace Xbim.Ifc2x3.StructuralAnalysisDomain
 		{ 
 			get 
 			{
-				if(Activated) return _supportedLength;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _supportedLength;
+				((IPersistEntity)this).Activate(false);
 				return _supportedLength;
 			} 
 			set
@@ -129,10 +120,8 @@ namespace Xbim.Ifc2x3.StructuralAnalysisDomain
 		{ 
 			get 
 			{
-				if(Activated) return _conditionCoordinateSystem;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _conditionCoordinateSystem;
+				((IPersistEntity)this).Activate(false);
 				return _conditionCoordinateSystem;
 			} 
 			set
@@ -191,6 +180,23 @@ namespace Xbim.Ifc2x3.StructuralAnalysisDomain
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcRelConnectsStructuralMember
+            var root = (@IfcRelConnectsStructuralMember)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcRelConnectsStructuralMember left, @IfcRelConnectsStructuralMember right)
         {

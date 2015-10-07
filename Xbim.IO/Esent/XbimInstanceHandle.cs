@@ -12,7 +12,7 @@ namespace Xbim.IO.Esent
     {
         public readonly int EntityLabel;
         public short EntityTypeId;
-        public readonly IModel Model;
+        public readonly EsentModel Model;
        
         public static bool operator ==(XbimInstanceHandle a, XbimInstanceHandle b)
         {
@@ -40,7 +40,7 @@ namespace Xbim.IO.Esent
         {
             get
             {
-                return ExpressMetaData.GetType(EntityTypeId, Model.SchemaModule);
+                return Model.Metadata.GetType(EntityTypeId);
             }
         }
 
@@ -48,7 +48,7 @@ namespace Xbim.IO.Esent
         {
             get
             {
-                return ExpressMetaData.ExpressType(EntityTypeId, Model.SchemaModule);
+                return Model.Metadata.ExpressType(EntityTypeId);
             }
         }
         
@@ -61,21 +61,21 @@ namespace Xbim.IO.Esent
         }
 
         
-        public XbimInstanceHandle(IModel model, int entityLabel, short type = 0)
+        public XbimInstanceHandle(EsentModel model, int entityLabel, short type = 0)
         {
             Model = model;
             EntityLabel = entityLabel;
             EntityTypeId= type;
         }
 
-        public XbimInstanceHandle(IModel model, int entityLabel, Type type)
+        public XbimInstanceHandle(EsentModel model, int entityLabel, Type type)
         {
             Model = model;
             EntityLabel = entityLabel;
-            EntityTypeId = ExpressMetaData.ExpressTypeId(type);
+            EntityTypeId = Model.Metadata.ExpressTypeId(type);
         }
 
-        public XbimInstanceHandle(IModel model, int? label, short? type)
+        public XbimInstanceHandle(EsentModel model, int? label, short? type)
         {
             Model = model;
             EntityLabel = label ?? 0;
@@ -84,9 +84,10 @@ namespace Xbim.IO.Esent
 
         public XbimInstanceHandle(IPersistEntity entity)
         {
-            Model = entity.Model;
+            Model = entity.Model as EsentModel;
+            if(Model == null) throw new NullReferenceException("Entity must be in an Esent model");
             EntityLabel = entity.EntityLabel;
-            EntityTypeId = ExpressMetaData.ExpressTypeId(entity);
+            EntityTypeId = Model.Metadata.ExpressTypeId(entity);
         }
 
         public IPersistEntity GetEntity()
@@ -96,7 +97,7 @@ namespace Xbim.IO.Esent
        
         internal ExpressType ExpressType()
         {
-            return ExpressMetaData.ExpressType(EntityTypeId, Model.SchemaModule);
+            return Model.Metadata.ExpressType(EntityTypeId);
         }
 
 

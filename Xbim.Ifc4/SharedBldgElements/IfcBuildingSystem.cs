@@ -10,6 +10,7 @@
 using Xbim.Ifc4.ProductExtension;
 using Xbim.Ifc4.UtilityResource;
 using Xbim.Ifc4.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -18,7 +19,7 @@ namespace Xbim.Ifc4.SharedBldgElements
 {
 	[ExpressType("IFCBUILDINGSYSTEM", 455)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcBuildingSystem : IfcSystem, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcBuildingSystem>, System.IEquatable<@IfcBuildingSystem>
+	public  partial class @IfcBuildingSystem : IfcSystem, IInstantiableEntity, IEqualityComparer<@IfcBuildingSystem>, IEquatable<@IfcBuildingSystem>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcBuildingSystem(IModel model) : base(model) 		{ 
@@ -35,10 +36,8 @@ namespace Xbim.Ifc4.SharedBldgElements
 		{ 
 			get 
 			{
-				if(Activated) return _predefinedType;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _predefinedType;
+				((IPersistEntity)this).Activate(false);
 				return _predefinedType;
 			} 
 			set
@@ -83,6 +82,23 @@ namespace Xbim.Ifc4.SharedBldgElements
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcBuildingSystem
+            var root = (@IfcBuildingSystem)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcBuildingSystem left, @IfcBuildingSystem right)
         {

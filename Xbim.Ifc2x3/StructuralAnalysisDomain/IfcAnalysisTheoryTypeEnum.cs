@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc2x3.StructuralAnalysisDomain
 {
-	public enum IfcAnalysisTheoryTypeEnum
+	public enum IfcAnalysisTheoryTypeEnum : byte
 	{
 		@FIRST_ORDER_THEORY ,
 		@SECOND_ORDER_THEORY ,

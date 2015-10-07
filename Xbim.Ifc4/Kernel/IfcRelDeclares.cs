@@ -9,6 +9,7 @@
 
 using Xbim.Ifc4.UtilityResource;
 using Xbim.Ifc4.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -17,12 +18,12 @@ namespace Xbim.Ifc4.Kernel
 {
 	[ExpressType("IFCRELDECLARES", 929)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcRelDeclares : IfcRelationship, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcRelDeclares>, System.IEquatable<@IfcRelDeclares>
+	public  partial class @IfcRelDeclares : IfcRelationship, IInstantiableEntity, IEqualityComparer<@IfcRelDeclares>, IEquatable<@IfcRelDeclares>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcRelDeclares(IModel model) : base(model) 		{ 
 			Model = model; 
-			_relatedDefinitions = new ItemSet<IfcDefinitionSelect>( this );
+			_relatedDefinitions = new ItemSet<IfcDefinitionSelect>( this, 0 );
 		}
 
 		#region Explicit attribute fields
@@ -37,10 +38,8 @@ namespace Xbim.Ifc4.Kernel
 		{ 
 			get 
 			{
-				if(Activated) return _relatingContext;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _relatingContext;
+				((IPersistEntity)this).Activate(false);
 				return _relatingContext;
 			} 
 			set
@@ -55,10 +54,8 @@ namespace Xbim.Ifc4.Kernel
 		{ 
 			get 
 			{
-				if(Activated) return _relatedDefinitions;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _relatedDefinitions;
+				((IPersistEntity)this).Activate(false);
 				return _relatedDefinitions;
 			} 
 		}
@@ -103,6 +100,23 @@ namespace Xbim.Ifc4.Kernel
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcRelDeclares
+            var root = (@IfcRelDeclares)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcRelDeclares left, @IfcRelDeclares right)
         {

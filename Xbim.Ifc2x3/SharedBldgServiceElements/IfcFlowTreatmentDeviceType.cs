@@ -7,6 +7,8 @@
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
+using System;
+using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
 
@@ -14,7 +16,7 @@ namespace Xbim.Ifc2x3.SharedBldgServiceElements
 {
 	[ExpressType("IFCFLOWTREATMENTDEVICETYPE", 140)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public abstract partial class @IfcFlowTreatmentDeviceType : IfcDistributionFlowElementType, System.Collections.Generic.IEqualityComparer<@IfcFlowTreatmentDeviceType>, System.IEquatable<@IfcFlowTreatmentDeviceType>
+	public abstract partial class @IfcFlowTreatmentDeviceType : IfcDistributionFlowElementType, IEqualityComparer<@IfcFlowTreatmentDeviceType>, IEquatable<@IfcFlowTreatmentDeviceType>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcFlowTreatmentDeviceType(IModel model) : base(model) 		{ 
@@ -57,6 +59,23 @@ namespace Xbim.Ifc2x3.SharedBldgServiceElements
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcFlowTreatmentDeviceType
+            var root = (@IfcFlowTreatmentDeviceType)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcFlowTreatmentDeviceType left, @IfcFlowTreatmentDeviceType right)
         {

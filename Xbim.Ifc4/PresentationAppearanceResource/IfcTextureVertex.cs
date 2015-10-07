@@ -9,6 +9,7 @@
 
 using Xbim.Ifc4.PresentationDefinitionResource;
 using Xbim.Ifc4.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -17,12 +18,12 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
 {
 	[ExpressType("IFCTEXTUREVERTEX", 1101)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcTextureVertex : IfcPresentationItem, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcTextureVertex>, System.IEquatable<@IfcTextureVertex>
+	public  partial class @IfcTextureVertex : IfcPresentationItem, IInstantiableEntity, IEqualityComparer<@IfcTextureVertex>, IEquatable<@IfcTextureVertex>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcTextureVertex(IModel model) : base(model) 		{ 
 			Model = model; 
-			_coordinates = new ItemSet<IfcParameterValue>( this );
+			_coordinates = new ItemSet<IfcParameterValue>( this, 2 );
 		}
 
 		#region Explicit attribute fields
@@ -35,10 +36,8 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
 		{ 
 			get 
 			{
-				if(Activated) return _coordinates;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _coordinates;
+				((IPersistEntity)this).Activate(false);
 				return _coordinates;
 			} 
 		}
@@ -73,6 +72,23 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcTextureVertex
+            var root = (@IfcTextureVertex)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcTextureVertex left, @IfcTextureVertex right)
         {

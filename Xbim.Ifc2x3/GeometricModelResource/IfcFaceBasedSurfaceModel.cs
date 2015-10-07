@@ -10,6 +10,7 @@
 using Xbim.Ifc2x3.GeometricConstraintResource;
 using Xbim.Ifc2x3.GeometryResource;
 using Xbim.Ifc2x3.TopologyResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -18,12 +19,12 @@ namespace Xbim.Ifc2x3.GeometricModelResource
 {
 	[ExpressType("IFCFACEBASEDSURFACEMODEL", 438)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcFaceBasedSurfaceModel : IfcGeometricRepresentationItem, IfcSurfaceOrFaceSurface, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcFaceBasedSurfaceModel>, System.IEquatable<@IfcFaceBasedSurfaceModel>
+	public  partial class @IfcFaceBasedSurfaceModel : IfcGeometricRepresentationItem, IfcSurfaceOrFaceSurface, IInstantiableEntity, IEqualityComparer<@IfcFaceBasedSurfaceModel>, IEquatable<@IfcFaceBasedSurfaceModel>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcFaceBasedSurfaceModel(IModel model) : base(model) 		{ 
 			Model = model; 
-			_fbsmFaces = new ItemSet<IfcConnectedFaceSet>( this );
+			_fbsmFaces = new ItemSet<IfcConnectedFaceSet>( this, 0 );
 		}
 
 		#region Explicit attribute fields
@@ -36,10 +37,8 @@ namespace Xbim.Ifc2x3.GeometricModelResource
 		{ 
 			get 
 			{
-				if(Activated) return _fbsmFaces;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _fbsmFaces;
+				((IPersistEntity)this).Activate(false);
 				return _fbsmFaces;
 			} 
 		}
@@ -74,6 +73,23 @@ namespace Xbim.Ifc2x3.GeometricModelResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcFaceBasedSurfaceModel
+            var root = (@IfcFaceBasedSurfaceModel)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcFaceBasedSurfaceModel left, @IfcFaceBasedSurfaceModel right)
         {

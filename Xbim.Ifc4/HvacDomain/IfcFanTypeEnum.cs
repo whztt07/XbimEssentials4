@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.HvacDomain
 {
-	public enum IfcFanTypeEnum
+	public enum IfcFanTypeEnum : byte
 	{
 		@CENTRIFUGALFORWARDCURVED ,
 		@CENTRIFUGALRADIAL ,

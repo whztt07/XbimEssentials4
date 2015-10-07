@@ -7,6 +7,7 @@
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -15,7 +16,7 @@ namespace Xbim.Ifc2x3.Kernel
 {
 	[ExpressType("IFCPROCESS", 73)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public abstract partial class @IfcProcess : IfcObject, System.Collections.Generic.IEqualityComparer<@IfcProcess>, System.IEquatable<@IfcProcess>
+	public abstract partial class @IfcProcess : IfcObject, IEqualityComparer<@IfcProcess>, IEquatable<@IfcProcess>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcProcess(IModel model) : base(model) 		{ 
@@ -29,7 +30,7 @@ namespace Xbim.Ifc2x3.Kernel
 		{ 
 			get 
 			{
-				return Model.Instances.Where<IfcRelAssignsToProcess>(e => e.RelatingProcess == this);
+				return Model.Instances.Where<IfcRelAssignsToProcess>(e => (e.RelatingProcess as IfcProcess) == this);
 			} 
 		}
 		[EntityAttribute(-1, EntityAttributeState.Mandatory, EntityAttributeType.Set, EntityAttributeType.Class, -1, -1)]
@@ -37,7 +38,7 @@ namespace Xbim.Ifc2x3.Kernel
 		{ 
 			get 
 			{
-				return Model.Instances.Where<IfcRelSequence>(e => e.RelatedProcess == this);
+				return Model.Instances.Where<IfcRelSequence>(e => (e.RelatedProcess as IfcProcess) == this);
 			} 
 		}
 		[EntityAttribute(-1, EntityAttributeState.Mandatory, EntityAttributeType.Set, EntityAttributeType.Class, -1, -1)]
@@ -45,7 +46,7 @@ namespace Xbim.Ifc2x3.Kernel
 		{ 
 			get 
 			{
-				return Model.Instances.Where<IfcRelSequence>(e => e.RelatingProcess == this);
+				return Model.Instances.Where<IfcRelSequence>(e => (e.RelatingProcess as IfcProcess) == this);
 			} 
 		}
 		#endregion
@@ -80,6 +81,23 @@ namespace Xbim.Ifc2x3.Kernel
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcProcess
+            var root = (@IfcProcess)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcProcess left, @IfcProcess right)
         {

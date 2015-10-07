@@ -11,6 +11,7 @@ using Xbim.Ifc4.ProductExtension;
 using Xbim.Ifc4.UtilityResource;
 using Xbim.Ifc4.MeasureResource;
 using Xbim.Ifc4.GeometricConstraintResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -19,13 +20,13 @@ namespace Xbim.Ifc4.SharedBldgElements
 {
 	[ExpressType("IFCRELCONNECTSPATHELEMENTS", 919)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcRelConnectsPathElements : IfcRelConnectsElements, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcRelConnectsPathElements>, System.IEquatable<@IfcRelConnectsPathElements>
+	public  partial class @IfcRelConnectsPathElements : IfcRelConnectsElements, IInstantiableEntity, IEqualityComparer<@IfcRelConnectsPathElements>, IEquatable<@IfcRelConnectsPathElements>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcRelConnectsPathElements(IModel model) : base(model) 		{ 
 			Model = model; 
-			_relatingPriorities = new ItemSet<double>( this );
-			_relatedPriorities = new ItemSet<double>( this );
+			_relatingPriorities = new ItemSet<double>( this, 0 );
+			_relatedPriorities = new ItemSet<double>( this, 0 );
 		}
 
 		#region Explicit attribute fields
@@ -41,10 +42,8 @@ namespace Xbim.Ifc4.SharedBldgElements
 		{ 
 			get 
 			{
-				if(Activated) return _relatingPriorities;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _relatingPriorities;
+				((IPersistEntity)this).Activate(false);
 				return _relatingPriorities;
 			} 
 		}
@@ -54,10 +53,8 @@ namespace Xbim.Ifc4.SharedBldgElements
 		{ 
 			get 
 			{
-				if(Activated) return _relatedPriorities;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _relatedPriorities;
+				((IPersistEntity)this).Activate(false);
 				return _relatedPriorities;
 			} 
 		}
@@ -67,10 +64,8 @@ namespace Xbim.Ifc4.SharedBldgElements
 		{ 
 			get 
 			{
-				if(Activated) return _relatedConnectionType;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _relatedConnectionType;
+				((IPersistEntity)this).Activate(false);
 				return _relatedConnectionType;
 			} 
 			set
@@ -84,10 +79,8 @@ namespace Xbim.Ifc4.SharedBldgElements
 		{ 
 			get 
 			{
-				if(Activated) return _relatingConnectionType;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _relatingConnectionType;
+				((IPersistEntity)this).Activate(false);
 				return _relatingConnectionType;
 			} 
 			set
@@ -147,6 +140,23 @@ namespace Xbim.Ifc4.SharedBldgElements
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcRelConnectsPathElements
+            var root = (@IfcRelConnectsPathElements)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcRelConnectsPathElements left, @IfcRelConnectsPathElements right)
         {

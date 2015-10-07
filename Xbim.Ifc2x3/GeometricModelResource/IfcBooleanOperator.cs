@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc2x3.GeometricModelResource
 {
-	public enum IfcBooleanOperator
+	public enum IfcBooleanOperator : byte
 	{
 		@UNION ,
 		@INTERSECTION ,

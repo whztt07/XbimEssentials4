@@ -12,6 +12,7 @@ using Xbim.Ifc2x3.UtilityResource;
 using Xbim.Ifc2x3.MeasureResource;
 using Xbim.Ifc2x3.TimeSeriesResource;
 using Xbim.Ifc2x3.MaterialResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -20,7 +21,7 @@ namespace Xbim.Ifc2x3.SharedBldgServiceElements
 {
 	[ExpressType("IFCFLUIDFLOWPROPERTIES", 466)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcFluidFlowProperties : IfcPropertySetDefinition, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcFluidFlowProperties>, System.IEquatable<@IfcFluidFlowProperties>
+	public  partial class @IfcFluidFlowProperties : IfcPropertySetDefinition, IInstantiableEntity, IEqualityComparer<@IfcFluidFlowProperties>, IEquatable<@IfcFluidFlowProperties>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcFluidFlowProperties(IModel model) : base(model) 		{ 
@@ -51,10 +52,8 @@ namespace Xbim.Ifc2x3.SharedBldgServiceElements
 		{ 
 			get 
 			{
-				if(Activated) return _propertySource;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _propertySource;
+				((IPersistEntity)this).Activate(false);
 				return _propertySource;
 			} 
 			set
@@ -68,10 +67,8 @@ namespace Xbim.Ifc2x3.SharedBldgServiceElements
 		{ 
 			get 
 			{
-				if(Activated) return _flowConditionTimeSeries;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _flowConditionTimeSeries;
+				((IPersistEntity)this).Activate(false);
 				return _flowConditionTimeSeries;
 			} 
 			set
@@ -85,10 +82,8 @@ namespace Xbim.Ifc2x3.SharedBldgServiceElements
 		{ 
 			get 
 			{
-				if(Activated) return _velocityTimeSeries;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _velocityTimeSeries;
+				((IPersistEntity)this).Activate(false);
 				return _velocityTimeSeries;
 			} 
 			set
@@ -102,10 +97,8 @@ namespace Xbim.Ifc2x3.SharedBldgServiceElements
 		{ 
 			get 
 			{
-				if(Activated) return _flowrateTimeSeries;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _flowrateTimeSeries;
+				((IPersistEntity)this).Activate(false);
 				return _flowrateTimeSeries;
 			} 
 			set
@@ -119,10 +112,8 @@ namespace Xbim.Ifc2x3.SharedBldgServiceElements
 		{ 
 			get 
 			{
-				if(Activated) return _fluid;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _fluid;
+				((IPersistEntity)this).Activate(false);
 				return _fluid;
 			} 
 			set
@@ -136,10 +127,8 @@ namespace Xbim.Ifc2x3.SharedBldgServiceElements
 		{ 
 			get 
 			{
-				if(Activated) return _pressureTimeSeries;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _pressureTimeSeries;
+				((IPersistEntity)this).Activate(false);
 				return _pressureTimeSeries;
 			} 
 			set
@@ -153,10 +142,8 @@ namespace Xbim.Ifc2x3.SharedBldgServiceElements
 		{ 
 			get 
 			{
-				if(Activated) return _userDefinedPropertySource;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _userDefinedPropertySource;
+				((IPersistEntity)this).Activate(false);
 				return _userDefinedPropertySource;
 			} 
 			set
@@ -170,10 +157,8 @@ namespace Xbim.Ifc2x3.SharedBldgServiceElements
 		{ 
 			get 
 			{
-				if(Activated) return _temperatureSingleValue;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _temperatureSingleValue;
+				((IPersistEntity)this).Activate(false);
 				return _temperatureSingleValue;
 			} 
 			set
@@ -187,10 +172,8 @@ namespace Xbim.Ifc2x3.SharedBldgServiceElements
 		{ 
 			get 
 			{
-				if(Activated) return _wetBulbTemperatureSingleValue;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _wetBulbTemperatureSingleValue;
+				((IPersistEntity)this).Activate(false);
 				return _wetBulbTemperatureSingleValue;
 			} 
 			set
@@ -204,10 +187,8 @@ namespace Xbim.Ifc2x3.SharedBldgServiceElements
 		{ 
 			get 
 			{
-				if(Activated) return _wetBulbTemperatureTimeSeries;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _wetBulbTemperatureTimeSeries;
+				((IPersistEntity)this).Activate(false);
 				return _wetBulbTemperatureTimeSeries;
 			} 
 			set
@@ -221,10 +202,8 @@ namespace Xbim.Ifc2x3.SharedBldgServiceElements
 		{ 
 			get 
 			{
-				if(Activated) return _temperatureTimeSeries;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _temperatureTimeSeries;
+				((IPersistEntity)this).Activate(false);
 				return _temperatureTimeSeries;
 			} 
 			set
@@ -238,10 +217,8 @@ namespace Xbim.Ifc2x3.SharedBldgServiceElements
 		{ 
 			get 
 			{
-				if(Activated) return _flowrateSingleValue;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _flowrateSingleValue;
+				((IPersistEntity)this).Activate(false);
 				return _flowrateSingleValue;
 			} 
 			set
@@ -255,10 +232,8 @@ namespace Xbim.Ifc2x3.SharedBldgServiceElements
 		{ 
 			get 
 			{
-				if(Activated) return _flowConditionSingleValue;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _flowConditionSingleValue;
+				((IPersistEntity)this).Activate(false);
 				return _flowConditionSingleValue;
 			} 
 			set
@@ -272,10 +247,8 @@ namespace Xbim.Ifc2x3.SharedBldgServiceElements
 		{ 
 			get 
 			{
-				if(Activated) return _velocitySingleValue;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _velocitySingleValue;
+				((IPersistEntity)this).Activate(false);
 				return _velocitySingleValue;
 			} 
 			set
@@ -289,10 +262,8 @@ namespace Xbim.Ifc2x3.SharedBldgServiceElements
 		{ 
 			get 
 			{
-				if(Activated) return _pressureSingleValue;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _pressureSingleValue;
+				((IPersistEntity)this).Activate(false);
 				return _pressureSingleValue;
 			} 
 			set
@@ -378,6 +349,23 @@ namespace Xbim.Ifc2x3.SharedBldgServiceElements
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcFluidFlowProperties
+            var root = (@IfcFluidFlowProperties)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcFluidFlowProperties left, @IfcFluidFlowProperties right)
         {

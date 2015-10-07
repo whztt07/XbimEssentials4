@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.ProductExtension
 {
-	public enum IfcProjectionElementTypeEnum
+	public enum IfcProjectionElementTypeEnum : byte
 	{
 		@USERDEFINED ,
 		@NOTDEFINED 

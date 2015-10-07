@@ -9,6 +9,7 @@
 
 using Xbim.Ifc4.ExternalReferenceResource;
 using Xbim.Ifc4.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -17,7 +18,7 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
 {
 	[ExpressType("IFCEXTERNALLYDEFINEDSURFACESTYLE", 638)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcExternallyDefinedSurfaceStyle : IfcExternalReference, IfcSurfaceStyleElementSelect, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcExternallyDefinedSurfaceStyle>, System.IEquatable<@IfcExternallyDefinedSurfaceStyle>
+	public  partial class @IfcExternallyDefinedSurfaceStyle : IfcExternalReference, IfcSurfaceStyleElementSelect, IInstantiableEntity, IEqualityComparer<@IfcExternallyDefinedSurfaceStyle>, IEquatable<@IfcExternallyDefinedSurfaceStyle>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcExternallyDefinedSurfaceStyle(IModel model) : base(model) 		{ 
@@ -54,6 +55,23 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcExternallyDefinedSurfaceStyle
+            var root = (@IfcExternallyDefinedSurfaceStyle)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcExternallyDefinedSurfaceStyle left, @IfcExternallyDefinedSurfaceStyle right)
         {

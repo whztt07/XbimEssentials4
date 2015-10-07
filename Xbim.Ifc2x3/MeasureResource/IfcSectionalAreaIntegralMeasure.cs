@@ -14,7 +14,7 @@ namespace Xbim.Ifc2x3.MeasureResource
 {
 	[ExpressType("IFCSECTIONALAREAINTEGRALMEASURE", 506)]
     // ReSharper disable once PartialTypeWithSinglePart
-	public partial struct IfcSectionalAreaIntegralMeasure : IfcDerivedMeasureValue, IExpressValueType
+	public partial struct IfcSectionalAreaIntegralMeasure : IfcDerivedMeasureValue, IExpressValueType, System.IEquatable<double>
 	{ 
 		private double _value;
         
@@ -46,6 +46,7 @@ namespace Xbim.Ifc2x3.MeasureResource
         public static implicit operator double(IfcSectionalAreaIntegralMeasure obj)
         {
             return obj._value;
+
         }
 
 
@@ -62,6 +63,11 @@ namespace Xbim.Ifc2x3.MeasureResource
 
             return ((IfcSectionalAreaIntegralMeasure) obj)._value == _value;
         }
+
+		public bool Equals(double other)
+	    {
+	        return this == other;
+	    }
 
         public static bool operator ==(IfcSectionalAreaIntegralMeasure obj1, IfcSectionalAreaIntegralMeasure obj2)
         {

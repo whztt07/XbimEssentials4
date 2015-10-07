@@ -9,6 +9,7 @@
 
 using Xbim.Ifc4.ProfileResource;
 using Xbim.Ifc4.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -17,7 +18,7 @@ namespace Xbim.Ifc4.GeometryResource
 {
 	[ExpressType("IFCSURFACEOFLINEAREXTRUSION", 1056)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcSurfaceOfLinearExtrusion : IfcSweptSurface, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcSurfaceOfLinearExtrusion>, System.IEquatable<@IfcSurfaceOfLinearExtrusion>
+	public  partial class @IfcSurfaceOfLinearExtrusion : IfcSweptSurface, IInstantiableEntity, IEqualityComparer<@IfcSurfaceOfLinearExtrusion>, IEquatable<@IfcSurfaceOfLinearExtrusion>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcSurfaceOfLinearExtrusion(IModel model) : base(model) 		{ 
@@ -35,10 +36,8 @@ namespace Xbim.Ifc4.GeometryResource
 		{ 
 			get 
 			{
-				if(Activated) return _extrudedDirection;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _extrudedDirection;
+				((IPersistEntity)this).Activate(false);
 				return _extrudedDirection;
 			} 
 			set
@@ -52,10 +51,8 @@ namespace Xbim.Ifc4.GeometryResource
 		{ 
 			get 
 			{
-				if(Activated) return _depth;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _depth;
+				((IPersistEntity)this).Activate(false);
 				return _depth;
 			} 
 			set
@@ -101,6 +98,23 @@ namespace Xbim.Ifc4.GeometryResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcSurfaceOfLinearExtrusion
+            var root = (@IfcSurfaceOfLinearExtrusion)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcSurfaceOfLinearExtrusion left, @IfcSurfaceOfLinearExtrusion right)
         {

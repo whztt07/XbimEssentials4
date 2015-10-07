@@ -12,6 +12,7 @@ using Xbim.Ifc4.UtilityResource;
 using Xbim.Ifc4.MeasureResource;
 using Xbim.Ifc4.GeometricConstraintResource;
 using Xbim.Ifc4.RepresentationResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -20,7 +21,7 @@ namespace Xbim.Ifc4.StructuralElementsDomain
 {
 	[ExpressType("IFCVOIDINGFEATURE", 1137)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcVoidingFeature : IfcFeatureElementSubtraction, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcVoidingFeature>, System.IEquatable<@IfcVoidingFeature>
+	public  partial class @IfcVoidingFeature : IfcFeatureElementSubtraction, IInstantiableEntity, IEqualityComparer<@IfcVoidingFeature>, IEquatable<@IfcVoidingFeature>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcVoidingFeature(IModel model) : base(model) 		{ 
@@ -37,10 +38,8 @@ namespace Xbim.Ifc4.StructuralElementsDomain
 		{ 
 			get 
 			{
-				if(Activated) return _predefinedType;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _predefinedType;
+				((IPersistEntity)this).Activate(false);
 				return _predefinedType;
 			} 
 			set
@@ -89,6 +88,23 @@ namespace Xbim.Ifc4.StructuralElementsDomain
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcVoidingFeature
+            var root = (@IfcVoidingFeature)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcVoidingFeature left, @IfcVoidingFeature right)
         {

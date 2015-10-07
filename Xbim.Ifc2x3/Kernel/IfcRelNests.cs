@@ -9,6 +9,7 @@
 
 using Xbim.Ifc2x3.UtilityResource;
 using Xbim.Ifc2x3.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -17,7 +18,7 @@ namespace Xbim.Ifc2x3.Kernel
 {
 	[ExpressType("IFCRELNESTS", 305)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcRelNests : IfcRelDecomposes, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcRelNests>, System.IEquatable<@IfcRelNests>
+	public  partial class @IfcRelNests : IfcRelDecomposes, IInstantiableEntity, IEqualityComparer<@IfcRelNests>, IEquatable<@IfcRelNests>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcRelNests(IModel model) : base(model) 		{ 
@@ -58,6 +59,23 @@ namespace Xbim.Ifc2x3.Kernel
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcRelNests
+            var root = (@IfcRelNests)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcRelNests left, @IfcRelNests right)
         {

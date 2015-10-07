@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.SharedBldgElements
 {
-	public enum IfcBuildingSystemTypeEnum
+	public enum IfcBuildingSystemTypeEnum : byte
 	{
 		@FENESTRATION ,
 		@FOUNDATION ,

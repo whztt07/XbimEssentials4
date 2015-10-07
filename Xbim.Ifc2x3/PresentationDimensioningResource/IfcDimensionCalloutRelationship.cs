@@ -8,6 +8,7 @@
 // ------------------------------------------------------------------------------
 
 using Xbim.Ifc2x3.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -16,7 +17,7 @@ namespace Xbim.Ifc2x3.PresentationDimensioningResource
 {
 	[ExpressType("IFCDIMENSIONCALLOUTRELATIONSHIP", 741)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcDimensionCalloutRelationship : IfcDraughtingCalloutRelationship, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcDimensionCalloutRelationship>, System.IEquatable<@IfcDimensionCalloutRelationship>
+	public  partial class @IfcDimensionCalloutRelationship : IfcDraughtingCalloutRelationship, IInstantiableEntity, IEqualityComparer<@IfcDimensionCalloutRelationship>, IEquatable<@IfcDimensionCalloutRelationship>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcDimensionCalloutRelationship(IModel model) : base(model) 		{ 
@@ -57,6 +58,23 @@ namespace Xbim.Ifc2x3.PresentationDimensioningResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcDimensionCalloutRelationship
+            var root = (@IfcDimensionCalloutRelationship)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcDimensionCalloutRelationship left, @IfcDimensionCalloutRelationship right)
         {

@@ -7,6 +7,7 @@
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -16,7 +17,7 @@ namespace Xbim.CobieExpress
 	[IndexedClass]
 	[ExpressType("IMPACT", 30)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @CobieImpact : CobieReferencedObject, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@CobieImpact>, System.IEquatable<@CobieImpact>
+	public  partial class @CobieImpact : CobieReferencedObject, IInstantiableEntity, IEqualityComparer<@CobieImpact>, IEquatable<@CobieImpact>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal CobieImpact(IModel model) : base(model) 		{ 
@@ -42,10 +43,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _name;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _name;
+				((IPersistEntity)this).Activate(false);
 				return _name;
 			} 
 			set
@@ -59,10 +58,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _description;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _description;
+				((IPersistEntity)this).Activate(false);
 				return _description;
 			} 
 			set
@@ -76,10 +73,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _impactType;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _impactType;
+				((IPersistEntity)this).Activate(false);
 				return _impactType;
 			} 
 			set
@@ -93,10 +88,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _impactStage;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _impactStage;
+				((IPersistEntity)this).Activate(false);
 				return _impactStage;
 			} 
 			set
@@ -110,10 +103,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _value;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _value;
+				((IPersistEntity)this).Activate(false);
 				return _value;
 			} 
 			set
@@ -127,10 +118,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _impactUnit;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _impactUnit;
+				((IPersistEntity)this).Activate(false);
 				return _impactUnit;
 			} 
 			set
@@ -144,10 +133,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _leadInTime;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _leadInTime;
+				((IPersistEntity)this).Activate(false);
 				return _leadInTime;
 			} 
 			set
@@ -161,10 +148,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _duration;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _duration;
+				((IPersistEntity)this).Activate(false);
 				return _duration;
 			} 
 			set
@@ -178,10 +163,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _leadOutTime;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _leadOutTime;
+				((IPersistEntity)this).Activate(false);
 				return _leadOutTime;
 			} 
 			set
@@ -195,10 +178,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _timeUnit;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _timeUnit;
+				((IPersistEntity)this).Activate(false);
 				return _timeUnit;
 			} 
 			set
@@ -269,6 +250,23 @@ namespace Xbim.CobieExpress
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @CobieImpact
+            var root = (@CobieImpact)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@CobieImpact left, @CobieImpact right)
         {

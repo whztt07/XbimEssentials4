@@ -8,6 +8,7 @@
 // ------------------------------------------------------------------------------
 
 using System.Collections.Generic;
+using System.Linq;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
 
@@ -15,10 +16,23 @@ namespace Xbim.Ifc4.Kernel
 {
 	[ExpressType("IFCPROPERTYSETDEFINITIONSET", 85)]
     // ReSharper disable once PartialTypeWithSinglePart
-	public partial struct IfcPropertySetDefinitionSet : IfcPropertySetDefinitionSelect, IExpressComplexType
+	public partial struct IfcPropertySetDefinitionSet : IfcPropertySetDefinitionSelect, IExpressComplexType, System.IEquatable<List<IfcPropertySetDefinition>>
 	{ 
 		private List<IfcPropertySetDefinition> _value;
         
+		public static void Add(ref IfcPropertySetDefinitionSet comp, IfcPropertySetDefinition component)
+        {
+            if (comp._value == null)
+                comp.Initialise(component);
+            else
+                comp._value.Add(component);
+        }
+
+		private void Initialise(IfcPropertySetDefinition comp)
+        {
+            _value = new List<IfcPropertySetDefinition>{ comp };
+        }
+
 		public object Value
         {
             get { return _value; }
@@ -31,7 +45,8 @@ namespace Xbim.Ifc4.Kernel
 
         public IfcPropertySetDefinitionSet(List<IfcPropertySetDefinition> val)
         {
-            _value = val;
+			//copy items into new inner list
+			_value = new List<IfcPropertySetDefinition>(val);
         }
 
 
@@ -42,7 +57,9 @@ namespace Xbim.Ifc4.Kernel
 
         public static implicit operator List<IfcPropertySetDefinition>(IfcPropertySetDefinitionSet obj)
         {
-            return obj._value;
+			//return copy so that underlying collection is not exposed
+			return new List<IfcPropertySetDefinition>(obj._value);
+
         }
 
 
@@ -60,6 +77,11 @@ namespace Xbim.Ifc4.Kernel
             return System.Linq.Enumerable.SequenceEqual(((IfcPropertySetDefinitionSet) obj)._value, _value);
         }
 
+		public bool Equals(List<IfcPropertySetDefinition> other)
+	    {
+	        return this == other;
+	    }
+
         public static bool operator ==(IfcPropertySetDefinitionSet obj1, IfcPropertySetDefinitionSet obj2)
         {
             return Equals(obj1, obj2);
@@ -72,7 +94,7 @@ namespace Xbim.Ifc4.Kernel
 
         public override int GetHashCode()
         {
-            return Value != null ? _value.GetHashCode() : base.GetHashCode();
+            return Value != null ? _value.Sum(o => o.GetHashCode()) : base.GetHashCode();
         }
 
 		#region IPersist implementation
@@ -111,13 +133,6 @@ namespace Xbim.Ifc4.Kernel
 	                yield return value;
             }
         }
-
-		void IExpressComplexType.Add(object o)
-	    {
-			if (_value == null)
-				_value = new List<IfcPropertySetDefinition>();
-			 _value.Add((IfcPropertySetDefinition) o);
-	    }
 		#endregion
 
 	}

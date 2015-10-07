@@ -9,6 +9,7 @@
 
 using Xbim.Ifc4.PropertyResource;
 using Xbim.Ifc4.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -17,12 +18,12 @@ namespace Xbim.Ifc4.ProfileResource
 {
 	[ExpressType("IFCSECTIONREINFORCEMENTPROPERTIES", 972)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcSectionReinforcementProperties : IfcPreDefinedProperties, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcSectionReinforcementProperties>, System.IEquatable<@IfcSectionReinforcementProperties>
+	public  partial class @IfcSectionReinforcementProperties : IfcPreDefinedProperties, IInstantiableEntity, IEqualityComparer<@IfcSectionReinforcementProperties>, IEquatable<@IfcSectionReinforcementProperties>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcSectionReinforcementProperties(IModel model) : base(model) 		{ 
 			Model = model; 
-			_crossSectionReinforcementDefinitions = new ItemSet<IfcReinforcementBarProperties>( this );
+			_crossSectionReinforcementDefinitions = new ItemSet<IfcReinforcementBarProperties>( this, 0 );
 		}
 
 		#region Explicit attribute fields
@@ -40,10 +41,8 @@ namespace Xbim.Ifc4.ProfileResource
 		{ 
 			get 
 			{
-				if(Activated) return _longitudinalStartPosition;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _longitudinalStartPosition;
+				((IPersistEntity)this).Activate(false);
 				return _longitudinalStartPosition;
 			} 
 			set
@@ -57,10 +56,8 @@ namespace Xbim.Ifc4.ProfileResource
 		{ 
 			get 
 			{
-				if(Activated) return _longitudinalEndPosition;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _longitudinalEndPosition;
+				((IPersistEntity)this).Activate(false);
 				return _longitudinalEndPosition;
 			} 
 			set
@@ -74,10 +71,8 @@ namespace Xbim.Ifc4.ProfileResource
 		{ 
 			get 
 			{
-				if(Activated) return _transversePosition;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _transversePosition;
+				((IPersistEntity)this).Activate(false);
 				return _transversePosition;
 			} 
 			set
@@ -91,10 +86,8 @@ namespace Xbim.Ifc4.ProfileResource
 		{ 
 			get 
 			{
-				if(Activated) return _reinforcementRole;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _reinforcementRole;
+				((IPersistEntity)this).Activate(false);
 				return _reinforcementRole;
 			} 
 			set
@@ -108,10 +101,8 @@ namespace Xbim.Ifc4.ProfileResource
 		{ 
 			get 
 			{
-				if(Activated) return _sectionDefinition;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _sectionDefinition;
+				((IPersistEntity)this).Activate(false);
 				return _sectionDefinition;
 			} 
 			set
@@ -125,10 +116,8 @@ namespace Xbim.Ifc4.ProfileResource
 		{ 
 			get 
 			{
-				if(Activated) return _crossSectionReinforcementDefinitions;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _crossSectionReinforcementDefinitions;
+				((IPersistEntity)this).Activate(false);
 				return _crossSectionReinforcementDefinitions;
 			} 
 		}
@@ -178,6 +167,23 @@ namespace Xbim.Ifc4.ProfileResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcSectionReinforcementProperties
+            var root = (@IfcSectionReinforcementProperties)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcSectionReinforcementProperties left, @IfcSectionReinforcementProperties right)
         {

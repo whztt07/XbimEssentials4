@@ -10,6 +10,7 @@
 using Xbim.Ifc2x3.ProcessExtension;
 using Xbim.Ifc2x3.UtilityResource;
 using Xbim.Ifc2x3.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -18,7 +19,7 @@ namespace Xbim.Ifc2x3.FacilitiesMgmtDomain
 {
 	[ExpressType("IFCORDERACTION", 591)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcOrderAction : IfcTask, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcOrderAction>, System.IEquatable<@IfcOrderAction>
+	public  partial class @IfcOrderAction : IfcTask, IInstantiableEntity, IEqualityComparer<@IfcOrderAction>, IEquatable<@IfcOrderAction>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcOrderAction(IModel model) : base(model) 		{ 
@@ -35,10 +36,8 @@ namespace Xbim.Ifc2x3.FacilitiesMgmtDomain
 		{ 
 			get 
 			{
-				if(Activated) return _actionID;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _actionID;
+				((IPersistEntity)this).Activate(false);
 				return _actionID;
 			} 
 			set
@@ -88,6 +87,23 @@ namespace Xbim.Ifc2x3.FacilitiesMgmtDomain
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcOrderAction
+            var root = (@IfcOrderAction)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcOrderAction left, @IfcOrderAction right)
         {

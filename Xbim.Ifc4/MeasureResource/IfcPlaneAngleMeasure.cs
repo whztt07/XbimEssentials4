@@ -15,7 +15,7 @@ namespace Xbim.Ifc4.MeasureResource
 {
 	[ExpressType("IFCPLANEANGLEMEASURE", 78)]
     // ReSharper disable once PartialTypeWithSinglePart
-	public partial struct IfcPlaneAngleMeasure : IfcBendingParameterSelect, IfcMeasureValue, IExpressValueType
+	public partial struct IfcPlaneAngleMeasure : IfcBendingParameterSelect, IfcMeasureValue, IExpressValueType, System.IEquatable<double>
 	{ 
 		private double _value;
         
@@ -47,6 +47,7 @@ namespace Xbim.Ifc4.MeasureResource
         public static implicit operator double(IfcPlaneAngleMeasure obj)
         {
             return obj._value;
+
         }
 
 
@@ -63,6 +64,11 @@ namespace Xbim.Ifc4.MeasureResource
 
             return ((IfcPlaneAngleMeasure) obj)._value == _value;
         }
+
+		public bool Equals(double other)
+	    {
+	        return this == other;
+	    }
 
         public static bool operator ==(IfcPlaneAngleMeasure obj1, IfcPlaneAngleMeasure obj2)
         {

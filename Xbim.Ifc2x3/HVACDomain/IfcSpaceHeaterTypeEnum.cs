@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc2x3.HVACDomain
 {
-	public enum IfcSpaceHeaterTypeEnum
+	public enum IfcSpaceHeaterTypeEnum : byte
 	{
 		@SECTIONALRADIATOR ,
 		@PANELRADIATOR ,

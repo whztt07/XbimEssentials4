@@ -14,7 +14,7 @@ namespace Xbim.Ifc2x3.MeasureResource
 {
 	[ExpressType("IFCLUMINOUSINTENSITYMEASURE", 540)]
     // ReSharper disable once PartialTypeWithSinglePart
-	public partial struct IfcLuminousIntensityMeasure : IfcMeasureValue, IExpressValueType
+	public partial struct IfcLuminousIntensityMeasure : IfcMeasureValue, IExpressValueType, System.IEquatable<double>
 	{ 
 		private double _value;
         
@@ -46,6 +46,7 @@ namespace Xbim.Ifc2x3.MeasureResource
         public static implicit operator double(IfcLuminousIntensityMeasure obj)
         {
             return obj._value;
+
         }
 
 
@@ -62,6 +63,11 @@ namespace Xbim.Ifc2x3.MeasureResource
 
             return ((IfcLuminousIntensityMeasure) obj)._value == _value;
         }
+
+		public bool Equals(double other)
+	    {
+	        return this == other;
+	    }
 
         public static bool operator ==(IfcLuminousIntensityMeasure obj1, IfcLuminousIntensityMeasure obj2)
         {

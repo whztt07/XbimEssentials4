@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.HvacDomain
 {
-	public enum IfcPipeSegmentTypeEnum
+	public enum IfcPipeSegmentTypeEnum : byte
 	{
 		@CULVERT ,
 		@FLEXIBLESEGMENT ,

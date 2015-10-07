@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc2x3.ConstructionMgmtDomain
 {
-	public enum IfcResourceConsumptionEnum
+	public enum IfcResourceConsumptionEnum : byte
 	{
 		@CONSUMED ,
 		@PARTIALLYCONSUMED ,

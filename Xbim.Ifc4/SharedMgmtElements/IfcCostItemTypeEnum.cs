@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.SharedMgmtElements
 {
-	public enum IfcCostItemTypeEnum
+	public enum IfcCostItemTypeEnum : byte
 	{
 		@USERDEFINED ,
 		@NOTDEFINED 

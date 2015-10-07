@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.CostResource
 {
-	public enum IfcArithmeticOperatorEnum
+	public enum IfcArithmeticOperatorEnum : byte
 	{
 		@ADD ,
 		@DIVIDE ,

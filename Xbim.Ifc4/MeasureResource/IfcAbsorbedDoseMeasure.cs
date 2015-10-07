@@ -14,7 +14,7 @@ namespace Xbim.Ifc4.MeasureResource
 {
 	[ExpressType("IFCABSORBEDDOSEMEASURE", 0)]
     // ReSharper disable once PartialTypeWithSinglePart
-	public partial struct IfcAbsorbedDoseMeasure : IfcDerivedMeasureValue, IExpressValueType
+	public partial struct IfcAbsorbedDoseMeasure : IfcDerivedMeasureValue, IExpressValueType, System.IEquatable<double>
 	{ 
 		private double _value;
         
@@ -46,6 +46,7 @@ namespace Xbim.Ifc4.MeasureResource
         public static implicit operator double(IfcAbsorbedDoseMeasure obj)
         {
             return obj._value;
+
         }
 
 
@@ -62,6 +63,11 @@ namespace Xbim.Ifc4.MeasureResource
 
             return ((IfcAbsorbedDoseMeasure) obj)._value == _value;
         }
+
+		public bool Equals(double other)
+	    {
+	        return this == other;
+	    }
 
         public static bool operator ==(IfcAbsorbedDoseMeasure obj1, IfcAbsorbedDoseMeasure obj2)
         {

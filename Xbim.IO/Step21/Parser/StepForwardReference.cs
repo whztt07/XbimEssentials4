@@ -9,19 +9,19 @@ namespace Xbim.IO.Step21.Parser
     public struct StepForwardReference
     {
         public readonly int ReferenceEntityLabel;
-        private readonly short ReferencingPropertyId;
-        private readonly IPersistEntity ReferencingEntity;
+        private readonly short _referencingPropertyId;
+        private readonly IPersistEntity _referencingEntity;
 
         public StepForwardReference(int referenceEntityLabel,
             short referencingProperty,
             IPersistEntity referencingEntity)
         {
             ReferenceEntityLabel = referenceEntityLabel;
-            ReferencingPropertyId = referencingProperty;
-            ReferencingEntity = referencingEntity;
+            _referencingPropertyId = referencingProperty;
+            _referencingEntity = referencingEntity;
         }
 
-        public bool Resolve(ConcurrentDictionary<int, IPersistEntity> references)
+        public bool Resolve(ConcurrentDictionary<int, IPersistEntity> references, ExpressMetaData metadata)
         {
             IPersistEntity entity;
             if (references.TryGetValue(ReferenceEntityLabel, out entity))
@@ -30,17 +30,17 @@ namespace Xbim.IO.Step21.Parser
                 pv.Init(entity);
                 try
                 {
-                    ReferencingEntity.Parse(ReferencingPropertyId, pv);
+                    _referencingEntity.Parse(_referencingPropertyId, pv);
                     return true;
                 }
                 catch (Exception)
                 {
-                    var ifcType = ExpressMetaData.ExpressType(ReferencingEntity);
+                    var expressType = metadata.ExpressType(_referencingEntity);
                     
                     EsentModel.Logger.ErrorFormat("Data Error. Cannot set the property = {0} of entity #{1} = {2} to entity #{3}, schema violation. Ignored", 
-                        ifcType.Properties[ReferencingPropertyId+1].PropertyInfo.Name, 
-                        ReferencingEntity.EntityLabel,
-                        ReferencingEntity.GetType().Name,
+                        expressType.Properties[_referencingPropertyId+1].PropertyInfo.Name, 
+                        _referencingEntity.EntityLabel,
+                        _referencingEntity.GetType().Name,
                         ReferenceEntityLabel);
                     return false;
                 }

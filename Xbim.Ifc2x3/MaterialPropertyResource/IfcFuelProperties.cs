@@ -9,6 +9,7 @@
 
 using Xbim.Ifc2x3.MaterialResource;
 using Xbim.Ifc2x3.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -17,7 +18,7 @@ namespace Xbim.Ifc2x3.MaterialPropertyResource
 {
 	[ExpressType("IFCFUELPROPERTIES", 715)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcFuelProperties : IfcMaterialProperties, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcFuelProperties>, System.IEquatable<@IfcFuelProperties>
+	public  partial class @IfcFuelProperties : IfcMaterialProperties, IInstantiableEntity, IEqualityComparer<@IfcFuelProperties>, IEquatable<@IfcFuelProperties>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcFuelProperties(IModel model) : base(model) 		{ 
@@ -37,10 +38,8 @@ namespace Xbim.Ifc2x3.MaterialPropertyResource
 		{ 
 			get 
 			{
-				if(Activated) return _combustionTemperature;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _combustionTemperature;
+				((IPersistEntity)this).Activate(false);
 				return _combustionTemperature;
 			} 
 			set
@@ -54,10 +53,8 @@ namespace Xbim.Ifc2x3.MaterialPropertyResource
 		{ 
 			get 
 			{
-				if(Activated) return _carbonContent;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _carbonContent;
+				((IPersistEntity)this).Activate(false);
 				return _carbonContent;
 			} 
 			set
@@ -71,10 +68,8 @@ namespace Xbim.Ifc2x3.MaterialPropertyResource
 		{ 
 			get 
 			{
-				if(Activated) return _lowerHeatingValue;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _lowerHeatingValue;
+				((IPersistEntity)this).Activate(false);
 				return _lowerHeatingValue;
 			} 
 			set
@@ -88,10 +83,8 @@ namespace Xbim.Ifc2x3.MaterialPropertyResource
 		{ 
 			get 
 			{
-				if(Activated) return _higherHeatingValue;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _higherHeatingValue;
+				((IPersistEntity)this).Activate(false);
 				return _higherHeatingValue;
 			} 
 			set
@@ -141,6 +134,23 @@ namespace Xbim.Ifc2x3.MaterialPropertyResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcFuelProperties
+            var root = (@IfcFuelProperties)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcFuelProperties left, @IfcFuelProperties right)
         {

@@ -9,6 +9,7 @@
 
 using Xbim.Ifc2x3.UtilityResource;
 using Xbim.Ifc2x3.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -17,7 +18,7 @@ namespace Xbim.Ifc2x3.SharedBldgServiceElements
 {
 	[ExpressType("IFCELECTRICALBASEPROPERTIES", 177)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcElectricalBaseProperties : IfcEnergyProperties, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcElectricalBaseProperties>, System.IEquatable<@IfcElectricalBaseProperties>
+	public  partial class @IfcElectricalBaseProperties : IfcEnergyProperties, IInstantiableEntity, IEqualityComparer<@IfcElectricalBaseProperties>, IEquatable<@IfcElectricalBaseProperties>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcElectricalBaseProperties(IModel model) : base(model) 		{ 
@@ -41,10 +42,8 @@ namespace Xbim.Ifc2x3.SharedBldgServiceElements
 		{ 
 			get 
 			{
-				if(Activated) return _electricCurrentType;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _electricCurrentType;
+				((IPersistEntity)this).Activate(false);
 				return _electricCurrentType;
 			} 
 			set
@@ -58,10 +57,8 @@ namespace Xbim.Ifc2x3.SharedBldgServiceElements
 		{ 
 			get 
 			{
-				if(Activated) return _inputVoltage;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _inputVoltage;
+				((IPersistEntity)this).Activate(false);
 				return _inputVoltage;
 			} 
 			set
@@ -75,10 +72,8 @@ namespace Xbim.Ifc2x3.SharedBldgServiceElements
 		{ 
 			get 
 			{
-				if(Activated) return _inputFrequency;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _inputFrequency;
+				((IPersistEntity)this).Activate(false);
 				return _inputFrequency;
 			} 
 			set
@@ -92,10 +87,8 @@ namespace Xbim.Ifc2x3.SharedBldgServiceElements
 		{ 
 			get 
 			{
-				if(Activated) return _fullLoadCurrent;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _fullLoadCurrent;
+				((IPersistEntity)this).Activate(false);
 				return _fullLoadCurrent;
 			} 
 			set
@@ -109,10 +102,8 @@ namespace Xbim.Ifc2x3.SharedBldgServiceElements
 		{ 
 			get 
 			{
-				if(Activated) return _minimumCircuitCurrent;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _minimumCircuitCurrent;
+				((IPersistEntity)this).Activate(false);
 				return _minimumCircuitCurrent;
 			} 
 			set
@@ -126,10 +117,8 @@ namespace Xbim.Ifc2x3.SharedBldgServiceElements
 		{ 
 			get 
 			{
-				if(Activated) return _maximumPowerInput;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _maximumPowerInput;
+				((IPersistEntity)this).Activate(false);
 				return _maximumPowerInput;
 			} 
 			set
@@ -143,10 +132,8 @@ namespace Xbim.Ifc2x3.SharedBldgServiceElements
 		{ 
 			get 
 			{
-				if(Activated) return _ratedPowerInput;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _ratedPowerInput;
+				((IPersistEntity)this).Activate(false);
 				return _ratedPowerInput;
 			} 
 			set
@@ -160,10 +147,8 @@ namespace Xbim.Ifc2x3.SharedBldgServiceElements
 		{ 
 			get 
 			{
-				if(Activated) return _inputPhase;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _inputPhase;
+				((IPersistEntity)this).Activate(false);
 				return _inputPhase;
 			} 
 			set
@@ -230,6 +215,23 @@ namespace Xbim.Ifc2x3.SharedBldgServiceElements
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcElectricalBaseProperties
+            var root = (@IfcElectricalBaseProperties)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcElectricalBaseProperties left, @IfcElectricalBaseProperties right)
         {

@@ -9,6 +9,7 @@
 
 using Xbim.Ifc4.PresentationDefinitionResource;
 using Xbim.Ifc4.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -17,7 +18,7 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
 {
 	[ExpressType("IFCCURVESTYLEFONTPATTERN", 556)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcCurveStyleFontPattern : IfcPresentationItem, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcCurveStyleFontPattern>, System.IEquatable<@IfcCurveStyleFontPattern>
+	public  partial class @IfcCurveStyleFontPattern : IfcPresentationItem, IInstantiableEntity, IEqualityComparer<@IfcCurveStyleFontPattern>, IEquatable<@IfcCurveStyleFontPattern>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcCurveStyleFontPattern(IModel model) : base(model) 		{ 
@@ -35,10 +36,8 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
 		{ 
 			get 
 			{
-				if(Activated) return _visibleSegmentLength;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _visibleSegmentLength;
+				((IPersistEntity)this).Activate(false);
 				return _visibleSegmentLength;
 			} 
 			set
@@ -52,10 +51,8 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
 		{ 
 			get 
 			{
-				if(Activated) return _invisibleSegmentLength;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _invisibleSegmentLength;
+				((IPersistEntity)this).Activate(false);
 				return _invisibleSegmentLength;
 			} 
 			set
@@ -97,6 +94,23 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcCurveStyleFontPattern
+            var root = (@IfcCurveStyleFontPattern)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcCurveStyleFontPattern left, @IfcCurveStyleFontPattern right)
         {

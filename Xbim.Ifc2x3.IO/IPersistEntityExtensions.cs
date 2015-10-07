@@ -17,29 +17,6 @@ namespace Xbim.Ifc2x3.IO
     public static class PersistEntityExtensions
     {
        
-
-        #region Write the properties of an IPersistEntity to a stream
-
-        /// <summary>
-        /// Returns the index value of this type for use in Xbim database storage
-        /// </summary>
-        /// <param name="entity"></param>
-        /// <returns></returns>
-        public static short ExpressTypeId(this  IPersist entity)
-        {
-            return ExpressMetaData.ExpressTypeId(entity);
-        }
-
-        /// <summary>
-        /// Returns the Xbim meta data about the Ifc Properties of the Type
-        /// </summary>
-        /// <param name="entity"></param>
-        /// <returns></returns>
-        public static ExpressType ExpressType(this  IPersist entity)
-        {
-            return ExpressMetaData.ExpressType(entity);
-        }
-
         public static StringCollection SummaryString(this IPersistEntity entity)
         {
             var sc = new StringCollection {"Entity\t = #" + entity.EntityLabel};
@@ -51,11 +28,5 @@ namespace Xbim.Ifc2x3.IO
             sc.Add("Name\t = " + (root.Name.HasValue ? root.Name.Value.ToString() : root.ToString()));
             return sc;
         }
-
-        #endregion
-
-       
-
-        
     }
 }

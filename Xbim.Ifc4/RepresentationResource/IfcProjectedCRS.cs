@@ -8,6 +8,7 @@
 // ------------------------------------------------------------------------------
 
 using Xbim.Ifc4.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -16,7 +17,7 @@ namespace Xbim.Ifc4.RepresentationResource
 {
 	[ExpressType("IFCPROJECTEDCRS", 846)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcProjectedCRS : IfcCoordinateReferenceSystem, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcProjectedCRS>, System.IEquatable<@IfcProjectedCRS>
+	public  partial class @IfcProjectedCRS : IfcCoordinateReferenceSystem, IInstantiableEntity, IEqualityComparer<@IfcProjectedCRS>, IEquatable<@IfcProjectedCRS>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcProjectedCRS(IModel model) : base(model) 		{ 
@@ -35,10 +36,8 @@ namespace Xbim.Ifc4.RepresentationResource
 		{ 
 			get 
 			{
-				if(Activated) return _mapProjection;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _mapProjection;
+				((IPersistEntity)this).Activate(false);
 				return _mapProjection;
 			} 
 			set
@@ -52,10 +51,8 @@ namespace Xbim.Ifc4.RepresentationResource
 		{ 
 			get 
 			{
-				if(Activated) return _mapZone;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _mapZone;
+				((IPersistEntity)this).Activate(false);
 				return _mapZone;
 			} 
 			set
@@ -69,10 +66,8 @@ namespace Xbim.Ifc4.RepresentationResource
 		{ 
 			get 
 			{
-				if(Activated) return _mapUnit;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _mapUnit;
+				((IPersistEntity)this).Activate(false);
 				return _mapUnit;
 			} 
 			set
@@ -123,6 +118,23 @@ namespace Xbim.Ifc4.RepresentationResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcProjectedCRS
+            var root = (@IfcProjectedCRS)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcProjectedCRS left, @IfcProjectedCRS right)
         {

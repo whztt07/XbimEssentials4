@@ -8,6 +8,7 @@
 // ------------------------------------------------------------------------------
 
 using Xbim.Ifc2x3.GeometryResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -17,7 +18,7 @@ namespace Xbim.Ifc2x3.GeometricConstraintResource
 	[IndexedClass]
 	[ExpressType("IFCLOCALPLACEMENT", 481)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcLocalPlacement : IfcObjectPlacement, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcLocalPlacement>, System.IEquatable<@IfcLocalPlacement>
+	public  partial class @IfcLocalPlacement : IfcObjectPlacement, IInstantiableEntity, IEqualityComparer<@IfcLocalPlacement>, IEquatable<@IfcLocalPlacement>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcLocalPlacement(IModel model) : base(model) 		{ 
@@ -36,10 +37,8 @@ namespace Xbim.Ifc2x3.GeometricConstraintResource
 		{ 
 			get 
 			{
-				if(Activated) return _placementRelTo;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _placementRelTo;
+				((IPersistEntity)this).Activate(false);
 				return _placementRelTo;
 			} 
 			set
@@ -53,10 +52,8 @@ namespace Xbim.Ifc2x3.GeometricConstraintResource
 		{ 
 			get 
 			{
-				if(Activated) return _relativePlacement;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _relativePlacement;
+				((IPersistEntity)this).Activate(false);
 				return _relativePlacement;
 			} 
 			set
@@ -98,6 +95,23 @@ namespace Xbim.Ifc2x3.GeometricConstraintResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcLocalPlacement
+            var root = (@IfcLocalPlacement)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcLocalPlacement left, @IfcLocalPlacement right)
         {

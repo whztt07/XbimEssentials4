@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.StructuralAnalysisDomain
 {
-	public enum IfcAnalysisModelTypeEnum
+	public enum IfcAnalysisModelTypeEnum : byte
 	{
 		@IN_PLANE_LOADING_2D ,
 		@OUT_PLANE_LOADING_2D ,

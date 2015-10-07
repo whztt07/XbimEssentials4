@@ -63,6 +63,8 @@
     <Compile Include="ModelFilterTest.cs" />
     <Compile Include="BasicModelTests.cs" />
     <Compile Include="EqualityTests.cs" />
+    <Compile Include="ComplexDefinedTypeTests.cs" />
+    <Compile Include="ActivationTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Xbim.Common\Xbim.Common.csproj">

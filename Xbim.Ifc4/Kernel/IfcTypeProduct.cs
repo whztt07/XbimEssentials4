@@ -10,6 +10,7 @@
 using Xbim.Ifc4.UtilityResource;
 using Xbim.Ifc4.MeasureResource;
 using Xbim.Ifc4.GeometryResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -18,12 +19,12 @@ namespace Xbim.Ifc4.Kernel
 {
 	[ExpressType("IFCTYPEPRODUCT", 1119)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcTypeProduct : IfcTypeObject, IfcProductSelect, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcTypeProduct>, System.IEquatable<@IfcTypeProduct>
+	public  partial class @IfcTypeProduct : IfcTypeObject, IfcProductSelect, IInstantiableEntity, IEqualityComparer<@IfcTypeProduct>, IEquatable<@IfcTypeProduct>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcTypeProduct(IModel model) : base(model) 		{ 
 			Model = model; 
-			_representationMaps = new OptionalItemSet<IfcRepresentationMap>( this );
+			_representationMaps = new OptionalItemSet<IfcRepresentationMap>( this, 0 );
 		}
 
 		#region Explicit attribute fields
@@ -37,10 +38,8 @@ namespace Xbim.Ifc4.Kernel
 		{ 
 			get 
 			{
-				if(Activated) return _representationMaps;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _representationMaps;
+				((IPersistEntity)this).Activate(false);
 				return _representationMaps;
 			} 
 		}
@@ -50,10 +49,8 @@ namespace Xbim.Ifc4.Kernel
 		{ 
 			get 
 			{
-				if(Activated) return _tag;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _tag;
+				((IPersistEntity)this).Activate(false);
 				return _tag;
 			} 
 			set
@@ -70,7 +67,7 @@ namespace Xbim.Ifc4.Kernel
 		{ 
 			get 
 			{
-				return Model.Instances.Where<IfcRelAssignsToProduct>(e => e.RelatingProduct == this);
+				return Model.Instances.Where<IfcRelAssignsToProduct>(e => (e.RelatingProduct as IfcTypeProduct) == this);
 			} 
 		}
 		#endregion
@@ -114,6 +111,23 @@ namespace Xbim.Ifc4.Kernel
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcTypeProduct
+            var root = (@IfcTypeProduct)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcTypeProduct left, @IfcTypeProduct right)
         {

@@ -9,6 +9,7 @@
 
 using Xbim.Ifc4.MeasureResource;
 using Xbim.Ifc4.PresentationAppearanceResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -17,12 +18,12 @@ namespace Xbim.Ifc4.PresentationOrganizationResource
 {
 	[ExpressType("IFCPRESENTATIONLAYERWITHSTYLE", 832)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcPresentationLayerWithStyle : IfcPresentationLayerAssignment, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcPresentationLayerWithStyle>, System.IEquatable<@IfcPresentationLayerWithStyle>
+	public  partial class @IfcPresentationLayerWithStyle : IfcPresentationLayerAssignment, IInstantiableEntity, IEqualityComparer<@IfcPresentationLayerWithStyle>, IEquatable<@IfcPresentationLayerWithStyle>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcPresentationLayerWithStyle(IModel model) : base(model) 		{ 
 			Model = model; 
-			_layerStyles = new ItemSet<IfcPresentationStyle>( this );
+			_layerStyles = new ItemSet<IfcPresentationStyle>( this, 0 );
 		}
 
 		#region Explicit attribute fields
@@ -38,10 +39,8 @@ namespace Xbim.Ifc4.PresentationOrganizationResource
 		{ 
 			get 
 			{
-				if(Activated) return _layerOn;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _layerOn;
+				((IPersistEntity)this).Activate(false);
 				return _layerOn;
 			} 
 			set
@@ -55,10 +54,8 @@ namespace Xbim.Ifc4.PresentationOrganizationResource
 		{ 
 			get 
 			{
-				if(Activated) return _layerFrozen;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _layerFrozen;
+				((IPersistEntity)this).Activate(false);
 				return _layerFrozen;
 			} 
 			set
@@ -72,10 +69,8 @@ namespace Xbim.Ifc4.PresentationOrganizationResource
 		{ 
 			get 
 			{
-				if(Activated) return _layerBlocked;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _layerBlocked;
+				((IPersistEntity)this).Activate(false);
 				return _layerBlocked;
 			} 
 			set
@@ -89,10 +84,8 @@ namespace Xbim.Ifc4.PresentationOrganizationResource
 		{ 
 			get 
 			{
-				if(Activated) return _layerStyles;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _layerStyles;
+				((IPersistEntity)this).Activate(false);
 				return _layerStyles;
 			} 
 		}
@@ -143,6 +136,23 @@ namespace Xbim.Ifc4.PresentationOrganizationResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcPresentationLayerWithStyle
+            var root = (@IfcPresentationLayerWithStyle)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcPresentationLayerWithStyle left, @IfcPresentationLayerWithStyle right)
         {

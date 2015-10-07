@@ -14,7 +14,7 @@ namespace Xbim.Ifc2x3.PresentationAppearanceResource
 {
 	[ExpressType("IFCTEXTALIGNMENT", 583)]
     // ReSharper disable once PartialTypeWithSinglePart
-	public partial struct IfcTextAlignment : IExpressValueType
+	public partial struct IfcTextAlignment : IExpressValueType, System.IEquatable<string>
 	{ 
 		private string _value;
         
@@ -42,6 +42,7 @@ namespace Xbim.Ifc2x3.PresentationAppearanceResource
         public static implicit operator string(IfcTextAlignment obj)
         {
             return obj._value;
+
         }
 
 
@@ -58,6 +59,11 @@ namespace Xbim.Ifc2x3.PresentationAppearanceResource
 
             return ((IfcTextAlignment) obj)._value == _value;
         }
+
+		public bool Equals(string other)
+	    {
+	        return this == other;
+	    }
 
         public static bool operator ==(IfcTextAlignment obj1, IfcTextAlignment obj2)
         {

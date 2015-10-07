@@ -7,6 +7,7 @@
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -16,7 +17,7 @@ namespace Xbim.CobieExpress
 	[IndexedClass]
 	[ExpressType("DOCUMENT", 31)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @CobieDocument : CobieReferencedObject, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@CobieDocument>, System.IEquatable<@CobieDocument>
+	public  partial class @CobieDocument : CobieReferencedObject, IInstantiableEntity, IEqualityComparer<@CobieDocument>, IEquatable<@CobieDocument>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal CobieDocument(IModel model) : base(model) 		{ 
@@ -39,10 +40,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _name;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _name;
+				((IPersistEntity)this).Activate(false);
 				return _name;
 			} 
 			set
@@ -56,10 +55,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _description;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _description;
+				((IPersistEntity)this).Activate(false);
 				return _description;
 			} 
 			set
@@ -73,10 +70,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _documentType;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _documentType;
+				((IPersistEntity)this).Activate(false);
 				return _documentType;
 			} 
 			set
@@ -90,10 +85,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _approvalBy;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _approvalBy;
+				((IPersistEntity)this).Activate(false);
 				return _approvalBy;
 			} 
 			set
@@ -107,10 +100,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _stage;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _stage;
+				((IPersistEntity)this).Activate(false);
 				return _stage;
 			} 
 			set
@@ -124,10 +115,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _uRL;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _uRL;
+				((IPersistEntity)this).Activate(false);
 				return _uRL;
 			} 
 			set
@@ -141,10 +130,8 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				if(Activated) return _reference;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _reference;
+				((IPersistEntity)this).Activate(false);
 				return _reference;
 			} 
 			set
@@ -206,6 +193,23 @@ namespace Xbim.CobieExpress
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @CobieDocument
+            var root = (@CobieDocument)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@CobieDocument left, @CobieDocument right)
         {

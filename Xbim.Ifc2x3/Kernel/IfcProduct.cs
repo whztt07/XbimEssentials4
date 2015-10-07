@@ -9,6 +9,7 @@
 
 using Xbim.Ifc2x3.GeometricConstraintResource;
 using Xbim.Ifc2x3.RepresentationResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -17,7 +18,7 @@ namespace Xbim.Ifc2x3.Kernel
 {
 	[ExpressType("IFCPRODUCT", 20)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public abstract partial class @IfcProduct : IfcObject, System.Collections.Generic.IEqualityComparer<@IfcProduct>, System.IEquatable<@IfcProduct>
+	public abstract partial class @IfcProduct : IfcObject, IEqualityComparer<@IfcProduct>, IEquatable<@IfcProduct>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcProduct(IModel model) : base(model) 		{ 
@@ -36,10 +37,8 @@ namespace Xbim.Ifc2x3.Kernel
 		{ 
 			get 
 			{
-				if(Activated) return _objectPlacement;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _objectPlacement;
+				((IPersistEntity)this).Activate(false);
 				return _objectPlacement;
 			} 
 			set
@@ -54,10 +53,8 @@ namespace Xbim.Ifc2x3.Kernel
 		{ 
 			get 
 			{
-				if(Activated) return _representation;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _representation;
+				((IPersistEntity)this).Activate(false);
 				return _representation;
 			} 
 			set
@@ -74,7 +71,7 @@ namespace Xbim.Ifc2x3.Kernel
 		{ 
 			get 
 			{
-				return Model.Instances.Where<IfcRelAssignsToProduct>(e => e.RelatingProduct == this);
+				return Model.Instances.Where<IfcRelAssignsToProduct>(e => (e.RelatingProduct as IfcProduct) == this);
 			} 
 		}
 		#endregion
@@ -116,6 +113,23 @@ namespace Xbim.Ifc2x3.Kernel
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcProduct
+            var root = (@IfcProduct)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcProduct left, @IfcProduct right)
         {

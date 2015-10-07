@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.SharedBldgElements
 {
-	public enum IfcShadingDeviceTypeEnum
+	public enum IfcShadingDeviceTypeEnum : byte
 	{
 		@JALOUSIE ,
 		@SHUTTER ,

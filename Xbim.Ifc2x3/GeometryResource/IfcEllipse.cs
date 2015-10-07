@@ -8,6 +8,7 @@
 // ------------------------------------------------------------------------------
 
 using Xbim.Ifc2x3.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -16,7 +17,7 @@ namespace Xbim.Ifc2x3.GeometryResource
 {
 	[ExpressType("IFCELLIPSE", 298)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcEllipse : IfcConic, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcEllipse>, System.IEquatable<@IfcEllipse>
+	public  partial class @IfcEllipse : IfcConic, IInstantiableEntity, IEqualityComparer<@IfcEllipse>, IEquatable<@IfcEllipse>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcEllipse(IModel model) : base(model) 		{ 
@@ -34,10 +35,8 @@ namespace Xbim.Ifc2x3.GeometryResource
 		{ 
 			get 
 			{
-				if(Activated) return _semiAxis1;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _semiAxis1;
+				((IPersistEntity)this).Activate(false);
 				return _semiAxis1;
 			} 
 			set
@@ -51,10 +50,8 @@ namespace Xbim.Ifc2x3.GeometryResource
 		{ 
 			get 
 			{
-				if(Activated) return _semiAxis2;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _semiAxis2;
+				((IPersistEntity)this).Activate(false);
 				return _semiAxis2;
 			} 
 			set
@@ -98,6 +95,23 @@ namespace Xbim.Ifc2x3.GeometryResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcEllipse
+            var root = (@IfcEllipse)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcEllipse left, @IfcEllipse right)
         {

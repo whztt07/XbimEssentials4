@@ -10,6 +10,7 @@
 using Xbim.Ifc2x3.UtilityResource;
 using Xbim.Ifc2x3.MeasureResource;
 using Xbim.Ifc2x3.ActorResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -18,7 +19,7 @@ namespace Xbim.Ifc2x3.Kernel
 {
 	[ExpressType("IFCRELASSIGNSTOACTOR", 323)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcRelAssignsToActor : IfcRelAssigns, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcRelAssignsToActor>, System.IEquatable<@IfcRelAssignsToActor>
+	public  partial class @IfcRelAssignsToActor : IfcRelAssigns, IInstantiableEntity, IEqualityComparer<@IfcRelAssignsToActor>, IEquatable<@IfcRelAssignsToActor>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcRelAssignsToActor(IModel model) : base(model) 		{ 
@@ -37,10 +38,8 @@ namespace Xbim.Ifc2x3.Kernel
 		{ 
 			get 
 			{
-				if(Activated) return _relatingActor;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _relatingActor;
+				((IPersistEntity)this).Activate(false);
 				return _relatingActor;
 			} 
 			set
@@ -54,10 +53,8 @@ namespace Xbim.Ifc2x3.Kernel
 		{ 
 			get 
 			{
-				if(Activated) return _actingRole;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _actingRole;
+				((IPersistEntity)this).Activate(false);
 				return _actingRole;
 			} 
 			set
@@ -107,6 +104,23 @@ namespace Xbim.Ifc2x3.Kernel
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcRelAssignsToActor
+            var root = (@IfcRelAssignsToActor)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcRelAssignsToActor left, @IfcRelAssignsToActor right)
         {

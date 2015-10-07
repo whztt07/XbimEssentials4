@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.SharedComponentElements
 {
-	public enum IfcDiscreteAccessoryTypeEnum
+	public enum IfcDiscreteAccessoryTypeEnum : byte
 	{
 		@ANCHORPLATE ,
 		@BRACKET ,

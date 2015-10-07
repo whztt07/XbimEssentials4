@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.SharedMgmtElements
 {
-	public enum IfcActionRequestTypeEnum
+	public enum IfcActionRequestTypeEnum : byte
 	{
 		@EMAIL ,
 		@FAX ,

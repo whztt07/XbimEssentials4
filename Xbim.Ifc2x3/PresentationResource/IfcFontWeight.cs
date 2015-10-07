@@ -14,7 +14,7 @@ namespace Xbim.Ifc2x3.PresentationResource
 {
 	[ExpressType("IFCFONTWEIGHT", 580)]
     // ReSharper disable once PartialTypeWithSinglePart
-	public partial struct IfcFontWeight : IExpressValueType
+	public partial struct IfcFontWeight : IExpressValueType, System.IEquatable<string>
 	{ 
 		private string _value;
         
@@ -42,6 +42,7 @@ namespace Xbim.Ifc2x3.PresentationResource
         public static implicit operator string(IfcFontWeight obj)
         {
             return obj._value;
+
         }
 
 
@@ -58,6 +59,11 @@ namespace Xbim.Ifc2x3.PresentationResource
 
             return ((IfcFontWeight) obj)._value == _value;
         }
+
+		public bool Equals(string other)
+	    {
+	        return this == other;
+	    }
 
         public static bool operator ==(IfcFontWeight obj1, IfcFontWeight obj2)
         {

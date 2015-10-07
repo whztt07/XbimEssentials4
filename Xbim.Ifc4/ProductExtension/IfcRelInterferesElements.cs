@@ -11,6 +11,7 @@ using Xbim.Ifc4.Kernel;
 using Xbim.Ifc4.UtilityResource;
 using Xbim.Ifc4.MeasureResource;
 using Xbim.Ifc4.GeometricConstraintResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -19,7 +20,7 @@ namespace Xbim.Ifc4.ProductExtension
 {
 	[ExpressType("IFCRELINTERFERESELEMENTS", 938)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcRelInterferesElements : IfcRelConnects, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcRelInterferesElements>, System.IEquatable<@IfcRelInterferesElements>
+	public  partial class @IfcRelInterferesElements : IfcRelConnects, IInstantiableEntity, IEqualityComparer<@IfcRelInterferesElements>, IEquatable<@IfcRelInterferesElements>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcRelInterferesElements(IModel model) : base(model) 		{ 
@@ -41,10 +42,8 @@ namespace Xbim.Ifc4.ProductExtension
 		{ 
 			get 
 			{
-				if(Activated) return _relatingElement;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _relatingElement;
+				((IPersistEntity)this).Activate(false);
 				return _relatingElement;
 			} 
 			set
@@ -59,10 +58,8 @@ namespace Xbim.Ifc4.ProductExtension
 		{ 
 			get 
 			{
-				if(Activated) return _relatedElement;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _relatedElement;
+				((IPersistEntity)this).Activate(false);
 				return _relatedElement;
 			} 
 			set
@@ -76,10 +73,8 @@ namespace Xbim.Ifc4.ProductExtension
 		{ 
 			get 
 			{
-				if(Activated) return _interferenceGeometry;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _interferenceGeometry;
+				((IPersistEntity)this).Activate(false);
 				return _interferenceGeometry;
 			} 
 			set
@@ -93,10 +88,8 @@ namespace Xbim.Ifc4.ProductExtension
 		{ 
 			get 
 			{
-				if(Activated) return _interferenceType;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _interferenceType;
+				((IPersistEntity)this).Activate(false);
 				return _interferenceType;
 			} 
 			set
@@ -110,10 +103,8 @@ namespace Xbim.Ifc4.ProductExtension
 		{ 
 			get 
 			{
-				if(Activated) return _impliedOrder;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _impliedOrder;
+				((IPersistEntity)this).Activate(false);
 				return _impliedOrder;
 			} 
 			set
@@ -170,6 +161,23 @@ namespace Xbim.Ifc4.ProductExtension
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcRelInterferesElements
+            var root = (@IfcRelInterferesElements)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcRelInterferesElements left, @IfcRelInterferesElements right)
         {

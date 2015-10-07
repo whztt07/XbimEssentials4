@@ -9,6 +9,7 @@
 
 using Xbim.Ifc2x3.GeometryResource;
 using Xbim.Ifc2x3.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -17,7 +18,7 @@ namespace Xbim.Ifc2x3.GeometricModelResource
 {
 	[ExpressType("IFCBLOCK", 702)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcBlock : IfcCsgPrimitive3D, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcBlock>, System.IEquatable<@IfcBlock>
+	public  partial class @IfcBlock : IfcCsgPrimitive3D, IInstantiableEntity, IEqualityComparer<@IfcBlock>, IEquatable<@IfcBlock>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcBlock(IModel model) : base(model) 		{ 
@@ -36,10 +37,8 @@ namespace Xbim.Ifc2x3.GeometricModelResource
 		{ 
 			get 
 			{
-				if(Activated) return _xLength;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _xLength;
+				((IPersistEntity)this).Activate(false);
 				return _xLength;
 			} 
 			set
@@ -53,10 +52,8 @@ namespace Xbim.Ifc2x3.GeometricModelResource
 		{ 
 			get 
 			{
-				if(Activated) return _yLength;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _yLength;
+				((IPersistEntity)this).Activate(false);
 				return _yLength;
 			} 
 			set
@@ -70,10 +67,8 @@ namespace Xbim.Ifc2x3.GeometricModelResource
 		{ 
 			get 
 			{
-				if(Activated) return _zLength;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _zLength;
+				((IPersistEntity)this).Activate(false);
 				return _zLength;
 			} 
 			set
@@ -120,6 +115,23 @@ namespace Xbim.Ifc2x3.GeometricModelResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcBlock
+            var root = (@IfcBlock)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcBlock left, @IfcBlock right)
         {

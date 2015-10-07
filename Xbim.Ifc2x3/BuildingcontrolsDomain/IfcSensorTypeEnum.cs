@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc2x3.BuildingcontrolsDomain
 {
-	public enum IfcSensorTypeEnum
+	public enum IfcSensorTypeEnum : byte
 	{
 		@CO2SENSOR ,
 		@FIRESENSOR ,

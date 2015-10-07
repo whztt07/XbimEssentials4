@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.DateTimeResource
 {
-	public enum IfcTimeSeriesDataTypeEnum
+	public enum IfcTimeSeriesDataTypeEnum : byte
 	{
 		@CONTINUOUS ,
 		@DISCRETE ,

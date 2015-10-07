@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.ElectricalDomain
 {
-	public enum IfcElectricFlowStorageDeviceTypeEnum
+	public enum IfcElectricFlowStorageDeviceTypeEnum : byte
 	{
 		@BATTERY ,
 		@CAPACITORBANK ,

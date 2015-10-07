@@ -7,6 +7,7 @@
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -15,7 +16,7 @@ namespace Xbim.Ifc2x3.TopologyResource
 {
 	[ExpressType("IFCLOOP", 199)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcLoop : IfcTopologicalRepresentationItem, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcLoop>, System.IEquatable<@IfcLoop>
+	public  partial class @IfcLoop : IfcTopologicalRepresentationItem, IInstantiableEntity, IEqualityComparer<@IfcLoop>, IEquatable<@IfcLoop>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcLoop(IModel model) : base(model) 		{ 
@@ -44,6 +45,23 @@ namespace Xbim.Ifc2x3.TopologyResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcLoop
+            var root = (@IfcLoop)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcLoop left, @IfcLoop right)
         {

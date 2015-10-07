@@ -8,6 +8,7 @@
 // ------------------------------------------------------------------------------
 
 using Xbim.Ifc4.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -16,7 +17,7 @@ namespace Xbim.Ifc4.Kernel
 {
 	[ExpressType("IFCCONTROL", 527)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public abstract partial class @IfcControl : IfcObject, System.Collections.Generic.IEqualityComparer<@IfcControl>, System.IEquatable<@IfcControl>
+	public abstract partial class @IfcControl : IfcObject, IEqualityComparer<@IfcControl>, IEquatable<@IfcControl>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcControl(IModel model) : base(model) 		{ 
@@ -33,10 +34,8 @@ namespace Xbim.Ifc4.Kernel
 		{ 
 			get 
 			{
-				if(Activated) return _identification;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _identification;
+				((IPersistEntity)this).Activate(false);
 				return _identification;
 			} 
 			set
@@ -53,7 +52,7 @@ namespace Xbim.Ifc4.Kernel
 		{ 
 			get 
 			{
-				return Model.Instances.Where<IfcRelAssignsToControl>(e => e.RelatingControl == this);
+				return Model.Instances.Where<IfcRelAssignsToControl>(e => (e.RelatingControl as IfcControl) == this);
 			} 
 		}
 		#endregion
@@ -91,6 +90,23 @@ namespace Xbim.Ifc4.Kernel
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcControl
+            var root = (@IfcControl)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcControl left, @IfcControl right)
         {

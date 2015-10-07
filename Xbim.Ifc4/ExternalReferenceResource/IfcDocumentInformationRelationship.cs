@@ -8,6 +8,7 @@
 // ------------------------------------------------------------------------------
 
 using Xbim.Ifc4.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -17,12 +18,12 @@ namespace Xbim.Ifc4.ExternalReferenceResource
 	[IndexedClass]
 	[ExpressType("IFCDOCUMENTINFORMATIONRELATIONSHIP", 579)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcDocumentInformationRelationship : IfcResourceLevelRelationship, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcDocumentInformationRelationship>, System.IEquatable<@IfcDocumentInformationRelationship>
+	public  partial class @IfcDocumentInformationRelationship : IfcResourceLevelRelationship, IInstantiableEntity, IEqualityComparer<@IfcDocumentInformationRelationship>, IEquatable<@IfcDocumentInformationRelationship>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcDocumentInformationRelationship(IModel model) : base(model) 		{ 
 			Model = model; 
-			_relatedDocuments = new ItemSet<IfcDocumentInformation>( this );
+			_relatedDocuments = new ItemSet<IfcDocumentInformation>( this, 0 );
 		}
 
 		#region Explicit attribute fields
@@ -38,10 +39,8 @@ namespace Xbim.Ifc4.ExternalReferenceResource
 		{ 
 			get 
 			{
-				if(Activated) return _relatingDocument;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _relatingDocument;
+				((IPersistEntity)this).Activate(false);
 				return _relatingDocument;
 			} 
 			set
@@ -56,10 +55,8 @@ namespace Xbim.Ifc4.ExternalReferenceResource
 		{ 
 			get 
 			{
-				if(Activated) return _relatedDocuments;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _relatedDocuments;
+				((IPersistEntity)this).Activate(false);
 				return _relatedDocuments;
 			} 
 		}
@@ -69,10 +66,8 @@ namespace Xbim.Ifc4.ExternalReferenceResource
 		{ 
 			get 
 			{
-				if(Activated) return _relationshipType;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _relationshipType;
+				((IPersistEntity)this).Activate(false);
 				return _relationshipType;
 			} 
 			set
@@ -121,6 +116,23 @@ namespace Xbim.Ifc4.ExternalReferenceResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcDocumentInformationRelationship
+            var root = (@IfcDocumentInformationRelationship)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcDocumentInformationRelationship left, @IfcDocumentInformationRelationship right)
         {

@@ -9,6 +9,7 @@
 
 using Xbim.Ifc4.UtilityResource;
 using Xbim.Ifc4.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -17,12 +18,12 @@ namespace Xbim.Ifc4.Kernel
 {
 	[ExpressType("IFCPROPERTYSETTEMPLATE", 859)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcPropertySetTemplate : IfcPropertyTemplateDefinition, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcPropertySetTemplate>, System.IEquatable<@IfcPropertySetTemplate>
+	public  partial class @IfcPropertySetTemplate : IfcPropertyTemplateDefinition, IInstantiableEntity, IEqualityComparer<@IfcPropertySetTemplate>, IEquatable<@IfcPropertySetTemplate>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcPropertySetTemplate(IModel model) : base(model) 		{ 
 			Model = model; 
-			_hasPropertyTemplates = new ItemSet<IfcPropertyTemplate>( this );
+			_hasPropertyTemplates = new ItemSet<IfcPropertyTemplate>( this, 0 );
 		}
 
 		#region Explicit attribute fields
@@ -37,10 +38,8 @@ namespace Xbim.Ifc4.Kernel
 		{ 
 			get 
 			{
-				if(Activated) return _templateType;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _templateType;
+				((IPersistEntity)this).Activate(false);
 				return _templateType;
 			} 
 			set
@@ -54,10 +53,8 @@ namespace Xbim.Ifc4.Kernel
 		{ 
 			get 
 			{
-				if(Activated) return _applicableEntity;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _applicableEntity;
+				((IPersistEntity)this).Activate(false);
 				return _applicableEntity;
 			} 
 			set
@@ -72,10 +69,8 @@ namespace Xbim.Ifc4.Kernel
 		{ 
 			get 
 			{
-				if(Activated) return _hasPropertyTemplates;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _hasPropertyTemplates;
+				((IPersistEntity)this).Activate(false);
 				return _hasPropertyTemplates;
 			} 
 		}
@@ -88,7 +83,7 @@ namespace Xbim.Ifc4.Kernel
 		{ 
 			get 
 			{
-				return Model.Instances.Where<IfcRelDefinesByTemplate>(e => e.RelatingTemplate == this);
+				return Model.Instances.Where<IfcRelDefinesByTemplate>(e => (e.RelatingTemplate as IfcPropertySetTemplate) == this);
 			} 
 		}
 		#endregion
@@ -134,6 +129,23 @@ namespace Xbim.Ifc4.Kernel
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcPropertySetTemplate
+            var root = (@IfcPropertySetTemplate)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcPropertySetTemplate left, @IfcPropertySetTemplate right)
         {

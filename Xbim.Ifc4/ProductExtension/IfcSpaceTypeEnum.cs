@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.ProductExtension
 {
-	public enum IfcSpaceTypeEnum
+	public enum IfcSpaceTypeEnum : byte
 	{
 		@SPACE ,
 		@PARKING ,

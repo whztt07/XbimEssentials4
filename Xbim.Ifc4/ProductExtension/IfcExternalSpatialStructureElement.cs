@@ -7,6 +7,8 @@
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
+using System;
+using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
 
@@ -14,7 +16,7 @@ namespace Xbim.Ifc4.ProductExtension
 {
 	[ExpressType("IFCEXTERNALSPATIALSTRUCTUREELEMENT", 636)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public abstract partial class @IfcExternalSpatialStructureElement : IfcSpatialElement, System.Collections.Generic.IEqualityComparer<@IfcExternalSpatialStructureElement>, System.IEquatable<@IfcExternalSpatialStructureElement>
+	public abstract partial class @IfcExternalSpatialStructureElement : IfcSpatialElement, IEqualityComparer<@IfcExternalSpatialStructureElement>, IEquatable<@IfcExternalSpatialStructureElement>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcExternalSpatialStructureElement(IModel model) : base(model) 		{ 
@@ -56,6 +58,23 @@ namespace Xbim.Ifc4.ProductExtension
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcExternalSpatialStructureElement
+            var root = (@IfcExternalSpatialStructureElement)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcExternalSpatialStructureElement left, @IfcExternalSpatialStructureElement right)
         {

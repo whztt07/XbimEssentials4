@@ -9,6 +9,7 @@
 
 using Xbim.Ifc2x3.GeometryResource;
 using Xbim.Ifc2x3.ProfileResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -17,7 +18,7 @@ namespace Xbim.Ifc2x3.GeometricConstraintResource
 {
 	[ExpressType("IFCCONNECTIONPORTGEOMETRY", 713)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcConnectionPortGeometry : IfcConnectionGeometry, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcConnectionPortGeometry>, System.IEquatable<@IfcConnectionPortGeometry>
+	public  partial class @IfcConnectionPortGeometry : IfcConnectionGeometry, IInstantiableEntity, IEqualityComparer<@IfcConnectionPortGeometry>, IEquatable<@IfcConnectionPortGeometry>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcConnectionPortGeometry(IModel model) : base(model) 		{ 
@@ -36,10 +37,8 @@ namespace Xbim.Ifc2x3.GeometricConstraintResource
 		{ 
 			get 
 			{
-				if(Activated) return _locationAtRelatingElement;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _locationAtRelatingElement;
+				((IPersistEntity)this).Activate(false);
 				return _locationAtRelatingElement;
 			} 
 			set
@@ -53,10 +52,8 @@ namespace Xbim.Ifc2x3.GeometricConstraintResource
 		{ 
 			get 
 			{
-				if(Activated) return _locationAtRelatedElement;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _locationAtRelatedElement;
+				((IPersistEntity)this).Activate(false);
 				return _locationAtRelatedElement;
 			} 
 			set
@@ -70,10 +67,8 @@ namespace Xbim.Ifc2x3.GeometricConstraintResource
 		{ 
 			get 
 			{
-				if(Activated) return _profileOfPort;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _profileOfPort;
+				((IPersistEntity)this).Activate(false);
 				return _profileOfPort;
 			} 
 			set
@@ -117,6 +112,23 @@ namespace Xbim.Ifc2x3.GeometricConstraintResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcConnectionPortGeometry
+            var root = (@IfcConnectionPortGeometry)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcConnectionPortGeometry left, @IfcConnectionPortGeometry right)
         {

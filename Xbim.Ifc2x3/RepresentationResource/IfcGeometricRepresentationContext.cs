@@ -9,6 +9,7 @@
 
 using Xbim.Ifc2x3.MeasureResource;
 using Xbim.Ifc2x3.GeometryResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -17,7 +18,7 @@ namespace Xbim.Ifc2x3.RepresentationResource
 {
 	[ExpressType("IFCGEOMETRICREPRESENTATIONCONTEXT", 555)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcGeometricRepresentationContext : IfcRepresentationContext, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcGeometricRepresentationContext>, System.IEquatable<@IfcGeometricRepresentationContext>
+	public  partial class @IfcGeometricRepresentationContext : IfcRepresentationContext, IInstantiableEntity, IEqualityComparer<@IfcGeometricRepresentationContext>, IEquatable<@IfcGeometricRepresentationContext>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcGeometricRepresentationContext(IModel model) : base(model) 		{ 
@@ -37,10 +38,8 @@ namespace Xbim.Ifc2x3.RepresentationResource
 		{ 
 			get 
 			{
-				if(Activated) return _coordinateSpaceDimension;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _coordinateSpaceDimension;
+				((IPersistEntity)this).Activate(false);
 				return _coordinateSpaceDimension;
 			} 
 			set
@@ -54,10 +53,8 @@ namespace Xbim.Ifc2x3.RepresentationResource
 		{ 
 			get 
 			{
-				if(Activated) return _precision;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _precision;
+				((IPersistEntity)this).Activate(false);
 				return _precision;
 			} 
 			set
@@ -71,10 +68,8 @@ namespace Xbim.Ifc2x3.RepresentationResource
 		{ 
 			get 
 			{
-				if(Activated) return _worldCoordinateSystem;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _worldCoordinateSystem;
+				((IPersistEntity)this).Activate(false);
 				return _worldCoordinateSystem;
 			} 
 			set
@@ -88,10 +83,8 @@ namespace Xbim.Ifc2x3.RepresentationResource
 		{ 
 			get 
 			{
-				if(Activated) return _trueNorth;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _trueNorth;
+				((IPersistEntity)this).Activate(false);
 				return _trueNorth;
 			} 
 			set
@@ -108,7 +101,7 @@ namespace Xbim.Ifc2x3.RepresentationResource
 		{ 
 			get 
 			{
-				return Model.Instances.Where<IfcGeometricRepresentationSubContext>(e => e.ParentContext == this);
+				return Model.Instances.Where<IfcGeometricRepresentationSubContext>(e => (e.ParentContext as IfcGeometricRepresentationContext) == this);
 			} 
 		}
 		#endregion
@@ -152,6 +145,23 @@ namespace Xbim.Ifc2x3.RepresentationResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcGeometricRepresentationContext
+            var root = (@IfcGeometricRepresentationContext)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcGeometricRepresentationContext left, @IfcGeometricRepresentationContext right)
         {

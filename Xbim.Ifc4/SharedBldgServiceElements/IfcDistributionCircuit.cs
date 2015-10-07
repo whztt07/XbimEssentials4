@@ -9,6 +9,7 @@
 
 using Xbim.Ifc4.UtilityResource;
 using Xbim.Ifc4.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -17,7 +18,7 @@ namespace Xbim.Ifc4.SharedBldgServiceElements
 {
 	[ExpressType("IFCDISTRIBUTIONCIRCUIT", 569)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcDistributionCircuit : IfcDistributionSystem, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcDistributionCircuit>, System.IEquatable<@IfcDistributionCircuit>
+	public  partial class @IfcDistributionCircuit : IfcDistributionSystem, IInstantiableEntity, IEqualityComparer<@IfcDistributionCircuit>, IEquatable<@IfcDistributionCircuit>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcDistributionCircuit(IModel model) : base(model) 		{ 
@@ -58,6 +59,23 @@ namespace Xbim.Ifc4.SharedBldgServiceElements
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcDistributionCircuit
+            var root = (@IfcDistributionCircuit)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcDistributionCircuit left, @IfcDistributionCircuit right)
         {

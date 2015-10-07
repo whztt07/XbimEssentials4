@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.SharedMgmtElements
 {
-	public enum IfcCostScheduleTypeEnum
+	public enum IfcCostScheduleTypeEnum : byte
 	{
 		@BUDGET ,
 		@COSTPLAN ,

@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.SharedBldgServiceElements
 {
-	public enum IfcDistributionPortTypeEnum
+	public enum IfcDistributionPortTypeEnum : byte
 	{
 		@CABLE ,
 		@CABLECARRIER ,

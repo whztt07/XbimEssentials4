@@ -19,8 +19,8 @@ namespace Xbim.IO.Memory
             _instances = new EntityCollection<TFactory>(this);
             Header = new StepFileHeader(StepFileHeader.HeaderCreationMode.InitWithXbimDefaults);
             Header.FileSchema.Schemas.AddRange(_instances.Factory.SchemasIds);
-            SchemaModule = typeof (TFactory).Module;
             ModelFactors = new XbimModelFactors(180.0/Math.PI, 0.001, 1e-9);
+            Metadata = ExpressMetaData.GetMetadata(typeof(TFactory).Module);
         }
 
         /// <summary>
@@ -32,9 +32,9 @@ namespace Xbim.IO.Memory
             get { return _instances; }
         }
 
-        public virtual int Activate(IPersistEntity owningEntity, bool write)
+        public virtual bool Activate(IPersistEntity owningEntity, bool write)
         {
-            return 0;
+            return true;
         }
 
         /// <summary>
@@ -59,7 +59,7 @@ namespace Xbim.IO.Memory
                 _deteteCandidatesCache.Add(entityType, candidateTypes);
 
                 //find all potential references and delete from there
-                var types = ExpressMetaData.Types(entity.GetType().Module).Where(t => typeof(IInstantiableEntity).IsAssignableFrom(t.Type));
+                var types = Metadata.Types().Where(t => typeof(IInstantiableEntity).IsAssignableFrom(t.Type));
                 foreach (var type in types)
                 {
                     var toNullify = type.Properties.Values.Where(p =>
@@ -191,8 +191,9 @@ namespace Xbim.IO.Memory
             } 
         }
 
-        public virtual Module SchemaModule { get; private set; }
         public virtual IModelFactors ModelFactors { get; private set; }
+        public ExpressMetaData Metadata { get; private set; }
+
         public virtual void ForEach<TSource>(IEnumerable<TSource> source, Action<TSource> body) where TSource : IPersistEntity
         {
             foreach (var entity in source)
@@ -241,7 +242,7 @@ namespace Xbim.IO.Memory
 
         public virtual void Open(Stream stream)
         {
-            var parser = new XbimP21Parser(stream);
+            var parser = new XbimP21Parser(stream, Metadata);
             parser.EntityCreate += (string name, long? label, bool header, out int[] ints) =>
             {
                 //allow all attributes to be parsed
@@ -264,7 +265,8 @@ namespace Xbim.IO.Memory
                 if (label == null)
                     return _instances.Factory.New(name);
 
-                var ent = _instances.Factory.New(this, name, (int) label, true);
+                var typeId = Metadata.ExpressTypeId(name);
+                var ent = _instances.Factory.New(this, typeId, (int) label, true);
                 _instances.InternalAdd(ent);
 
                 //make sure that new added entities will have higher labels to avoid any clashes
@@ -305,11 +307,14 @@ namespace Xbim.IO.Memory
         public virtual void Save(TextWriter writer)
         {
             var part21Writer = new Part21FileWriter();
-            part21Writer.Write(this, writer, new Dictionary<int, int>());
+            part21Writer.Write(this, writer, Metadata, new Dictionary<int, int>());
         }
 
         public void Dispose()
         {
+            _instances.Dispose();
+            _deteteCandidatesCache.Clear();
+            _transactionReference = null;
         }
     }
 }

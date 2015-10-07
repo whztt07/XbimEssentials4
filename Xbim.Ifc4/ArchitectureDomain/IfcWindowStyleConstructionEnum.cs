@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.ArchitectureDomain
 {
-	public enum IfcWindowStyleConstructionEnum
+	public enum IfcWindowStyleConstructionEnum : byte
 	{
 		@ALUMINIUM ,
 		@HIGH_GRADE_STEEL ,

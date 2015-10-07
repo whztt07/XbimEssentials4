@@ -8,6 +8,7 @@
 // ------------------------------------------------------------------------------
 
 using Xbim.Ifc4.MeasureResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -16,7 +17,7 @@ namespace Xbim.Ifc4.StructuralLoadResource
 {
 	[ExpressType("IFCBOUNDARYEDGECONDITION", 439)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcBoundaryEdgeCondition : IfcBoundaryCondition, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcBoundaryEdgeCondition>, System.IEquatable<@IfcBoundaryEdgeCondition>
+	public  partial class @IfcBoundaryEdgeCondition : IfcBoundaryCondition, IInstantiableEntity, IEqualityComparer<@IfcBoundaryEdgeCondition>, IEquatable<@IfcBoundaryEdgeCondition>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcBoundaryEdgeCondition(IModel model) : base(model) 		{ 
@@ -38,10 +39,8 @@ namespace Xbim.Ifc4.StructuralLoadResource
 		{ 
 			get 
 			{
-				if(Activated) return _translationalStiffnessByLengthX;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _translationalStiffnessByLengthX;
+				((IPersistEntity)this).Activate(false);
 				return _translationalStiffnessByLengthX;
 			} 
 			set
@@ -55,10 +54,8 @@ namespace Xbim.Ifc4.StructuralLoadResource
 		{ 
 			get 
 			{
-				if(Activated) return _translationalStiffnessByLengthY;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _translationalStiffnessByLengthY;
+				((IPersistEntity)this).Activate(false);
 				return _translationalStiffnessByLengthY;
 			} 
 			set
@@ -72,10 +69,8 @@ namespace Xbim.Ifc4.StructuralLoadResource
 		{ 
 			get 
 			{
-				if(Activated) return _translationalStiffnessByLengthZ;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _translationalStiffnessByLengthZ;
+				((IPersistEntity)this).Activate(false);
 				return _translationalStiffnessByLengthZ;
 			} 
 			set
@@ -89,10 +84,8 @@ namespace Xbim.Ifc4.StructuralLoadResource
 		{ 
 			get 
 			{
-				if(Activated) return _rotationalStiffnessByLengthX;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _rotationalStiffnessByLengthX;
+				((IPersistEntity)this).Activate(false);
 				return _rotationalStiffnessByLengthX;
 			} 
 			set
@@ -106,10 +99,8 @@ namespace Xbim.Ifc4.StructuralLoadResource
 		{ 
 			get 
 			{
-				if(Activated) return _rotationalStiffnessByLengthY;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _rotationalStiffnessByLengthY;
+				((IPersistEntity)this).Activate(false);
 				return _rotationalStiffnessByLengthY;
 			} 
 			set
@@ -123,10 +114,8 @@ namespace Xbim.Ifc4.StructuralLoadResource
 		{ 
 			get 
 			{
-				if(Activated) return _rotationalStiffnessByLengthZ;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _rotationalStiffnessByLengthZ;
+				((IPersistEntity)this).Activate(false);
 				return _rotationalStiffnessByLengthZ;
 			} 
 			set
@@ -182,6 +171,23 @@ namespace Xbim.Ifc4.StructuralLoadResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcBoundaryEdgeCondition
+            var root = (@IfcBoundaryEdgeCondition)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcBoundaryEdgeCondition left, @IfcBoundaryEdgeCondition right)
         {

@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.HvacDomain
 {
-	public enum IfcCoolingTowerTypeEnum
+	public enum IfcCoolingTowerTypeEnum : byte
 	{
 		@NATURALDRAFT ,
 		@MECHANICALINDUCEDDRAFT ,

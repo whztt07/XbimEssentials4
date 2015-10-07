@@ -12,6 +12,7 @@ using Xbim.Ifc2x3.UtilityResource;
 using Xbim.Ifc2x3.MeasureResource;
 using Xbim.Ifc2x3.Kernel;
 using Xbim.Ifc2x3.GeometryResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -20,7 +21,7 @@ namespace Xbim.Ifc2x3.HVACDomain
 {
 	[ExpressType("IFCAIRTERMINALTYPE", 271)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcAirTerminalType : IfcFlowTerminalType, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcAirTerminalType>, System.IEquatable<@IfcAirTerminalType>
+	public  partial class @IfcAirTerminalType : IfcFlowTerminalType, IInstantiableEntity, IEqualityComparer<@IfcAirTerminalType>, IEquatable<@IfcAirTerminalType>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcAirTerminalType(IModel model) : base(model) 		{ 
@@ -37,10 +38,8 @@ namespace Xbim.Ifc2x3.HVACDomain
 		{ 
 			get 
 			{
-				if(Activated) return _predefinedType;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _predefinedType;
+				((IPersistEntity)this).Activate(false);
 				return _predefinedType;
 			} 
 			set
@@ -90,6 +89,23 @@ namespace Xbim.Ifc2x3.HVACDomain
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcAirTerminalType
+            var root = (@IfcAirTerminalType)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcAirTerminalType left, @IfcAirTerminalType right)
         {

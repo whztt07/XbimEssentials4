@@ -9,6 +9,8 @@
 
 using Xbim.Ifc4.ProfileResource;
 using Xbim.Ifc4.GeometryResource;
+using System;
+using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
 
@@ -16,7 +18,7 @@ namespace Xbim.Ifc4.GeometricModelResource
 {
 	[ExpressType("IFCSWEPTAREASOLID", 1066)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public abstract partial class @IfcSweptAreaSolid : IfcSolidModel, System.Collections.Generic.IEqualityComparer<@IfcSweptAreaSolid>, System.IEquatable<@IfcSweptAreaSolid>
+	public abstract partial class @IfcSweptAreaSolid : IfcSolidModel, IEqualityComparer<@IfcSweptAreaSolid>, IEquatable<@IfcSweptAreaSolid>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcSweptAreaSolid(IModel model) : base(model) 		{ 
@@ -34,10 +36,8 @@ namespace Xbim.Ifc4.GeometricModelResource
 		{ 
 			get 
 			{
-				if(Activated) return _sweptArea;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _sweptArea;
+				((IPersistEntity)this).Activate(false);
 				return _sweptArea;
 			} 
 			set
@@ -51,10 +51,8 @@ namespace Xbim.Ifc4.GeometricModelResource
 		{ 
 			get 
 			{
-				if(Activated) return _position;
-				
-				Model.Activate(this, true);
-				Activated = true;
+				if(ActivationStatus != ActivationStatus.NotActivated) return _position;
+				((IPersistEntity)this).Activate(false);
 				return _position;
 			} 
 			set
@@ -96,6 +94,23 @@ namespace Xbim.Ifc4.GeometricModelResource
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcSweptAreaSolid
+            var root = (@IfcSweptAreaSolid)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcSweptAreaSolid left, @IfcSweptAreaSolid right)
         {

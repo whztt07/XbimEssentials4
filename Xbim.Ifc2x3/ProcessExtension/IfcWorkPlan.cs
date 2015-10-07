@@ -11,6 +11,7 @@ using Xbim.Ifc2x3.UtilityResource;
 using Xbim.Ifc2x3.MeasureResource;
 using Xbim.Ifc2x3.DateTimeResource;
 using Xbim.Ifc2x3.ActorResource;
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -19,7 +20,7 @@ namespace Xbim.Ifc2x3.ProcessExtension
 {
 	[ExpressType("IFCWORKPLAN", 187)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public  partial class @IfcWorkPlan : IfcWorkControl, IInstantiableEntity, System.Collections.Generic.IEqualityComparer<@IfcWorkPlan>, System.IEquatable<@IfcWorkPlan>
+	public  partial class @IfcWorkPlan : IfcWorkControl, IInstantiableEntity, IEqualityComparer<@IfcWorkPlan>, IEquatable<@IfcWorkPlan>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcWorkPlan(IModel model) : base(model) 		{ 
@@ -68,6 +69,23 @@ namespace Xbim.Ifc2x3.ProcessExtension
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcWorkPlan
+            var root = (@IfcWorkPlan)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcWorkPlan left, @IfcWorkPlan right)
         {

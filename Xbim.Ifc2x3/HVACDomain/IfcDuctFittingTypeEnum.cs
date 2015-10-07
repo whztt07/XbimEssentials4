@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc2x3.HVACDomain
 {
-	public enum IfcDuctFittingTypeEnum
+	public enum IfcDuctFittingTypeEnum : byte
 	{
 		@BEND ,
 		@CONNECTOR ,

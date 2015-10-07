@@ -7,6 +7,7 @@
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using Xbim.Common;
 using Xbim.Common.Exceptions;
@@ -15,7 +16,7 @@ namespace Xbim.Ifc4.ProductExtension
 {
 	[ExpressType("IFCFEATUREELEMENTADDITION", 655)]
 	// ReSharper disable once PartialTypeWithSinglePart
-	public abstract partial class @IfcFeatureElementAddition : IfcFeatureElement, System.Collections.Generic.IEqualityComparer<@IfcFeatureElementAddition>, System.IEquatable<@IfcFeatureElementAddition>
+	public abstract partial class @IfcFeatureElementAddition : IfcFeatureElement, IEqualityComparer<@IfcFeatureElementAddition>, IEquatable<@IfcFeatureElementAddition>
 	{
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcFeatureElementAddition(IModel model) : base(model) 		{ 
@@ -29,7 +30,7 @@ namespace Xbim.Ifc4.ProductExtension
 		{ 
 			get 
 			{
-				return Model.Instances.FirstOrDefault<IfcRelProjectsElement>(e => e.RelatedFeatureElement == this);
+				return Model.Instances.FirstOrDefault<IfcRelProjectsElement>(e => (e.RelatedFeatureElement as IfcFeatureElementAddition) == this);
 			} 
 		}
 		#endregion
@@ -67,6 +68,23 @@ namespace Xbim.Ifc4.ProductExtension
 	        return this == other;
 	    }
 
+	    public override bool Equals(object obj)
+        {
+            // Check for null
+            if (obj == null) return false;
+
+            // Check for type
+            if (GetType() != obj.GetType()) return false;
+
+            // Cast as @IfcFeatureElementAddition
+            var root = (@IfcFeatureElementAddition)obj;
+            return this == root;
+        }
+        public override int GetHashCode()
+        {
+            //good enough as most entities will be in collections of  only one model, equals distinguishes for model
+            return EntityLabel.GetHashCode(); 
+        }
 
         public static bool operator ==(@IfcFeatureElementAddition left, @IfcFeatureElementAddition right)
         {

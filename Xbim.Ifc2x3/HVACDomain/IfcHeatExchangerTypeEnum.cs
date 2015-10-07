@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc2x3.HVACDomain
 {
-	public enum IfcHeatExchangerTypeEnum
+	public enum IfcHeatExchangerTypeEnum : byte
 	{
 		@PLATE ,
 		@SHELLANDTUBE ,

@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.HvacDomain
 {
-	public enum IfcValveTypeEnum
+	public enum IfcValveTypeEnum : byte
 	{
 		@AIRRELEASE ,
 		@ANTIVACUUM ,
