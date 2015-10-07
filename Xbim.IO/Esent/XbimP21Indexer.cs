@@ -20,6 +20,7 @@ using System.Globalization;
 using System.IO;
 using System.Threading.Tasks;
 using Xbim.Common;
+using Xbim.Common.Metadata;
 using Xbim.Common.Step21;
 using Xbim.IO.Parser;
 using Xbim.IO.Step21;
@@ -67,7 +68,7 @@ namespace Xbim.IO.Esent
         
         private int _currentLabel;
         private string _currentType;
-        private IList<int> _indexKeys = null;
+        private List<int> _indexKeys = null;
         private List<int> _indexKeyValues = new List<int>();
         private Part21Entity _currentInstance;
         private readonly Stack<Part21Entity> _processStack = new Stack<Part21Entity>();
@@ -102,7 +103,7 @@ namespace Xbim.IO.Esent
            
             this.table = table;
           //  this.transaction = transaction;
-            _modelCache = cache;
+            this._modelCache = cache;
             _entityCount = 0;
             if (inputP21.CanSeek)
                 _streamSize = inputP21.Length;
@@ -123,7 +124,7 @@ namespace Xbim.IO.Esent
         {
             _binaryWriter = new BinaryWriter(new MemoryStream(0x7FFF));
             toStore = new BlockingCollection<Tuple<int, short, List<int>, byte[], bool>>(512);
-            if (_modelCache.IsCaching)
+            if (this._modelCache.IsCaching)
             {
                 toProcess = new BlockingCollection<Tuple<int, Type, byte[]>>();
                 cacheProcessor = Task.Factory.StartNew(() =>
@@ -136,7 +137,7 @@ namespace Xbim.IO.Esent
                             {
                                
                                 if(toProcess.TryTake(out h))
-                                    _modelCache.GetOrCreateInstanceFromCache(h.Item1, h.Item2, h.Item3);
+                                    this._modelCache.GetOrCreateInstanceFromCache(h.Item1, h.Item2, h.Item3);
                             }
 
                         }
@@ -191,17 +192,17 @@ namespace Xbim.IO.Esent
         {
             toStore.CompleteAdding();
             storeProcessor.Wait();
-            if (_modelCache.IsCaching)
+            if (this._modelCache.IsCaching)
             {
                 toProcess.CompleteAdding();
                 cacheProcessor.Wait();
                 cacheProcessor.Dispose();
                 cacheProcessor = null;
-                while (_modelCache.ForwardReferences.Count > 0)
+                while (this._modelCache.ForwardReferences.Count > 0)
                 {
                     StepForwardReference forwardRef;
-                    if(_modelCache.ForwardReferences.TryTake(out forwardRef))
-                        forwardRef.Resolve(_modelCache.Read, _modelCache.Model.Metadata);
+                    if(this._modelCache.ForwardReferences.TryTake(out forwardRef))
+                        forwardRef.Resolve(this._modelCache.Read);
                 }
             }
             storeProcessor.Dispose();
@@ -277,7 +278,7 @@ namespace Xbim.IO.Esent
           
             if (_streamSize != -1 && ProgressStatus != null)
             {
-                var sc = (Scanner)Scanner;
+                var sc = (Scanner)this.Scanner;
                 double pos = sc.Buffer.Pos;
                 var newPercentage = Convert.ToInt32(pos / _streamSize * 100.0);
                 if (newPercentage > _percentageParsed)
@@ -314,7 +315,7 @@ namespace Xbim.IO.Esent
             {
 
                 _currentType = entityTypeName;
-                var type = _modelCache.Model.Metadata.ExpressType(_currentType);
+                var type = ExpressMetaData.ExpressType(_currentType, _modelCache.Model.SchemaModule);
                 if (type == null)
                     throw new ArgumentException(string.Format("Invalid entity type {0}", _currentType));
                 _indexKeys = type.IndexedValues;
@@ -329,7 +330,7 @@ namespace Xbim.IO.Esent
             if (_currentType != null)
             {
                 _binaryWriter.Write((byte)P21ParseAction.EndEntity);
-                var type = _modelCache.Model.Metadata.ExpressType(_currentType);
+                var type = ExpressMetaData.ExpressType(_currentType, _modelCache.Model.SchemaModule);
                 var data = _binaryWriter.BaseStream as MemoryStream;
                 var bytes =  data.ToArray();
                 var keys = new List<int>(_indexKeyValues);
