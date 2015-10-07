@@ -18,7 +18,8 @@ namespace Profiling.Parsing
             using (var model = new XbimModel())
             {
                 w.Start();
-                model.CreateFrom(name);
+                model.CreateFrom(name, null, null, true, true);
+                //model.CreateFrom(name);
                 w.Stop();
                 Console.WriteLine("{0}ms to create Esent model", w.ElapsedMilliseconds);
                 model.Close();

@@ -85,6 +85,16 @@ namespace Xbim.IO.Memory
             return entity;
         }
 
+        internal IPersistEntity New(Type t, int label)
+        {
+            var entity = Factory.New(_model, t, label, true);
+            if (label >= NextLabel)
+                NextLabel = label + 1;
+
+            AddReversible(entity);
+            return entity;
+        }
+
         public T New<T>(Action<T> initPropertiesFunc) where T : IInstantiableEntity
         {
             var entity = Factory.New(_model, initPropertiesFunc, NextLabel++, true);

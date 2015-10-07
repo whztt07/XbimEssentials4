@@ -21,6 +21,7 @@ namespace Xbim.IO.Memory
             Header.FileSchema.Schemas.AddRange(_instances.Factory.SchemasIds);
             ModelFactors = new XbimModelFactors(180.0/Math.PI, 0.001, 1e-9);
             Metadata = ExpressMetaData.GetMetadata(typeof(TFactory).Module);
+            IsTransactional = true;
         }
 
         /// <summary>
@@ -157,10 +158,7 @@ namespace Xbim.IO.Memory
 
         public IStepFileHeader Header { get; private set; }
 
-        public virtual bool IsTransactional
-        {
-            get { return true; }
-        }
+        public virtual bool IsTransactional { get; private set; }
 
         /// <summary>
         /// Weak reference allows garbage collector to collect transaction once it goes out of the scope
@@ -315,6 +313,109 @@ namespace Xbim.IO.Memory
             _instances.Dispose();
             _deteteCandidatesCache.Clear();
             _transactionReference = null;
+        }
+
+        /// <summary>
+        /// Inserts deep copy of an object into this model. The entity must originate from the same schema (the same EntityFactory). 
+        /// This operation happens within a transaction which you have to handle yourself unless you set the parameter "noTransaction" to true.
+        /// Insert will happen outside of transactional behaviour in that case. Resulting model is not guaranteed to be valid according to any
+        /// model view definition. However, it is granted to be consistent. You can optionaly bring in all inverse relationships. Be carefull as it
+        /// might easily bring in almost full model.
+        /// 
+        /// </summary>
+        /// <typeparam name="T">Type of the copied entity</typeparam>
+        /// <param name="toCopy">Entity to be copied</param>
+        /// <param name="mappings">Mappings of previous inserts</param>
+        /// <param name="includeInverses">Option if to bring in all inverse entities (enumerations in original entity)</param>
+        /// <param name="keepLabels">Option if to keep entity labels the same</param>
+        /// <param name="propTransform">Optional delegate which you can use to filter the content which will get coppied over.</param>
+        /// <returns>Copy from this model</returns>
+        public T InsertCopy<T>(T toCopy, Dictionary<int, IPersistEntity> mappings, bool includeInverses, bool keepLabels = true, PropertyTranformDelegate propTransform = null, bool noTransaction = false) where T : IPersistEntity
+        {
+            if (noTransaction)
+                IsTransactional = false;
+            try
+            {
+                IPersistEntity copy;
+                //try to get the value if it was created before
+                if (mappings.TryGetValue(toCopy.EntityLabel, out copy))
+                {
+                    return (T)copy;
+                }
+
+                var expressType = Metadata.ExpressType(toCopy);
+                var copyLabel = toCopy.EntityLabel;
+                copy = keepLabels ?
+                    _instances.New(toCopy.GetType(), copyLabel) :
+                    _instances.New(toCopy.GetType());
+                //key is the label in original model
+                mappings.Add(copyLabel, copy);
+
+                var props = expressType.Properties.Values.Where(p => !p.EntityAttribute.IsDerivedOverride);
+                if (includeInverses)
+                    props = props.Union(expressType.Inverses);
+
+                foreach (var prop in props)
+                {
+                    var value = propTransform != null ?
+                        propTransform(prop, toCopy) :
+                        prop.PropertyInfo.GetValue(toCopy, null);
+                    if (value == null) continue;
+
+                    var isInverse = (prop.EntityAttribute.Order == -1); //don't try and set the values for inverses
+                    var theType = value.GetType();
+                    //if it is an express type or a value type, set the value
+                    if (theType.IsValueType || typeof(ExpressType).IsAssignableFrom(theType))
+                    {
+                        prop.PropertyInfo.SetValue(copy, value, null);
+                    }
+                    else if (!isInverse && typeof(IPersistEntity).IsAssignableFrom(theType))
+                    {
+                        prop.PropertyInfo.SetValue(copy, InsertCopy((IPersistEntity)value, mappings, includeInverses, keepLabels, propTransform, noTransaction), null);
+                    }
+                    else if (!isInverse && typeof(IList).IsAssignableFrom(theType))
+                    {
+                        var itemType = theType.GetItemTypeFromGenericType();
+
+                        var copyColl = prop.PropertyInfo.GetValue(copy, null) as IList;
+                        if (copyColl == null)
+                            throw new Exception(string.Format("Unexpected collection type ({0}) found", itemType.Name));
+
+                        foreach (var item in (IExpressEnumerable)value)
+                        {
+                            var actualItemType = item.GetType();
+                            if (actualItemType.IsValueType || typeof(ExpressType).IsAssignableFrom(actualItemType))
+                                copyColl.Add(item);
+                            else if (typeof(IPersistEntity).IsAssignableFrom(actualItemType))
+                            {
+                                var cpy = InsertCopy((IPersistEntity)item, mappings, includeInverses, keepLabels, propTransform, noTransaction);
+                                copyColl.Add(cpy);
+                            }
+                            else
+                                throw new Exception(string.Format("Unexpected collection item type ({0}) found", itemType.Name));
+                        }
+                    }
+                    else if (isInverse && value is IEnumerable<IPersistEntity>) //just an enumeration of IPersistEntity
+                    {
+                        foreach (var ent in (IEnumerable<IPersistEntity>)value)
+                        {
+                            InsertCopy(ent, mappings, includeInverses, keepLabels, propTransform, noTransaction);
+                        }
+                    }
+                    else if (isInverse && value is IPersistEntity) //it is an inverse and has a single value
+                    {
+                        InsertCopy((IPersistEntity)value, mappings, includeInverses, keepLabels, propTransform, noTransaction);
+                    }
+                    else
+                        throw new Exception(string.Format("Unexpected item type ({0})  found", theType.Name));
+                }
+                return (T)copy;
+            }
+            finally
+            {
+                //make sure model is transactional at the end again
+                IsTransactional = true;
+            }
         }
     }
 }
