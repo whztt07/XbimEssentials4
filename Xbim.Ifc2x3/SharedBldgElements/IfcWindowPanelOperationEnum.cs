@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc2x3.SharedBldgElements
 {
-	public enum IfcWindowPanelOperationEnum
+	public enum IfcWindowPanelOperationEnum : byte
 	{
 		@SIDEHUNGRIGHTHAND ,
 		@SIDEHUNGLEFTHAND ,

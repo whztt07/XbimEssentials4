@@ -54,7 +54,7 @@ namespace Xbim.Ifc4.ProductExtension
 		{ 
 			get 
 			{
-				return Model.Instances.Where<IfcRelFillsElement>(e => e.RelatedBuildingElement == this);
+				return Model.Instances.Where<IfcRelFillsElement>(e => (e.RelatedBuildingElement as IfcElement) == this);
 			} 
 		}
 		[EntityAttribute(-1, EntityAttributeState.Mandatory, EntityAttributeType.Set, EntityAttributeType.Class, -1, -1)]
@@ -62,7 +62,7 @@ namespace Xbim.Ifc4.ProductExtension
 		{ 
 			get 
 			{
-				return Model.Instances.Where<IfcRelConnectsElements>(e => e.RelatingElement == this);
+				return Model.Instances.Where<IfcRelConnectsElements>(e => (e.RelatingElement as IfcElement) == this);
 			} 
 		}
 		[EntityAttribute(-1, EntityAttributeState.Mandatory, EntityAttributeType.Set, EntityAttributeType.Class, -1, -1)]
@@ -70,7 +70,7 @@ namespace Xbim.Ifc4.ProductExtension
 		{ 
 			get 
 			{
-				return Model.Instances.Where<IfcRelInterferesElements>(e => e.RelatedElement == this);
+				return Model.Instances.Where<IfcRelInterferesElements>(e => (e.RelatedElement as IfcElement) == this);
 			} 
 		}
 		[EntityAttribute(-1, EntityAttributeState.Mandatory, EntityAttributeType.Set, EntityAttributeType.Class, -1, -1)]
@@ -78,7 +78,7 @@ namespace Xbim.Ifc4.ProductExtension
 		{ 
 			get 
 			{
-				return Model.Instances.Where<IfcRelInterferesElements>(e => e.RelatingElement == this);
+				return Model.Instances.Where<IfcRelInterferesElements>(e => (e.RelatingElement as IfcElement) == this);
 			} 
 		}
 		[EntityAttribute(-1, EntityAttributeState.Mandatory, EntityAttributeType.Set, EntityAttributeType.Class, -1, -1)]
@@ -86,7 +86,7 @@ namespace Xbim.Ifc4.ProductExtension
 		{ 
 			get 
 			{
-				return Model.Instances.Where<IfcRelProjectsElement>(e => e.RelatingElement == this);
+				return Model.Instances.Where<IfcRelProjectsElement>(e => (e.RelatingElement as IfcElement) == this);
 			} 
 		}
 		[EntityAttribute(-1, EntityAttributeState.Mandatory, EntityAttributeType.Set, EntityAttributeType.Class, -1, -1)]
@@ -102,7 +102,7 @@ namespace Xbim.Ifc4.ProductExtension
 		{ 
 			get 
 			{
-				return Model.Instances.Where<IfcRelVoidsElement>(e => e.RelatingBuildingElement == this);
+				return Model.Instances.Where<IfcRelVoidsElement>(e => (e.RelatingBuildingElement as IfcElement) == this);
 			} 
 		}
 		[EntityAttribute(-1, EntityAttributeState.Mandatory, EntityAttributeType.Set, EntityAttributeType.Class, -1, -1)]
@@ -118,7 +118,7 @@ namespace Xbim.Ifc4.ProductExtension
 		{ 
 			get 
 			{
-				return Model.Instances.Where<IfcRelSpaceBoundary>(e => e.RelatedBuildingElement == this);
+				return Model.Instances.Where<IfcRelSpaceBoundary>(e => (e.RelatedBuildingElement as IfcElement) == this);
 			} 
 		}
 		[EntityAttribute(-1, EntityAttributeState.Mandatory, EntityAttributeType.Set, EntityAttributeType.Class, -1, -1)]
@@ -126,7 +126,7 @@ namespace Xbim.Ifc4.ProductExtension
 		{ 
 			get 
 			{
-				return Model.Instances.Where<IfcRelConnectsElements>(e => e.RelatedElement == this);
+				return Model.Instances.Where<IfcRelConnectsElements>(e => (e.RelatedElement as IfcElement) == this);
 			} 
 		}
 		[EntityAttribute(-1, EntityAttributeState.Mandatory, EntityAttributeType.Set, EntityAttributeType.Class, -1, -1)]

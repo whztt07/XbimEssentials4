@@ -25,7 +25,7 @@ namespace Xbim.Ifc4.ExternalReferenceResource
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcClassification(IModel model) : base(model) 		{ 
 			Model = model; 
-			_referenceTokens = new OptionalItemSet<IfcIdentifier>( this );
+			_referenceTokens = new OptionalItemSet<IfcIdentifier>( this, 0 );
 		}
 
 		#region Explicit attribute fields
@@ -148,7 +148,7 @@ namespace Xbim.Ifc4.ExternalReferenceResource
 		{ 
 			get 
 			{
-				return Model.Instances.Where<IfcRelAssociatesClassification>(e => e.RelatingClassification == this);
+				return Model.Instances.Where<IfcRelAssociatesClassification>(e => (e.RelatingClassification as IfcClassification) == this);
 			} 
 		}
 		[EntityAttribute(-1, EntityAttributeState.Mandatory, EntityAttributeType.Set, EntityAttributeType.Class, -1, -1)]
@@ -156,7 +156,7 @@ namespace Xbim.Ifc4.ExternalReferenceResource
 		{ 
 			get 
 			{
-				return Model.Instances.Where<IfcClassificationReference>(e => e.ReferencedSource == this);
+				return Model.Instances.Where<IfcClassificationReference>(e => (e.ReferencedSource as IfcClassification) == this);
 			} 
 		}
 		#endregion

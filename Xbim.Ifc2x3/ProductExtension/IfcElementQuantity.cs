@@ -25,7 +25,7 @@ namespace Xbim.Ifc2x3.ProductExtension
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcElementQuantity(IModel model) : base(model) 		{ 
 			Model = model; 
-			_quantities = new ItemSet<IfcPhysicalQuantity>( this );
+			_quantities = new ItemSet<IfcPhysicalQuantity>( this, 0 );
 		}
 
 		#region Explicit attribute fields

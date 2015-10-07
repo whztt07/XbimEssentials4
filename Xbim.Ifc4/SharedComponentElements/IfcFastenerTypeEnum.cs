@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.SharedComponentElements
 {
-	public enum IfcFastenerTypeEnum
+	public enum IfcFastenerTypeEnum : byte
 	{
 		@GLUE ,
 		@MORTAR ,

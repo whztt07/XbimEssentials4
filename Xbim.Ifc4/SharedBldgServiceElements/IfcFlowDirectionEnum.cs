@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.SharedBldgServiceElements
 {
-	public enum IfcFlowDirectionEnum
+	public enum IfcFlowDirectionEnum : byte
 	{
 		@SOURCE ,
 		@SINK ,

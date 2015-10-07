@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.BuildingControlsDomain
 {
-	public enum IfcControllerTypeEnum
+	public enum IfcControllerTypeEnum : byte
 	{
 		@FLOATING ,
 		@PROGRAMMABLE ,

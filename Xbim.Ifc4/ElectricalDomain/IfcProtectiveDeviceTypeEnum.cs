@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.ElectricalDomain
 {
-	public enum IfcProtectiveDeviceTypeEnum
+	public enum IfcProtectiveDeviceTypeEnum : byte
 	{
 		@CIRCUITBREAKER ,
 		@EARTHLEAKAGECIRCUITBREAKER ,

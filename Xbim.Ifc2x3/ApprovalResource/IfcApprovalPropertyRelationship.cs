@@ -80,7 +80,7 @@ namespace Xbim.Ifc2x3.ApprovalResource
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcApprovalPropertyRelationship(IModel model) 		{ 
 			Model = model; 
-			_approvedProperties = new ItemSet<IfcProperty>( this );
+			_approvedProperties = new ItemSet<IfcProperty>( this, 0 );
 		}
 
 		#region Explicit attribute fields

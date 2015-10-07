@@ -22,7 +22,7 @@ namespace Xbim.CobieExpress
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal CobieJob(IModel model) : base(model) 		{ 
 			Model = model; 
-			_resources = new ItemSet<CobieResource>( this );
+			_resources = new ItemSet<CobieResource>( this, 0 );
 		}
 
 		#region Explicit attribute fields

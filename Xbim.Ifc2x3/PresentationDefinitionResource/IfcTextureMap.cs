@@ -21,7 +21,7 @@ namespace Xbim.Ifc2x3.PresentationDefinitionResource
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcTextureMap(IModel model) : base(model) 		{ 
 			Model = model; 
-			_textureMaps = new ItemSet<IfcVertexBasedTextureMap>( this );
+			_textureMaps = new ItemSet<IfcVertexBasedTextureMap>( this, 0 );
 		}
 
 		#region Explicit attribute fields

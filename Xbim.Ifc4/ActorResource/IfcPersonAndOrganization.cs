@@ -81,7 +81,7 @@ namespace Xbim.Ifc4.ActorResource
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcPersonAndOrganization(IModel model) 		{ 
 			Model = model; 
-			_roles = new OptionalItemSet<IfcActorRole>( this );
+			_roles = new OptionalItemSet<IfcActorRole>( this, 0 );
 		}
 
 		#region Explicit attribute fields

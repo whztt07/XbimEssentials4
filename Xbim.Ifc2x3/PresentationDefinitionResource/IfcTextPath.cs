@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc2x3.PresentationDefinitionResource
 {
-	public enum IfcTextPath
+	public enum IfcTextPath : byte
 	{
 		@LEFT ,
 		@RIGHT ,

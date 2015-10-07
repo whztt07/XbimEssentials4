@@ -60,7 +60,7 @@ namespace Xbim.Ifc4.Kernel
 		{ 
 			get 
 			{
-				return Model.Instances.Where<IfcRelDefinesByObject>(e => e.RelatingObject == this);
+				return Model.Instances.Where<IfcRelDefinesByObject>(e => (e.RelatingObject as IfcObject) == this);
 			} 
 		}
 		[EntityAttribute(-1, EntityAttributeState.Mandatory, EntityAttributeType.Set, EntityAttributeType.Class, -1, -1)]

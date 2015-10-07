@@ -81,7 +81,7 @@ namespace Xbim.Ifc2x3.ConstraintResource
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcPropertyConstraintRelationship(IModel model) 		{ 
 			Model = model; 
-			_relatedProperties = new ItemSet<IfcProperty>( this );
+			_relatedProperties = new ItemSet<IfcProperty>( this, 0 );
 		}
 
 		#region Explicit attribute fields

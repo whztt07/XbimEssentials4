@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.SharedFacilitiesElements
 {
-	public enum IfcOccupantTypeEnum
+	public enum IfcOccupantTypeEnum : byte
 	{
 		@ASSIGNEE ,
 		@ASSIGNOR ,

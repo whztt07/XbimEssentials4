@@ -22,7 +22,7 @@ namespace Xbim.Ifc2x3.GeometryResource
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcCompositeCurve(IModel model) : base(model) 		{ 
 			Model = model; 
-			_segments = new ItemSet<IfcCompositeCurveSegment>( this );
+			_segments = new ItemSet<IfcCompositeCurveSegment>( this, 0 );
 		}
 
 		#region Explicit attribute fields

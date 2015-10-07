@@ -22,8 +22,8 @@ namespace Xbim.Ifc2x3.PropertyResource
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcPropertyTableValue(IModel model) : base(model) 		{ 
 			Model = model; 
-			_definingValues = new ItemSet<IfcValue>( this );
-			_definedValues = new ItemSet<IfcValue>( this );
+			_definingValues = new ItemSet<IfcValue>( this, 0 );
+			_definedValues = new ItemSet<IfcValue>( this, 0 );
 		}
 
 		#region Explicit attribute fields

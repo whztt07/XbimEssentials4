@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.ConstraintResource
 {
-	public enum IfcLogicalOperatorEnum
+	public enum IfcLogicalOperatorEnum : byte
 	{
 		@LOGICALAND ,
 		@LOGICALOR ,

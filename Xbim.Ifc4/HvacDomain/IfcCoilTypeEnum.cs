@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.HvacDomain
 {
-	public enum IfcCoilTypeEnum
+	public enum IfcCoilTypeEnum : byte
 	{
 		@DXCOOLINGCOIL ,
 		@ELECTRICHEATINGCOIL ,

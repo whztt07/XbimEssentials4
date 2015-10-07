@@ -22,8 +22,8 @@ namespace Xbim.Ifc4.GeometricModelResource
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcTriangulatedFaceSet(IModel model) : base(model) 		{ 
 			Model = model; 
-			_coordIndex = new ItemSet<ItemSet<long>>( this );
-			_normalIndex = new OptionalItemSet<ItemSet<long>>( this );
+			_coordIndex = new ItemSet<ItemSet<long>>( this, 0 );
+			_normalIndex = new OptionalItemSet<ItemSet<long>>( this, 0 );
 		}
 
 		#region Explicit attribute fields

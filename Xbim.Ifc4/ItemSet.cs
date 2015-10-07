@@ -20,7 +20,8 @@ namespace Xbim.Ifc4
     public class ItemSet<T> : IItemSet<T>
     {
         private readonly List<T> _set;
-        private readonly IModel _model;
+
+        private IModel Model { get { return OwningEntity.Model; } }
 
 		public IPersistEntity OwningEntity { get; private set; }
 
@@ -33,21 +34,19 @@ namespace Xbim.Ifc4
         internal ItemSet(IPersistEntity entity)
         {
             _set = new List<T>();
-            _model = entity.Model;
 			OwningEntity = entity;
         }
 
-		internal ItemSet(IPersistEntity entity, int count)
+		internal ItemSet(IPersistEntity entity, int capacity)
         {
-            _set = new List<T>(count);
-            _model = entity.Model;
+			//this will create internal list of optimal capacity
+            _set = new List<T>(capacity > 0 ? capacity : 0);
 			OwningEntity = entity;
         }
 
         internal ItemSet(IPersistEntity entity, IEnumerable<T> collection)
         {
             _set = new List<T>(collection);
-            _model = entity.Model;
 			OwningEntity = entity;
         }
 
@@ -94,15 +93,10 @@ namespace Xbim.Ifc4
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        [NonSerialized]
-        private readonly PropertyChangedEventArgs _countPropChangedEventArgs =
-            new PropertyChangedEventArgs("Count");
-
-        private void NotifyCountChanged(int oldValue)
+        private void NotifyCountChanged()
         {
-            var propChanged = PropertyChanged;
-            if (propChanged != null && oldValue != Internal.Count)
-                propChanged(this, _countPropChangedEventArgs);
+            if (PropertyChanged == null) return;
+            PropertyChanged(this, new PropertyChangedEventArgs("Count"));
         }
 
         #endregion
@@ -110,6 +104,24 @@ namespace Xbim.Ifc4
         #region INotifyCollectionChanged Members
 
         public event NotifyCollectionChangedEventHandler CollectionChanged;
+		
+		private void NotifyCollectionChanged(NotifyCollectionChangedAction action, T item)
+		{
+			if (CollectionChanged == null) return;
+			CollectionChanged(this, new NotifyCollectionChangedEventArgs(action, item));
+		}
+
+		private void NotifyCollectionChanged(NotifyCollectionChangedAction action, IEnumerable<T> items)
+		{
+			if (CollectionChanged == null) return;
+			CollectionChanged(this, new NotifyCollectionChangedEventArgs(action, items));
+		}
+
+		private void NotifyCollectionChanged(NotifyCollectionChangedAction action)
+		{
+			if (CollectionChanged == null) return;
+			CollectionChanged(this, new NotifyCollectionChangedEventArgs(action));
+		}
 
         #endregion
 
@@ -117,63 +129,57 @@ namespace Xbim.Ifc4
 
         public virtual void Add(T item)
         {
-            if(_model.IsTransactional && _model.CurrentTransaction == null)
+            if(Model.IsTransactional && Model.CurrentTransaction == null)
                 throw new Exception("Operation out of transaction");
 			
 			//activate owning entity for write in case it is not active yet
 			OwningEntity.Activate(true);
 
-            var oldCount = Internal.Count;
 			Action doAction = () => {
 				Internal.Add(item);
-				if (CollectionChanged != null)
-					CollectionChanged(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, item));
-				NotifyCountChanged(oldCount);
+				NotifyCollectionChanged(NotifyCollectionChangedAction.Add, item);
+				NotifyCountChanged();
 			};
 
 			doAction();
 
-            if (!_model.IsTransactional) return;
+            if (!Model.IsTransactional) return;
             
             Action undoAction = () => {
 				Internal.Remove(item);
-				if (CollectionChanged != null)
-					CollectionChanged(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, item));
-				NotifyCountChanged(oldCount+1);
+				NotifyCollectionChanged(NotifyCollectionChangedAction.Remove, item);
+				NotifyCountChanged();
 			};
 
-            _model.CurrentTransaction.AddReversibleAction(doAction, undoAction, OwningEntity, ChangeType.Modified);
+            Model.CurrentTransaction.AddReversibleAction(doAction, undoAction, OwningEntity, ChangeType.Modified);
         }
 
 
         public virtual void Clear()
         {
-                        if (_model.IsTransactional && _model.CurrentTransaction == null)
+                        if (Model.IsTransactional && Model.CurrentTransaction == null)
                 throw new Exception("Operation out of transaction");
 
             OwningEntity.Activate(true);
 
-            var oldCount = Count;
             var oldItems = Internal.ToArray();
             Action doAction = () =>
             {
                 Internal.Clear();
-                if (CollectionChanged != null)
-                    CollectionChanged(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
-                NotifyCountChanged(oldCount);
+                NotifyCollectionChanged(NotifyCollectionChangedAction.Reset);
+                NotifyCountChanged();
             };
             doAction();
 
-            if (!_model.IsTransactional) return;
+            if (!Model.IsTransactional) return;
 
             Action undoAction = () =>
             {
                 Internal.AddRange(oldItems);
-                if (CollectionChanged != null)
-                    CollectionChanged(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, oldItems));
-                NotifyCountChanged(0);
+                NotifyCollectionChanged(NotifyCollectionChangedAction.Add, oldItems);
+                NotifyCountChanged();
             };
-            _model.CurrentTransaction.AddReversibleAction(doAction, undoAction, OwningEntity, ChangeType.Modified);
+            Model.CurrentTransaction.AddReversibleAction(doAction, undoAction, OwningEntity, ChangeType.Modified);
         }
 
         public bool Contains(T item)
@@ -194,7 +200,7 @@ namespace Xbim.Ifc4
 
         public virtual bool Remove(T item)
         {
-            if (_model.IsTransactional && _model.CurrentTransaction == null)
+            if (Model.IsTransactional && Model.CurrentTransaction == null)
                 throw new Exception("Operation out of transaction");
 
             OwningEntity.Activate(true);
@@ -203,31 +209,25 @@ namespace Xbim.Ifc4
             var removed = Internal.Remove(item);
             //don't do anything if nothing happened realy
             if (!removed) return false;
+			//raise events
+            NotifyCollectionChanged(NotifyCollectionChangedAction.Remove, item);
+            NotifyCountChanged();
 
-
-
-            if (!_model.IsTransactional) return true;
-            
-            //raise events
-            if (CollectionChanged != null)
-                CollectionChanged(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, item));
-            NotifyCountChanged(oldCount);
+            if (!Model.IsTransactional) return true;
 
             Action doAction = () =>
             {
                 Internal.Remove(item);
-                if (CollectionChanged != null)
-                    CollectionChanged(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, item));
-                NotifyCountChanged(oldCount);
+                NotifyCollectionChanged(NotifyCollectionChangedAction.Remove, item);
+                NotifyCountChanged();
             };
             Action undoAction = () =>
             {
                 Internal.Add(item);
-                if (CollectionChanged != null)
-                    CollectionChanged(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, item));
-                NotifyCountChanged(oldCount-1);
+                NotifyCollectionChanged(NotifyCollectionChangedAction.Add, item);
+                NotifyCountChanged();
             };
-            _model.CurrentTransaction.AddReversibleAction(doAction, undoAction, OwningEntity, ChangeType.Modified);
+            Model.CurrentTransaction.AddReversibleAction(doAction, undoAction, OwningEntity, ChangeType.Modified);
             
             return true;
         }
@@ -324,7 +324,7 @@ namespace Xbim.Ifc4
 		    }
 		    set
 		    {
-				if(_model.IsTransactional && _model.CurrentTransaction == null)
+				if(Model.IsTransactional && Model.CurrentTransaction == null)
 				    throw new Exception("Operation out of transaction");
 
                 OwningEntity.Activate(true);
@@ -333,22 +333,20 @@ namespace Xbim.Ifc4
                 Action doAction = () =>
                 {
                     Internal[index] = value;
-                    if (CollectionChanged != null)
-                        CollectionChanged(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, value));
+                    NotifyCollectionChanged(NotifyCollectionChangedAction.Replace, value);
                 };
 
 		        doAction();
 
-		        if (!_model.IsTransactional) return;
+		        if (!Model.IsTransactional) return;
 
 		        Action undoAction = () =>
 		        {
 		            Internal[index] = oldValue;
-                    if (CollectionChanged != null)
-                        CollectionChanged(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, oldValue));
+                    NotifyCollectionChanged(NotifyCollectionChangedAction.Replace, oldValue);
 		        };
 		        
-				_model.CurrentTransaction.AddReversibleAction(doAction, undoAction, OwningEntity, ChangeType.Modified);
+				Model.CurrentTransaction.AddReversibleAction(doAction, undoAction, OwningEntity, ChangeType.Modified);
 		    }
 		}
 
@@ -360,7 +358,7 @@ namespace Xbim.Ifc4
 
         public void Insert(int index, T item)
         {
-            if (_model.IsTransactional && _model.CurrentTransaction == null)
+            if (Model.IsTransactional && Model.CurrentTransaction == null)
                 throw new Exception("Operation out of transaction");
 
             OwningEntity.Activate(true);
@@ -369,23 +367,20 @@ namespace Xbim.Ifc4
             Action doAction = () =>
             {
                 Internal.Insert(index, item);
-                if (CollectionChanged != null)
-                    CollectionChanged(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, item));
-
-                NotifyCountChanged(oldCount);
+                NotifyCollectionChanged(NotifyCollectionChangedAction.Add, item);
+                NotifyCountChanged();
             };
             var newCount = Internal.Count;
 
-            if (!_model.IsTransactional) return;
+            if (!Model.IsTransactional) return;
 
             Action undoAction = () =>
             {
                 Internal.RemoveAt(index);
-                if (CollectionChanged != null)
-                    CollectionChanged(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, item));
-                NotifyCountChanged(newCount);
+                NotifyCollectionChanged(NotifyCollectionChangedAction.Remove, item);
+                NotifyCountChanged();
             };
-            _model.CurrentTransaction.AddReversibleAction(doAction, undoAction, OwningEntity, ChangeType.Modified);
+            Model.CurrentTransaction.AddReversibleAction(doAction, undoAction, OwningEntity, ChangeType.Modified);
         }
 
         public void RemoveAt(int index)
@@ -427,7 +422,7 @@ namespace Xbim.Ifc4
 
         bool IList.IsReadOnly
         {
-            get { return _model.IsTransactional && _model.CurrentTransaction != null; }
+            get { return Model.IsTransactional && Model.CurrentTransaction != null; }
         }
 
         void IList.Remove(object value)

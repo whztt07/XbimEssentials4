@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc2x3.MeasureResource
 {
-	public enum IfcUnitEnum
+	public enum IfcUnitEnum : byte
 	{
 		@ABSORBEDDOSEUNIT ,
 		@AMOUNTOFSUBSTANCEUNIT ,

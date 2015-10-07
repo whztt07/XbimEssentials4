@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.StructuralElementsDomain
 {
-	public enum IfcReinforcingMeshTypeEnum
+	public enum IfcReinforcingMeshTypeEnum : byte
 	{
 		@USERDEFINED ,
 		@NOTDEFINED 

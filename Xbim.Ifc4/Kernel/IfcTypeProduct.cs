@@ -24,7 +24,7 @@ namespace Xbim.Ifc4.Kernel
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcTypeProduct(IModel model) : base(model) 		{ 
 			Model = model; 
-			_representationMaps = new OptionalItemSet<IfcRepresentationMap>( this );
+			_representationMaps = new OptionalItemSet<IfcRepresentationMap>( this, 0 );
 		}
 
 		#region Explicit attribute fields
@@ -67,7 +67,7 @@ namespace Xbim.Ifc4.Kernel
 		{ 
 			get 
 			{
-				return Model.Instances.Where<IfcRelAssignsToProduct>(e => e.RelatingProduct == this);
+				return Model.Instances.Where<IfcRelAssignsToProduct>(e => (e.RelatingProduct as IfcTypeProduct) == this);
 			} 
 		}
 		#endregion

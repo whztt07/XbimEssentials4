@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.ElectricalDomain
 {
-	public enum IfcSolarDeviceTypeEnum
+	public enum IfcSolarDeviceTypeEnum : byte
 	{
 		@SOLARCOLLECTOR ,
 		@SOLARPANEL ,

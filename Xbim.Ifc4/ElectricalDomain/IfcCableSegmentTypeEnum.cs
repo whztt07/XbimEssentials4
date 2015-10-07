@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.ElectricalDomain
 {
-	public enum IfcCableSegmentTypeEnum
+	public enum IfcCableSegmentTypeEnum : byte
 	{
 		@BUSBARSEGMENT ,
 		@CABLESEGMENT ,

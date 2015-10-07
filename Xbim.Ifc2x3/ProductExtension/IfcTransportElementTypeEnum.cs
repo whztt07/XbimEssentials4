@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc2x3.ProductExtension
 {
-	public enum IfcTransportElementTypeEnum
+	public enum IfcTransportElementTypeEnum : byte
 	{
 		@ELEVATOR ,
 		@ESCALATOR ,

@@ -79,7 +79,7 @@ namespace Xbim.Ifc2x3.TimeSeriesResource
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcTimeSeriesValue(IModel model) 		{ 
 			Model = model; 
-			_listValues = new ItemSet<IfcValue>( this );
+			_listValues = new ItemSet<IfcValue>( this, 0 );
 		}
 
 		#region Explicit attribute fields

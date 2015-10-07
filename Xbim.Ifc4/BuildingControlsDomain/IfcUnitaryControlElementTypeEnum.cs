@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.BuildingControlsDomain
 {
-	public enum IfcUnitaryControlElementTypeEnum
+	public enum IfcUnitaryControlElementTypeEnum : byte
 	{
 		@ALARMPANEL ,
 		@CONTROLPANEL ,

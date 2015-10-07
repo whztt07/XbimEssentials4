@@ -22,7 +22,7 @@ namespace Xbim.Ifc4.GeometricModelResource
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcCartesianPointList3D(IModel model) : base(model) 		{ 
 			Model = model; 
-			_coordList = new ItemSet<ItemSet<IfcLengthMeasure>>( this );
+			_coordList = new ItemSet<ItemSet<IfcLengthMeasure>>( this, 0 );
 		}
 
 		#region Explicit attribute fields

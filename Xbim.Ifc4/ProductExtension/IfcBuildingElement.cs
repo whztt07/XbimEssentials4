@@ -31,7 +31,7 @@ namespace Xbim.Ifc4.ProductExtension
 		{ 
 			get 
 			{
-				return Model.Instances.Where<IfcRelCoversBldgElements>(e => e.RelatingBuildingElement == this);
+				return Model.Instances.Where<IfcRelCoversBldgElements>(e => (e.RelatingBuildingElement as IfcBuildingElement) == this);
 			} 
 		}
 		#endregion

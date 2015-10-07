@@ -33,7 +33,7 @@ namespace Xbim.Ifc2x3.RepresentationResource
 		{ 
 			get 
 			{
-				return Model.Instances.Where<IfcProduct>(e => e.Representation == this);
+				return Model.Instances.Where<IfcProduct>(e => (e.Representation as IfcProductDefinitionShape) == this);
 			} 
 		}
 		[EntityAttribute(-1, EntityAttributeState.Mandatory, EntityAttributeType.Set, EntityAttributeType.Class, -1, -1)]
@@ -41,7 +41,7 @@ namespace Xbim.Ifc2x3.RepresentationResource
 		{ 
 			get 
 			{
-				return Model.Instances.Where<IfcShapeAspect>(e => e.PartOfProductDefinitionShape == this);
+				return Model.Instances.Where<IfcShapeAspect>(e => (e.PartOfProductDefinitionShape as IfcProductDefinitionShape) == this);
 			} 
 		}
 		#endregion

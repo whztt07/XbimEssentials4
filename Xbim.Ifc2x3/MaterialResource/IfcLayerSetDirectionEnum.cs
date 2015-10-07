@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc2x3.MaterialResource
 {
-	public enum IfcLayerSetDirectionEnum
+	public enum IfcLayerSetDirectionEnum : byte
 	{
 		@AXIS1 ,
 		@AXIS2 ,

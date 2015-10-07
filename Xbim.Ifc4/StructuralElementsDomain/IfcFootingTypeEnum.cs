@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.StructuralElementsDomain
 {
-	public enum IfcFootingTypeEnum
+	public enum IfcFootingTypeEnum : byte
 	{
 		@CAISSON_FOUNDATION ,
 		@FOOTING_BEAM ,

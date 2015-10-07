@@ -22,7 +22,7 @@ namespace Xbim.Ifc4.GeometryResource
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcDirection(IModel model) : base(model) 		{ 
 			Model = model; 
-			_directionRatios = new ItemSet<double>( this );
+			_directionRatios = new ItemSet<double>( this, 3 );
 		}
 
 		#region Explicit attribute fields

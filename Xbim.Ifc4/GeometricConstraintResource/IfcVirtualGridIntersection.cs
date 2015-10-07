@@ -79,8 +79,8 @@ namespace Xbim.Ifc4.GeometricConstraintResource
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcVirtualGridIntersection(IModel model) 		{ 
 			Model = model; 
-			_intersectingAxes = new ItemSet<IfcGridAxis>( this );
-			_offsetDistances = new ItemSet<IfcLengthMeasure>( this );
+			_intersectingAxes = new ItemSet<IfcGridAxis>( this, 2 );
+			_offsetDistances = new ItemSet<IfcLengthMeasure>( this, 3 );
 		}
 
 		#region Explicit attribute fields

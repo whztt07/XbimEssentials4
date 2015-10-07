@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.StructuralElementsDomain
 {
-	public enum IfcVoidingFeatureTypeEnum
+	public enum IfcVoidingFeatureTypeEnum : byte
 	{
 		@CUTOUT ,
 		@NOTCH ,

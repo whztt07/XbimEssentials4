@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc2x3.PresentationAppearanceResource
 {
-	public enum IfcSurfaceTextureEnum
+	public enum IfcSurfaceTextureEnum : byte
 	{
 		@BUMP ,
 		@OPACITY ,

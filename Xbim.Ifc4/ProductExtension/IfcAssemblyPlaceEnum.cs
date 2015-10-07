@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.ProductExtension
 {
-	public enum IfcAssemblyPlaceEnum
+	public enum IfcAssemblyPlaceEnum : byte
 	{
 		@SITE ,
 		@FACTORY ,

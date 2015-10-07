@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.ElectricalDomain
 {
-	public enum IfcElectricMotorTypeEnum
+	public enum IfcElectricMotorTypeEnum : byte
 	{
 		@DC ,
 		@INDUCTION ,

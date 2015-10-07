@@ -38,7 +38,7 @@ namespace Xbim.Ifc2x3.Kernel
 		{ 
 			get 
 			{
-				return Model.Instances.Where<IfcRelDecomposes>(e => e.RelatingObject == this);
+				return Model.Instances.Where<IfcRelDecomposes>(e => (e.RelatingObject as IfcObjectDefinition) == this);
 			} 
 		}
 		[EntityAttribute(-1, EntityAttributeState.Mandatory, EntityAttributeType.Set, EntityAttributeType.Class, -1, -1)]

@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.RepresentationResource
 {
-	public enum IfcGlobalOrLocalEnum
+	public enum IfcGlobalOrLocalEnum : byte
 	{
 		@GLOBAL_COORDS ,
 		@LOCAL_COORDS 

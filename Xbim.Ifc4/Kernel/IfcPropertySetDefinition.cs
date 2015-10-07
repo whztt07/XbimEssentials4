@@ -46,7 +46,7 @@ namespace Xbim.Ifc4.Kernel
 		{ 
 			get 
 			{
-				return Model.Instances.Where<IfcRelDefinesByProperties>(e => e.RelatingPropertyDefinition == this);
+				return Model.Instances.Where<IfcRelDefinesByProperties>(e => (e.RelatingPropertyDefinition as IfcPropertySetDefinition) == this);
 			} 
 		}
 		#endregion

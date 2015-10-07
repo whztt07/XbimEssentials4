@@ -24,7 +24,7 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcSurfaceTexture(IModel model) : base(model) 		{ 
 			Model = model; 
-			_parameter = new OptionalItemSet<IfcIdentifier>( this );
+			_parameter = new OptionalItemSet<IfcIdentifier>( this, 0 );
 		}
 
 		#region Explicit attribute fields

@@ -79,7 +79,7 @@ namespace Xbim.CobieExpress
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal CobieAttribute(IModel model) 		{ 
 			Model = model; 
-			_allowedValues = new OptionalItemSet<string>( this );
+			_allowedValues = new OptionalItemSet<string>( this, 0 );
 		}
 
 		#region Explicit attribute fields

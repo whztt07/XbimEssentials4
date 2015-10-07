@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.HvacDomain
 {
-	public enum IfcEngineTypeEnum
+	public enum IfcEngineTypeEnum : byte
 	{
 		@EXTERNALCOMBUSTION ,
 		@INTERNALCOMBUSTION ,

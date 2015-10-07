@@ -79,7 +79,7 @@ namespace Xbim.Ifc2x3.ExternalReferenceResource
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcClassificationNotation(IModel model) 		{ 
 			Model = model; 
-			_notationFacets = new ItemSet<IfcClassificationNotationFacet>( this );
+			_notationFacets = new ItemSet<IfcClassificationNotationFacet>( this, 0 );
 		}
 
 		#region Explicit attribute fields

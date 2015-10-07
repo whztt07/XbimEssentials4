@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.ElectricalDomain
 {
-	public enum IfcElectricTimeControlTypeEnum
+	public enum IfcElectricTimeControlTypeEnum : byte
 	{
 		@TIMECLOCK ,
 		@TIMEDELAY ,

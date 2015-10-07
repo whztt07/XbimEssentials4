@@ -79,10 +79,10 @@ namespace Xbim.Ifc4.DateTimeResource
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcRecurrencePattern(IModel model) 		{ 
 			Model = model; 
-			_dayComponent = new OptionalItemSet<IfcDayInMonthNumber>( this );
-			_weekdayComponent = new OptionalItemSet<IfcDayInWeekNumber>( this );
-			_monthComponent = new OptionalItemSet<IfcMonthInYearNumber>( this );
-			_timePeriods = new OptionalItemSet<IfcTimePeriod>( this );
+			_dayComponent = new OptionalItemSet<IfcDayInMonthNumber>( this, 0 );
+			_weekdayComponent = new OptionalItemSet<IfcDayInWeekNumber>( this, 0 );
+			_monthComponent = new OptionalItemSet<IfcMonthInYearNumber>( this, 0 );
+			_timePeriods = new OptionalItemSet<IfcTimePeriod>( this, 0 );
 		}
 
 		#region Explicit attribute fields

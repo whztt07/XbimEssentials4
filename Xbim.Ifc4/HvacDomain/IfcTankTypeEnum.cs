@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.HvacDomain
 {
-	public enum IfcTankTypeEnum
+	public enum IfcTankTypeEnum : byte
 	{
 		@BASIN ,
 		@BREAKPRESSURE ,

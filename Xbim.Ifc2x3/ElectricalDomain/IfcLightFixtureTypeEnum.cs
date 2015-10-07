@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc2x3.ElectricalDomain
 {
-	public enum IfcLightFixtureTypeEnum
+	public enum IfcLightFixtureTypeEnum : byte
 	{
 		@POINTSOURCE ,
 		@DIRECTIONSOURCE ,

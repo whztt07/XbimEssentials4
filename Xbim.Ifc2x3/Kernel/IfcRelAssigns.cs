@@ -21,7 +21,7 @@ namespace Xbim.Ifc2x3.Kernel
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcRelAssigns(IModel model) : base(model) 		{ 
 			Model = model; 
-			_relatedObjects = new ItemSet<IfcObjectDefinition>( this );
+			_relatedObjects = new ItemSet<IfcObjectDefinition>( this, 0 );
 		}
 
 		#region Explicit attribute fields

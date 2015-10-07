@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.HvacDomain
 {
-	public enum IfcFilterTypeEnum
+	public enum IfcFilterTypeEnum : byte
 	{
 		@AIRPARTICLEFILTER ,
 		@COMPRESSEDAIRFILTER ,

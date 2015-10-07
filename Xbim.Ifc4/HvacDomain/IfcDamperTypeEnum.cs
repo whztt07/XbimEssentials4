@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.HvacDomain
 {
-	public enum IfcDamperTypeEnum
+	public enum IfcDamperTypeEnum : byte
 	{
 		@BACKDRAFTDAMPER ,
 		@BALANCINGDAMPER ,

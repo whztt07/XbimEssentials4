@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.ExternalReferenceResource
 {
-	public enum IfcDocumentStatusEnum
+	public enum IfcDocumentStatusEnum : byte
 	{
 		@DRAFT ,
 		@FINALDRAFT ,

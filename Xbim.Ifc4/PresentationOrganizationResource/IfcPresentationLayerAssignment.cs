@@ -80,7 +80,7 @@ namespace Xbim.Ifc4.PresentationOrganizationResource
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcPresentationLayerAssignment(IModel model) 		{ 
 			Model = model; 
-			_assignedItems = new ItemSet<IfcLayeredItem>( this );
+			_assignedItems = new ItemSet<IfcLayeredItem>( this, 0 );
 		}
 
 		#region Explicit attribute fields

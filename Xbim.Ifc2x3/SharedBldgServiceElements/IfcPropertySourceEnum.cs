@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc2x3.SharedBldgServiceElements
 {
-	public enum IfcPropertySourceEnum
+	public enum IfcPropertySourceEnum : byte
 	{
 		@DESIGN ,
 		@DESIGNMAXIMUM ,

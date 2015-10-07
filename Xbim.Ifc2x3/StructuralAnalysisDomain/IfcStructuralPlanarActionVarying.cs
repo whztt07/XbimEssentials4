@@ -26,7 +26,7 @@ namespace Xbim.Ifc2x3.StructuralAnalysisDomain
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcStructuralPlanarActionVarying(IModel model) : base(model) 		{ 
 			Model = model; 
-			_subsequentAppliedLoads = new ItemSet<IfcStructuralLoad>( this );
+			_subsequentAppliedLoads = new ItemSet<IfcStructuralLoad>( this, 0 );
 		}
 
 		#region Explicit attribute fields

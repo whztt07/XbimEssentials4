@@ -22,10 +22,10 @@ namespace Xbim.Ifc4.GeometryResource
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcBSplineSurfaceWithKnots(IModel model) : base(model) 		{ 
 			Model = model; 
-			_uMultiplicities = new ItemSet<long>( this );
-			_vMultiplicities = new ItemSet<long>( this );
-			_uKnots = new ItemSet<IfcParameterValue>( this );
-			_vKnots = new ItemSet<IfcParameterValue>( this );
+			_uMultiplicities = new ItemSet<long>( this, 0 );
+			_vMultiplicities = new ItemSet<long>( this, 0 );
+			_uKnots = new ItemSet<IfcParameterValue>( this, 0 );
+			_vKnots = new ItemSet<IfcParameterValue>( this, 0 );
 		}
 
 		#region Explicit attribute fields

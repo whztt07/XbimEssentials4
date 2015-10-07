@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.UtilityResource
 {
-	public enum IfcStateEnum
+	public enum IfcStateEnum : byte
 	{
 		@READWRITE ,
 		@READONLY ,

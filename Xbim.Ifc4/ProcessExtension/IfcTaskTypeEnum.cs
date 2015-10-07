@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.ProcessExtension
 {
-	public enum IfcTaskTypeEnum
+	public enum IfcTaskTypeEnum : byte
 	{
 		@ATTENDANCE ,
 		@CONSTRUCTION ,

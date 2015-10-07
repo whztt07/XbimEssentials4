@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.SharedBldgElements
 {
-	public enum IfcWindowTypePartitioningEnum
+	public enum IfcWindowTypePartitioningEnum : byte
 	{
 		@SINGLE_PANEL ,
 		@DOUBLE_PANEL_VERTICAL ,

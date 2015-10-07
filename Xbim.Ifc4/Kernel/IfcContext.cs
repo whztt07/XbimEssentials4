@@ -23,7 +23,7 @@ namespace Xbim.Ifc4.Kernel
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcContext(IModel model) : base(model) 		{ 
 			Model = model; 
-			_representationContexts = new OptionalItemSet<IfcRepresentationContext>( this );
+			_representationContexts = new OptionalItemSet<IfcRepresentationContext>( this, 0 );
 		}
 
 		#region Explicit attribute fields
@@ -122,7 +122,7 @@ namespace Xbim.Ifc4.Kernel
 		{ 
 			get 
 			{
-				return Model.Instances.Where<IfcRelDeclares>(e => e.RelatingContext == this);
+				return Model.Instances.Where<IfcRelDeclares>(e => (e.RelatingContext as IfcContext) == this);
 			} 
 		}
 		#endregion

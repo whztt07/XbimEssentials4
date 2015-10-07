@@ -23,8 +23,8 @@ namespace Xbim.Ifc4.GeometricModelResource
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcSectionedSpine(IModel model) : base(model) 		{ 
 			Model = model; 
-			_crossSections = new ItemSet<IfcProfileDef>( this );
-			_crossSectionPositions = new ItemSet<IfcAxis2Placement3D>( this );
+			_crossSections = new ItemSet<IfcProfileDef>( this, 0 );
+			_crossSectionPositions = new ItemSet<IfcAxis2Placement3D>( this, 0 );
 		}
 
 		#region Explicit attribute fields

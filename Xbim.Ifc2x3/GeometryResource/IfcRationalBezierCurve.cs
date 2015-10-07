@@ -21,7 +21,7 @@ namespace Xbim.Ifc2x3.GeometryResource
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcRationalBezierCurve(IModel model) : base(model) 		{ 
 			Model = model; 
-			_weightsData = new ItemSet<double>( this );
+			_weightsData = new ItemSet<double>( this, 0 );
 		}
 
 		#region Explicit attribute fields

@@ -22,10 +22,10 @@ namespace Xbim.CobieExpress
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal CobieAsset(IModel model) : base(model) 		{ 
 			Model = model; 
-			_category = new ItemSet<CobiePickKeyValue>( this );
-			_impacts = new ItemSet<CobieImpact>( this );
-			_documents = new ItemSet<CobieDocument>( this );
-			_attributes = new ItemSet<CobieAttribute>( this );
+			_category = new ItemSet<CobiePickKeyValue>( this, 0 );
+			_impacts = new ItemSet<CobieImpact>( this, 0 );
+			_documents = new ItemSet<CobieDocument>( this, 0 );
+			_attributes = new ItemSet<CobieAttribute>( this, 0 );
 		}
 
 		#region Explicit attribute fields
@@ -120,7 +120,7 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				return Model.Instances.Where<CobieIssue>(e => e.Causing == this);
+				return Model.Instances.Where<CobieIssue>(e => (e.Causing as CobieAsset) == this);
 			} 
 		}
 		[EntityAttribute(-1, EntityAttributeState.Mandatory, EntityAttributeType.Set, EntityAttributeType.Class, -1, -1)]
@@ -128,7 +128,7 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				return Model.Instances.Where<CobieIssue>(e => e.Affected == this);
+				return Model.Instances.Where<CobieIssue>(e => (e.Affected as CobieAsset) == this);
 			} 
 		}
 		#endregion

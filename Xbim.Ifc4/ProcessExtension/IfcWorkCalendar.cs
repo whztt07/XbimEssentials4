@@ -25,8 +25,8 @@ namespace Xbim.Ifc4.ProcessExtension
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcWorkCalendar(IModel model) : base(model) 		{ 
 			Model = model; 
-			_workingTimes = new OptionalItemSet<IfcWorkTime>( this );
-			_exceptionTimes = new OptionalItemSet<IfcWorkTime>( this );
+			_workingTimes = new OptionalItemSet<IfcWorkTime>( this, 0 );
+			_exceptionTimes = new OptionalItemSet<IfcWorkTime>( this, 0 );
 		}
 
 		#region Explicit attribute fields

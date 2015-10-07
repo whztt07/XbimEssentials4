@@ -79,7 +79,7 @@ namespace Xbim.Ifc2x3.MeasureResource
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcUnitAssignment(IModel model) 		{ 
 			Model = model; 
-			_units = new ItemSet<IfcUnit>( this );
+			_units = new ItemSet<IfcUnit>( this, 0 );
 		}
 
 		#region Explicit attribute fields

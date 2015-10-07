@@ -22,7 +22,7 @@ namespace Xbim.Ifc4.GeometricModelResource
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcAdvancedBrepWithVoids(IModel model) : base(model) 		{ 
 			Model = model; 
-			_voids = new ItemSet<IfcClosedShell>( this );
+			_voids = new ItemSet<IfcClosedShell>( this, 0 );
 		}
 
 		#region Explicit attribute fields

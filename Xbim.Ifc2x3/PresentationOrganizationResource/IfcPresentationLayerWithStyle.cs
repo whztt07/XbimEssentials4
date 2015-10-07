@@ -23,7 +23,7 @@ namespace Xbim.Ifc2x3.PresentationOrganizationResource
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcPresentationLayerWithStyle(IModel model) : base(model) 		{ 
 			Model = model; 
-			_layerStyles = new ItemSet<IfcPresentationStyleSelect>( this );
+			_layerStyles = new ItemSet<IfcPresentationStyleSelect>( this, 0 );
 		}
 
 		#region Explicit attribute fields

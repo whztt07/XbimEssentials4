@@ -71,7 +71,7 @@ namespace Xbim.Ifc4.ExternalReferenceResource
 		{ 
 			get 
 			{
-				return Model.Instances.Where<IfcRelAssociatesDocument>(e => e.RelatingDocument == this);
+				return Model.Instances.Where<IfcRelAssociatesDocument>(e => (e.RelatingDocument as IfcDocumentReference) == this);
 			} 
 		}
 		#endregion

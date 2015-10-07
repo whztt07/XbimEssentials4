@@ -22,7 +22,7 @@ namespace Xbim.Ifc2x3.PresentationDefinitionResource
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcAnnotationFillArea(IModel model) : base(model) 		{ 
 			Model = model; 
-			_innerBoundaries = new OptionalItemSet<IfcCurve>( this );
+			_innerBoundaries = new OptionalItemSet<IfcCurve>( this, 0 );
 		}
 
 		#region Explicit attribute fields

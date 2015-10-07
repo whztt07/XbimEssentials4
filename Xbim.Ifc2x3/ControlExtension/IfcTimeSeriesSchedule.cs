@@ -26,7 +26,7 @@ namespace Xbim.Ifc2x3.ControlExtension
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcTimeSeriesSchedule(IModel model) : base(model) 		{ 
 			Model = model; 
-			_applicableDates = new OptionalItemSet<IfcDateTimeSelect>( this );
+			_applicableDates = new OptionalItemSet<IfcDateTimeSelect>( this, 0 );
 		}
 
 		#region Explicit attribute fields

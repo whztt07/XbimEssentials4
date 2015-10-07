@@ -22,7 +22,7 @@ namespace Xbim.Ifc4.ActorResource
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcPostalAddress(IModel model) : base(model) 		{ 
 			Model = model; 
-			_addressLines = new OptionalItemSet<IfcLabel>( this );
+			_addressLines = new OptionalItemSet<IfcLabel>( this, 0 );
 		}
 
 		#region Explicit attribute fields

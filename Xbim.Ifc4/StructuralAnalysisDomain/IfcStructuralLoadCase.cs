@@ -23,7 +23,7 @@ namespace Xbim.Ifc4.StructuralAnalysisDomain
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcStructuralLoadCase(IModel model) : base(model) 		{ 
 			Model = model; 
-			_selfWeightCoefficients = new OptionalItemSet<IfcRatioMeasure>( this );
+			_selfWeightCoefficients = new OptionalItemSet<IfcRatioMeasure>( this, 3 );
 		}
 
 		#region Explicit attribute fields

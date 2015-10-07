@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.SharedBldgElements
 {
-	public enum IfcCurtainWallTypeEnum
+	public enum IfcCurtainWallTypeEnum : byte
 	{
 		@USERDEFINED ,
 		@NOTDEFINED 

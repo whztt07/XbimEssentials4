@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.PresentationOrganizationResource
 {
-	public enum IfcLightEmissionSourceEnum
+	public enum IfcLightEmissionSourceEnum : byte
 	{
 		@COMPACTFLUORESCENT ,
 		@FLUORESCENT ,

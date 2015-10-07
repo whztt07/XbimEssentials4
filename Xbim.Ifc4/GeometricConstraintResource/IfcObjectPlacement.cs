@@ -88,7 +88,7 @@ namespace Xbim.Ifc4.GeometricConstraintResource
 		{ 
 			get 
 			{
-				return Model.Instances.Where<IfcProduct>(e => e.ObjectPlacement == this);
+				return Model.Instances.Where<IfcProduct>(e => (e.ObjectPlacement as IfcObjectPlacement) == this);
 			} 
 		}
 		[EntityAttribute(-1, EntityAttributeState.Mandatory, EntityAttributeType.Set, EntityAttributeType.Class, -1, -1)]
@@ -96,7 +96,7 @@ namespace Xbim.Ifc4.GeometricConstraintResource
 		{ 
 			get 
 			{
-				return Model.Instances.Where<IfcLocalPlacement>(e => e.PlacementRelTo == this);
+				return Model.Instances.Where<IfcLocalPlacement>(e => (e.PlacementRelTo as IfcObjectPlacement) == this);
 			} 
 		}
 		#endregion

@@ -24,7 +24,7 @@ namespace Xbim.Ifc2x3.MaterialPropertyResource
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcExtendedMaterialProperties(IModel model) : base(model) 		{ 
 			Model = model; 
-			_extendedProperties = new ItemSet<IfcProperty>( this );
+			_extendedProperties = new ItemSet<IfcProperty>( this, 0 );
 		}
 
 		#region Explicit attribute fields

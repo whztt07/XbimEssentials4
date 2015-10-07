@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc2x3.SharedMgmtElements
 {
-	public enum IfcProjectOrderTypeEnum
+	public enum IfcProjectOrderTypeEnum : byte
 	{
 		@CHANGEORDER ,
 		@MAINTENANCEWORKORDER ,

@@ -30,7 +30,7 @@ namespace Xbim.Ifc2x3.Kernel
 		{ 
 			get 
 			{
-				return Model.Instances.Where<IfcRelAssignsToResource>(e => e.RelatingResource == this);
+				return Model.Instances.Where<IfcRelAssignsToResource>(e => (e.RelatingResource as IfcResource) == this);
 			} 
 		}
 		#endregion

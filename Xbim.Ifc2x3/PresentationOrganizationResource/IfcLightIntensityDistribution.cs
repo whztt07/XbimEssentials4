@@ -78,7 +78,7 @@ namespace Xbim.Ifc2x3.PresentationOrganizationResource
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcLightIntensityDistribution(IModel model) 		{ 
 			Model = model; 
-			_distributionData = new ItemSet<IfcLightDistributionData>( this );
+			_distributionData = new ItemSet<IfcLightDistributionData>( this, 0 );
 		}
 
 		#region Explicit attribute fields

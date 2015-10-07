@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.HvacDomain
 {
-	public enum IfcCompressorTypeEnum
+	public enum IfcCompressorTypeEnum : byte
 	{
 		@DYNAMIC ,
 		@RECIPROCATING ,

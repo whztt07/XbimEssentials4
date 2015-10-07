@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.ProcessExtension
 {
-	public enum IfcWorkPlanTypeEnum
+	public enum IfcWorkPlanTypeEnum : byte
 	{
 		@ACTUAL ,
 		@BASELINE ,

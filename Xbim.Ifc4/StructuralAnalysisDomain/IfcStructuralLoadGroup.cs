@@ -118,7 +118,7 @@ namespace Xbim.Ifc4.StructuralAnalysisDomain
 		{ 
 			get 
 			{
-				return Model.Instances.Where<IfcStructuralResultGroup>(e => e.ResultForLoadGroup == this);
+				return Model.Instances.Where<IfcStructuralResultGroup>(e => (e.ResultForLoadGroup as IfcStructuralLoadGroup) == this);
 			} 
 		}
 		[EntityAttribute(-1, EntityAttributeState.Mandatory, EntityAttributeType.Set, EntityAttributeType.Class, -1, -1)]

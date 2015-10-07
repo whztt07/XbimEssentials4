@@ -82,8 +82,8 @@ namespace Xbim.Ifc4.ActorResource
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcOrganization(IModel model) 		{ 
 			Model = model; 
-			_roles = new OptionalItemSet<IfcActorRole>( this );
-			_addresses = new OptionalItemSet<IfcAddress>( this );
+			_roles = new OptionalItemSet<IfcActorRole>( this, 0 );
+			_addresses = new OptionalItemSet<IfcAddress>( this, 0 );
 		}
 
 		#region Explicit attribute fields
@@ -179,7 +179,7 @@ namespace Xbim.Ifc4.ActorResource
 		{ 
 			get 
 			{
-				return Model.Instances.Where<IfcOrganizationRelationship>(e => e.RelatingOrganization == this);
+				return Model.Instances.Where<IfcOrganizationRelationship>(e => (e.RelatingOrganization as IfcOrganization) == this);
 			} 
 		}
 		[EntityAttribute(-1, EntityAttributeState.Mandatory, EntityAttributeType.Set, EntityAttributeType.Class, -1, -1)]
@@ -187,7 +187,7 @@ namespace Xbim.Ifc4.ActorResource
 		{ 
 			get 
 			{
-				return Model.Instances.Where<IfcPersonAndOrganization>(e => e.TheOrganization == this);
+				return Model.Instances.Where<IfcPersonAndOrganization>(e => (e.TheOrganization as IfcOrganization) == this);
 			} 
 		}
 		#endregion

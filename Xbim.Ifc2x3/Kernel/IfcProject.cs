@@ -24,7 +24,7 @@ namespace Xbim.Ifc2x3.Kernel
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcProject(IModel model) : base(model) 		{ 
 			Model = model; 
-			_representationContexts = new ItemSet<IfcRepresentationContext>( this );
+			_representationContexts = new ItemSet<IfcRepresentationContext>( this, 0 );
 		}
 
 		#region Explicit attribute fields

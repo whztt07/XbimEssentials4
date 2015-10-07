@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.HvacDomain
 {
-	public enum IfcFlowMeterTypeEnum
+	public enum IfcFlowMeterTypeEnum : byte
 	{
 		@ENERGYMETER ,
 		@GASMETER ,

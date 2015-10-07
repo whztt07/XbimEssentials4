@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.StructuralAnalysisDomain
 {
-	public enum IfcStructuralSurfaceMemberTypeEnum
+	public enum IfcStructuralSurfaceMemberTypeEnum : byte
 	{
 		@BENDING_ELEMENT ,
 		@MEMBRANE_ELEMENT ,

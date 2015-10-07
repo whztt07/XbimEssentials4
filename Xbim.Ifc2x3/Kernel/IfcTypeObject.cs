@@ -23,7 +23,7 @@ namespace Xbim.Ifc2x3.Kernel
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcTypeObject(IModel model) : base(model) 		{ 
 			Model = model; 
-			_hasPropertySets = new OptionalItemSet<IfcPropertySetDefinition>( this );
+			_hasPropertySets = new OptionalItemSet<IfcPropertySetDefinition>( this, 0 );
 		}
 
 		#region Explicit attribute fields
@@ -67,7 +67,7 @@ namespace Xbim.Ifc2x3.Kernel
 		{ 
 			get 
 			{
-				return Model.Instances.Where<IfcRelDefinesByType>(e => e.RelatingType == this);
+				return Model.Instances.Where<IfcRelDefinesByType>(e => (e.RelatingType as IfcTypeObject) == this);
 			} 
 		}
 		#endregion

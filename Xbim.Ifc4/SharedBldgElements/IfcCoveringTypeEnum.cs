@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.SharedBldgElements
 {
-	public enum IfcCoveringTypeEnum
+	public enum IfcCoveringTypeEnum : byte
 	{
 		@CEILING ,
 		@FLOORING ,

@@ -25,7 +25,7 @@ namespace Xbim.Ifc2x3.FacilitiesMgmtDomain
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcMove(IModel model) : base(model) 		{ 
 			Model = model; 
-			_punchList = new OptionalItemSet<IfcText>( this );
+			_punchList = new OptionalItemSet<IfcText>( this, 0 );
 		}
 
 		#region Explicit attribute fields

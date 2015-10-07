@@ -80,7 +80,7 @@ namespace Xbim.Ifc4.RepresentationResource
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcShapeAspect(IModel model) 		{ 
 			Model = model; 
-			_shapeRepresentations = new ItemSet<IfcShapeModel>( this );
+			_shapeRepresentations = new ItemSet<IfcShapeModel>( this, 0 );
 		}
 
 		#region Explicit attribute fields

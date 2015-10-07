@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.MeasureResource
 {
-	public enum IfcSIUnitName
+	public enum IfcSIUnitName : byte
 	{
 		@AMPERE ,
 		@BECQUEREL ,

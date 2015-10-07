@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.SharedFacilitiesElements
 {
-	public enum IfcFurnitureTypeEnum
+	public enum IfcFurnitureTypeEnum : byte
 	{
 		@CHAIR ,
 		@TABLE ,

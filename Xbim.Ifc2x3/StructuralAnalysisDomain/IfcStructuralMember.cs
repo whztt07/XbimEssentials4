@@ -30,7 +30,7 @@ namespace Xbim.Ifc2x3.StructuralAnalysisDomain
 		{ 
 			get 
 			{
-				return Model.Instances.Where<IfcRelConnectsStructuralElement>(e => e.RelatedStructuralMember == this);
+				return Model.Instances.Where<IfcRelConnectsStructuralElement>(e => (e.RelatedStructuralMember as IfcStructuralMember) == this);
 			} 
 		}
 		[EntityAttribute(-1, EntityAttributeState.Mandatory, EntityAttributeType.Set, EntityAttributeType.Class, -1, -1)]
@@ -38,7 +38,7 @@ namespace Xbim.Ifc2x3.StructuralAnalysisDomain
 		{ 
 			get 
 			{
-				return Model.Instances.Where<IfcRelConnectsStructuralMember>(e => e.RelatingStructuralMember == this);
+				return Model.Instances.Where<IfcRelConnectsStructuralMember>(e => (e.RelatingStructuralMember as IfcStructuralMember) == this);
 			} 
 		}
 		#endregion

@@ -207,7 +207,7 @@ namespace Xbim.Ifc2x3.ApprovalResource
 		{ 
 			get 
 			{
-				return Model.Instances.Where<IfcApprovalActorRelationship>(e => e.Approval == this);
+				return Model.Instances.Where<IfcApprovalActorRelationship>(e => (e.Approval as IfcApproval) == this);
 			} 
 		}
 		[EntityAttribute(-1, EntityAttributeState.Mandatory, EntityAttributeType.Set, EntityAttributeType.Class, -1, -1)]
@@ -215,7 +215,7 @@ namespace Xbim.Ifc2x3.ApprovalResource
 		{ 
 			get 
 			{
-				return Model.Instances.Where<IfcApprovalRelationship>(e => e.RelatedApproval == this);
+				return Model.Instances.Where<IfcApprovalRelationship>(e => (e.RelatedApproval as IfcApproval) == this);
 			} 
 		}
 		[EntityAttribute(-1, EntityAttributeState.Mandatory, EntityAttributeType.Set, EntityAttributeType.Class, -1, -1)]
@@ -223,7 +223,7 @@ namespace Xbim.Ifc2x3.ApprovalResource
 		{ 
 			get 
 			{
-				return Model.Instances.Where<IfcApprovalRelationship>(e => e.RelatingApproval == this);
+				return Model.Instances.Where<IfcApprovalRelationship>(e => (e.RelatingApproval as IfcApproval) == this);
 			} 
 		}
 		#endregion

@@ -26,8 +26,8 @@ namespace Xbim.Ifc4.SharedMgmtElements
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcCostItem(IModel model) : base(model) 		{ 
 			Model = model; 
-			_costValues = new OptionalItemSet<IfcCostValue>( this );
-			_costQuantities = new OptionalItemSet<IfcPhysicalQuantity>( this );
+			_costValues = new OptionalItemSet<IfcCostValue>( this, 0 );
+			_costQuantities = new OptionalItemSet<IfcPhysicalQuantity>( this, 0 );
 		}
 
 		#region Explicit attribute fields

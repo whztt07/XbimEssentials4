@@ -52,7 +52,7 @@ namespace Xbim.Ifc2x3.StructuralAnalysisDomain
 		{ 
 			get 
 			{
-				return Model.Instances.Where<IfcRelConnectsStructuralMember>(e => e.RelatedStructuralConnection == this);
+				return Model.Instances.Where<IfcRelConnectsStructuralMember>(e => (e.RelatedStructuralConnection as IfcStructuralConnection) == this);
 			} 
 		}
 		#endregion

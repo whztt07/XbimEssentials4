@@ -24,7 +24,7 @@ namespace Xbim.Ifc2x3.PresentationResource
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcTextStyleFontModel(IModel model) : base(model) 		{ 
 			Model = model; 
-			_fontFamily = new OptionalItemSet<IfcTextFontName>( this );
+			_fontFamily = new OptionalItemSet<IfcTextFontName>( this, 0 );
 		}
 
 		#region Explicit attribute fields

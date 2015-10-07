@@ -22,7 +22,7 @@ namespace Xbim.CobieExpress
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal CobieZone(IModel model) : base(model) 		{ 
 			Model = model; 
-			_spaces = new ItemSet<CobieSpace>( this );
+			_spaces = new ItemSet<CobieSpace>( this, 0 );
 		}
 
 		#region Explicit attribute fields

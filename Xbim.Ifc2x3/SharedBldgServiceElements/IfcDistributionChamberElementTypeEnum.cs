@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc2x3.SharedBldgServiceElements
 {
-	public enum IfcDistributionChamberElementTypeEnum
+	public enum IfcDistributionChamberElementTypeEnum : byte
 	{
 		@FORMEDDUCT ,
 		@INSPECTIONCHAMBER ,

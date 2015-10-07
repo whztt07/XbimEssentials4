@@ -55,7 +55,7 @@ namespace Xbim.Ifc4.ProductExtension
 		{ 
 			get 
 			{
-				return Model.Instances.Where<IfcRelSpaceBoundary>(e => e.RelatingSpace == this);
+				return Model.Instances.Where<IfcRelSpaceBoundary>(e => (e.RelatingSpace as IfcExternalSpatialElement) == this);
 			} 
 		}
 		#endregion

@@ -24,7 +24,7 @@ namespace Xbim.Ifc4.ApprovalResource
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcApprovalRelationship(IModel model) : base(model) 		{ 
 			Model = model; 
-			_relatedApprovals = new ItemSet<IfcApproval>( this );
+			_relatedApprovals = new ItemSet<IfcApproval>( this, 0 );
 		}
 
 		#region Explicit attribute fields

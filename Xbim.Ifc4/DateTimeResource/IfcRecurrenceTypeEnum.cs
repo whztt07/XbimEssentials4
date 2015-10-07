@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.DateTimeResource
 {
-	public enum IfcRecurrenceTypeEnum
+	public enum IfcRecurrenceTypeEnum : byte
 	{
 		@DAILY ,
 		@WEEKLY ,

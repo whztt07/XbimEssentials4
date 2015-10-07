@@ -117,7 +117,7 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				return Model.Instances.Where<CobieComponent>(e => e.Space == this);
+				return Model.Instances.Where<CobieComponent>(e => (e.Space as CobieSpace) == this);
 			} 
 		}
 		[EntityAttribute(-1, EntityAttributeState.Mandatory, EntityAttributeType.Set, EntityAttributeType.Class, -1, -1)]

@@ -82,8 +82,8 @@ namespace Xbim.Ifc4.UtilityResource
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcTable(IModel model) 		{ 
 			Model = model; 
-			_rows = new OptionalItemSet<IfcTableRow>( this );
-			_columns = new OptionalItemSet<IfcTableColumn>( this );
+			_rows = new OptionalItemSet<IfcTableRow>( this, 0 );
+			_columns = new OptionalItemSet<IfcTableColumn>( this, 0 );
 		}
 
 		#region Explicit attribute fields

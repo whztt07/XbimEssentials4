@@ -87,7 +87,7 @@ namespace Xbim.Ifc4.ExternalReferenceResource
 		{ 
 			get 
 			{
-				return Model.Instances.Where<IfcRelAssociatesClassification>(e => e.RelatingClassification == this);
+				return Model.Instances.Where<IfcRelAssociatesClassification>(e => (e.RelatingClassification as IfcClassificationReference) == this);
 			} 
 		}
 		[EntityAttribute(-1, EntityAttributeState.Mandatory, EntityAttributeType.Set, EntityAttributeType.Class, -1, -1)]
@@ -95,7 +95,7 @@ namespace Xbim.Ifc4.ExternalReferenceResource
 		{ 
 			get 
 			{
-				return Model.Instances.Where<IfcClassificationReference>(e => e.ReferencedSource == this);
+				return Model.Instances.Where<IfcClassificationReference>(e => (e.ReferencedSource as IfcClassificationReference) == this);
 			} 
 		}
 		#endregion

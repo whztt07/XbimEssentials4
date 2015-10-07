@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.StructuralElementsDomain
 {
-	public enum IfcPileTypeEnum
+	public enum IfcPileTypeEnum : byte
 	{
 		@BORED ,
 		@DRIVEN ,

@@ -82,7 +82,7 @@ namespace Xbim.Ifc4.RepresentationResource
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcRepresentation(IModel model) 		{ 
 			Model = model; 
-			_items = new ItemSet<IfcRepresentationItem>( this );
+			_items = new ItemSet<IfcRepresentationItem>( this, 0 );
 		}
 
 		#region Explicit attribute fields
@@ -158,7 +158,7 @@ namespace Xbim.Ifc4.RepresentationResource
 		{ 
 			get 
 			{
-				return Model.Instances.Where<IfcRepresentationMap>(e => e.MappedRepresentation == this);
+				return Model.Instances.Where<IfcRepresentationMap>(e => (e.MappedRepresentation as IfcRepresentation) == this);
 			} 
 		}
 		[EntityAttribute(-1, EntityAttributeState.Mandatory, EntityAttributeType.Set, EntityAttributeType.Class, -1, -1)]

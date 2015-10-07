@@ -25,8 +25,8 @@ namespace Xbim.Ifc2x3.SharedBldgElements
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcRelConnectsPathElements(IModel model) : base(model) 		{ 
 			Model = model; 
-			_relatingPriorities = new ItemSet<long>( this );
-			_relatedPriorities = new ItemSet<long>( this );
+			_relatingPriorities = new ItemSet<long>( this, 0 );
+			_relatedPriorities = new ItemSet<long>( this, 0 );
 		}
 
 		#region Explicit attribute fields

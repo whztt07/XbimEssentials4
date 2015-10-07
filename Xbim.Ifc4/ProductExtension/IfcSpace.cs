@@ -72,7 +72,7 @@ namespace Xbim.Ifc4.ProductExtension
 		{ 
 			get 
 			{
-				return Model.Instances.Where<IfcRelCoversSpaces>(e => e.RelatingSpace == this);
+				return Model.Instances.Where<IfcRelCoversSpaces>(e => (e.RelatingSpace as IfcSpace) == this);
 			} 
 		}
 		[EntityAttribute(-1, EntityAttributeState.Mandatory, EntityAttributeType.Set, EntityAttributeType.Class, -1, -1)]
@@ -80,7 +80,7 @@ namespace Xbim.Ifc4.ProductExtension
 		{ 
 			get 
 			{
-				return Model.Instances.Where<IfcRelSpaceBoundary>(e => e.RelatingSpace == this);
+				return Model.Instances.Where<IfcRelSpaceBoundary>(e => (e.RelatingSpace as IfcSpace) == this);
 			} 
 		}
 		#endregion

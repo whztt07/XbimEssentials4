@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc2x3.ElectricalDomain
 {
-	public enum IfcElectricDistributionPointFunctionEnum
+	public enum IfcElectricDistributionPointFunctionEnum : byte
 	{
 		@ALARMPANEL ,
 		@CONSUMERUNIT ,

@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.StructuralElementsDomain
 {
-	public enum IfcSurfaceFeatureTypeEnum
+	public enum IfcSurfaceFeatureTypeEnum : byte
 	{
 		@MARK ,
 		@TAG ,

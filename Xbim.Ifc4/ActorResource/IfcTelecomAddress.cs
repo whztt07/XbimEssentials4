@@ -23,10 +23,10 @@ namespace Xbim.Ifc4.ActorResource
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcTelecomAddress(IModel model) : base(model) 		{ 
 			Model = model; 
-			_telephoneNumbers = new OptionalItemSet<IfcLabel>( this );
-			_facsimileNumbers = new OptionalItemSet<IfcLabel>( this );
-			_electronicMailAddresses = new OptionalItemSet<IfcLabel>( this );
-			_messagingIDs = new OptionalItemSet<IfcURIReference>( this );
+			_telephoneNumbers = new OptionalItemSet<IfcLabel>( this, 0 );
+			_facsimileNumbers = new OptionalItemSet<IfcLabel>( this, 0 );
+			_electronicMailAddresses = new OptionalItemSet<IfcLabel>( this, 0 );
+			_messagingIDs = new OptionalItemSet<IfcURIReference>( this, 0 );
 		}
 
 		#region Explicit attribute fields

@@ -312,6 +312,9 @@ namespace Xbim.IO.Memory
 
         public void Dispose()
         {
+            _instances.Dispose();
+            _deteteCandidatesCache.Clear();
+            _transactionReference = null;
         }
     }
 }

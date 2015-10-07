@@ -23,7 +23,7 @@ namespace Xbim.Ifc4.Kernel
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcComplexPropertyTemplate(IModel model) : base(model) 		{ 
 			Model = model; 
-			_hasPropertyTemplates = new OptionalItemSet<IfcPropertyTemplate>( this );
+			_hasPropertyTemplates = new OptionalItemSet<IfcPropertyTemplate>( this, 0 );
 		}
 
 		#region Explicit attribute fields

@@ -157,7 +157,7 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				return Model.Instances.Where<CobieFacility>(e => e.Site == this);
+				return Model.Instances.Where<CobieFacility>(e => (e.Site as CobieSite) == this);
 			} 
 		}
 		#endregion

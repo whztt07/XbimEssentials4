@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.HvacDomain
 {
-	public enum IfcTubeBundleTypeEnum
+	public enum IfcTubeBundleTypeEnum : byte
 	{
 		@FINNED ,
 		@USERDEFINED ,

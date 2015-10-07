@@ -82,8 +82,8 @@ namespace Xbim.Ifc2x3.ExternalReferenceResource
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcDocumentInformation(IModel model) 		{ 
 			Model = model; 
-			_documentReferences = new OptionalItemSet<IfcDocumentReference>( this );
-			_editors = new OptionalItemSet<IfcActorSelect>( this );
+			_documentReferences = new OptionalItemSet<IfcDocumentReference>( this, 0 );
+			_editors = new OptionalItemSet<IfcActorSelect>( this, 0 );
 		}
 
 		#region Explicit attribute fields
@@ -371,7 +371,7 @@ namespace Xbim.Ifc2x3.ExternalReferenceResource
 		{ 
 			get 
 			{
-				return Model.Instances.Where<IfcDocumentInformationRelationship>(e => e.RelatingDocument == this);
+				return Model.Instances.Where<IfcDocumentInformationRelationship>(e => (e.RelatingDocument as IfcDocumentInformation) == this);
 			} 
 		}
 		#endregion

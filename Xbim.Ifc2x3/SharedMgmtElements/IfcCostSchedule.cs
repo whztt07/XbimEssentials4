@@ -26,7 +26,7 @@ namespace Xbim.Ifc2x3.SharedMgmtElements
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcCostSchedule(IModel model) : base(model) 		{ 
 			Model = model; 
-			_targetUsers = new OptionalItemSet<IfcActorSelect>( this );
+			_targetUsers = new OptionalItemSet<IfcActorSelect>( this, 0 );
 		}
 
 		#region Explicit attribute fields

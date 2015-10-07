@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc2x3.SharedBldgElements
 {
-	public enum IfcWindowStyleOperationEnum
+	public enum IfcWindowStyleOperationEnum : byte
 	{
 		@SINGLE_PANEL ,
 		@DOUBLE_PANEL_VERTICAL ,

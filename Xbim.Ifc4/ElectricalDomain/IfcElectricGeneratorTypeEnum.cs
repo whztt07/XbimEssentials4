@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.ElectricalDomain
 {
-	public enum IfcElectricGeneratorTypeEnum
+	public enum IfcElectricGeneratorTypeEnum : byte
 	{
 		@CHP ,
 		@ENGINEGENERATOR ,

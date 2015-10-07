@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.SharedComponentElements
 {
-	public enum IfcBuildingElementPartTypeEnum
+	public enum IfcBuildingElementPartTypeEnum : byte
 	{
 		@INSULATION ,
 		@PRECASTPANEL ,

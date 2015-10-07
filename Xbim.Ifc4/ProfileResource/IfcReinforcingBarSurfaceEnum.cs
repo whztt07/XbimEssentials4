@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.ProfileResource
 {
-	public enum IfcReinforcingBarSurfaceEnum
+	public enum IfcReinforcingBarSurfaceEnum : byte
 	{
 		@PLAIN ,
 		@TEXTURED 

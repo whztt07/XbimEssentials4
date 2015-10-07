@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.ProcessExtension
 {
-	public enum IfcProcedureTypeEnum
+	public enum IfcProcedureTypeEnum : byte
 	{
 		@ADVICE_CAUTION ,
 		@ADVICE_NOTE ,

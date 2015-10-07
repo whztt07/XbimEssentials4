@@ -26,9 +26,9 @@ namespace Xbim.Ifc2x3.ProductExtension
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcGrid(IModel model) : base(model) 		{ 
 			Model = model; 
-			_uAxes = new ItemSet<IfcGridAxis>( this );
-			_vAxes = new ItemSet<IfcGridAxis>( this );
-			_wAxes = new OptionalItemSet<IfcGridAxis>( this );
+			_uAxes = new ItemSet<IfcGridAxis>( this, 0 );
+			_vAxes = new ItemSet<IfcGridAxis>( this, 0 );
+			_wAxes = new OptionalItemSet<IfcGridAxis>( this, 0 );
 		}
 
 		#region Explicit attribute fields

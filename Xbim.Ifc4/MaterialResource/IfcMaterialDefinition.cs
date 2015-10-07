@@ -90,7 +90,7 @@ namespace Xbim.Ifc4.MaterialResource
 		{ 
 			get 
 			{
-				return Model.Instances.Where<IfcRelAssociatesMaterial>(e => e.RelatingMaterial == this);
+				return Model.Instances.Where<IfcRelAssociatesMaterial>(e => (e.RelatingMaterial as IfcMaterialDefinition) == this);
 			} 
 		}
 		[EntityAttribute(-1, EntityAttributeState.Mandatory, EntityAttributeType.Set, EntityAttributeType.Class, -1, -1)]
@@ -106,7 +106,7 @@ namespace Xbim.Ifc4.MaterialResource
 		{ 
 			get 
 			{
-				return Model.Instances.Where<IfcMaterialProperties>(e => e.Material == this);
+				return Model.Instances.Where<IfcMaterialProperties>(e => (e.Material as IfcMaterialDefinition) == this);
 			} 
 		}
 		#endregion

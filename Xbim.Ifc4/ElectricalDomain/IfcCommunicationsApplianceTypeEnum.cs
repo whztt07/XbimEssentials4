@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.ElectricalDomain
 {
-	public enum IfcCommunicationsApplianceTypeEnum
+	public enum IfcCommunicationsApplianceTypeEnum : byte
 	{
 		@ANTENNA ,
 		@COMPUTER ,

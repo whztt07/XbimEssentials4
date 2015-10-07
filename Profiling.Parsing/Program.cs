@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Diagnostics;
-using log4net;
-using Xbim.Common.Metadata;
+using System.IO;
 using Xbim.Ifc2x3;
 using Xbim.Ifc2x3.IO;
-using Xbim.Ifc2x3.SharedBldgElements;
 using Xbim.IO.Memory;
 
 namespace Profiling.Parsing
@@ -17,26 +15,33 @@ namespace Profiling.Parsing
             const string name = "Lakeside.ifc";
             var w = new Stopwatch();
             
-            w.Start();
             using (var model = new XbimModel())
             {
+                w.Start();
                 model.CreateFrom(name);
                 w.Stop();
+                Console.WriteLine("{0}ms to create Esent model", w.ElapsedMilliseconds);
                 model.Close();
             }
+            
+            //using (var model = new XbimModel())
+            //{
+            //    w.Restart();
+            //    model.Open(Path.ChangeExtension(name, ".xbim"));
+            //    w.Stop();
+            
+            //    Console.WriteLine("{0}ms to open Esent model", w.ElapsedMilliseconds);
+            //    model.Close();
+            //}
 
-            //var type = ExpressMetaData.ExpressType(typeof (IfcWall));
-            //w.Stop();
 
-            Console.WriteLine("{0}ms to create Esent model", w.ElapsedMilliseconds);
+            w.Restart();
+            var model2 = new MemoryModel<EntityFactory>();
+            model2.Open(name);
+            w.Stop();
+            Console.WriteLine("{0}ms to load memory model", w.ElapsedMilliseconds);
 
-            //w.Start();
-            //var model2 = new MemoryModel<EntityFactory>();
-            //model2.Open(name);
-            //w.Stop();
-            //Console.WriteLine("{0}ms to load memory model", w.ElapsedMilliseconds);
-
-            Console.ReadLine();
+            //Console.ReadLine();
         }
     }
 }

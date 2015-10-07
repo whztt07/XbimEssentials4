@@ -25,7 +25,7 @@ namespace Xbim.Ifc4.ConstructionMgmtDomain
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcConstructionResource(IModel model) : base(model) 		{ 
 			Model = model; 
-			_baseCosts = new OptionalItemSet<IfcAppliedValue>( this );
+			_baseCosts = new OptionalItemSet<IfcAppliedValue>( this, 0 );
 		}
 
 		#region Explicit attribute fields

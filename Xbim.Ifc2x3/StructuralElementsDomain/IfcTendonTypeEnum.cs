@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc2x3.StructuralElementsDomain
 {
-	public enum IfcTendonTypeEnum
+	public enum IfcTendonTypeEnum : byte
 	{
 		@STRAND ,
 		@WIRE ,

@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc2x3.ConstraintResource
 {
-	public enum IfcBenchmarkEnum
+	public enum IfcBenchmarkEnum : byte
 	{
 		@GREATERTHAN ,
 		@GREATERTHANOREQUALTO ,

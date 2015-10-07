@@ -23,8 +23,8 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcFillAreaStyleTiles(IModel model) : base(model) 		{ 
 			Model = model; 
-			_tilingPattern = new ItemSet<IfcVector>( this );
-			_tiles = new ItemSet<IfcStyledItem>( this );
+			_tilingPattern = new ItemSet<IfcVector>( this, 2 );
+			_tiles = new ItemSet<IfcStyledItem>( this, 0 );
 		}
 
 		#region Explicit attribute fields

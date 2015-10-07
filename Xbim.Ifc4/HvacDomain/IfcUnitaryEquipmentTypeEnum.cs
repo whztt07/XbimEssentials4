@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.HvacDomain
 {
-	public enum IfcUnitaryEquipmentTypeEnum
+	public enum IfcUnitaryEquipmentTypeEnum : byte
 	{
 		@AIRHANDLER ,
 		@AIRCONDITIONINGUNIT ,

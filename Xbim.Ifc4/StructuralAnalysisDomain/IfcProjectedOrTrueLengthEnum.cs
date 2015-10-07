@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.StructuralAnalysisDomain
 {
-	public enum IfcProjectedOrTrueLengthEnum
+	public enum IfcProjectedOrTrueLengthEnum : byte
 	{
 		@PROJECTED_LENGTH ,
 		@TRUE_LENGTH 

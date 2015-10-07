@@ -126,7 +126,7 @@ namespace Xbim.Ifc2x3.PropertyResource
 		{ 
 			get 
 			{
-				return Model.Instances.Where<IfcPropertyDependencyRelationship>(e => e.DependingProperty == this);
+				return Model.Instances.Where<IfcPropertyDependencyRelationship>(e => (e.DependingProperty as IfcProperty) == this);
 			} 
 		}
 		[EntityAttribute(-1, EntityAttributeState.Mandatory, EntityAttributeType.Set, EntityAttributeType.Class, -1, -1)]
@@ -134,7 +134,7 @@ namespace Xbim.Ifc2x3.PropertyResource
 		{ 
 			get 
 			{
-				return Model.Instances.Where<IfcPropertyDependencyRelationship>(e => e.DependantProperty == this);
+				return Model.Instances.Where<IfcPropertyDependencyRelationship>(e => (e.DependantProperty as IfcProperty) == this);
 			} 
 		}
 		[EntityAttribute(-1, EntityAttributeState.Mandatory, EntityAttributeType.Set, EntityAttributeType.Class, -1, -1)]

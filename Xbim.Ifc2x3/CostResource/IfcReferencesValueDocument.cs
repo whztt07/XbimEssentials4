@@ -81,7 +81,7 @@ namespace Xbim.Ifc2x3.CostResource
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcReferencesValueDocument(IModel model) 		{ 
 			Model = model; 
-			_referencingValues = new ItemSet<IfcAppliedValue>( this );
+			_referencingValues = new ItemSet<IfcAppliedValue>( this, 0 );
 		}
 
 		#region Explicit attribute fields

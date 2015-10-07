@@ -71,7 +71,7 @@ namespace Xbim.Ifc2x3.Kernel
 		{ 
 			get 
 			{
-				return Model.Instances.Where<IfcRelAssignsToProduct>(e => e.RelatingProduct == this);
+				return Model.Instances.Where<IfcRelAssignsToProduct>(e => (e.RelatingProduct as IfcProduct) == this);
 			} 
 		}
 		#endregion

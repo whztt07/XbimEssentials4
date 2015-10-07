@@ -22,7 +22,7 @@ namespace Xbim.CobieExpress
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal CobieComponent(IModel model) : base(model) 		{ 
 			Model = model; 
-			_assemblyOf = new ItemSet<CobieComponent>( this );
+			_assemblyOf = new ItemSet<CobieComponent>( this, 0 );
 		}
 
 		#region Explicit attribute fields
@@ -187,7 +187,7 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				return Model.Instances.Where<CobieConnection>(e => e.ComponentA == this);
+				return Model.Instances.Where<CobieConnection>(e => (e.ComponentA as CobieComponent) == this);
 			} 
 		}
 		[EntityAttribute(-1, EntityAttributeState.Mandatory, EntityAttributeType.Set, EntityAttributeType.Class, -1, -1)]
@@ -195,7 +195,7 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				return Model.Instances.Where<CobieConnection>(e => e.ComponentB == this);
+				return Model.Instances.Where<CobieConnection>(e => (e.ComponentB as CobieComponent) == this);
 			} 
 		}
 		[EntityAttribute(-1, EntityAttributeState.Mandatory, EntityAttributeType.Set, EntityAttributeType.Class, -1, -1)]
@@ -203,7 +203,7 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				return Model.Instances.Where<CobieConnection>(e => e.RealizingComponent == this);
+				return Model.Instances.Where<CobieConnection>(e => (e.RealizingComponent as CobieComponent) == this);
 			} 
 		}
 		#endregion

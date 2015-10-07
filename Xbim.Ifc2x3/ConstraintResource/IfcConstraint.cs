@@ -208,7 +208,7 @@ namespace Xbim.Ifc2x3.ConstraintResource
 		{ 
 			get 
 			{
-				return Model.Instances.Where<IfcConstraintClassificationRelationship>(e => e.ClassifiedConstraint == this);
+				return Model.Instances.Where<IfcConstraintClassificationRelationship>(e => (e.ClassifiedConstraint as IfcConstraint) == this);
 			} 
 		}
 		[EntityAttribute(-1, EntityAttributeState.Mandatory, EntityAttributeType.Set, EntityAttributeType.Class, -1, -1)]
@@ -216,7 +216,7 @@ namespace Xbim.Ifc2x3.ConstraintResource
 		{ 
 			get 
 			{
-				return Model.Instances.Where<IfcConstraintRelationship>(e => e.RelatingConstraint == this);
+				return Model.Instances.Where<IfcConstraintRelationship>(e => (e.RelatingConstraint as IfcConstraint) == this);
 			} 
 		}
 		[EntityAttribute(-1, EntityAttributeState.Mandatory, EntityAttributeType.Set, EntityAttributeType.Class, -1, -1)]
@@ -232,7 +232,7 @@ namespace Xbim.Ifc2x3.ConstraintResource
 		{ 
 			get 
 			{
-				return Model.Instances.Where<IfcPropertyConstraintRelationship>(e => e.RelatingConstraint == this);
+				return Model.Instances.Where<IfcPropertyConstraintRelationship>(e => (e.RelatingConstraint as IfcConstraint) == this);
 			} 
 		}
 		[EntityAttribute(-1, EntityAttributeState.Mandatory, EntityAttributeType.Set, EntityAttributeType.Class, -1, -1)]
@@ -240,7 +240,7 @@ namespace Xbim.Ifc2x3.ConstraintResource
 		{ 
 			get 
 			{
-				return Model.Instances.Where<IfcConstraintAggregationRelationship>(e => e.RelatingConstraint == this);
+				return Model.Instances.Where<IfcConstraintAggregationRelationship>(e => (e.RelatingConstraint as IfcConstraint) == this);
 			} 
 		}
 		[EntityAttribute(-1, EntityAttributeState.Mandatory, EntityAttributeType.Set, EntityAttributeType.Class, -1, -1)]

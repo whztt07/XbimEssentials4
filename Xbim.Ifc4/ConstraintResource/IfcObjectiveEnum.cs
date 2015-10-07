@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.ConstraintResource
 {
-	public enum IfcObjectiveEnum
+	public enum IfcObjectiveEnum : byte
 	{
 		@CODECOMPLIANCE ,
 		@CODEWAIVER ,

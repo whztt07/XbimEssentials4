@@ -97,7 +97,7 @@ namespace Xbim.Ifc4.GeometryResource
 		{ 
 			get 
 			{
-				return Model.Instances.Where<IfcStyledItem>(e => e.Item == this);
+				return Model.Instances.Where<IfcStyledItem>(e => (e.Item as IfcRepresentationItem) == this);
 			} 
 		}
 		#endregion

@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.SharedBldgElements
 {
-	public enum IfcChimneyTypeEnum
+	public enum IfcChimneyTypeEnum : byte
 	{
 		@USERDEFINED ,
 		@NOTDEFINED 

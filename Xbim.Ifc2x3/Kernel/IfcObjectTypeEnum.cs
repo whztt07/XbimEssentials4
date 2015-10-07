@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc2x3.Kernel
 {
-	public enum IfcObjectTypeEnum
+	public enum IfcObjectTypeEnum : byte
 	{
 		@PRODUCT ,
 		@PROCESS ,

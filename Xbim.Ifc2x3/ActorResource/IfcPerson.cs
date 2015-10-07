@@ -81,11 +81,11 @@ namespace Xbim.Ifc2x3.ActorResource
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcPerson(IModel model) 		{ 
 			Model = model; 
-			_middleNames = new OptionalItemSet<IfcLabel>( this );
-			_prefixTitles = new OptionalItemSet<IfcLabel>( this );
-			_suffixTitles = new OptionalItemSet<IfcLabel>( this );
-			_roles = new OptionalItemSet<IfcActorRole>( this );
-			_addresses = new OptionalItemSet<IfcAddress>( this );
+			_middleNames = new OptionalItemSet<IfcLabel>( this, 0 );
+			_prefixTitles = new OptionalItemSet<IfcLabel>( this, 0 );
+			_suffixTitles = new OptionalItemSet<IfcLabel>( this, 0 );
+			_roles = new OptionalItemSet<IfcActorRole>( this, 0 );
+			_addresses = new OptionalItemSet<IfcAddress>( this, 0 );
 		}
 
 		#region Explicit attribute fields
@@ -209,7 +209,7 @@ namespace Xbim.Ifc2x3.ActorResource
 		{ 
 			get 
 			{
-				return Model.Instances.Where<IfcPersonAndOrganization>(e => e.ThePerson == this);
+				return Model.Instances.Where<IfcPersonAndOrganization>(e => (e.ThePerson as IfcPerson) == this);
 			} 
 		}
 		#endregion

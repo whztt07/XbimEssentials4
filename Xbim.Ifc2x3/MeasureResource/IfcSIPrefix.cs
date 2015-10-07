@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc2x3.MeasureResource
 {
-	public enum IfcSIPrefix
+	public enum IfcSIPrefix : byte
 	{
 		@EXA ,
 		@PETA ,

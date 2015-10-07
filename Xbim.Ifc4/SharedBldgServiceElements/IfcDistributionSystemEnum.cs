@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.SharedBldgServiceElements
 {
-	public enum IfcDistributionSystemEnum
+	public enum IfcDistributionSystemEnum : byte
 	{
 		@AIRCONDITIONING ,
 		@AUDIOVISUAL ,

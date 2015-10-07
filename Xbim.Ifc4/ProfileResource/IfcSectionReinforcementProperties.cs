@@ -23,7 +23,7 @@ namespace Xbim.Ifc4.ProfileResource
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcSectionReinforcementProperties(IModel model) : base(model) 		{ 
 			Model = model; 
-			_crossSectionReinforcementDefinitions = new ItemSet<IfcReinforcementBarProperties>( this );
+			_crossSectionReinforcementDefinitions = new ItemSet<IfcReinforcementBarProperties>( this, 0 );
 		}
 
 		#region Explicit attribute fields

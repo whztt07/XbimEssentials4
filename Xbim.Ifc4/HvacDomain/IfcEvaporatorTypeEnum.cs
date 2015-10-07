@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.HvacDomain
 {
-	public enum IfcEvaporatorTypeEnum
+	public enum IfcEvaporatorTypeEnum : byte
 	{
 		@DIRECTEXPANSION ,
 		@DIRECTEXPANSIONSHELLANDTUBE ,

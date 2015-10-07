@@ -69,7 +69,7 @@ namespace Xbim.Ifc4.Kernel
 		{ 
 			get 
 			{
-				return Model.Instances.Where<IfcRelSequence>(e => e.RelatingProcess == this);
+				return Model.Instances.Where<IfcRelSequence>(e => (e.RelatingProcess as IfcProcess) == this);
 			} 
 		}
 		[EntityAttribute(-1, EntityAttributeState.Mandatory, EntityAttributeType.Set, EntityAttributeType.Class, -1, -1)]
@@ -77,7 +77,7 @@ namespace Xbim.Ifc4.Kernel
 		{ 
 			get 
 			{
-				return Model.Instances.Where<IfcRelSequence>(e => e.RelatedProcess == this);
+				return Model.Instances.Where<IfcRelSequence>(e => (e.RelatedProcess as IfcProcess) == this);
 			} 
 		}
 		[EntityAttribute(-1, EntityAttributeState.Mandatory, EntityAttributeType.Set, EntityAttributeType.Class, -1, -1)]
@@ -85,7 +85,7 @@ namespace Xbim.Ifc4.Kernel
 		{ 
 			get 
 			{
-				return Model.Instances.Where<IfcRelAssignsToProcess>(e => e.RelatingProcess == this);
+				return Model.Instances.Where<IfcRelAssignsToProcess>(e => (e.RelatingProcess as IfcProcess) == this);
 			} 
 		}
 		#endregion

@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.SharedBldgElements
 {
-	public enum IfcRampFlightTypeEnum
+	public enum IfcRampFlightTypeEnum : byte
 	{
 		@STRAIGHT ,
 		@SPIRAL ,

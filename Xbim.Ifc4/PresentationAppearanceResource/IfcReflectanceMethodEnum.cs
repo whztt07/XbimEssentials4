@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.PresentationAppearanceResource
 {
-	public enum IfcReflectanceMethodEnum
+	public enum IfcReflectanceMethodEnum : byte
 	{
 		@BLINN ,
 		@FLAT ,

@@ -80,7 +80,7 @@ namespace Xbim.Ifc2x3.ActorResource
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcOrganizationRelationship(IModel model) 		{ 
 			Model = model; 
-			_relatedOrganizations = new ItemSet<IfcOrganization>( this );
+			_relatedOrganizations = new ItemSet<IfcOrganization>( this, 0 );
 		}
 
 		#region Explicit attribute fields

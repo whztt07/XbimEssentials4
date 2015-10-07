@@ -80,7 +80,7 @@ namespace Xbim.Ifc2x3.MaterialResource
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcMaterialList(IModel model) 		{ 
 			Model = model; 
-			_materials = new ItemSet<IfcMaterial>( this );
+			_materials = new ItemSet<IfcMaterial>( this, 0 );
 		}
 
 		#region Explicit attribute fields

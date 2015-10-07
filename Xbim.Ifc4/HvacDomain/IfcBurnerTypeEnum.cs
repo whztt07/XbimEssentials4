@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.HvacDomain
 {
-	public enum IfcBurnerTypeEnum
+	public enum IfcBurnerTypeEnum : byte
 	{
 		@USERDEFINED ,
 		@NOTDEFINED 

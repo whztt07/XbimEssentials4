@@ -6,7 +6,7 @@ using Xbim.Common;
 
 namespace Xbim.IO.Memory
 {
-    public class EntityCollection<TFactory> : IEntityCollection where TFactory : IEntityFactory, new()
+    public class EntityCollection<TFactory> : IEntityCollection, IDisposable where TFactory : IEntityFactory, new()
     {
         private readonly IModel _model;
         private readonly Dictionary<Type, List<IPersistEntity>> _internal = new Dictionary<Type, List<IPersistEntity>>();
@@ -125,9 +125,10 @@ namespace Xbim.IO.Memory
         internal void InternalAdd(IPersistEntity entity)
         {
             var key = entity.GetType();
-            if (_internal.ContainsKey(key))
+            List<IPersistEntity> list;
+            if (_internal.TryGetValue(key, out list))
             {
-                _internal[key].Add(entity);
+                list.Add(entity);
             }
             else
             {
@@ -140,10 +141,11 @@ namespace Xbim.IO.Memory
             if (_model.IsTransactional && _model.CurrentTransaction == null) throw new Exception("Operation out of transaction");
             var key = entity.GetType();
 
-            if (_internal.ContainsKey(key))
+            List<IPersistEntity> list;
+            if (_internal.TryGetValue(key, out list))
             {
-                Action undo = () => _internal[key].Remove(entity);
-                Action doAction = () => _internal[key].Add(entity);
+                Action undo = () => list.Remove(entity);
+                Action doAction = () => list.Add(entity);
                 doAction();
 
                 if (!_model.IsTransactional) return;
@@ -186,6 +188,11 @@ namespace Xbim.IO.Memory
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
         {
             return _internal.SelectMany(kv => kv.Value, (pair, entity) => entity).GetEnumerator();
+        }
+
+        public void Dispose()
+        {
+            _internal.Clear();
         }
     }
 }

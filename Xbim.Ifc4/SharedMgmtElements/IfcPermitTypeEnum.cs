@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.SharedMgmtElements
 {
-	public enum IfcPermitTypeEnum
+	public enum IfcPermitTypeEnum : byte
 	{
 		@ACCESS ,
 		@BUILDING ,

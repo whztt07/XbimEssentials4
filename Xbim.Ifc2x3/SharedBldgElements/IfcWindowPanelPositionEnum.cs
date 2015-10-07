@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc2x3.SharedBldgElements
 {
-	public enum IfcWindowPanelPositionEnum
+	public enum IfcWindowPanelPositionEnum : byte
 	{
 		@LEFT ,
 		@MIDDLE ,

@@ -46,7 +46,7 @@ namespace Xbim.Ifc4.Kernel
 		{ 
 			get 
 			{
-				return Model.Instances.Where<IfcRelNests>(e => e.RelatingObject == this);
+				return Model.Instances.Where<IfcRelNests>(e => (e.RelatingObject as IfcObjectDefinition) == this);
 			} 
 		}
 		[EntityAttribute(-1, EntityAttributeState.Mandatory, EntityAttributeType.Set, EntityAttributeType.Class, -1, -1)]
@@ -62,7 +62,7 @@ namespace Xbim.Ifc4.Kernel
 		{ 
 			get 
 			{
-				return Model.Instances.Where<IfcRelAggregates>(e => e.RelatingObject == this);
+				return Model.Instances.Where<IfcRelAggregates>(e => (e.RelatingObject as IfcObjectDefinition) == this);
 			} 
 		}
 		[EntityAttribute(-1, EntityAttributeState.Mandatory, EntityAttributeType.Set, EntityAttributeType.Class, -1, -1)]

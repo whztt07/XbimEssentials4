@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.SharedBldgElements
 {
-	public enum IfcSlabTypeEnum
+	public enum IfcSlabTypeEnum : byte
 	{
 		@FLOOR ,
 		@ROOF ,

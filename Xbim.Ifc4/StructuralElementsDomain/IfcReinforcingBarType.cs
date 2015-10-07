@@ -26,7 +26,7 @@ namespace Xbim.Ifc4.StructuralElementsDomain
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcReinforcingBarType(IModel model) : base(model) 		{ 
 			Model = model; 
-			_bendingParameters = new OptionalItemSet<IfcBendingParameterSelect>( this );
+			_bendingParameters = new OptionalItemSet<IfcBendingParameterSelect>( this, 0 );
 		}
 
 		#region Explicit attribute fields

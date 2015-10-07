@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc2x3.SharedFacilitiesElements
 {
-	public enum IfcServiceLifeFactorTypeEnum
+	public enum IfcServiceLifeFactorTypeEnum : byte
 	{
 		@A_QUALITYOFCOMPONENTS ,
 		@B_DESIGNLEVEL ,

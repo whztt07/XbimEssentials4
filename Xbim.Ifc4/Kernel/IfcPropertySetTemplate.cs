@@ -23,7 +23,7 @@ namespace Xbim.Ifc4.Kernel
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcPropertySetTemplate(IModel model) : base(model) 		{ 
 			Model = model; 
-			_hasPropertyTemplates = new ItemSet<IfcPropertyTemplate>( this );
+			_hasPropertyTemplates = new ItemSet<IfcPropertyTemplate>( this, 0 );
 		}
 
 		#region Explicit attribute fields
@@ -83,7 +83,7 @@ namespace Xbim.Ifc4.Kernel
 		{ 
 			get 
 			{
-				return Model.Instances.Where<IfcRelDefinesByTemplate>(e => e.RelatingTemplate == this);
+				return Model.Instances.Where<IfcRelDefinesByTemplate>(e => (e.RelatingTemplate as IfcPropertySetTemplate) == this);
 			} 
 		}
 		#endregion

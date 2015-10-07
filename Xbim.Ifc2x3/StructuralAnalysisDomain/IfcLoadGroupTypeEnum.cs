@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc2x3.StructuralAnalysisDomain
 {
-	public enum IfcLoadGroupTypeEnum
+	public enum IfcLoadGroupTypeEnum : byte
 	{
 		@LOAD_GROUP ,
 		@LOAD_CASE ,

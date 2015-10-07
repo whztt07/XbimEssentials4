@@ -127,7 +127,7 @@ namespace Xbim.Ifc4.GeometryResource
 		{ 
 			get 
 			{
-				return Model.Instances.Where<IfcShapeAspect>(e => e.PartOfProductDefinitionShape == this);
+				return Model.Instances.Where<IfcShapeAspect>(e => (e.PartOfProductDefinitionShape as IfcRepresentationMap) == this);
 			} 
 		}
 		[EntityAttribute(-1, EntityAttributeState.Mandatory, EntityAttributeType.Set, EntityAttributeType.Class, -1, -1)]
@@ -135,7 +135,7 @@ namespace Xbim.Ifc4.GeometryResource
 		{ 
 			get 
 			{
-				return Model.Instances.Where<IfcMappedItem>(e => e.MappingSource == this);
+				return Model.Instances.Where<IfcMappedItem>(e => (e.MappingSource as IfcRepresentationMap) == this);
 			} 
 		}
 		#endregion

@@ -24,7 +24,7 @@ namespace Xbim.Ifc4.SharedBldgServiceElements
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcRelFlowControlElements(IModel model) : base(model) 		{ 
 			Model = model; 
-			_relatedControlElements = new ItemSet<IfcDistributionControlElement>( this );
+			_relatedControlElements = new ItemSet<IfcDistributionControlElement>( this, 0 );
 		}
 
 		#region Explicit attribute fields

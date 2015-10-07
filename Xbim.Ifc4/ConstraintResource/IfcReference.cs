@@ -80,7 +80,7 @@ namespace Xbim.Ifc4.ConstraintResource
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcReference(IModel model) 		{ 
 			Model = model; 
-			_listPositions = new OptionalItemSet<long>( this );
+			_listPositions = new OptionalItemSet<long>( this, 0 );
 		}
 
 		#region Explicit attribute fields

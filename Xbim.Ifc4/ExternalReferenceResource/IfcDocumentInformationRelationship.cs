@@ -23,7 +23,7 @@ namespace Xbim.Ifc4.ExternalReferenceResource
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcDocumentInformationRelationship(IModel model) : base(model) 		{ 
 			Model = model; 
-			_relatedDocuments = new ItemSet<IfcDocumentInformation>( this );
+			_relatedDocuments = new ItemSet<IfcDocumentInformation>( this, 0 );
 		}
 
 		#region Explicit attribute fields

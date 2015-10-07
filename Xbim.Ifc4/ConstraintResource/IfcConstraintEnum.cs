@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.ConstraintResource
 {
-	public enum IfcConstraintEnum
+	public enum IfcConstraintEnum : byte
 	{
 		@HARD ,
 		@SOFT ,

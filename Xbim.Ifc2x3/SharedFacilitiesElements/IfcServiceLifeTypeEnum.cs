@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc2x3.SharedFacilitiesElements
 {
-	public enum IfcServiceLifeTypeEnum
+	public enum IfcServiceLifeTypeEnum : byte
 	{
 		@ACTUALSERVICELIFE ,
 		@EXPECTEDSERVICELIFE ,

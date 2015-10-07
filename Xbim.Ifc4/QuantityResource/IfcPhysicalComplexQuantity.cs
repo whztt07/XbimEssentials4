@@ -22,7 +22,7 @@ namespace Xbim.Ifc4.QuantityResource
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcPhysicalComplexQuantity(IModel model) : base(model) 		{ 
 			Model = model; 
-			_hasQuantities = new ItemSet<IfcPhysicalQuantity>( this );
+			_hasQuantities = new ItemSet<IfcPhysicalQuantity>( this, 0 );
 		}
 
 		#region Explicit attribute fields

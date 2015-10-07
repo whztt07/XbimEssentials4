@@ -136,7 +136,7 @@ namespace Xbim.Ifc4.ExternalReferenceResource
 		{ 
 			get 
 			{
-				return Model.Instances.Where<IfcRelAssociatesLibrary>(e => e.RelatingLibrary == this);
+				return Model.Instances.Where<IfcRelAssociatesLibrary>(e => (e.RelatingLibrary as IfcLibraryInformation) == this);
 			} 
 		}
 		[EntityAttribute(-1, EntityAttributeState.Mandatory, EntityAttributeType.Set, EntityAttributeType.Class, -1, -1)]
@@ -144,7 +144,7 @@ namespace Xbim.Ifc4.ExternalReferenceResource
 		{ 
 			get 
 			{
-				return Model.Instances.Where<IfcLibraryReference>(e => e.ReferencedLibrary == this);
+				return Model.Instances.Where<IfcLibraryReference>(e => (e.ReferencedLibrary as IfcLibraryInformation) == this);
 			} 
 		}
 		#endregion

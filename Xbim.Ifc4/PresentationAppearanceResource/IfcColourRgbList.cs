@@ -23,7 +23,7 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcColourRgbList(IModel model) : base(model) 		{ 
 			Model = model; 
-			_colourList = new ItemSet<ItemSet<IfcNormalisedRatioMeasure>>( this );
+			_colourList = new ItemSet<ItemSet<IfcNormalisedRatioMeasure>>( this, 0 );
 		}
 
 		#region Explicit attribute fields

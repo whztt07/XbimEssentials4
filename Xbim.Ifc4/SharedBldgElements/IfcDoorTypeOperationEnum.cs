@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.SharedBldgElements
 {
-	public enum IfcDoorTypeOperationEnum
+	public enum IfcDoorTypeOperationEnum : byte
 	{
 		@SINGLE_SWING_LEFT ,
 		@SINGLE_SWING_RIGHT ,

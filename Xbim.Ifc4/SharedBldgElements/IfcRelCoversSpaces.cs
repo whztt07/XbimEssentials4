@@ -25,7 +25,7 @@ namespace Xbim.Ifc4.SharedBldgElements
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcRelCoversSpaces(IModel model) : base(model) 		{ 
 			Model = model; 
-			_relatedCoverings = new ItemSet<IfcCovering>( this );
+			_relatedCoverings = new ItemSet<IfcCovering>( this, 0 );
 		}
 
 		#region Explicit attribute fields

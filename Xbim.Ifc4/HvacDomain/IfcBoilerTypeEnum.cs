@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.HvacDomain
 {
-	public enum IfcBoilerTypeEnum
+	public enum IfcBoilerTypeEnum : byte
 	{
 		@WATER ,
 		@STEAM ,

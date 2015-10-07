@@ -79,7 +79,7 @@ namespace Xbim.Ifc2x3.RepresentationResource
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcProductRepresentation(IModel model) 		{ 
 			Model = model; 
-			_representations = new ItemSet<IfcRepresentation>( this );
+			_representations = new ItemSet<IfcRepresentation>( this, 0 );
 		}
 
 		#region Explicit attribute fields

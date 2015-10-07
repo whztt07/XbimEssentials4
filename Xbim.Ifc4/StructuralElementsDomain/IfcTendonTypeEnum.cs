@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.StructuralElementsDomain
 {
-	public enum IfcTendonTypeEnum
+	public enum IfcTendonTypeEnum : byte
 	{
 		@BAR ,
 		@COATED ,

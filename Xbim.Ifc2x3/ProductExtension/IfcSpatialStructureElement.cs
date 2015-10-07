@@ -69,7 +69,7 @@ namespace Xbim.Ifc2x3.ProductExtension
 		{ 
 			get 
 			{
-				return Model.Instances.Where<IfcRelReferencedInSpatialStructure>(e => e.RelatingStructure == this);
+				return Model.Instances.Where<IfcRelReferencedInSpatialStructure>(e => (e.RelatingStructure as IfcSpatialStructureElement) == this);
 			} 
 		}
 		[EntityAttribute(-1, EntityAttributeState.Mandatory, EntityAttributeType.Set, EntityAttributeType.Class, -1, -1)]
@@ -85,7 +85,7 @@ namespace Xbim.Ifc2x3.ProductExtension
 		{ 
 			get 
 			{
-				return Model.Instances.Where<IfcRelContainedInSpatialStructure>(e => e.RelatingStructure == this);
+				return Model.Instances.Where<IfcRelContainedInSpatialStructure>(e => (e.RelatingStructure as IfcSpatialStructureElement) == this);
 			} 
 		}
 		#endregion

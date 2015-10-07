@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc2x3.SharedBldgServiceElements
 {
-	public enum IfcThermalLoadTypeEnum
+	public enum IfcThermalLoadTypeEnum : byte
 	{
 		@SENSIBLE ,
 		@LATENT ,

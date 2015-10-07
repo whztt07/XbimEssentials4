@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.ProductExtension
 {
-	public enum IfcGeographicElementTypeEnum
+	public enum IfcGeographicElementTypeEnum : byte
 	{
 		@TERRAIN ,
 		@USERDEFINED ,

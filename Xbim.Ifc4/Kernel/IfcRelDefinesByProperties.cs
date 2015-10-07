@@ -23,7 +23,7 @@ namespace Xbim.Ifc4.Kernel
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcRelDefinesByProperties(IModel model) : base(model) 		{ 
 			Model = model; 
-			_relatedObjects = new ItemSet<IfcObjectDefinition>( this );
+			_relatedObjects = new ItemSet<IfcObjectDefinition>( this, 1 );
 		}
 
 		#region Explicit attribute fields

@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc2x3.PlumbingFireProtectionDomain
 {
-	public enum IfcSanitaryTerminalTypeEnum
+	public enum IfcSanitaryTerminalTypeEnum : byte
 	{
 		@BATH ,
 		@BIDET ,

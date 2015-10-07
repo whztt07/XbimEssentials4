@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc2x3.HVACDomain
 {
-	public enum IfcDuctSilencerTypeEnum
+	public enum IfcDuctSilencerTypeEnum : byte
 	{
 		@FLATOVAL ,
 		@RECTANGULAR ,

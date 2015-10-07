@@ -79,7 +79,7 @@ namespace Xbim.Ifc2x3.PresentationAppearanceResource
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcCurveStyleFont(IModel model) 		{ 
 			Model = model; 
-			_patternList = new ItemSet<IfcCurveStyleFontPattern>( this );
+			_patternList = new ItemSet<IfcCurveStyleFontPattern>( this, 0 );
 		}
 
 		#region Explicit attribute fields

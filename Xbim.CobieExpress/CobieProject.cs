@@ -157,7 +157,7 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				return Model.Instances.Where<CobiePhase>(e => e.Project == this);
+				return Model.Instances.Where<CobiePhase>(e => (e.Project as CobieProject) == this);
 			} 
 		}
 		[EntityAttribute(-1, EntityAttributeState.Mandatory, EntityAttributeType.Set, EntityAttributeType.Class, -1, -1)]
@@ -165,7 +165,7 @@ namespace Xbim.CobieExpress
 		{ 
 			get 
 			{
-				return Model.Instances.Where<CobieFacility>(e => e.Project == this);
+				return Model.Instances.Where<CobieFacility>(e => (e.Project as CobieProject) == this);
 			} 
 		}
 		#endregion

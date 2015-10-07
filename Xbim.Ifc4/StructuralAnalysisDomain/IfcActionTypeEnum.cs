@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.StructuralAnalysisDomain
 {
-	public enum IfcActionTypeEnum
+	public enum IfcActionTypeEnum : byte
 	{
 		@PERMANENT_G ,
 		@VARIABLE_Q ,

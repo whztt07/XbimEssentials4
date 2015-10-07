@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc2x3.ControlExtension
 {
-	public enum IfcTimeSeriesScheduleTypeEnum
+	public enum IfcTimeSeriesScheduleTypeEnum : byte
 	{
 		@ANNUAL ,
 		@MONTHLY ,

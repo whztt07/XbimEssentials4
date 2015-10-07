@@ -21,7 +21,7 @@ namespace Xbim.Ifc4.GeometryResource
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcBSplineCurve(IModel model) : base(model) 		{ 
 			Model = model; 
-			_controlPointsList = new ItemSet<IfcCartesianPoint>( this );
+			_controlPointsList = new ItemSet<IfcCartesianPoint>( this, 0 );
 		}
 
 		#region Explicit attribute fields

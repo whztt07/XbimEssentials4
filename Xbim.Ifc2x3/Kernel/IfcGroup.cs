@@ -32,7 +32,7 @@ namespace Xbim.Ifc2x3.Kernel
 		{ 
 			get 
 			{
-				return Model.Instances.FirstOrDefault<IfcRelAssignsToGroup>(e => e.RelatingGroup == this);
+				return Model.Instances.FirstOrDefault<IfcRelAssignsToGroup>(e => (e.RelatingGroup as IfcGroup) == this);
 			} 
 		}
 		#endregion

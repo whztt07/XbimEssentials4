@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.ElectricalDomain
 {
-	public enum IfcElectricApplianceTypeEnum
+	public enum IfcElectricApplianceTypeEnum : byte
 	{
 		@DISHWASHER ,
 		@ELECTRICCOOKER ,

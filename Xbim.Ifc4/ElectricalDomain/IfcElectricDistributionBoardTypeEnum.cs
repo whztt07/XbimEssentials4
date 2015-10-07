@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.ElectricalDomain
 {
-	public enum IfcElectricDistributionBoardTypeEnum
+	public enum IfcElectricDistributionBoardTypeEnum : byte
 	{
 		@CONSUMERUNIT ,
 		@DISTRIBUTIONBOARD ,

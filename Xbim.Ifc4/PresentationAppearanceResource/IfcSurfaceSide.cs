@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.PresentationAppearanceResource
 {
-	public enum IfcSurfaceSide
+	public enum IfcSurfaceSide : byte
 	{
 		@POSITIVE ,
 		@NEGATIVE ,

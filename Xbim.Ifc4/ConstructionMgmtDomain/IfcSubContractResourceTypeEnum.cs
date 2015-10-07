@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.ConstructionMgmtDomain
 {
-	public enum IfcSubContractResourceTypeEnum
+	public enum IfcSubContractResourceTypeEnum : byte
 	{
 		@PURCHASE ,
 		@WORK ,

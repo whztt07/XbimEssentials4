@@ -30,7 +30,7 @@ namespace Xbim.Ifc4.StructuralAnalysisDomain
 		{ 
 			get 
 			{
-				return Model.Instances.Where<IfcRelConnectsStructuralMember>(e => e.RelatingStructuralMember == this);
+				return Model.Instances.Where<IfcRelConnectsStructuralMember>(e => (e.RelatingStructuralMember as IfcStructuralMember) == this);
 			} 
 		}
 		#endregion

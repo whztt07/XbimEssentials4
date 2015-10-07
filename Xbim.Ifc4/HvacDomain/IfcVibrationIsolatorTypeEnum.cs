@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.HvacDomain
 {
-	public enum IfcVibrationIsolatorTypeEnum
+	public enum IfcVibrationIsolatorTypeEnum : byte
 	{
 		@COMPRESSION ,
 		@SPRING ,

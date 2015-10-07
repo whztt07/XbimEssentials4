@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.SharedBldgElements
 {
-	public enum IfcStairTypeEnum
+	public enum IfcStairTypeEnum : byte
 	{
 		@STRAIGHT_RUN_STAIR ,
 		@TWO_STRAIGHT_RUN_STAIR ,

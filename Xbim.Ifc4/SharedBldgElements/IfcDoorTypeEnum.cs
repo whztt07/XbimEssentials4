@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.SharedBldgElements
 {
-	public enum IfcDoorTypeEnum
+	public enum IfcDoorTypeEnum : byte
 	{
 		@DOOR ,
 		@GATE ,

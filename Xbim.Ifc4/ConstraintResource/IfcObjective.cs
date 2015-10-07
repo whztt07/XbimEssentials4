@@ -24,7 +24,7 @@ namespace Xbim.Ifc4.ConstraintResource
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcObjective(IModel model) : base(model) 		{ 
 			Model = model; 
-			_benchmarkValues = new OptionalItemSet<IfcConstraint>( this );
+			_benchmarkValues = new OptionalItemSet<IfcConstraint>( this, 0 );
 		}
 
 		#region Explicit attribute fields

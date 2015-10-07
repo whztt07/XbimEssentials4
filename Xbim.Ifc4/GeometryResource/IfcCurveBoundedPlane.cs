@@ -21,7 +21,7 @@ namespace Xbim.Ifc4.GeometryResource
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcCurveBoundedPlane(IModel model) : base(model) 		{ 
 			Model = model; 
-			_innerBoundaries = new ItemSet<IfcCurve>( this );
+			_innerBoundaries = new ItemSet<IfcCurve>( this, 0 );
 		}
 
 		#region Explicit attribute fields

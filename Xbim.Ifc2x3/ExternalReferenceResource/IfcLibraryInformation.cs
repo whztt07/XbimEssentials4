@@ -82,7 +82,7 @@ namespace Xbim.Ifc2x3.ExternalReferenceResource
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcLibraryInformation(IModel model) 		{ 
 			Model = model; 
-			_libraryReference = new OptionalItemSet<IfcLibraryReference>( this );
+			_libraryReference = new OptionalItemSet<IfcLibraryReference>( this, 0 );
 		}
 
 		#region Explicit attribute fields

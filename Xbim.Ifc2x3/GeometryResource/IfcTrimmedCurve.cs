@@ -21,8 +21,8 @@ namespace Xbim.Ifc2x3.GeometryResource
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcTrimmedCurve(IModel model) : base(model) 		{ 
 			Model = model; 
-			_trim1 = new ItemSet<IfcTrimmingSelect>( this );
-			_trim2 = new ItemSet<IfcTrimmingSelect>( this );
+			_trim1 = new ItemSet<IfcTrimmingSelect>( this, 2 );
+			_trim2 = new ItemSet<IfcTrimmingSelect>( this, 2 );
 		}
 
 		#region Explicit attribute fields

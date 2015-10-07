@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc2x3.HVACDomain
 {
-	public enum IfcPipeSegmentTypeEnum
+	public enum IfcPipeSegmentTypeEnum : byte
 	{
 		@FLEXIBLESEGMENT ,
 		@RIGIDSEGMENT ,

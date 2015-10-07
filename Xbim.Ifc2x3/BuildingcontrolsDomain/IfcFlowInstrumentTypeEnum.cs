@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc2x3.BuildingcontrolsDomain
 {
-	public enum IfcFlowInstrumentTypeEnum
+	public enum IfcFlowInstrumentTypeEnum : byte
 	{
 		@PRESSUREGAUGE ,
 		@THERMOMETER ,

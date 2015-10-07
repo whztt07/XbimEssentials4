@@ -22,7 +22,7 @@ namespace Xbim.Ifc2x3.TopologyResource
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcPolyLoop(IModel model) : base(model) 		{ 
 			Model = model; 
-			_polygon = new ItemSet<IfcCartesianPoint>( this );
+			_polygon = new ItemSet<IfcCartesianPoint>( this, 0 );
 		}
 
 		#region Explicit attribute fields

@@ -200,7 +200,7 @@ namespace Xbim.Ifc2x3.CostResource
 		{ 
 			get 
 			{
-				return Model.Instances.Where<IfcAppliedValueRelationship>(e => e.ComponentOfTotal == this);
+				return Model.Instances.Where<IfcAppliedValueRelationship>(e => (e.ComponentOfTotal as IfcAppliedValue) == this);
 			} 
 		}
 		[EntityAttribute(-1, EntityAttributeState.Mandatory, EntityAttributeType.Set, EntityAttributeType.Class, -1, -1)]

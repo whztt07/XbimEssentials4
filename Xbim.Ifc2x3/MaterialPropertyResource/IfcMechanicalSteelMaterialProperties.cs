@@ -23,7 +23,7 @@ namespace Xbim.Ifc2x3.MaterialPropertyResource
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcMechanicalSteelMaterialProperties(IModel model) : base(model) 		{ 
 			Model = model; 
-			_relaxations = new OptionalItemSet<IfcRelaxation>( this );
+			_relaxations = new OptionalItemSet<IfcRelaxation>( this, 0 );
 		}
 
 		#region Explicit attribute fields

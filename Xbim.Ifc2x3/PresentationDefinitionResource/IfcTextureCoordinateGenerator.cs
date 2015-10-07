@@ -22,7 +22,7 @@ namespace Xbim.Ifc2x3.PresentationDefinitionResource
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcTextureCoordinateGenerator(IModel model) : base(model) 		{ 
 			Model = model; 
-			_parameter = new ItemSet<IfcSimpleValue>( this );
+			_parameter = new ItemSet<IfcSimpleValue>( this, 0 );
 		}
 
 		#region Explicit attribute fields

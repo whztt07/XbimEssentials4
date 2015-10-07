@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc2x3.SharedBldgElements
 {
-	public enum IfcDoorStyleConstructionEnum
+	public enum IfcDoorStyleConstructionEnum : byte
 	{
 		@ALUMINIUM ,
 		@HIGH_GRADE_STEEL ,

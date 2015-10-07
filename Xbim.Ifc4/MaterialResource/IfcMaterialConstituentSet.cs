@@ -22,7 +22,7 @@ namespace Xbim.Ifc4.MaterialResource
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcMaterialConstituentSet(IModel model) : base(model) 		{ 
 			Model = model; 
-			_materialConstituents = new OptionalItemSet<IfcMaterialConstituent>( this );
+			_materialConstituents = new OptionalItemSet<IfcMaterialConstituent>( this, 0 );
 		}
 
 		#region Explicit attribute fields

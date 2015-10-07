@@ -6,9 +6,10 @@ namespace Xbim.IO.Step21
 {
     public static class StepText
     {
+        private static readonly CultureInfo DoubleCulture = CultureInfo.CreateSpecificCulture("en-US");
         public static double ToDouble(this string val)
         {
-            return Convert.ToDouble(val, CultureInfo.CreateSpecificCulture("en-US"));
+            return Convert.ToDouble(val, DoubleCulture);
         }
 
         public static string ToPart21(this string source)

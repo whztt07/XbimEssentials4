@@ -22,7 +22,7 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcTextureCoordinate(IModel model) : base(model) 		{ 
 			Model = model; 
-			_maps = new ItemSet<IfcSurfaceTexture>( this );
+			_maps = new ItemSet<IfcSurfaceTexture>( this, 0 );
 		}
 
 		#region Explicit attribute fields

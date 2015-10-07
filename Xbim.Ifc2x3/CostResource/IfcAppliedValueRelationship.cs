@@ -80,7 +80,7 @@ namespace Xbim.Ifc2x3.CostResource
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcAppliedValueRelationship(IModel model) 		{ 
 			Model = model; 
-			_components = new ItemSet<IfcAppliedValue>( this );
+			_components = new ItemSet<IfcAppliedValue>( this, 0 );
 		}
 
 		#region Explicit attribute fields

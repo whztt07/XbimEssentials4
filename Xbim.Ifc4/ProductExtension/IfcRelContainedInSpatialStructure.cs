@@ -24,7 +24,7 @@ namespace Xbim.Ifc4.ProductExtension
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcRelContainedInSpatialStructure(IModel model) : base(model) 		{ 
 			Model = model; 
-			_relatedElements = new ItemSet<IfcProduct>( this );
+			_relatedElements = new ItemSet<IfcProduct>( this, 0 );
 		}
 
 		#region Explicit attribute fields

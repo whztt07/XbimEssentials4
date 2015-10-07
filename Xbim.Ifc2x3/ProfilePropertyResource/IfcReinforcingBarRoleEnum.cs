@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc2x3.ProfilePropertyResource
 {
-	public enum IfcReinforcingBarRoleEnum
+	public enum IfcReinforcingBarRoleEnum : byte
 	{
 		@MAIN ,
 		@SHEAR ,

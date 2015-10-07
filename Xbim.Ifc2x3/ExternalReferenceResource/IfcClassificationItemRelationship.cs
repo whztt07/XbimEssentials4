@@ -79,7 +79,7 @@ namespace Xbim.Ifc2x3.ExternalReferenceResource
 		//internal constructor makes sure that objects are not created outside of the model/ assembly controlled area
 		internal IfcClassificationItemRelationship(IModel model) 		{ 
 			Model = model; 
-			_relatedItems = new ItemSet<IfcClassificationItem>( this );
+			_relatedItems = new ItemSet<IfcClassificationItem>( this, 0 );
 		}
 
 		#region Explicit attribute fields

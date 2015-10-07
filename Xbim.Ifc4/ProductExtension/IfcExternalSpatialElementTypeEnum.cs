@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 namespace Xbim.Ifc4.ProductExtension
 {
-	public enum IfcExternalSpatialElementTypeEnum
+	public enum IfcExternalSpatialElementTypeEnum : byte
 	{
 		@EXTERNAL ,
 		@EXTERNAL_EARTH ,
