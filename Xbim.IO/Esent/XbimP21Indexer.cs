@@ -20,7 +20,6 @@ using System.Globalization;
 using System.IO;
 using System.Threading.Tasks;
 using Xbim.Common;
-using Xbim.Common.Metadata;
 using Xbim.Common.Step21;
 using Xbim.IO.Parser;
 using Xbim.IO.Step21;
@@ -30,7 +29,7 @@ using Xbim.IO.Step21.Parser;
 
 namespace Xbim.IO.Esent
 {
-   
+
 
     public enum P21ParseAction
     {
@@ -60,15 +59,15 @@ namespace Xbim.IO.Esent
         public event ReportProgressDelegate ProgressStatus;
         private int _percentageParsed;
         private long _streamSize = -1;
-        private BlockingCollection<Tuple<int,Type,byte[]>> toProcess;
+        private BlockingCollection<Tuple<int, Type, byte[]>> toProcess;
         private BlockingCollection<Tuple<int, short, List<int>, byte[], bool>> toStore;
         Task cacheProcessor;
         Task storeProcessor;
         private BinaryWriter _binaryWriter;
-        
+
         private int _currentLabel;
         private string _currentType;
-        private List<int> _indexKeys = null;
+        private IList<int> _indexKeys = null;
         private List<int> _indexKeyValues = new List<int>();
         private Part21Entity _currentInstance;
         private readonly Stack<Part21Entity> _processStack = new Stack<Part21Entity>();
@@ -79,12 +78,12 @@ namespace Xbim.IO.Esent
         public StepFileHeader Header
         {
             get { return _header; }
-        } 
+        }
 
-   
-       
+
+
         private XbimEntityCursor table;
-       
+
         private readonly PersistedEntityInstanceCache _modelCache;
         const int TransactionBatchSize = 100;
         private int _entityCount = 0;
@@ -95,15 +94,15 @@ namespace Xbim.IO.Esent
             get { return _entityCount; }
         }
 
-        
-        
-        internal P21toIndexParser(Stream inputP21,  XbimEntityCursor table,  PersistedEntityInstanceCache cache, int codePageOverride = -1)
+
+
+        internal P21toIndexParser(Stream inputP21, XbimEntityCursor table, PersistedEntityInstanceCache cache, int codePageOverride = -1)
             : base(inputP21)
         {
-           
+
             this.table = table;
-          //  this.transaction = transaction;
-            this._modelCache = cache;
+            //  this.transaction = transaction;
+            _modelCache = cache;
             _entityCount = 0;
             if (inputP21.CanSeek)
                 _streamSize = inputP21.Length;
@@ -124,28 +123,28 @@ namespace Xbim.IO.Esent
         {
             _binaryWriter = new BinaryWriter(new MemoryStream(0x7FFF));
             toStore = new BlockingCollection<Tuple<int, short, List<int>, byte[], bool>>(512);
-            if (this._modelCache.IsCaching)
+            if (_modelCache.IsCaching)
             {
                 toProcess = new BlockingCollection<Tuple<int, Type, byte[]>>();
                 cacheProcessor = Task.Factory.StartNew(() =>
+                {
+                    try
                     {
-                        try
-                        { 
-                            Tuple<int, Type, byte[]> h;
-                            // Consume the BlockingCollection 
-                            while (!toProcess.IsCompleted)
-                            {
-                               
-                                if(toProcess.TryTake(out h))
-                                    this._modelCache.GetOrCreateInstanceFromCache(h.Item1, h.Item2, h.Item3);
-                            }
-
-                        }
-                        catch (InvalidOperationException)
+                        Tuple<int, Type, byte[]> h;
+                        // Consume the BlockingCollection 
+                        while (!toProcess.IsCompleted)
                         {
 
+                            if (toProcess.TryTake(out h))
+                                _modelCache.GetOrCreateInstanceFromCache(h.Item1, h.Item2, h.Item3);
                         }
+
                     }
+                    catch (InvalidOperationException)
+                    {
+
+                    }
+                }
                     );
 
             }
@@ -164,7 +163,7 @@ namespace Xbim.IO.Esent
                                 table.AddEntity(h.Item1, h.Item2, h.Item3, h.Item4, h.Item5, transaction);
                                 if (toStore.IsCompleted)
                                     table.WriteHeader(Header);
-                                long remainder = _entityCount%TransactionBatchSize;
+                                long remainder = _entityCount % TransactionBatchSize;
                                 if (remainder == TransactionBatchSize - 1)
                                 {
                                     transaction.Commit();
@@ -174,7 +173,7 @@ namespace Xbim.IO.Esent
                         }
                         catch (SystemException)
                         {
-                            
+
                             // An InvalidOperationException means that Take() was called on a completed collection
                             //OperationCanceledException can also be called
 
@@ -182,8 +181,8 @@ namespace Xbim.IO.Esent
                     }
                     transaction.Commit();
                 }
-                   
-               
+
+
             }
             );
         }
@@ -192,17 +191,17 @@ namespace Xbim.IO.Esent
         {
             toStore.CompleteAdding();
             storeProcessor.Wait();
-            if (this._modelCache.IsCaching)
+            if (_modelCache.IsCaching)
             {
                 toProcess.CompleteAdding();
                 cacheProcessor.Wait();
                 cacheProcessor.Dispose();
                 cacheProcessor = null;
-                while (this._modelCache.ForwardReferences.Count > 0)
+                while (_modelCache.ForwardReferences.Count > 0)
                 {
                     StepForwardReference forwardRef;
-                    if(this._modelCache.ForwardReferences.TryTake(out forwardRef))
-                        forwardRef.Resolve(this._modelCache.Read);
+                    if (_modelCache.ForwardReferences.TryTake(out forwardRef))
+                        forwardRef.Resolve(_modelCache.Read, _modelCache.Model.Metadata);
                 }
             }
             storeProcessor.Dispose();
@@ -217,7 +216,7 @@ namespace Xbim.IO.Esent
 
         internal override void EndHeader()
         {
-           // _header.Write(_binaryWriter);
+            // _header.Write(_binaryWriter);
         }
 
         internal override void BeginScope()
@@ -275,10 +274,10 @@ namespace Xbim.IO.Esent
             var data = _binaryWriter.BaseStream as MemoryStream;
             data.SetLength(0);
 
-          
+
             if (_streamSize != -1 && ProgressStatus != null)
             {
-                var sc = (Scanner)this.Scanner;
+                var sc = (Scanner)Scanner;
                 double pos = sc.Buffer.Pos;
                 var newPercentage = Convert.ToInt32(pos / _streamSize * 100.0);
                 if (newPercentage > _percentageParsed)
@@ -315,7 +314,7 @@ namespace Xbim.IO.Esent
             {
 
                 _currentType = entityTypeName;
-                var type = ExpressMetaData.ExpressType(_currentType, _modelCache.Model.SchemaModule);
+                var type = _modelCache.Model.Metadata.ExpressType(_currentType);
                 if (type == null)
                     throw new ArgumentException(string.Format("Invalid entity type {0}", _currentType));
                 _indexKeys = type.IndexedValues;
@@ -330,12 +329,12 @@ namespace Xbim.IO.Esent
             if (_currentType != null)
             {
                 _binaryWriter.Write((byte)P21ParseAction.EndEntity);
-                var type = ExpressMetaData.ExpressType(_currentType, _modelCache.Model.SchemaModule);
+                var type = _modelCache.Model.Metadata.ExpressType(_currentType);
                 var data = _binaryWriter.BaseStream as MemoryStream;
-                var bytes =  data.ToArray();
+                var bytes = data.ToArray();
                 var keys = new List<int>(_indexKeyValues);
                 toStore.Add(new Tuple<int, short, List<int>, byte[], bool>(_currentLabel, type.TypeId, keys, bytes, type.IndexedClass));
-                if (this._modelCache.IsCaching) toProcess.Add(new Tuple<int, Type, byte[]>(_currentLabel, type.Type, bytes)); 
+                if (this._modelCache.IsCaching) toProcess.Add(new Tuple<int, Type, byte[]>(_currentLabel, type.Type, bytes));
             }
 
         }
@@ -353,7 +352,7 @@ namespace Xbim.IO.Esent
                 _propertyValue.Init(value, StepParserType.Integer);
                 if (_currentInstance.Entity != null)
                     _currentInstance.ParameterSetter(_currentInstance.CurrentParamIndex, _propertyValue);
-               
+
             }
             else
             {
@@ -370,13 +369,13 @@ namespace Xbim.IO.Esent
                 _propertyValue.Init(value, StepParserType.HexaDecimal);
                 if (_currentInstance.Entity != null)
                     _currentInstance.ParameterSetter(_currentInstance.CurrentParamIndex, _propertyValue);
-                
+
             }
             else
             {
                 _binaryWriter.Write((byte)P21ParseAction.SetHexValue);
                 _binaryWriter.Write(Convert.ToInt64(value, 16));
-                
+
             }
             if (_listNestLevel == 0) _currentInstance.CurrentParamIndex++;
         }
@@ -388,7 +387,7 @@ namespace Xbim.IO.Esent
                 _propertyValue.Init(value, StepParserType.Real);
                 if (_currentInstance.Entity != null)
                     _currentInstance.ParameterSetter(_currentInstance.CurrentParamIndex, _propertyValue);
-               
+
             }
             else
             {
@@ -405,7 +404,7 @@ namespace Xbim.IO.Esent
                 _propertyValue.Init(value, StepParserType.String);
                 if (_currentInstance.Entity != null)
                     _currentInstance.ParameterSetter(_currentInstance.CurrentParamIndex, _propertyValue);
-                
+
             }
             else
             {
@@ -429,7 +428,7 @@ namespace Xbim.IO.Esent
                 _propertyValue.Init(value, StepParserType.Enum);
                 if (_currentInstance.Entity != null)
                     _currentInstance.ParameterSetter(_currentInstance.CurrentParamIndex, _propertyValue);
-                
+
             }
             else
             {
@@ -475,7 +474,7 @@ namespace Xbim.IO.Esent
                 _indexKeyValues.Add(val);
 
             if (_listNestLevel == 0) _currentInstance.CurrentParamIndex++;
-           
+
             if (val <= Int16.MaxValue)
             {
                 _binaryWriter.Write((byte)P21ParseAction.SetObjectValueUInt16);
