@@ -258,7 +258,6 @@ namespace Xbim.IO.Esent
         internal override void EndList()
         {
             _listNestLevel--;
-            var p21 = _processStack.Peek();
             if (_listNestLevel == 0)
                 _currentInstance.CurrentParamIndex++;
             

@@ -48,7 +48,6 @@ namespace Xbim.IO.Esent
         public void EndList()
         {
             _listNestLevel--;
-            var p21 = _processStack.Peek();
             
             if (_listNestLevel == 0)
                 _currentInstance.CurrentParamIndex++;

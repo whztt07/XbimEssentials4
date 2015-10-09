@@ -132,8 +132,6 @@ namespace Xbim.IO.Step21
         internal override void EndList()
         {
             _listNestLevel--;
-            var p21 = _processStack.Peek();
-            
             if (_listNestLevel == 0)
             {
                 _currentInstance.CurrentParamIndex++;
