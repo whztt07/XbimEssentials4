@@ -241,6 +241,7 @@ namespace Xbim.IO.Memory
         public virtual void Open(Stream stream)
         {
             var parser = new XbimP21Parser(stream, Metadata);
+            var first = true;
             parser.EntityCreate += (string name, long? label, bool header, out int[] ints) =>
             {
                 //allow all attributes to be parsed
@@ -262,6 +263,14 @@ namespace Xbim.IO.Memory
                 }
                 if (label == null)
                     return _instances.Factory.New(name);
+                //if this is a first non-header entity header is read completely by now. 
+                //So we should check if the schema declared in the file is the one declared in EntityFactory
+                if (first) 
+                {
+                    first = false;
+                    if (!Header.FileSchema.Schemas.All(s => _instances.Factory.SchemasIds.Contains(s)))
+                        throw new Exception("Mismatch between schema defined in the file and schemas available in the data model.");
+                }
 
                 var typeId = Metadata.ExpressTypeId(name);
                 var ent = _instances.Factory.New(this, typeId, (int) label, true);
