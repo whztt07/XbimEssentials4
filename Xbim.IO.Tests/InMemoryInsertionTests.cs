@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Xbim.Common;
@@ -18,9 +19,11 @@ namespace Xbim.MemoryModel.Tests
         [TestMethod]
         public void CopyWallsOver()
         {
+            var original = "SampleHouse4.ifc";
+            var inserted = "..\\..\\SampleHouseInserted.ifc";
             using (var model = new MemoryModel<EntityFactory>())
             {
-                model.Open("SampleHouse4.ifc");
+                model.Open(original);
                 var walls = model.Instances.OfType<IfcWall>().ToList();
                 using (var iModel = new MemoryModel<EntityFactory>())
                 {
@@ -53,13 +56,50 @@ namespace Xbim.MemoryModel.Tests
 
                         var iWalls = iModel.Instances.OfType<IfcWall>().ToList();
                         Assert.IsTrue(walls.Count == iWalls.Count);
-                        iModel.Save("..\\..\\SampleHouseInserted.ifc");
+                        iModel.Save(inserted);
                         Debug.WriteLine("Time to insert {0} walls (Overall {1} entities): {2}ms", walls.Count, iModel.Instances.Count, w.ElapsedMilliseconds);
                     }
 
                     
                 }
             }
+
+            CompareEntityLines(inserted, original);
+        }
+
+        private void CompareEntityLines(string insertedFile, string originalFile)
+        {
+            var inserted = GetEntities(insertedFile);
+            var original = GetEntities(originalFile);
+
+            //all entities from inserter should exist in original
+            foreach (var iPair in inserted)
+            {
+                var o = original[iPair.Key];
+                Assert.IsTrue(string.CompareOrdinal(o, iPair.Value) == 0);
+            }
+        }
+
+        private Dictionary<int, string> GetEntities(string path)
+        {
+            var entities = new Dictionary<int, string>();
+            using (var reader = File.OpenText(path))
+            {
+                while (!reader.EndOfStream)
+                {
+                    var line = reader.ReadLine();
+                    if (line == null) break;
+
+                    if (!line.StartsWith("#")) continue;
+                    var sepIndex = line.IndexOf("=", StringComparison.Ordinal);
+
+                    var label = line.Substring(0, sepIndex).Trim('#', '=', ' ');
+                    var entity = line.Substring(sepIndex + 1).Trim();
+
+                    entities.Add(int.Parse(label), entity);
+                }
+            }
+            return entities;
         }
 
     }
