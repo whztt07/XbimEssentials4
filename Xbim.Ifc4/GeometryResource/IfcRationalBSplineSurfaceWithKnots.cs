@@ -46,7 +46,7 @@ namespace Xbim.Ifc4.GeometryResource
 
 
 		#region IPersist implementation
-		public  override void Parse(int propIndex, IPropertyValue value)
+		public  override void Parse(int propIndex, IPropertyValue value, int[] nestedIndex)
 		{
 			switch (propIndex)
 			{
@@ -62,13 +62,13 @@ namespace Xbim.Ifc4.GeometryResource
 				case 9: 
 				case 10: 
 				case 11: 
-					base.Parse(propIndex, value); 
+					base.Parse(propIndex, value, nestedIndex); 
 					return;
 				case 12: 
-					//this is a special case which has to be handled in a partial class which is not generated.
-					//ParseWeightsData(propIndex, value);
-					//return;
-					throw new System.NotImplementedException("WeightsData in IfcRationalBSplineSurfaceWithKnots is a special case of nested lists. It is not implemented for now.");
+					_weightsData
+						.InternalGetAt(nestedIndex[0])
+						.InternalAdd((double)(value.RealVal));
+					return;
 				default:
 					throw new XbimParserException(string.Format("Attribute index {0} is out of range for {1}", propIndex + 1, GetType().Name.ToUpper()));
 			}

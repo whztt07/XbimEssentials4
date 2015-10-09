@@ -47,7 +47,7 @@ namespace Xbim.Ifc2x3.TimeSeriesResource
 
 
 		#region IPersist implementation
-		public  override void Parse(int propIndex, IPropertyValue value)
+		public  override void Parse(int propIndex, IPropertyValue value, int[] nestedIndex)
 		{
 			switch (propIndex)
 			{
@@ -59,7 +59,7 @@ namespace Xbim.Ifc2x3.TimeSeriesResource
 				case 5: 
 				case 6: 
 				case 7: 
-					base.Parse(propIndex, value); 
+					base.Parse(propIndex, value, nestedIndex); 
 					return;
 				case 8: 
 					if (_values == null) _values = new ItemSet<IfcIrregularTimeSeriesValue>( this );

@@ -69,7 +69,7 @@ namespace Xbim.Ifc4.SharedFacilitiesElements
 
 
 		#region IPersist implementation
-		public  override void Parse(int propIndex, IPropertyValue value)
+		public  override void Parse(int propIndex, IPropertyValue value, int[] nestedIndex)
 		{
 			switch (propIndex)
 			{
@@ -82,7 +82,7 @@ namespace Xbim.Ifc4.SharedFacilitiesElements
 				case 6: 
 				case 7: 
 				case 8: 
-					base.Parse(propIndex, value); 
+					base.Parse(propIndex, value, nestedIndex); 
 					return;
 				case 9: 
                     _assemblyPlace = (IfcAssemblyPlaceEnum) System.Enum.Parse(typeof (IfcAssemblyPlaceEnum), value.EnumVal, true);

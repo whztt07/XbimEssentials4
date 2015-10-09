@@ -198,7 +198,7 @@ namespace Xbim.Ifc2x3.PropertyResource
 		#endregion
 
 		#region IPersist implementation
-		public virtual void Parse(int propIndex, IPropertyValue value)
+		public virtual void Parse(int propIndex, IPropertyValue value, int[] nestedIndex)
 		{
 			switch (propIndex)
 			{

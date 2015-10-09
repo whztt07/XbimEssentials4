@@ -234,6 +234,9 @@ namespace Xbim.IO.Esent
             // Debug.WriteLine("TODO");
         }
 
+        private readonly List<int> _nestedIndex = new List<int>();
+        public int[] NestedIndex { get { return _listNestLevel > 0 ? _nestedIndex.ToArray() : null; } }
+
         internal override void BeginList()
         {
             var p21 = _processStack.Peek();
@@ -243,15 +246,27 @@ namespace Xbim.IO.Esent
             if (!InHeader)
                 _binaryWriter.Write((byte)P21ParseAction.BeginList);
 
+            if (_listNestLevel < 2) return;
+
+            if (_listNestLevel - 1 > _nestedIndex.Count)
+                _nestedIndex.Add(0);
+            else
+                _nestedIndex[_listNestLevel - 2]++;
+
         }
 
         internal override void EndList()
         {
             _listNestLevel--;
             var p21 = _processStack.Peek();
-            p21.CurrentParamIndex++;
+            if (_listNestLevel == 0)
+                _currentInstance.CurrentParamIndex++;
+            
             if (!InHeader)
                 _binaryWriter.Write((byte)P21ParseAction.EndList);
+
+            //we are finished with the list
+            if (_listNestLevel <= 0) _nestedIndex.Clear();
         }
 
         internal override void BeginComplex()
@@ -351,7 +366,7 @@ namespace Xbim.IO.Esent
             {
                 _propertyValue.Init(value, StepParserType.Integer);
                 if (_currentInstance.Entity != null)
-                    _currentInstance.ParameterSetter(_currentInstance.CurrentParamIndex, _propertyValue);
+                    _currentInstance.ParameterSetter(_currentInstance.CurrentParamIndex, _propertyValue, NestedIndex);
 
             }
             else
@@ -368,7 +383,7 @@ namespace Xbim.IO.Esent
             {
                 _propertyValue.Init(value, StepParserType.HexaDecimal);
                 if (_currentInstance.Entity != null)
-                    _currentInstance.ParameterSetter(_currentInstance.CurrentParamIndex, _propertyValue);
+                    _currentInstance.ParameterSetter(_currentInstance.CurrentParamIndex, _propertyValue, NestedIndex);
 
             }
             else
@@ -386,7 +401,7 @@ namespace Xbim.IO.Esent
             {
                 _propertyValue.Init(value, StepParserType.Real);
                 if (_currentInstance.Entity != null)
-                    _currentInstance.ParameterSetter(_currentInstance.CurrentParamIndex, _propertyValue);
+                    _currentInstance.ParameterSetter(_currentInstance.CurrentParamIndex, _propertyValue, NestedIndex);
 
             }
             else
@@ -403,7 +418,7 @@ namespace Xbim.IO.Esent
             {
                 _propertyValue.Init(value, StepParserType.String);
                 if (_currentInstance.Entity != null)
-                    _currentInstance.ParameterSetter(_currentInstance.CurrentParamIndex, _propertyValue);
+                    _currentInstance.ParameterSetter(_currentInstance.CurrentParamIndex, _propertyValue, NestedIndex);
 
             }
             else
@@ -427,7 +442,7 @@ namespace Xbim.IO.Esent
             {
                 _propertyValue.Init(value, StepParserType.Enum);
                 if (_currentInstance.Entity != null)
-                    _currentInstance.ParameterSetter(_currentInstance.CurrentParamIndex, _propertyValue);
+                    _currentInstance.ParameterSetter(_currentInstance.CurrentParamIndex, _propertyValue, NestedIndex);
 
             }
             else
@@ -444,7 +459,7 @@ namespace Xbim.IO.Esent
             {
                 _propertyValue.Init(value, StepParserType.Boolean);
                 if (_currentInstance.Entity != null)
-                    _currentInstance.ParameterSetter(_currentInstance.CurrentParamIndex, _propertyValue);
+                    _currentInstance.ParameterSetter(_currentInstance.CurrentParamIndex, _propertyValue, NestedIndex);
             }
             else
             {

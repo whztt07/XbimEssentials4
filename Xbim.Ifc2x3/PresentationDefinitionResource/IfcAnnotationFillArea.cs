@@ -62,7 +62,7 @@ namespace Xbim.Ifc2x3.PresentationDefinitionResource
 
 
 		#region IPersist implementation
-		public  override void Parse(int propIndex, IPropertyValue value)
+		public  override void Parse(int propIndex, IPropertyValue value, int[] nestedIndex)
 		{
 			switch (propIndex)
 			{

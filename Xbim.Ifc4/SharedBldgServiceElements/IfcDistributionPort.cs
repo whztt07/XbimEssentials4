@@ -85,7 +85,7 @@ namespace Xbim.Ifc4.SharedBldgServiceElements
 
 
 		#region IPersist implementation
-		public  override void Parse(int propIndex, IPropertyValue value)
+		public  override void Parse(int propIndex, IPropertyValue value, int[] nestedIndex)
 		{
 			switch (propIndex)
 			{
@@ -96,7 +96,7 @@ namespace Xbim.Ifc4.SharedBldgServiceElements
 				case 4: 
 				case 5: 
 				case 6: 
-					base.Parse(propIndex, value); 
+					base.Parse(propIndex, value, nestedIndex); 
 					return;
 				case 7: 
                     _flowDirection = (IfcFlowDirectionEnum) System.Enum.Parse(typeof (IfcFlowDirectionEnum), value.EnumVal, true);

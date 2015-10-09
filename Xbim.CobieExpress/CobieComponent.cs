@@ -210,7 +210,7 @@ namespace Xbim.CobieExpress
 
 
 		#region IPersist implementation
-		public  override void Parse(int propIndex, IPropertyValue value)
+		public  override void Parse(int propIndex, IPropertyValue value, int[] nestedIndex)
 		{
 			switch (propIndex)
 			{
@@ -224,7 +224,7 @@ namespace Xbim.CobieExpress
 				case 7: 
 				case 8: 
 				case 9: 
-					base.Parse(propIndex, value); 
+					base.Parse(propIndex, value, nestedIndex); 
 					return;
 				case 10: 
 					_serialNumber = value.StringVal;

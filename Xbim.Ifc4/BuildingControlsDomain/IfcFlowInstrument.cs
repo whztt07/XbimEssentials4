@@ -53,7 +53,7 @@ namespace Xbim.Ifc4.BuildingControlsDomain
 
 
 		#region IPersist implementation
-		public  override void Parse(int propIndex, IPropertyValue value)
+		public  override void Parse(int propIndex, IPropertyValue value, int[] nestedIndex)
 		{
 			switch (propIndex)
 			{
@@ -65,7 +65,7 @@ namespace Xbim.Ifc4.BuildingControlsDomain
 				case 5: 
 				case 6: 
 				case 7: 
-					base.Parse(propIndex, value); 
+					base.Parse(propIndex, value, nestedIndex); 
 					return;
 				case 8: 
                     _predefinedType = (IfcFlowInstrumentTypeEnum) System.Enum.Parse(typeof (IfcFlowInstrumentTypeEnum), value.EnumVal, true);

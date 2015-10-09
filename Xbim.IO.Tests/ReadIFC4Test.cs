@@ -30,12 +30,31 @@ namespace Xbim.MemoryModel.Tests
         }
 
         [TestMethod]
-        public void IfcCartesianPointList3DTest()
+        public void ReadingOfNestedLists()
         {
             var model = new MemoryModel<EntityFactory>();
             model.Open("IfcCartesianPointList3D.ifc");
             var pl = model.Instances.FirstOrDefault<IfcCartesianPointList3D>();
             Assert.IsNotNull(pl);
+            Assert.AreEqual(3, pl.CoordList.Count);
+            Assert.AreEqual(9, pl.CoordList.SelectMany(c => c).Count());
+
+            //write new file
+            model.Save("..\\..\\SerializedNestedList.ifc");
+        }
+
+        [TestMethod]
+        public void CreationOfNestedListsFromAPI()
+        {
+            var model = new MemoryModel<EntityFactory>();
+            using (var txn = model.BeginTransaction("Test"))
+            {
+                var pl = model.Instances.New<IfcCartesianPointList3D>();
+                var nested = pl.CoordList.GetAt(0);
+                Assert.IsNotNull(nested);
+                txn.RollBack();
+            }
+            
         }
     }
 }

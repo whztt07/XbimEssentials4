@@ -42,7 +42,7 @@ namespace Xbim.IO.Parser
 
     //public delegate void EntitySelectChangedHandler(StepP21Entity entity);
 
-    public delegate void ParameterSetter(int propIndex, IPropertyValue value);
+    public delegate void ParameterSetter(int propIndex, IPropertyValue value, int[] nestedIndex);
 
    
 
@@ -69,13 +69,7 @@ namespace Xbim.IO.Parser
             Entity = ent;
         }
 
-        private IPersist _entity;
-
-        public IPersist Entity
-        {
-            get { return _entity; }
-            set { _entity = value; }
-        }
+        public IPersist Entity { get; set; }
 
         public long EntityLabel;
 
@@ -95,7 +89,7 @@ namespace Xbim.IO.Parser
             }
         }
 
-        private void ParameterEater(int i, IPropertyValue v)
+        private void ParameterEater(int i, IPropertyValue v, int[] nestedIndex)
         {
         }
 

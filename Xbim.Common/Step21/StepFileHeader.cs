@@ -53,7 +53,7 @@ namespace Xbim.Common.Step21
 
         #region ISupportIfcParser Members
 
-        public void Parse(int propIndex, IPropertyValue value)
+        public void Parse(int propIndex, IPropertyValue value, int[] nestedIndex)
         {
             switch (propIndex)
             {
@@ -170,7 +170,7 @@ namespace Xbim.Common.Step21
 
         #region ISupportIfcParser Members
 
-        public void Parse (int propIndex, IPropertyValue value)
+        public void Parse(int propIndex, IPropertyValue value, int[] nestedIndex)
         {
             switch (propIndex)
             {
@@ -376,7 +376,7 @@ namespace Xbim.Common.Step21
 
         #region ISupportIfcParser Members
 
-        public void Parse(int propIndex, IPropertyValue value)
+        public void Parse(int propIndex, IPropertyValue value, int[] nestedIndex)
         {
             switch (propIndex)
             {

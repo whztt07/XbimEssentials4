@@ -13,6 +13,8 @@ namespace Xbim.IO.Esent
 
         private readonly ILogger _logger;
         private readonly ExpressMetaData _metadata;
+        private readonly List<int> _nestedIndex = new List<int>();
+        public int[] NestedIndex { get { return _listNestLevel > 0 ? _nestedIndex.ToArray() : null; } }
 
         public XbimParserState(IPersistEntity entity, ILogger logger = null)
         {
@@ -34,14 +36,25 @@ namespace Xbim.IO.Esent
                 p21.CurrentParamIndex++; //first time in take the first argument
 
             _listNestLevel++;
+
+            if (_listNestLevel < 2) return;
+
+            if (_listNestLevel - 1 > _nestedIndex.Count)
+                _nestedIndex.Add(0);
+            else
+                _nestedIndex[_listNestLevel - 2]++;
         }
 
         public void EndList()
         {
             _listNestLevel--;
             var p21 = _processStack.Peek();
-            p21.CurrentParamIndex++;
-            //Console.WriteLine("EndList");
+            
+            if (_listNestLevel == 0)
+                _currentInstance.CurrentParamIndex++;
+
+            //we are finished with the list
+            if(_listNestLevel <= 0) _nestedIndex.Clear();
         }
 
         public void EndEntity()
@@ -62,7 +75,7 @@ namespace Xbim.IO.Esent
             _propertyValue.Init(_processStack.Pop().Entity);
             _currentInstance = _processStack.Peek();
             if (_currentInstance.Entity != null)
-                _currentInstance.ParameterSetter(_currentInstance.CurrentParamIndex, _propertyValue);
+                _currentInstance.ParameterSetter(_currentInstance.CurrentParamIndex, _propertyValue, NestedIndex);
             if (_listNestLevel == 0) _currentInstance.CurrentParamIndex++;
         }
 
@@ -73,7 +86,7 @@ namespace Xbim.IO.Esent
                 //CurrentInstance.SetPropertyValue(PropertyValue);
                 try
                 {
-                    _currentInstance.ParameterSetter(_currentInstance.CurrentParamIndex, _propertyValue);
+                    _currentInstance.ParameterSetter(_currentInstance.CurrentParamIndex, _propertyValue, NestedIndex);
                 }
                 catch (Exception e)
                 {
@@ -140,7 +153,7 @@ namespace Xbim.IO.Esent
         {
             _propertyValue.Init(value);
             //CurrentInstance.SetPropertyValue(PropertyValue);
-            _currentInstance.Entity.Parse(_currentInstance.CurrentParamIndex, _propertyValue);
+            _currentInstance.Entity.Parse(_currentInstance.CurrentParamIndex, _propertyValue, NestedIndex);
             if (_listNestLevel == 0) _currentInstance.CurrentParamIndex++;
         }
 

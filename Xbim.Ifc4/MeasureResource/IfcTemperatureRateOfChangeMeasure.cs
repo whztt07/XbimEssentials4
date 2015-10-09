@@ -85,7 +85,7 @@ namespace Xbim.Ifc4.MeasureResource
         }
 
 		#region IPersist implementation
-		void IPersist.Parse(int propIndex, IPropertyValue value)
+		void IPersist.Parse(int propIndex, IPropertyValue value, int[] nestedIndex)
 		{
 			if (propIndex != 0)
 				throw new XbimParserException(string.Format("Attribute index {0} is out of range for {1}", propIndex + 1, GetType().Name.ToUpper()));

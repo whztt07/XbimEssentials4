@@ -141,7 +141,7 @@ namespace Xbim.Ifc4.GeometryResource
 
 
 		#region IPersist implementation
-		public  override void Parse(int propIndex, IPropertyValue value)
+		public  override void Parse(int propIndex, IPropertyValue value, int[] nestedIndex)
 		{
 			switch (propIndex)
 			{
@@ -152,10 +152,10 @@ namespace Xbim.Ifc4.GeometryResource
 					_vDegree = value.IntegerVal;
 					return;
 				case 2: 
-					//this is a special case which has to be handled in a partial class which is not generated.
-					//ParseControlPointsList(propIndex, value);
-					//return;
-					throw new System.NotImplementedException("ControlPointsList in IfcBSplineSurface is a special case of nested lists. It is not implemented for now.");
+					_controlPointsList
+						.InternalGetAt(nestedIndex[0])
+						.InternalAdd((IfcCartesianPoint)(value.EntityVal));
+					return;
 				case 3: 
                     _surfaceForm = (IfcBSplineSurfaceForm) System.Enum.Parse(typeof (IfcBSplineSurfaceForm), value.EnumVal, true);
 					return;

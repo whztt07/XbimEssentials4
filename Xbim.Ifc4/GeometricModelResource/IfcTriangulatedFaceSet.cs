@@ -59,25 +59,25 @@ namespace Xbim.Ifc4.GeometricModelResource
 
 
 		#region IPersist implementation
-		public  override void Parse(int propIndex, IPropertyValue value)
+		public  override void Parse(int propIndex, IPropertyValue value, int[] nestedIndex)
 		{
 			switch (propIndex)
 			{
 				case 0: 
 				case 1: 
 				case 2: 
-					base.Parse(propIndex, value); 
+					base.Parse(propIndex, value, nestedIndex); 
 					return;
 				case 3: 
-					//this is a special case which has to be handled in a partial class which is not generated.
-					//ParseCoordIndex(propIndex, value);
-					//return;
-					throw new System.NotImplementedException("CoordIndex in IfcTriangulatedFaceSet is a special case of nested lists. It is not implemented for now.");
+					_coordIndex
+						.InternalGetAt(nestedIndex[0])
+						.InternalAdd((long)(value.IntegerVal));
+					return;
 				case 4: 
-					//this is a special case which has to be handled in a partial class which is not generated.
-					//ParseNormalIndex(propIndex, value);
-					//return;
-					throw new System.NotImplementedException("NormalIndex in IfcTriangulatedFaceSet is a special case of nested lists. It is not implemented for now.");
+					_normalIndex
+						.InternalGetAt(nestedIndex[0])
+						.InternalAdd((long)(value.IntegerVal));
+					return;
 				default:
 					throw new XbimParserException(string.Format("Attribute index {0} is out of range for {1}", propIndex + 1, GetType().Name.ToUpper()));
 			}

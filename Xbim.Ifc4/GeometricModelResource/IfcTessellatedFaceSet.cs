@@ -97,7 +97,7 @@ namespace Xbim.Ifc4.GeometricModelResource
 
 
 		#region IPersist implementation
-		public  override void Parse(int propIndex, IPropertyValue value)
+		public  override void Parse(int propIndex, IPropertyValue value, int[] nestedIndex)
 		{
 			switch (propIndex)
 			{
@@ -105,10 +105,10 @@ namespace Xbim.Ifc4.GeometricModelResource
 					_coordinates = (IfcCartesianPointList3D)(value.EntityVal);
 					return;
 				case 1: 
-					//this is a special case which has to be handled in a partial class which is not generated.
-					//ParseNormals(propIndex, value);
-					//return;
-					throw new System.NotImplementedException("Normals in IfcTessellatedFaceSet is a special case of nested lists. It is not implemented for now.");
+					_normals
+						.InternalGetAt(nestedIndex[0])
+						.InternalAdd((IfcParameterValue)(value.RealVal));
+					return;
 				case 2: 
 					_closed = value.BooleanVal;
 					return;

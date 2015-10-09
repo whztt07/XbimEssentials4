@@ -178,12 +178,12 @@ namespace Xbim.Ifc2x3.MaterialPropertyResource
 
 
 		#region IPersist implementation
-		public  override void Parse(int propIndex, IPropertyValue value)
+		public  override void Parse(int propIndex, IPropertyValue value, int[] nestedIndex)
 		{
 			switch (propIndex)
 			{
 				case 0: 
-					base.Parse(propIndex, value); 
+					base.Parse(propIndex, value, nestedIndex); 
 					return;
 				case 1: 
 					_visibleTransmittance = value.RealVal;

@@ -66,7 +66,7 @@ namespace Xbim.Ifc2x3.StructuralAnalysisDomain
 
 
 		#region IPersist implementation
-		public  override void Parse(int propIndex, IPropertyValue value)
+		public  override void Parse(int propIndex, IPropertyValue value, int[] nestedIndex)
 		{
 			switch (propIndex)
 			{
@@ -82,7 +82,7 @@ namespace Xbim.Ifc2x3.StructuralAnalysisDomain
 				case 9: 
 				case 10: 
 				case 11: 
-					base.Parse(propIndex, value); 
+					base.Parse(propIndex, value, nestedIndex); 
 					return;
 				case 12: 
 					_varyingAppliedLoadLocation = (IfcShapeAspect)(value.EntityVal);

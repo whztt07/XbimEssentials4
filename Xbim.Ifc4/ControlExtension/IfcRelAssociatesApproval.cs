@@ -53,7 +53,7 @@ namespace Xbim.Ifc4.ControlExtension
 
 
 		#region IPersist implementation
-		public  override void Parse(int propIndex, IPropertyValue value)
+		public  override void Parse(int propIndex, IPropertyValue value, int[] nestedIndex)
 		{
 			switch (propIndex)
 			{
@@ -62,7 +62,7 @@ namespace Xbim.Ifc4.ControlExtension
 				case 2: 
 				case 3: 
 				case 4: 
-					base.Parse(propIndex, value); 
+					base.Parse(propIndex, value, nestedIndex); 
 					return;
 				case 5: 
 					_relatingApproval = (IfcApproval)(value.EntityVal);

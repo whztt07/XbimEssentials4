@@ -47,7 +47,7 @@ namespace Xbim.Ifc4.StructuralAnalysisDomain
 
 
 		#region IPersist implementation
-		public  override void Parse(int propIndex, IPropertyValue value)
+		public  override void Parse(int propIndex, IPropertyValue value, int[] nestedIndex)
 		{
 			switch (propIndex)
 			{
@@ -61,7 +61,7 @@ namespace Xbim.Ifc4.StructuralAnalysisDomain
 				case 7: 
 				case 8: 
 				case 9: 
-					base.Parse(propIndex, value); 
+					base.Parse(propIndex, value, nestedIndex); 
 					return;
 				case 10: 
 					if (_selfWeightCoefficients == null) _selfWeightCoefficients = new OptionalItemSet<IfcRatioMeasure>( this );

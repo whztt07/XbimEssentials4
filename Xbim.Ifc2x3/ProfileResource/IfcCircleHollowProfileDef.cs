@@ -50,7 +50,7 @@ namespace Xbim.Ifc2x3.ProfileResource
 
 
 		#region IPersist implementation
-		public  override void Parse(int propIndex, IPropertyValue value)
+		public  override void Parse(int propIndex, IPropertyValue value, int[] nestedIndex)
 		{
 			switch (propIndex)
 			{
@@ -58,7 +58,7 @@ namespace Xbim.Ifc2x3.ProfileResource
 				case 1: 
 				case 2: 
 				case 3: 
-					base.Parse(propIndex, value); 
+					base.Parse(propIndex, value, nestedIndex); 
 					return;
 				case 4: 
 					_wallThickness = value.RealVal;

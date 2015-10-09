@@ -99,7 +99,7 @@ namespace Xbim.Ifc4.ConstraintResource
 
 
 		#region IPersist implementation
-		public  override void Parse(int propIndex, IPropertyValue value)
+		public  override void Parse(int propIndex, IPropertyValue value, int[] nestedIndex)
 		{
 			switch (propIndex)
 			{
@@ -110,7 +110,7 @@ namespace Xbim.Ifc4.ConstraintResource
 				case 4: 
 				case 5: 
 				case 6: 
-					base.Parse(propIndex, value); 
+					base.Parse(propIndex, value, nestedIndex); 
 					return;
 				case 7: 
                     _benchmark = (IfcBenchmarkEnum) System.Enum.Parse(typeof (IfcBenchmarkEnum), value.EnumVal, true);

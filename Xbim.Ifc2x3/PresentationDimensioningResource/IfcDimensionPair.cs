@@ -28,7 +28,7 @@ namespace Xbim.Ifc2x3.PresentationDimensioningResource
 
 
 		#region IPersist implementation
-		public  override void Parse(int propIndex, IPropertyValue value)
+		public  override void Parse(int propIndex, IPropertyValue value, int[] nestedIndex)
 		{
 			switch (propIndex)
 			{
@@ -36,7 +36,7 @@ namespace Xbim.Ifc2x3.PresentationDimensioningResource
 				case 1: 
 				case 2: 
 				case 3: 
-					base.Parse(propIndex, value); 
+					base.Parse(propIndex, value, nestedIndex); 
 					return;
 				default:
 					throw new XbimParserException(string.Format("Attribute index {0} is out of range for {1}", propIndex + 1, GetType().Name.ToUpper()));

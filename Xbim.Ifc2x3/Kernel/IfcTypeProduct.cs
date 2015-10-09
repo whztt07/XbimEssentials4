@@ -64,7 +64,7 @@ namespace Xbim.Ifc2x3.Kernel
 
 
 		#region IPersist implementation
-		public  override void Parse(int propIndex, IPropertyValue value)
+		public  override void Parse(int propIndex, IPropertyValue value, int[] nestedIndex)
 		{
 			switch (propIndex)
 			{
@@ -74,7 +74,7 @@ namespace Xbim.Ifc2x3.Kernel
 				case 3: 
 				case 4: 
 				case 5: 
-					base.Parse(propIndex, value); 
+					base.Parse(propIndex, value, nestedIndex); 
 					return;
 				case 6: 
 					if (_representationMaps == null) _representationMaps = new OptionalItemSet<IfcRepresentationMap>( this );

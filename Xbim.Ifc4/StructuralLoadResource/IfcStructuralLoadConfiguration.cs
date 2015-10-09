@@ -59,22 +59,22 @@ namespace Xbim.Ifc4.StructuralLoadResource
 
 
 		#region IPersist implementation
-		public  override void Parse(int propIndex, IPropertyValue value)
+		public  override void Parse(int propIndex, IPropertyValue value, int[] nestedIndex)
 		{
 			switch (propIndex)
 			{
 				case 0: 
-					base.Parse(propIndex, value); 
+					base.Parse(propIndex, value, nestedIndex); 
 					return;
 				case 1: 
 					if (_values == null) _values = new ItemSet<IfcStructuralLoadOrResult>( this );
 					_values.InternalAdd((IfcStructuralLoadOrResult)value.EntityVal);
 					return;
 				case 2: 
-					//this is a special case which has to be handled in a partial class which is not generated.
-					//ParseLocations(propIndex, value);
-					//return;
-					throw new System.NotImplementedException("Locations in IfcStructuralLoadConfiguration is a special case of nested lists. It is not implemented for now.");
+					_locations
+						.InternalGetAt(nestedIndex[0])
+						.InternalAdd((IfcLengthMeasure)(value.RealVal));
+					return;
 				default:
 					throw new XbimParserException(string.Format("Attribute index {0} is out of range for {1}", propIndex + 1, GetType().Name.ToUpper()));
 			}

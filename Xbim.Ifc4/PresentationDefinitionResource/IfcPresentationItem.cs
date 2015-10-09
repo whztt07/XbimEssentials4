@@ -133,7 +133,7 @@ namespace Xbim.Ifc4.PresentationDefinitionResource
 		#endregion
 
 		#region IPersist implementation
-		public virtual void Parse(int propIndex, IPropertyValue value)
+		public virtual void Parse(int propIndex, IPropertyValue value, int[] nestedIndex)
 		{
 			//there are no attributes defined for this entity
             throw new System.IndexOutOfRangeException("There are no attributes defined for this entity");

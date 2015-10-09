@@ -67,7 +67,7 @@ namespace Xbim.Ifc4.ControlExtension
 
 
 		#region IPersist implementation
-		public  override void Parse(int propIndex, IPropertyValue value)
+		public  override void Parse(int propIndex, IPropertyValue value, int[] nestedIndex)
 		{
 			switch (propIndex)
 			{
@@ -77,7 +77,7 @@ namespace Xbim.Ifc4.ControlExtension
 				case 3: 
 				case 4: 
 				case 5: 
-					base.Parse(propIndex, value); 
+					base.Parse(propIndex, value, nestedIndex); 
 					return;
 				case 6: 
 					_lifeCyclePhase = value.StringVal;

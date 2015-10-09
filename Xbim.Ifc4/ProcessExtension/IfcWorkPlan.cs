@@ -52,7 +52,7 @@ namespace Xbim.Ifc4.ProcessExtension
 
 
 		#region IPersist implementation
-		public  override void Parse(int propIndex, IPropertyValue value)
+		public  override void Parse(int propIndex, IPropertyValue value, int[] nestedIndex)
 		{
 			switch (propIndex)
 			{
@@ -69,7 +69,7 @@ namespace Xbim.Ifc4.ProcessExtension
 				case 10: 
 				case 11: 
 				case 12: 
-					base.Parse(propIndex, value); 
+					base.Parse(propIndex, value, nestedIndex); 
 					return;
 				case 13: 
                     _predefinedType = (IfcWorkPlanTypeEnum) System.Enum.Parse(typeof (IfcWorkPlanTypeEnum), value.EnumVal, true);

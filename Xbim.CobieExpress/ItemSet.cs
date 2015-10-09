@@ -13,6 +13,8 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
+using System.Reflection;
+
 using Xbim.Common;
 
 namespace Xbim.CobieExpress
@@ -56,6 +58,48 @@ namespace Xbim.CobieExpress
 		{
 			Internal.Add(value);
 		}
+
+		
+        public T InternalGetAt(int index)
+        {
+            if (index < Count)
+                return this[index];
+
+            if (index > Count)
+                throw new Exception("It is not possible to get object which is more that just the next after the last one.");
+            
+            if (!typeof (IList).IsAssignableFrom(typeof (T)))
+                return default(T);
+
+            var result = (T) Activator.CreateInstance(typeof (T), BindingFlags.NonPublic | BindingFlags.Instance, null,
+                new object[] {OwningEntity}, null);
+            InternalAdd(result);
+            return result;
+
+        }
+
+        /// <summary>
+        /// This function makes it possible to add nested lists if this is the case.
+        /// It works like InsertAt is the object doesn't exist already. You cannot create lists with wholes.
+        /// </summary>
+        /// <param name="index">Index of the object</param>
+        /// <returns>Object at specified index. If it is a nested list and it doesn't exist it gets created.</returns>
+        public T GetAt(int index)
+        {
+            if (index < Count)
+                return this[index];
+
+            if (index > Count)
+                throw new Exception("It is not possible to get object which is more that just the next after the last one.");
+            
+            if (!typeof(IList).IsAssignableFrom(typeof(T)))
+                return default(T);
+            
+            var result = (T)Activator.CreateInstance(typeof(T), BindingFlags.NonPublic | BindingFlags.Instance, null, 
+                new object[]{OwningEntity}, null);
+            Insert(index, result);
+            return result;
+        }
 
         #region IItemSet<T> Members
         public T First
@@ -205,7 +249,6 @@ namespace Xbim.CobieExpress
 
             OwningEntity.Activate(true);
 
-            var oldCount = Internal.Count;
             var removed = Internal.Remove(item);
             //don't do anything if nothing happened realy
             if (!removed) return false;
@@ -363,14 +406,12 @@ namespace Xbim.CobieExpress
 
             OwningEntity.Activate(true);
 
-            var oldCount = Internal.Count;
             Action doAction = () =>
             {
                 Internal.Insert(index, item);
                 NotifyCollectionChanged(NotifyCollectionChangedAction.Add, item);
                 NotifyCountChanged();
             };
-            var newCount = Internal.Count;
 
             if (!Model.IsTransactional) return;
 

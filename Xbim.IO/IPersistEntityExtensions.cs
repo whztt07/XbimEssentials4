@@ -657,7 +657,7 @@ namespace Xbim.IO
                                 parserState.SetObjectValue(refEntity);
                             else
                             {
-                                cache.AddForwardReference(new StepForwardReference(label, parserState.CurrentPropertyId, entity));
+                                cache.AddForwardReference(new StepForwardReference(label, parserState.CurrentPropertyId, entity,parserState.NestedIndex));
                                 parserState.SkipProperty();
                             }
                         }
@@ -673,7 +673,7 @@ namespace Xbim.IO
                                 parserState.SetObjectValue(refEntity);
                             else
                             {
-                                cache.AddForwardReference(new StepForwardReference(label, parserState.CurrentPropertyId, entity));
+                                cache.AddForwardReference(new StepForwardReference(label, parserState.CurrentPropertyId, entity, parserState.NestedIndex));
                                 parserState.SkipProperty();
                             }
                         }

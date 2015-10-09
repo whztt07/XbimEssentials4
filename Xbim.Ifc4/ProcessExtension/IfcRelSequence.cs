@@ -118,7 +118,7 @@ namespace Xbim.Ifc4.ProcessExtension
 
 
 		#region IPersist implementation
-		public  override void Parse(int propIndex, IPropertyValue value)
+		public  override void Parse(int propIndex, IPropertyValue value, int[] nestedIndex)
 		{
 			switch (propIndex)
 			{
@@ -126,7 +126,7 @@ namespace Xbim.Ifc4.ProcessExtension
 				case 1: 
 				case 2: 
 				case 3: 
-					base.Parse(propIndex, value); 
+					base.Parse(propIndex, value, nestedIndex); 
 					return;
 				case 4: 
 					_relatingProcess = (IfcProcess)(value.EntityVal);

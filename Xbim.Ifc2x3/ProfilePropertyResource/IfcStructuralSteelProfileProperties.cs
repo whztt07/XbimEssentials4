@@ -98,7 +98,7 @@ namespace Xbim.Ifc2x3.ProfilePropertyResource
 
 
 		#region IPersist implementation
-		public  override void Parse(int propIndex, IPropertyValue value)
+		public  override void Parse(int propIndex, IPropertyValue value, int[] nestedIndex)
 		{
 			switch (propIndex)
 			{
@@ -125,7 +125,7 @@ namespace Xbim.Ifc2x3.ProfilePropertyResource
 				case 20: 
 				case 21: 
 				case 22: 
-					base.Parse(propIndex, value); 
+					base.Parse(propIndex, value, nestedIndex); 
 					return;
 				case 23: 
 					_shearAreaZ = value.RealVal;

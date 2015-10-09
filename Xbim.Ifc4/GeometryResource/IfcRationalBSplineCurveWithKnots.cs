@@ -46,7 +46,7 @@ namespace Xbim.Ifc4.GeometryResource
 
 
 		#region IPersist implementation
-		public  override void Parse(int propIndex, IPropertyValue value)
+		public  override void Parse(int propIndex, IPropertyValue value, int[] nestedIndex)
 		{
 			switch (propIndex)
 			{
@@ -58,7 +58,7 @@ namespace Xbim.Ifc4.GeometryResource
 				case 5: 
 				case 6: 
 				case 7: 
-					base.Parse(propIndex, value); 
+					base.Parse(propIndex, value, nestedIndex); 
 					return;
 				case 8: 
 					if (_weightsData == null) _weightsData = new ItemSet<double>( this );

@@ -44,6 +44,8 @@ namespace Xbim.IO.Step21
         private int _percentageParsed;
         private bool _deferListItems;
 
+        private readonly List<int> _nestedIndex = new List<int>();
+        public int[] NestedIndex { get { return _listNestLevel > 0 ? _nestedIndex.ToArray() : null; } }
 
         private ExpressMetaData _metadata;
 
@@ -119,14 +121,28 @@ namespace Xbim.IO.Step21
 
             _listNestLevel++;
             //  Console.WriteLine("BeginList");
+            if (_listNestLevel < 2) return;
+
+            if (_listNestLevel -1 > _nestedIndex.Count)
+                _nestedIndex.Add(0);
+            else
+                _nestedIndex[_listNestLevel - 2]++;
         }
 
         internal override void EndList()
         {
             _listNestLevel--;
             var p21 = _processStack.Peek();
-            p21.CurrentParamIndex++;
+            
+            if (_listNestLevel == 0)
+            {
+                _currentInstance.CurrentParamIndex++;
+                _deferListItems = false;
+            }
             //Console.WriteLine("EndList");
+
+            //we are finished with the list
+            if (_listNestLevel <= 0) _nestedIndex.Clear();
         }
 
         internal override void BeginComplex()
@@ -269,7 +285,7 @@ namespace Xbim.IO.Step21
                 _propertyValue.Init(_processStack.Pop().Entity);
                 _currentInstance = _processStack.Peek();
                 if (_currentInstance.Entity != null)
-                    _currentInstance.ParameterSetter(_currentInstance.CurrentParamIndex, _propertyValue);
+                    _currentInstance.ParameterSetter(_currentInstance.CurrentParamIndex, _propertyValue, NestedIndex);
             }
             catch (Exception )
             {
@@ -314,7 +330,7 @@ namespace Xbim.IO.Step21
             try
             {
                 if (_currentInstance.Entity != null)
-                    _currentInstance.ParameterSetter(_currentInstance.CurrentParamIndex, _propertyValue);
+                    _currentInstance.ParameterSetter(_currentInstance.CurrentParamIndex, _propertyValue, NestedIndex);
             }
             catch (Exception )
             {
@@ -363,7 +379,7 @@ namespace Xbim.IO.Step21
                 if (_entities.TryGetValue(refID, out refEntity) && host != null)
                 {
                     _propertyValue.Init(refEntity);
-                    (host).Parse(paramIndex, _propertyValue);
+                    (host).Parse(paramIndex, _propertyValue, NestedIndex);
                     return true;
                 }
             }

@@ -95,7 +95,7 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
 
 
 		#region IPersist implementation
-		public  override void Parse(int propIndex, IPropertyValue value)
+		public  override void Parse(int propIndex, IPropertyValue value, int[] nestedIndex)
 		{
 			switch (propIndex)
 			{
@@ -104,7 +104,7 @@ namespace Xbim.Ifc4.PresentationAppearanceResource
 				case 2: 
 				case 3: 
 				case 4: 
-					base.Parse(propIndex, value); 
+					base.Parse(propIndex, value, nestedIndex); 
 					return;
 				case 5: 
 					_width = value.IntegerVal;

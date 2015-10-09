@@ -11,14 +11,16 @@ namespace Xbim.IO.Step21.Parser
         public readonly int ReferenceEntityLabel;
         private readonly short _referencingPropertyId;
         private readonly IPersistEntity _referencingEntity;
+        private readonly int[] _nestedIndex;
 
         public StepForwardReference(int referenceEntityLabel,
             short referencingProperty,
-            IPersistEntity referencingEntity)
+            IPersistEntity referencingEntity, int[] nestedIndex)
         {
             ReferenceEntityLabel = referenceEntityLabel;
             _referencingPropertyId = referencingProperty;
             _referencingEntity = referencingEntity;
+            _nestedIndex = nestedIndex;
         }
 
         public bool Resolve(ConcurrentDictionary<int, IPersistEntity> references, ExpressMetaData metadata)
@@ -30,7 +32,7 @@ namespace Xbim.IO.Step21.Parser
                 pv.Init(entity);
                 try
                 {
-                    _referencingEntity.Parse(_referencingPropertyId, pv);
+                    _referencingEntity.Parse(_referencingPropertyId, pv, _nestedIndex);
                     return true;
                 }
                 catch (Exception)

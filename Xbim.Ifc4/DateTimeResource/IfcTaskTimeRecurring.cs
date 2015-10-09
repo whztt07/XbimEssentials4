@@ -49,7 +49,7 @@ namespace Xbim.Ifc4.DateTimeResource
 
 
 		#region IPersist implementation
-		public  override void Parse(int propIndex, IPropertyValue value)
+		public  override void Parse(int propIndex, IPropertyValue value, int[] nestedIndex)
 		{
 			switch (propIndex)
 			{
@@ -73,7 +73,7 @@ namespace Xbim.Ifc4.DateTimeResource
 				case 17: 
 				case 18: 
 				case 19: 
-					base.Parse(propIndex, value); 
+					base.Parse(propIndex, value, nestedIndex); 
 					return;
 				case 20: 
 					_recurrance = (IfcRecurrencePattern)(value.EntityVal);

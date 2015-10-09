@@ -86,7 +86,7 @@ namespace Xbim.Ifc2x3.ProductExtension
 
 
 		#region IPersist implementation
-		public  override void Parse(int propIndex, IPropertyValue value)
+		public  override void Parse(int propIndex, IPropertyValue value, int[] nestedIndex)
 		{
 			switch (propIndex)
 			{
@@ -99,7 +99,7 @@ namespace Xbim.Ifc2x3.ProductExtension
 				case 6: 
 				case 7: 
 				case 8: 
-					base.Parse(propIndex, value); 
+					base.Parse(propIndex, value, nestedIndex); 
 					return;
 				case 9: 
                     _interiorOrExteriorSpace = (IfcInternalOrExternalEnum) System.Enum.Parse(typeof (IfcInternalOrExternalEnum), value.EnumVal, true);

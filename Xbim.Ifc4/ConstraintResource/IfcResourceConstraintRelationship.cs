@@ -64,13 +64,13 @@ namespace Xbim.Ifc4.ConstraintResource
 
 
 		#region IPersist implementation
-		public  override void Parse(int propIndex, IPropertyValue value)
+		public  override void Parse(int propIndex, IPropertyValue value, int[] nestedIndex)
 		{
 			switch (propIndex)
 			{
 				case 0: 
 				case 1: 
-					base.Parse(propIndex, value); 
+					base.Parse(propIndex, value, nestedIndex); 
 					return;
 				case 2: 
 					_relatingConstraint = (IfcConstraint)(value.EntityVal);

@@ -142,14 +142,14 @@ namespace Xbim.Ifc2x3.ActorResource
 
 
 		#region IPersist implementation
-		public  override void Parse(int propIndex, IPropertyValue value)
+		public  override void Parse(int propIndex, IPropertyValue value, int[] nestedIndex)
 		{
 			switch (propIndex)
 			{
 				case 0: 
 				case 1: 
 				case 2: 
-					base.Parse(propIndex, value); 
+					base.Parse(propIndex, value, nestedIndex); 
 					return;
 				case 3: 
 					_internalLocation = value.StringVal;

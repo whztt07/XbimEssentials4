@@ -149,7 +149,7 @@ namespace Xbim.Ifc2x3.ProductExtension
 
 
 		#region IPersist implementation
-		public  override void Parse(int propIndex, IPropertyValue value)
+		public  override void Parse(int propIndex, IPropertyValue value, int[] nestedIndex)
 		{
 			switch (propIndex)
 			{
@@ -160,7 +160,7 @@ namespace Xbim.Ifc2x3.ProductExtension
 				case 4: 
 				case 5: 
 				case 6: 
-					base.Parse(propIndex, value); 
+					base.Parse(propIndex, value, nestedIndex); 
 					return;
 				case 7: 
 					_tag = value.StringVal;

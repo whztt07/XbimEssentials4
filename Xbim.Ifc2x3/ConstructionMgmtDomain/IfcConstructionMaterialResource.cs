@@ -64,7 +64,7 @@ namespace Xbim.Ifc2x3.ConstructionMgmtDomain
 
 
 		#region IPersist implementation
-		public  override void Parse(int propIndex, IPropertyValue value)
+		public  override void Parse(int propIndex, IPropertyValue value, int[] nestedIndex)
 		{
 			switch (propIndex)
 			{
@@ -77,7 +77,7 @@ namespace Xbim.Ifc2x3.ConstructionMgmtDomain
 				case 6: 
 				case 7: 
 				case 8: 
-					base.Parse(propIndex, value); 
+					base.Parse(propIndex, value, nestedIndex); 
 					return;
 				case 9: 
 					if (_suppliers == null) _suppliers = new OptionalItemSet<IfcActorSelect>( this );

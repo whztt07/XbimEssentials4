@@ -51,14 +51,14 @@ namespace Xbim.Ifc4.RepresentationResource
 
 
 		#region IPersist implementation
-		public  override void Parse(int propIndex, IPropertyValue value)
+		public  override void Parse(int propIndex, IPropertyValue value, int[] nestedIndex)
 		{
 			switch (propIndex)
 			{
 				case 0: 
 				case 1: 
 				case 2: 
-					base.Parse(propIndex, value); 
+					base.Parse(propIndex, value, nestedIndex); 
 					return;
 				case 3: 
 					_representedMaterial = (IfcMaterial)(value.EntityVal);

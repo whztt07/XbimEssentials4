@@ -133,14 +133,14 @@ namespace Xbim.IO.Xml
                     return;
                 var propVal = new PropertyValue();
                 propVal.Init(val, parserType);
-                ((XmlEntity)Parent).Entity.Parse(PropertyIndex - 1, propVal);
+                ((XmlEntity)Parent).Entity.Parse(PropertyIndex - 1, propVal, null);
             }
 
             public void SetValue(object o)
             {
                 var propVal = new PropertyValue();
                 propVal.Init(o);
-                ((XmlEntity)Parent).Entity.Parse(PropertyIndex - 1, propVal);
+                ((XmlEntity)Parent).Entity.Parse(PropertyIndex - 1, propVal, null);
             }
         }
 
@@ -314,7 +314,7 @@ namespace Xbim.IO.Xml
                             propVal.Init(input.Value, pt);
                             break;
                     }
-                    ((XmlEntity)node.Parent).Entity.Parse(node.PropertyIndex - 1, propVal);
+                    ((XmlEntity)node.Parent).Entity.Parse(node.PropertyIndex - 1, propVal, null);
                 }
                 else if (IsIfcType(elementName, out expressType))
                 {
@@ -513,7 +513,7 @@ namespace Xbim.IO.Xml
                         IPersist ifcCollectionOwner = collectionOwner.Entity;
                         var pv = new PropertyValue();
                         pv.Init(node.Entity);
-                        if (collection != null) ifcCollectionOwner.Parse(collection.PropertyIndex - 1, pv);
+                        if (collection != null) ifcCollectionOwner.Parse(collection.PropertyIndex - 1, pv, null);
                     }
                 }
                 else if (_currentNode.Parent is XmlProperty)
@@ -601,7 +601,7 @@ namespace Xbim.IO.Xml
                                 break;
                         }
 
-                        ((XmlEntity)node.Parent).Entity.Parse(node.PropertyIndex - 1, propVal);
+                        ((XmlEntity)node.Parent).Entity.Parse(node.PropertyIndex - 1, propVal, null);
                     }
                 }
 
@@ -652,7 +652,7 @@ namespace Xbim.IO.Xml
                         if (collectionOwner != null)
                         {
                             IPersist ifcCollectionOwner = collectionOwner.Entity;
-                            ifcCollectionOwner.Parse(collection.PropertyIndex - 1, pv);
+                            ifcCollectionOwner.Parse(collection.PropertyIndex - 1, pv, null);
                         }
                     }
                     else if (_currentNode is XmlBasicType)
@@ -665,7 +665,7 @@ namespace Xbim.IO.Xml
                             IPersist ifcCollectionOwner = collectionOwner.Entity;
                             var pv = new PropertyValue();
                             pv.Init(basicNode.Value, basicNode.Type);
-                            ifcCollectionOwner.Parse(collection.PropertyIndex - 1, pv);
+                            ifcCollectionOwner.Parse(collection.PropertyIndex - 1, pv, null);
                         }
                     }
                 }
@@ -749,7 +749,7 @@ namespace Xbim.IO.Xml
                             if (parserType == StepParserType.String)
                             {
                                 propVal.Init("'" + input.Value + "'", parserType);
-                                ((XmlEntity)node.Parent).Entity.Parse(node.PropertyIndex - 1, propVal);
+                                ((XmlEntity)node.Parent).Entity.Parse(node.PropertyIndex - 1, propVal, null);
                             }
                             else if (parserType != StepParserType.Undefined && !string.IsNullOrWhiteSpace(input.Value))
                             {
@@ -761,7 +761,7 @@ namespace Xbim.IO.Xml
                                 else
                                     propVal.Init(input.Value, parserType);
 
-                                ((XmlEntity)node.Parent).Entity.Parse(node.PropertyIndex - 1, propVal);
+                                ((XmlEntity)node.Parent).Entity.Parse(node.PropertyIndex - 1, propVal, null);
                             }
 
                             
