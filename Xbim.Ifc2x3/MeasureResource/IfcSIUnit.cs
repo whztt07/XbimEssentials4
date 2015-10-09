@@ -60,6 +60,21 @@ namespace Xbim.Ifc2x3.MeasureResource
 		}
 	
 		#endregion
+		#region Overriding attributes
+		[EntityAttribute(1, EntityAttributeState.DerivedOverride, EntityAttributeType.Class, EntityAttributeType.None, -1, -1)]
+		public override IfcDimensionalExponents @Dimensions 
+		{
+			get 
+			{
+				return IfcDimensionsForSiUnit(Name);
+			}
+			set 
+			{ 
+				throw new System.Exception("It is not possible to set a value of derived property Dimensions in IfcSIUnit"); 
+			}
+		}
+
+		#endregion
 
 
 

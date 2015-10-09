@@ -655,6 +655,7 @@
     <Compile Include="MeasureResource\IfcSIPrefix.cs" />
     <Compile Include="MeasureResource\IfcSIUnit.cs" />
     <Compile Include="MeasureResource\IfcSIUnitName.cs" />
+    <Compile Include="MeasureResource\IfcSIUnitPartial.cs" />
     <Compile Include="MeasureResource\IfcSolidAngleMeasure.cs" />
     <Compile Include="MeasureResource\IfcSoundPowerLevelMeasure.cs" />
     <Compile Include="MeasureResource\IfcSoundPowerMeasure.cs" />

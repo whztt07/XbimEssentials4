@@ -29,6 +29,24 @@ namespace Xbim.Ifc2x3.GeometryResource
             get { return (int)((long)(base.Dim)); }
         }
 
+        List<IfcDirection> IfcAxis2Placement.P
+        {
+            get
+            {
+                var a = new IfcDirection(Model);
+                a.DirectionRatios.InternalAdd(P[0].X);
+                a.DirectionRatios.InternalAdd(P[0].Y);
+                a.DirectionRatios.InternalAdd(P[0].Z);
+
+                var b = new IfcDirection(Model);
+                b.DirectionRatios.InternalAdd(P[1].X);
+                b.DirectionRatios.InternalAdd(P[1].Y);
+                b.DirectionRatios.InternalAdd(P[1].Z);
+
+                return new List<IfcDirection>{a, b};
+            }
+        }
+
         /// <summary>
         ///   Optional.   P[1]: The normalized direction of the placement X Axis. This is (1.0,0.0,0.0) if RefDirection is omitted. P[2]: The normalized direction of the placement Y Axis. This is a derived attribute and is orthogonal to P[1].
         /// </summary>

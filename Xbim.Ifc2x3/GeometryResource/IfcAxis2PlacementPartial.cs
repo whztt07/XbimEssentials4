@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Xbim.Common.Geometry;
 
 namespace Xbim.Ifc2x3.GeometryResource
@@ -11,6 +7,7 @@ namespace Xbim.Ifc2x3.GeometryResource
     public partial interface IfcAxis2Placement
     {
         int Dim { get; }
+        List<IfcDirection> P { get; } 
     }
 
     public static class IfcAxis2PlacementExtensions

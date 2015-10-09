@@ -60,6 +60,34 @@ namespace Xbim.Ifc2x3.TopologyResource
 		}
 	
 		#endregion
+		#region Overriding attributes
+		[EntityAttribute(1, EntityAttributeState.DerivedOverride, EntityAttributeType.Class, EntityAttributeType.None, -1, -1)]
+		public override IfcVertex @EdgeStart 
+		{
+			get 
+			{
+				throw new System.NotImplementedException();
+			}
+			set 
+			{ 
+				throw new System.Exception("It is not possible to set a value of derived property EdgeStart in IfcOrientedEdge"); 
+			}
+		}
+
+		[EntityAttribute(2, EntityAttributeState.DerivedOverride, EntityAttributeType.Class, EntityAttributeType.None, -1, -1)]
+		public override IfcVertex @EdgeEnd 
+		{
+			get 
+			{
+				throw new System.NotImplementedException();
+			}
+			set 
+			{ 
+				throw new System.Exception("It is not possible to set a value of derived property EdgeEnd in IfcOrientedEdge"); 
+			}
+		}
+
+		#endregion
 
 
 

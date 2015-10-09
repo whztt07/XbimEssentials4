@@ -238,7 +238,12 @@ namespace Xbim.IO.Memory
             }
         }
 
-        public virtual void Open(Stream stream)
+        /// <summary>
+        /// Opens the model from STEP21 file. 
+        /// </summary>
+        /// <param name="stream">Path to the file</param>
+        /// <returns>Number of errors in parsing. Always check this to be null or the model might be incomplete.</returns>
+        public virtual int Open(Stream stream)
         {
             var parser = new XbimP21Parser(stream, Metadata);
             var first = true;
@@ -282,14 +287,21 @@ namespace Xbim.IO.Memory
                 return ent;
             };
             parser.Parse();
+            return parser.ErrorCount;
         }
 
-        public virtual void Open(string file)
+        /// <summary>
+        /// Opens the model from STEP21 file. 
+        /// </summary>
+        /// <param name="file">Path to the file</param>
+        /// <returns>Number of errors in parsing. Always check this to be null or the model might be incomplete.</returns>
+        public virtual int Open(string file)
         {
             using (var stream = File.OpenRead(file))
             {
-                Open(stream);
+                var result = Open(stream);
                 stream.Close();
+                return result;
             }
         }
 
@@ -302,6 +314,10 @@ namespace Xbim.IO.Memory
             }
         }
 
+        /// <summary>
+        /// Saves the model as PART21 file
+        /// </summary>
+        /// <param name="stream">Output stream. Steam will be closed at the end.</param>
         public virtual void Save(Stream stream)
         {
             using (var writer = new StreamWriter(stream))
@@ -311,6 +327,10 @@ namespace Xbim.IO.Memory
             }
         }
 
+        /// <summary>
+        /// Saves the model as PART21 file
+        /// </summary>
+        /// <param name="writer">Text writer to be used to write the file</param>
         public virtual void Save(TextWriter writer)
         {
             var part21Writer = new Part21FileWriter();

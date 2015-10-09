@@ -25,6 +25,21 @@ namespace Xbim.Ifc4.ProfileResource
 			Model = model; 
 		}
 
+		#region Overriding attributes
+		[EntityAttribute(4, EntityAttributeState.DerivedOverride, EntityAttributeType.Class, EntityAttributeType.None, -1, -1)]
+		public override IfcCartesianTransformationOperator2D @Operator 
+		{
+			get 
+			{
+				throw new System.NotImplementedException();
+			}
+			set 
+			{ 
+				throw new System.Exception("It is not possible to set a value of derived property Operator in IfcMirroredProfileDef"); 
+			}
+		}
+
+		#endregion
 
 
 

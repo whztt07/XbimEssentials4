@@ -48,7 +48,7 @@ namespace Xbim.Ifc4.ProfileResource
 		}
 	
 		[EntityAttribute(4, EntityAttributeState.Mandatory, EntityAttributeType.Class, EntityAttributeType.None, -1, -1)]
-		public IfcCartesianTransformationOperator2D @Operator 
+		public virtual IfcCartesianTransformationOperator2D @Operator 
 		{ 
 			get 
 			{

@@ -95,6 +95,60 @@ namespace Xbim.Ifc2x3.RepresentationResource
 		}
 	
 		#endregion
+		#region Overriding attributes
+		[EntityAttribute(5, EntityAttributeState.DerivedOverride, EntityAttributeType.Class, EntityAttributeType.None, -1, -1)]
+		public override IfcAxis2Placement @WorldCoordinateSystem 
+		{
+			get 
+			{
+				return ParentContext.WorldCoordinateSystem;
+			}
+			set 
+			{ 
+				throw new System.Exception("It is not possible to set a value of derived property WorldCoordinateSystem in IfcGeometricRepresentationSubContext"); 
+			}
+		}
+
+		[EntityAttribute(3, EntityAttributeState.DerivedOverride, EntityAttributeType.None, EntityAttributeType.None, -1, -1)]
+		public override IfcDimensionCount @CoordinateSpaceDimension 
+		{
+			get 
+			{
+				return ParentContext.CoordinateSpaceDimension;
+			}
+			set 
+			{ 
+				throw new System.Exception("It is not possible to set a value of derived property CoordinateSpaceDimension in IfcGeometricRepresentationSubContext"); 
+			}
+		}
+
+		[EntityAttribute(6, EntityAttributeState.DerivedOverride, EntityAttributeType.Class, EntityAttributeType.None, -1, -1)]
+		public override IfcDirection @TrueNorth 
+		{
+			get 
+			{
+				return ParentContext.TrueNorth ?? WorldCoordinateSystem.P[2];
+			}
+			set 
+			{ 
+				throw new System.Exception("It is not possible to set a value of derived property TrueNorth in IfcGeometricRepresentationSubContext"); 
+			}
+		}
+
+		[EntityAttribute(4, EntityAttributeState.DerivedOverride, EntityAttributeType.None, EntityAttributeType.None, -1, -1)]
+		public override double? @Precision 
+		{
+			get 
+			{
+				return ParentContext.Precision ?? 1E-05;
+			}
+			set 
+			{ 
+				throw new System.Exception("It is not possible to set a value of derived property Precision in IfcGeometricRepresentationSubContext"); 
+			}
+		}
+
+		#endregion
 
 
 

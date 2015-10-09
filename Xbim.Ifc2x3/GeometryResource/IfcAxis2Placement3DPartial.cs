@@ -45,10 +45,32 @@ namespace Xbim.Ifc2x3.GeometryResource
             get { return (int)((long)(base.Dim)); }
         }
 
+        List<IfcDirection> IfcAxis2Placement.P
+        {
+            get
+            {
+                var a = new IfcDirection(Model);
+                a.DirectionRatios.InternalAdd(P[0].X);
+                a.DirectionRatios.InternalAdd(P[0].Y);
+                a.DirectionRatios.InternalAdd(P[0].Z);
+
+                var b = new IfcDirection(Model);
+                b.DirectionRatios.InternalAdd(P[1].X);
+                b.DirectionRatios.InternalAdd(P[1].Y);
+                b.DirectionRatios.InternalAdd(P[1].Z);
+
+                var c = new IfcDirection(Model);
+                c.DirectionRatios.InternalAdd(P[2].X);
+                c.DirectionRatios.InternalAdd(P[2].Y);
+                c.DirectionRatios.InternalAdd(P[2].Z);
+
+                return new List<IfcDirection> { a, b, c };
+            }
+        }
+
         /// <summary>
         ///   Derived. The normalized directions of the placement X Axis (P[0]) and the placement Y Axis (P[1]) and the placement Z Axis (P[2]).
         /// </summary>
-
         public List<XbimVector3D> P
         {
             get

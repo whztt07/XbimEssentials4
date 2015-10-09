@@ -30,7 +30,7 @@ namespace Xbim.Ifc2x3.TopologyResource
 	
 		#region Explicit attribute properties
 		[EntityAttribute(1, EntityAttributeState.Mandatory, EntityAttributeType.Class, EntityAttributeType.None, -1, -1)]
-		public IfcVertex @EdgeStart 
+		public virtual IfcVertex @EdgeStart 
 		{ 
 			get 
 			{
@@ -45,7 +45,7 @@ namespace Xbim.Ifc2x3.TopologyResource
 		}
 	
 		[EntityAttribute(2, EntityAttributeState.Mandatory, EntityAttributeType.Class, EntityAttributeType.None, -1, -1)]
-		public IfcVertex @EdgeEnd 
+		public virtual IfcVertex @EdgeEnd 
 		{ 
 			get 
 			{

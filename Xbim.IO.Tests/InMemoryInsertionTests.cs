@@ -81,7 +81,12 @@ namespace Xbim.MemoryModel.Tests
             }
         }
 
-        private readonly List< string> _toIgnore = new List<string>{"IFCCARTESIANPOINT", "IFCDIRECTION"}; 
+        private readonly List<string> _toIgnore = new List<string>
+        {
+            "IFCCARTESIANPOINT", 
+            "IFCDIRECTION", 
+            "IFCGEOMETRICREPRESENTATIONCONTEXT"
+        }; 
 
         private Dictionary<int, string> GetEntities(string path)
         {

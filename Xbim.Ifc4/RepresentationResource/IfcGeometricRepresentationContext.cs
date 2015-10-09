@@ -34,7 +34,7 @@ namespace Xbim.Ifc4.RepresentationResource
 	
 		#region Explicit attribute properties
 		[EntityAttribute(3, EntityAttributeState.Mandatory, EntityAttributeType.None, EntityAttributeType.None, -1, -1)]
-		public IfcDimensionCount @CoordinateSpaceDimension 
+		public virtual IfcDimensionCount @CoordinateSpaceDimension 
 		{ 
 			get 
 			{
@@ -49,7 +49,7 @@ namespace Xbim.Ifc4.RepresentationResource
 		}
 	
 		[EntityAttribute(4, EntityAttributeState.Optional, EntityAttributeType.None, EntityAttributeType.None, -1, -1)]
-		public double? @Precision 
+		public virtual double? @Precision 
 		{ 
 			get 
 			{
@@ -64,7 +64,7 @@ namespace Xbim.Ifc4.RepresentationResource
 		}
 	
 		[EntityAttribute(5, EntityAttributeState.Mandatory, EntityAttributeType.Class, EntityAttributeType.None, -1, -1)]
-		public IfcAxis2Placement @WorldCoordinateSystem 
+		public virtual IfcAxis2Placement @WorldCoordinateSystem 
 		{ 
 			get 
 			{
@@ -79,7 +79,7 @@ namespace Xbim.Ifc4.RepresentationResource
 		}
 	
 		[EntityAttribute(6, EntityAttributeState.Optional, EntityAttributeType.Class, EntityAttributeType.None, -1, -1)]
-		public IfcDirection @TrueNorth 
+		public virtual IfcDirection @TrueNorth 
 		{ 
 			get 
 			{

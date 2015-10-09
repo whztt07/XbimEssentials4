@@ -87,7 +87,7 @@ namespace Xbim.Ifc4.MeasureResource
 	
 		#region Explicit attribute properties
 		[EntityAttribute(1, EntityAttributeState.Mandatory, EntityAttributeType.Class, EntityAttributeType.None, -1, -1)]
-		public IfcDimensionalExponents @Dimensions 
+		public virtual IfcDimensionalExponents @Dimensions 
 		{ 
 			get 
 			{
