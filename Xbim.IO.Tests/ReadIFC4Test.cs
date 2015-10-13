@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xbim.Common.XbimExtensions;
+using Xbim.Ifc2x3.MeasureResource;
 using Xbim.Ifc4;
 using Xbim.Ifc4.GeometricModelResource;
 using Xbim.Ifc4.Kernel;
