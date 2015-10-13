@@ -46,5 +46,29 @@ namespace Utility.ExtractCobieData.Properties {
                 this["LastOutput"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string GuidFilter {
+            get {
+                return ((string)(this["GuidFilter"]));
+            }
+            set {
+                this["GuidFilter"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool IncludeGeometry {
+            get {
+                return ((bool)(this["IncludeGeometry"]));
+            }
+            set {
+                this["IncludeGeometry"] = value;
+            }
+        }
     }
 }
