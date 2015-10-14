@@ -146,34 +146,58 @@ namespace Utility.ExtractCobieData
                 return model.Instances.OfType<IfcRoot>();
 
             var ids =
-                guids.Split(new char[] {',', ' ', ';'}, StringSplitOptions.RemoveEmptyEntries).Select(g => g.Trim());
+                guids
+                .Split(new[] {',', ' ', ';'}, StringSplitOptions.RemoveEmptyEntries)
+                .Select(g => g.Trim()).ToList();
 
-            //root elements specified by GUID
-            var roots = model.Instances.Where<IfcRoot>(r => ids.Contains(r.GlobalId.ToString())).Cast<IPersistEntity>().ToList();
+            List<IPersistEntity> roots;
+            if (GetLabel(ids.First()) < 0)
+                //root elements specified by GUID
+                roots = model.Instances.Where<IfcRoot>(r => ids.Contains(r.GlobalId.ToString())).Cast<IPersistEntity>().ToList();
+            else
+            {
+                var labels = ids.Select(GetLabel).ToList();
+                //root elements specified by GUID
+                roots = model.Instances.Where<IfcRoot>(r => labels.Contains(r.EntityLabel)).Cast<IPersistEntity>().ToList();
+            }
+            
             _primaryElements = roots.OfType<IfcProduct>().ToList();
 
+            //add any aggregated elements. For example IfcRoof is typically aggregation of one or more slabs so we need to bring
+            //them along to have all the information both for geometry and for properties and materials.
+            //This has to happen before we add spatial hierarchy or it would bring in full hierarchy which is not an intention
+            var decompositionRels = GetAggregations(_primaryElements.ToList(), model).ToList();
+            var decomposition = decompositionRels.SelectMany(r => r.RelatedObjects).OfType<IfcProduct>();
+            _primaryElements.AddRange(decomposition);
+            roots.AddRange(decompositionRels);
+            
             //we should add spatial hierarchy right here so it brings its attributes as well
             var spatialRels = model.Instances.Where<IfcRelContainedInSpatialStructure>(
-                r => _primaryElements.Any(e => r.RelatedElements.Contains(e)));
+                r => _primaryElements.Any(e => r.RelatedElements.Contains(e))).ToList();
             var spatialRefs =
                 model.Instances.Where<IfcRelReferencedInSpatialStructure>(
-                    r => _primaryElements.Any(e => r.RelatedElements.Contains(e)));
+                    r => _primaryElements.Any(e => r.RelatedElements.Contains(e))).ToList();
+            var bottomSpatialHierarchy =
+                spatialRels.Select(r => r.RelatingStructure).Union(spatialRefs.Select(r => r.RelatingStructure)).ToList();
+            var spatialAggregations = GetUpstreamHierarchy(bottomSpatialHierarchy, model).ToList();
 
-            var structures =
-                spatialRels.Select(r => r.RelatingStructure).Union(spatialRefs.Select(r => r.RelatingStructure));
-            var spatialHierarchy = GetUpstreamHierarchy(structures, model);
-            _primaryElements.AddRange(spatialHierarchy);
+            //add all spatial elements from bottom and from upstream hierarchy
+            _primaryElements.AddRange(bottomSpatialHierarchy);
+            _primaryElements.AddRange(spatialAggregations.Select(r => r.RelatingObject).OfType<IfcProduct>());
+            roots.AddRange(spatialAggregations);
+            roots.AddRange(spatialRels);
+            roots.AddRange(spatialRefs);
+
+            //we should add any feature elements used to subtract mass from a product
+            var featureRels = GetFeatureRelations(_primaryElements).ToList();
+            var openings = featureRels.Select(r => r.RelatedOpeningElement);
+            _primaryElements.AddRange(openings);
+            roots.AddRange(featureRels);
 
             //object types and properties for all primary products (elements and spatial elements)
             roots.AddRange(model.Instances.Where<IfcRelDefines>( r => _primaryElements.Any(e => r.RelatedObjects.Contains(e))));
             
-            //spatial containment and references
-            roots.AddRange(spatialRels);
-            roots.AddRange(spatialRefs);
-            
-            //aggregations will bring in all spatial decompositions and product decompositions (if elements is a aggregation of several elements)
-            roots.AddRange(model.Instances.Where<IfcRelAggregates>(r => _primaryElements.Contains(r.RelatingObject) 
-                || _primaryElements.Any(p => r.RelatedObjects.Contains(p))));
+
             
             //assignmnet to groups will bring in all system aggregarions if defined in the file
             roots.AddRange(model.Instances.Where<IfcRelAssigns>(r => _primaryElements.Any(e => r.RelatedObjects.Contains(e))));
@@ -184,26 +208,65 @@ namespace Utility.ExtractCobieData
             return roots;
         }
 
-        private IEnumerable<IfcProduct> GetUpstreamHierarchy(
-            IEnumerable<IfcSpatialStructureElement> spatialStructureElements, IModel model)
+        private int GetLabel(string value)
         {
-            var elements = spatialStructureElements.ToList();
-            if(!elements.Any())
-                yield break;
-
-            foreach (var element in elements)
+            if (value.StartsWith("#"))
             {
-                yield return element;
+                var trim = value.Trim('#');
+                int i;
+                if (int.TryParse(trim, out i))
+                    return i;
+                return -1;
             }
 
-            var decomposing =
-                model.Instances.Where<IfcRelAggregates>(
-                    r => elements.Any(s => r.RelatedObjects.Contains(s)))
-                    .Select(r => r.RelatingObject)
-                    .OfType<IfcSpatialStructureElement>();
-            foreach (var product in GetUpstreamHierarchy(decomposing, model))
+            int j;
+            if (int.TryParse(value, out j))
+                return j;
+            return -1;
+        }
+
+        private IEnumerable<IfcRelVoidsElement> GetFeatureRelations(IEnumerable<IfcProduct> products)
+        {
+            var elements = products.OfType<IfcElement>().ToList();
+            if(!elements.Any()) yield break;
+            var model = elements.First().Model;
+            var rels = model.Instances.Where<IfcRelVoidsElement>(r => elements.Any(e => e == r.RelatingBuildingElement));
+            foreach (var rel in rels)
+                yield return rel;
+        }
+
+        private IEnumerable<IfcRelDecomposes> GetAggregations(List<IfcProduct> products, IModel model)
+        {
+            while (true)
             {
-                yield return product;
+                if (!products.Any())
+                    yield break;
+
+                var products1 = products;
+                var rels = model.Instances.Where<IfcRelDecomposes>(r => products1.Any(p => r.RelatingObject == p)).ToList();
+                var relatedProducts = rels.SelectMany(r => r.RelatedObjects).OfType<IfcProduct>().ToList();
+                foreach (var rel in rels)
+                    yield return rel;
+
+                products = relatedProducts;
+            }
+        }
+
+        private IEnumerable<IfcRelAggregates> GetUpstreamHierarchy(IEnumerable<IfcSpatialStructureElement> spatialStructureElements, IModel model)
+        {
+            while (true)
+            {
+                var elements = spatialStructureElements.ToList();
+                if (!elements.Any())
+                    yield break;
+
+                var rels = model.Instances.Where<IfcRelAggregates>(r => elements.Any(s => r.RelatedObjects.Contains(s))).ToList();
+                var decomposing = rels.Select(r => r.RelatingObject).OfType<IfcSpatialStructureElement>();
+
+                foreach (var rel in rels)
+                    yield return rel;
+
+                spatialStructureElements = decomposing;
             }
         }
 
