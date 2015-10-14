@@ -24,7 +24,7 @@ namespace Xbim.MemoryModel.Tests
 
             PropertyTranformDelegate semanticFilter = (property, parentObject) =>
             {
-                //left out geometry and placement
+                //leave out geometry and placement
                 if ((property.PropertyInfo.Name == "Representation" || property.PropertyInfo.Name == "ObjectPlacement") &&
                     parentObject is IfcProduct)
                     return null;

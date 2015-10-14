@@ -365,20 +365,20 @@ namespace Xbim.IO.Memory
                 IsTransactional = false;
             try
             {
+                var toCopyLabel = toCopy.EntityLabel;
                 IPersistEntity copy;
                 //try to get the value if it was created before
-                if (mappings.TryGetValue(toCopy.EntityLabel, out copy))
+                if (mappings.TryGetValue(toCopyLabel, out copy))
                 {
                     return (T)copy;
                 }
 
                 var expressType = Metadata.ExpressType(toCopy);
-                var copyLabel = toCopy.EntityLabel;
                 copy = keepLabels ?
-                    _instances.New(toCopy.GetType(), copyLabel) :
+                    _instances.New(toCopy.GetType(), toCopyLabel) :
                     _instances.New(toCopy.GetType());
                 //key is the label in original model
-                mappings.Add(copyLabel, copy);
+                mappings.Add(toCopyLabel, copy);
 
                 var props = expressType.Properties.Values.Where(p => !p.EntityAttribute.IsDerivedOverride);
                 if (includeInverses)
@@ -410,7 +410,7 @@ namespace Xbim.IO.Memory
                         if (copyColl == null)
                             throw new Exception(string.Format("Unexpected collection type ({0}) found", itemType.Name));
 
-                        foreach (var item in (IExpressEnumerable)value)
+                        foreach (var item in (IList)value)
                         {
                             var actualItemType = item.GetType();
                             if (actualItemType.IsValueType || typeof(ExpressType).IsAssignableFrom(actualItemType))
@@ -447,4 +447,12 @@ namespace Xbim.IO.Memory
             }
         }
     }
+
+    /// <summary>
+    /// This delegate can be used to implement customized logic in type mapping.
+    /// </summary>
+    /// <param name="entity">Original entity</param>
+    /// <returns>Express type which maps to the type of the original entity</returns>
+    public delegate ExpressType TypeResolverDelegate(IPersistEntity entity);
+
 }

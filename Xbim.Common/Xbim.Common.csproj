@@ -143,6 +143,7 @@
     <Compile Include="Enumerations\ValidationFlags.cs" />
     <Compile Include="Geometry\XbimGeometryData.cs" />
     <Compile Include="Enumerations\XbimRepresentationType.cs" />
+    <Compile Include="XbimExtensions\StringExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
