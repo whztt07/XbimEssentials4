@@ -38,7 +38,7 @@
 ; MUI end ------
 
 Name "${PRODUCT_NAME} ${PRODUCT_VERSION}"
-OutFile "Setup.exe"
+OutFile "ExtractCobieData.Setup.exe"
 InstallDir "$PROGRAMFILES\xBIM\CobieDataExtraction"
 InstallDirRegKey HKLM "${PRODUCT_DIR_REGKEY}" ""
 ShowInstDetails show
